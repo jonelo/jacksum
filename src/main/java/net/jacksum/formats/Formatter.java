@@ -1,0 +1,217 @@
+/** 
+ *******************************************************************************
+ *
+ * Jacksum 3.0.0 - a checksum utility in Java
+ * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+ * All Rights Reserved, <https://jacksum.net>.
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <https://www.gnu.org/licenses/>.
+ *
+ *******************************************************************************
+ */
+
+package net.jacksum.formats;
+
+import java.io.File;
+import java.util.Locale;
+import org.n16n.sugar.util.GeneralString;
+import net.jacksum.algorithms.AbstractChecksum;
+
+public class Formatter {
+
+    private final static String EMPTY_STRING = "";
+        
+    private LineFormatter lineFormatter;
+    private FingerprintFormatter fingerprintFormatter;
+    private FilenameFormatter filenameFormatter;
+    private SizeFormatter sizeFormatter;
+    private TimestampFormatter timestampFormatter;
+    
+  
+    
+    public Formatter(FormatPreferences formatPreferences) {
+        
+        lineFormatter = new LineFormatter(formatPreferences);
+
+        fingerprintFormatter = new FingerprintFormatter(formatPreferences);
+        if (formatPreferences.isFilesizeWanted()) {
+            sizeFormatter = new SizeFormatter(formatPreferences);
+        }
+        if (formatPreferences.isTimestampWanted()) {
+            timestampFormatter = new TimestampFormatter(formatPreferences);
+        }
+        filenameFormatter = new FilenameFormatter(formatPreferences);
+    }
+
+
+    
+    public String format(AbstractChecksum checksum) {
+        String separator = lineFormatter.getParameters().getSeparator();
+        String fingerprint = fingerprintFormatter.format(checksum.getByteArray());
+        
+        return String.format("%s%s%s%s", 
+                fingerprint.length() > 0 ?
+                        fingerprint : EMPTY_STRING,
+
+                sizeFormatter != null ?
+                        (fingerprint.length() > 0 ? separator : EMPTY_STRING) + sizeFormatter.format(checksum.getLength()) : EMPTY_STRING,
+                
+                timestampFormatter != null && timestampFormatter.getParameters().isTimestampWanted() ?  
+                        separator + timestampFormatter.format(checksum.getTimestamp()) : EMPTY_STRING,
+                
+                checksum.getFilename() != null ?
+                        separator + filenameFormatter.format(checksum.getFilename()) : EMPTY_STRING);        
+    }
+
+    
+    private static void _replaceFingerprintTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
+        GeneralString.replaceAllStrings(buffer, "#CHECKSUM{i}", "#CHECKSUM");
+        GeneralString.replaceAllStrings(buffer, "#CHECKSUM{0}", "#CHECKSUM");
+        FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{([^}]+)\\})");
+        GeneralString.replaceAllStrings(buffer, "#CHECKSUM", abstractChecksum.getValueFormatted());        
+    }
+    
+    private static void _replaceAlgorithmTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
+        // algorithm names        
+        GeneralString.replaceAllStrings(buffer, "#ALGONAME{i}", "#ALGONAME");
+        GeneralString.replaceAllStrings(buffer, "#ALGONAME{i,uppercase}", "#ALGONAME{uppercase}");
+        GeneralString.replaceAllStrings(buffer, "#ALGONAME{0}", "#ALGONAME");
+        GeneralString.replaceAllStrings(buffer, "#ALGONAME{0,uppercase}", "#ALGONAME{uppercase}");
+        GeneralString.replaceAllStrings(buffer, "#ALGONAME{uppercase}", abstractChecksum.getName().toUpperCase(Locale.US));
+        GeneralString.replaceAllStrings(buffer, "#ALGONAME", abstractChecksum.getName());
+    }
+    
+    private static void _replaceSequenceTokens(StringBuilder buffer, AbstractChecksum abstractChecksum, byte[] sequence) {
+        // replace all "#SEQUENCE{<encoding>}"
+        SequenceFormatter.resolveEncoding(buffer, sequence, abstractChecksum.getFormatPreferences().getGrouping(),
+                abstractChecksum.getFormatPreferences().getGroupChar(), "(#SEQUENCE\\{([^}]+)\\})");
+
+        // just in case we have only a "#SEQUENCE", replace it with "#SEQUENCE{<encodig>}"
+        GeneralString.replaceAllStrings(buffer, "#SEQUENCE",
+                "#SEQUENCE{" + Encoding.encoding2String(abstractChecksum.getFormatPreferences().getEncoding()) + "}");
+
+        // and replace all "#SEQUENCE{<encoding>}" again
+        SequenceFormatter.resolveEncoding(buffer,
+                sequence, abstractChecksum.getFormatPreferences().getGrouping(),
+                abstractChecksum.getFormatPreferences().getGroupChar(), "(#SEQUENCE\\{([^}]+)\\})");        
+    }
+    
+    private static void _replaceFilesizeToken(StringBuilder buffer, AbstractChecksum abstractChecksum) {
+        GeneralString.replaceAllStrings(buffer, "#FILESIZE", Long.toString(abstractChecksum.getLength()));        
+    }
+    
+    private static void _replaceFilenameTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
+        if (buffer.toString().contains("#FILENAME{")) {
+            File filetemp = new File(abstractChecksum.getFilename());
+            GeneralString.replaceAllStrings(buffer, "#FILENAME{name}", filetemp.getName());
+            String parent = filetemp.getParent();
+            if (parent == null) {
+                parent = "";
+            } else if (!parent.endsWith(File.separator)
+                    && // for files on a different drive where the working dir has changed
+                    (!parent.endsWith(":") && System.getProperty("os.name").toLowerCase().startsWith("windows"))) {
+                parent += File.separator;
+            }
+            if (abstractChecksum.getFormatPreferences().isPathCharSet()) {
+                GeneralString.replaceAllStrings(buffer, "#FILENAME{path}", parent.replace(File.separatorChar, abstractChecksum.getFormatPreferences().getPathChar()));
+            } else {
+                GeneralString.replaceAllStrings(buffer, "#FILENAME{path}", parent);
+            }
+        }
+        
+        if (abstractChecksum.getFormatPreferences().isPathCharSet()) {
+            GeneralString.replaceAllStrings(buffer, "#FILENAME", abstractChecksum.getFilename().replace(File.separatorChar, abstractChecksum.getFormatPreferences().getPathChar()));
+        } else {            
+            GeneralString.replaceAllStrings(buffer, "#FILENAME", abstractChecksum.getFilename());
+        }
+    }
+
+    private static void _replaceTimestampToken(StringBuilder buffer, AbstractChecksum abstractChecksum) {
+        // timestamp
+        if (abstractChecksum.isTimestampWanted()) {
+            GeneralString.replaceAllStrings(buffer, "#TIMESTAMP", abstractChecksum.getTimestampFormatted());
+        }
+    }
+    
+    private static void _replaceSpecialCharTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
+        // sepcial chars: separator
+        GeneralString.replaceAllStrings(buffer, "#SEPARATOR", abstractChecksum.getFormatPreferences().getSeparator());
+        
+        // special chars: quotes
+        GeneralString.replaceAllStrings(buffer, "#QUOTE", "\"");        
+    }
+    
+    public static String format(StringBuilder buffer, AbstractChecksum abstractChecksum, byte[] sequence) {
+        _replaceFingerprintTokens(buffer, abstractChecksum);
+        _replaceAlgorithmTokens(buffer, abstractChecksum);
+        _replaceSequenceTokens(buffer, abstractChecksum, sequence);
+        _replaceFilesizeToken(buffer, abstractChecksum);
+        _replaceFilenameTokens(buffer, abstractChecksum);
+        _replaceTimestampToken(buffer, abstractChecksum);
+        _replaceSpecialCharTokens(buffer, abstractChecksum);       
+        return buffer.toString();
+    }
+
+
+    public static void replaceAliases(StringBuilder format) {
+        FingerprintFormatter.replaceAliases(format);
+        SizeFormatter.replaceAliases(format);
+    }
+
+    public FingerprintFormatter getFingerprintFormatter() {
+        return fingerprintFormatter;
+    }
+
+    public void setFingerprintFormatter(FingerprintFormatter fingerprintFormatter) {
+        this.fingerprintFormatter = fingerprintFormatter;
+    }
+
+    public SizeFormatter getSizeFormatter() {
+        return sizeFormatter;
+    }
+
+    public void setSizeFormatter(SizeFormatter sizeFormatter) {
+        this.sizeFormatter = sizeFormatter;
+    }
+
+    public TimestampFormatter getTimestampFormatter() {
+        return timestampFormatter;
+    }
+
+    public void setTimestampFormatter(TimestampFormatter timestampFormatter) {
+        this.timestampFormatter = timestampFormatter;
+    }
+
+    public FilenameFormatter getFilenameFormatter() {
+        return filenameFormatter;
+    }
+
+    public void setFilenameFormatter(FilenameFormatter filenameFormatter) {
+        this.filenameFormatter = filenameFormatter;
+    }
+
+    /**
+     * @return the lineFormatter
+     */
+    public LineFormatter getLineFormatter() {
+        return lineFormatter;
+    }
+
+    /**
+     * @param lineFormatter the lineFormatter to set
+     */
+    public void setLineFormatter(LineFormatter lineFormatter) {
+        this.lineFormatter = lineFormatter;
+    }
+}
