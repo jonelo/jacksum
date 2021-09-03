@@ -1,4 +1,4 @@
-/* *****************************************************************************
+/*
 
   Sugar for Java 1.6.0
   Copyright (C) 2001-2021  Dipl.-Inf. (FH) Johann N. Löfflmann,
@@ -20,7 +20,7 @@
 
   @author Johann N. Löfflmann
  *
- ***************************************************************************** */
+*/
 package org.n16n.sugar.util;
 
 import java.io.UnsupportedEncodingException;

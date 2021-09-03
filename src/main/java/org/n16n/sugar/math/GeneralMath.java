@@ -1,4 +1,4 @@
-/* *****************************************************************************
+/*
 
   Sugar for Java 1.6.0
   Copyright (C) 2001-2021  Dipl.-Inf. (FH) Johann N. Löfflmann,
@@ -19,8 +19,8 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
   @author Johann N. Löfflmann
- *
- ***************************************************************************** */
+
+ */
 package org.n16n.sugar.math;
 
 import java.math.BigDecimal;
