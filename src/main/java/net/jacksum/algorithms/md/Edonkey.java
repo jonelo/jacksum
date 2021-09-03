@@ -1,33 +1,33 @@
-/**
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
+
  */
-/** ****************************************************************************
- *
- * Edonkey is an implementation of the AbstractChecksum in order to calculate a
- * message digest in the form of edonkey/emule hash. It uses the MD4 algorithm
- * as an auxiliary algorithm, from the GNU crypto project,
- * http://www.gnu.org/software/classpathx/crypto
- *
- **************************************************************************** */
+/*
+
+  Edonkey is an implementation of the AbstractChecksum in order to calculate a
+  message digest in the form of edonkey/emule hash. It uses the MD4 algorithm
+  as an auxiliary algorithm, from the GNU crypto project,
+  http://www.gnu.org/software/classpathx/crypto
+
+  */
 package net.jacksum.algorithms.md;
 
 import java.security.NoSuchAlgorithmException;
@@ -42,9 +42,9 @@ import net.jacksum.formats.Encoding;
 public class Edonkey extends AbstractChecksum {
 
     private final static String AUX_ALGORITHM = "md4";
-    private IMessageDigest md4 = null;
-    private IMessageDigest md4final = null;
-    private boolean virgin = true;
+    private final IMessageDigest md4;
+    private final IMessageDigest md4final;
+    private boolean virgin;
 
     private final static int BLOCKSIZE = 9728000; // 9500 * 1024;
     private final byte[] edonkeyHash = new byte[16]; // 16 bytes, 128 bits
@@ -120,14 +120,6 @@ public class Edonkey extends AbstractChecksum {
 
     }
 
-    /*
-    @Override
-    public String toString() {
-        return getValueFormatted()
-                + (isTimestampWanted() ? formatPreferences.getSeparator() + getTimestampFormatted() : "")
-                + (isFilenameWanted() ? formatPreferences.getSeparator() + getFilename() : "");
-    }
-*/
     @Override
     public byte[] getByteArray() {
         if (virgin) {
@@ -135,11 +127,11 @@ public class Edonkey extends AbstractChecksum {
                 // if only one block, partial md4 hash = final hash
                 System.arraycopy(md4.digest(), 0, edonkeyHash, 0, 16);
             } else {
-                // let's copy the md4final object first
+                // let's copy the md4final object first,
                 // so we can launch getHexValue multiple times
                 IMessageDigest md4temp = (IMessageDigest) md4final.clone();
 
-                // if more then one block, final hash = hash of all partial hashes
+                // if more than one block, final hash = hash of all partial hashes
                 md4temp.update(md4.digest(), 0, 16);
                 System.arraycopy(md4temp.digest(), 0, edonkeyHash, 0, 16);
             }

@@ -1,24 +1,24 @@
-/** 
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
+
  */
 
 package net.jacksum.algorithms.crcs;
@@ -37,7 +37,7 @@ public class FCS32 extends AbstractChecksum {
 
     private long value;
 
-    protected final int crctab[] = {
+    protected final int[] crctab = {
             0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA, 0x076DC419, 0x706AF48F, 0xE963A535, 0x9E6495A3,
             0x0EDB8832, 0x79DCB8A4, 0xE0D5E91E, 0x97D2D988, 0x09B64C2B, 0x7EB17CBD, 0xE7B82D07, 0x90BF1D91,
             0x1DB71064, 0x6AB020F2, 0xF3B97148, 0x84BE41DE, 0x1ADAD47D, 0x6DDDE4EB, 0xF4D4B551, 0x83D385C7,

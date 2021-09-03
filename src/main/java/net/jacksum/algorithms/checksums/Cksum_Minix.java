@@ -1,24 +1,24 @@
-/** 
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
+
  */
 
 package net.jacksum.algorithms.checksums;
@@ -43,7 +43,7 @@ import net.jacksum.formats.Encoding;
 public class Cksum_Minix extends AbstractChecksum {
     protected int value;
 
-    protected final int crctab[] = {
+    protected final int[] crctab = {
 /* Table from P1003.2 (4.9/Fig 4.1). In fact, this table was taken from zmodem
  * and rewritten to look like the Draft 11 example.
  */

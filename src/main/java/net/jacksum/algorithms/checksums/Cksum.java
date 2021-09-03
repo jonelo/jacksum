@@ -1,24 +1,24 @@
-/** 
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
+
  */
 
 package net.jacksum.algorithms.checksums;
@@ -36,7 +36,7 @@ import net.jacksum.formats.Encoding;
 public class Cksum extends AbstractChecksum {
     protected int value;
 
-    protected final int crctab[] = {
+    protected final int[] crctab = {
         0x00000000,
         0x04C11DB7, 0x09823B6E, 0x0D4326D9, 0x130476DC, 0x17C56B6B,
         0x1A864DB2, 0x1E475005, 0x2608EDB8, 0x22C9F00F, 0x2F8AD6D6,
@@ -120,7 +120,7 @@ public class Cksum extends AbstractChecksum {
     @Override
     public long getValue() {
 
-        // store both length and value to temps,
+        // store both length and value to temp variables,
         // so we can launch getValue() multiple times
         long tmpLength = length;
         int tmpValue = value;

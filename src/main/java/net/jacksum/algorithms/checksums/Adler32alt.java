@@ -1,24 +1,24 @@
-/** 
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
+
  */
 
 // http://www.faqs.org/rfcs/rfc1950.html
@@ -42,8 +42,7 @@ import net.jacksum.formats.Encoding;
 public class Adler32alt extends AbstractChecksum {
 
     protected long value;
-    private static final long BASE = 65521L;
-    // largest prime smaller than 65536 (2^16)
+    private static final long BASE = 65521L; // largest prime smaller than 65536 (2^16)
 
     public Adler32alt() {
         super();

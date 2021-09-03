@@ -1,24 +1,24 @@
-/**
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
+
  */
 package net.jacksum.actions.help;
 
@@ -43,7 +43,7 @@ public class Help {
         try {
             printLongHelp(filename, search);
         } catch (FileNotFoundException fnfe) {
-            System.err.println(String.format("FATAL: Helpfile %s in .jar file not found.\n", filename));
+            System.err.printf("FATAL: Helpfile %s in .jar file not found.\n%n", filename);
         } catch (IOException ioe) {
             System.err.println("FATAL: problem while reading helpfile " + filename);
         }
@@ -59,7 +59,7 @@ public class Help {
     }
 
     public static void printShortUsage() {
-        System.out.printf(                          
+        System.out.print(
                   "Usage:\n"
                 + "    jacksum [option]... [file|directory]...\n\n"
 
@@ -132,7 +132,7 @@ public class Help {
                         emptyString = true;
                     }
 
-                    // One back slash at pos 1 indicates that it belongs
+                    // One backslash at pos 1 indicates that it belongs
                     // to the block
                     if (line.startsWith("\\") || line.startsWith("#")) {
                         line = "";
@@ -159,19 +159,19 @@ public class Help {
                     if (emptyString) {
                         // put out the buffer that has been filled with lines
                         if (found && sb.length() > 0) {
-                            System.out.println(sb.toString());
+                            System.out.println(sb);
                             foundAtLeastOneSection = true;
                         }
                         // new chance again
                         found = false;
                         // clear the buffer
-                        sb = sb.delete(0, sb.length());
+                        sb.delete(0, sb.length());
                     }
 
                 } // end-while
                 // is there still something in the buffer?
                 if (found && sb.length() > 0) {
-                    System.out.println(sb.toString());
+                    System.out.println(sb);
                     foundAtLeastOneSection = true;
                 }
                 if (!foundAtLeastOneSection) {

@@ -1,6 +1,6 @@
 /** *****************************************************************************
  *
- * Sugar for Java 1.5.0
+ * Sugar for Java 1.6.0
  * Copyright (C) 2001-2021  Dipl.-Inf. (FH) Johann N. Löfflmann,
  * All Rights Reserved, https://johann.loefflmann.net
  *

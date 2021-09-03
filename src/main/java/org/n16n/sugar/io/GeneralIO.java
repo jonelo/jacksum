@@ -1,26 +1,26 @@
-/*******************************************************************************
- *
- * Sugar for Java 1.5.0
- * Copyright (C) 2001-2021  Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, https://johann.loefflmann.net
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
- * @author Johann N. Löfflmann
- *
- ******************************************************************************/
+/*
+
+ Sugar for Java 1.6.0
+ Copyright (C) 2001-2021  Dipl.-Inf. (FH) Johann N. Löfflmann,
+ All Rights Reserved, https://johann.loefflmann.net
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+ @author Johann N. Löfflmann
+
+ */
 package org.n16n.sugar.io;
 
 import java.io.BufferedReader;
@@ -100,8 +100,8 @@ public class GeneralIO {
         
         try (InputStream is = GeneralIO.class.getResourceAsStream(filename);
              InputStreamReader isr = new InputStreamReader(is);
-             BufferedReader bufferedReader = new BufferedReader(isr);
-                ) {
+             BufferedReader bufferedReader = new BufferedReader(isr)
+        ) {
             if (is == null) {
                 throw new IOException(String.format("%s not found.", filename));
             }
@@ -134,7 +134,7 @@ public class GeneralIO {
         File file = new File(filename);
         try (
                 FileReader fileReader = new FileReader(file, charset);
-                BufferedReader bufferedReader = new BufferedReader(fileReader);) {
+                BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -164,7 +164,7 @@ public class GeneralIO {
         InputStreamReader inputStreamReader;
         
         try {
-            // don't use try-with-resources here, because we only want to close the BufferedReader
+            // don't use try-with-resources here, because we only want to close the BufferedReader,
             // but we don't want to close System.in
             inputStreamReader = new InputStreamReader(System.in, charset);
             bufferedReader = new BufferedReader(inputStreamReader);
@@ -193,8 +193,8 @@ public class GeneralIO {
      
     
     public static boolean isSymbolicLink(File file) {
-        // there are no symbolic links on Windows
-        // on Windows a link is always a file
+        // there are no symbolic links on Windows.
+        // On Windows a link is always a file.
         if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
             return false;
         }

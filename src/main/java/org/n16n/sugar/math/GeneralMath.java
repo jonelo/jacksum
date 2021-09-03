@@ -1,24 +1,24 @@
-/** *****************************************************************************
- *
- * Sugar for Java 1.5.0
- * Copyright (C) 2001-2021  Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, https://johann.loefflmann.net
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
- * @author Johann N. Löfflmann
+/* *****************************************************************************
+
+  Sugar for Java 1.6.0
+  Copyright (C) 2001-2021  Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, https://johann.loefflmann.net
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+  @author Johann N. Löfflmann
  *
  ***************************************************************************** */
 package org.n16n.sugar.math;
@@ -75,7 +75,7 @@ public class GeneralMath {
             // it's just 0, fix the point
             point = 1;
         } else {
-            int nks = 0; // Nachkommastellen
+            int nks; // Nachkommastellen
             if (significant > 0) {
                 while (sb.length() < significant) {
                     sb.append('0');
@@ -114,12 +114,12 @@ public class GeneralMath {
     }
 
     /**
-     * Return a human readable String which represents a time in ms
+     * Return a human-readable String which represents a time in ms
      *
      * @param t a time in ms
      * @param ignoreLeadingZeroValues whether leading zero values should be
      * ignored
-     * @return a human readable representation of time as String
+     * @return a human-readable representation of time as String
      */
     public static String duration(long t, boolean ignoreLeadingZeroValues) {
         StringBuilder sb = new StringBuilder();
@@ -168,12 +168,12 @@ public class GeneralMath {
     
     
     /**
-     * Return a human readable String which represents a time in ms
+     * Return a human-readable String which represents a time in ms
      *
      * @param allBytes the number of bytes to be formatted
      * @param ignoreLeadingZeroValues whether leading zero values should be
      * ignored
-     * @return a human readable representation of the number of bytes as a String
+     * @return a human-readable representation of the number of bytes as a String
      */
     public static String formatByteCountHumanReadable(long allBytes, boolean ignoreLeadingZeroValues) {
         StringBuilder sb = new StringBuilder();

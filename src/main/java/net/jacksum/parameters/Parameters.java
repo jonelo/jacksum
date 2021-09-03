@@ -1,24 +1,24 @@
-/**
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
+
  */
 package net.jacksum.parameters;
 
@@ -102,10 +102,6 @@ public class Parameters implements
     }
 
 
-
-
-   // public final static String DEFAULT = "default";
-    //public final static String TIMESTAMPFORMAT_DEFAULT = "yyyyMMddHHmmssSSS";
     public final static String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
 
     // -a
@@ -166,7 +162,7 @@ public class Parameters implements
     // -l, --list
     private boolean list = false;
     // --list-filter
-    private ListFilter listFilter = null;
+    private ListFilter listFilter;
     // --legacy-stdin-name
     private String stdinName = "<stdin>";
     // -L <file>
@@ -198,7 +194,7 @@ public class Parameters implements
     // -v
     private boolean versionWanted = false;
     // -V
-    private Verbose verbose = null;
+    private Verbose verbose;
     // -
     private boolean stdin = false;
     // --utf8
@@ -210,7 +206,7 @@ public class Parameters implements
     // keeps all the filenames that have been specified at the command line
     private final List<String> filenamesFromArgs;
     
-    private Messenger messenger;
+    private final Messenger messenger;
 
 
     /**
@@ -922,7 +918,7 @@ public class Parameters implements
 
     enum SequenceType {
         TXT, TXTF, DEC, HEX, BIN
-    };
+    }
 
     public boolean isOutputFile() {
         return outputFile != null;
@@ -1201,7 +1197,7 @@ public class Parameters implements
     
     private byte[] sequence2bytes(SequenceType sequenceType, String sequence)
             throws IllegalArgumentException {
-        byte[] bytes = null;
+        byte[] bytes;
         switch (sequenceType) {
             case TXT:
                 bytes = ByteSequences.text2Bytes(sequence);

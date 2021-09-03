@@ -1,24 +1,24 @@
-/**
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
+
  */
 package net.jacksum.multicore.manyfiles;
 
@@ -95,7 +95,7 @@ public class MessageProducer implements Runnable {
         } catch (InvalidPathException e) {
             // shell wasn't able to resolve wildcards and simply passes the wildcard string to the app.
             // the Windows File System Parser cannot transform the string that contains wildcards
-            // to a path and it throws an InvalidPathException
+            // to a path, and it throws an InvalidPathException
             try {
                 outputQueue.put(new Message(Type.ERROR, null, String.format("%s: does not match anything.", filename)));
             } catch (InterruptedException ex) {
@@ -122,7 +122,7 @@ public class MessageProducer implements Runnable {
 
         Message.Type messageTypeForFiles = Type.HASH_FILE;
         Message.Type messageTypeForStdin = Type.HASH_STDIN;
-        // we want calculate hashes for the files in the check file only
+        // we want to calculate hashes for the files in the check file only
         if (producerParameters.getFilenamesFromCheckFile() != null) {
 
             if (!producerParameters.getListFilter().isHashingRequired()) {

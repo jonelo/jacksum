@@ -1,24 +1,22 @@
-/**
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
  */
 package net.jacksum;
 
@@ -82,7 +80,7 @@ public class HashFunctionFactory {
                     checksum.setName(selector.getName());
 
                     if (cacheOfSelectorClassesEnabled) {
-                        // fill the cache of the algorithm that we have just found
+                        // fill the cache with the algorithm that we have just found
                         // in order to save time the next time the same request comes along
                         cacheOfSelectorClasses.put(selector.getName(), selectorClass);
 
@@ -143,7 +141,7 @@ public class HashFunctionFactory {
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
-            AbstractChecksum checksum = null;
+            AbstractChecksum checksum;
             try {
                 checksum = JacksumAPI.getChecksumInstance(entry.getKey());
             } catch (NoSuchAlgorithmException e) {
@@ -182,8 +180,8 @@ public class HashFunctionFactory {
                     }
                 }
 
-                // let's search in the aliases                
-                // alias, algoid
+                // Let's search in the aliases.
+                // The map contains alias, and algo id
                 Map<String, String> mapAliases = selector.getAvailableAliases();
                 if (mapAliases != null) {
                     for (Map.Entry<String, String> entry : mapAliases.entrySet()) {

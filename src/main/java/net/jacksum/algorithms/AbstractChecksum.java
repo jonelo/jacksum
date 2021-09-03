@@ -1,24 +1,24 @@
-/**
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
+
  */
 package net.jacksum.algorithms;
 
@@ -51,8 +51,6 @@ abstract public class AbstractChecksum implements Checksum {
     private byte[] sequence;
 
     private boolean actualAlternateImplementationUsed;
-
-//    protected ChecksumParameters checksumParameters;
     protected FormatPreferences formatPreferences;
     protected Formatter formatter;
 
@@ -231,23 +229,6 @@ abstract public class AbstractChecksum implements Checksum {
         return length;
     }
 
-    /**
-     * Sets the separator for the tokens.
-     *
-     * @param separator
-     */
-//    public void setSeparator(String separator) {
-//        formatPreferences.setSeparator(separator);
-//    }
-
-    /**
-     * Gets the separator.
-     *
-     * @return
-     */
-//    public String getSeparator() {
-//        return formatPreferences.getSeparator();
-//    }
 
     /**
      * Returns the result of the computation as a byte array.
@@ -278,7 +259,7 @@ abstract public class AbstractChecksum implements Checksum {
         // let's also avoid circular dependencies among classes
         // let's also avoid casts, let's use shifts for performance
         // and prims for better security
-        byte b[] = getByteArray();
+        byte[] b = getByteArray();
         int s = 0;
         for (int i = 0; i < b.length; i++) {
             s = ((s << 8) + b[i]) % 0x7FFFF1; // is prim
@@ -409,11 +390,6 @@ abstract public class AbstractChecksum implements Checksum {
         return (formatPreferences.getTimestampFormat() != null);
     }
 
-    /*    
-    public long readFile(File file) throws IOException {
-        return readFile(file, true);
-    }
-     */
     /**
      * Reads a file and calculates the checksum from it.
      *
@@ -425,12 +401,6 @@ abstract public class AbstractChecksum implements Checksum {
         return readFile(filename, true);
     }
 
-    /*
-    public long readFile(File file, boolean reset) throws IOException {
-        return readFile(file.toString(), reset);
-    }
-     */
-
     /**
      * Reads a file and calculates the checksum from it.
      *
@@ -440,7 +410,6 @@ abstract public class AbstractChecksum implements Checksum {
      * checksum gets updated
      * @return the number of bytes read
      * @throws IOException if an I/O error occurs
-     * @see reset()
      */
     public long readFile(String filename, boolean reset) throws IOException {
         if (filename == null) { // read from stdin
@@ -454,7 +423,7 @@ abstract public class AbstractChecksum implements Checksum {
 
         InputStream is = null;
         InputStream bis = null;
-        long lengthBackup = 0;
+        long lengthBackup;
 
         // http://java.sun.com/developer/TechTips/1998/tt0915.html#tip2
         try {
@@ -498,7 +467,7 @@ abstract public class AbstractChecksum implements Checksum {
         this.filename = stdinName;
         InputStream stdin;
         InputStream stdin_buffered = null;
-        long lengthBackup = 0;
+        long lengthBackup;
 
         try {
             stdin = System.in;

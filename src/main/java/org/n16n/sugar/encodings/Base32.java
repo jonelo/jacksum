@@ -1,26 +1,26 @@
-/*******************************************************************************
- *
- * Sugar for Java 1.5.0
- * Copyright (C) 2001-2021  Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, https://johann.loefflmann.net
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
- * @author Johann N. Löfflmann
- *
- ******************************************************************************/
+/******************************************************************************
+
+ Sugar for Java 1.6.0
+ Copyright (C) 2001-2021  Dipl.-Inf. (FH) Johann N. Löfflmann,
+ All Rights Reserved, https://johann.loefflmann.net
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+ @author Johann N. Löfflmann
+
+ */
 
 package org.n16n.sugar.encodings;
 
@@ -53,7 +53,7 @@ public class Base32 {
                 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=";
         public static final String BASE32HEX
                 = "0123456789ABCDEFGHIJKLMNOPQRSTUV=";
-    };
+    }
 
     public static class Padding {
 
@@ -73,8 +73,9 @@ public class Base32 {
         public static final boolean UPPERCASE = false;
     }
 
-    private String alphabet;
-    private boolean padding, lowercase;
+    private final String alphabet;
+    private final boolean padding;
+    private final boolean lowercase;
 
     private final static int[] blockLenToPadLen = { -1, 6, 4, 3, 1, 0 };
     private final static int[] padLenToBlockLen = { 5, 4, -1, 3, 2, -1, 1};
@@ -157,8 +158,8 @@ public class Base32 {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
 
         for (int i = 0; i < (b.length + 4) / 5; i++) {
-            short s[] = new short[5];
-            int t[] = new int[8];
+            short[] s = new short[5];
+            int[] t = new int[8];
 
             int blocklen = 5;
             for (int j = 0; j < 5; j++) {

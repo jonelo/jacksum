@@ -1,44 +1,38 @@
-/**
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
+
  */
 package net.jacksum.actions.infoapp;
 
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import org.n16n.sugar.util.ExitException;
 import net.jacksum.JacksumAPI;
 import net.jacksum.actions.Action;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.parameters.Parameters;
 import net.jacksum.statistics.CrcMath;
+import org.n16n.sugar.util.ExitException;
 import org.n16n.sugar.util.Support;
+
+import java.nio.charset.Charset;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class AppInfoAction implements Action {
 
@@ -93,7 +87,7 @@ public class AppInfoAction implements Action {
         System.out.printf("Supported CRC customizations: > %s\n\n",
                 CrcMath.calcSupportedCRCCustomizations());
 
-        System.out.printf("Concatenation of different algorithms: unlimited\n\n");
+        System.out.print("Concatenation of different algorithms: unlimited\n\n");
 
         // System.out.println("Hash Tree supported algorithms: 0");
         // System.out.println("HMAC supported algorithms: 0");

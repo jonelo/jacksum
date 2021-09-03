@@ -1,24 +1,24 @@
-/**
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
+
  */
 package net.jacksum.actions.infoalgo;
 
@@ -112,14 +112,14 @@ public class AlgoInfoAction implements Action {
     private int singleView() throws ExitException {
         try {
             AbstractChecksum checksum = JacksumAPI.getInstance(parameters);
-            System.out.printf("  algorithm:\n");
+            System.out.print("  algorithm:\n");
 
             if (checksum instanceof CombinedChecksum) {
                 System.out.printf("    %-32s%s\n", "name:", checksum.getName());
                 System.out.printf("    %-32s%d\n\n", "actual combined algorithms:", ((CombinedChecksum) checksum).getAlgorithms().size());
             } else {
                 System.out.printf("    %-32s%s\n", "name:", checksum.getName());
-                System.out.printf("\n");
+                System.out.print("\n");
             }
             printAlgoInfo(4, checksum);
 

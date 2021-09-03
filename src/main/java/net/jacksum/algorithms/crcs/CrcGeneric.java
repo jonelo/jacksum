@@ -1,24 +1,24 @@
-/** 
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
+
  */
 
 
@@ -117,11 +117,11 @@ public class CrcGeneric extends AbstractChecksum {
         this.xorOut = xorOut;
     }
 
-    /**
+    /*
      * Get the default encoding for the CrcGeneric
      * @return the default encoding
-     */
-    /*
+
+
     @Override
     public Encoding getDefaultEncoding() {
         // set the default encoding explicitly, otherwise the output 
@@ -163,7 +163,7 @@ public class CrcGeneric extends AbstractChecksum {
                 }
             }
         } catch (NumberFormatException e) {
-            throw new NoSuchAlgorithmException("Unknown algorithm: invalid parameter. " + e.toString());
+            throw new NoSuchAlgorithmException("Unknown algorithm: invalid parameter. " + e);
         } catch (IllegalArgumentException iae) {
             throw new NoSuchAlgorithmException("Unknown algorithm: invalid parameter. "+iae.getMessage());
         }
@@ -171,7 +171,7 @@ public class CrcGeneric extends AbstractChecksum {
     }
 
     private static byte[] hextext2bytes(String text) throws IllegalArgumentException {
-        byte[] bytes = null;
+        byte[] bytes;
         // by default, a hex sequence is expected
         if ((text.length() % 2) == 1) {
             throw new IllegalArgumentException("An even number of nibbles was expected.");
@@ -608,7 +608,7 @@ public class CrcGeneric extends AbstractChecksum {
     @Override
     public byte[] getByteArray() {
         long finalvalue = getFinal();
-        byte array[] = new byte[bitWidth / 8 + ((bitWidth % 8 > 0) ? 1 : 0)];
+        byte[] array = new byte[bitWidth / 8 + ((bitWidth % 8 > 0) ? 1 : 0)];
 
         for (int i = array.length - 1; i > -1; i--) {
             array[i] = (byte) (finalvalue & 0xFF);

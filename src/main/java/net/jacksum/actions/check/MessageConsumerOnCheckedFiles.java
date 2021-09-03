@@ -1,24 +1,22 @@
-/**
- *******************************************************************************
- *
- * Jacksum 3.0.0 - a checksum utility in Java
- * Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
- * All Rights Reserved, <https://jacksum.net>.
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <https://www.gnu.org/licenses/>.
- *
- *******************************************************************************
+/*
+
+  Jacksum 3.0.0 - a checksum utility in Java
+  Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  All Rights Reserved, <https://jacksum.net>.
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later
+  version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+  details.
+
+  You should have received a copy of the GNU General Public License along with
+  this program. If not, see <https://www.gnu.org/licenses/>.
+
  */
 package net.jacksum.actions.check;
 
@@ -62,7 +60,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
         this();
         this.hashEntries = list;
 
-        // let's put the hashEntries to a map for an indexed access by filename
+        // Let's put the hashEntries to a map for an indexed access by filename.
         map = new HashMap<>();
         /* 
             for (HashEntry hashEntry : hashEntries) {
@@ -157,7 +155,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                     }
                 // ... or is it a new file?
                 } else {
-                    // the name is known by the consumer but it is not in parsedHashEntries, so it must be a new file
+                    // the name is known by the consumer, but it is not in parsedHashEntries, so it must be a new file
                     print(filter.isFilterNew(), NEW, filename);
                     newFiles++;
                 }
