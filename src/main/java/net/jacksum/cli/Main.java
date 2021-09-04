@@ -22,11 +22,11 @@
  */
 package net.jacksum.cli;
 
-import net.jacksum.statistics.Statistics;
-import org.n16n.sugar.util.ExitException;
-import net.jacksum.actions.*;
+import net.jacksum.actions.Actions;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
+import net.jacksum.statistics.Statistics;
+import org.n16n.sugar.util.ExitException;
 
 /**
  * This is the Jacksum Command Line Interface (CLI).
@@ -62,7 +62,7 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
-            Main main = new net.jacksum.cli.Main(args);
+            Main main = new Main(args);
         } catch (ExitException e) {
             if (e.getMessage() != null) {
                 System.err.println(e.getMessage());
