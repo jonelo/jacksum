@@ -23,6 +23,8 @@
 
 package net.jacksum.actions;
 
+import net.jacksum.actions.copyright.CopyrightAction;
+import net.jacksum.actions.license.LicenseAction;
 import net.jacksum.statistics.Statistics;
 import java.security.NoSuchAlgorithmException;
 import net.jacksum.JacksumAPI;
@@ -93,6 +95,10 @@ public class Actions {
                 return new CompatInfoAction(parameters);
             case VERSION:
                 return new VersionAction(parameters);
+            case LICENSE:
+                return new LicenseAction();
+            case COPYRIGHT:
+                return new CopyrightAction();
             case HELP: // fall through
             default:
                 return new HelpAction(parameters);

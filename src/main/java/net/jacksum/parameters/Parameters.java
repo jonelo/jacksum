@@ -36,6 +36,7 @@ import net.jacksum.actions.check.CheckActionParameters;
 import net.jacksum.actions.version.VersionActionParameters;
 import net.jacksum.actions.quick.QuickActionParameters;
 import net.jacksum.actions.help.HelpActionParameters;
+
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
@@ -50,6 +51,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.n16n.sugar.util.ByteSequences;
 import org.n16n.sugar.util.ExitException;
 import org.n16n.sugar.util.GeneralString;
@@ -66,8 +68,10 @@ import net.jacksum.actions.infocompat.CompatInfoActionParameters;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.actions.check.ListFilter;
 import net.jacksum.cli.Messenger;
+
 import static net.jacksum.cli.Messenger.MsgType.INFO;
 import static net.jacksum.cli.Messenger.MsgType.WARNING;
+
 import net.jacksum.parameters.base.CompatibilityParameters;
 import net.jacksum.parameters.base.VerboseParameters;
 import net.jacksum.parameters.combined.FormatParameters;
@@ -79,13 +83,12 @@ public class Parameters implements
         // all action parameter interfaces
         ExpectationActionParameters, CheckActionParameters,
         AlgoInfoActionParameters, AppInfoActionParameters, CompatInfoActionParameters,
-        
+
         // all other parameter interfaces
         VersionActionParameters, CompareActionInterface, HelpActionParameters, QuickActionParameters,
         FormatParameters, AlgorithmParameters, CustomizedFormatParameters, StatisticsParameters,
         FileWalkerParameters, ProducerConsumerParameters, PathParameters,
-        GatheringParameters, SequenceParameters, ProducerParameters, CheckConsumerParameters, VerboseParameters, CompatibilityParameters
-         {
+        GatheringParameters, SequenceParameters, ProducerParameters, CheckConsumerParameters, VerboseParameters, CompatibilityParameters {
 
     /**
      * @return the filelistFormat
@@ -121,7 +124,7 @@ public class Parameters implements
     // -C <compatibility>    
     private String compatibilityID = null;
     private CompatibilityProperties compatibilityProperties = null;
-    
+
     // --charset-check-file <charset>
     private String charsetCheckFile = "UTF-8";
     // --charset-file-list <charset>
@@ -182,7 +185,7 @@ public class Parameters implements
     // -P
     private Character pathChar = File.separatorChar;
     // -q
-    private byte[] sequence = null;    
+    private byte[] sequence = null;
     // -r
     private boolean recursive = false;
     // -r <depth>
@@ -199,13 +202,16 @@ public class Parameters implements
     private boolean stdin = false;
     // --utf8
     private boolean utf8 = false;
-    
-    
-    
+
+    // --license
+    private boolean licenseWanted = false;
+
+    // --copyright
+    private boolean copyrightWanted = false;
 
     // keeps all the filenames that have been specified at the command line
     private final List<String> filenamesFromArgs;
-    
+
     private final Messenger messenger;
 
 
@@ -238,7 +244,13 @@ public class Parameters implements
 
         } else if (isHelp()) {
             return ActionType.HELP;
-            
+
+        } else if (isLicenseWanted()) {
+            return ActionType.LICENSE;
+
+        } else if (isCopyrightWanted()) {
+            return ActionType.COPYRIGHT;
+
         } else if (getCheckFile() != null || getCheckLine() != null) {
             return ActionType.CHECK;
 
@@ -250,20 +262,18 @@ public class Parameters implements
 
         } else if (isList() && algorithm != null) {
             return ActionType.INFO_ALGO;
-            
-        // must be the first check if isInfoMode is invovled, because
-        // the --compat option sets the algorith implicitly
+
+            // must be the first check if isInfoMode is invovled, because
+            // the --compat option sets the algorith implicitly
         } else if (isInfoMode() && getCompatibilityID() != null) {
             return ActionType.INFO_COMPAT;
 
         } else if (isInfoMode() && algorithm != null) {
             return ActionType.INFO_ALGO;
-            
+
         } else if (isInfoMode() && algorithm == null) {
             return ActionType.INFO_APP;
-            
-            
-            
+
 
 //        } else if (stdin
 //                || (getFilenamesFromArgs().isEmpty())) { // no file parameter
@@ -284,13 +294,12 @@ public class Parameters implements
     }
 
 
-
     /**
      * Return Parameters, but checked
      *
      * @return Parameters, but checked.
      * @throws ParameterException if parameter combinations are invalid
-     * @throws ExitException if an exit should happen.
+     * @throws ExitException      if an exit should happen.
      */
     public Parameters checked() throws ParameterException, ExitException {
         checkParameters();
@@ -551,7 +560,7 @@ public class Parameters implements
 //        if (timestampFormat.equals(DEFAULT)) {
 //            this.timestampFormat = TIMESTAMPFORMAT_DEFAULT;
 //        } else {
-            this.timestampFormat = timestampFormat;
+        this.timestampFormat = timestampFormat;
 //        }
     }
 
@@ -643,14 +652,14 @@ public class Parameters implements
         }
 
     }
-    
-    
+
+
     private void checkForNonsenseParameterCombinations() throws ParameterException, ExitException {
         // exit if selected parameters make no sense
         if ((expected != null) && getAlgorithmIdentifier().equals("none")) {
             throw new ParameterException("-a none and -e cannot go together.");
         }
-        
+
         if (stdin && isSequence()) {
             throw new ParameterException("Cannot read from both standard input and -q.");
         }
@@ -677,7 +686,7 @@ public class Parameters implements
                 throw new ExitException(String.format("Jacksum: %s: No such file or directory. Exit.", getCheckFile()), ExitCode.IO_ERROR);
             }
         }
-        
+
         try {
             if (timestampFormat != null &&
                     !timestampFormat.equals("default") &&
@@ -696,11 +705,10 @@ public class Parameters implements
             throw new ExitException(e.getMessage(), ExitCode.PARAMETER_ERROR);
         }
 
-        
+
     }
-    
-   
-    
+
+
     private void handleImplicitSettings() {
         // implicit settings
         if (isRecursive() && getFilenamesFromArgs().isEmpty() && getFilenamesFromFilelist().isEmpty()) {
@@ -709,6 +717,8 @@ public class Parameters implements
         }
 
         if (!isHelp()
+                && !isLicenseWanted()
+                && !isCopyrightWanted()
                 && sequence == null
                 && getFilenamesFromArgs().isEmpty()
                 && getFilenamesFromFilelist().isEmpty()
@@ -724,7 +734,7 @@ public class Parameters implements
         }
 
     }
-    
+
     private void handleCompatibility() throws ParameterException, ExitException {
         if (this.getCompatibilityID() != null) {
             try {
@@ -735,23 +745,23 @@ public class Parameters implements
                     compatibilityProperties.setHashAlgorithm(this.algorithm);
                     compatibilityProperties.setHashAlgorithmUserSelected(true);
                 }
-                
+
                 // patch the parameters object explicitly, because now the parameters 
                 // come from the compatibilityID object (the compatibilityProperties)
                 if (!infoMode) {
                     messenger.print(INFO, String.format("Option --compat has been set, setting implicitly -a %s -E %s -F \"%s\", stdin-name=%s",
-                        compatibilityProperties.getHashAlgorithm(),
-                        compatibilityProperties.getHashEncoding(),
-                        compatibilityProperties.getFormat(),
-                        compatibilityProperties.getStdinName()));
-                }                
+                            compatibilityProperties.getHashAlgorithm(),
+                            compatibilityProperties.getHashEncoding(),
+                            compatibilityProperties.getFormat(),
+                            compatibilityProperties.getStdinName()));
+                }
                 this.setAlgorithm(compatibilityProperties.getHashAlgorithm());
                 this.setEncoding(compatibilityProperties.getHashEncoding());
                 this.setFormat(compatibilityProperties.getFormat());
                 this.setStdinName(compatibilityProperties.getStdinName());
                 AbstractChecksum.setStdinName(compatibilityProperties.getStdinName());
-                                
-                
+
+
             } catch (IOException ex) {
                 throw new ExitException("Jacksum: " + ex.getMessage(), ExitCode.IO_ERROR);
             }
@@ -762,7 +772,7 @@ public class Parameters implements
     public void checkParameters() throws ParameterException, ExitException {
         handleCharsets();
         checkForNonsenseParameterCombinations();
-        handleCompatibility();        
+        handleCompatibility();
 
 
         // warnings
@@ -818,8 +828,8 @@ public class Parameters implements
             messenger.print(WARNING, "Option -t has been ignored, because standard input is used.");
         }
 
-        
-        handleImplicitSettings();        
+
+        handleImplicitSettings();
 
     }
 
@@ -1103,7 +1113,8 @@ public class Parameters implements
         return sb.toString().trim();
     }
     
-  */  
+  */
+
     /**
      * @param helpLanguage the helpLanguage to set
      */
@@ -1180,10 +1191,10 @@ public class Parameters implements
     public void setInfoMode(boolean infoMode) {
         this.infoMode = infoMode;
     }
-    
-    
+
+
     //******************************************** private methods
-    
+
     private static String decodeQuote(String format) {
         return GeneralString.replaceAllStrings(format, "#QUOTE", "\"");
     }
@@ -1194,7 +1205,7 @@ public class Parameters implements
         }
         return format;
     }
-    
+
     private byte[] sequence2bytes(SequenceType sequenceType, String sequence)
             throws IllegalArgumentException {
         byte[] bytes;
@@ -1308,5 +1319,20 @@ public class Parameters implements
         this.stdinName = stdinName;
     }
 
-    
+    public boolean isLicenseWanted() {
+        return licenseWanted;
+    }
+
+    public void setLicenseWanted(boolean licenseWanted) {
+        this.licenseWanted = licenseWanted;
+    }
+
+    public boolean isCopyrightWanted() {
+        return copyrightWanted;
+    }
+
+    public void setCopyrightWanted(boolean copyrightWanted) {
+        this.copyrightWanted = copyrightWanted;
+    }
+
 }

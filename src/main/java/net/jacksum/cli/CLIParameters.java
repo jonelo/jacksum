@@ -33,7 +33,7 @@ import net.jacksum.parameters.Parameters;
 import org.n16n.sugar.io.GeneralIO;
 
 /**
- *
+ * All parameters for the Command Line Interface (CLI)
  * @author Johann N. Loefflmann
  */
 public class CLIParameters {
@@ -90,6 +90,12 @@ public class CLIParameters {
 
                 } else if (arg.equals("--")) {
                     dashdash = true;
+
+                } else if (arg.equals("--copyright")) {
+                    parameters.setCopyrightWanted(true);
+
+                } else if (arg.equals("--license")) {
+                    parameters.setLicenseWanted(true);
 
                 } else if (arg.equals("-c") || arg.equals("--check-file")) {
                     if (firstfile < args.length) {

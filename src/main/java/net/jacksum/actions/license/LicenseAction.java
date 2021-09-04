@@ -21,11 +21,33 @@
 
  */
 
-package net.jacksum.actions;
+package net.jacksum.actions.license;
 
-/**
- * All action types that are supported by Jacksum.
- */
-public enum ActionType {
-    VERSION, QUICK, FILES, CHECK, HELP, INFO_APP, INFO_ALGO, INFO_COMPAT, FIND_ALGO, COPYRIGHT, LICENSE
+import net.jacksum.actions.Action;
+import net.jacksum.cli.ExitCode;
+import org.n16n.sugar.io.GeneralIO;
+import org.n16n.sugar.util.ExitException;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+public class LicenseAction implements Action {
+
+    public LicenseAction() {
+    }
+
+    @Override
+    public int perform() throws ExitException {
+        try {
+            List<String> lines = GeneralIO.readLinesFromJarFile("/net/jacksum/legal/license.txt", StandardCharsets.UTF_8);
+            for (String line : lines) {
+                System.out.println(line);
+            }
+        } catch (IOException ioe) {
+            return ExitCode.IO_ERROR;
+        }
+        return ExitCode.OK;
+    }
+
 }

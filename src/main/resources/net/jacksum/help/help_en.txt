@@ -538,6 +538,12 @@ DESCRIPTION
             See also --utf8.
             Available since Jacksum 3.0.0.
 
+
+    --copyright
+           prints out the copyrights and license information for all portions
+           of the software that Jacksum licensed.
+
+
     -d      
     --dont-follow-symlinks-to-directories
             Don't follow symbolic links on directories, that means regular
@@ -734,6 +740,10 @@ DESCRIPTION
             with the string.
             Available since Jacksum 1.6.0, see also -c
 
+
+    --license
+            prints out the license that the project is offered under.
+            Available since Jacksum 3.0.0, see also --copyright
 
     -l
     --list

@@ -603,7 +603,7 @@ public abstract class Registry {
      * algorithm
      * @throws NoSuchAlgorithmException if the algorithm parameters cannot be
      * found.
-     
+
     	public static final AlgorithmParameters getAlgParams(String algName)
 			throws NoSuchAlgorithmException {
 		return (AlgorithmParameters) getInstance(algParams, algName);
