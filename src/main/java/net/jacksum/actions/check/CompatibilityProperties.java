@@ -84,7 +84,7 @@ public class CompatibilityProperties {
      */
     public CompatibilityProperties(String propertiesFile) throws IOException {
         if (isParserSupported(propertiesFile)) {
-            props = readFromJarFile(String.format("/net/jacksum/action/check/compatdefs/%s.properties", propertiesFile));
+            props = readFromJarFile(String.format("/net/jacksum/actions/check/compatdefs/%s.properties", propertiesFile));
         } else {
             props = readFromLocalFile(propertiesFile);
         }
