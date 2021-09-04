@@ -61,14 +61,14 @@ Go to [https://jacksum.net](https://jacksum.net) to learn more about Jacksum.
 ### End users
 
 * Jacksum [Homepage](https://jacksum.net) (https://jacksum.net)
-* Jacksum [Dowload](https://github.com/jonelo/jacksum/releases) (precompiled)
+* Jacksum [Dowload](https://github.com/jonelo/jacksum/releases) (compiled binary)
 * Jacksum [Manpage](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/help/help_en.txt) (with many examples)
 * Jacksum [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) (2002-2021)
 
 ### Developers
 
 * File [support requests, change requests, bug reports and feature requests on github](https://github.com/jonelo/jacksum/issues)
-* Jacksum [Source Code](https://github.com/jonelo/jacksum) (on github, mavenized with an IntelliJ .idea config)
+* Jacksum [Source Code](https://github.com/jonelo/jacksum) (on github, mavenized with a pom.xml and an IntelliJ .idea config)
 * Start your investigation journey by reading [net.jacksum.cli.Main](https://github.com/jonelo/jacksum/blob/main/src/main/java/net/jacksum/cli/Main.java) and [net.jacksum.JacksumAPI](https://github.com/jonelo/jacksum/blob/main/src/main/java/net/jacksum/JacksumAPI.java)
 * Download and read the [jacksum-3.0.0-javadoc.jar](https://github.com/jonelo/jacksum/releases/download/v3.0.0/jacksum-3.0.0-javadoc.jar)
 
