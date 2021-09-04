@@ -1,0 +1,424 @@
+Jacksum 3.0.0, Sep 4, 2021
+
+- Algorithms
+
+  new algorithms
+    - 408 new algorithms (including different sizes) have been added
+    - SHA-3 winner of the NIS SHA-3 competition (FIPS 202)
+      * SHA3-224, SHA3-256, SHA3-384, SHA3-512 provided by the OpenJDK 9+ resp.
+        by bouncycastle (bc) as an alternative implementation or if Java < 9 is being used
+	  * SHAKE128, SHAKE256 (provided by bc)
+    - completion of the SHA-2 familiy definitions (FIS 180-4):
+	  * SHA-512/224, SHA-512/256 provided by the OpenJDK 9+ resp.
+  	    by bc as an alternative implementation or if Java < 9 is being used
+    - national standards
+	  * Kupyna256, Kupyna384, Kupyna512 (Ukrain standard)
+	  * LSH (Korean Standard): LSH-256-224, LSH-256-256, LSH-512-224, LSH-512-256, and
+        LSH-512-384, LSH-512-512
+	  * SM3 (Chinese standard, provided by bc)
+	  * Streebog-256, Streebog-512 (Russian standard GOST R 34.11-2012, provided by bc)
+    - other modern cryptographic hash functions
+	  * BLAKE3 (announced in 2020)
+      * BLAKE2s, BLAKE2b (both with support for arbitrary output)
+	  * KangarooTwelve (K12) and MarsupilamiFourteen (M14)
+      * RadioGatun[32], Radiogatun[64] (provided by Project PNRT SAPHIR)
+    - all SHA-3 finalists (round 3) of the NIST SHA-3 competition
+      * BLAKE-224, BLAKE-256, BLAKE-384, BLAKE-512 (provided by Project PNRT SAPHIR)
+	  * Groestl-224, Groestl-256, Groestl-384, Groestl-512 (provided by Project PNRT SAPHIR)
+	  * JH (224, 256, 384 and 512 bits) (provided by Project PNRT SAPHIR)	
+      * Keccak (224, 256, 384 and 512 bits) (provided by bc)
+      * Skein256, Skein512, Skein1024 (provided by bc) with support for arbitrary output
+    - three algorithms from round 2 of the NIST SHA-3 competition
+      * ECHO-[224,256,348,512]
+	  * Fugue-[224,256,348,512]
+	  * Luffa-[224,256,348,512]
+    - proposals from the NIST crypto workshops before the SHA-3 competition
+      * FORK-256, DHA-256, VSH-1024
+    - legacy algorithm support
+      * PANAMA (provided by Project PNRT SAPHIR)
+      * MDC2 (the U.S. Patent 4,908,861 expired on August 28, 2007)
+        Thanks to Stefan Palme, Germany for the MDC2 implementation from his
+        HBCI4Java project (LGPL)
+      * GOST also with init parameters as suggested by the Crypto-Pro company
+      * FNV-0, FNV-1 and FNV-1a
+        (for each algorithm: 32, 64, 128, 256, 512 and 1024 bits) (provided by jonelo)
+      * Minix' crc and Minix' cksum, and sum before Minix 3.2.1 (provided by jonelo)
+      * Plan 9' sum (FDDI CRC) (provided by jonelo)
+      * PHP's crc32 (provided by jonelo)
+      * CRC32c (iSCSI) (provided by jonelo)
+      * Bob Jenkins' One-at-a-Time hash (joaat32, provided by jonelo)
+	  * Fletcher-16 (provided by jonelo)
+	  * sum40, sum48, sum56 (provided by jonelo)
+	  * CRC64 (ECMA 182) (provided by jonelo)
+      * CRC64 (.xz and prog lang GO, const ECMA) (provided by jonelo)
+	  * CRC64 (prog lang GO, const ISO) (provided by jonelo)
+	  * XXH32 (provided by Apache Commons Codec 1.15)
+
+   bug fixes
+     - change request sf# 1693872: Decrease the memory requirement of the
+       TigerTree class, Thanks to Oleg Dyakun for the feature request
+     - bug fixed: a checksum can be returned in a negative format if the
+       customizalbe CRC has a width of 64 bit
+
+
+- Performance
+
+  new features	
+    - added multi processor/multi core support for parallel hashing of many files
+    - added multi processor/multi core support for parallel hashing of many algorithms
+      Thanks to Federico Tello Gentile, Argentina for both the feature request
+      and the implementation
+    - TODO: the concurrent implementations can also be disabled on demand
+	  
+  bug fixes
+    - change request: for the CrcGeneric update method: moved an if-condition outside the loop
+    - change request: inline the update method for the loops
+      Thanks to Federico Tello Gentile, Argentina for the feature request
+    - MD2 from the JRE is used by default if available, pure Java implementation of MD2
+      on demand (-A), thanks to Federico Tello Gentile, Argentina for the feature request
+
+
+- Data integrity verification
+
+  new features  
+    - added option --compat in order to parse data thas has been produced by 3rd party apps
+    - added compatility files/parsers for BSD-, FCIV-, Linux-, SFV-, and OpenSSL files
+    - possibility to create own compatibility files
+    - added option --charset-check-file in order to specify the charset for the check file
+    - added BOM awareness for check files
+    - can detect not only OK, FAILED, and MISSING files, but also NEW files
+    - added option --check-line in order to check just one line
+    - added option --check-strict in order to exit nonzero if one or more input line is invalid
+    - added option --list-filter to show ok, failed, missing, and/or new files
+
+
+- Formats and Encodings
+
+  new features
+    - added new Encodings: base32_nopad, base32hex, base32hex_nopad, base64url  
+    - unixtime can be selected for the timestamp format
+    - Option -q bin in order to support binary input (zeros and ones),
+      comma and space delimited values are supported
+    - Option -q txtf in order to support UTF-8 formatted text including
+      interpretation of escape sequences (\n, \r, \t, \", \', \\ and \xHH)
+    - the alias called #DIGEST has been added to the format options
+    - the alias called #LENGTH has been added to the format options
+    - added #CHECKSUM{i,e} to the format options in order to specify
+      a particular encoding for the CHECKSUM{i}
+    - added #SEQUENCE to the format options
+    - added #SEQUENCE{e} to the format options in order to specify
+      a particular encoding for the SEQUENCE
+    - Option -q hex also supports comma and space delimited values
+    - Option -q dec also supports space delimited values
+	- Option -t iso8601 in order to produce ISO 8601 compatible timestamps
+
+   bug fixes
+    - bug fixed: padding for base32 is not appended when it should (see RFC 4648)
+      Thanks to Dr. Richard B. Kreckel, Germany for both the bug report
+	  (it has been fixed by replacing the existing class)
+
+
+Command Line Interface
+
+  new features
+    - added an algorithm finder: if you know both the input and the output you can search for the
+      algorithm that can produce the output by brute force
+      (that can be useful for determining unknown CRC algorithm parameters)
+    - more than one directory can be specified on the command line for a
+      recursiv tree traversal
+    - option -a enhancement: select algorithms by a search string or a bit width
+    - you can limit the depth of the recursion by specifying a depth
+    - added -L in order read files from a predefined list
+    - in addition to the "Rocksoft (tm) Model CRC Algorithm" schema,
+      the Generic CRC can be parameterized to include the (optional xor'ed)
+      length to the CRC in order to describe algorithms such as the POSIX
+      cksum or the FDDI CRC
+    - extended option -V in order to print out details of algorithms
+      (e.g. polynomial as a math expression for all CRCs)
+	- improved option -V to enable/disable errors as well	
+    - each dash-option has got a dash-dash-option as well
+    - added the double dash-option in order to signify the end of command options  
+    - added --info option to get info about the program, for the selected algorithms or
+      the compatibility file
+    - added options --charset-check-file, --charset-file-list, --charset-error-file,
+      --charset-output-file, --charset-stdout, and --charset-stderr in order to specify
+	  the charset for various I/O objects
+    - Shortcut option -8 or --utf8 can be used to set UTF-8 character set for both stdout and stderr
+
+  bug fixes
+    - change requests sf# 1532748: read binary rather than text from standard input
+      and sf# 2842138: Incorrect output for data provided by stdin
+      Thanks to gsteele0000 and r_a_llo for the change requests
+	  (unexpected suboptimal behavior was documented, though)
+
+
+- Documentation
+
+  new features and improvements
+    - updated availablity of checksum/hash tools/algorithms on
+      BeOS, FreeBSD, HP-UX, GNU/Linux, Mac OS X, Solaris, and Windows
+    - added availability of checksum/hash tools/algorithms on
+      7z, Angstrom, DragonFly BSD, CentOS, FreeDOS, GNU/Hurd, gpg, IBM AIX,
+	  Java, Kali Linux, LibreSSL, macOS, Minix, MS-DOS, NetBSD, NexStep,
+	  PHP, Plan 9, Phyton, and OpenSSL (phew, that were a lot of VMs and tests ;-)
+    - added more examples for learning Jacksum
+    - redesigned the help page
+	
+  bug fixes
+    - bug fixed: "-h license" does not print anything
+    - bug fixed: -h prints help sections for both uppercase and lowercase option,
+      but should only print the expected help section
+
+
+- Internal/API
+
+  new features and improvements
+    - feature request sf# 1602248: support for NIO byte buffers,
+      Thanks to Moritz Ringler, Germany for the feature request
+    - the code structure has been significantly redesigned and refactored
+      in order to restore the maintainability of Jacksum for new requirements
+
+  replacements
+    - replaced the existing Base64 implementation (public domain) with the one
+      from the Java Standard SE 8+ API
+    - replaced the existing Base32 implementation (public domain) with the Base32
+      implemenation from www.dnsjava.org (2-clause BSD license)
+
+
+- Compatibility changes
+
+  changes
+    - requires a JRE/JDK that is compatible with Java 11 or later, OpenJDK 11+ is recommended
+    - released under the terms of the GNU GPLv3 or later
+    - the default algorithm is now SHA3-256 and not SHA-1 anymore  
+    - by default, data is read from standard input in binary mode
+    - by default, recursively operation is active for folders, by default depth is unlimited
+    - if -r is specificed explicitly, also a depth has to be specified
+    - redirection to a file by -u, -U, -o, and -O uses UTF-8 rather than the default
+      shell character set in order to support Unicode characters for filenames/folders
+      Thanks to Rajmund, UK for the feature request and code suggestion
+    - option -l enables the list view in general, for filtering verification results use --list-filter
+	- option "-t default" defaults to a format that also includes the milliseconds
+	
+  deletions
+    - options -m, -p, -S, -w have been removed
+    - the Jacksum class in the default package has been removed
+    - Java version check has been removed
+    - German translation for option -h has been removed (at least for now)	
+
+
+Jacksum 1.7.0, July 30, 2006
+- added a customizable CRC algorithm, now you can calculate any CRC which
+  can be described by the Rocksoft Model CRC Algorithm (8 to 64 bit width),
+  see also sf# 1518023 Setting of an initial value for a CRC
+- support for combinable checksums, see also sf# 1210489
+  (multiple hashes at the same time), thanks to synonymous2 for this feature request
+- support for using all algorithms at once (-a all)
+- two new algorithms are supported: crc32_bzip2, HAS-160
+- support for Tiger Tree hashes (aka Merkle Hashes). Thanks to Carsten Krüger,
+  Germany for the feature request and pointers to some resources
+- support for new encodings (bin, dec, oct)
+- support for the combination of both options -c and -w,
+  Thanks to Dipl.-Inf. (FH) Ralf Kahrl, Germany for the implementation of this feature
+- a small performance improvement for the whirlpool algorithms
+- replaced the crc24 with a faster one by using the customizable CRC algorithm
+  (the old one had also a minor bug in the parameterless constructor)
+- bug fixed: -V summary does not always return reasonable values
+- bug fixed: update(byte[], int, int) fails if offset is > 0 (sf # 1525183)
+  This can cause problems if Jacksum is incorporated in different projects
+- The bouncycastle and gnu classes have been moved to jonelo.jacksum.adapt so that
+  they won't clash with different downloaded versions of the classes. Actually this
+  is to avoid potential problems if a project uses both bouncycastle and Jacksum for example.
+  Thanks to Alberto Rodriguez, Spain for the feature request
+- documentation updated (BeOS' data integrity programs, Tru64 and year of the invention for
+  many algorithms)
+- tested with gij 4.0.2, JRE 1.3.1_18, 1.4.2_12, 5.0_07, 6.0-rc-b93
+
+
+Jacksum 1.6.1, Nov 13, 2005
+- regression bug fixed: -r does not work anymore on Linux/Unix
+  Thanks to Christoph R., Germany and niku.u for the bug reports (sf# 1354426)
+- bug fixed: stdout and stderr overwrite each other when stdout and stderr are equal
+- bug fixed: -c and -V summary give meaningless summary
+- exit status depends on the result of -c now
+  Thanks to Martin Z., Germany for the feature request
+- improved documentation ("exit status" and "see also" have been added)
+
+
+Jacksum 1.6.0, Sep 3, 2005
+- twelve new algorithms are supported: CRC-8, CRC-24, GOST R 34.11-94, SHA-0, SHA-224,
+  Tiger-128, Tiger-160, Tiger2, Whirlpool-0, Whirlpool-2, RIPEMD-256, RIPEMD-320
+- change: "whirlpool" refers to Whirlpool-2 now, rather than to Whirlpool-1  
+- support for an alternate Adler 32 implementation
+- improved option -c: Jacksum can check the integrity even if a file list has
+  not been created by Jacksum (or a file list without meta information)
+  Thanks to Sebastian J., Germany for this feature request
+- new option -w for setting the working directory
+- new algorithm-code called "none" for ignoring the real content of
+  the files for being able to check just against the filesize
+- new algorithm-code called "read" for being able to read the file's content,
+  but without doing any calculation
+- new option -E for an encoding of the checksum (hex, hexup, Base 16, Base 32,
+  Base 64 and BubbleBabble are supported)
+- new option -g (group some bytes) for better readability of a hex checksum
+- new option -G (group separator) for better readability of a hex checksum
+- new option -o for redirecting the output to a file rather than the standard output,
+  in this case the file is also excluded from the calculation process
+- new option -O for overwriting an existing file
+- new option -I for ignoring lines when checking the integrity by -c
+- new option -V for a verbose output (number of processed files and dirs, processed bytes,
+  number of read errors and elapsed time)
+- improved option -e: works also for multiple files and directories 
+  for being able to find duplicates
+- improved option -e: when using -e, the option -x is not necessary anymore,
+  if the return value by default is hex anyway 
+- improved option -m: unnecessary defaults are not be written to the header anymore
+- improved option -h: can show only fractions of the help file rather than
+  the complete help file
+- improved option -t: #SEPARATOR and #QUOTE are also replaced
+  Thanks to Claudio C., Italy for the feature request
+- improved option -F: #FILENAME{NAME} and #FILENAME{PATH} can be used
+  Thanks to Claudio C., Italy for the feature request
+- bug fixed: if calling the getHexValue() method more than once, the hash based
+  algorithms return a different value; this can cause problems if Jacksum 
+  is used in other projects, Thanks to Bob C. for the bug report
+- bug fixed: problem on Unix/Linux while checking a file list if the filename's
+  last character is a colon (e. g. "Terminal 1:")
+- improved documentation, added also collision files
+- improved the public API (support a method to return byte[])
+  Thanks to Alex G., Germany for this feature request
+- improved the public API for other projects (methods getAvailableAlgorithms(),
+  and equals() have been added)
+- Added javadoc, Thanks to Corey Osman for this feature request
+- refactored and code improvements
+- tested with gij 3.2.2, Kaffe 1.1.4, JRE 1.3.1_16, 1.4.2_09, 5.0_04, 6.0-ea-b48
+
+
+Jacksum 1.5.1, 2004-11-06
+- regression bug fixed: when option -l is used, removed files will not be
+  printed out to the standard output anymore
+  Thanks to Sabrina Rolleman, Canada for the bugreport
+- sourceforge feature request #1028824 has been implemented
+  (add homepage URI if -m is used)
+  Thanks to Lee A. Davis for the feature request
+- improved documentation
+
+
+Jacksum 1.5.0, 2004-08-08
+- four new algorithms are supported: ed2k/eDonkey/eMule, CRC-64, ELF-32, FCS-16
+  Thanks to Henrique Malheiro, Portugal for the eDonkey reference implementation
+- sourceforge bug #948070 has been fixed (-c won't work if -t has been set)
+  Thanks to Lee A. Davis for the bugreport
+- bug fixed: Jacksum hangs if it reaches a fifo under Unix/Linux
+- bug fixed: files which are used by another process can't be processed properly
+- new option -d for ignoring symbolic links to directories under Unix/Linux to avoid
+  enless loops in particular cases
+- improved option -q to support not only hex, but also text and decimal formats
+- new option -F for being able to customize the output format
+  see also sourceforge feature request #968469 (show file length on MD5)
+- new option -P to print out filenames with a customized separator
+- lists created with -m are platform independent now, you can verify files against
+  a list on Linux/Unix if the list has been created on Windows for example
+- new option -S to calculate just one fingerprint (summary)
+  Thanks to Berthold Kohlmann, Germany for this feature request
+- sourceforege feature request #968491 has been implemented 
+  (Handle pre 1.5 time formats with -c), thanks to Lee A. Davis for the request
+- sourceforge feature request #968487 has been implemented (list dir argument as comment)
+  Thanks to Lee A. Davis for the feature request
+- new option -A to specify alternate implementations of one of the following algorithms
+  crc32, md5, sha-1, sha-256, sha-384, sha-512
+- added alias called FCS-32 for CRC-32
+- added alias called SHA-160 for SHA-1
+- Java version check also for IBM's Java VM
+- tested successfully with JRE 1.5 beta3
+
+
+Jacksum 1.4.0, 2004-02-01
+- three new algorithms are supported: Tiger, Haval and 
+  the MPEG spec of CRC-32
+  Thanks to Chris Ash, Southampton, UK for suggesting this feature based
+  on existing GPL code (VideoLan project)
+- Haval can have both length (128, 160, 192, 224 or 256 bits) 
+  and round parameters (3 to 5)
+- algorithms sha-256, sha-384 and sha-512 are also supported with JRE 1.3 now
+- new option -p for including path info on each line when recursively
+  file processing is requested, this makes it easier to sort or grep
+  ouput lines
+  Thanks to Douglas E. W. for both feature request and reference implementation
+- new option -e for comparison against an expected checksum
+  Thanks to Daniel Ellermann, Germany for both feature request and
+  reference implementation
+- new option -l to show a list of modified or deleted files, list can be used
+  to feed the zip command
+- exits, if parameter -t does not contain supported characters
+- version check introduced for better compatibility
+- improved comments for sourcecode called Crc16.java
+- documentation updated with Mac OS X information
+- requires at least JRE 1.3.1, 1.4.2 is recommended
+
+
+Jacksum 1.3.0, 2003-11-02
+- eight new algorithms are supported: sha-256, sha-384 and sha-512 
+  (requires Java 1.4.2 or later), xor8, sum8, sum16, sum24 and sum32
+- option to check files against a given list (option -c)
+  Thanks to Leonardo A. Pires, Brazil for this feature request
+  Thanks a lot to Christian F., London, UK for his reference implementation
+- option to create meta-information (option -m); while checking against
+  a list, you don't have to enter the original command line options again
+- timestamps of files can be part of the output (option -t)
+  Thanks to Vishwanathan Narayanan, Florida, USA for this feature request
+  with the option -c you can check against both content and timestamps
+- the output format of timestamps is highly configurable
+- process a hex sequence quickly (option -q)
+  Thanks to Jack Memishian, USA for this feature request
+- bug fixed: algorithm cksum hangs, if a file is greater than 2 GB
+- bug fixed: processing special file system folders, like Windows' 
+  "System Volume Information" throws to a NullPointerException
+- stdout and stderr are separete streams now
+- Jacksum is using the GNU crypto package 1.1
+  (http://www.gnu.org/software/gnu-crypto/)
+- documentation updated
+
+
+Jacksum 1.2.0, 2003-02-16
+- four new algorithms from the GNU crypto project are supported: 
+  MD4, RIPEMD-128, RIPEMD-160 and Whirlpool
+  (http://www.gnu.org/software/classpathx/crypto/)
+- bug fixed: calling the getValue() method more than once for the Cksum 
+  class returns a different value; this can cause problems if Jacksum 
+  will be used in other projects.
+  Thanks to Cary Coulter for both, bug report and fix.
+- bug fixed: CRC16 does not work like the standard CRC16
+  generator poly X^16 + X^15 + X^2 + 1.
+  Thanks to David Elfi, Argentina for both bug report and fix
+- provided compatibility with free Kaffe Java VM
+  (Java version check only for Sun's Java VM)
+- option -v to get the version of Jacksum
+
+
+Jacksum 1.1.2, 2003-01-19
+- bug fixed: input file will not be closed; this can cause 
+  problems if Jacksum will be used in other projects.
+  Thanks to Bill Kelemen for both, bug report and fix.
+- faster algorithm for output of checksums in hex format
+- documentation updated (Solaris 9+ can have a md5 application)
+
+
+Jacksum 1.1.1, 2002-11-07
+- bug fixed: algorithm sysv returns invalid checksum if files are greater 
+  than ~9 MB. Thanks to Sunny Liu, NYC for both bug report and fix.
+
+
+Jacksum 1.1.0, 2002-09-08
+- options for hexadecimal checksum output (lower- and uppercase)
+  Thanks to Peter Frey, Germany for this feature request
+- filenames/directories will be sorted alphabetically
+
+
+Jacksum 1.0.0, 2002-07-07
+- initial public release 
+- requires at least JRE 1.3.0
+- algorithms Adler32, BSD sum, POSIX cksum, CRC-16, CRC-32, MD2, MD5, 
+  SHA1 and Unix System V sum are supported
+- processing of subdirectories is supported
+- a custom separator string can be defined
