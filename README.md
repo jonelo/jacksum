@@ -2,12 +2,14 @@
 
 ## Overview
 
-Jacksum (JAva ChecKSUM) is a free and cross platform data integrity
+**Jacksum** (JAva ChecKSUM) is a free and cross platform data integrity
 software tool to master checksums, CRCs, and message digests (hashes).
 
-Jacksum is both a command line tool, and a library.
+Jacksum is both a **command line tool**, and a **library**.
 
-Jacksum supports 470 algorithms, including
+Jacksum runs on GNU/Linux, Microsoft Windows, and macOS. It takes advantage of modern **multi-processor/multi-core** environments for parallel computation and verification of hashes.
+
+Jacksum supports **470 algorithms**, including
 popular national- and international standards (e. g. SHA-2-family, SHA-3-family, GOST, Strebog, SM3, Kupyna, LSH, etc.),
 cryptographic and non-cryptographic hash functions (e. g. BLAKE, BLAKE2b, BLAKE2s, BLAKE3, ed2k, Groestl, HAVAL, JH, Keccak, RadioGatun, RIPEMD, Skein, Tiger, Tiger2, TTH, Whirlpool2),
 extendable output functions (e. g. SHAKE, KangarooTwelve, MarsupilamiFourteen),
