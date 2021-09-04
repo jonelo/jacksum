@@ -595,7 +595,7 @@ public abstract class Registry {
         return (Vector) resolveAlias(standardAlgParams, algName);
     }
 
-    /**
+    /*
      * Return an instance of the specified algorithm parameters.
      *
      * @param algName the name of the algorithm parameters
@@ -603,13 +603,13 @@ public abstract class Registry {
      * algorithm
      * @throws NoSuchAlgorithmException if the algorithm parameters cannot be
      * found.
-     */
-    /*	public static final AlgorithmParameters getAlgParams(String algName)
+     
+    	public static final AlgorithmParameters getAlgParams(String algName)
 			throws NoSuchAlgorithmException {
 		return (AlgorithmParameters) getInstance(algParams, algName);
 	}
      */
-    /**
+    /*
      * Return an instance of the specified algorithm parameter generator.
      *
      * @param algName the name of the algorithm parameter generator
@@ -617,14 +617,14 @@ public abstract class Registry {
      * chosen algorithm
      * @throws NoSuchAlgorithmException if the algorithm parameter generator
      * cannot be found.
-     */
-    /*	public static final AlgorithmParameterGenerator getAlgParamGenerator(
+
+    	public static final AlgorithmParameterGenerator getAlgParamGenerator(
 			String algName) throws NoSuchAlgorithmException {
 		return (AlgorithmParameterGenerator) getInstance(algParamGenerators,
 				algName);
 	}
      */
-    /**
+    /*
      * Return an instance of the specified secret key generator.
      *
      * @param algName the name of the secret key generator
@@ -632,13 +632,13 @@ public abstract class Registry {
      * algorithm
      * @throws NoSuchAlgorithmException if the secret key generator cannot be
      * found.
-     */
-    /*	public static final SecretKeyGenerator getSecretKeyGenerator(String algName)
+
+    	public static final SecretKeyGenerator getSecretKeyGenerator(String algName)
 			throws NoSuchAlgorithmException {
 		return (SecretKeyGenerator) getInstance(secretKeyGenerators, algName);
 	}
      */
-    /**
+    /*
      * Return an instance of the specified key pair generator.
      *
      * @param algName the name of the key pair generator
@@ -646,13 +646,13 @@ public abstract class Registry {
      * algorithm
      * @throws NoSuchAlgorithmException if the key pair generator cannot be
      * found.
-     */
-    /*	public static final KeyPairGenerator getKeyPairGenerator(String algName)
+
+    	public static final KeyPairGenerator getKeyPairGenerator(String algName)
 			throws NoSuchAlgorithmException {
 		return (KeyPairGenerator) getInstance(keyPairGenerators, algName);
 	}
      */
-    /**
+    /*
      * Return an instance of the specified secret key factory.
      *
      * @param algName the name of the secret key factory
@@ -660,8 +660,8 @@ public abstract class Registry {
      * algorithm
      * @throws NoSuchAlgorithmException if the secret key factory cannot be
      * found.
-     */
-    /*	public static final SecretKeyFactory getSecretKeyFactory(String algName)
+
+    	public static final SecretKeyFactory getSecretKeyFactory(String algName)
 			throws NoSuchAlgorithmException {
 		return (SecretKeyFactory) getInstance(secretKeyFactories, algName);
 	}
