@@ -18,7 +18,7 @@ DESCRIPTION
         software tool to master checksums, CRCs, and message digests (hashes).
 \
         Jacksum supports 470 fingerprinting algorithms, and takes advantage of
-        modern muliti-processor/multi-cores environments for parallel
+        modern multi-processor/multi-cores environments for parallel
         computation and verification of hashes.
 \
         With Jacksum you can also find the algorithm used to calculate a 
