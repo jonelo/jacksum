@@ -257,14 +257,13 @@ public class MD5 extends BaseHash {
 
    @Override
    protected byte[] getResult() {
-      byte[] result = new byte[] {
+
+      return new byte[] {
          (byte) h0, (byte)(h0 >>> 8), (byte)(h0 >>> 16), (byte)(h0 >>> 24),
          (byte) h1, (byte)(h1 >>> 8), (byte)(h1 >>> 16), (byte)(h1 >>> 24),
          (byte) h2, (byte)(h2 >>> 8), (byte)(h2 >>> 16), (byte)(h2 >>> 24),
          (byte) h3, (byte)(h3 >>> 8), (byte)(h3 >>> 16), (byte)(h3 >>> 24)
       };
-
-      return result;
    }
 
    @Override

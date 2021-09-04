@@ -616,7 +616,7 @@ public class Parameters implements
                     System.setOut(out);
                 }
             } catch (UnsupportedEncodingException | FileNotFoundException | ExitException e) {
-                Logger.getLogger(Parameters.class.getName()).log(Level.SEVERE, null, e);
+                // Logger.getLogger(Parameters.class.getName()).log(Level.SEVERE, null, e);
                 throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
             }
         }

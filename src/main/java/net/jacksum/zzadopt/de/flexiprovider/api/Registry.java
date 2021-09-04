@@ -666,32 +666,33 @@ public abstract class Registry {
 		return (SecretKeyFactory) getInstance(secretKeyFactories, algName);
 	}
      */
-    /**
+    /*
      * Return an instance of the specified key factory.
      *
      * @param algName the name of the key factory
      * @return a new {@link KeyFactory} object implementing the chosen algorithm
      * @throws NoSuchAlgorithmException if the key factory cannot be found.
-     */
-    /*	public static final KeyFactory getKeyFactory(String algName)
+
+    	public static final KeyFactory getKeyFactory(String algName)
 			throws NoSuchAlgorithmException {
 		return (KeyFactory) getInstance(keyFactories, algName);
 	}
      */
-    /**
+    /*
      * Return an instance of the specified key derivation function.
      *
      * @param algName the name of the key derivation function
      * @return a new {@link KeyDerivation} object implementing the chosen
      * algorithm
      * @throws NoSuchAlgorithmException if the key derivation cannot be found.
-     */
-    /*	public static final KeyDerivation getKeyDerivation(String algName)
+
+    	public static final KeyDerivation getKeyDerivation(String algName)
 			throws NoSuchAlgorithmException {
 		return (KeyDerivation) getInstance(keyDerivations, algName);
 	}
      */
-    /**
+
+    /*
      * Return an instance of the specified key agreement scheme.
      *
      * @param algName the name of the key agreement scheme
@@ -699,8 +700,8 @@ public abstract class Registry {
      * algorithm
      * @throws NoSuchAlgorithmException if the key agreement scheme cannot be
      * found.
-     */
-    /*	public static final KeyAgreement getKeyAgreement(String algName)
+
+    	public static final KeyAgreement getKeyAgreement(String algName)
 			throws NoSuchAlgorithmException {
 		return (KeyAgreement) getInstance(keyAgreements, algName);
 	}

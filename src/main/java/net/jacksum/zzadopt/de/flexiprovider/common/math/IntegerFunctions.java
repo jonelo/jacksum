@@ -1115,8 +1115,7 @@ public final class IntegerFunctions {
 	public static double log(double x) {
 		if (x > 0 && x < 1) {
 			double d = 1 / x;
-			double result = -log(d);
-			return result;
+			return -log(d);
 		}
 
 		int tmp = 0;

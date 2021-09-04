@@ -25,13 +25,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
+
 import net.jacksum.algorithms.AbstractChecksum;
 import org.n16n.sugar.util.Support;
 
 
 public class CompatibilityProperties {
     private final Properties props; // persistent Props
-    
+
     private boolean strictCheck = false;
     private boolean hashAlgorithmUserSelected = false;
 
@@ -40,7 +41,7 @@ public class CompatibilityProperties {
     private final static String COMPAT_AUTHORS = "compat.authors";
     private final static String COMPAT_VERSION = "compat.version";
     private final static String COMPAT_DESCRIPTION = "compat.description";
-//    private final static String PARSER_ENGINE_TYPE = "parser.engineType";
+    //    private final static String PARSER_ENGINE_TYPE = "parser.engineType";
     private final static String LINES_IGNORE_LINES_STARTING_WITH_STRING = "parser.ignoreLinesStartingWithString";
     private final static String LINES_IGNORE_EMPTY_LINES = "parser.ignoreEmptyLines";
     private final static String LINES_REGEXP = "parser.regexp";
@@ -50,7 +51,6 @@ public class CompatibilityProperties {
     private final static String REGEXP_TIMESTAMP_POS = "parser.regexp.timestampPos";
     private final static String REGEXP_PERMISSIONS_POS = "parser.regexp.permissionsPos";
     private final static String HASH_NIBBLES = "parser.regexp.nibbles";
-
     private final static String HASH_ALGORITHM = "algorithm.default";
     private final static String HASH_ALGORITHM_USER_SELECTABLE = "algorithm.userSelectable";
     private final static String LINES_FORMAT = "formatter.format";
@@ -65,10 +65,10 @@ public class CompatibilityProperties {
         props = new Properties();
         addRequiredPropertiesIfAbsent();
     }
-    
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();        
+        StringBuilder sb = new StringBuilder();
         List<String> list = Support.sortPopertiesByKeys(props);
         for (String line : list) {
             sb.append(line);
@@ -84,13 +84,13 @@ public class CompatibilityProperties {
      */
     public CompatibilityProperties(String propertiesFile) throws IOException {
         if (isParserSupported(propertiesFile)) {
-            props = readFromJarFile(String.format("/net/jacksum/actions/check/compatdefs/%s.properties", propertiesFile));
+            props = readFromJarFile(String.format("/net/jacksum/action/check/compatdefs/%s.properties", propertiesFile));
         } else {
             props = readFromLocalFile(propertiesFile);
         }
         addRequiredPropertiesIfAbsent();
     }
-    
+
     private void addRequiredPropertiesIfAbsent() {
         props.putIfAbsent(STDIN_NAME, AbstractChecksum.getStdinName());
     }
@@ -106,7 +106,7 @@ public class CompatibilityProperties {
     public void setCompatName(String name) {
         props.setProperty(COMPAT_NAME, name);
     }
-    
+
     public String getCompatSyntaxVersion() {
         return props.getProperty(COMPAT_SYNTAX_VERSION);
     }
@@ -114,7 +114,7 @@ public class CompatibilityProperties {
     public void setCompatSyntaxVersion(String version) {
         props.setProperty(COMPAT_SYNTAX_VERSION, version);
     }
-    
+
     public String getCompatVersion() {
         return props.getProperty(COMPAT_VERSION);
     }
@@ -130,7 +130,7 @@ public class CompatibilityProperties {
     public void setCompatDescription(String description) {
         props.setProperty(COMPAT_DESCRIPTION, description);
     }
-    
+
     public String getCompatAuthors() {
         return props.getProperty(COMPAT_AUTHORS);
     }
@@ -139,7 +139,7 @@ public class CompatibilityProperties {
         props.setProperty(COMPAT_AUTHORS, authors);
     }
 
-    
+
     public String getStdinName() {
         return props.getProperty(STDIN_NAME);
     }
@@ -184,7 +184,7 @@ public class CompatibilityProperties {
     public int getRegexpHashPos() {
         return Integer.parseInt(props.getProperty(REGEXP_HASH_POS, "-1"));
     }
-    
+
     public void setRegexHashPos(int pos) {
         props.setProperty(REGEXP_HASH_POS, String.valueOf(pos));
     }
@@ -192,7 +192,7 @@ public class CompatibilityProperties {
     public int getRegexpFilenamePos() {
         return Integer.parseInt(props.getProperty(REGEXP_FILENAME_POS, "-1"));
     }
-    
+
     public void setRegexpFilenamePos(int pos) {
         props.setProperty(REGEXP_FILENAME_POS, String.valueOf(pos));
     }
@@ -200,11 +200,10 @@ public class CompatibilityProperties {
     public int getRegexpFilesizePos() {
         return Integer.parseInt(props.getProperty(REGEXP_FILESIZE_POS, "-1"));
     }
-    
+
     public void setRegexpFilesizePos(int pos) {
         props.setProperty(REGEXP_FILESIZE_POS, String.valueOf(pos));
     }
-    
 
     public int getRegexpTimestampPos() {
         return Integer.parseInt(props.getProperty(REGEXP_TIMESTAMP_POS, "-1"));
@@ -214,7 +213,6 @@ public class CompatibilityProperties {
         props.setProperty(REGEXP_TIMESTAMP_POS, String.valueOf(pos));
     }
 
-    
     public int getRegexpPermissionsPos() {
         return Integer.parseInt(props.getProperty(REGEXP_PERMISSIONS_POS, "-1"));
     }
@@ -222,17 +220,17 @@ public class CompatibilityProperties {
     public void setRegexpPermissionsPos(int pos) {
         props.setProperty(REGEXP_PERMISSIONS_POS, String.valueOf(pos));
     }
-    
+
     public String getHashAlgorithm() {
         return props.getProperty(HASH_ALGORITHM);
     }
-    
+
     public boolean getHashAlgorithmUserSelectable() {
         return props.getProperty(HASH_ALGORITHM_USER_SELECTABLE, "false").equals("true");
     }
-    
+
     public void setHashAlgorithmUserSelectable(boolean selectable) {
-        props.setProperty(HASH_ALGORITHM_USER_SELECTABLE, selectable ? "true" : "false"); 
+        props.setProperty(HASH_ALGORITHM_USER_SELECTABLE, selectable ? "true" : "false");
     }
 
     public void setHashAlgorithm(String hashAlgorithm) {
@@ -242,11 +240,11 @@ public class CompatibilityProperties {
     public String getHashEncoding() {
         return props.getProperty(HASH_ENCODING);
     }
-    
+
     public int getHashNibbles() {
         return Integer.parseInt(props.getProperty(HASH_NIBBLES, "-1"));
     }
-    
+
     public void setHashNibbles(int nibbles) {
         props.setProperty(HASH_NIBBLES, String.valueOf(nibbles));
     }
@@ -255,7 +253,7 @@ public class CompatibilityProperties {
     public void setHashEncoding(String hashEncoding) {
         props.setProperty(HASH_ENCODING, hashEncoding);
     }
-    
+
     public String getFormat() {
         return props.getProperty(LINES_FORMAT);
     }
@@ -283,7 +281,7 @@ public class CompatibilityProperties {
         }
         return props;
     }
-    
+
     /**
      * @return the strictCheck
      */
@@ -297,7 +295,7 @@ public class CompatibilityProperties {
     public void setCheckStrict(boolean strictCheck) {
         this.strictCheck = strictCheck;
     }
-    
+
     /**
      * @return the hashAlgorithmUserSelected
      */
@@ -311,7 +309,7 @@ public class CompatibilityProperties {
     public void setHashAlgorithmUserSelected(boolean hashAlgorithmUserSelected) {
         this.hashAlgorithmUserSelected = hashAlgorithmUserSelected;
     }
-    
+
     private boolean isParserSupported(String parser) {
         switch (parser) {
             case "bsd":

@@ -60,10 +60,9 @@ public class MessageProducer implements Runnable {
         // remove duplicates:
         // construct a new list from the set constucted from elements
         // of the original list
-        List<String> noDuplicates = merged.stream()
+        allFiles = merged.stream()
                 .distinct()
                 .collect(Collectors.toList());
-        allFiles = noDuplicates;
     }
 
     private void handleFilename(String filename, boolean filenameIsInCheckFile, Message.Type messageTypeForFiles) {

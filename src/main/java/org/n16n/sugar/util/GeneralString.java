@@ -277,8 +277,7 @@ public class GeneralString {
         Object aobj[] = {
             character.toString()
         };
-        String s1 = MessageFormat.format(s, aobj);
-        return s1;
+        return MessageFormat.format(s, aobj);
     }
     
     public static String message(String s, int i) {
@@ -286,8 +285,7 @@ public class GeneralString {
         Object aobj[] = {
             integer.toString()
         };
-        String s1 = MessageFormat.format(s, aobj);
-        return s1;
+        return MessageFormat.format(s, aobj);
     }
     
     public static String message(String s, int i1, int i2) {
@@ -297,8 +295,7 @@ public class GeneralString {
             integer.toString(),
             integer2.toString()
         };
-        String s1 = MessageFormat.format(s, aobj);
-        return s1;
+        return MessageFormat.format(s, aobj);
     }
     
     
@@ -306,8 +303,7 @@ public class GeneralString {
         Object aobj[] = {
             s1
         };
-        String s2 = MessageFormat.format(s, aobj);
-        return s2;
+        return MessageFormat.format(s, aobj);
     }
     
     
