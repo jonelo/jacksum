@@ -59,12 +59,13 @@ Go to https://jacksum.net to learn more about Jacksum.
 ## Documentation
 
 ### End users
-- Jacksum's manpage (which has many examples)
-- https://jacksum.net
+* Jacksum's manpage (which has many examples)
+* https://jacksum.net
+* Jacksum [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt)
 
 ### Developers
-- Start your investigation journey by reading net.jacksum.cli.Main and net.jacksum.JacksumAPI 
-- Download and read the javadoc jar
+* Start your investigation journey by reading net.jacksum.cli.Main and net.jacksum.JacksumAPI 
+* Download and read the javadoc jar
 
 ## License
 
