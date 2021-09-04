@@ -23,10 +23,7 @@ package net.jacksum;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.jacksum.algorithms.AbstractChecksum;
@@ -161,7 +158,7 @@ public class HashFunctionFactory {
      * Returns all available algorithms that have a particular substring.
      *
      * @param searchString the search string in order to match algorithms.
-     * @return a map that ontains two string: the algo ID and a description
+     * @return a map that contains two strings: the algo id and a description
      */
     public static Map<String, String> getAvailableAlgorithms(String searchString) {
 
@@ -172,11 +169,11 @@ public class HashFunctionFactory {
                 Constructor<?> constructor = selectorClass.getConstructor();
                 SelectorInterface selector = (Selector) constructor.newInstance();
 
-                // algoid, description
+                // algo id, description
                 Map<String, String> mapAlgos = selector.getAvailableAlgorithms();
                 for (Map.Entry<String, String> entry : mapAlgos.entrySet()) {
                     if (entry.getKey().contains(searchString)) {
-                        mapFiltered.put(entry.getKey(), entry.getValue()); // algoid, description
+                        mapFiltered.put(entry.getKey(), entry.getValue()); // algo id, description
                     }
                 }
 
@@ -185,9 +182,9 @@ public class HashFunctionFactory {
                 Map<String, String> mapAliases = selector.getAvailableAliases();
                 if (mapAliases != null) {
                     for (Map.Entry<String, String> entry : mapAliases.entrySet()) {
-                        // search only in the alias if we haven't added the algoid yet already
+                        // search only in the alias if we haven't added the algo id yet already
                         if (!mapFiltered.containsKey(entry.getValue()) && entry.getKey().contains(searchString)) {
-                            mapFiltered.put(entry.getValue(), mapAlgos.get(entry.getKey())); // algoid, description
+                            mapFiltered.put(entry.getValue(), mapAlgos.get(entry.getKey())); // algo id, description
                         }
                     }
                 }
@@ -198,6 +195,52 @@ public class HashFunctionFactory {
             }
         }
         return mapFiltered;
+    }
+
+
+    /**
+     * Returns all available aliases for all
+     * @param algorithm the algorithm name
+     * @throws NoSuchAlgorithmException if the algorithm cannot be found
+     * @return a map that contains two strings: the algo id and a description
+     */
+    public static List<String> getAvailableAliases(String algorithm) throws NoSuchAlgorithmException {
+
+        List<String> aliases = new ArrayList<>();
+        for (Class<?> selectorClass : allSupportedSelectorClasses) {
+            try {
+                Constructor<?> constructor = selectorClass.getConstructor();
+                SelectorInterface selector = (Selector) constructor.newInstance();
+
+
+                // algo id, description
+                Map<String, String> mapAlgos = selector.getAvailableAlgorithms();
+                for (Map.Entry<String, String> entry : mapAlgos.entrySet()) {
+// System.out.println(entry.getKey());
+                    if (entry.getKey().equals(algorithm)) {
+// System.out.println("we are here:"+algorithm);
+                        // Let's search in the aliases.
+                        // The map contains alias, and algo id
+                        Map<String, String> mapAliases = selector.getAvailableAliases();
+                        if (mapAliases != null) {
+                            for (Map.Entry<String, String> aliasEntry : mapAliases.entrySet()) {
+                                if (aliasEntry.getValue().equals(algorithm)) {
+                                    aliases.add(aliasEntry.getKey());
+                                }
+                            }
+                        }
+                    }
+                }
+
+            } catch (NoSuchMethodException | SecurityException | InstantiationException
+                    | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                Logger.getLogger(JacksumAPI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        return aliases;
+
+        //throw new NoSuchAlgorithmException(algorithm + " is an unknown algorithm.");
     }
 
 }

@@ -22,6 +22,7 @@ package net.jacksum;
 
 import net.jacksum.algorithms.AbstractChecksum;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Map;
 import org.n16n.sugar.util.Version;
 import net.jacksum.formats.Encoding;
@@ -187,5 +188,9 @@ public class JacksumAPI {
             boolean alternate) throws NoSuchAlgorithmException {
 
         return HashFunctionFactory.getHashFunction(algorithm, alternate);
+    }
+
+    public static List<String> getAvailableAliases(String algorithm) throws NoSuchAlgorithmException {
+        return HashFunctionFactory.getAvailableAliases(algorithm);
     }
 }
