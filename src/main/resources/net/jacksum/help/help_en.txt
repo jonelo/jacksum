@@ -5724,7 +5724,7 @@ EXAMPLES
         with the help of a template that is stored in a plain text file, not
         only the input "123456789\x0a", but also the hashes are being encoded
         as hex, base32 and base64 for both algorithms blake2s and sha3-512.
-
+\
         `jacksum -s \n -a sha1+sha1+sha3-256 -F 
         "#ALGONAME{0}/hex: #CHECKSUM{0,hex} #FILENAME{name}#SEPARATOR
          #ALGONAME{1}/base32: #CHECKSUM{1,base32} #FILENAME{name}#SEPARATOR

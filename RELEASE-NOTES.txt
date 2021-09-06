@@ -1,3 +1,9 @@
+Jacksum 3.0.1-not-yet-released
+
+- bugs fixed
+
+    - `jacksum -h examples` showed only 3 sections, now it shows all sections
+
 Jacksum 3.0.0, Sep 4, 2021
 
 - Algorithms
