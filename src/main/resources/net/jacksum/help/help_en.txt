@@ -5422,7 +5422,7 @@ EXAMPLES
         `jacksum -a all:skein --list`
         prints a list of all supported algorithm IDs that has skein in their
         names.
-        
+\
         `jacksum -a all:128 --list`
         prints a list of all supported algorithm IDs that produce a digest
         width of 128 bits.
@@ -5521,7 +5521,7 @@ EXAMPLES
         Among others it also returns the elapsed time (-V summary) which was
         necessary to calculate the MD5 Hash of the file called bigfile.iso
         by using the alternate MD5 implementation (-A).
-
+\
 \
     Calculate hashes from file lists:
 \
