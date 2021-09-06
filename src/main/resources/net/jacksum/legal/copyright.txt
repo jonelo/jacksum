@@ -21,7 +21,7 @@ The software is licensed under the GPL-3.0
 Portions of this software (e.g. net.jacksum.multicore.manyalgos) are licensed
 under the GPL-2.0 or any later version
 
-  Copyright (c) Federico Tello Gentile
+  Copyright (C) 2010 Federico Tello Gentile
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -101,7 +101,27 @@ under the GPL-2 or later with the classpath exception
   library, but you are not obligated to do so.  If you do not wish to
   do so, delete this exception statement from your version.
 
-  
+
+Portions of this software (CRC8) are licensed under the LGPL-2.1 or later version
+
+  Copyright (C) 2000,2001,2002,2003  Josh Coalson
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Library General Public
+  License as published by the Free Software Foundation; either
+  version 2 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Library General Public License for more details.
+
+  You should have received a copy of the GNU Library General Public
+  License along with this library; if not, write to the
+  Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+  Boston, MA  02111-1307, USA.
+
+
 Portions of this software (MDC2) are licensed under the LGPL-2.1 or later version
 
   Copyright (c) 2001-2010 Stefan Palme
