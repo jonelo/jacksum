@@ -36,7 +36,6 @@ public enum Encoding {
     OCT("Octal"),
     HEX("Hexadecimal (lowercase)"),
     HEX_UPPERCASE("Hexadecimal (uppercase)"),
-    HEX_CAMELCASE("Hexadecimal (camelcase)"),
     BASE16("Base16"),
     BASE32("Base32"),
     BASE32_NOPADDING("Base32 (no padding)"),

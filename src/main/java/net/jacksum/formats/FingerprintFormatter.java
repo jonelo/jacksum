@@ -81,14 +81,6 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
         GeneralString.replaceAllStrings(format, "#DIGEST", "#CHECKSUM");
     }
     
-    private static String camelCase(String string) {
-        StringBuilder sb = new StringBuilder(string.toLowerCase(Locale.US));
-        for (int i=0; i < sb.length(); i+=2) {
-            sb.setCharAt(i, String.valueOf(sb.charAt(i)).toUpperCase(Locale.US).charAt(0));
-        }
-        return sb.toString();
-    }
-
     public static String encodeBytes(byte[] bytes, Encoding encoding, int grouping, Character groupChar) {
         
         switch (encoding) {               
@@ -96,8 +88,6 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
                 return ByteSequences.format(bytes, false, grouping, groupChar);
             case HEX_UPPERCASE:
                 return ByteSequences.format(bytes, true, grouping, groupChar);
-            case HEX_CAMELCASE:
-                return camelCase(ByteSequences.format(bytes, false, grouping, groupChar));
             case BASE16:
                 return ByteSequences.format(bytes, true, 0, groupChar);
             case BASE32:
