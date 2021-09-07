@@ -175,7 +175,7 @@ public class Help {
                     foundAtLeastOneSection = true;
                 }
                 if (!foundAtLeastOneSection) {
-                    System.err.printf("Your search \"%s\" did not match any section in the help.", search);
+                    System.err.printf("Your search \"%s\" did not match any section in the help.\n", search);
                 }
 
             } // end-if
