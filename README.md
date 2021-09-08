@@ -64,6 +64,7 @@ Go to [https://jacksum.net](https://jacksum.net) to learn more about Jacksum.
 * Jacksum [Dowload](https://github.com/jonelo/jacksum/releases) (compiled binary)
 * Jacksum [Manpage](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/help/help_en.txt) (with many examples)
 * Jacksum [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) (2002-2021)
+* Jacksum [Wiki](https://github.com/jonelo/jacksum/wiki)
 
 ### Developers
 
