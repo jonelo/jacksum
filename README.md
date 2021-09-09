@@ -4,7 +4,7 @@
 
 **Jacksum** (JAva ChecKSUM) is a free and cross platform data integrity software tool.
 
-It takes advantage of modern **multi-processor/multi-core** environments for **parallel computation and verification of hashes**, resp. checksum, CRCs, or message digests.
+It takes advantage of modern **multi-processor/multi-core** environments for **parallel computation and verification of hashes**, resp. checksums, CRCs, and message digests.
 
 It is also able to **find files** that matches a hash and **find algorithms** using brute force.
 
@@ -23,13 +23,13 @@ Jacksum is both a **command line tool**, and a **library**. It can be integrated
 
 ### How to configure and install it
 
-Open a new terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
+Open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
 
 ```
 java -jar jacksum-3.0.0.jar
 ```
 
-I recommend to adjust the Windows batch file (jacksum.bat) resp. the GNU/Linux/Unix script (jacksum) and add it to your PATH. You find more instructions in those files.
+I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and macOS, and add it to your PATH. You find more instructions in those files.
 
 ### Examples of how to use it
 
@@ -120,6 +120,12 @@ See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum
 
 * [Jacksum File Browser Integration for GNU/Linux](https://github.com/jonelo/jacksum-fbi-linux)
 * [Jacksum File Browser Integration for macOS](https://github.com/jonelo/jacksum-fbi-osx)
+
+## Products that are powered by Jacksum
+
+Create an [issue on github](https://github.com/jonelo/jacksum/issues) and let me know that you use Jacksum for your product if you want to be listed here.
+
+- NumericalChameleon, see http://www.numericalchameleon.net
 
 ## License
 
