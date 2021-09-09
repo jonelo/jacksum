@@ -1,3 +1,9 @@
+![GitHub issues](https://img.shields.io/github/issues-raw/jonelo/jacksum?color=blue)
+![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/jonelo/jacksum?color=blue)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/jonelo/jacksum?color=green)
+![GitHub](https://img.shields.io/github/license/jonelo/jacksum?color=green)
+![GitHub top language](https://img.shields.io/github/languages/top/jonelo/jacksum?color=green)
+
 # Jacksum v3
 
 ## Abstract
