@@ -56,7 +56,7 @@ public class JacksumAPI {
     public final static String URI = "https://jacksum.net";
 
     /**
-     * The Copyrigth of the program
+     * The Copyright of the program
      */
     public final static String COPYRIGHT = "Copyright (C) 2001-2021, Dipl.-Inf. (FH) Johann N. Loefflmann";
 
