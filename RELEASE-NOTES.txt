@@ -4,6 +4,7 @@ Jacksum 3.0.1-not-yet-released
 
     - `jacksum -h examples` showed only 3 sections, now it shows all sections
     - removed the lab-remnant hex-camelcase from the code
+    - typo in compat files linux and openssl which results in wrong stdin names
 
 Jacksum 3.0.0, Sep 4, 2021
 
