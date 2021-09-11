@@ -12,9 +12,9 @@
 
 It takes advantage of modern **multi-processor/multi-core** environments for **parallel computation and verification of hashes**, resp. checksums, CRCs, and message digests.
 
-It is also able to **find files** that matches a hash and **find algorithms** using brute force.
-
 Jacksum supports tons of useful features and **470 algorithms**.
+
+Jacksum is able to **find files that matches a hash value** and it can **find an algorithm to a hash value** using brute force.
 
 Jacksum is both a **command line tool**, and a **library**. It can be integrated in your file browser.
 
