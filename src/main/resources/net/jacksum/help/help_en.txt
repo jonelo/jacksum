@@ -172,18 +172,22 @@ DESCRIPTION
         OpenJDK is recommended.
 
 
+PARAMETERS
+\
     The following parameters are supported:
-#PARAMS-BEGIN
+#PARAMETERS-BEGIN
     files and directories
             names of files and directories. You can specify as many files and
             directories as you like. Wildcards are supported, but they depend
             on the shell that you are using. With no parameters Jacksum reads
-            from the standard input.
+            from the standard input in the hash calculation mode.
             Starting with Jacksum 3.0.0 the recursive mode is enabled by default
             for directories, and you can control the depth with the -r option.
             Bytes are read from the standard input in binary mode.
-#PARAMS-END
+#PARAMETERS-END
 
+OPTIONS
+\
     The following options are supported:
 #OPTIONS-BEGIN
     -a <algo> | all[:<width>|:<string>] | crc:<crc> | unknown:<width> 
@@ -1097,11 +1101,11 @@ DESCRIPTION
             jacksum -- -
             Available since Jacksum 3.0.0
 
-
 #OPTIONS-END
-
+ALGORITHMS
+\
     The following algorithms are supported:
-#ALGOS-BEGIN
+#ALGORITHMS-BEGIN
     adler32, adler-32
             algorithm:  
                 Adler-32
@@ -5350,8 +5354,9 @@ DESCRIPTION
                 org.apache.commons.codec.digest.XXHash32
 
 
-#ALGOS-END
-
+#ALGORITHMS-END
+OUTPUT FORMAT
+\
     The output format of Jacksum:
 \
             If you don't specify a customized format with option -F,
@@ -5573,12 +5578,31 @@ EXAMPLES
 \
     Check/verify hashes:
 \
-        `jacksum -a blake3+ -E base64 -t iso8601 -c hashes.list data`
-        verifies all checksums stored in a file called list.hashes. You have to
+        `jacksum301 -a sha256 -E hex -e
+            5fdebc435ded46ae99136ca875afc6f05bde217be7dd018e1841924f71db46b5
+            ubuntu-20.04.3-desktop-amd64.iso`
+        checks the Ubuntu iso in the current working directory with an expected
+        SHA256, hexadecimal message digest.
+\
+        `echo "5fdebc435ded46ae99136ca875afc6f05bde217be7dd018e1841924f71db46b5 *ubuntu-20.04.3-desktop-amd64.iso"
+            | jacksum -a sha256 -C linux --check-file -`
+        checks the SHA256 message digest for the ubuntu iso on GNU/Linux
+\
+        `echo 5fdebc435ded46ae99136ca875afc6f05bde217be7dd018e1841924f71db46b5 *ubuntu-20.04.3-desktop-amd64.iso|
+            jacksum -a sha256 -C linux --check-file -`
+        checks the SHA256 message digest for the ubuntu iso on Microsoft Windows.
+        Note that you have to remove the quotes and the blanks, otherwise
+        the echo command will pass those characters to the pipe.
+\
+        `jacksum -a blake3+ -E base64 -t iso8601 -c hashes.list`
+        verifies all checksums stored in a file called hashes.list. You have to
         specify -a blake3+ and -E hex, because Blake3 was the algorithm, and hex
         was the encoding that was used when the hashes.list was generated.
 \
-        `jacksum -C bsd -a sha3-256 -c hashes.list .`
+        `jacksum -a blake3+ -E base64 -t iso8601 -c hashes.list data`
+        same as above, but the data folder will be searched for new files as well.
+\
+        `jacksum -C bsd -a sha3-256 -c bsd-hashes.list .`
         checks the integrity of the sha3-256 hashes for all filenames stored in
         the hashes.list, and it also finds all new files that are being stored
         anywhere in the directory tree below the current working directory.

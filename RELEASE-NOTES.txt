@@ -1,10 +1,16 @@
 Jacksum 3.0.1-not-yet-released
 
+- added minor features
+
+    - 'jacksum -h parameters', 'jacksum -h options', and 'jacksum -h algorithms'
+       show the corresponding section entirely
+
 - bugs fixed
 
     - `jacksum -h examples` showed only 3 sections, now it shows all sections
     - removed the lab-remnant hex-camelcase from the code
     - typo in compat files linux and openssl which results in wrong stdin names
+
 
 Jacksum 3.0.0, Sep 4, 2021
 
@@ -76,8 +82,7 @@ Jacksum 3.0.0, Sep 4, 2021
     - added multi processor/multi core support for parallel hashing of many algorithms
       Thanks to Federico Tello Gentile, Argentina for both the feature request
       and the implementation
-    - TODO: the concurrent implementations can also be disabled on demand
-	  
+
   bug fixes
     - change request: for the CrcGeneric update method: moved an if-condition outside the loop
     - change request: inline the update method for the loops

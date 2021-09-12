@@ -109,6 +109,7 @@ public class Help {
                 // print out the entire help
                 while ((line = br.readLine()) != null) {
                     if (line.startsWith("\\") || line.startsWith("#")) {
+                        // those lines are treated as empty lines
                         System.out.println();
                     } else {
                         System.out.println(line);
@@ -116,20 +117,32 @@ public class Help {
                 }
             } else {
                 boolean foundAtLeastOneSection = false; // we have found at least one match
+                boolean blockOutput = false;
                 // print out only the block which matches the search
-                StringBuilder sb = new StringBuilder();
+                StringBuilder buffer = new StringBuilder();
                 boolean found = false;
                 boolean inSearchableSection = false;
                 while ((line = br.readLine()) != null) {
 
-                    boolean emptyString = line.trim().length() == 0;
+                    boolean startOfAnewBlock = line.trim().length() == 0;
 
                     if (line.startsWith("#") && line.endsWith("-BEGIN")) {
                         inSearchableSection = true;
-                        emptyString = true;
+                        startOfAnewBlock = true;
+
+                        // e.g. jacksum -h options
+                        if (found && line.startsWith("#"+search.toUpperCase(Locale.US))) {
+                            startOfAnewBlock = false;
+                            blockOutput = true;
+                        }
                     } else if (line.startsWith("#") && line.endsWith("-END")) {
                         inSearchableSection = false;
-                        emptyString = true;
+                        startOfAnewBlock = true;
+
+                        if (found && line.startsWith("#"+search.toUpperCase(Locale.US))) {
+                            blockOutput = false;
+                        }
+
                     }
 
                     // One backslash at pos 1 indicates that it belongs
@@ -138,17 +151,17 @@ public class Help {
                         line = "";
                     }
 
-                    if (!emptyString) {
+                    //if (!startOfAnewBlock) {
                         // put the current line to buffer
-                        sb.append(line);
-                        sb.append('\n');
-                    }
+                        buffer.append(line);
+                        buffer.append('\n');
+                    //}
 
                     if (!found
                             && // e. g. jacksum -h -a
-                            (inSearchableSection
+                            ((inSearchableSection
                             && line.substring(0, Math.min(12, line.length())).trim().length() > 0
-                            && line.trim().startsWith(search)
+                            && line.trim().startsWith(search))
                             // e. g. jacksum -h examples
                             || (line.toLowerCase(Locale.US).startsWith(search.toLowerCase(Locale.US))))) {
                         found = true;
@@ -156,22 +169,22 @@ public class Help {
 
                     // an empty line indicates the start of a new block
                     // that means, we must print out the buffer
-                    if (emptyString) {
+                    if (startOfAnewBlock && !blockOutput) {
                         // put out the buffer that has been filled with lines
-                        if (found && sb.length() > 0) {
-                            System.out.println(sb);
+                        if (found && buffer.length() > 0) {
+                            System.out.print(buffer);
                             foundAtLeastOneSection = true;
                         }
                         // new chance again
                         found = false;
                         // clear the buffer
-                        sb.delete(0, sb.length());
+                        buffer.delete(0, buffer.length());
                     }
 
                 } // end-while
                 // is there still something in the buffer?
-                if (found && sb.length() > 0) {
-                    System.out.println(sb);
+                if (found && buffer.length() > 0) {
+                    System.out.print(buffer);
                     foundAtLeastOneSection = true;
                 }
                 if (!foundAtLeastOneSection) {
