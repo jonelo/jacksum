@@ -12,9 +12,9 @@
 
 It takes advantage of modern **multi-processor/multi-core** environments for **parallel computation and verification of hashes**, resp. checksums, CRCs, and message digests.
 
-It is also able to **find files** that matches a hash and **find algorithms** using brute force.
-
 Jacksum supports tons of useful features and **470 algorithms**.
+
+Jacksum is able to **find files that matches a hash value** and it can **find an algorithm to a hash value** using brute force.
 
 Jacksum is both a **command line tool**, and a **library**. It can be integrated in your file browser.
 
@@ -115,7 +115,7 @@ See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum
 ## Documentation
 
 * Jacksum [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) (2002-2021)
-* Jacksum [Manpage](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/help/help_en.txt) (with many examples)
+* Jacksum [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (with many examples)
 * Jacksum [Wiki](https://github.com/jonelo/jacksum/wiki)
 * Jacksum [Source Code](https://github.com/jonelo/jacksum) (on github, mavenized with a pom.xml and an IntelliJ .idea config)
   * Start your investigation journey by reading [net.jacksum.cli.Main](https://github.com/jonelo/jacksum/blob/main/src/main/java/net/jacksum/cli/Main.java) and [net.jacksum.JacksumAPI](https://github.com/jonelo/jacksum/blob/main/src/main/java/net/jacksum/JacksumAPI.java)
