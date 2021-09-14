@@ -58,7 +58,7 @@ See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum
   - Broken cryptographic hash functions for education and backwards compatibility purposes: HAVAL-128-[3,4,5], MD2, MD4, MD5, MDC2, PANAMA, RIPEMD-128, SHA-0, SHA-1, Tiger, Tiger/128, Tiger/160, Whirpool-0, Whirlpool-T
   - Checksums that can be found in software products and operating systems: Adler-32, cksum (Minix), cksum (Unix), ELF (Unix), Fletcher's Checksum, FNV-0_[32,64,128,256,512,1024], FNV-1_[32,64,128,256,512,1024], FNV-1a_[32,64,128,256,512,1024], joaat, sum (BSD Unix), sum (Minix), sum (System V Unix), sum [8,16,24,32,40,48,56], xor8, XXH32
   - CRCs that are being used in many software products and protocols: CRC-8 (FLAC), CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16, CRC-24 (OpenPGP), CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32 (UBICRC32), CRC-32 (PHP's crc32), CRC-64 (ISO 3309), CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO), CRC-64 (.xz and prog lang GO, const ECMA)
-  - for a full detail list, go to 
+  - for a full detail list, go to https://github.com/jonelo/jacksum/wiki/Supported-Algorithms
 
 - Multi-Core/Multi Processor Support
   - Process hash calculation and hash verification simultaneously in multi-processor/multi core environments
