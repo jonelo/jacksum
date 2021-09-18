@@ -125,7 +125,7 @@ See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum
 ## Integration
 
 * [Jacksum File Browser Integration for GNU/Linux](https://github.com/jonelo/jacksum-fbi-linux)
-* [Jacksum File Browser Integration for macOS](https://github.com/jonelo/jacksum-fbi-osx)
+* [Jacksum File Browser Integration for macOS](https://github.com/jonelo/jacksum-fbi-macos)
 
 ## Products that are powered by Jacksum
 
