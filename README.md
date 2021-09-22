@@ -118,14 +118,21 @@ See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum
   - Find the algorithm that was used to calculate a checksum/CRC/hash
   - Find all files that match a given hash value (find duplicates of a file)
 
-- Multi-Platform Support
-  - Microsoft Windows 10
-  - GNU/Linux (e.g Ubuntu)
-  - Unix (e.g. macOS)
-  - any other operating system with a Java Runtime Environment (JRE) or Java Development Kit (JDK)
+- Multi-Platform Support without recompilation
+  - Operating Systems
+    - Microsoft Windows (e.g. Microsoft Windows 10)
+    - GNU/Linux (e.g. Ubuntu)
+    - Unix (e.g. macOS)
+  - Supported architectures are dependent on the JDK
+    - x86 64 bit (x64)
+    - x86 32 bit
+    - ARM 64 bit (AArch64, resp. M1)
+    - ARM 32 bit (AArch32)
+    - PPC 64 bit
+  - any other operating system or architecture with an OpenJDK compatible Java Runtime Environment (JRE) or Java Development Kit (JDK)
 
 - Interaction with other Tools
-  - Works with the SendTo-feature on many file browsers (e. g. macOS Finder, Microsoft Windows Explorer, Gnome Nautilus, KDE Konqueror, ROX Filer, etc.)
+  - Works with the SendTo-feature on many file browsers (e.g. macOS Finder, Microsoft Windows Explorer, Gnome Nautilus, KDE Konqueror, ROX Filer, etc.)
   - As it has a command line interface, Jacksum can be used in cronjobs and autostart environments
   - Jacksum returns an exit status which is dependent on the result of the calculation/verification process, so you can use Jacksum in scripts and batches and control the code flow in your own scripts
   - Use predefined compatibility files to read and write popular 3rd party format styles in order to interact with other tools (GNU/Linux, BSD, SFV, FCIV, openssl, etc.)
