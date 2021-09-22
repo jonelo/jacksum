@@ -132,7 +132,7 @@ See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum
 
 ## Contribution
 
-* File [support requests, change requests, bug reports and feature requests on github](https://github.com/jonelo/jacksum/issues)
+* File [support requests, change requests, bug reports and feature requests on GitHub](https://github.com/jonelo/jacksum/issues)
 
 ## Documentation
 
