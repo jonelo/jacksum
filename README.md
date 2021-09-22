@@ -22,8 +22,30 @@ Jacksum is both a **command line tool**, and a **library**. It can be integrated
 ## System Requirement
 
 - GNU/Linux, Microsoft Windows, or macOS
-- JDK 11 or later, see also https://adoptium.net
+- JDK 11 or later
 - 2 MiB disk space
+
+<details>
+<summary>Details:</summary>
+
+- To download the (Open)JDK 11 or later, you can go to any vendor that provides OpenJDK compatible builds, LTS (long term support) releases are recommended, examples are
+  - https://adoptium.net
+  - https://openjdk.java.net/
+  - https://www.azul.com/downloads/?package=jdk
+  - https://bell-sw.com/pages/downloads/
+  - https://www.microsoft.com/openjdk
+  - https://aws.amazon.com/de/corretto/
+- Supported architectures are dependent on the OS and the JDK vendor:
+  - x86 64 bit (x64)
+  - x86 32 bit
+  - ARM 64 bit (AArch64, resp. M1)
+  - ARM 32 bit (AArch32)
+  - PPC 64 bit
+- a GitHub user have had success to run Jacksum without modification even on a smartphone running Android on ARM 64 bit, see also https://github.com/jonelo/jacksum/issues/7
+- GNU/Linux is the correct term to refer to "Linux", see also https://www.gnu.org/gnu/linux-and-gnu.en.html
+- actual RAM requirement is dependent on the OS, the architecture, the JDK, the JRE's (default) garbage collector settings and usage. Tests have shown that Jacksum feels pretty comfortable with 512 MiB Java heap on a x64 Windows 10 system for example while verifying millions of files of all sizes (0 bytes to several GiB).
+
+</details>
 
 ## Quick Start
 
