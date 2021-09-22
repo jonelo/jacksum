@@ -35,6 +35,7 @@ Jacksum is both a **command line tool**, and a **library**. It can be integrated
   - https://bell-sw.com/pages/downloads/
   - https://www.microsoft.com/openjdk
   - https://aws.amazon.com/de/corretto/
+  - https://github.com/alibaba/dragonwell8
 - Supported architectures are dependent on the OS and the JDK vendor:
   - x86 64 bit (x64)
   - x86 32 bit
