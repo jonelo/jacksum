@@ -19,7 +19,7 @@ Jacksum is able to **find files that matches a hash value** and it can **find an
 Jacksum is both a **command line tool**, and a **library**. It can be integrated in your file browser.
 
 
-## System Requirement
+## System Requirements
 
 - GNU/Linux, Microsoft Windows, or macOS
 - JDK 11 or later
