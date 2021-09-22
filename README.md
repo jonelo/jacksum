@@ -39,10 +39,10 @@ Jacksum is both a **command line tool**, and a **library**. It can be integrated
   - https://github.com/alibaba/dragonwell8
 - Supported architectures are dependent on the OS and the JDK vendor:
   - x86 64 bit (x64)
-  - x86 32 bit
+  - x86 32 bit (x86)
   - ARM 64 bit (AArch64, resp. M1)
   - ARM 32 bit (AArch32)
-  - PPC 64 bit
+  - PPC 64 bit (ppc64)
 - a GitHub user have had success to run Jacksum without modification even on a smartphone running Android on ARM 64 bit, see also https://github.com/jonelo/jacksum/issues/7
 - GNU/Linux is the correct term to refer to "Linux", see also https://www.gnu.org/gnu/linux-and-gnu.en.html
 - actual RAM requirement is dependent on the OS, the architecture, the JDK, the JRE's (default) garbage collector settings and usage. Tests have shown that Jacksum feels pretty comfortable with 512 MiB Java heap on a x64 Windows 10 system for example while verifying millions of files of all sizes (0 bytes to several GiB).
@@ -127,10 +127,10 @@ See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum
     - Unix (e.g. macOS)
   - Supported architectures are dependent on the JDK
     - x86 64 bit (x64)
-    - x86 32 bit
+    - x86 32 bit (x86)
     - ARM 64 bit (AArch64, resp. M1)
     - ARM 32 bit (AArch32)
-    - PPC 64 bit
+    - PPC 64 bit (ppc64)
   - any other operating system or architecture with an OpenJDK compatible Java Runtime Environment (JRE) or Java Development Kit (JDK)
 
 - Interaction with other Tools
