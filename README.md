@@ -10,7 +10,7 @@
 
 **Jacksum** (JAva ChecKSUM) is a free and cross platform data integrity software tool.
 
-It takes advantage of modern **multi-processor/multi-core** environments for **parallel computation and verification of hashes**, resp. checksums, CRCs, and message digests.
+It takes advantage of modern **multi-processor/multi-core** environments for **parallel computation and verification of hash values**, resp. checksums, CRCs, and message digests.
 
 Jacksum supports tons of useful features and **470 algorithms**.
 
