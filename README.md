@@ -30,12 +30,12 @@ Jacksum is both a **command line tool**, and a **library**. It can be integrated
 
 - To download the (Open)JDK 11 or later, you can go to any vendor that provides OpenJDK compatible builds, LTS (long term support) releases are recommended, examples are
   - https://adoptium.net
-  - https://openjdk.java.net/
+  - https://openjdk.java.net
   - https://www.azul.com/downloads/?package=jdk
   - https://bell-sw.com/pages/downloads/
-  - https://www.microsoft.com/openjdk
+  - https://www.microsoft.com/openjdk/
   - https://aws.amazon.com/de/corretto/
-  - https://sap.github.io/SapMachine/
+  - https://sapmachine.io
   - https://github.com/alibaba/dragonwell8
 - Supported architectures are dependent on the OS and the JDK vendor:
   - x86 64 bit (x64)
