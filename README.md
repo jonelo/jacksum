@@ -73,7 +73,7 @@ See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum
 ## Features
 
 - Jacksum supports 470 algorithms including
-  - National standards of cryptographic hash functions: SHA-1, SHA-[224,256,384,512], SHA-512/[224,256] (USA, NIST FIPS 180-4); SHA3-[224,256,384,512], SHAKE[128,256] (USA (NIST FIPS 202); GOST, GOST Crypto-Pro (Russia, GOST R 34.11-94); Streebog-[256,512] (Russia, GOST R 34.11-2012); SM3 (China); Kupyna[256,384,512] (Ukraine, DSTU 7564:2014); LSH-256-[224,256], LSH-512-[224,256,384,512] (South Korea, KS X 3262); HAS-160 (KISA, South Korea)
+  - National and international standards of cryptographic hash functions: SHA-1, SHA-[224,256,384,512], SHA-512/[224,256] (USA, NIST FIPS 180-4); SHA3-[224,256,384,512], SHAKE[128,256] (USA (NIST FIPS 202); GOST, GOST Crypto-Pro (Russia, GOST R 34.11-94); Streebog-[256,512] (Russia, GOST R 34.11-2012); SM3 (China); Kupyna[256,384,512] (Ukraine, DSTU 7564:2014); LSH-256-[224,256], LSH-512-[224,256,384,512] (South Korea, KS X 3262); HAS-160 (KISA, South Korea)
   - All 5 candidates from round 3 the NIST SHA-3 competition (2007-2012): BLAKE-[224,256,348,512], Groestl-[224,256,384,512], JH[224,256,284,512], Keccak[224,256,384,512], Skein-256-[8..256], Skein-512-[8..512], Skein-1024-[8..1024]
   - 3 candidates from round 2 of the NIST SHA-3 competition (2007-2012): ECHO-[224,256,348,512], Fugue-[224,256,348,512], Luffa-[224,256,348,512]
   - Proposals from the 2005 NIST workshops before the SHA-3 competition: DHA-256, FORK-256, VSH-1024
@@ -84,8 +84,8 @@ See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum
   - CRCs that are being used in many software products and protocols: CRC-8 (FLAC), CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16, CRC-24 (OpenPGP), CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32 (UBICRC32), CRC-32 (PHP's crc32), CRC-64 (ISO 3309), CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO), CRC-64 (.xz and prog lang GO, const ECMA)
   - for a full detail list, go to https://github.com/jonelo/jacksum/wiki/Supported-Algorithms
 
-- Multi-Core/Multi Processor Support
-  - Process hash calculation and hash verification simultaneously in multi-processor/multi core environments
+- Multi-core system/multi-CPU support
+  - Process hash calculation and hash verification simultaneously on multi-core systems/multi-CPU systems
   - Works well if you have many cores, and many hundreds, thousands or millions of files to process and/or
   - Works well if you have selected more than one algorithm
 
