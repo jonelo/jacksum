@@ -217,7 +217,7 @@ OPTIONS
             Several algorithms, filtered by bit width (-a all:<width>)
                 In order to use all algorithms that have a particular bit-
                 length, you can use "-a all:<width>" where <width> has to be a
-                muliple of 8 such as "all:224", "all:256", "all:888", "all:1024"
+                multiple of 8 such as "all:224", "all:256", "all:888", "all:1024"
                 Available since Jacksum 3.0.0
 \
             Several algorithms, filtered by a string (-a all:<string>)
@@ -347,7 +347,7 @@ OPTIONS
 \
             If at least one mismatch is found during checksum verification, 
             the program returns an error code of 1.
-            If at least one error is found duing the process, the program
+            If at least one error is found during the process, the program
             returns an error code greater than 1.
             Improperly formatted lines are ignored with respect to the exit code
             unless you set --check-strict.
@@ -368,22 +368,22 @@ OPTIONS
 
 
     -C <compatibility>
-    --compat <compatibilty>
-            Specifies the compatibilty behavior of Jacksum for both input format
+    --compat <compatibility>
+            Specifies the compatibility behavior of Jacksum for both input format
             and output format. Replace <compatibility> with one of the
             predefined keywords bsd, fciv, linux, sfv, openssl in order
             to get a predefined behavior or replace it with a file that contains
-            the properties that are required for a compatibilty file. To get
+            the properties that are required for a compatibility file. To get
             the properties of one of the predefined compatibility files, add
             the option --info. Example: `jacksum -C bsd --info`
             <compatibility> can be used for the hashing mode, the check mode
             and the info mode.
 \
             hash mode:
-                During normal hashing of files/messages the <compatibilty>
-                determines the acutal output format only. The algorithm
+                During normal hashing of files/messages the <compatibility>
+                determines the actual output format only. The algorithm
                 (--algorithm), the encoding of the hash (--encoding), and the
-                format (--format) will be used ad defined in <compatibilty>.
+                format (--format) will be used ad defined in <compatibility>.
                 If <compatibility> supports the algorithm to be specified by the
                 user you can set -a to get the expected output format defined
                 in <compatibility> but with the algorithm you want. For example,
@@ -415,7 +415,7 @@ OPTIONS
                 of the compatibility file are being printed out.
 \
 \
-            For <compatibilty> the following predefined compatibility files
+            For <compatibility> the following predefined compatibility files
             are supported:
 \
                 bsd
@@ -641,7 +641,7 @@ OPTIONS
                 #ALGONAME{<i>,uppercase} like #ALGONAME{i}, but the name of the
                                          algorithm appears in uppercase. (3.0)
                 #HASH                    will be replaced by the hash, CRC or
-                                         checkum value (depends on the
+                                         checksum value (depends on the
                                          options -a, -g, -G, -x, -X)
                 #HASH{<encoding>}        The token will be replaced with the
                                          encoded checksum. Replace <encoding>
@@ -754,7 +754,7 @@ OPTIONS
             Enables the list view.
             If option -a is set, it lists the IDs of the algorithms only.
             If option -c and --list-filter is set, it lists the filenames only
-            without the status OK, FAILD, MISSING or NEW.
+            without the status OK, FAILED, MISSING or NEW.
 
 
     --list-filter <filter>
@@ -847,8 +847,8 @@ OPTIONS
             Available since Jacksum 1.5.0, see also -F
 
 
-    -q [type:]seqence
-    --quick [type:]seqence
+    -q [type:]sequence
+    --quick [type:]sequence
             process a sequence quickly and quit the program. The type can be
             used to specify the type of the sequence (text, formatted text,
             binary, hexadecimal or decimal). If type is not set, the sequence is
@@ -982,7 +982,7 @@ OPTIONS
             have elapsed since midnight (UTC), 1 January 1970).
             Available since Jacksum 3.0.0
 \
-            If form has been set to "iso8601", timestamps are being formated
+            If form has been set to "iso8601", timestamps are being formatted
             by "yyyy-MM-dd'T'HH:mm:ss.SSSXXX" in order to be compatible with
             ISO 8601.
 \
@@ -1069,7 +1069,7 @@ OPTIONS
             If you set option --version , <control set> ist set to none.
             If you set option --info, <control set> is set to default again.
             Available since Jacksum 1.6.0
-            The keywoards all and none are available since Jacksum 3.0.0
+            The keywords all and none are available since Jacksum 3.0.0
 
 
     -x
@@ -1751,7 +1751,7 @@ ALGORITHMS
                 The default encoding is decimal.
 \
             compatibility:
-                - 7z:              -
+                - 7z:               -
                 - Angstrom:         -
                 - BeOS:             -
                 - CentOS:           -
@@ -1968,7 +1968,7 @@ ALGORITHMS
 
     crc64_go-iso, crc-64_go-iso
             algorithm:
-                CRC-64 (programming langugae GO, const ISO)
+                CRC-64 (programming language GO, const ISO)
             length:
                 64 Bits
             type:
@@ -2087,7 +2087,7 @@ ALGORITHMS
                 2008
             broken:
                 no
-            wbesite:
+            website:
                 https://crypto.orange-labs.fr/ECHO/
 \
             comment:
@@ -2390,7 +2390,7 @@ ALGORITHMS
                 Published in 1994 as the Soviet Standard GOST R-34.11-94.
                 The default encoding is hexadecimal.
                 The hash function is based on the GOST block cipher
-                GOST 28147-89. If you don't specify init or if you set initto
+                GOST 28147-89. If you don't specify init or if you set init to
                 "default" it will initialize the underlying cipher with the
                 default S-boxes as also described in RFC 5831 (March 2010).
                 If you set init to "crypto-pro" it will initialize the cipher
@@ -2462,7 +2462,7 @@ ALGORITHMS
 
 
     has160, has-160
-            algoritm:
+            algorithm:
                 HAS-160
             length:
                 160 bits
@@ -2550,7 +2550,7 @@ ALGORITHMS
                 01/2011
             broken:
                 no
-            wbesite:
+            website:
                 https://www3.ntu.edu.sg/home/wuhj/research/jh/
 \
             comment:
@@ -3052,7 +3052,7 @@ ALGORITHMS
             comment:
                 The MDC2 (Modification Detection Code 2) algorithm is specified
                 in the ANSI X9.31 and ISO/IEC 10118-2 standards. It works in
-                conjunction with a block clipher (DES). OpenSSL can be
+                conjunction with a block cipher (DES). OpenSSL can be
                 configured to support MDC2. MDC2 is also used by the HBCI
                 (Home Banking Computer Interface). The U.S. Patent 4,908,861
                 submitted by IBM, expired on August 28, 2007. The default
@@ -4020,7 +4020,7 @@ ALGORITHMS
                 the winner. However, in 2014 NIST made slight changes to the
                 Keccak proposal, and published FIPS 202. FIPS specifies
                 the new SHA-3 family of permutation-based hash functions that
-                were published as a stardard on August 5, 2015. Note that only
+                were published as a standard on August 5, 2015. Note that only
                 the four fixed-length SHA-3 algorithms are NIST approved hash
                 algorithms: SHA3-224, SHA3-256, SHA3-384, and SHA3-512.
 \
@@ -4084,7 +4084,7 @@ ALGORITHMS
                 announced as the winner. However, in 2014 NIST made slight
                 changes to the Keccak proposal, and published FIPS 202. FIPS
                 specifies the new SHA-3 family of permutation-based hash
-                functions that were published as a stardard on August 5, 2015.
+                functions that were published as a standard on August 5, 2015.
                 Note that only the four fixed-length SHA-3 algorithms are NIST
                 approved hash algorithms: SHA3-224, SHA3-256, SHA3-384,
                 and SHA3-512.
@@ -4149,7 +4149,7 @@ ALGORITHMS
                 the winner. However, in 2014 NIST made slight changes to the
                 Keccak proposal, and published FIPS 202. FIPS specifies
                 the new SHA-3 family of permutation-based hash functions that
-                were published as a stardard on August 5, 2015. Note that only
+                were published as a standard on August 5, 2015. Note that only
                 the four fixed-length SHA-3 algorithms are NIST approved
                 hash algorithms: SHA3-224, SHA3-256, SHA3-384, and SHA3-512.
 \
@@ -4676,7 +4676,7 @@ ALGORITHMS
             comment:
                 SM3 is a cryptographic hash function used in the "Chinese
                 National Standard". It was published by the State Cryptography
-                Administration on Deceber 17, 2010 as GM/T 0004-2012.
+                Administration on December 17, 2010 as GM/T 0004-2012.
 \
             compatibility:
                 - 7z:              -
@@ -5378,7 +5378,7 @@ OUTPUT FORMAT
 
 
 EXIT STATUS
-    0  - everthing is OK
+    0  - everything is OK
     1  - there was at least one mismatch during the verification process
     >1 - in case of a parameter-, .jacksum- or I/O-error
 
@@ -5449,7 +5449,7 @@ EXAMPLES
         `echo -n "Hello World" | jacksum -V summary -`
         Calculates a SHA3-256 hash (default) from standard input stream (stdin).
         Enabling the option `--verbose summary` or `-V summary` make sense in
-        some cases, because it will show how many bytes have been read acutally.
+        some cases, because it will show how many bytes have been read actually.
         Note: the echo command could behave on your platform/environment
         completely different!
         A more platform independent way is to use the -q option.
@@ -5461,7 +5461,7 @@ EXAMPLES
 \
         `jacksum -a md5 -`
         Calculates the MD5 hash from input that is entered in the terminal.        
-        Hit Ctrl+Z on GNU/Linux and macoOS, and Ctrl+D on Windows to end the
+        Hit Ctrl+Z on GNU/Linux and macOS, and Ctrl+D on Windows to end the
         input.
 \
         `cat fat.iso | jacksum -`
@@ -5478,7 +5478,7 @@ EXAMPLES
         calculates a 32-bit CRC of the text "Hello World!". In GNU/Linux 
         shells such as bash you have to enclose characters in single quotes
         rather than double quotes in order to preserve the literal value of each
-        character whithin the quotes. On Windows you can use double quotes.
+        character within the quotes. On Windows you can use double quotes.
 \
         `jacksum -q txtf:"Hallo Welt\r\n"`
         Returns the SHA3-256 (default) of the input "Hallo Welt\r\n",
@@ -5569,7 +5569,7 @@ EXAMPLES
         and it's sub folders, and stores output to hashes.list. Hashes are
         stored in base64 format. Since the + has been used, filesizes are also
         stored to hashes.list, and since the -t iso8601 has been used,
-        timestamps are also sotred to hashes.list.
+        timestamps are also stored to hashes.list.
 \
         `jacksum -a sm3 -E base64 -o hashes.txt -C linux *.txt`
         calculates the SM3 hashes in base64 encoding for all txt-files
@@ -5609,7 +5609,7 @@ EXAMPLES
 \
         `jacksum -c my.hashes -a sha3-256 -E hex --list --list-filter bad 
              --verbose nosummary`
-        lists only filnames for bad files (failed or missing).
+        lists filenames for bad files (failed or missing) only.
 \
 \
     Customize the output:
@@ -5716,7 +5716,7 @@ EXAMPLES
         `jacksum -a all --list` however
 \
         `jacksum -a all:224 -q txt: -F "#ALGONAME{i}"`
-        returns all supported algorithm IDs that hava a bit-length of 224 only
+        returns all supported algorithm IDs that have a bit-length of 224 only
         a more elegant way is to type `jacksum -a all:224 --list`however
 \
         `jacksum -a crc32+md5+sha1 -F

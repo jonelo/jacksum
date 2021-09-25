@@ -8,6 +8,7 @@ Jacksum 3.0.1-not-yet-released
 - bugs fixed
 
     - `jacksum -h examples` showed only 3 sections, now it shows all sections
+    - fixed some typos in the help file
     - removed the lab-remnant hex-camelcase from the code
     - typo in compat files linux and openssl which results in wrong stdin names
 
