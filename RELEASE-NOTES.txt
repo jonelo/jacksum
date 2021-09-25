@@ -25,11 +25,11 @@ Jacksum 3.0.0, Sep 4, 2021
       * SHA3-224, SHA3-256, SHA3-384, SHA3-512 provided by the OpenJDK 9+ resp.
         by bouncycastle (bc) as an alternative implementation or if Java < 9 is being used
 	  * SHAKE128, SHAKE256 (provided by bc)
-    - completion of the SHA-2 familiy definitions (FIS 180-4):
+    - completion of the SHA-2 family definitions (FIS 180-4):
 	  * SHA-512/224, SHA-512/256 provided by the OpenJDK 9+ resp.
   	    by bc as an alternative implementation or if Java < 9 is being used
     - national standards
-	  * Kupyna256, Kupyna384, Kupyna512 (Ukrain standard)
+	  * Kupyna256, Kupyna384, Kupyna512 (Ukraine standard)
 	  * LSH (Korean Standard): LSH-256-224, LSH-256-256, LSH-512-224, LSH-512-256, and
         LSH-512-384, LSH-512-512
 	  * SM3 (Chinese standard, provided by bc)
@@ -75,7 +75,7 @@ Jacksum 3.0.0, Sep 4, 2021
      - change request sf# 1693872: Decrease the memory requirement of the
        TigerTree class, Thanks to Oleg Dyakun for the feature request
      - bug fixed: a checksum can be returned in a negative format if the
-       customizalbe CRC has a width of 64 bit
+       customizable CRC has a width of 64 bit
 
 
 - Performance
@@ -97,8 +97,8 @@ Jacksum 3.0.0, Sep 4, 2021
 - Data integrity verification
 
   new features  
-    - added option --compat in order to parse data thas has been produced by 3rd party apps
-    - added compatility files/parsers for BSD-, FCIV-, Linux-, SFV-, and OpenSSL files
+    - added option --compat in order to parse data that has been produced by 3rd party apps
+    - added compatibility files/parsers for BSD-, FCIV-, Linux-, SFV-, and OpenSSL files
     - possibility to create own compatibility files
     - added option --charset-check-file in order to specify the charset for the check file
     - added BOM awareness for check files
@@ -141,7 +141,7 @@ Command Line Interface
       algorithm that can produce the output by brute force
       (that can be useful for determining unknown CRC algorithm parameters)
     - more than one directory can be specified on the command line for a
-      recursiv tree traversal
+      recursive tree traversal
     - option -a enhancement: select algorithms by a search string or a bit width
     - you can limit the depth of the recursion by specifying a depth
     - added -L in order read files from a predefined list
@@ -171,12 +171,12 @@ Command Line Interface
 - Documentation
 
   new features and improvements
-    - updated availablity of checksum/hash tools/algorithms on
+    - updated availability of checksum/hash tools/algorithms on
       BeOS, FreeBSD, HP-UX, GNU/Linux, Mac OS X, Solaris, and Windows
     - added availability of checksum/hash tools/algorithms on
       7z, Angstrom, DragonFly BSD, CentOS, FreeDOS, GNU/Hurd, gpg, IBM AIX,
 	  Java, Kali Linux, LibreSSL, macOS, Minix, MS-DOS, NetBSD, NexStep,
-	  PHP, Plan 9, Phyton, and OpenSSL (phew, that were a lot of VMs and tests ;-)
+	  PHP, Plan 9, Python, and OpenSSL (phew, that were a lot of VMs and tests ;-)
     - added more examples for learning Jacksum
     - redesigned the help page
 	
@@ -209,7 +209,7 @@ Command Line Interface
     - the default algorithm is now SHA3-256 and not SHA-1 anymore  
     - by default, data is read from standard input in binary mode
     - by default, recursively operation is active for folders, by default depth is unlimited
-    - if -r is specificed explicitly, also a depth has to be specified
+    - if -r is specified explicitly, also a depth has to be specified
     - redirection to a file by -u, -U, -o, and -O uses UTF-8 rather than the default
       shell character set in order to support Unicode characters for filenames/folders
       Thanks to Rajmund, UK for the feature request and code suggestion
