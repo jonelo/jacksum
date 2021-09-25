@@ -202,6 +202,8 @@ public class Parameters implements
     private boolean stdin = false;
     // --utf8
     private boolean utf8 = false;
+    // --line-separator
+    private String lineSeparator = System.lineSeparator();
 
     // --license
     private boolean licenseWanted = false;
@@ -735,14 +737,15 @@ public class Parameters implements
 
     }
 
-    private void handleCompatibility() throws ParameterException, ExitException {
+    private void handleCompatibility() throws ExitException {
         if (this.getCompatibilityID() != null) {
             try {
                 compatibilityProperties = new CompatibilityProperties(this.getCompatibilityID());
 
                 if (this.algorithm != null && compatibilityProperties.getHashAlgorithmUserSelectable()) {
-                    // we overwrite the default in the compatibilityProperties object and flag that change by setting setHashAlgorithmUserSelected(true);
+                    // we overwrite the default in the compatibilityProperties object ...
                     compatibilityProperties.setHashAlgorithm(this.algorithm);
+                    // ... and flag that change by setting setHashAlgorithmUserSelected(true);
                     compatibilityProperties.setHashAlgorithmUserSelected(true);
                 }
 
@@ -759,8 +762,8 @@ public class Parameters implements
                 this.setEncoding(compatibilityProperties.getHashEncoding());
                 this.setFormat(compatibilityProperties.getFormat());
                 this.setStdinName(compatibilityProperties.getStdinName());
+                this.setLineSeparator(compatibilityProperties.getLineSeparator());
                 AbstractChecksum.setStdinName(compatibilityProperties.getStdinName());
-
 
             } catch (IOException ex) {
                 throw new ExitException("Jacksum: " + ex.getMessage(), ExitCode.IO_ERROR);
@@ -923,6 +926,14 @@ public class Parameters implements
     @Override
     public int getDepth() {
         return depth;
+    }
+
+    public String getLineSeparator() {
+        return lineSeparator;
+    }
+
+    public void setLineSeparator(String lineSeparator) {
+        this.lineSeparator = lineSeparator;
     }
 
 

@@ -56,6 +56,7 @@ public class CompatibilityProperties {
     private final static String LINES_FORMAT = "formatter.format";
     private final static String HASH_ENCODING = "formatter.hash.encoding";
     private final static String STDIN_NAME = "formatter.stdinName";
+    private final static String LINE_SEPARATOR = "formatter.lineSeparator";
 
 
     /**
@@ -220,6 +221,15 @@ public class CompatibilityProperties {
     public void setRegexpPermissionsPos(int pos) {
         props.setProperty(REGEXP_PERMISSIONS_POS, String.valueOf(pos));
     }
+
+    public String getLineSeparator() {
+        return props.getProperty(LINE_SEPARATOR, System.lineSeparator());
+    }
+
+    public void setLineSeparator(String lineSeparator) {
+        props.setProperty(LINE_SEPARATOR, lineSeparator);
+    }
+
 
     public String getHashAlgorithm() {
         return props.getProperty(HASH_ALGORITHM);

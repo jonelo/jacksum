@@ -48,22 +48,22 @@ public class MessageConsumerForHashedFiles extends MessageConsumer {
                  filesRead++;
                  files_matches_expectation++;
                  bytesRead += message.getPayload().getSize();
-                 System.out.println(message.getInfo());
+                 System.out.printf("%s%s", message.getInfo(), parameters.getLineSeparator());
                  break;
             case FILE_HASHED:
                  filesRead++;                
                  bytesRead += message.getPayload().getSize();
                  if (!parameters.isExpectation()) {
-                     System.out.println(message.getInfo());                 
+                     System.out.printf("%s%s", message.getInfo(), parameters.getLineSeparator());
                  }
                  break;
             case ERROR:
                  errors++;
-                 System.err.printf("Jacksum: Error: %s\n", message.getInfo());
+                 System.err.printf("Jacksum: Error: %s%n", message.getInfo());
                  break;
             case INFO:
             case INFO_DIR_IGNORED:
-                System.err.printf("Jacksum: Info: %s\n", message.getInfo());
+                System.err.printf("Jacksum: Info: %s%n", message.getInfo());
                 break;
             default:
                 break;

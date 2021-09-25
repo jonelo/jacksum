@@ -7,7 +7,9 @@ Jacksum 3.0.1-not-yet-released
 
 - bugs fixed
 
-    - `jacksum -h examples` showed only 3 sections, now it shows all sections
+    - fixed: compat files bsd, linux, and openssl should use line separator \n on Microsoft Windows,
+      otherwise md5sum, sha1sum, etc. on GNU/Linux cannot read Jacksum's output.
+    - `jacksum -h examples` showed only the first 3 example sections, now it shows all example sections
     - fixed some typos in the help file
     - removed the lab-remnant hex-camelcase from the code
     - typo in compat files linux and openssl which results in wrong stdin names
