@@ -1870,9 +1870,9 @@ ALGORITHMS
                 using reflected bytes for the output
 
 
-    crc32_ubi, crc-32_ubi, ubicrc32
+    crc32_ubi, crc-32_ubi, ubicrc32, crc32_jamcrc, crc-32_jamcrc
             algorithm:
-                CRC-32 (UBICRC32)
+                CRC-32 (UBICRC32 and JAMCRC)
             length:
                 32 bits
             type:
@@ -1882,8 +1882,8 @@ ALGORITHMS
                 ubicrc32 is part of the Memory Technology Device Utilities for
                 Linux (mtd-utils). UBI (Latin: "where?") stands for "Unsorted
                 Block Images". The default encoding is decimal. Specify -E hex
-                in order to get the hex output that the ubicrc32
-                tool produces.
+                in order to get the hex output that the ubicrc32 tool
+                produces. This algorithm is also known as JAMCRC.
 \
             compatibility:
                 - 7z:              -

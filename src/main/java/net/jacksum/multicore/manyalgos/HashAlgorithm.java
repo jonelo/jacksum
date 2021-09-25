@@ -625,6 +625,8 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS.put("sum_plan9", WEIGHTS.get("crc32_fddi"));
         WEIGHTS.put("crc-32_ubi", WEIGHTS.get("crc32_ubi"));
         WEIGHTS.put("ubicrc32", WEIGHTS.get("crc32_ubi"));
+        WEIGHTS.put("crc32_jamcrc", WEIGHTS.get("crc32_ubi"));
+        WEIGHTS.put("crc-32_jamcrc", WEIGHTS.get("crc32_ubi"));
         WEIGHTS.put("crc-32_php", WEIGHTS.get("crc32_php"));
         WEIGHTS.put("crc-64", WEIGHTS.get("crc64"));
         WEIGHTS.put("crc-64_ecma", WEIGHTS.get("crc64_ecma"));

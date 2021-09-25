@@ -31,7 +31,7 @@ import net.jacksum.algorithms.crcs.CrcGeneric;
 
 /**
  *
- * @author johann
+ * @author Johann N. Löfflmann
  */
 public class CRC32ubi_Selector extends Selector {
 
@@ -41,15 +41,17 @@ public class CRC32ubi_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(1);
-        map.put(ID, "CRC-32 (UBICRC32)");
+        map.put(ID, "CRC-32 (UBICRC32/JAMCRC)");
         return map;
     }
     
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(2);
+        Map<String, String> map = new LinkedHashMap<>(4);
         map.put("crc-32_ubi", ID);
         map.put("ubicrc32", ID);
+        map.put("crc32_jamcrc", ID);
+        map.put("crc-32_jamcrc", ID);
         return map;
     }
     
