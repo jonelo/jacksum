@@ -2314,7 +2314,7 @@ ALGORITHMS
                 11/2005
             broken:
                 yes
-            webseite:
+            website:
                 http://www.nist.gov/hash-function (archived)
                 http://www.csrc.nist.gov/pki/HashWorkshop/2005/Nov1_Presentations/Sung_FORK-256.pdf
                 http://dx.doi.org/10.1007/11799313_13
