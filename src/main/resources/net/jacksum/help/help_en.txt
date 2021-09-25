@@ -33,7 +33,7 @@ DESCRIPTION
 \
     Supported algorithms (standards):
 \
-      * National standards of cryptographic hash functions:
+      * National and international standards of cryptographic hash functions:
         SHA-1, SHA-[224,256,384,512], SHA-512/[224,256] (USA, NIST FIPS 180-4);
         SHA3-[224,256,384,512], SHAKE[128,256] (USA (NIST FIPS 202);
         GOST, GOST Crypto-Pro (Russia, GOST R 34.11-94); Streebog-[256,512]
@@ -169,7 +169,7 @@ DESCRIPTION
         Jacksum is written entirely in Java. Therefore it runs cross platform,
         without the need of recompilation. A Java Runtime Environment (JRE) or
         Java Development Kit (JDK) at least version 11 is required. The latest
-        OpenJDK is recommended.
+        available OpenJDK LTS release is recommended.
 
 
 PARAMETERS
@@ -433,9 +433,9 @@ OPTIONS
                     If you don't specify -a, the algorithm defaults to sha1.
 \
                 linux
-                    output as from executables md5sum, sha1sum, b2sum, etc. on
-                    Unix and GNU/Linux, but works with any algorithm that is
-                    supported by Jacksum.
+                    output as from executables md5sum, sha1sum, sha224sum,
+                    sha384sum, sha512sum, b2sum, etc. on Unix and GNU/Linux,
+                    but works with any algorithm that is supported by Jacksum.
                     Format is "#HASH{hex}  #FILENAME"
                     if you don't specify -a, the algorithm defaults to sha3-256. 
 \
