@@ -2758,6 +2758,36 @@ ALGORITHMS
                 On October 2, 2012, Keccak was selected as the winner of the
                 NIST hash function competition.
 \
+            compatibility:
+                - 7z:              -
+                - Angstrom:        -
+                - BeOS:            -
+                - CentOS:          -
+                - FreeBSD 10.4+:   -
+                - FreeDOS:         -
+                - GNU/Linux:       -
+                - gpg:             -
+                - HP-UX:           -
+                - IBM AIX:         -
+                - Java 9+:         -
+                - Kali Linux:      -
+                - KeccakSum:       KeccakSum --sha3-<w> --no-suffix --outputbits <w> --hex
+                - LibreSSL:        -
+                - Mac OS X:        -
+                - macOS 10.12+:    -
+                - Minix:           -
+                - MS-DOS:          -
+                - NetBSD:          -
+                - NextStep:        -
+                - OpenSSL 1.1.1+:  -
+                - PHP 7.1+:        -
+                - Plan 9:          -
+                - PowerShell:      -
+                - Python:          -
+                - Solaris:         -
+                - Ubuntu:          -
+                - Windows:         -
+\
             since:
                 Jacksum 3.0.0
             implementation:
@@ -3975,6 +4005,7 @@ ALGORITHMS
                 - Java 9+:         java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA3-224");
                 - Kali Linux:      -
+                - KeccakSum:       KeccakSum --sha3-224
                 - LibreSSL:        -
                 - Mac OS X:        -
                 - macOS 10.12+:    -
@@ -4039,6 +4070,7 @@ ALGORITHMS
                 - Java 9+:         java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA3-256");
                 - Kali Linux:      -
+                - KeccakSum:       KeccakSum --sha3-256
                 - LibreSSL:        -
                 - Mac OS X:        -
                 - macOS 10.12+:    -
@@ -4104,6 +4136,7 @@ ALGORITHMS
                 - Java 9+:         java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA3-384");
                 - Kali Linux:      -
+                - KeccakSum:       KeccakSum --sha3-384
                 - LibreSSL:        -
                 - Mac OS X:        -
                 - macOS 10.12+:    -
@@ -4168,6 +4201,7 @@ ALGORITHMS
                 - Java 9+:         java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA3-512");
                 - Kali Linux:      -
+                - KeccakSum:       KeccakSum --sha3-512
                 - LibreSSL:        -
                 - Mac OS X:        -
                 - macOS 10.12+:    -
@@ -4245,7 +4279,8 @@ ALGORITHMS
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Java 9+:         -
-                - KeccakSum:       KeccakSum --shake128 --hex --outputbits 256
+                - KeccakSum:       KeccakSum --hex --outputbits 256
+                                   KeccakSum --shake128 --hex --outputbits 256
                 - Kali Linux:      -
                 - LibreSSL:        -
                 - Mac OS X:        -
