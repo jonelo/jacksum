@@ -18,6 +18,7 @@ Jacksum supports tons of features, and besides **hash calculation** and **file i
 
 Jacksum is both a **command line tool**, and a **library**. It can be integrated in your file browser.
 
+Jacksum went to to public in July 2002, and moved to GitHub in Sept 2021, and even after all these years, I am still curious how we can improve it further 🙂.
 
 ## System Requirements
 
