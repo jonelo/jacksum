@@ -13,7 +13,7 @@ Jacksum 3.0.1-not-yet-released
       otherwise md5sum, sha1sum, etc. on GNU/Linux cannot read Jacksum's output
     - fixed: typo in compat files linux and openssl which results in wrong stdin names
     - fixed: speed rank info is calculated wrongly (check with `jacksum -a all --list --info`)
-    - fixed: `jacksum -h examples` shows only the first 3 example sections, it should shows all example sections
+    - fixed: `jacksum -h examples` shows only the first 3 example sections, it should show all example sections
     - fixed: some typos in the help file
     - fixed: remove the lab-remnant hex-camelcase from the code
 
