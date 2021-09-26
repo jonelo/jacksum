@@ -14,7 +14,7 @@ It takes advantage of **multi-core processors/multi-CPU computers** for **parall
 
 Jacksum supports **470 algorithms**. Many of the algorithms are powered by many different, small and large open source libraries or have been explicitly implemented or optimized for Jacksum. For details please see the [Copyright file](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/legal/copyright.txt). Jacksum keeps the binary small (~2 MiB), bundles only what it needs in one tool/library and provides a standard API, and a versatile, feature-rich framework around the algorithms.
 
-Jacksum is able to **find files that matches a hash value** and it can **find an algorithm to a hash value** using brute force.
+Jacksum supports tons of features, and besides **hash calculation** and **file integrity verification** it is also able to **find files that matches a hash value**, it can also **find an algorithm to a hash value** using brute force. For a detailled list of features scroll down to the features list.
 
 Jacksum is both a **command line tool**, and a **library**. It can be integrated in your file browser.
 
