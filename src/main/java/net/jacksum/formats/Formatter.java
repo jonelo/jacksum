@@ -78,6 +78,8 @@ public class Formatter {
     private static void _replaceFingerprintTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
         GeneralString.replaceAllStrings(buffer, "#CHECKSUM{i}", "#CHECKSUM");
         GeneralString.replaceAllStrings(buffer, "#CHECKSUM{0}", "#CHECKSUM");
+        FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{i,([^}]+)\\})");
+        FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{0,([^}]+)\\})");
         FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{([^}]+)\\})");
         GeneralString.replaceAllStrings(buffer, "#CHECKSUM", abstractChecksum.getValueFormatted());        
     }
@@ -145,7 +147,7 @@ public class Formatter {
     }
     
     private static void _replaceSpecialCharTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
-        // sepcial chars: separator
+        // special chars: separator
         GeneralString.replaceAllStrings(buffer, "#SEPARATOR", abstractChecksum.getFormatPreferences().getSeparator());
         
         // special chars: quotes
