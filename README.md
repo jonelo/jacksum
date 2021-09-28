@@ -10,14 +10,15 @@
 
 **Jacksum** (JAva ChecKSUM) is a free and cross platform data integrity software tool.
 
-It takes advantage of **multi-core processor** and **multi-CPU** computers for **parallel, simultanously computation and verification of hash values**, resp. checksums, CRCs, and message digests.
+It takes advantage of **multi-core processors/multi-CPU computers** for **parallel, simultanously computation and verification of hash values**, resp. checksums, CRCs, and message digests.
 
-Jacksum supports tons of useful features and **470 algorithms**.
+Jacksum supports **470 algorithms**. Many of the algorithms are powered by many different, small and large open source libraries or have been explicitly implemented or optimized for Jacksum. For details please see the [Copyright file](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/legal/copyright.txt). Jacksum keeps the binary small (~2 MiB), bundles only what it needs in one tool/library and provides a standard API, and a versatile, feature-rich framework around the algorithms.
 
-Jacksum is able to **find files that matches a hash value** and it can **find an algorithm to a hash value** using brute force.
+Jacksum supports tons of features, and besides **hash calculation** and **file integrity verification** it is also able to **find files that matches a hash value**, it can also **find an algorithm to a hash value** using brute force. For a detailled list of features scroll down to the features list.
 
 Jacksum is both a **command line tool**, and a **library**. It can be integrated in your file browser.
 
+Jacksum went to to public in July 2002, and moved to GitHub in Sept 2021, and even after all these years, I am still curious how we can improve it further 🙂.
 
 ## System Requirements
 
