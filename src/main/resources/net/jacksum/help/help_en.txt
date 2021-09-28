@@ -418,38 +418,74 @@ OPTIONS
             For <compatibility> the following predefined compatibility files
             are supported:
 \
-                bsd
-                    output as from the executables md5, sha1 on BSD and macOS,
-                    but works with any algorithm that is supported by Jacksum.
-                    Format is "#ALGONAME{uppercase} (#FILENAME) = #HASH{hex}"
-                    If you don't specify -a, the algorithm defaults to sha3-256.
+                bsd or tagged
+                    generates and parses the output like that of the programs
+                    * md5, sha1 on BSD and macOS
+					* md5sum, sha1sum, b2sum, etc. with the --tag option on
+					  GNU/Linux
+					* cksum on GNU/Linux with GNU Core Utilities 9.0 or later
+					"tagged" simply means: print the algorithm id as well.
+\
+                    The compat file works with any algorithm that is supported
+					by Jacksum. If you don't specify -a, the algorithm defaults
+					to sha3-256.
+\
+                    Format is "#ALGONAME{uppercase} (#FILENAME) = #HASH{hex}",
+					with \n as line separator.
+\
 \
                 fciv
                     File Checksum Integrity Verifier (fciv) from Microsoft;
-                    output as from the commands "FCIV -sha1" or "FCIV -md5" on
-                    Microsoft Windows, but works with any algorithm that is
-                    supported by Jacksum.
-                    Format is "#HASH{hex} #FILENAME"
-                    If you don't specify -a, the algorithm defaults to sha1.
+                    generates and parses the output like that of the calls
+                    "FCIV -sha1" or "FCIV -md5" on Microsoft Windows.
 \
-                linux
-                    output as from executables md5sum, sha1sum, sha224sum,
-                    sha384sum, sha512sum, b2sum, etc. on Unix and GNU/Linux,
-                    but works with any algorithm that is supported by Jacksum.
-                    Format is "#HASH{hex}  #FILENAME"
-                    if you don't specify -a, the algorithm defaults to sha3-256. 
+					The compat file works with any algorithm that is supported
+					by Jacksum. If you don't specify -a, the algorithm defaults
+					to sha1, because that is the strongest algorithm that
+					FCIV supports.
+
+                    Format is "#HASH{hex} #FILENAME",
+                    with \r\n as line separator.
+\
+\
+                linux or untagged
+                    generates and parses the output like that of the programs
+                    * md5sum, sha1sum, b2sum, etc. on Unix and GNU/Linux
+                    * cksum with the --untagged option set on GNU/Linux
+                      with the GNU Core Utilities 9.0 and later
+					"untagged" simply means: don't print the algorithm id.
+\
+					The compat file works with any algorithm that is supported
+					by Jacksum. If you don't specify -a, the algorithm defaults
+					to sha3-256.
+\
+					Format is "#HASH{hex}  #FILENAME",
+					with \n as line separator.
+\
 \
                 sfv
-                    Simple File Verification format, usually for CRC32 only,
-                    but works with any algorithm that is supported by Jacksum.
-                    Format is "#FILENAME #HASH{hex-uppercase}"
-                    If you don't specify -a, the algorithm defaults to crc32.
+                    Simple File Verification format.
+\
+					The compat file works with any algorithm that is supported
+					by Jacksum. If you don't specify -a, the algorithm defaults
+					to crc32, because it is the algorithm that was used during
+					the original design of the SFV format.
+\
+                    Format is "#FILENAME #HASH{hex-uppercase}",
+                    with the system line separator which is dependent on your
+                    operating system.
+\
 \
                 openssl
-                    output as from the executable openssl, but works with any
-                    algorithm that is supported by Jacksum.
-                    Format is "#ALGONAME{uppercase}(#FILENAME)= #HASH{hex}"
-                    If you don't specify -a, the algorithm defaults to sha3-256.
+                    output as from the executable openssl.
+\
+                    The compat file works with any algorithm that is supported
+					by Jacksum. If you don't specify -a, the algorithm defaults
+					to sha3-256.
+
+                    Format is "#ALGONAME{uppercase}(#FILENAME)= #HASH{hex}",
+                    with \n as line separator.
+\
 \
             Available since Jacksum 3.0.0.
 

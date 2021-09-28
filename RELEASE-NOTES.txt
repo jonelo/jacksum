@@ -4,7 +4,8 @@ Jacksum 3.0.1-not-yet-released
 
     - 'jacksum -h parameters', 'jacksum -h options', and 'jacksum -h algorithms'
       show the corresponding section entirely
-    - added aliases crc32_jamcrc and crc-32_jamcrc for crc32_ubi
+    - added algorithm aliases crc32_jamcrc and crc-32_jamcrc for crc32_ubi
+    - added compat aliases called tagged and untagged (for bsd and linux)
     - added KeccakSum compatibility info to the help file
 
 - bugs fixed

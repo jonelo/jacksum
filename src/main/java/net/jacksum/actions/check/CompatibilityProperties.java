@@ -80,14 +80,15 @@ public class CompatibilityProperties {
     /**
      * Creates a ParserProperties object based on a properties file
      *
-     * @param propertiesFile the filename of the properties file.
+     * @param compatFilename the filename of the properties file.
      * @throws java.io.IOException if there is an I/O problem with the file.
      */
-    public CompatibilityProperties(String propertiesFile) throws IOException {
-        if (isParserSupported(propertiesFile)) {
-            props = readFromJarFile(String.format("/net/jacksum/actions/check/compatdefs/%s.properties", propertiesFile));
+    public CompatibilityProperties(String compatFilename) throws IOException {
+        String compatFilenameResolved = resolveAlias(compatFilename);
+        if (isParserSupported(compatFilenameResolved)) {
+            props = readFromJarFile(String.format("/net/jacksum/actions/check/compatdefs/%s.properties", compatFilenameResolved));
         } else {
-            props = readFromLocalFile(propertiesFile);
+            props = readFromLocalFile(compatFilenameResolved);
         }
         addRequiredPropertiesIfAbsent();
     }
@@ -330,6 +331,17 @@ public class CompatibilityProperties {
                 return true;
             default:
                 return false;
+        }
+    }
+
+    private String resolveAlias(String parser) {
+        switch (parser) {
+            case "tagged":
+                return "bsd";
+            case "untagged":
+                return "linux";
+            default:
+                return parser;
         }
     }
 
