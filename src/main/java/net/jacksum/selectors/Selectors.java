@@ -45,6 +45,7 @@ public class Selectors {
         CRC32fddi_Selector.class,
         CRC32ubi_Selector.class,
         CRC32_PHP_Selector.class,
+        CRC32c_Selector.class,
         CRC64_Selector.class,
         CRC64_ECMA182_Selector.class,
         CRC64_GO_Selector.class,
@@ -151,11 +152,11 @@ public class Selectors {
         CombinedChecksum_Selector.class,
         // most popular algorithms first due to performance reasons
         // order is also used by the brute forcer in order to find algorithms
-        
+
         // National Standards
         // ==================
 
-        // USA: SHA-3 familiy
+        // USA: SHA-3 family
         SHA3_512_Selector.class,
         SHA3_384_Selector.class,
         SHA3_256_Selector.class,

@@ -51,8 +51,8 @@ import net.jacksum.algorithms.AbstractChecksum;
  */
 public class HashAlgorithm implements Comparable<HashAlgorithm> {
 
-    private static final Map<String, Integer> WEIGHTS = new HashMap<>();
-    private static final Map<String, Integer> WEIGHTS_ALIASES = new HashMap<>();
+    private static final Map<String, Integer> WEIGHTS = new HashMap<>(640); // max. number of entries/load factor = 480/0.75=640
+    private static final Map<String, Integer> WEIGHTS_ALIASES = new HashMap<>(333);
     private final String name;
     private final int weight;
     private final AbstractChecksum cs;
@@ -175,6 +175,7 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS.put("crc16_minix", 69);
         WEIGHTS.put("crc24", 65);
         WEIGHTS.put("crc32", 18);
+        WEIGHTS.put("crc32c", 65);
         WEIGHTS.put("crc32_mpeg2", 63);
         WEIGHTS.put("crc32_bzip2", 64);
         WEIGHTS.put("crc32_fddi", 65);
@@ -623,6 +624,7 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS_ALIASES.put("crc-32_mpeg-2", WEIGHTS.get("crc32_mpeg2"));
         WEIGHTS_ALIASES.put("crc-32_bzip2", WEIGHTS.get("crc32_bzip2"));
         WEIGHTS_ALIASES.put("crc-32_bzip-2", WEIGHTS.get("crc32_bzip2"));
+        WEIGHTS_ALIASES.put("crc-32c", WEIGHTS.get("crc32c"));
         WEIGHTS_ALIASES.put("sum_plan9", WEIGHTS.get("crc32_fddi"));
         WEIGHTS_ALIASES.put("crc-32_ubi", WEIGHTS.get("crc32_ubi"));
         WEIGHTS_ALIASES.put("ubicrc32", WEIGHTS.get("crc32_ubi"));

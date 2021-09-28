@@ -16,6 +16,7 @@ Jacksum 3.0.1-not-yet-released
     - fixed: `jacksum -h examples` shows only the first 3 example sections, it should show all example sections
     - fixed: format "#HASH{0,<encoding>}" and  -F "#CHECKSUM{i,<encoding>}" don't work if the user
       has selected one algorithm only
+    - fixed: crc32c can be used normal, but it is missing in the --list output
     - fixed: some typos in the help file
     - fixed: remove the lab-remnant hex-camelcase from the code
 
