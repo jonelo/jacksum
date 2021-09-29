@@ -6,9 +6,9 @@
 
 * * *
 
-# Jacksum v3
+# Jacksum
 
-## Abstract
+<img width="128" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" align="left" />
 
 **Jacksum** is a free, open source, and cross platform data integrity console utility, which can **compute, print and verify checksums, CRCs, and message digests**  (known as hash values and fingerprints).
 
@@ -18,9 +18,9 @@ Jacksum can compute and verify hash values much faster on **multi-core processor
 
 Jacksum supports a **versatile bunch of features**. For example, it can also **find an algorithm to a hash value** using brute force. For a comprehensive list of features please see also [Features](https://github.com/jonelo/jacksum#features) and the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage).
 
-Jacksum as a **command line tool** can be integrated in your **file browser**, see also [Integration](https://github.com/jonelo/jacksum#integration), and it can be used as a **library** in your own projects by using its **API**. Jacksum keeps the binary small, because it bundles only what it really needs to do the job.
+Jacksum is a **command line tool**, and it can be integrated in your **file browser**, see also [Integration](https://github.com/jonelo/jacksum#integration). Jacksum can also be used as a **library** in your own projects by using its **API**. Jacksum keeps the binary small, because it bundles only what it really needs to do the job.
 
-Jacksum is a synthetic word made of JAva and ChecKSUM.
+Jacksum is a synthetic word made of JAva and ChecKSUM, because Jacksum is written entirely in **Java**.
 
 
 ## System Requirements
@@ -172,7 +172,7 @@ Create an [issue on github](https://github.com/jonelo/jacksum/issues) and let me
 
 ## History
 
-Jacksum went to live and to the public in July 2002 on sourcefore.net, it moved to GitHub in Sept 2021.
+Jacksum went to live and to the public in July 2002 on sourcefore.net. Starting with version 3.0.0 it moved its repo to GitHub in Sept 2021.
 
 ## License
 
