@@ -37,12 +37,21 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.Arrays;
 
 /**
  * Translation of the Blake3 reference implementation from Rust to Java
  * BLAKE3 Source: https://github.com/BLAKE3-team/BLAKE3
  * Translator: rctcwyvrn
+ *
+ * basis is the version from May 15, 2020;
+ * patches applied by jonelo on Sep 29, 2021:
+ * - fixed pull request https://github.com/rctcwyvrn/blake3/pull/3/commits/26644bef539dbc3e3439106c52e490453d528848
+ *   (the original pull request had a bug which leads to a NPE later)
+ * - partly pull request (the IllegalArgumentException fix only):
+ *   https://github.com/rctcwyvrn/blake3/pull/3/commits/bdf87c4f4621bdbf9d2d0ee8e3483faa71eedcc7
+ * - fixed the "initialize cvStack again?" in the reset() method
  */
 public class Blake3 {
     private static final char[] HEX_ARRAY = "0123456789abcdef".toCharArray();
@@ -278,7 +287,8 @@ public class Blake3 {
     }
     
     public void reset() {
-        // TODO: initialize cvStack again?
+        // initialize cvStack again
+        Arrays.fill(cvStack, null);
         cvStackLen = 0;
         initialize(IV,0);
     }
@@ -392,12 +402,18 @@ public class Blake3 {
 
     private void pushStack(int[] cv){
         this.cvStack[this.cvStackLen] = cv;
-        cvStackLen+=1;
+        cvStackLen++;
     }
 
     private int[] popStack(){
-        this.cvStackLen-=1;
-        return cvStack[cvStackLen];
+        // this.cvStackLen-=1;
+        // return cvStack[cvStackLen];
+
+        // eliminating a potential mem leak (depends on the GC actually)
+        this.cvStackLen--;
+        int[] toRet = cvStack[cvStackLen];
+        cvStack[cvStackLen] = null;
+        return toRet;
     }
 
     // Combines the chaining values of two children to create the parent node
@@ -448,11 +464,11 @@ public class Blake3 {
     /**
      * Construct a new BLAKE3 keyed mode hasher
      * @param key The 32 byte key
-     * @throws IllegalStateException If the key is not 32 bytes
+     * @throws IllegalArgumentException If the key is not 32 bytes
      * @return an instance of Blake3.
      */
     public static Blake3 newKeyedHasher(byte[] key){
-        if(!(key.length == KEY_LEN)) throw new IllegalStateException("Invalid key length");
+        if(key.length != KEY_LEN) throw new IllegalArgumentException("Invalid key length");
         return new Blake3(key);
     }
 
