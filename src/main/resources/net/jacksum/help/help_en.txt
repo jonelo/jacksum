@@ -1244,6 +1244,9 @@ ALGORITHMS
             comment:
                 BLAKE2b is the successor of BLAKE-512.
 \
+                Use -C tagged or -F "BLAKE2b (#FILENAME) = #DIGEST" to get the
+                "cksum -a blake2b" output format from the GNU Core Utilities 9.0.
+\
             compatibility:
                 - 7z:              -
                 - Azure Cloud Shell (Common Base Linux 10):
@@ -1256,8 +1259,12 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd (GNU Coreutils 8.26+ 11/2016):
                                    /usr/bin/b2sum [-l <w>]
+                - GNU/Hurd (GNU Coreutils 9.0+ 09/2021):
+                                   /usr/bin/cksum -a blake2b [-l <w>]
                 - GNU/Linux (GNU Coreutils 8.26+ 11/2016):
                                    /usr/bin/b2sum [-l <w>]
+                - GNU/Linux (GNU Coreutils 9.0+ 09/2021):
+                                   /usr/bin/cksum -a blake2b [-l <w>]
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Java:            -
@@ -1419,7 +1426,11 @@ ALGORITHMS
                 - FreeBSD:         /usr/bin/cksum
                 - FreeDOS:         -
                 - GNU/Hurd:        /usr/bin/cksum
+                - GNU/Hurd (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a crc
                 - GNU/Linux:       /usr/bin/cksum
+                - GNU/Linux (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a crc
                 - Haiku:           /bin/cksum
                 - HP-UX:           /usr/bin/cksum
                                    /usr/bin/sum -p
@@ -3048,7 +3059,10 @@ ALGORITHMS
                 in 1991, and it is defined in RFC 1321.
                 The default encoding is hexadecimal.
                 Use -F "(#FILENAME) = #DIGEST" to get the Solaris format.
-                Use -F "MD5(#FILENAME) = #DIGEST" to get the openssl format.
+                Use -C openssl or -F "MD5(#FILENAME) = #DIGEST" to get the
+                openssl format.
+                Use -C tagged or -F "MD5 (#FILENAME) = #DIGEST" to get the
+                "cksum -a md5" output format from the GNU Core Utilities 9.0.
 \
             compatibility:
                 - 7z:              -
@@ -3062,7 +3076,11 @@ ALGORITHMS
                 - FreeBSD:         /sbin/md5
                 - FreeDOS:         \FDOS\BIN\MD5SUM [/M=md5]
                 - GNU/Hurd:        /usr/bin/md5sum
+                - GNU/Hurd (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a md5
                 - GNU/Linux:       /usr/bin/md5sum
+                - GNU/Linux (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a md5
                 - gpg:             -
                 - Haiku:           /bin/md5sum
                 - HP-UX:           -
@@ -3540,7 +3558,10 @@ ALGORITHMS
                 Processing Standard (NIST FIPS 180-1).
                 The default encoding is hexadecimal.
                 Use -F "(#FILENAME) = #DIGEST" to get the Solaris format.
-                Use -F "SHA1(#FILENAME) = #DIGEST" to get the openssl format.
+                Use -C openssl or -F "SHA1(#FILENAME) = #DIGEST" to get the
+                openssl format.
+                Use -C tagged or -F "SHA1 (#FILENAME) = #DIGEST" to get the
+                "cksum -a sha1" output format from the GNU Core Utilities 9.0.
                 The alias called dss1 (Digital Subscriber Signalling System
                 No. 1) is used by OpenSSL.
 \
@@ -3558,9 +3579,13 @@ ALGORITHMS
                 - FreeDOS:         \FDOS\BIN\MD5SUM /M=sha
                 - GNU/Hurd:        /usr/bin/sha1sum
                                    /usr/bin/shasum [-a 1]
+                - GNU/Hurd (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sha1
                 - GNU/Linux:       /usr/bin/sha1sum
                                    /usr/bin/shasum [-a 1]
                                    (not available on every Linux)
+                - GNU/Linux (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sha1
                 - gpg:             gpg --print-md sha1
                 - Haiku:           /bin/sha1sum
                 - HP-UX:           -
@@ -3623,6 +3648,8 @@ ALGORITHMS
                 SHA-224 is based on SHA-256, but it uses a different initial
                 value and the final hash is truncated to 224 bits.
                 The default encoding is hexadecimal.
+                Use -C tagged or -F "SHA224 (#FILENAME) = #DIGEST" to get the
+                "cksum -a sha224" output format from the GNU Core Utilities 9.0.
 \
             compatibility:
                 - 7z:              -
@@ -3637,10 +3664,14 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        /usr/bin/sha224sum
                                    /usr/bin/shasum -a 224
+                - GNU/Hurd (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sha224
                 - GNU/Linux:       /usr/bin/sha224sum
                                    (not available on every Linux)
                                    /usr/bin/shasum -a 224
                                    (not available on every Linux)
+                - GNU/Linux (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sha224
                 - gpg:             gpg --print-md sha224
                 - HP-UX:           -
                 - Java:            -
@@ -3690,6 +3721,8 @@ ALGORITHMS
                 used by the file system called ZFS.
                 The default encoding is hexadecimal.
                 Use -F "(#FILENAME) = #DIGEST" to get the Solaris format.
+                Use -C tagged or -F "SHA256 (#FILENAME) = #DIGEST" to get the
+                "cksum -a sha256" output format from the GNU Core Utilities 9.0.
 \
             compatibility:
                 - 7z:              7z h -scrcsha256
@@ -3704,10 +3737,14 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        /usr/bin/sha256sum
                                    /usr/bin/shasum -a 256
+                - GNU/Hurd (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sha256
                 - GNU/Linux:       /usr/bin/sha256sum
                                    (not available on every Linux)
                                    /usr/bin/shasum -a 256
                                    (not available on every Linux)
+                - GNU/Linux (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sha256
                 - gpg:             gpg --print-md sha256
                 - HP-UX:           -
                 - Java:            java.security.MessageDigest.
@@ -3762,6 +3799,8 @@ ALGORITHMS
                 Processing Standard (NIST FIPS 180-2).
                 The default encoding is hexadecimal.
                 Use -F "(#FILENAME) = #DIGEST" to get the Solaris format.
+                Use -C tagged or -F "SHA384 (#FILENAME) = #DIGEST" to get the
+                "cksum -a sha384" output format from the GNU Core Utilities 9.0.
 \
             compatibility:
                 - 7z:              -
@@ -3776,10 +3815,14 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        /usr/bin/sha384sum
                                    /usr/bin/shasum -a 384
+                - GNU/Hurd (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sha384
                 - GNU/Linux:       /usr/bin/sha384sum
                                    (not available on every Linux)
                                    /usr/bin/shasum -a 384
                                    (not available on every Linux)
+                - GNU/Linux (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sha384
                 - gpg:             gpg --print-md sha384
                 - HP-UX:           -
                 - Java:            java.security.MessageDigest.
@@ -3834,6 +3877,8 @@ ALGORITHMS
                 Processing Standard (NIST FIPS 180-2).                               
                 The default encoding is hexadecimal.
                 Use -F "(#FILENAME) = #DIGEST" to get the Solaris format.
+                Use -C tagged or -F "SHA512 (#FILENAME) = #DIGEST" to get the
+                "cksum -a sha512" output format from the GNU Core Utilities 9.0.
 \
             compatibility:
                 - 7z:              -
@@ -3848,10 +3893,14 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        /usr/bin/sha512sum
                                    /usr/bin/shasum -a 512
+                - GNU/Hurd (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sha512
                 - GNU/Linux:       /usr/bin/sha512sum
                                    (not available on every Linux)
                                    /usr/bin/shasum -a 512
                                    (not available on every Linux)
+                - GNU/Linux (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sha512
                 - gpg:             gpg --print-md sha512
                 - HP-UX:           -
                 - Java:            java.security.MessageDigest.
@@ -4749,6 +4798,9 @@ ALGORITHMS
                 National Standard". It was published by the State Cryptography
                 Administration on December 17, 2010 as GM/T 0004-2012.
 \
+                Use -C tagged or -F "SM3 (#FILENAME) = #DIGEST" to get the
+                "cksum -a sm3" output format from the GNU Core Utilities 9.0.
+\
             compatibility:
                 - 7z:              -
                 - Angstrom:        -
@@ -4757,8 +4809,10 @@ ALGORITHMS
                 - DragonFly BSD:   -
                 - FreeBSD 11.1+:   -
                 - FreeDOS:         -
-                - GNU/Hurd:        -
-                - GNU/Linux:       -
+                - GNU/Hurd (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sm3
+                - GNU/Linux (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sm3
                 - gpg:             -
                 - HP-UX:           -
                 - Java:            -
@@ -4828,7 +4882,11 @@ ALGORITHMS
                                    /usr/bin/cksum -o 1
                 - FreeDOS:         -
                 - GNU/Hurd:        /usr/bin/sum [-r]
+                - GNU/Hurd (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a bsd
                 - GNU/Linux:       /usr/bin/sum [-r]
+                - GNU/Linux (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a bsd
                 - Haiku:           /bin/sum [-r]
                 - HP-UX:           /usr/bin/sum -r
                 - IBM AIX:         /usr/bin/sum [-r]
@@ -4975,7 +5033,11 @@ ALGORITHMS
                 - FreeBSD:         /usr/bin/cksum -o 2
                 - FreeDOS:         -
                 - GNU/Hurd:        /usr/bin/sum -s
+                - GNU/Hurd (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sysv
                 - GNU/Linux:       /usr/bin/sum -s
+                - GNU/Linux (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sysv
                 - Haiku:           /bin/sum -s
                 - HP-UX:           /usr/bin/sum
                 - Kali Linux:      /usr/bin/sum -s
