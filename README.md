@@ -4,21 +4,24 @@
 ![GitHub](https://img.shields.io/github/license/jonelo/jacksum?color=green)
 ![GitHub top language](https://img.shields.io/github/languages/top/jonelo/jacksum?color=green)
 
+* * *
+
 # Jacksum v3
 
 ## Abstract
 
-**Jacksum** (JAva ChecKSUM) is a free and cross platform data integrity software tool.
+**Jacksum** is a free, open source, and cross platform data integrity console utility, which can **compute, print and verify checksums, CRCs, and message digests**  (known as hash values and fingerprints).
 
-It takes advantage of **multi-core processors/multi-CPU computers** for **parallel, simultanously computation and verification of hash values**, resp. checksums, CRCs, and message digests.
+Jacksum supports **470 algorithms**. For details please see the [Copyright](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/legal/copyright.txt) file.
 
-Jacksum supports **470 algorithms**. Many of the algorithms are powered by many different, small and large open source libraries or have been explicitly implemented or optimized for Jacksum. For details please see the [Copyright file](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/legal/copyright.txt). Jacksum keeps the binary small (~2 MiB), bundles only what it needs in one tool/library and provides a standard API, and a versatile, feature-rich framework around the algorithms.
+Jacksum can compute and verify hash values much faster if you select many files or many algorithms, because it takes advantage of **multi-core processors and multi-CPU computers**.
 
-Jacksum supports tons of features, and besides **hash calculation** and **file integrity verification** it is also able to **find files that matches a hash value**, it can also **find an algorithm to a hash value** using brute force. For a detailled list of features scroll down to the features list.
+Jacksum supports a **versatile bunch of features**. For example, it can also **find an algorithm to a hash value** using brute force. For a comprehensive list of features please see also [Features](https://github.com/jonelo/jacksum#features) and the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage).
 
-Jacksum is both a **command line tool**, and a **library**. It can be integrated in your file browser.
+Jacksum as a **command line tool** can be integrated in your **file browser**. See also [Integration](https://github.com/jonelo/jacksum#integration), and it can be used as a **library** in your own projects by using its **API**. Jacksum keeps the binary small (~2 MiB), because it bundles only what it really needs to do the job.
 
-Jacksum went to to public in July 2002, and moved to GitHub in Sept 2021, and even after all these years, I am still curious how we can improve it further 🙂.
+Jacksum is a synthetic word made of JAva and ChecKSUM.
+
 
 ## System Requirements
 
@@ -142,7 +145,9 @@ See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum
 
 ## Contribution
 
-* File [support requests, change requests, bug reports and feature requests on GitHub](https://github.com/jonelo/jacksum/issues)
+We appreciate feedback from users, bug hunters, and fresh ideas from open minded people. Feel free and file [support requests, change requests, bug reports and feature requests on GitHub](https://github.com/jonelo/jacksum/issues)
+
+Spread the word, or give a star here on GitHub. 
 
 ## Documentation
 
@@ -164,6 +169,10 @@ See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum
 Create an [issue on github](https://github.com/jonelo/jacksum/issues) and let me know that you use Jacksum for your product if you want to be listed here.
 
 - NumericalChameleon, see http://www.numericalchameleon.net
+
+## History
+
+Jacksum went to live and to the public in July 2002 on sourcefore.net, it moved to GitHub in Sept 2021.
 
 ## License
 
