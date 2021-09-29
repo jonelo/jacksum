@@ -8,7 +8,7 @@
 
 # Jacksum
 
-<img width="128" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" align="left" />
+<img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
 **Jacksum** is a free, open source, and cross platform data integrity console utility, which can **compute, print and verify checksums, CRCs, and message digests**  (known as hash values and fingerprints).
 
