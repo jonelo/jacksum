@@ -12,13 +12,13 @@
 
 **Jacksum** is a free, open source, and cross platform data integrity console utility, which can **compute, print and verify checksums, CRCs, and message digests**  (known as hash values and fingerprints).
 
-Jacksum supports **470 algorithms**. For details please see the [Copyright](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/legal/copyright.txt) file.
+Jacksum supports **470 algorithms**. For details see the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage#algorithms) and the [Copyright](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/legal/copyright.txt) file.
 
-Jacksum can compute and verify hash values much faster if you select many files or many algorithms, because it takes advantage of **multi-core processors and multi-CPU computers**.
+Jacksum can compute and verify hash values much faster on **multi-core processors and multi-CPU computers** if you select many files and/or many algorithms.
 
 Jacksum supports a **versatile bunch of features**. For example, it can also **find an algorithm to a hash value** using brute force. For a comprehensive list of features please see also [Features](https://github.com/jonelo/jacksum#features) and the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage).
 
-Jacksum as a **command line tool** can be integrated in your **file browser**. See also [Integration](https://github.com/jonelo/jacksum#integration), and it can be used as a **library** in your own projects by using its **API**. Jacksum keeps the binary small (~2 MiB), because it bundles only what it really needs to do the job.
+Jacksum as a **command line tool** can be integrated in your **file browser**, see also [Integration](https://github.com/jonelo/jacksum#integration), and it can be used as a **library** in your own projects by using its **API**. Jacksum keeps the binary small, because it bundles only what it really needs to do the job.
 
 Jacksum is a synthetic word made of JAva and ChecKSUM.
 
