@@ -2354,7 +2354,7 @@ ALGORITHMS
                 http://www.nist.gov/hash-function (archived)
                 http://www.csrc.nist.gov/pki/HashWorkshop/2005/Nov1_Presentations/Sung_FORK-256.pdf
                 http://dx.doi.org/10.1007/11799313_13
-    \
+\
             comment:
                 In response to the SHA-1 vulnerability that was announced in
                 Feb. 2005, NIST held a Cryptographic Hash Workshop on
@@ -2368,7 +2368,7 @@ ALGORITHMS
                 published and in response the authors improved FORK-256 under the
                 name "New FORK-256". But also this one was discovered to be broken
                 in 2007.
-    \
+\
             since:
                 Jacksum 3.0.0
             implementation:
