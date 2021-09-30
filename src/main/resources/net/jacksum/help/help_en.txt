@@ -384,36 +384,37 @@ OPTIONS
                 During normal hashing of files/messages the <compatibility>
                 determines the actual output format only. The algorithm
                 (--algorithm), the encoding of the hash (--encoding), and the
-                format (--format) will be used ad defined in <compatibility>.
+                format (--format) will be used as defined in <compatibility>.
                 If <compatibility> supports the algorithm to be specified by the
                 user you can set -a to get the expected output format defined
                 in <compatibility> but with the algorithm you want. For example,
-                that allows you to print sha1 hashes in the legacy sfv format.
+                that allows you to print sha3-256 hashes in the legacy sfv
+                format.
 \
             verification/check mode:
                 Jacksum can not only read output that has been produced by
-                itself, it is also able to read output from other tools. For
-                being compatible with both well and not so well known tools, you
-                can specify one of the predefined build-in parsers or define
-                your own parser by providing a short property file.
+                itself, it is also able to read output produced by other tools.
+                For being compatible with both well and not so well known
+                tools, you can specify one of the predefined build-in parsers
+                or define your own parser by providing a short property file.
 \
                 In check mode (if option --check has been set), the
                 <compatibility> determines the parser that is used to read the
-                the file content properly that you can with set with -c. So
-                with -C you can check against a list that was created
-                by a different application or if you have generated a list with
-                Jacksum and the -F option was in use.
+                the file content properly. You can specify the input file by
+                option -c (--check-file). With -C you can check against a list
+                that was created by a different application or if you have
+                generated a list with Jacksum and the -F option was in use.
 \
                 To specify the character set of the actual input file use the
-                option --charset-check-file if the input file is not stored with
+                option --charset-check-file if the input file was not saved in
                 the character set UTF-8.
 \
                 You can also write you own parser definition, save it to a text
                 file and specify the location of the file with -C.
 \
             info mode:
-                In info mode (if option --info has been set), the properties
-                of the compatibility file are being printed out.
+                In info mode (if option --info has been set), all properties
+                in the compatibility file are printed out.
 \
 \
             For <compatibility> the following predefined compatibility files
