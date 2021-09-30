@@ -328,6 +328,8 @@ public class CompatibilityProperties {
             case "linux":
             case "fciv":
             case "openssl":
+            case "solaris-tagged":
+            case "solaris-untagged":
                 return true;
             default:
                 return false;
@@ -336,9 +338,9 @@ public class CompatibilityProperties {
 
     private String resolveAlias(String parser) {
         switch (parser) {
-            case "tagged":
+            case "linux-tagged":
                 return "bsd";
-            case "untagged":
+            case "linux-untagged":
                 return "linux";
             default:
                 return parser;

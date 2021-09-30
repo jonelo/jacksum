@@ -2,12 +2,19 @@ Jacksum 3.0.1-not-yet-released
 
 - added minor features
 
+    - added algorithm aliases crc32_jamcrc and crc-32_jamcrc for crc32_ubi
+    - added compat aliases called linux-tagged and linux-untagged (for bsd and linux)
+    - added compat files called solaris-tagged and solaris-untagged
+    - added format aliases #ALGONAME{lowercase} and #ALGONAME{<i>,lowercase}
+
+- improved build-in help
+
     - 'jacksum -h parameters', 'jacksum -h options', and 'jacksum -h algorithms'
       show the corresponding section entirely
-    - added algorithm aliases crc32_jamcrc and crc-32_jamcrc for crc32_ubi
-    - added compat aliases called tagged and untagged (for bsd and linux)
+    - fixed: `jacksum -h examples` shows only the first 3 example sections, it should show all example sections
     - added info to the manpage about "cksum -a <algo>" which exists starting with the GNU Core Utilities 9.0
     - added KeccakSum compatibility info to the help file
+    - fixed some typos in the help file
 
 - bugs fixed
 
@@ -15,11 +22,9 @@ Jacksum 3.0.1-not-yet-released
       otherwise md5sum, sha1sum, etc. on GNU/Linux cannot read Jacksum's output
     - fixed: typo in compat files linux and openssl which results in wrong stdin names
     - fixed: speed rank info is calculated wrongly (check with `jacksum -a all --list --info`)
-    - fixed: `jacksum -h examples` shows only the first 3 example sections, it should show all example sections
     - fixed: format "#HASH{0,<encoding>}" and  -F "#CHECKSUM{i,<encoding>}" don't work if the user
       has selected one algorithm only
     - fixed: crc32c can be used normal, but it is missing in the --list output
-    - fixed: some typos in the help file
     - fixed: remove the lab-remnant hex-camelcase from the code
     - fixed: a potential mem leak in the Blake3 implementation
 

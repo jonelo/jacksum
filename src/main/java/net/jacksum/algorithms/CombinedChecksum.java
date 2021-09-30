@@ -234,6 +234,7 @@ public class CombinedChecksum extends AbstractChecksum {
                 FingerprintFormatter.resolveEncoding(line, algorithm, "(#CHECKSUM\\{i,([^}]+)\\})");
                 GeneralString.replaceAllStrings(line, "#ALGONAME{i}", algorithm.getName());
                 GeneralString.replaceAllStrings(line, "#ALGONAME{i,uppercase}", algorithm.getName().toUpperCase(Locale.US));
+                GeneralString.replaceAllStrings(line, "#ALGONAME{i,lowercase}", algorithm.getName().toLowerCase(Locale.US));
                 buf.append(line);
                 if (algorithms.size() > 1) {
                     buf.append("\n");

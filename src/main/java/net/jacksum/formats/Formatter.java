@@ -88,9 +88,12 @@ public class Formatter {
         // algorithm names        
         GeneralString.replaceAllStrings(buffer, "#ALGONAME{i}", "#ALGONAME");
         GeneralString.replaceAllStrings(buffer, "#ALGONAME{i,uppercase}", "#ALGONAME{uppercase}");
+        GeneralString.replaceAllStrings(buffer, "#ALGONAME{i,lowercase}", "#ALGONAME{lowercase}");
         GeneralString.replaceAllStrings(buffer, "#ALGONAME{0}", "#ALGONAME");
         GeneralString.replaceAllStrings(buffer, "#ALGONAME{0,uppercase}", "#ALGONAME{uppercase}");
+        GeneralString.replaceAllStrings(buffer, "#ALGONAME{0,lowercase}", "#ALGONAME{lowercase}");
         GeneralString.replaceAllStrings(buffer, "#ALGONAME{uppercase}", abstractChecksum.getName().toUpperCase(Locale.US));
+        GeneralString.replaceAllStrings(buffer, "#ALGONAME{lowercase}", abstractChecksum.getName().toLowerCase(Locale.US));
         GeneralString.replaceAllStrings(buffer, "#ALGONAME", abstractChecksum.getName());
     }
     
