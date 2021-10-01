@@ -49,6 +49,7 @@ public class SHA2_512_256_Selector extends Selector {
     public Map<String, String> getAvailableAliases() {
         Map<String, String> map = new LinkedHashMap<>(1);
         map.put("sha-512/256", ID);
+        map.put("sha512t256", ID);
         return map;
     }
     
