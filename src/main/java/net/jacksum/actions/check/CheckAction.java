@@ -195,7 +195,7 @@ public class CheckAction implements Action {
                 // print statistics from the parsing results    
                 parser.getStatistics().print();                
                 
-                // print statistics from the consumber    
+                // print statistics from the consumer
                 consumer.getStatistics().print();
             }
             

@@ -58,7 +58,7 @@ public class MessageProducer implements Runnable {
         }*/
 
         // remove duplicates:
-        // construct a new list from the set constucted from elements
+        // construct a new list from the set constructed from elements
         // of the original list
         allFiles = merged.stream()
                 .distinct()
