@@ -516,15 +516,14 @@ OPTIONS
 \
 \
                 openssl
-                    Prints and parses the output like that of the
-                    executable openssl.
+				    A lightweight plain text file format from openssl.
 \
-                    It is a lightweight plain text, line based file format.
-                    Format is "#ALGONAME{uppercase}(#FILENAME)= #HASH{hex}"
-                    with \n as line separator.
+                    This compatibility file can print and parse the output
+                    like that of the openssl program.
 \
                     The compat file works with any algorithm that is supported
-					by Jacksum. If you don't specify -a, the algorithm defaults
+					by Jacksum, it works even with concatenated algorithms.
+                    If you don't specify -a, the algorithm defaults
 					to sha3-256.
 \
 \
