@@ -421,7 +421,12 @@ OPTIONS
             are supported:
 \
                 bsd or linux-tagged
-                    Prints and parses the output like that of the programs
+                    A common lightweight plain text file format on BSD systems
+                    and GNU/Linux. The algorithm info is stored in the file
+                    (therefore it is called "tagged").
+\
+                    This compatibility file can print and parse the output
+                    like that of the programs
 \
                         * md5, sha1, sha224, sha256, sha384, sha512,
                           sha512t256, rmd16, skein256, skein512, skein1024
@@ -432,35 +437,32 @@ OPTIONS
 					    * cksum on GNU/Linux with GNU Core Utilities 9.0
 					      or later
 \
-					"tagged" simply means: print the algorithm id as well
-					which is also well known as the BSD-style.
-\
-                    It is a lightweight plain text, line based file format.
-                    Format is "#ALGONAME{uppercase} (#FILENAME) = #HASH{hex}",
-					with \n as line separator.
-\
                     The compat file works with any algorithm that is supported
 					by Jacksum, it works even with concatenated algorithms.
 					If you don't specify -a, the algo defaults to sha3-256.
 \
 \
                 fciv
-                    File Checksum Integrity Verifier (fciv) from Microsoft.
-                    Prints and parses the output like that of the calls
-                    "FCIV -sha1" or "FCIV -md5" on Microsoft Windows.
+                    File Checksum Integrity Verifier. It is a lightweight plain
+                    text file format from Microsoft.
 \
-                    It is a lightweight plain text, line based file format.
-                    Format is "#HASH{hex} #FILENAME" with \r\n as line
-                    separator.
+                    This compatibility file can print and parse the output
+                    like that of the calls "FCIV -sha1" or "FCIV -md5" on
+                    Microsoft Windows.
 \
-					The compat file works with any algorithm that is supported
-					by Jacksum. If you don't specify -a, the algorithm defaults
+                    The compat file works with any algorithm that is supported
+					by Jacksum, it works even with concatenated algorithms.
+                    If you don't specify -a, the algorithm defaults
 					to sha1, because that is the strongest algorithm that
 					FCIV supports.
 \
 \
                 linux or linux-untagged
-                    Prints and parses the output like that of the programs
+                    A common lightweight plain text file format on GNU/Linux
+                    and macOS, without algorithm info in the file (untagged).
+\
+                    This compatibility file can print and parse the output
+                    like that of the programs
 \
                         * md5sum, sha1sum, sha224sum, sha256sum, sha384sum,
                           sha512sum, shasum, b2sum, etc. on Unix and GNU/Linux
@@ -468,55 +470,49 @@ OPTIONS
                           with the GNU Core Utilities 9.0 and later
                         * shasum on macOS
 \
-					"untagged" simply means: don't print the algorithm id.
-\
-                    It is a lightweight plain text, line based file format.
-					Format is "#HASH{hex}  #FILENAME" with \n as line
-					separator.
-\
-					The compat file works with any algorithm that is supported
-					by Jacksum. If you don't specify -a, the algorithm defaults
-					to sha3-256.
+                    The compat file works with any algorithm that is supported
+					by Jacksum, it works even with concatenated algorithms.
+                    If you don't specify -a, the algorithm defaults to sha3-256.
 \
 \
                 sfv
-                    Simple File Verification format.
+                    Simple File Verification. It is a legacy, lightweight plain
+                    text file format, without algorithm info in the file.
+                    It was initially designed for crc32 only.
 \
-                    It is a lightweight plain text, line based file format.
-                    Format is "#FILENAME #HASH{hex-uppercase}"
-                    with the system line separator which is dependent on your
-                    operating system.
-\
-					The compat file works with any algorithm that is supported
-					by Jacksum. If you don't specify -a, the algorithm defaults
-					to crc32, because it is the algorithm that was used during
-					the original design of the SFV format.
+                    The compat file works with any algorithm that is supported
+					by Jacksum, it works even with concatenated algorithms.
+                    If you don't specify -a, the algorithm defaults to crc32,
+                    because it is the algorithm that was used during the
+                    original design of the SFV format.
 \
 \
 				solaris-tagged
-                    Prints and parses the output like that of the tagged
-                    program call "digest -v -a <algo>" on Solaris.
-\
-                    It is a lightweight plain text, line based file format.
-                    Format is "#ALGONAME{lowercase} (#FILENAME) = #HASH{hex}"
-                    with \n as line separator.
+				    A lightweight plain text file format on Solaris with
+				    algorithm info in the file.
+
+                    This compatibility file can print and parse the output
+                    like that of the tagged call "digest -v -a <algo>" on
+                    Solaris.
 \
                     The compat file works with any algorithm that is supported
-                    by Jacksum. If you don't specify -a, the algorithm defaults
-                    to sha3-256.
+					by Jacksum, it works even with concatenated algorithms.
+                    If you don't specify -a, the algorithm defaults to
+                    sha3-256.
 \
 \
                 solaris-untagged
-                    Prints and parses the output like that of the untagged
-                    program call "digest -a <algo>" on Solaris.
-\
-                    It is a lightweight plain text, line based file format.
-                    Format is "(#FILENAME) = #HASH{hex}" with \n as line
-                    separator.
+				    A lightweight plain text file format on Solaris without
+				    algorithm info in the file.
+
+                    This compatibility file can print and parse the output
+                    like that of the untagged call "digest -a <algo>" on
+                    Solaris.
 \
                     The compat file works with any algorithm that is supported
-                    by Jacksum. If you don't specify -a, the algorithm defaults
-                    to sha3-256.
+					by Jacksum, it works even with concatenated algorithms.
+                    If you don't specify -a, the algorithm defaults to
+                    sha3-256.
 \
 \
                 openssl
@@ -2385,7 +2381,6 @@ ALGORITHMS
                 - Plan 9:          -
                 - Solaris:         -
                 - Windows:         -
-                - OpenSSL:         -
 \
             since:
                 Jacksum 3.0.0
