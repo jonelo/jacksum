@@ -262,8 +262,8 @@ public class Parameters implements
         } else if (isList() && algorithm != null) {
             return ActionType.INFO_ALGO;
 
-            // must be the first check if isInfoMode is invovled, because
-            // the --compat option sets the algorith implicitly
+        // must be the first check if isInfoMode is involved, because
+        // the --compat option sets the algorithm implicitly
         } else if (isInfoMode() && getCompatibilityID() != null) {
             return ActionType.INFO_COMPAT;
 
@@ -746,18 +746,26 @@ public class Parameters implements
                     compatibilityProperties.setHashAlgorithmUserSelected(true);
                 }
 
-                // patch the parameters object explicitly, because now the parameters 
+                // patch this parameters object explicitly, because now the parameters
                 // come from the compatibilityID object (the compatibilityProperties)
-                if (!infoMode) {
-                    messenger.print(INFO, String.format("Option --compat has been set, setting implicitly -a %s -E %s -F \"%s\", stdin-name=%s",
-                            compatibilityProperties.getHashAlgorithm(),
-                            compatibilityProperties.getHashEncoding(),
-                            compatibilityProperties.getFormat(),
-                            compatibilityProperties.getStdinName()));
+                if (!infoMode) { // we didn't specify both -C and --info
+
+                    if (checkFile != null) { // we are in check mode
+                        messenger.print(INFO, String.format("Option --compat has been set, setting implicitly -a %s -E %s, stdin-name=%s",
+                                compatibilityProperties.getHashAlgorithm(),
+                                compatibilityProperties.getHashEncoding(),
+                                compatibilityProperties.getStdinName()));
+                    } else { // we are in normal calculation/print mode
+                        messenger.print(INFO, String.format("Option --compat has been set, setting implicitly -a %s -E %s -F \"%s\", stdin-name=%s",
+                                compatibilityProperties.getHashAlgorithm(),
+                                compatibilityProperties.getHashEncoding(),
+                                compatibilityProperties.getFormat(),
+                                compatibilityProperties.getStdinName()));
+                        this.setFormat(compatibilityProperties.getFormat());
+                    }
                 }
                 this.setAlgorithm(compatibilityProperties.getHashAlgorithm());
                 this.setEncoding(compatibilityProperties.getHashEncoding());
-                this.setFormat(compatibilityProperties.getFormat());
                 this.setStdinName(compatibilityProperties.getStdinName());
                 this.setLineSeparator(compatibilityProperties.getLineSeparator());
                 AbstractChecksum.setStdinName(compatibilityProperties.getStdinName());

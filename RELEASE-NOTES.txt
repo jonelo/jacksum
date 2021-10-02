@@ -29,6 +29,7 @@ Jacksum 3.0.1-not-yet-released
     - fixed: crc32c can be used normal, but it is missing in the --list output
     - fixed: remove the lab-remnant hex-camelcase from the code
     - fixed: a potential mem leak in the Blake3 implementation
+    - fixed: don't print a warning about implicitly set format if we have set -C and we are in check mode
 
 
 Jacksum 3.0.0, Sep 4, 2021
