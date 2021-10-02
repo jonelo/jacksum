@@ -40,7 +40,7 @@ public class Skein_Selector extends Selector {
     
     @Override
     public Map<String, String> getAvailableAlgorithms() {
-        Map<String, String> map = new LinkedHashMap<>(224); // 32+64+128
+        Map<String, String> map = new LinkedHashMap<>(300); // (32+64+128)/0.75=298.66
         for (int i = 8; i <= 256; i += 8) {
             map.put(SKEIN_256 + "-" + i, "Skein-256" + "-" + i);
         }
@@ -55,10 +55,13 @@ public class Skein_Selector extends Selector {
     
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(3);
+        Map<String, String> map = new LinkedHashMap<>(8);
         map.put("skein-256", "skein-256-256");
         map.put("skein-512", "skein-512-512");
         map.put("skein-1024", "skein-1024-1024");
+        map.put("skein256", "skein-256-256");
+        map.put("skein512", "skein-512-512");
+        map.put("skein1024", "skein-1024-1024");
         return map;
     }
 

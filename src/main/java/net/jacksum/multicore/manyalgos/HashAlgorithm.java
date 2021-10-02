@@ -724,6 +724,9 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS_ALIASES.put("skein-256", WEIGHTS.get("skein-256-256"));
         WEIGHTS_ALIASES.put("skein-512", WEIGHTS.get("skein-512-512"));
         WEIGHTS_ALIASES.put("skein-1024", WEIGHTS.get("skein-1024-1024"));
+        WEIGHTS_ALIASES.put("skein256", WEIGHTS.get("skein-256-256"));
+        WEIGHTS_ALIASES.put("skein512", WEIGHTS.get("skein-512-512"));
+        WEIGHTS_ALIASES.put("skein1024", WEIGHTS.get("skein-1024-1024"));
         WEIGHTS_ALIASES.put("streebog-256", WEIGHTS.get("streebog256"));
         WEIGHTS_ALIASES.put("streebog-512", WEIGHTS.get("streebog512"));
         WEIGHTS_ALIASES.put("sumbsd", WEIGHTS.get("sum_bsd"));
