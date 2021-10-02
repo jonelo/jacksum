@@ -281,14 +281,14 @@ OPTIONS
 \
             you can specify a parser file by using the --compat option.
             The parser file must have all the definitions that are necessary
-            to parse <list> properly. For more information see also option -C.
+            to parse <file> properly. For more information see also option -C.
 \
-            If <list> is set to a single dash (-) Jacksum reads from stdin.
+            If <file> is set to a single dash (-) Jacksum reads from stdin.
             Use option --charset-check-file to specify the character set for
             <file>.
 \
             You can use the option -I in order to ignore all lines that start
-            with a particular string in <list>.
+            with a particular string in <file>.
 \
             To exclude files from being checked, just remove the lines from the
             list. This can be done with findstr /V (on Windows) and with grep -v
@@ -626,7 +626,7 @@ OPTIONS
 
     --copyright
            prints out the copyrights and license information for all portions
-           of the software that Jacksum licensed.
+           of the software that Jacksum licensed. See also --license.
 
 
     -d      
@@ -784,7 +784,7 @@ OPTIONS
 
     -h [language] [word]
     --help [language] [word]
-            print help, valid codes for language is en; valid values for
+            prints the help, valid code for language is en; valid values for
             word are strings like section headers, options or algorithms.
             See section EXAMPLES for more information.
             Available since Jacksum 1.0.0
@@ -5530,21 +5530,6 @@ EXIT STATUS
 
 
 EXAMPLES
-    Get information about the program:
-\
-        `jacksum -v` or `jacksum --version`
-        returns the version of Jacksum
-\
-        `jacksum -h` or `jacksum --help`
-        prints the entire manpage
-\
-        `jacksum --info`
-        returns the version of Jacksum, primary IDs of all supported algorithms
-        and their descriptions, number of supported algorithms, supported
-        character sets, number of supported character sets, system properties,
-        available processors for the application and many more.
-        Useful for support requests.
-\
 \
     Get information about one algorithm:
 \
@@ -5612,7 +5597,7 @@ EXAMPLES
 \
         `cat fat.iso | jacksum -`
         prints the SHA3-256 (default) of the binary file called fat.iso on
-        GNU/Linux and macOS. Use type rather than cat on Windows.
+        GNU/Linux and macOS. Use type rather than cat on Microsoft Windows.
 \
 \
     Calculate hashes from the command line:
@@ -5620,7 +5605,7 @@ EXAMPLES
         `jacksum -q txt:"The quick brown fox jumps over the lazy dog"`
         calculates the sha3-256 (default) hash from the given string.
 \
-        `jacksum -a crc32 -q 'txt:Hello World!'
+        `jacksum -a crc32 -q 'txt:Hello World!'`
         calculates a 32-bit CRC of the text "Hello World!". In GNU/Linux 
         shells such as bash you have to enclose characters in single quotes
         rather than double quotes in order to preserve the literal value of each
@@ -5906,15 +5891,43 @@ EXAMPLES
         only once for each file.
 \
 \
+    Get information about the program:
+\
+        `jacksum -v` or `jacksum --version`
+        returns the version of Jacksum
+\
+        `jacksum -h` or `jacksum --help`
+        prints the entire manpage
+\
+        `jacksum --info`
+        returns the version of Jacksum, primary IDs of all supported algorithms
+        and their descriptions, number of supported algorithms, supported
+        character sets, number of supported character sets, system properties,
+        available processors for the application and many more.
+        Useful for support requests.
+\
+\
+    Legal stuff:
+        jacksum --license
+            prints the entire license text.
+\
+        jacksum --copyright
+            prints out the copyrights and license information for all portions
+            of the software that Jacksum licensed.
+\
+\
     Working with the help:
         jacksum -h -h
             prints the help about the -h option
 \
         jacksum -h synopsis
-            prints the SYNOPSIS section
+            prints the entire SYNOPSIS section
 \
-        jacksum -h license
-            prints the LICENSE section
+        jacksum -h exit
+            prints the entire EXIT section
+\
+        jacksum -h examples
+            prints the entire EXAMPLES section
 \
         jacksum -h whirlpool
             prints all information about the algorithms starting with whirlpool
