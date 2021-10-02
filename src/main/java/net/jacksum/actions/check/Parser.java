@@ -49,7 +49,8 @@ public class Parser {
         this.props = props;
         this.statistics = new ParserStatistics();
 
-        // replacing the regex if a non-default algorithm (as defined in the parser file) has been selected by the user on the command line
+        // replacing the regex if a non-default algorithm (as defined in the parser file)
+        // has been selected by the user on the command line
         int nibbles = 0;
         if (props.getHashAlgorithmUserSelected()) {
             try {
