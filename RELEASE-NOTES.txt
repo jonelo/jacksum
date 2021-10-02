@@ -7,6 +7,7 @@ Jacksum 3.0.1-not-yet-released
     - added compat files called solaris-tagged and solaris-untagged
     - added format aliases #ALGONAME{lowercase} and #ALGONAME{<i>,lowercase}
     - added algo aliases sha512t224, and sha512t256
+    - added algo aliases skein256, skein512, and skein1024
 
 - improved build-in help
 
