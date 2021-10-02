@@ -54,7 +54,6 @@ public class Adler32_Selector extends Selector {
             aliases = new LinkedHashMap<>(2);
             aliases.put("adler32", ID);
             aliases.put("adler-32", ID);
-
         }
         return aliases;
     }
