@@ -4494,7 +4494,7 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.SHAKEDigest
 
 
-    skein-256, skein-256-<w>
+    skein-256, skein-256-<w>, skein256
             algorithm:
                 Skein-256
             length:
@@ -4558,7 +4558,7 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.SkeinDigest
 
 
-    skein-512, skein-512-<w>
+    skein-512, skein-512-<w>, skein512
             algorithm:
                 Skein-512
             length:
@@ -4622,7 +4622,7 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.SkeinDigest
 
 
-    skein-1024, skein-1024-<w>
+    skein-1024, skein-1024-<w>, skein1024
             algorithm:
                 Skein-1024
             length:
