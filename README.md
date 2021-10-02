@@ -10,13 +10,13 @@
 
 <img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
-**Jacksum** is a free, open source, and cross platform data integrity console utility, which can **compute, print and verify checksums, CRCs, and message digests**  (known as hash values and fingerprints).
+**Jacksum** is a free, open source, and cross platform data integrity command line program for **recursively computing hash values** with **multiple algorithms and multiple files simultaneously**. Jacksum can perform a **verification** of hashes against a set of known hashes, and it can detect matching files, non-matching files, missing files, and new files. 
 
-Jacksum supports **470 algorithms**. For details see the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage#algorithms) and the [Copyright](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/legal/copyright.txt) file.
+Jacksum supports **470 algorithms**, including **checksums, CRCs, and message digests** (known as hash values and fingerprints). For details see the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage#algorithms) and the [Copyright](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/legal/copyright.txt) file.
 
 Jacksum can compute and verify hash values much faster on **multi-core processors and multi-CPU computers** if you select many files and/or many algorithms.
 
-Jacksum supports a **versatile bunch of features**. For example, it can also **find an algorithm to a hash value** using brute force. For a comprehensive list of features please see also [Features](https://github.com/jonelo/jacksum#features) and the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage).
+Jacksum also supports **non-traditional features**. For example, it can **find an algorithm to a hash value** using brute force. For a comprehensive list of features please see also [Features](https://github.com/jonelo/jacksum#features) and the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage).
 
 Jacksum is a **command line tool**, and it can be integrated in your **file browser**, see also [Integration](https://github.com/jonelo/jacksum#integration). Jacksum can also be used as a **library** in your own projects by using its **API**. Jacksum keeps the binary small, because it bundles only what it really needs to do the job.
 
