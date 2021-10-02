@@ -66,10 +66,12 @@ public class Parser {
         if (props.getRegexp() != null) {
             props.setRegexp(props.getRegexp().replace("#NIBBLES", Integer.toString(nibbles)));
             props.setRegexp(props.getRegexp().replace("#ALGONAME{uppercase}", props.getHashAlgorithm().toUpperCase(Locale.US)));
+            props.setRegexp(props.getRegexp().replace("#ALGONAME{lowercase}", props.getHashAlgorithm().toLowerCase(Locale.US)));
             props.setRegexp(props.getRegexp().replace("#ALGONAME", props.getHashAlgorithm()));
+
             // parse the line using the regex
             try {
-                pattern = Pattern.compile(props.getRegexp());
+                pattern = Pattern.compile(props.getRegexp()); //, Pattern.CASE_INSENSITIVE);
             } catch (PatternSyntaxException pse) {
                 throw new InvalidParserParameterException(pse.getMessage());
             }
