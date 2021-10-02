@@ -22,6 +22,7 @@
  */
 package net.jacksum.parameters;
 
+import net.jacksum.actions.check.*;
 import net.jacksum.parameters.combined.StatisticsParameters;
 import net.jacksum.parameters.base.SequenceParameters;
 import net.jacksum.parameters.combined.ProducerConsumerParameters;
@@ -32,7 +33,6 @@ import net.jacksum.parameters.base.FileWalkerParameters;
 import net.jacksum.parameters.base.AlgorithmParameters;
 import net.jacksum.parameters.base.PathParameters;
 import net.jacksum.multicore.manyfiles.ProducerParameters;
-import net.jacksum.actions.check.CheckActionParameters;
 import net.jacksum.actions.version.VersionActionParameters;
 import net.jacksum.actions.quick.QuickActionParameters;
 import net.jacksum.actions.help.HelpActionParameters;
@@ -62,11 +62,8 @@ import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Verbose;
 import net.jacksum.actions.infoalgo.AlgoInfoActionParameters;
 import net.jacksum.actions.infoapp.AppInfoActionParameters;
-import net.jacksum.actions.check.CheckConsumerParameters;
-import net.jacksum.actions.check.CompatibilityProperties;
 import net.jacksum.actions.infocompat.CompatInfoActionParameters;
 import net.jacksum.algorithms.AbstractChecksum;
-import net.jacksum.actions.check.ListFilter;
 import net.jacksum.cli.Messenger;
 
 import static net.jacksum.cli.Messenger.MsgType.INFO;
@@ -765,7 +762,7 @@ public class Parameters implements
                 this.setLineSeparator(compatibilityProperties.getLineSeparator());
                 AbstractChecksum.setStdinName(compatibilityProperties.getStdinName());
 
-            } catch (IOException ex) {
+            } catch (IOException | InvalidCompatibilityPropertiesException ex) {
                 throw new ExitException("Jacksum: " + ex.getMessage(), ExitCode.IO_ERROR);
             }
         }

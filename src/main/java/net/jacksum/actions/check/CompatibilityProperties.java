@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Properties;
 
 import net.jacksum.algorithms.AbstractChecksum;
+import org.n16n.sugar.util.ExitException;
 import org.n16n.sugar.util.Support;
 
 
@@ -83,12 +84,28 @@ public class CompatibilityProperties {
      * @param compatFilename the filename of the properties file.
      * @throws java.io.IOException if there is an I/O problem with the file.
      */
-    public CompatibilityProperties(String compatFilename) throws IOException {
+    public CompatibilityProperties(String compatFilename) throws IOException, InvalidCompatibilityPropertiesException {
         String compatFilenameResolved = resolveAlias(compatFilename);
         if (isParserSupported(compatFilenameResolved)) {
             props = readFromJarFile(String.format("/net/jacksum/actions/check/compatdefs/%s.properties", compatFilenameResolved));
         } else {
             props = readFromLocalFile(compatFilenameResolved);
+        }
+        if (getCompatSyntaxVersion() != null) {
+            // seems it is a valid property file
+            int version;
+            try {
+                version = Integer.parseInt(getCompatSyntaxVersion().trim());
+            } catch (NumberFormatException nfe) {
+                throw new InvalidCompatibilityPropertiesException(String.format("value of property compat.syntaxVersion must be an integer, but I found the value \"%s\" in \"%s\"", getCompatSyntaxVersion(), compatFilename));
+            }
+            // does it have the right version?
+            if (version < 2) {
+                throw new InvalidCompatibilityPropertiesException(String.format("value of property compat.syntaxVersion must be 2 or higher, but I found \"%s\" in \"%s\"", getCompatSyntaxVersion(), compatFilename));
+            }
+        } else {
+            // does not look like a valid property file
+            throw new InvalidCompatibilityPropertiesException(String.format("The file \"%s\" does not look like a valid compatibility file. The property called compat.syntaxVersion is expected, but it hasn't been found in the file.", compatFilename));
         }
         addRequiredPropertiesIfAbsent();
     }
