@@ -40,7 +40,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 public class Parser {
 
     CompatibilityProperties props;
-    private ParserStatistics statistics;
+    private final ParserStatistics statistics;
     Pattern pattern;
 
     public Parser(CompatibilityProperties props) throws InvalidParserParameterException {
@@ -49,7 +49,7 @@ public class Parser {
 
         // replacing the regex if a non-default algorithm (as defined in the parser file)
         // has been selected by the user on the command line
-        int nibbles = 0;
+        int nibbles;
         if (props.getHashAlgorithmUserSelected()) {
             try {
                 AbstractChecksum checksum = JacksumAPI.getChecksumInstance(props.getHashAlgorithm());
@@ -84,7 +84,7 @@ public class Parser {
         } catch (IgnoredLineException ile) {
             // we want to silently ignore particular lines
         } catch (ImproperlyFormattedLineException ple) {
-            System.err.println(String.format("Jacksum: Warning: Improperly formatted line: %s", line));
+            System.err.printf("Jacksum: Warning: Improperly formatted line: %s%n", line);
         }
         return null;
     }
@@ -149,7 +149,7 @@ public class Parser {
 
     private String cutBOM(String line, Charset charset, byte[] BOM) {
         byte[] bytes = line.getBytes(charset);
-        if (bytes != null && bytes.length >= BOM.length && Arrays.equals(Arrays.copyOf(bytes, BOM.length), BOM)) {
+        if (bytes.length >= BOM.length && Arrays.equals(Arrays.copyOf(bytes, BOM.length), BOM)) {
             return new String(Arrays.copyOfRange(bytes, BOM.length, bytes.length), charset);
         } else {
             return line;
@@ -165,11 +165,11 @@ public class Parser {
      */
     public String cutBOM(String line, Charset charset) {
         String lineWithoutBOM = line;
-        if (charset.equals(Charset.forName("UTF-8"))) {
+        if (charset.equals(StandardCharsets.UTF_8)) {
             lineWithoutBOM = cutBOM(line, charset, new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF});
-        } else if (charset.equals(Charset.forName("UTF-16BE"))) {
+        } else if (charset.equals(StandardCharsets.UTF_16BE)) {
             lineWithoutBOM = cutBOM(line, charset, new byte[]{(byte) 0xFE, (byte) 0xFF});
-        } else if (charset.equals(Charset.forName("UTF-16LE"))) {
+        } else if (charset.equals(StandardCharsets.UTF_16LE)) {
             lineWithoutBOM = cutBOM(line, charset, new byte[]{(byte) 0xFF, (byte) 0xFE});
         } else if (charset.equals(Charset.forName("UTF-32BE"))) {
             lineWithoutBOM = cutBOM(line, charset, new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0xFE, (byte) 0xFF});
@@ -207,7 +207,7 @@ public class Parser {
                 inputStreamReader = new InputStreamReader(System.in, charset);
                 bufferedReader = new BufferedReader(inputStreamReader);
             } else {
-                fileReader = new FileReader(new File(filename), charset);
+                fileReader = new FileReader(filename, charset);
                 bufferedReader = new BufferedReader(fileReader);
             }
 
@@ -222,15 +222,12 @@ public class Parser {
                         line = cutBOM(line, charset);
                     }
 
-                    HashEntry hashEntry = parseLine(line);
-                    if (hashEntry != null) {
-                        list.add(hashEntry);
-                    }
+                    list.add(parseLine(line));
                 } catch (IgnoredLineException ile) {
                     // we want to silently ignore particular lines
                 } catch (ImproperlyFormattedLineException ple) {
                     linesWithErrors++;
-                    System.err.println(String.format("Jacksum: Warning: Improperly formatted line in line #%d in file \"%s\": \"%s\"", lineNumber, filename, line));
+                    System.err.printf("Jacksum: Warning: Improperly formatted line in line #%d in file \"%s\": \"%s\"%n", lineNumber, filename, line);
                 }
             }
 
