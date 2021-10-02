@@ -74,7 +74,7 @@ public class CLIParameters {
 
                 if (arg.equals("-a") || arg.equals("--algorithm")) {
                     if (firstfile < args.length) {
-                        parameters.setAlgorithm(args[firstfile++].toLowerCase());
+                        parameters.setAlgorithm(args[firstfile++]);
                     } else {
                         handleUserParamError(arg, "--algorithm");
                     }

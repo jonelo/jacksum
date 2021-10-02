@@ -49,6 +49,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -86,6 +87,8 @@ public class Parameters implements
         FormatParameters, AlgorithmParameters, CustomizedFormatParameters, StatisticsParameters,
         FileWalkerParameters, ProducerConsumerParameters, PathParameters,
         GatheringParameters, SequenceParameters, ProducerParameters, CheckConsumerParameters, VerboseParameters, CompatibilityParameters {
+
+    private String algorithmIdentifier;
 
     /**
      * @return the filelistFormat
@@ -756,12 +759,14 @@ public class Parameters implements
                                 compatibilityProperties.getHashEncoding(),
                                 compatibilityProperties.getStdinName()));
                     } else { // we are in normal calculation/print mode
+                        String fmt = compatibilityProperties.getFormat(this.getAlgorithmIdentifier());
                         messenger.print(INFO, String.format("Option --compat has been set, setting implicitly -a %s -E %s -F \"%s\", stdin-name=%s",
                                 compatibilityProperties.getHashAlgorithm(),
                                 compatibilityProperties.getHashEncoding(),
-                                compatibilityProperties.getFormat(),
+                                fmt,
                                 compatibilityProperties.getStdinName()));
-                        this.setFormat(compatibilityProperties.getFormat());
+
+                        this.setFormat(fmt);
                     }
                 }
                 this.setAlgorithm(compatibilityProperties.getHashAlgorithm());
@@ -876,15 +881,18 @@ public class Parameters implements
 
     @Override
     public String getAlgorithmIdentifier() {
-        if (algorithm == null) {
-            return ALGORITHM_IDENTIFIER_DEFAULT;
-        }
-        return algorithm;
+        return algorithmIdentifier;
     }
 
     public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
-        if (algorithm.startsWith("unknown:")) {
+        if (algorithm==null) {
+            algorithmIdentifier = ALGORITHM_IDENTIFIER_DEFAULT;
+        } else {
+            this.algorithmIdentifier = algorithm.toLowerCase(Locale.US);
+        }
+
+        if (algorithmIdentifier.startsWith("unknown:")) {
             findAlgorithm = true;
             verbose.enableAll();
         }

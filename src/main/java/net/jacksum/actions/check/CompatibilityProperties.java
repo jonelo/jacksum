@@ -20,15 +20,16 @@
  */
 package net.jacksum.actions.check;
 
+import net.jacksum.JacksumAPI;
+import net.jacksum.algorithms.AbstractChecksum;
+import org.n16n.sugar.util.Support;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Properties;
-
-import net.jacksum.algorithms.AbstractChecksum;
-import org.n16n.sugar.util.ExitException;
-import org.n16n.sugar.util.Support;
 
 
 public class CompatibilityProperties {
@@ -47,6 +48,7 @@ public class CompatibilityProperties {
     private final static String LINES_IGNORE_EMPTY_LINES = "parser.ignoreEmptyLines";
     private final static String LINES_REGEXP = "parser.regexp";
     private final static String REGEXP_HASH_POS = "parser.regexp.hashPos";
+    private final static String REGEXP_ALGONAME_POS = "parser.regexp.algonamePos";
     private final static String REGEXP_FILENAME_POS = "parser.regexp.filenamePos";
     private final static String REGEXP_FILESIZE_POS = "parser.regexp.filesizePos";
     private final static String REGEXP_TIMESTAMP_POS = "parser.regexp.timestampPos";
@@ -58,6 +60,8 @@ public class CompatibilityProperties {
     private final static String HASH_ENCODING = "formatter.hash.encoding";
     private final static String STDIN_NAME = "formatter.stdinName";
     private final static String LINE_SEPARATOR = "formatter.lineSeparator";
+    private final static String ALGONAME_DEFAULT_REPLACEMENT = "formatter.ALGONAME.defaultReplacement";
+    private final static String ALGONAME_EXCEPTION_MAPPINGS = "formatter.ALGONAME.exceptionMappings";
 
 
     /**
@@ -216,6 +220,14 @@ public class CompatibilityProperties {
         props.setProperty(REGEXP_FILENAME_POS, String.valueOf(pos));
     }
 
+    public int getRegexpAlgonamePos() {
+        return Integer.parseInt(props.getProperty(REGEXP_ALGONAME_POS, "-1"));
+    }
+
+    public void setRegexpAlgonamePos(int pos) {
+        props.setProperty(REGEXP_ALGONAME_POS, String.valueOf(pos));
+    }
+
     public int getRegexpFilesizePos() {
         return Integer.parseInt(props.getProperty(REGEXP_FILESIZE_POS, "-1"));
     }
@@ -246,6 +258,23 @@ public class CompatibilityProperties {
 
     public void setLineSeparator(String lineSeparator) {
         props.setProperty(LINE_SEPARATOR, lineSeparator);
+    }
+
+
+    public String getAlgonameDefaultReplacement() {
+        return props.getProperty(ALGONAME_DEFAULT_REPLACEMENT, "#ALGONAME");
+    }
+
+    public void setAlgonameDefaultReplacement(String algonameDefaultReplacement) {
+        props.setProperty(ALGONAME_DEFAULT_REPLACEMENT, algonameDefaultReplacement);
+    }
+
+    public String getAlgonameExceptionMappings() {
+        return props.getProperty(ALGONAME_EXCEPTION_MAPPINGS, "");
+    }
+
+    public void setAlgonameExceptionMappings(String algonameExceptionMappings) {
+        props.setProperty(ALGONAME_EXCEPTION_MAPPINGS, algonameExceptionMappings);
     }
 
 
@@ -282,7 +311,33 @@ public class CompatibilityProperties {
         props.setProperty(HASH_ENCODING, hashEncoding);
     }
 
-    public String getFormat() {
+    public String getFormat(String algoid) {
+
+        if (props.getProperty(LINES_FORMAT).contains("#ALGONAME")) {
+            // what is the primary id?
+            String primaryID;
+            try {
+                AbstractChecksum checksum = JacksumAPI.getChecksumInstance(algoid);
+                primaryID = checksum.getName();
+            } catch (NoSuchAlgorithmException ex) {
+                primaryID = algoid;
+            }
+
+            String format = props.getProperty(LINES_FORMAT);
+
+            // special algorithm names?
+            if (!getAlgonameExceptionMappings().equals("")) {
+                String[] tokens = getAlgonameExceptionMappings().split(";");
+                for (String token : tokens) {
+                    String[] tuple = token.split("=");
+                    if (tuple[0].equals(primaryID)) {
+                        format = format.replace("#ALGONAME", tuple[1]);
+                    }
+                }
+            }
+            return format.replace("#ALGONAME", getAlgonameDefaultReplacement());
+        }
+
         return props.getProperty(LINES_FORMAT);
     }
 

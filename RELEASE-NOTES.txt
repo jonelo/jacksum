@@ -24,6 +24,8 @@ Jacksum 3.0.1-not-yet-released
     - fixed: compat files bsd, linux, and openssl should use line separator \n on Microsoft Windows,
       otherwise md5sum, sha1sum, etc. on GNU/Linux cannot read Jacksum's output
     - fixed: typo in compat files linux and openssl which results in wrong stdin names
+    - fixed: Jacksum does not print 100% compatible output by using tagged compat files (bsd, and openssl)
+    - fixed: Jacksum does not parse 100% compatible output by using tagged compat files (bsd, and openssl)
     - fixed: speed rank info is calculated wrongly (check with `jacksum -a all --list --info`)
     - fixed: format "#HASH{0,<encoding>}" and  -F "#CHECKSUM{i,<encoding>}" don't work if the user
       has selected one algorithm only
