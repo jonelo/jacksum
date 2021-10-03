@@ -10,17 +10,40 @@
 
 <img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
-**Jacksum** is a free, open source, and cross platform data integrity command line program for **recursively computing hash values** with **multiple algorithms and multiple files simultaneously**. Jacksum can perform a **verification** of hashes against a set of known hashes, and it can detect matching files, non-matching files, missing files, and new files. 
+**Jacksum** is a free and cross-platform data integrity
+software for working with checksums, CRCs, and message digests
+(hashes).
 
-Jacksum supports **471 algorithms**, including **checksums, CRCs, and message digests** (known as hash values and fingerprints). For details see the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage#algorithms) and the [Copyright](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/legal/copyright.txt) file.
+Jacksum supports **471 algorithms**, including the most
+common cryptographic and non-cryptographic hash functions.
 
-Jacksum can compute and verify hash values much faster on **multi-core processors and multi-CPU computers** if you select many files and/or many algorithms.
+Jacksum can **recursively compute hashes** with **multiple algorithms**
+**simultaneously**. Jacksum takes advantage of modern **multi-processor/
+multi-core** environments, and saves time by hashing multiple files
+in parallel.
 
-Jacksum also supports **non-traditional features**. For example, it can **find an algorithm to a hash value** using brute force. For a comprehensive list of features please see also [Features](https://github.com/jonelo/jacksum#features) and the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage).
+Jacksum can perform a **verification of hashes** against a set of known
+hashes, and it can **detect matching files, non-matching files,
+missing files, and new files**.
+
+**Output** can occur in **predefined standard formats** (BSD-, GNU/Linux-, or
+Solaris style, SFV or FCIV) or in a **user-defined format** which is highly
+customizable, including many encodings for representing hash values,
+including Hex, Base32, Base64, and BubbleBabble.
+
+**Input data** can come from **files**, **standard input stream** (stdin), or
+provided directly by **command line arguments**.
+
+Jacksum supports **many charsets** for reading and writing files properly,
+and it comes with **full support** for **all common Unicode aware
+charsets such as UTF-8**.
+
+With Jacksum you can also **find the algorithm used to calculate a
+checksum/CRC/hash** or **find files that match a given hash value**.
 
 Jacksum is a **command line tool**, and it can be integrated in your **file browser**, see also [Integration](https://github.com/jonelo/jacksum#integration). Jacksum can also be used as a **library** in your own projects by using its **API**. Jacksum keeps the binary small, because it bundles only what it really needs to do the job.
 
-Jacksum is a synthetic word made of JAva and ChecKSUM, because Jacksum is written entirely in **Java**.
+Jacksum is a synthetic word made of **JAva and ChecKSUM**, because Jacksum is written entirely in Java.
 
 
 ## System Requirements

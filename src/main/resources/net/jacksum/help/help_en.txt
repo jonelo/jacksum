@@ -1,6 +1,6 @@
 NAME
-    jacksum - a data integrity software tool to master checksums, CRCs, and
-              message digests (hashes)
+    jacksum - free data integrity software for working with checksums, CRCs,
+              and message digests (hashes)
 
 
 VERSION
@@ -14,18 +14,36 @@ SYNOPSIS
 DESCRIPTION
     Overview:
 \
-        Jacksum (JAva ChecKSUM) is a free and cross platform data integrity
-        software tool to master checksums, CRCs, and message digests (hashes).
+        Jacksum (JAva ChecKSUM) is a free and cross-platform data integrity
+        software for working with checksums, CRCs, and message digests
+        (hashes).
 \
-        Jacksum supports 471 fingerprinting algorithms, and takes advantage of
-        modern multi-processor/multi-cores environments for parallel
-        computation and verification of hashes.
+        Jacksum supports 471 algorithms, including the most common
+        cryptographic and non-cryptographic hash functions.
 \
-        With Jacksum you can also find the algorithm used to calculate a 
+        Jacksum can recursively compute hashes with multiple algorithms
+        simultaneously. Jacksum takes advantage of modern multi-processor/
+        multi-core environments, and saves time by hashing multiple files
+        in parallel.
+\
+        Jacksum can perform a verification of hashes against a set of known
+        hashes, and it can detect matching files, non-matching files,
+        missing files, and new files.
+\
+        Output can occur in predefined standard formats (BSD-, GNU/Linux-, or
+        Solaris style, SFV or FCIV) or in a user-defined format which is highly
+        customizable, including many encodings for representing hash values,
+        including Hex, Base32, Base64, and BubbleBabble.
+\
+        Input data can come from files, standard input stream (stdin), or
+        provided directly by command line arguments.
+\
+        Jacksum supports many charsets for reading and writing files
+        properly, and it comes with full support for all common Unicode aware
+        charsets such as UTF-8.
+\
+        With Jacksum you can also find the algorithm used to calculate a
         checksum/CRC/hash or find files that match a given hash value.
-\
-        Both input and output are highly customizable, including charsets,
-        encodings, formats, and compatibility files.
 \
         Type `jacksum -h examples` and go to https://jacksum.net to learn more
         about Jacksum.
