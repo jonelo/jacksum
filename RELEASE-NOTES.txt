@@ -1,13 +1,12 @@
-Jacksum 3.0.1-not-yet-released
+Jacksum 3.0.1, Oct 3, 2021
 
 - added minor features
 
     - added algorithm aliases crc32_jamcrc and crc-32_jamcrc for crc32_ubi
+    - added algo aliases sha512t224, sha512t256, skein256, skein512, and skein1024
     - added compat aliases called linux-tagged and linux-untagged (for bsd and linux)
     - added compat files called solaris-tagged and solaris-untagged
     - added format aliases #ALGONAME{lowercase} and #ALGONAME{<i>,lowercase}
-    - added algo aliases sha512t224, and sha512t256
-    - added algo aliases skein256, skein512, and skein1024
 
 - improved build-in help
 
@@ -20,9 +19,10 @@ Jacksum 3.0.1-not-yet-released
 
 - bugs fixed
 
-    - fixed: regression: files that have been specified by -o,-O and -u,-U are hashed
+    - fixed: regression: files that have been specified by -o,-O and -u,-U are hashed, but they shouldn't
     - fixed: if both errorFile and outputFile are set to the same file, their paths must be normalized before comparisons
     - fixed: a NPE is thrown if a non-compatibility file is given by option -C
+    - fixed: the syntax version of the compatibility files should be checked before processing
     - fixed: compat files bsd, linux, and openssl should use line separator \n on Microsoft Windows,
       otherwise md5sum, sha1sum, etc. on GNU/Linux cannot read Jacksum's output
     - fixed: typo in compat files linux and openssl which results in wrong stdin names
