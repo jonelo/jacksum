@@ -44,6 +44,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -595,13 +597,21 @@ public class Parameters implements
             }
         }
 
-        if (isOutputFile() && isErrorFile() && getOutputFile().equals(getErrorFile()) && !charsetOutputFile.equals(charsetErrorFile)) {
+        boolean outputFileAndErrorFileAreEqual = false;
+
+        if (isOutputFile() && isErrorFile()) {
+            Path outputFilePath = Paths.get(getOutputFile()).toAbsolutePath().normalize();
+            Path errorFilePath = Paths.get(getErrorFile()).toAbsolutePath().normalize();
+            outputFileAndErrorFileAreEqual = outputFilePath.equals(errorFilePath);
+        }
+
+        if (outputFileAndErrorFileAreEqual && !charsetOutputFile.equals(charsetErrorFile)) {
             throw new ParameterException("Both output and error filename are equal, but charsets for output and error file are different");
         }
 
         PrintStream streamShared = null;
         boolean isShared = false;
-        if (isOutputFile() && isErrorFile() && getOutputFile().equals(getErrorFile())) {
+        if (outputFileAndErrorFileAreEqual) {
             try {
                 streamShared = new PrintStream(new FileOutputStream(getOutputFile()), true, getCharsetOutputFile());
                 isShared = true;
@@ -652,7 +662,6 @@ public class Parameters implements
                 throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
             }
         }
-
     }
 
 
