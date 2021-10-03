@@ -12,7 +12,7 @@
 
 **Jacksum** is a free, open source, and cross platform data integrity command line program for **recursively computing hash values** with **multiple algorithms and multiple files simultaneously**. Jacksum can perform a **verification** of hashes against a set of known hashes, and it can detect matching files, non-matching files, missing files, and new files. 
 
-Jacksum supports **470 algorithms**, including **checksums, CRCs, and message digests** (known as hash values and fingerprints). For details see the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage#algorithms) and the [Copyright](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/legal/copyright.txt) file.
+Jacksum supports **471 algorithms**, including **checksums, CRCs, and message digests** (known as hash values and fingerprints). For details see the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage#algorithms) and the [Copyright](https://github.com/jonelo/jacksum/blob/main/src/main/resources/net/jacksum/legal/copyright.txt) file.
 
 Jacksum can compute and verify hash values much faster on **multi-core processors and multi-CPU computers** if you select many files and/or many algorithms.
 

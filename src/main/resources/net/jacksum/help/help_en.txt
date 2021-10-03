@@ -17,7 +17,7 @@ DESCRIPTION
         Jacksum (JAva ChecKSUM) is a free and cross platform data integrity
         software tool to master checksums, CRCs, and message digests (hashes).
 \
-        Jacksum supports 470 fingerprinting algorithms, and takes advantage of
+        Jacksum supports 471 fingerprinting algorithms, and takes advantage of
         modern multi-processor/multi-cores environments for parallel
         computation and verification of hashes.
 \
