@@ -88,7 +88,6 @@ public class Parameters implements
         FileWalkerParameters, ProducerConsumerParameters, PathParameters,
         GatheringParameters, SequenceParameters, ProducerParameters, CheckConsumerParameters, VerboseParameters, CompatibilityParameters {
 
-    private String algorithmIdentifier;
 
     /**
      * @return the filelistFormat
@@ -106,6 +105,7 @@ public class Parameters implements
 
 
     public final static String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
+    private String algorithmIdentifier = ALGORITHM_IDENTIFIER_DEFAULT;
 
     // -a
     private String algorithm = null;
@@ -886,7 +886,7 @@ public class Parameters implements
 
     public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
-        if (algorithm==null) {
+        if (algorithm == null) {
             algorithmIdentifier = ALGORITHM_IDENTIFIER_DEFAULT;
         } else {
             this.algorithmIdentifier = algorithm.toLowerCase(Locale.US);
