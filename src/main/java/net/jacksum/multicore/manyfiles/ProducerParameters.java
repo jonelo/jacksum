@@ -39,4 +39,8 @@ public interface ProducerParameters {
     boolean isDontFollowSymlinksToDirectories();
     String getStdinName();
     ListFilter getListFilter();
+    boolean isOutputFile();
+    String getOutputFile();
+    boolean isErrorFile();
+    String getErrorFile();
 }

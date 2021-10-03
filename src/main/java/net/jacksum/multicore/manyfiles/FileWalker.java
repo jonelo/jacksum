@@ -41,19 +41,30 @@ public class FileWalker {
     private final boolean followSymlinksToDirs;
     private final boolean followSymlinksToFiles;
     private final BlockingQueue<Message> queue;
-    private final ProducerParameters producerParameters;
     private final Message.Type messageTypeForFiles;
+    private final Path outputFile;
+    private final Path errorFile;
 
     public FileWalker(Message.Type messageTypeForFiles, ProducerParameters producerParameters, 
             Path path, 
             BlockingQueue<Message> queue) {
         this.messageTypeForFiles = messageTypeForFiles;
-        this.producerParameters = producerParameters;
         this.depth = producerParameters.getDepth();
         this.followSymlinksToDirs = !producerParameters.isDontFollowSymlinksToDirectories();
         this.followSymlinksToFiles = !producerParameters.isDontFollowSymlinksToFiles();
         this.path = path;
         this.queue = queue;
+        if (producerParameters.isOutputFile()) {
+            this.outputFile = Paths.get(producerParameters.getOutputFile()).toAbsolutePath().normalize();
+        } else {
+            outputFile = null;
+        }
+        if (producerParameters.isErrorFile()) {
+            this.errorFile = Paths.get(producerParameters.getErrorFile()).toAbsolutePath().normalize();
+        } else {
+            errorFile = null;
+        }
+
     }
 
     public void walk() {
@@ -64,7 +75,7 @@ public class FileWalker {
             opts = EnumSet.noneOf(FileVisitOption.class); //Collections.emptySet();
         }
         
-        TreeAction treeAction = new TreeAction(messageTypeForFiles, depth, queue, followSymlinksToDirs, followSymlinksToFiles);
+        TreeAction treeAction = new TreeAction(messageTypeForFiles, depth, queue, followSymlinksToDirs, followSymlinksToFiles, outputFile, errorFile);
         try {
             Files.walkFileTree(path, opts, depth, treeAction);
         } catch (IOException ex) {
@@ -79,13 +90,18 @@ public class FileWalker {
         private final boolean followSymlinksToFiles;
         private final boolean followSymlinksToDirs;
         private final Message.Type messageTypeForFiles;
+        private final Path outputFile;
+        private final Path errorFile;
 
-        TreeAction(Message.Type messageTypeForFiles, int depth, BlockingQueue<Message> queue, boolean followSymlinksToDirs, boolean followSymlinksToFiles) {
+        TreeAction(Message.Type messageTypeForFiles, int depth, BlockingQueue<Message> queue,
+                   boolean followSymlinksToDirs, boolean followSymlinksToFiles, Path outputFile, Path errorFile) {
             this.messageTypeForFiles = messageTypeForFiles;
             this.depth = depth;
             this.queue = queue;
             this.followSymlinksToFiles = followSymlinksToFiles;
             this.followSymlinksToDirs = followSymlinksToDirs;
+            this.outputFile = outputFile;
+            this.errorFile = errorFile;
         }
 
         @Override
@@ -96,12 +112,14 @@ public class FileWalker {
         @Override
         public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
             if (!followSymlinksToFiles && Files.isSymbolicLink(path) && Files.isRegularFile(path)) {
-                addMessageToQueue(new Message(Message.Type.INFO, path, String.format("Ignoring \"%s\", because it is a symlink to a file.", path)));
+                addMessageToQueue(new Message(Message.Type.INFO, path,
+                        String.format("Ignoring \"%s\", because it is a symlink to a file.", path)));
                 return CONTINUE;
             }
             
             if (!followSymlinksToDirs && Files.isSymbolicLink(path) && Files.isDirectory(path)) {
-                addMessageToQueue(new Message(Message.Type.INFO, path, String.format("Ignoring \"%s\", because it is a symlink to a dir.", path)));
+                addMessageToQueue(new Message(Message.Type.INFO, path,
+                        String.format("Ignoring \"%s\", because it is a symlink to a dir.", path)));
                 return CONTINUE;
             }
 
@@ -112,11 +130,23 @@ public class FileWalker {
 
             // depth < Integer.MAX_VALUE can cause a "Zugriff verweigert" on folders
             if (depth < Integer.MAX_VALUE && Files.isDirectory(path)) {
-                addMessageToQueue(new Message(Message.Type.INFO_DIR_IGNORED, path, String.format("\"%s\" is a directory, but the maximum number of allowed directory levels (%s) has been reached.", path, depth)));
+                addMessageToQueue(new Message(Message.Type.INFO_DIR_IGNORED, path,
+                        String.format("\"%s\" is a directory, but the maximum number of allowed directory levels (%s) has been reached.", path, depth)));
                 return CONTINUE;
             }
 
-            
+            if (outputFile != null && Files.isRegularFile(path) && path.toAbsolutePath().normalize().equals(outputFile)) {
+                addMessageToQueue(new Message(Message.Type.INFO, path,
+                        String.format("\"%s\", won't be hashed, because it is the file where hashes will be stored.", path)));
+                return CONTINUE;
+            }
+
+            if (errorFile != null && Files.isRegularFile(path) && path.toAbsolutePath().normalize().equals(errorFile)) {
+                addMessageToQueue(new Message(Message.Type.INFO, path,
+                        String.format("\"%s\", won't be hashed, because it is the file where errors will be stored.", path)));
+                return CONTINUE;
+            }
+
             addMessageToQueue(new Message(messageTypeForFiles, path));
             //logQueue.put(new Message(INFO, "File Walker: Object produced: " + queue.remainingCapacity() +" "+ message.getPath().toString()));
             return CONTINUE;

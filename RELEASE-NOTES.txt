@@ -20,6 +20,7 @@ Jacksum 3.0.1-not-yet-released
 
 - bugs fixed
 
+    - fixed: regression: files that have been specified by -o,-O and -u,-U are hashed
     - fixed: if both errorFile and outputFile are set to the same file, their paths must be normalized before comparisons
     - fixed: a NPE is thrown if a non-compatibility file is given by option -C
     - fixed: compat files bsd, linux, and openssl should use line separator \n on Microsoft Windows,
