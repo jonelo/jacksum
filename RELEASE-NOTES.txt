@@ -1,4 +1,4 @@
-Jacksum 3.0.1, Oct 3, 2021
+Jacksum 3.0.1, Oct 4, 2021
 
 - added minor features
 

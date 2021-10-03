@@ -83,7 +83,7 @@ Jacksum is a synthetic word made of **JAva and ChecKSUM**, because Jacksum is wr
 Open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
 
 ```
-java -jar jacksum-3.0.0.jar
+java -jar jacksum-3.0.1.jar
 ```
 
 I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and macOS, and add it to your PATH. You find more instructions in those files.
@@ -91,7 +91,7 @@ I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script
 ### Examples of how to use it
 
 ```
-java -jar jacksum-3.0.0.jar -h
+java -jar jacksum-3.0.1.jar -h
 ```
 
 See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples).
