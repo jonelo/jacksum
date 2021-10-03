@@ -19,8 +19,8 @@ common cryptographic and non-cryptographic hash functions.
 
 Jacksum can **recursively compute hashes** with **multiple algorithms**
 **simultaneously**. Jacksum takes advantage of modern **multi-processor/
-multi-core** environments, and saves time by hashing multiple files
-in parallel.
+multi-core** environments, and saves time by **hashing multiple files
+in parallel**.
 
 Jacksum can perform a **verification of hashes** against a set of known
 hashes, and it can **detect matching files, non-matching files,
