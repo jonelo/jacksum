@@ -420,7 +420,7 @@ OPTIONS
             For <compatibility> the following predefined compatibility files
             are supported:
 \
-                bsd or linux-tagged
+                linux-tagged or bsd
                     A common lightweight plain text file format on BSD systems
                     and GNU/Linux. The algorithm info is stored in the file
                     (therefore it is called "tagged").
@@ -442,22 +442,7 @@ OPTIONS
 					If you don't specify -a, the algo defaults to sha3-256.
 \
 \
-                fciv
-                    File Checksum Integrity Verifier. It is a lightweight plain
-                    text file format from Microsoft.
-\
-                    This compatibility file can print and parse the output
-                    like that of the calls "FCIV -sha1" or "FCIV -md5" on
-                    Microsoft Windows.
-\
-                    The compat file works with any algorithm that is supported
-					by Jacksum, it works even with concatenated algorithms.
-                    If you don't specify -a, the algorithm defaults
-					to sha1, because that is the strongest algorithm that
-					FCIV supports.
-\
-\
-                linux or linux-untagged
+                linux-untagged or linux
                     A common lightweight plain text file format on GNU/Linux
                     and macOS, without algorithm info in the file (untagged).
 \
@@ -473,6 +458,21 @@ OPTIONS
                     The compat file works with any algorithm that is supported
 					by Jacksum, it works even with concatenated algorithms.
                     If you don't specify -a, the algorithm defaults to sha3-256.
+\
+\
+                fciv
+                    File Checksum Integrity Verifier. It is a lightweight plain
+                    text file format from Microsoft.
+\
+                    This compatibility file can print and parse the output
+                    like that of the calls "FCIV -sha1" or "FCIV -md5" on
+                    Microsoft Windows.
+\
+                    The compat file works with any algorithm that is supported
+					by Jacksum, it works even with concatenated algorithms.
+                    If you don't specify -a, the algorithm defaults
+					to sha1, because that is the strongest algorithm that
+					FCIV supports.
 \
 \
                 sfv
@@ -516,7 +516,7 @@ OPTIONS
 \
 \
                 openssl
-				    A lightweight plain text file format from openssl.
+				    A lightweight plain text file format used by openssl.
 \
                     This compatibility file can print and parse the output
                     like that of the openssl program.
