@@ -46,36 +46,33 @@ public class VersionAction implements Action {
     }
 
     /**
-     * Print program version on standard output.
+     * Prints the program version on standard output.
      */
     public static void printAppVersion() {
-        System.out.printf("%s %s\n", JacksumAPI.NAME, JacksumAPI.VERSION);
+        System.out.printf("%s %s, <%s>%n", JacksumAPI.NAME, JacksumAPI.VERSION, JacksumAPI.URI);
     }
 
     public static void printOSIStatement() {
-        System.out.print(
-                "This software is OSI Certified Open Source Software.\n"
-                + "OSI Certified is a certification mark of the Open Source Initiative.\n");
+        System.out.printf(
+                "    This software is OSI Certified Open Source Software.%n"
+                + "    OSI Certified is a certification mark of the Open Source Initiative.%n");
     }
     
     public static void printShortLicense() {
-        System.out.print(
-                "This program is free software: you can redistribute it and/or modify\n"
-                + "it under the terms of the GNU General Public License as published by\n"
-                + "the Free Software Foundation, either version 3 of the License, or\n"
-                + "(at your option) any later version.\n\n"
+        System.out.printf(
+                  "    This program is free software: you can redistribute it and/or modify it%n"
+                + "    under the terms of the GNU General Public License as published by the Free%n"
+                + "    Software Foundation, either version 3 of the License, or (at your opinion)%n"
+                + "    any later version.%n%n"
                         
-                + "This program is distributed in the hope that it will be useful,\n"
-                + "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-                + "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-                + "GNU General Public License for more details.\n\n"
+                + "    This program is distributed in the hope that it will be useful, but%n"
+                + "    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY%n"
+                + "    or FITNESS FOR A PARTICULAR PURPOSE. Type `jacksum --license` for details.%n%n");
                         
-                + "You should have received a copy of the GNU General Public License\n"
-                + "along with this program.  If not, see <https://www.gnu.org/licenses/>.\n");
     }
 
     public static void printCopyrightHeader() {
-        System.out.printf("%s\n<%s>\n", JacksumAPI.COPYRIGHT, JacksumAPI.URI);
+        System.out.println(JacksumAPI.COPYRIGHT);
     }
 
     public static void printAppVersionFull() {

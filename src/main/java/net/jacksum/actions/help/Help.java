@@ -43,9 +43,12 @@ public class Help {
         try {
             printLongHelp(filename, search);
         } catch (FileNotFoundException fnfe) {
-            System.err.printf("FATAL: Helpfile %s in .jar file not found.\n%n", filename);
+            // A note for maintainers of platform specific packages:
+            // please keep the help file, don't remove it. The help file is important, because the
+            // error system and --help options of Jacksum relies on it.
+            System.err.printf("FATAL: help file %s is not bundled with .jar file. Please file a bug for the maintainer of this package.%n", filename);
         } catch (IOException ioe) {
-            System.err.println("FATAL: problem while reading helpfile " + filename);
+            System.err.printf("FATAL: problem while reading help file %s.%n", filename);
         }
     }
 
@@ -59,13 +62,13 @@ public class Help {
     }
 
     public static void printShortUsage() {
-        System.out.print(
-                  "Usage:\n"
-                + "    jacksum [option]... [file|directory]...\n\n"
+        System.out.printf(
+                  "Usage:%n"
+                + "    jacksum [option]... [file|directory]...%n%n"
 
-                + "For more help type\n"
+                + "For more help type%n"
 
-                + "    jacksum -h\n\n"
+                + "    jacksum -h%n%n"
         );
         
     }
@@ -126,12 +129,13 @@ public class Help {
 
                     boolean startOfAnewBlock = line.trim().length() == 0;
 
+                    boolean b = found && line.startsWith("#" + search.toUpperCase(Locale.US));
                     if (line.startsWith("#") && line.endsWith("-BEGIN")) {
                         inSearchableSection = true;
                         startOfAnewBlock = true;
 
                         // e.g. jacksum -h options
-                        if (found && line.startsWith("#"+search.toUpperCase(Locale.US))) {
+                        if (b) {
                             startOfAnewBlock = false;
                             blockOutput = true;
                         }
@@ -139,7 +143,7 @@ public class Help {
                         inSearchableSection = false;
                         startOfAnewBlock = true;
 
-                        if (found && line.startsWith("#"+search.toUpperCase(Locale.US))) {
+                        if (b) {
                             blockOutput = false;
                         }
 
@@ -188,7 +192,7 @@ public class Help {
                     foundAtLeastOneSection = true;
                 }
                 if (!foundAtLeastOneSection) {
-                    System.err.printf("Your search \"%s\" did not match any section in the help.\n", search);
+                    System.err.printf("Your search \"%s\" did not match any section in the help.%n", search);
                 }
 
             } // end-if
