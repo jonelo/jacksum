@@ -5519,8 +5519,8 @@ OUTPUT FORMAT
 \
     The output format of Jacksum:
 \
-            If you don't specify a customized format with option -F,
-            the following format is used:
+            If you specify neither a predefined format (option -C) nor a
+            custom format (option -F), the following format is used:
 \
             <checksum><sep><filesize><sep>[<timestamp><sep>]<filename>
 \
