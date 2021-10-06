@@ -687,6 +687,9 @@ OPTIONS
                 hex-lowercase        alias for hex (3.0)
                 hex-uppercase        hexadecimal in uppercase chars (same as -X)
                                      -g and -G are considered (3.0)
+\
+                bb                   alias for bubblebabble
+                bubblebabble         BubbleBabble (used by OpenSSH and SSH2)
                 base16               Base16 (RFC 4648)
                 base32               Base32 (RFC 4648)
                 base32-nopadding     Base32, no padding (RFC 4648) (3.0)
@@ -694,8 +697,7 @@ OPTIONS
                 base32hex-nopadding  Base32hex, no padding (RFC 4648) (3.0)
                 base64               Base64 (RFC 4648)
                 base64url            Base64 for URL (RFC 4648) (3.0)
-                bubblebabble         BubbleBabble (used by OpenSSH and SSH2)
-                bb                   alias for bubblebabble
+                z-base-32            z-base-32 (3.1)
 \
             Available since Jacksum 1.6.0 if not stated otherwise,
             see also -F, -g, -G, -q, -x, -X

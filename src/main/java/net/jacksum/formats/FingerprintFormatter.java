@@ -26,6 +26,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.parameters.base.FingerprintFormatParameters;
 import org.n16n.sugar.encodings.Base32;
 import org.n16n.sugar.encodings.BubbleBabble;
+import org.n16n.sugar.encodings.ZBase32;
 import org.n16n.sugar.util.ByteSequences;
 import org.n16n.sugar.util.GeneralString;
 
@@ -119,6 +120,9 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
             case OCT: {
                 BigInteger big = new BigInteger(1, bytes);
                 return big.toString(8);
+            }
+            case ZBASE32: {
+                return ZBase32.encodeToString(bytes);
             }
             default:
                 return ByteSequences.format(bytes, false, 0, ' ');
