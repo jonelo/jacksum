@@ -49,7 +49,7 @@ public class JacksumAPI {
     /**
      * The version of the API
      */
-    public final static String VERSION = "3.0.1";
+    public final static String VERSION = "3.1.0";
     /**
      * The URI of the program
      */
