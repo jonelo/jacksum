@@ -5723,7 +5723,7 @@ EXAMPLES
 \
     Check/verify hashes:
 \
-        `jacksum301 -a sha256 -E hex -e
+        `jacksum -a sha256 -E hex -e
             5fdebc435ded46ae99136ca875afc6f05bde217be7dd018e1841924f71db46b5
             ubuntu-20.04.3-desktop-amd64.iso`
         checks the Ubuntu iso in the current working directory with an expected
