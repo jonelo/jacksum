@@ -49,6 +49,10 @@ public class VersionAction implements Action {
      * Prints the program version on standard output.
      */
     public static void printAppVersion() {
+        System.out.printf("%s %s%n", JacksumAPI.NAME, JacksumAPI.VERSION);
+    }
+
+    public static void printAppVersionAndURI() {
         System.out.printf("%s %s, <%s>%n", JacksumAPI.NAME, JacksumAPI.VERSION, JacksumAPI.URI);
     }
 
@@ -76,7 +80,7 @@ public class VersionAction implements Action {
     }
 
     public static void printAppVersionFull() {
-        printAppVersion();
+        printAppVersionAndURI();
         printCopyrightHeader();
         System.out.println();
         printOSIStatement();
