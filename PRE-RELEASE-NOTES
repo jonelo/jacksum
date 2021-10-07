@@ -7,4 +7,7 @@ Jacksum 3.1.0, TBD
 
 - improvements:
 
+    - improved the manpage
+          o fixed: PowerShell applet Get-FileHash has also RIPEMD160
+          o added the hash function tools that are supported by BusyBox
     - improved style of the short help

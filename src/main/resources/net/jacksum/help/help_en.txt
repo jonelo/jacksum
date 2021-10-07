@@ -1226,6 +1226,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   - 
                 - eComStation:     -
@@ -1267,7 +1268,7 @@ ALGORITHMS
             length:
                 224, 384, 256 or 512 bits
             type:
-                crytographic hash function
+                cryptographic hash function
             published:
                 12/2010
             website:
@@ -1314,6 +1315,7 @@ ALGORITHMS
                                    /usr/bin/b2sum [-l <w>]
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -1371,6 +1373,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -1423,6 +1426,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -1478,6 +1482,7 @@ ALGORITHMS
                                    /usr/bin/cksum
                 - Angstrom:        -
                 - BeOS:            /bin/cksum
+                - BusyBox:         /bin/cksum
                 - CentOS:          /bin/cksum
                 - DragonFly BSD:   /usr/bin/cksum
                 - eComStation:     C:\ecs\KLIBC\bin\cksum
@@ -1539,6 +1544,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -1738,6 +1744,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -1806,6 +1813,7 @@ ALGORITHMS
                 - 7z (hex only):   7z h -scrccrc32
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   /usr/bin/cksum -o 3
                 - FreeBSD:         /usr/bin/cksum -o 3
@@ -1861,6 +1869,7 @@ ALGORITHMS
                 - 7z:               -
                 - Angstrom:         -
                 - BeOS:             -
+                - BusyBox:         -
                 - CentOS:           -
                 - DragonFly BSD:    -
                 - FreeBSD:          -
@@ -1943,6 +1952,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - eComStation:     -
@@ -1994,6 +2004,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        /usr/bin/ubicrc32
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - eComStation:     -
@@ -2327,6 +2338,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - eComStation:     -
@@ -2378,6 +2390,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - eComStation:     -
                 - DragonFly BSD:   -
@@ -2506,6 +2519,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - eComStation:     -
@@ -2612,6 +2626,7 @@ ALGORITHMS
             compatibility:
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -2687,6 +2702,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -2745,6 +2761,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
@@ -2804,6 +2821,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
@@ -2861,6 +2879,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
@@ -2994,6 +3013,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -3055,6 +3075,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -3119,6 +3140,7 @@ ALGORITHMS
                                    /usr/bin/md5sum
                 - Angstrom:        /usr/bin/md5sum
                 - BeOS:            /bin/md5sum
+                - BusyBox:         /bin/md5sum
                 - CentOS:          /bin/md5sum
                 - DragonFly BSD:   /sbin/md5
                 - eComStation:     C:\ecs\KLIBC\bin\md5sum
@@ -3175,7 +3197,7 @@ ALGORITHMS
             length:
                 128 bits
             type:
-                crytpographic hash function
+                cryptographic hash function
             published:
                 1987
             broken:
@@ -3195,6 +3217,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -3337,6 +3360,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -3389,6 +3413,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   /sbin/rmd160
                 - FreeBSD 5.3+:    /sbin/rmd160
@@ -3446,6 +3471,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -3495,6 +3521,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -3550,6 +3577,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -3614,6 +3642,7 @@ ALGORITHMS
                                    /usr/bin/shasum [-a 1]
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         /bin/sha1sum
                 - CentOS:          /bin/sha1sum
                 - DragonFly BSD:   /sbin/sha1
                 - eComStation:     C:\ecs\KLIBC\bin\sha1sum
@@ -3700,6 +3729,7 @@ ALGORITHMS
                                    /usr/bin/shasum -a 224
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          /bin/sha224sum
                 - DragonFly BSD:   -
                 - FreeBSD 12+:     /sbin/sha224
@@ -3775,6 +3805,7 @@ ALGORITHMS
                                    /usr/bin/shasum -a 256
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         /bin/sha256sum
                 - CentOS:          /bin/sha256sum
                 - DragonFly BSD:   /sbin/sha256
                 - FreeBSD 6+:      /sbin/sha256
@@ -3855,6 +3886,7 @@ ALGORITHMS
                                    /usr/bin/shasum -a 384
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          /bin/sha384sum
                 - DragonFly BSD:   -
                 - FreeBSD 11+:     /sbin/sha384 (prob. earlier)
@@ -3935,6 +3967,7 @@ ALGORITHMS
                                    /usr/bin/shasum -a 512
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         /bin/sha512sum
                 - CentOS:          /bin/sha512sum
                 - DragonFly BSD:   -
                 - FreeBSD 11+:     /sbin/sha512  (probably also earlier)
@@ -4007,6 +4040,7 @@ ALGORITHMS
                                    /usr/bin/shasum -a 512224
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -4065,6 +4099,7 @@ ALGORITHMS
                                    /usr/bin/shasum -a 512256
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - FreeBSD 10.4+:   /sbin/sha512t256
                 - FreeDOS:         -
@@ -4127,6 +4162,8 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         /bin/sha3sum [-a 224]
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -4191,6 +4228,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         /bin/sha3sum -a 256
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -4256,6 +4294,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         /bin/sha3sum -a 384
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -4320,6 +4359,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         /bin/sha3sum -a 512
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -4400,6 +4440,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
@@ -4408,8 +4449,7 @@ ALGORITHMS
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Java 9+:         -
-                - KeccakSum:       KeccakSum --hex --outputbits 256
-                                   KeccakSum --shake128 --hex --outputbits 256
+                - KeccakSum:       KeccakSum [--shake128] --hex --outputbits 256
                 - Kali Linux:      -
                 - LibreSSL:        -
                 - macOS:           -
@@ -4477,6 +4517,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
@@ -4484,7 +4525,7 @@ ALGORITHMS
                 - gpg:             -
                 - HP-UX:           -
                 - IBM AIX:         -
-                - Java 9+:         -
+                - Java:            -
                 - Kali Linux:      -
                 - KeccakSum:       KeccakSum --shake256 --hex --outputbits 512
                 - LibreSSL:        -
@@ -4542,6 +4583,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD 11.1+:   /sbin/skein256
@@ -4606,6 +4648,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD 11.1+:   /sbin/skein512
@@ -4670,6 +4713,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD 11.1+:   /sbin/skein1024
@@ -4729,6 +4773,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD 11.1+:   -
@@ -4787,6 +4832,7 @@ ALGORITHMS
             compatibility:
                 - 7z:              -
                 - Angstrom:        -
+                - BusyBox:         -
                 - BeOS:            -
                 - CentOS:          -
                 - DragonFly BSD:   -
@@ -4842,6 +4888,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD 11.1+:   -
@@ -4913,6 +4960,8 @@ ALGORITHMS
                                    /usr/bin/sum [-r]
                 - Angstrom:        -
                 - BeOS:            /bin/sum [-r]
+                - BusyBox:         /bin/sum [-r]
+                - CentOS:          -
                 - eComStation:     C:\ecs\KLIBC\bin\sum [-r]
                 - FreeBSD:         /usr/bin/sum
                                    /usr/bin/cksum -o 1
@@ -4971,6 +5020,8 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
+                - CentOS:          -
                 - FreeBSD:         -
                 - FreeDOS:         -
                 - GNU/Hurd:        -
@@ -5017,6 +5068,8 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
+                - CentOS:          -
                 - FreeBSD:         -
                 - FreeDOS:         -
                 - GNU/Hurd:        -
@@ -5061,6 +5114,8 @@ ALGORITHMS
                                    /usr/bin/sum -s|--sysv
                 - Angstrom:        -
                 - BeOS:            /bin/sum -s
+                - BusyBox:         /bin/sum -s
+                - CentOS:          -
                 - eComStation:     C:\ecs\KLIBC\bin\sum -s|--sysv
                 - FreeBSD:         /usr/bin/cksum -o 2
                 - FreeDOS:         -
@@ -5123,6 +5178,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD 5.3+:    -
@@ -5172,6 +5228,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -5221,6 +5278,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
@@ -5441,6 +5499,7 @@ ALGORITHMS
                 - 7z:              -
                 - Angstrom:        -
                 - BeOS:            -
+                - BusyBox:         -
                 - DragonFly BSD:   -
                 - FreeBSD:         -
                 - FreeDOS:         -
