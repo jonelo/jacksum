@@ -3415,7 +3415,7 @@ ALGORITHMS
                                    openssl dgst -ripemd160
                 - PHP:             hash("ripemd160", $input);
                 - Plan 9:          -
-                - PowerShell:      -
+                - PowerShell:      Get-FileHash -Algorithm RIPEMD160
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
