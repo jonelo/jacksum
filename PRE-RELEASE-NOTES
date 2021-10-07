@@ -2,6 +2,9 @@ Jacksum 3.1.0, TBD
 
 - new features:
 
+    - added option --bom for adding a Byte-Order Mark (BOM) to the output if a charset
+      has been specified where a BOM is optional (charsets GB18030, UTF-8, UTF-16BE,
+      UTF-16LE, UTF-32LE, and UTF-32BE)
     - added z-base-32 encoding for hash value representation
 
 

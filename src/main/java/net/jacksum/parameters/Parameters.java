@@ -22,28 +22,32 @@
  */
 package net.jacksum.parameters;
 
+import net.jacksum.actions.ActionType;
 import net.jacksum.actions.check.*;
-import net.jacksum.parameters.combined.StatisticsParameters;
-import net.jacksum.parameters.base.SequenceParameters;
-import net.jacksum.parameters.combined.ProducerConsumerParameters;
-import net.jacksum.parameters.base.ExpectationActionParameters;
-import net.jacksum.parameters.base.CustomizedFormatParameters;
-import net.jacksum.parameters.combined.GatheringParameters;
-import net.jacksum.parameters.base.FileWalkerParameters;
-import net.jacksum.parameters.base.AlgorithmParameters;
-import net.jacksum.parameters.base.PathParameters;
-import net.jacksum.multicore.manyfiles.ProducerParameters;
-import net.jacksum.actions.version.VersionActionParameters;
-import net.jacksum.actions.quick.QuickActionParameters;
+import net.jacksum.actions.compare.CompareActionInterface;
 import net.jacksum.actions.help.HelpActionParameters;
+import net.jacksum.actions.infoalgo.AlgoInfoActionParameters;
+import net.jacksum.actions.infoapp.AppInfoActionParameters;
+import net.jacksum.actions.infocompat.CompatInfoActionParameters;
+import net.jacksum.actions.quick.QuickActionParameters;
+import net.jacksum.actions.version.VersionActionParameters;
+import net.jacksum.algorithms.AbstractChecksum;
+import net.jacksum.cli.ExitCode;
+import net.jacksum.cli.Messenger;
+import net.jacksum.cli.Verbose;
+import net.jacksum.formats.Encoding;
+import net.jacksum.multicore.manyfiles.ProducerParameters;
+import net.jacksum.parameters.base.*;
+import net.jacksum.parameters.combined.FormatParameters;
+import net.jacksum.parameters.combined.GatheringParameters;
+import net.jacksum.parameters.combined.ProducerConsumerParameters;
+import net.jacksum.parameters.combined.StatisticsParameters;
+import org.n16n.sugar.io.BOM;
+import org.n16n.sugar.util.ByteSequences;
+import org.n16n.sugar.util.ExitException;
+import org.n16n.sugar.util.GeneralString;
 
-import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.Format;
@@ -55,26 +59,8 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.n16n.sugar.util.ByteSequences;
-import org.n16n.sugar.util.ExitException;
-import org.n16n.sugar.util.GeneralString;
-import net.jacksum.actions.ActionType;
-import net.jacksum.actions.compare.CompareActionInterface;
-import net.jacksum.formats.Encoding;
-import net.jacksum.cli.ExitCode;
-import net.jacksum.cli.Verbose;
-import net.jacksum.actions.infoalgo.AlgoInfoActionParameters;
-import net.jacksum.actions.infoapp.AppInfoActionParameters;
-import net.jacksum.actions.infocompat.CompatInfoActionParameters;
-import net.jacksum.algorithms.AbstractChecksum;
-import net.jacksum.cli.Messenger;
-
 import static net.jacksum.cli.Messenger.MsgType.INFO;
 import static net.jacksum.cli.Messenger.MsgType.WARNING;
-
-import net.jacksum.parameters.base.CompatibilityParameters;
-import net.jacksum.parameters.base.VerboseParameters;
-import net.jacksum.parameters.combined.FormatParameters;
 
 /**
  * The parameter cluster.
@@ -212,6 +198,8 @@ public class Parameters implements
 
     // --copyright
     private boolean copyrightWanted = false;
+
+    private boolean bom = false;
 
     // keeps all the filenames that have been specified at the command line
     private final List<String> filenamesFromArgs;
@@ -606,7 +594,7 @@ public class Parameters implements
         }
 
         if (outputFileAndErrorFileAreEqual && !charsetOutputFile.equals(charsetErrorFile)) {
-            throw new ParameterException("Both output and error filename are equal, but charsets for output and error file are different");
+            throw new ParameterException("Output and error file are the same, but character sets for output and error file have been set differently.");
         }
 
         PrintStream streamShared = null;
@@ -662,6 +650,21 @@ public class Parameters implements
                 throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
             }
         }
+
+        // add BOM, dependent on the charset, if desired
+        String bomCharset = null;
+        if (bom && isOutputFile()) {
+            bomCharset = getCharsetOutputFile();
+        } else if (bom && getCharsetStdout() != null) {
+            bomCharset = getCharsetStdout();
+        }
+        if (bomCharset != null) {
+            byte[] actualBOM = BOM.getBOM(bomCharset);
+            if (actualBOM != null && actualBOM.length > 0) {
+                BOM.writeBOM(actualBOM);
+            }
+        }
+
     }
 
 
@@ -956,6 +959,14 @@ public class Parameters implements
 
     public void setLineSeparator(String lineSeparator) {
         this.lineSeparator = lineSeparator;
+    }
+
+    public boolean isBom() {
+        return bom;
+    }
+
+    public void setBom(boolean bom) {
+        this.bom = bom;
     }
 
 

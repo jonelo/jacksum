@@ -280,6 +280,25 @@ OPTIONS
             Available since Jacksum 1.5.0, see also -a
 
 
+    --bom
+            adds a Byte-Order Mark (BOM) to the output if option --charset-stdout
+            or option --charset-output-file has been set to one of the following
+            charsets:
+\
+                * GB18030
+                * UTF-8
+                * UTF-16BE
+                * UTF-16LE
+                * UTF-32LE
+                * UTF-32BE
+\
+            If --bom is omitted, a BOM won't be written for the charsets above,
+            because a BOM isn't required and is optional only in those cases.
+            Note that if you set charsets UTF-16 or UTF-32, a BOM will be
+            written in any case, even if you don't set --bom, because it is
+            required for those charsets to have a BOM in the output.
+
+
     -c <file>
     --check-file <file>
             Verify (check) files against a list of hashes. The list can either

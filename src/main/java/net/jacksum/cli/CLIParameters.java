@@ -125,6 +125,9 @@ public class CLIParameters {
                         handleUserParamError(arg, "--compat");
                     }
 
+                } else if (arg.equals("--bom")) {
+                    parameters.setBom(true);
+
                 } else if (arg.equals("-d") || arg.equals("--dontFollowSymlinksToDirectories")) {
                     parameters.setDontFollowSymlinksToDirectories(true);
 

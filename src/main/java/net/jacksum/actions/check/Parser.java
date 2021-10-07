@@ -1,6 +1,5 @@
 /*
 
-
   Jacksum 3.0.0 - a checksum utility in Java
   Copyright (c) 2001-2021 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
@@ -18,24 +17,22 @@
   You should have received a copy of the GNU General Public License along with
   this program. If not, see <https://www.gnu.org/licenses/>.
 
-
  */
 package net.jacksum.actions.check;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import net.jacksum.JacksumAPI;
+import net.jacksum.algorithms.AbstractChecksum;
+import org.n16n.sugar.io.BOM;
+
+import java.io.*;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-import net.jacksum.JacksumAPI;
-import net.jacksum.algorithms.AbstractChecksum;
 
 public class Parser {
 
@@ -147,40 +144,6 @@ public class Parser {
 
     }
 
-    private String cutBOM(String line, Charset charset, byte[] BOM) {
-        byte[] bytes = line.getBytes(charset);
-        if (bytes.length >= BOM.length && Arrays.equals(Arrays.copyOf(bytes, BOM.length), BOM)) {
-            return new String(Arrays.copyOfRange(bytes, BOM.length, bytes.length), charset);
-        } else {
-            return line;
-        }
-    }
-
-    /**
-     * Removes the Byte Order Mark (BOM) from the String if it is there.
-     *
-     * @param line a String that could contain a BOM.
-     * @param charset the charset that determines the actual BOM.
-     * @return a String without the BOM.
-     */
-    public String cutBOM(String line, Charset charset) {
-        String lineWithoutBOM = line;
-        if (charset.equals(StandardCharsets.UTF_8)) {
-            lineWithoutBOM = cutBOM(line, charset, new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF});
-        } else if (charset.equals(StandardCharsets.UTF_16BE)) {
-            lineWithoutBOM = cutBOM(line, charset, new byte[]{(byte) 0xFE, (byte) 0xFF});
-        } else if (charset.equals(StandardCharsets.UTF_16LE)) {
-            lineWithoutBOM = cutBOM(line, charset, new byte[]{(byte) 0xFF, (byte) 0xFE});
-        } else if (charset.equals(Charset.forName("UTF-32BE"))) {
-            lineWithoutBOM = cutBOM(line, charset, new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0xFE, (byte) 0xFF});
-        } else if (charset.equals(Charset.forName("UTF-32LE"))) {
-            lineWithoutBOM = cutBOM(line, charset, new byte[]{(byte) 0xFF, (byte) 0xFE, (byte) 0x00, (byte) 0x00});
-        } else if (charset.equals(Charset.forName("GB18030"))) {
-            lineWithoutBOM = cutBOM(line, charset, new byte[]{(byte) 0x84, (byte) 0x31, (byte) 0x95, (byte) 0x33});
-        }
-        return lineWithoutBOM;
-    }
-
     /**
      * Parses a file that contains entries with hashes that can be checked.
      *
@@ -219,7 +182,7 @@ public class Parser {
                 try {
 
                     if (lineNumber == 1) {
-                        line = cutBOM(line, charset);
+                        line = BOM.cutBOM(line, charset);
                     }
 
                     list.add(parseLine(line));
