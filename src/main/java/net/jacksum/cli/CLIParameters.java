@@ -68,7 +68,7 @@ public class CLIParameters {
         String arg;
         if (args.length == 0) {
             parameters.setHelp(true);
-        } else if (args.length > 0) {
+        } else {
             while (firstfile < args.length && args[firstfile].startsWith("-") && !dashdash) {
                 arg = args[firstfile++];
 
