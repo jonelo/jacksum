@@ -487,7 +487,8 @@ OPTIONS
                     like that of the programs
 \
                         * md5sum, sha1sum, sha224sum, sha256sum, sha384sum,
-                          sha512sum, shasum, b2sum, etc. on Unix and GNU/Linux
+                          sha512sum, shasum, sha3sum, b2sum, etc. on Unix and
+                          GNU/Linux
                         * cksum with the --untagged option set on GNU/Linux
                           with the GNU Core Utilities 9.0 and later
                         * shasum on macOS
