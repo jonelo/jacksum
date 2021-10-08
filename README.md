@@ -186,6 +186,7 @@ Spread the word, or give a star here on GitHub.
 
 * [Jacksum File Browser Integration for GNU/Linux](https://github.com/jonelo/jacksum-fbi-linux)
 * [Jacksum File Browser Integration for macOS](https://github.com/jonelo/jacksum-fbi-macos)
+* [Jacksum on Docker](https://hub.docker.com/r/jonelo/jacksum)
 
 ## Products that are powered by Jacksum
 
