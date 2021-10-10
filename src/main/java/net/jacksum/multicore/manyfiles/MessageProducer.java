@@ -28,6 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 import net.jacksum.multicore.manyfiles.Message.Type;
@@ -38,6 +39,7 @@ public class MessageProducer implements Runnable {
     private final BlockingQueue<Message> outputQueue;
     private final ProducerParameters producerParameters;
     private final List<String> allFiles;
+    private final static boolean onWindows = System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows");
 
     public MessageProducer(
             ProducerParameters producerParameters,
@@ -84,8 +86,12 @@ public class MessageProducer implements Runnable {
                 } else if (Files.isRegularFile(path)) {
                     inputQueue.put(new Message(messageTypeForFiles, path));
                 } else {
-                    // a fifo for example (mkfifo myfifo)
-                    outputQueue.put(new Message(Type.ERROR, path, String.format("%s: is not a regular file.", path)));
+                    if (!onWindows && producerParameters.IsReadAllUnixFileTypes()) {
+                        inputQueue.put(new Message(messageTypeForFiles, path));
+                    } else {
+                        // a fifo for example (mkfifo myfifo)
+                        outputQueue.put(new Message(Type.ERROR, path, String.format("%s: is not a regular file.", path)));
+                    }
                 }
             } else {
                 outputQueue.put(new Message(Type.ERROR, path, String.format("%s: does not exist.", path)));

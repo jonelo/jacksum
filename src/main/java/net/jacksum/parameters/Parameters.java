@@ -201,6 +201,9 @@ public class Parameters implements
 
     private boolean bom = false;
 
+    // --read-all-unix-file-types
+    private boolean readAllUnixFileTypes = false;
+
     // keeps all the filenames that have been specified at the command line
     private final List<String> filenamesFromArgs;
 
@@ -940,6 +943,15 @@ public class Parameters implements
         return errorFile;
     }
 
+    @Override
+    public boolean IsReadAllUnixFileTypes() {
+        return readAllUnixFileTypes;
+    }
+
+    public void setReadAllUnixFileTypes(boolean b) {
+        readAllUnixFileTypes = b;
+    }
+
     public void setErrorFile(String errorFile) {
         this.errorFile = errorFile;
     }
@@ -968,7 +980,6 @@ public class Parameters implements
     public void setBom(boolean bom) {
         this.bom = bom;
     }
-
 
     enum SequenceType {
         TXT, TXTF, DEC, HEX, BIN

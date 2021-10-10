@@ -25,6 +25,7 @@ package net.jacksum.cli;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
+
 import net.jacksum.actions.help.Help;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
@@ -34,6 +35,7 @@ import org.n16n.sugar.io.GeneralIO;
 
 /**
  * All parameters for the Command Line Interface (CLI)
+ *
  * @author Johann N. Loefflmann
  */
 public class CLIParameters {
@@ -298,19 +300,22 @@ public class CLIParameters {
                             parameters.setDepth(Integer.MAX_VALUE);
                             parameters.setRecursive(true);
                         } else
-                        try {
-                            int depth = Integer.parseInt(arg);
-                            if (depth < 1) {
-                                throw new ParameterException("depth value has to be > 0.");
+                            try {
+                                int depth = Integer.parseInt(arg);
+                                if (depth < 1) {
+                                    throw new ParameterException("depth value has to be > 0.");
+                                }
+                                parameters.setDepth(depth);
+                                parameters.setRecursive(true);
+                            } catch (NumberFormatException nfe) {
+                                throw new ParameterException(nfe.getMessage());
                             }
-                            parameters.setDepth(depth);
-                            parameters.setRecursive(true);
-                        } catch (NumberFormatException nfe) {
-                            throw new ParameterException(nfe.getMessage());
-                        }
                     } else {
                         handleUserParamError(arg, "--recursive");
                     }
+
+                } else if (arg.equals("--read-all-unix-file-types")) {
+                    parameters.setReadAllUnixFileTypes(true);
 
                 } else if (arg.equals("-s") || arg.equals("--separator")) {
                     if (firstfile < args.length) {
@@ -440,7 +445,7 @@ public class CLIParameters {
             // processing arguments file list            
             for (int i = firstfile; i < args.length; i++) {
                 if (args[i].equals("-") && !dashdash) { // the dash could come even between normal filenames
-                    parameters.setStdinForFilenamesFromArgs(true);                    
+                    parameters.setStdinForFilenamesFromArgs(true);
                 } else {
                     parameters.getFilenamesFromArgs().add(args[i]);
                 }
@@ -457,34 +462,34 @@ public class CLIParameters {
                                     GeneralIO.readLinesFromStdin(
                                             Charset.forName(parameters.getCharsetFileList()),
                                             true,
-                                            parameters.getCommentChars(),false));
+                                            parameters.getCommentChars(), false));
                         } else if (parameters.getFilelistFormat().equals("ssv")) { // space separated values
                             parameters.getFilenamesFromFilelist().addAll(
                                     GeneralIO.readLinesFromStdin(
                                             Charset.forName(parameters.getCharsetFileList()),
                                             true,
-                                            parameters.getCommentChars(),true));
+                                            parameters.getCommentChars(), true));
                         } else {
                             Help.printHelp("en", "--file-list-format");
                             throw new ParameterException(String.format("Filelist format \"%s\" is unsupported.", parameters.getFilelistFormat()));
                         }
                     } else {
                         if (parameters.getFilelistFormat().equals("list")) {
-                                                    
+
                             parameters.getFilenamesFromFilelist().addAll(
-                                GeneralIO.readLinesFromTextFile(
-                                        parameters.getFilelistFilename(),
-                                        Charset.forName(parameters.getCharsetFileList()),
-                                        true,
-                                        parameters.getCommentChars(),false));
+                                    GeneralIO.readLinesFromTextFile(
+                                            parameters.getFilelistFilename(),
+                                            Charset.forName(parameters.getCharsetFileList()),
+                                            true,
+                                            parameters.getCommentChars(), false));
                         } else if (parameters.getFilelistFormat().equals("ssv")) { // space separated values
                             parameters.getFilenamesFromFilelist().addAll(
-                                GeneralIO.readLinesFromTextFile(
-                                        parameters.getFilelistFilename(),
-                                        Charset.forName(parameters.getCharsetFileList()),
-                                        true,
-                                        parameters.getCommentChars(),true));
-                            
+                                    GeneralIO.readLinesFromTextFile(
+                                            parameters.getFilelistFilename(),
+                                            Charset.forName(parameters.getCharsetFileList()),
+                                            true,
+                                            parameters.getCommentChars(), true));
+
                         } else {
                             Help.printHelp("en", "--file-list-format");
                             throw new ParameterException(String.format("Filelist format \"%s\" is unsupported.", parameters.getFilelistFormat()));

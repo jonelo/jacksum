@@ -43,4 +43,5 @@ public interface ProducerParameters {
     String getOutputFile();
     boolean isErrorFile();
     String getErrorFile();
+    boolean IsReadAllUnixFileTypes();
 }

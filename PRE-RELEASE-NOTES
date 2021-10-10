@@ -6,6 +6,9 @@ Jacksum 3.1.0, TBD
       has been specified where a BOM is optional (charsets GB18030, UTF-8, UTF-16BE,
       UTF-16LE, UTF-32LE, and UTF-32BE)
     - added z-base-32 encoding for hash value representation
+    - added option --read-all-unix-file-types to read from all file types on Unix-like
+      operating systems including block devices which now allows to get a single hash from
+      an entire disk or a partition for example.
 
 
 - improvements:
@@ -13,4 +16,4 @@ Jacksum 3.1.0, TBD
     - improved the manpage
           o fixed: PowerShell applet Get-FileHash has also RIPEMD160
           o added the hash function tools that are supported by BusyBox
-    - improved style of the short help
+    - improved the style of the short help to see everything even on terminals with 24-rows
