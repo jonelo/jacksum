@@ -10,12 +10,9 @@
 
 <img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
-**Jacksum** is a free and cross-platform data integrity
-software for working with checksums, CRCs, and message digests
-(hashes).
+**Jacksum** is a free and cross-platform file integrity software that generates, stores, and compares message digests (hashes) to detect changes made to the files.
 
-Jacksum supports **471 algorithms**, including the most
-common cryptographic and non-cryptographic hash functions.
+Jacksum supports **471 algorithms**, including checksums, CRCs, cryptographic and non-cryptographic hash functions.
 
 Jacksum can **recursively compute hashes** with **multiple algorithms**
 **simultaneously**. Jacksum takes advantage of modern **multi-processor/
@@ -196,7 +193,7 @@ Create an [issue on github](https://github.com/jonelo/jacksum/issues) and let me
 
 ## History
 
-Jacksum went to live and to the public in July 2002 on sourcefore.net. Starting with version 3.0.0 it moved its repo to GitHub in Sept 2021.
+Jacksum went to live and to the public in July 2002 on https://sourceforge.net/projects/jacksum/. Starting with version 3.0.0 it moved its repo to GitHub in Sept 2021.
 
 ## License
 
