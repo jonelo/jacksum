@@ -314,8 +314,8 @@ public class CLIParameters {
                         handleUserParamError(arg, "--recursive");
                     }
 
-                } else if (arg.equals("--read-all-unix-file-types")) {
-                    parameters.setReadAllUnixFileTypes(true);
+                } else if (arg.equals("--unlock-all-unix-file-types")) {
+                    parameters.setUnlockAllUnixFileTypes(true);
 
                 } else if (arg.equals("-s") || arg.equals("--separator")) {
                     if (firstfile < args.length) {

@@ -1035,7 +1035,7 @@ OPTIONS
             and txtf since Jacksum 3.0.0
 
 
-    --read-all-unix-file-types
+    --unlock-all-unix-file-types
             This option has no impact on Microsoft Windows.
             By default Jacksum reads from regular files, directories, and
             symbolic links (which can points to files or directories) on all

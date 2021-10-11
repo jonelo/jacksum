@@ -86,7 +86,7 @@ public class MessageProducer implements Runnable {
                 } else if (Files.isRegularFile(path)) {
                     inputQueue.put(new Message(messageTypeForFiles, path));
                 } else {
-                    if (!onWindows && producerParameters.IsReadAllUnixFileTypes()) {
+                    if (!onWindows && producerParameters.IsUnlockAllUnixFileTypes()) {
                         inputQueue.put(new Message(messageTypeForFiles, path));
                     } else {
                         // a fifo for example (mkfifo myfifo)

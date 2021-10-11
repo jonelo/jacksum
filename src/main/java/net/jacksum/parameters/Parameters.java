@@ -201,8 +201,8 @@ public class Parameters implements
 
     private boolean bom = false;
 
-    // --read-all-unix-file-types
-    private boolean readAllUnixFileTypes = false;
+    // --unlock-all-unix-file-types
+    private boolean unlockAllUnixFileTypes = false;
 
     // keeps all the filenames that have been specified at the command line
     private final List<String> filenamesFromArgs;
@@ -944,12 +944,12 @@ public class Parameters implements
     }
 
     @Override
-    public boolean IsReadAllUnixFileTypes() {
-        return readAllUnixFileTypes;
+    public boolean IsUnlockAllUnixFileTypes() {
+        return unlockAllUnixFileTypes;
     }
 
-    public void setReadAllUnixFileTypes(boolean b) {
-        readAllUnixFileTypes = b;
+    public void setUnlockAllUnixFileTypes(boolean b) {
+        unlockAllUnixFileTypes = b;
     }
 
     public void setErrorFile(String errorFile) {
