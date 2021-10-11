@@ -12,11 +12,10 @@ A clear and concise description of what the problem is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
+1. Enter the command '...'
+2. See the output '...'
 3. Scroll down to '....'
-4. Enter the command '...'
-5. See error
+4. See the error
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
@@ -26,7 +25,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Environment (please complete the following information):**
 Run `jacksum --info > env.txt` and attach env.txt.
-Please review env.txt before uploading. It may contain information that you don't wanna share (e. g. your user name on your desktop).
+Please review env.txt before attaching it to the bug report, because it also contains all system properties read by your JVM. Remove all lines that you don't wanna share with the public.
 
 **Additional context**
 Add any other context about the problem here.
