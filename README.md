@@ -12,7 +12,7 @@
 
 **Jacksum** is a free and cross-platform file integrity software that generates, stores, and compares message digests (hashes) to detect changes made to the files.
 
-Jacksum supports **471 algorithms**, including checksum, CRCs, cryptographic and non-cryptographic hash functions.
+Jacksum supports **471 algorithms**, including checksums, CRCs, cryptographic and non-cryptographic hash functions.
 
 Jacksum can **recursively compute hashes** with **multiple algorithms**
 **simultaneously**. Jacksum takes advantage of modern **multi-processor/
