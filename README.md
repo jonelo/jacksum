@@ -196,7 +196,7 @@ Create an [issue on github](https://github.com/jonelo/jacksum/issues) and let me
 
 ## History
 
-Jacksum went to live and to the public in July 2002 on sourcefore.net. Starting with version 3.0.0 it moved its repo to GitHub in Sept 2021.
+Jacksum went to live and to the public in July 2002 on https://sourceforge.net/projects/jacksum/. Starting with version 3.0.0 it moved its repo to GitHub in Sept 2021.
 
 ## License
 
