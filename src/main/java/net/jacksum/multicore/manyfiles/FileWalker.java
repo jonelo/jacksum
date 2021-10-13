@@ -44,6 +44,8 @@ public class FileWalker {
     private final Message.Type messageTypeForFiles;
     private final Path outputFile;
     private final Path errorFile;
+    private final boolean unlockAllUnixFileTypes;
+    private final static boolean onWindows = System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows");
 
     public FileWalker(Message.Type messageTypeForFiles, ProducerParameters producerParameters, 
             Path path, 
@@ -54,6 +56,7 @@ public class FileWalker {
         this.followSymlinksToFiles = !producerParameters.isDontFollowSymlinksToFiles();
         this.path = path;
         this.queue = queue;
+        this.unlockAllUnixFileTypes = producerParameters.IsUnlockAllUnixFileTypes();
         if (producerParameters.isOutputFile()) {
             this.outputFile = Paths.get(producerParameters.getOutputFile()).toAbsolutePath().normalize();
         } else {
@@ -75,7 +78,7 @@ public class FileWalker {
             opts = EnumSet.noneOf(FileVisitOption.class); //Collections.emptySet();
         }
         
-        TreeAction treeAction = new TreeAction(messageTypeForFiles, depth, queue, followSymlinksToDirs, followSymlinksToFiles, outputFile, errorFile);
+        TreeAction treeAction = new TreeAction(messageTypeForFiles, depth, queue, followSymlinksToDirs, followSymlinksToFiles, unlockAllUnixFileTypes, outputFile, errorFile);
         try {
             Files.walkFileTree(path, opts, depth, treeAction);
         } catch (IOException ex) {
@@ -90,16 +93,19 @@ public class FileWalker {
         private final boolean followSymlinksToFiles;
         private final boolean followSymlinksToDirs;
         private final Message.Type messageTypeForFiles;
+        private final boolean unlockAllUnixFileTypes;
         private final Path outputFile;
         private final Path errorFile;
 
         TreeAction(Message.Type messageTypeForFiles, int depth, BlockingQueue<Message> queue,
-                   boolean followSymlinksToDirs, boolean followSymlinksToFiles, Path outputFile, Path errorFile) {
+                   boolean followSymlinksToDirs, boolean followSymlinksToFiles, boolean unlockAllUnixFileTypes,
+                   Path outputFile, Path errorFile) {
             this.messageTypeForFiles = messageTypeForFiles;
             this.depth = depth;
             this.queue = queue;
             this.followSymlinksToFiles = followSymlinksToFiles;
             this.followSymlinksToDirs = followSymlinksToDirs;
+            this.unlockAllUnixFileTypes = unlockAllUnixFileTypes;
             this.outputFile = outputFile;
             this.errorFile = errorFile;
         }
@@ -147,7 +153,14 @@ public class FileWalker {
                 return CONTINUE;
             }
 
+        if (Files.isRegularFile(path) || (!onWindows && unlockAllUnixFileTypes)) {
             addMessageToQueue(new Message(messageTypeForFiles, path));
+        } else {
+            // a fifo for example (mkfifo myfifo)
+            addMessageToQueue(new Message(Message.Type.ERROR, path, String.format("%s: is not a regular file.", path)));
+        }
+
+//            addMessageToQueue(new Message(messageTypeForFiles, path));
             //logQueue.put(new Message(INFO, "File Walker: Object produced: " + queue.remainingCapacity() +" "+ message.getPath().toString()));
             return CONTINUE;
         }

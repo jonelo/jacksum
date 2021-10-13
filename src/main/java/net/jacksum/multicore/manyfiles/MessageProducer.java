@@ -83,15 +83,11 @@ public class MessageProducer implements Runnable {
                         fileWalker.walk();
                     }
 
-                } else if (Files.isRegularFile(path)) {
+                } else if (Files.isRegularFile(path) || (!onWindows && producerParameters.IsUnlockAllUnixFileTypes())) {
                     inputQueue.put(new Message(messageTypeForFiles, path));
                 } else {
-                    if (!onWindows && producerParameters.IsUnlockAllUnixFileTypes()) {
-                        inputQueue.put(new Message(messageTypeForFiles, path));
-                    } else {
-                        // a fifo for example (mkfifo myfifo)
-                        outputQueue.put(new Message(Type.ERROR, path, String.format("%s: is not a regular file.", path)));
-                    }
+                    // a fifo for example (mkfifo myfifo)
+                    outputQueue.put(new Message(Type.ERROR, path, String.format("%s: is not a regular file.", path)));
                 }
             } else {
                 outputQueue.put(new Message(Type.ERROR, path, String.format("%s: does not exist.", path)));
@@ -102,7 +98,7 @@ public class MessageProducer implements Runnable {
             // the Windows File System Parser cannot transform the string that contains wildcards
             // to a path, and it throws an InvalidPathException
             try {
-                outputQueue.put(new Message(Type.ERROR, null, String.format("%s: does not match anything.", filename)));
+                outputQueue.put(new Message(Type.ERROR, null, String.format("%s: does not match anything: %s", filename, e.getMessage())));
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
                 // Logger.getLogger(MessageProducer.class.getName()).log(Level.SEVERE, null, ex);
