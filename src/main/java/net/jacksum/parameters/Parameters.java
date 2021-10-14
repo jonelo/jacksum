@@ -48,6 +48,7 @@ import org.n16n.sugar.util.ExitException;
 import org.n16n.sugar.util.GeneralString;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.Format;
@@ -74,7 +75,8 @@ public class Parameters implements
         VersionActionParameters, CompareActionInterface, HelpActionParameters, QuickActionParameters,
         FormatParameters, AlgorithmParameters, CustomizedFormatParameters, StatisticsParameters,
         FileWalkerParameters, ProducerConsumerParameters, PathParameters,
-        GatheringParameters, SequenceParameters, ProducerParameters, CheckConsumerParameters, VerboseParameters, CompatibilityParameters {
+        GatheringParameters, SequenceParameters, ProducerParameters, CheckConsumerParameters,
+        VerboseParameters, CompatibilityParameters {
 
 
     /**
@@ -415,6 +417,8 @@ public class Parameters implements
             this.sequence = sequence2bytes(SequenceType.HEX, sequence.substring(4));
         } else if (indicator.startsWith("bin:")) {
             this.sequence = sequence2bytes(SequenceType.BIN, sequence.substring(4));
+        } else if (indicator.startsWith("file:")) {
+            this.sequence = sequence2bytes(SequenceType.FILE, sequence.substring(5));
         } else {
             this.sequence = sequence2bytes(SequenceType.HEX, sequence);
         }
@@ -982,7 +986,7 @@ public class Parameters implements
     }
 
     enum SequenceType {
-        TXT, TXTF, DEC, HEX, BIN
+        TXT, TXTF, DEC, HEX, BIN, FILE
     }
 
     public boolean isOutputFile() {
@@ -1280,6 +1284,21 @@ public class Parameters implements
                 break;
             case BIN:
                 bytes = ByteSequences.binText2Bytes(sequence);
+                break;
+            case FILE:
+                try {
+                    Path p = Path.of(sequence);
+                    if (Files.exists(p)) {
+                        if (Files.size(p) > 128 * 1024 * 1024) {
+                            throw new IllegalArgumentException(String.format("File %s is greater than 128 MiB which exceeds the limit for option -q file:<file>", sequence));
+                        }
+                        bytes = Files.readAllBytes(p);
+                    } else {
+                        throw new IllegalArgumentException(String.format("File % does not exist.", p));
+                    }
+                } catch (IOException ioe) {
+                    throw new IllegalArgumentException(ioe.getMessage());
+                }
                 break;
             default:
                 throw new IllegalArgumentException("unknown sequence type: " + sequenceType);

@@ -965,14 +965,14 @@ OPTIONS
             Available since Jacksum 1.5.0, see also -F
 
 
-    -q [type:]sequence
-    --quick [type:]sequence
-            process a sequence quickly and quit the program. The type can be
+    -q [<type>:]<sequence>
+    --quick [<type>:]<sequence>
+            process a sequence quickly and quit the program. The <type> can be
             used to specify the type of the sequence (text, formatted text,
-            binary, hexadecimal or decimal). If type is not set, the sequence is
-            expected to be in hex form.
-            Any of following examples (except text, non-formatted) return the
-            same digest of the 7 bytes input.
+            binary, hexadecimal, decimal, or file). If type is not set, the
+            sequence is expected to be in hex form.
+            Any of following examples (except text, unformatted) return the
+            same digest of a input of 7 bytes.
 \
                 Decimal
                     dec:101,103,103,32,52,50,10
@@ -994,11 +994,11 @@ OPTIONS
                     fill up with leading zeros as the last example illustrates.
 \
                 Hexadecimal
+                    6567672034320A
+                    hex:6567672034320A
                     hex:65,67,67,20,34,32,A
                     hex:"65, 67, 67, 20, 34, 32, A"
                     hex:"65 67 67 20 34 32 A"
-                    hex:6567672034320A
-                    6567672034320A
 \
                     Hex values can be separated by commas or spaces, but you do
                     not have to, as long as it is clear, where the 8 bit
@@ -1008,7 +1008,7 @@ OPTIONS
                 Text, unformatted:
                     txt:"egg 42\n"
 \
-                    If type is only specified as "txt", the default character
+                    If <type> is only specified as "txt", the default character
                     set of the platform used to represent the sequence seq.
                     For unformatted text, the \n is not interpreted as one
                     character (Newline), but rather as two separate characters
@@ -1031,8 +1031,26 @@ OPTIONS
                      \\    Backslash (0x5C)
                      \xHH  Hexadecimal Number (HH can become 00 to 7F)
 \
-            Available since Jacksum 1.3.0 (hex only), type since 1.5.0, type bin
-            and txtf since Jacksum 3.0.0
+                File:
+                     file:<file>
+\
+                     If <type> is specified as "file", all bytes from the
+                     <file> will be read and kept in memory.
+                     The -q option is also used to feed data to the
+                     algorithm finder module which tries to find the algorithm
+                     to a checksum/CRC/hash value. It does that by processing
+                     data using a brute force algorithm, and I/O operations
+                     must be avoided where possible in that case. Therefore
+                     the size of <file> is limited to 128 MiB, because the
+                     entire content of the file will be stored in memory for
+                     fast access. This option is not intended for reading in
+                     large files. If you want to read large files up to
+                     8 Exabytes (= 8,000,000,000 Gigabytes) pass <file> as
+                     a parameter to Jacksum.
+\
+            Available since Jacksum 1.3.0 (hex only), "type" since 1.5.0,
+            type "bin" and "txtf" since Jacksum 3.0.0, type "file" since
+            Jacksum 3.1.0
 
 
     --unlock-all-unix-file-types

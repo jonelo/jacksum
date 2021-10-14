@@ -22,16 +22,16 @@
  */
 package net.jacksum.cli;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.UnsupportedCharsetException;
-
 import net.jacksum.actions.help.Help;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
 import org.n16n.sugar.io.GeneralIO;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
 
 /**
  * All parameters for the Command Line Interface (CLI)

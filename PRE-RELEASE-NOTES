@@ -8,6 +8,7 @@ Jacksum 3.1.0, TBD
     - added option --unlock-all-unix-file-types to read from all file types on Unix-like
       operating systems including block devices which now allows to get a single hash from
       an entire disk or a partition for example.
+    - added option -q file:<file> (GitHub issue #12)
     - added z-base-32 encoding for hash value representation
 
 - improvements:
