@@ -83,7 +83,9 @@ public class MessageProducer implements Runnable {
                         fileWalker.walk();
                     }
 
-                } else if (Files.isRegularFile(path) || (!onWindows && producerParameters.IsUnlockAllUnixFileTypes())) {
+                } else if (Files.isRegularFile(path)
+                        || (!onWindows && producerParameters.isUnlockAllUnixFileTypes())
+                        || (onWindows && producerParameters.isUnlockAllWindowsFileTypes())) {
                     inputQueue.put(new Message(messageTypeForFiles, path));
                 } else {
                     // a fifo for example (mkfifo myfifo)

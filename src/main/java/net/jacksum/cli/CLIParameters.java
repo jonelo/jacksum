@@ -317,6 +317,10 @@ public class CLIParameters {
                 } else if (arg.equals("--unlock-all-unix-file-types")) {
                     parameters.setUnlockAllUnixFileTypes(true);
 
+                } else if (arg.equals("--unlock-all-windows-file-types")) {
+                    parameters.setUnlockAllWindowsFileTypes(true);
+
+
                 } else if (arg.equals("-s") || arg.equals("--separator")) {
                     if (firstfile < args.length) {
                         parameters.setSeparator(org.n16n.sugar.util.GeneralString.translateEscapeSequences(args[firstfile++]));

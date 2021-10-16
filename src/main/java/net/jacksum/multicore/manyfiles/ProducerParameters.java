@@ -43,5 +43,6 @@ public interface ProducerParameters {
     String getOutputFile();
     boolean isErrorFile();
     String getErrorFile();
-    boolean IsUnlockAllUnixFileTypes();
+    boolean isUnlockAllUnixFileTypes();
+    boolean isUnlockAllWindowsFileTypes();
 }

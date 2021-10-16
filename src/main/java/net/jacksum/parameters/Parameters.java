@@ -201,10 +201,14 @@ public class Parameters implements
     // --copyright
     private boolean copyrightWanted = false;
 
+    // --bom
     private boolean bom = false;
 
     // --unlock-all-unix-file-types
     private boolean unlockAllUnixFileTypes = false;
+
+    // --unlock-all-windows-file-types
+    private boolean unlockAllWindowsFileTypes = false;
 
     // keeps all the filenames that have been specified at the command line
     private final List<String> filenamesFromArgs;
@@ -948,13 +952,23 @@ public class Parameters implements
     }
 
     @Override
-    public boolean IsUnlockAllUnixFileTypes() {
+    public boolean isUnlockAllUnixFileTypes() {
         return unlockAllUnixFileTypes;
+    }
+
+    @Override
+    public boolean isUnlockAllWindowsFileTypes() {
+        return unlockAllWindowsFileTypes;
     }
 
     public void setUnlockAllUnixFileTypes(boolean b) {
         unlockAllUnixFileTypes = b;
     }
+
+    public void setUnlockAllWindowsFileTypes(boolean b) {
+        unlockAllWindowsFileTypes = b;
+    }
+
 
     public void setErrorFile(String errorFile) {
         this.errorFile = errorFile;
@@ -984,6 +998,7 @@ public class Parameters implements
     public void setBom(boolean bom) {
         this.bom = bom;
     }
+
 
     enum SequenceType {
         TXT, TXTF, DEC, HEX, BIN, FILE

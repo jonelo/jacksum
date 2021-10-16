@@ -1045,7 +1045,7 @@ OPTIONS
                      entire content of the file will be stored in memory for
                      fast access. This option is not intended for reading in
                      large files. If you want to read large files up to
-                     8 Exabytes (= 8,000,000,000 Gigabytes) pass <file> as
+                     8 Exbibytes (= 8,000,000,000 Gibibytes) pass <file> as
                      a parameter to Jacksum.
 \
             Available since Jacksum 1.3.0 (hex only), "type" since 1.5.0,
@@ -1056,25 +1056,79 @@ OPTIONS
     --unlock-all-unix-file-types
             This option has no impact on Microsoft Windows.
             By default Jacksum reads from regular files, directories, and
-            symbolic links (which can points to files or directories) on all
+            symbolic links (which can point to files or directories) on all
             supported platforms.
-            In Unix-like operating systems there are additional file types
-            available. If you set this option, Jacksum will also read from
-            FIFOs (named pipes), block devices, character devices, sockets,
-            and doors (Solaris only).
-            Jacksum doesn't read from those by default, because reading from
-            named pipes can make the process waiting on data forever (e.g.
-            a named pipe), reading forever (e.g. /dev/random) or hashing
-            entire disks which you didn't want to hash by default.
-            Please use this option with care and wisdom.
-            Enabling the option however helps to generate, store, and compare
-            hashes from entire disks (e.g. /dev/sda) or entire partitions
-            (e.g. /dev/sda2) or calculating hashes with a message length of
-            zero bytes (e.g. /dev/null).
-            Note that reading entire disks or partitions may require sudo
-            resp. root privileges.
-            BTW, you can change the behavior of following symbolic links by
+            You can change the behavior of following symbolic links by
             setting the options -f and -d.
+\
+            In Unix-like operating systems there are additional file types
+            available. If you set this option, you allow Jacksum to read
+            also from
+\
+                * block devices (e.g. /dev/sda, /dev/sda1, /dev/sr0)
+                * character devices (e.g. /dev/null)
+                * named pipes (FIFOs)
+                * sockets
+                * doors (Solaris only)
+\
+            Warning: Jacksum doesn't read from those file types by default,
+            because it could make the process waiting on data forever (e.g.
+            a named pipe without a producer), reading data forever (e.g.
+            /dev/random which generates an infinite number of random numbers)
+            or hashing entire disks which you didn't want to hash by default.
+            Note that setting this option also makes the output platform
+            dependent and destroys the portability of check files.
+            Use this option with care and wisdom.
+\
+            Enabling the option allows you to generate, store, and compare
+            hashes from entire disks (e.g. /dev/sda, /dev/sr0) or entire
+            partitions (e.g. /dev/sda2) or calculating hashes with a message
+            length of zero bytes from the null device (/dev/null).
+            Note that reading entire disks or partitions may require sudo
+            resp. root privileges. You should also unmount block devices
+            first before reading from them, because if you don't unmount it,
+            the driver of the block device may flag the disk as defect, and
+            even that single bit may lead to an entirely different hash value.
+            Reading copyright protected DVDs may lead to I/O errors.
+
+
+    --unlock-all-windows-file-types
+            This option has no impact on Unix and Linux operating systems.
+            By default Jacksum reads from regular files, directories, and
+            symbolic links (which can point to files or directories) on all
+            supported platforms.
+            You can change the behavior of following symbolic links by
+            setting the options -f and -d.
+\
+            On Microsoft Windows there are additional file types available.
+            If you set this option, you allow Jacksum to read also from
+\
+                * entire disks (e.g. \\.\PhysicalDrive0)
+                * entire partitions (e.g. \\.\c:)
+                * invisible partitions which are not mounted by default,
+                  e.g. a recovery partition
+                  (e.g. \\?\Volume{4a343c6b-3576-5e5e-2072-303c6b352131}\)
+                * NTFS Alternate Data Streams (e.g. message.txt:secret:$DATA)
+                * RAM disks
+                * the null-device (called nul)
+\
+            Jacksum doesn't read from those file types by default.
+            Jacksum doesn't search for those special file types while
+            gathering filenames recursively even if you set this option.
+            Note that setting this option makes the output platform
+            dependent and destroys the portability of check files.
+            Use this option with care an wisdom.
+\
+            Enabling the option helps to generate, store, and compare
+            hashes from entire disks (e.g. \\PhysicalDrive0) and entire
+            partitions (e.g. \\.\c:) or calculating hashes with a message
+            length of zero bytes from the null-device.
+            Note that reading data from partitions may require Administrator
+            privileges.
+            To find PhysicalDrive IDs on Microsoft Windows, enter the
+            PowerShell command Get-PhysicalDisk. To find Partition drive
+            letters and access paths, enter the PowerShell commands
+            Get-Volume and Get-Partition.
 
 
     -r <depth>

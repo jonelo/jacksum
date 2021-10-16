@@ -45,6 +45,7 @@ public class FileWalker {
     private final Path outputFile;
     private final Path errorFile;
     private final boolean unlockAllUnixFileTypes;
+    private final boolean unlockAllWindowsFileTypes;
     private final static boolean onWindows = System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows");
 
     public FileWalker(Message.Type messageTypeForFiles, ProducerParameters producerParameters, 
@@ -56,7 +57,8 @@ public class FileWalker {
         this.followSymlinksToFiles = !producerParameters.isDontFollowSymlinksToFiles();
         this.path = path;
         this.queue = queue;
-        this.unlockAllUnixFileTypes = producerParameters.IsUnlockAllUnixFileTypes();
+        this.unlockAllUnixFileTypes = producerParameters.isUnlockAllUnixFileTypes();
+        this.unlockAllWindowsFileTypes = producerParameters.isUnlockAllWindowsFileTypes();
         if (producerParameters.isOutputFile()) {
             this.outputFile = Paths.get(producerParameters.getOutputFile()).toAbsolutePath().normalize();
         } else {
@@ -78,7 +80,7 @@ public class FileWalker {
             opts = EnumSet.noneOf(FileVisitOption.class); //Collections.emptySet();
         }
         
-        TreeAction treeAction = new TreeAction(messageTypeForFiles, depth, queue, followSymlinksToDirs, followSymlinksToFiles, unlockAllUnixFileTypes, outputFile, errorFile);
+        TreeAction treeAction = new TreeAction(messageTypeForFiles, depth, queue, followSymlinksToDirs, followSymlinksToFiles, unlockAllUnixFileTypes, unlockAllWindowsFileTypes, outputFile, errorFile);
         try {
             Files.walkFileTree(path, opts, depth, treeAction);
         } catch (IOException ex) {
@@ -94,11 +96,13 @@ public class FileWalker {
         private final boolean followSymlinksToDirs;
         private final Message.Type messageTypeForFiles;
         private final boolean unlockAllUnixFileTypes;
+        private final boolean unlockAllWindowsFileTypes;
         private final Path outputFile;
         private final Path errorFile;
 
         TreeAction(Message.Type messageTypeForFiles, int depth, BlockingQueue<Message> queue,
-                   boolean followSymlinksToDirs, boolean followSymlinksToFiles, boolean unlockAllUnixFileTypes,
+                   boolean followSymlinksToDirs, boolean followSymlinksToFiles,
+                   boolean unlockAllUnixFileTypes, boolean unlockAllWindowsFileTypes,
                    Path outputFile, Path errorFile) {
             this.messageTypeForFiles = messageTypeForFiles;
             this.depth = depth;
@@ -106,6 +110,7 @@ public class FileWalker {
             this.followSymlinksToFiles = followSymlinksToFiles;
             this.followSymlinksToDirs = followSymlinksToDirs;
             this.unlockAllUnixFileTypes = unlockAllUnixFileTypes;
+            this.unlockAllWindowsFileTypes = unlockAllWindowsFileTypes;
             this.outputFile = outputFile;
             this.errorFile = errorFile;
         }
@@ -153,7 +158,10 @@ public class FileWalker {
                 return CONTINUE;
             }
 
-        if (Files.isRegularFile(path) || (!onWindows && unlockAllUnixFileTypes)) {
+        if (Files.isRegularFile(path)
+                || (!onWindows && unlockAllUnixFileTypes)
+                || (onWindows && unlockAllWindowsFileTypes)
+        ) {
             addMessageToQueue(new Message(messageTypeForFiles, path));
         } else {
             // a fifo for example (mkfifo myfifo)
