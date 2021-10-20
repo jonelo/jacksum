@@ -12,6 +12,7 @@ Jacksum 3.1.0, TBD
       on Microsoft Windows including NTFS Alternate Data Streams, entire disks, and partitions
     - added option -q file:<file> (GitHub issue #12)
     - added z-base-32 encoding for hash value representation
+    - added number of improperly lines, and ignored lines to the statistics of the check mode
 
 - improvements:
 
@@ -19,3 +20,8 @@ Jacksum 3.1.0, TBD
           o fixed: PowerShell applet Get-FileHash has also RIPEMD160
           o added the hash function tools that are supported by BusyBox
     - improved the style of the short help to see everything even on terminals with 24-rows
+
+- fixes:
+
+    - fixed: duplicate filenames in the checkfile leads to a misleading output,
+      the latest duplicate filename in a checkfile should win, and all previous duplicate filenames should be ignored

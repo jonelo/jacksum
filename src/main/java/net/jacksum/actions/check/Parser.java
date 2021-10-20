@@ -27,9 +27,7 @@ import org.n16n.sugar.io.BOM;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -174,9 +172,16 @@ public class Parser {
                 bufferedReader = new BufferedReader(fileReader);
             }
 
+            boolean replaceDuplicateFilenames = true;
             String line;
             int lineNumber = 0;
-            int linesWithErrors = 0;
+            int properlyFormattedLines = 0;
+            int improperlyFormattedLines = 0;
+            int ignoredLines = 0;
+            Map<String, HashEntry> map = null;
+            if (replaceDuplicateFilenames) {
+                map = new LinkedHashMap<>();
+            }
             while ((line = bufferedReader.readLine()) != null) {
                 lineNumber++;
                 try {
@@ -185,17 +190,33 @@ public class Parser {
                         line = BOM.cutBOM(line, charset);
                     }
 
-                    list.add(parseLine(line));
+                    HashEntry hashEntry = parseLine(line);
+                    if (replaceDuplicateFilenames) {
+                        if (map.containsKey(hashEntry.getFilename())) {
+                            map.replace(hashEntry.getFilename(), hashEntry);
+                        } else {
+                            map.put(hashEntry.getFilename(), hashEntry);
+                        }
+                    } else {
+                        list.add(hashEntry);
+                    }
+                    properlyFormattedLines++;
                 } catch (IgnoredLineException ile) {
                     // we want to silently ignore particular lines
+                    ignoredLines++;
                 } catch (ImproperlyFormattedLineException ple) {
-                    linesWithErrors++;
+                    improperlyFormattedLines++;
                     System.err.printf("Jacksum: Warning: Improperly formatted line in line #%d in file \"%s\": \"%s\"%n", lineNumber, filename, line);
                 }
             }
 
+            if (replaceDuplicateFilenames) {
+                list.addAll(map.values());
+            }
             getStatistics().setTotalLines(lineNumber);
-            getStatistics().setImproperlyFormattedLines(linesWithErrors);
+            getStatistics().setProperlyFormattedLines(properlyFormattedLines);
+            getStatistics().setImproperlyFormattedLines(improperlyFormattedLines);
+            getStatistics().setIgnoredLines(ignoredLines);
 
             if (list.isEmpty()) {
                 throw new NotEvenOneEntryFoundException(String.format("Jacksum: Error: not even one valid entry has been found in %s", filename));

@@ -30,17 +30,23 @@ public class ParserStatistics extends Statistics {
 
     
     private int totalLines;
+    private int properlyFormattedLines;
     private int improperlyFormattedLines;
-    
+    private int ignoredLines;
+
     @Override
     public Map<String, Object> build() {
         Map<String, Object> map = new LinkedHashMap<>();
-        double percent = (getTotalLines()-getImproperlyFormattedLines())*100.0 / getTotalLines();
+        double percent = getProperlyFormattedLines() * 100.0 / (getProperlyFormattedLines()+getImproperlyFormattedLines());
         map.put("total lines in check file", getTotalLines());
         map.put("improperly formatted lines in check file", getImproperlyFormattedLines());
+        map.put("properly formatted lines in check file", getProperlyFormattedLines());
+//        map.put("ignored duplicate filenames", getDuplicateFilenames());
+        map.put("ignored lines (empty lines and comments)", getIgnoredLines());
         map.put("correctness of check file", String.format("%.2f %%", percent).replace(',', '.'));
         return map;
     }
+
 
     @Override
     public void reset() {
@@ -76,5 +82,31 @@ public class ParserStatistics extends Statistics {
         this.improperlyFormattedLines = improperlyFormattedLines;
     }
 
+    /**
+     * @return the properlyFormattedLines
+     */
+    public int getProperlyFormattedLines() {
+        return properlyFormattedLines;
+    }
 
+    /**
+     * @param properlyFormattedLines the properlyFormattedLines to set
+     */
+    public void setProperlyFormattedLines(int properlyFormattedLines) {
+        this.properlyFormattedLines = properlyFormattedLines;
+    }
+
+    /**
+     * @return the ignoredLines
+     */
+    public int getIgnoredLines() {
+        return ignoredLines;
+    }
+
+    /**
+     * @param ignoredLines the ignoredLines to set
+     */
+    public void setIgnoredLines(int ignoredLines) {
+        this.ignoredLines = ignoredLines;
+    }
 }
