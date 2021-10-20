@@ -62,7 +62,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
 
         // Let's put the hashEntries to a map for an indexed access by filename.
         map = new HashMap<>();
-        /* 
+        /*
             for (HashEntry hashEntry : hashEntries) {
             map.put(hashEntry.getFilename(), hashEntry);
         }*/
@@ -106,7 +106,11 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                 
                 // set the filename
                 if (message.getPayload().getPath() == null) {
-                    filename = AbstractChecksum.getStdinName();
+                    if (message.getPayload().getSpecialPath() == null) {
+                        filename = AbstractChecksum.getStdinName();
+                    } else {
+                        filename = message.getPayload().getSpecialPath();
+                    }
                 } else {
                     filename = message.getPayload().getPath().toString();
                 }
@@ -163,7 +167,12 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
 
             case FILE_NOT_HASHED:
                 if (message.getPayload().getPath() == null) {
-                    filename = AbstractChecksum.getStdinName();
+
+                    if (message.getPayload().getSpecialPath() == null) {
+                        filename = AbstractChecksum.getStdinName();
+                    } else {
+                        filename = message.getPayload().getSpecialPath();
+                    }
                 } else {
                     filename = message.getPayload().getPath().toString();
                 }
@@ -178,7 +187,11 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                 errors++;
 
                 if (message.getPayload().getPath() == null) {
-                    filename = AbstractChecksum.getStdinName();
+                    if (message.getPayload().getSpecialPath() == null) {
+                        filename = AbstractChecksum.getStdinName();
+                    } else {
+                        filename = message.getPayload().getSpecialPath();
+                    }
                 } else {
                     filename = message.getPayload().getPath().toString();
                 }

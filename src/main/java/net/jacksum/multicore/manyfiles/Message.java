@@ -36,7 +36,7 @@ public class Message {
         FILE_HASHED, FILE_NOT_HASHED, FILE_HASHED_AND_MATCHES_EXPECTATION,
         // 
         INFO, ERROR, INFO_DIR_IGNORED,
-        // EXIT is the poision pill and marks the end of the Queue
+        // EXIT is the poison pill and marks the end of the queue
         EXIT
     }
 
@@ -73,25 +73,25 @@ public class Message {
     }
 
 
+    public Message(Type type) {
+        this.type = type;
+        payload = new MessagePayload();
+    }
     
     public Message(Type type, String info) {
         this.type = type;
         this.info = info;
         payload = new MessagePayload();
     }
-    
-    public Message(Type type) {
+
+    public Message(Type type, String info, String specialPath) {
         this.type = type;
+        this.info = info;
         payload = new MessagePayload();
+        payload.setSpecialPath(specialPath);
     }
 
-    public Message(Type type, Path path) {
-        this.type = type;
-        payload = new MessagePayload();
-        payload.setPath(path);
-    }
-    
-    public Message(Type type, Path path, String info) {
+    public Message(Type type, String info, Path path) {
         this.type = type;
         this.info = info;
         payload = new MessagePayload();

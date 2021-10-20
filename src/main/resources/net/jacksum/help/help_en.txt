@@ -1065,7 +1065,9 @@ OPTIONS
             available. If you set this option, you allow Jacksum to read
             also from
 \
-                * block devices (e.g. /dev/sda, /dev/sda1, /dev/sr0)
+                * block devices
+                  (i.e. disks, e.g. /dev/disk0, /dev/sda,
+                  and partitions, e.g. /dev/disk0s1, /dev/sda1)
                 * character devices (e.g. /dev/null)
                 * named pipes (FIFOs)
                 * sockets
@@ -1081,15 +1083,24 @@ OPTIONS
             Use this option with care and wisdom.
 \
             Enabling the option allows you to generate, store, and compare
-            hashes from entire disks (e.g. /dev/sda, /dev/sr0) or entire
-            partitions (e.g. /dev/sda2) or calculating hashes with a message
-            length of zero bytes from the null device (/dev/null).
-            Note that reading entire disks or partitions may require sudo
-            resp. root privileges. You should also unmount block devices
-            first before reading from them, because if you don't unmount it,
-            the driver of the block device may flag the disk as defect, and
-            even that single bit may lead to an entirely different hash value.
+            hashes from disks (e.g. /dev/sda, /dev/sdb, /dev/sr0 on GNU/Linux,
+            and /dev/disk0, /dev/disk1 on macOS), CD-ROMs, DVDs (e.g. /dev/sr0
+            on GNU/Linux, /dev/disk5 on macOS) or partitions (e.g. /dev/sda2
+            on GNU/Linux, /dev/disk0s2 on macOS) or calculating hashes with a
+            message length of zero bytes from the null device (/dev/null on
+            both GNU/Linux and macOS). Note that reading entire disks or
+            partitions may require sudo resp. root privileges. You should also
+            unmount block devices first before reading from them, because if
+            you don't unmount it, the device driver of the block device may
+            flag the disk as defect, and even that single bit may lead to an
+            entirely different hash value.
             Reading copyright protected DVDs may lead to I/O errors.
+            The OS may permit or prohibit reading (and hashing) of particular
+            disks or partitions if it is in use (mounted).
+\
+            To unmount disks use "umount" on GNU/Linux and "diskutil umount" on
+            macOS. To find disk identifiers enter "lsblk" on GNU/Linux and
+            "diskutil list" on macOS.
 
 
     --unlock-all-windows-file-types
@@ -1103,14 +1114,14 @@ OPTIONS
             On Microsoft Windows there are additional file types available.
             If you set this option, you allow Jacksum to read also from
 \
-                * entire disks (e.g. \\.\PhysicalDrive0)
-                * entire partitions (e.g. \\.\c:)
+                * disks (e.g. \\.\PhysicalDrive0)
+                * partitions (e.g. \\.\c:)
                 * invisible partitions which are not mounted by default,
-                  e.g. a recovery partition
+                  e.g. the recovery partition or EFI partition
                   (e.g. \\?\Volume{4a343c6b-3576-5e5e-2072-303c6b352131}\)
                 * NTFS Alternate Data Streams (e.g. message.txt:secret:$DATA)
                 * RAM disks
-                * the null-device (called nul)
+                * the null-device (i.e. nul)
 \
             Jacksum doesn't read from those file types by default.
             Jacksum doesn't search for those special file types while
@@ -1122,13 +1133,15 @@ OPTIONS
             Enabling the option helps to generate, store, and compare
             hashes from entire disks (e.g. \\PhysicalDrive0) and entire
             partitions (e.g. \\.\c:) or calculating hashes with a message
-            length of zero bytes from the null-device.
-            Note that reading data from partitions may require Administrator
-            privileges.
+            length of zero bytes from the null-device (i.e. nul).
+            Note that reading data from disks and partitions may require
+            Administrator privileges.
+\
             To find PhysicalDrive IDs on Microsoft Windows, enter the
             PowerShell command Get-PhysicalDisk. To find Partition drive
             letters and access paths, enter the PowerShell commands
-            Get-Volume and Get-Partition.
+            Get-Volume and Get-Partition or use the mountvol command on
+            the Command Prompt.
 
 
     -r <depth>

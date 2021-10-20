@@ -86,7 +86,12 @@ public class WorkerThread implements Runnable {
             // calculate the digest
             //System.out.println(message.getPayload().getPath());
             if (message.getType().equals(Message.Type.HASH_FILE)) {
-                algorithm.readFile(message.getPayload().getPath().toString(), true);
+                if (message.getPayload().getSpecialPath() != null) {
+                    algorithm.readFile(message.getPayload().getSpecialPath(), true);
+                } else {
+                    algorithm.readFile(message.getPayload().getPath().toString(), true);
+                }
+
             } else if (message.getType().equals(Message.Type.HASH_STDIN)) {
                 algorithm.readStdin();
             }

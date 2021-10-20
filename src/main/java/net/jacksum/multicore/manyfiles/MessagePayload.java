@@ -34,6 +34,7 @@ public class MessagePayload {
 
 
     private Path path;
+    private String specialPath; // for keeping filenames that a Path object oes not support such as "\\.\c:\" or ADS paths on Windows
     private byte[] digest;
     private long size;
     private BasicFileAttributes basicFileAttributes;
@@ -42,8 +43,16 @@ public class MessagePayload {
         this.path = path;
     }
 
+    public void setSpecialPath(String specialPath) {
+        this.specialPath = specialPath;
+    }
+
     public Path getPath() {
         return path;
+    }
+
+    public String getSpecialPath() {
+        return specialPath;
     }
 
     public void setDigest(byte[] digest) {

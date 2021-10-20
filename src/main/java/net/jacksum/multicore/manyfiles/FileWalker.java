@@ -123,14 +123,14 @@ public class FileWalker {
         @Override
         public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
             if (!followSymlinksToFiles && Files.isSymbolicLink(path) && Files.isRegularFile(path)) {
-                addMessageToQueue(new Message(Message.Type.INFO, path,
-                        String.format("Ignoring \"%s\", because it is a symlink to a file.", path)));
+                addMessageToQueue(new Message(Message.Type.INFO,
+                        String.format("Ignoring \"%s\", because it is a symlink to a file.", path), path));
                 return CONTINUE;
             }
             
             if (!followSymlinksToDirs && Files.isSymbolicLink(path) && Files.isDirectory(path)) {
-                addMessageToQueue(new Message(Message.Type.INFO, path,
-                        String.format("Ignoring \"%s\", because it is a symlink to a dir.", path)));
+                addMessageToQueue(new Message(Message.Type.INFO,
+                        String.format("Ignoring \"%s\", because it is a symlink to a dir.", path), path));
                 return CONTINUE;
             }
 
@@ -141,20 +141,20 @@ public class FileWalker {
 
             // depth < Integer.MAX_VALUE can cause a "Zugriff verweigert" on folders
             if (depth < Integer.MAX_VALUE && Files.isDirectory(path)) {
-                addMessageToQueue(new Message(Message.Type.INFO_DIR_IGNORED, path,
-                        String.format("\"%s\" is a directory, but the maximum number of allowed directory levels (%s) has been reached.", path, depth)));
+                addMessageToQueue(new Message(Message.Type.INFO_DIR_IGNORED,
+                        String.format("\"%s\" is a directory, but the maximum number of allowed directory levels (%s) has been reached.", path, depth), path));
                 return CONTINUE;
             }
 
             if (outputFile != null && Files.isRegularFile(path) && path.toAbsolutePath().normalize().equals(outputFile)) {
-                addMessageToQueue(new Message(Message.Type.INFO, path,
-                        String.format("\"%s\", won't be hashed, because it is the file where hashes will be stored.", path)));
+                addMessageToQueue(new Message(Message.Type.INFO,
+                        String.format("\"%s\", won't be hashed, because it is the file where hashes will be stored.", path), path));
                 return CONTINUE;
             }
 
             if (errorFile != null && Files.isRegularFile(path) && path.toAbsolutePath().normalize().equals(errorFile)) {
-                addMessageToQueue(new Message(Message.Type.INFO, path,
-                        String.format("\"%s\", won't be hashed, because it is the file where errors will be stored.", path)));
+                addMessageToQueue(new Message(Message.Type.INFO,
+                        String.format("\"%s\", won't be hashed, because it is the file where errors will be stored.", path), path));
                 return CONTINUE;
             }
 
@@ -162,10 +162,10 @@ public class FileWalker {
                 || (!onWindows && unlockAllUnixFileTypes)
                 || (onWindows && unlockAllWindowsFileTypes)
         ) {
-            addMessageToQueue(new Message(messageTypeForFiles, path));
+            addMessageToQueue(new Message(messageTypeForFiles, null, path));
         } else {
             // a fifo for example (mkfifo myfifo)
-            addMessageToQueue(new Message(Message.Type.ERROR, path, String.format("%s: is not a regular file.", path)));
+            addMessageToQueue(new Message(Message.Type.ERROR, String.format("%s: is not a regular file.", path), path));
         }
 
 //            addMessageToQueue(new Message(messageTypeForFiles, path));
@@ -181,9 +181,9 @@ public class FileWalker {
         @Override
         public FileVisitResult visitFileFailed(Path path, IOException exc) {
             if (exc instanceof FileSystemLoopException) {
-                addMessageToQueue(new Message(Message.Type.ERROR, path, String.format("File System Cycle detected, ignoring: %s", path)));
+                addMessageToQueue(new Message(Message.Type.ERROR, String.format("File System Cycle detected, ignoring: %s", path), path));
             } else {
-                addMessageToQueue(new Message(Message.Type.ERROR, path, String.format("Unable to process: \"%s\": %s", path, exc)));
+                addMessageToQueue(new Message(Message.Type.ERROR, String.format("Unable to process: \"%s\": %s", path, exc), path));
             }
             return FileVisitResult.SKIP_SUBTREE;
         }

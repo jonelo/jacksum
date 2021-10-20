@@ -22,6 +22,7 @@
  */
 package net.jacksum.multicore.manyfiles;
 
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -73,7 +74,7 @@ public class MessageProducer implements Runnable {
             if (Files.exists(path)) {
                 if (Files.isDirectory(path)) {
                     if (filenameIsInCheckFile) {
-                        outputQueue.put(new Message(Type.ERROR, path, String.format("%s: directory found in check file, but a filename was expected.", path)));
+                        outputQueue.put(new Message(Type.ERROR, String.format("%s: directory found in check file, but a filename was expected.", path), path));
                     } else {
                         FileWalker fileWalker = new FileWalker(
                                 messageTypeForFiles,
@@ -86,25 +87,39 @@ public class MessageProducer implements Runnable {
                 } else if (Files.isRegularFile(path)
                         || (!onWindows && producerParameters.isUnlockAllUnixFileTypes())
                         || (onWindows && producerParameters.isUnlockAllWindowsFileTypes())) {
-                    inputQueue.put(new Message(messageTypeForFiles, path));
+                    inputQueue.put(new Message(messageTypeForFiles, null, path));
                 } else {
-                    // a fifo for example (mkfifo myfifo)
-                    outputQueue.put(new Message(Type.ERROR, path, String.format("%s: is not a regular file.", path)));
+                    // a fifo on GNU/Linux for example (mkfifo myfifo)
+                    // or the nul-device on Microsoft Windows
+                    outputQueue.put(new Message(Type.ERROR, String.format("%s: is not a regular file.", path), path));
                 }
             } else {
-                outputQueue.put(new Message(Type.ERROR, path, String.format("%s: does not exist.", path)));
+                outputQueue.put(new Message(Type.ERROR, String.format("%s: does not exist.", path), path));
             }
 
         } catch (InvalidPathException e) {
-            // shell wasn't able to resolve wildcards and simply passes the wildcard string to the app.
-            // the Windows File System Parser cannot transform the string that contains wildcards
-            // to a path, and it throws an InvalidPathException
-            try {
-                outputQueue.put(new Message(Type.ERROR, null, String.format("%s: does not match anything: %s", filename, e.getMessage())));
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-                // Logger.getLogger(MessageProducer.class.getName()).log(Level.SEVERE, null, ex);
+            // On Windows, the JDK's Path class throws an InvalidPathException if there are illegal characters in the path.
+            // However, in some cases those characters are legal, actually. Microsoft Windows supports a schema in order
+            // to access partitions, e.g. "\\.\c:\", and to access NTFS ADS (alternate data stream), e.g.
+            // "message.txt:ads:$DATA". So we have to check the validity by our own code if the Path class can't handle it.
+            if (onWindows && producerParameters.isUnlockAllWindowsFileTypes() && specialWindowsFileExists(filename)) {
+                try {
+                    inputQueue.put(new Message(messageTypeForFiles,null, filename));
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                // The shell wasn't able to resolve wildcards and simply passes the wildcard string to the app.
+                // The Windows File System Parser cannot transform the string that contains wildcards
+                // to a Path object, and it throws an InvalidPathException.
+                try {
+                    outputQueue.put(new Message(Type.ERROR, String.format("%s: does not match anything: %s", filename, e.getMessage()), (Path)null));
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                    // Logger.getLogger(MessageProducer.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+
         } catch (InterruptedException ex) {
             ex.printStackTrace();
             // Logger.getLogger(MessageProducer.class.getName()).log(Level.SEVERE, null, ex);                    
@@ -119,6 +134,34 @@ public class MessageProducer implements Runnable {
             ex.printStackTrace();
         }
     }
+
+    public static boolean specialWindowsFileExists(String filename) {
+
+        File file = new File(filename);
+        if (file.isFile() && file.canRead()) { // i.e. a NTFS ADS file such as message.txt:secret:$DATA
+            return true;
+        }
+        // further checks are required
+        // filename could be a partition, such as "\\.\c:\", we need to check whether it is accessible
+
+        InputStream is = null;
+
+        try {
+            is = new FileInputStream(filename);
+            return true;
+        }  catch (FileNotFoundException e) {
+            return false;
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException ioe) {
+            }
+        }
+
+    }
+
 
     @Override
     public void run() {
