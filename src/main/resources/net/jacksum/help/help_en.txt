@@ -5122,6 +5122,7 @@ ALGORITHMS
                                    /usr/bin/sum -r|--bsd|--method=<bsd|ucb>
                 - Tcl:             crc::sum [-bsd]
                 - Tru64 Unix:      /usr/bin/sum [-r]
+                - Ultrix:          /usr/bin/sum
                 - Windows:         -
                 - OpenSSL:         -
 \
