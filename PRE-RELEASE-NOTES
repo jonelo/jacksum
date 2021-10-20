@@ -2,26 +2,26 @@ Jacksum 3.1.0, TBD
 
 - new features:
 
+    - added option --unlock-all-windows-file-types to allow Jacksum to read from all Windows files
+      types on Microsoft Windows including NTFS Alternate Data Streams, disks, partitions, RAM disks,
+      and the nul-device
+    - added option --unlock-all-unix-file-types to read from all file types on Unix-like
+      operating systems including block devices, character devices, named pipes (FIFOs), sockets,
+      and doors (Solaris only)
     - added option --bom for adding a Byte-Order Mark (BOM) to the output if a charset
       has been specified where a BOM is optional (charsets GB18030, UTF-8, UTF-16BE,
       UTF-16LE, UTF-32LE, and UTF-32BE)
-    - added option --unlock-all-unix-file-types to read from all file types on Unix-like
-      operating systems including block devices which now allows to get a single hash from
-      an entire disk or a partition for example.
-    - added option --unlock-all-windows-file-types to allow Jacksum to read from all files types
-      on Microsoft Windows including NTFS Alternate Data Streams, entire disks, and partitions
     - added option -q file:<file> (GitHub issue #12)
     - added z-base-32 encoding for hash value representation
     - added number of improperly lines, and ignored lines to the statistics of the check mode
 
-- improvements:
+- minor improvements:
 
-    - improved the manpage
-          o fixed: PowerShell applet Get-FileHash has also RIPEMD160
-          o added the hash function tools that are supported by BusyBox
     - improved the style of the short help to see everything even on terminals with 24-rows
+    - improved the manpage: added the hash function tools that are supported by BusyBox
 
-- fixes:
+- minor bug fixes:
 
     - fixed: duplicate filenames in the checkfile leads to a misleading output,
       the latest duplicate filename in a checkfile should win, and all previous duplicate filenames should be ignored
+    - fixed the manpage: PowerShell applet Get-FileHash has also RIPEMD160
