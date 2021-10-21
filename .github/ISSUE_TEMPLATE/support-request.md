@@ -8,9 +8,11 @@ assignees: ''
 ---
 
 **Describe the problem**
+
 A clear and concise description of what the problem is.
 
 **To Reproduce**
+
 Steps to reproduce the behavior:
 1. Enter the command '...'
 2. See the output '...'
@@ -18,14 +20,18 @@ Steps to reproduce the behavior:
 4. See the error
 
 **Expected behavior**
+
 A clear and concise description of what you expected to happen.
 
 **Screenshots**
+
 If applicable, add screenshots to help explain your problem.
 
-**Environment (please complete the following information):**
+**Environment (please complete the following information)**
+
 Run `jacksum --info > env.txt` and attach env.txt.
-Please review env.txt before attaching it to the bug report, because it also contains all system properties read by your JVM. Remove all lines that you don't wanna share with the public.
+Please review env.txt before attaching it to the support request, because it contains all system properties read by your JVM, and it could contain personally identifiable information (PII). Feel free to remove all lines that you don't wanna share with the public.
 
 **Additional context**
+
 Add any other context about the problem here.
