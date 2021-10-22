@@ -144,10 +144,13 @@ public class FileWalker {
                 return CONTINUE;
             }
 
-            /*if (Files.isFiles.isSymbolicLink(path)) {
-                addMessageToQueue(new Message(Message.Type.INFO, path, String.format("\"%s\" is a symlink.", path)));
+            // a symlink, but not to a regular file and not to a dir
+            // important: this check must be after the checks for both Files.isRegularFile() and Files.isDirectory()
+            if (!followSymlinksToFiles && Files.isSymbolicLink(path)) {
+                addMessageToQueue(new Message(Message.Type.INFO,
+                        String.format("Ignoring \"%s\", because it is a symlink to a special Unix file type.", path), path));
                 return CONTINUE;
-            }*/
+            }
 
             // depth < Integer.MAX_VALUE can cause a "Zugriff verweigert" on folders
             if (depth < Integer.MAX_VALUE && Files.isDirectory(path)) {

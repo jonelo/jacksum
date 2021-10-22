@@ -725,7 +725,9 @@ OPTIONS
 
     -f
     --dont-follow-symlinks-to-files
-            process regular files only. Don't follow symbolic links to files.
+            process regular files only. Don't follow symbolic links to
+            files (any OS), to block devices, character devices, named pipes,
+            sockets (Unix-like OS only), nor to doors (Solaris only).
             See also option -d
             Available since Jacksum 3.0.0
 

@@ -23,6 +23,8 @@ Jacksum 3.1.0, TBD
 
 - minor bug fixes:
 
+    - fixed: also don't follow symlinks to block devices, character devices, named pipes, sockets,
+      or doors if -f (regular files only) has been set.
     - fixed: duplicate filenames in the checkfile leads to a misleading output,
       the latest duplicate filename in a checkfile should win, and all previous duplicate filenames should be ignored
     - fixed the manpage: PowerShell applet Get-FileHash has also RIPEMD160
