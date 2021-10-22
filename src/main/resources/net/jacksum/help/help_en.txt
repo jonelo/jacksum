@@ -1143,7 +1143,23 @@ OPTIONS
             PowerShell command Get-PhysicalDisk. To find Partition drive
             letters and access paths, enter the PowerShell commands
             Get-Volume and Get-Partition or use the mountvol command on
-            the Command Prompt.
+            the Windows Command Prompt.
+
+
+    --unlock-ntfs-ads-scan
+            This option has an effect on Microsoft Windows only.
+            If a directory has been specified, Jacksum scans that dir
+            not only for files, but also for NTFS Alternate Data Streams
+            (ADS) and calculates hashes for those. The option -r <depth>
+            is being respected.
+            Note that allowing Jacksum for scanning directories for ADS
+            will slow down the filename gathering phase.
+            Note that allowing Jacksum for scanning directories for ADS
+            on non-NTFS file systems makes no sense at all and it will
+            slow down the filename gathering phase unnecessarily.
+            Note that setting this option can make the output platform-
+            dependent which destroys the portability of check files.
+            Use this option with care an wisdom.
 
 
     -r <depth>
