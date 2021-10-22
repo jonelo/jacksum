@@ -152,7 +152,7 @@ public class FileWalker {
                 return CONTINUE;
             }
 
-            // depth < Integer.MAX_VALUE can cause a "Zugriff verweigert" on folders
+            // a depth limit can cause a "Zugriff verweigert" on folders, so let's handle that case by our own code
             if (depth < Integer.MAX_VALUE && Files.isDirectory(path)) {
                 addMessageToQueue(new Message(Message.Type.INFO_DIR_IGNORED,
                         String.format("\"%s\" is a directory, but the maximum number of allowed directory levels (%s) has been reached.", path, depth), path));
@@ -171,18 +171,19 @@ public class FileWalker {
                 return CONTINUE;
             }
 
-        if (Files.isRegularFile(path)
-                || (!onWindows && unlockAllUnixFileTypes)
-                || (onWindows && unlockAllWindowsFileTypes)
-        ) {
-            addMessageToQueue(new Message(messageTypeForFiles, null, path));
-        } else {
-            // a fifo for example (mkfifo myfifo)
-            addMessageToQueue(new Message(Message.Type.ERROR, String.format("%s: is not a regular file.", path), path));
-        }
+            if (Files.isRegularFile(path)
+                    // a named pipe for example (mkfifo myfifo)
+                    || (!onWindows && unlockAllUnixFileTypes)
+                    // do we have such special files that can be found by traversing?
+                    || (onWindows && unlockAllWindowsFileTypes)
+            ) {
+                addMessageToQueue(new Message(messageTypeForFiles, null, path));
+            } else {
+                // a named pipe for example (mkfifo myfifo)
+                addMessageToQueue(new Message(Message.Type.ERROR, String.format("%s: is not a regular file.", path), path));
+            }
 
-//            addMessageToQueue(new Message(messageTypeForFiles, path));
-            //logQueue.put(new Message(INFO, "File Walker: Object produced: " + queue.remainingCapacity() +" "+ message.getPath().toString()));
+            // logQueue.put(new Message(INFO, "File Walker: Object produced: " + queue.remainingCapacity() +" "+ message.getPath().toString()));
             return CONTINUE;
         }
 

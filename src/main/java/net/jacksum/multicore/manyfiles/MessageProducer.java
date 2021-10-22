@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
+
 import net.jacksum.multicore.manyfiles.Message.Type;
 
 public class MessageProducer implements Runnable {
@@ -85,11 +86,13 @@ public class MessageProducer implements Runnable {
                     }
 
                 } else if (Files.isRegularFile(path)
+                        // a named pipe on GNU/Linux for example (mkfifo myfifo)
                         || (!onWindows && producerParameters.isUnlockAllUnixFileTypes())
+                        // e.g. the nul-device on Microsoft Windows
                         || (onWindows && producerParameters.isUnlockAllWindowsFileTypes())) {
                     inputQueue.put(new Message(messageTypeForFiles, null, path));
                 } else {
-                    // a fifo on GNU/Linux for example (mkfifo myfifo)
+                    // a named pipe on GNU/Linux for example (mkfifo myfifo)
                     // or the nul-device on Microsoft Windows
                     outputQueue.put(new Message(Type.ERROR, String.format("%s: is not a regular file.", path), path));
                 }
@@ -121,7 +124,7 @@ public class MessageProducer implements Runnable {
                 // The Windows File System Parser cannot transform the string that contains wildcards
                 // to a Path object, and it throws an InvalidPathException.
                 try {
-                    outputQueue.put(new Message(Type.ERROR, String.format("%s: does not match anything: %s", filename, e.getMessage()), (Path)null));
+                    outputQueue.put(new Message(Type.ERROR, String.format("%s: does not match anything: %s", filename, e.getMessage()), (Path) null));
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                     // Logger.getLogger(MessageProducer.class.getName()).log(Level.SEVERE, null, ex);
@@ -157,7 +160,7 @@ public class MessageProducer implements Runnable {
         try {
             is = new FileInputStream(filename);
             return true;
-        }  catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             return false;
         } finally {
             try {
@@ -181,9 +184,9 @@ public class MessageProducer implements Runnable {
 
             if (!producerParameters.getListFilter().isHashingRequired()) {
                 messageTypeForFiles = Type.DONT_HASH_FILE;
-                messageTypeForStdin = Type.DONT_HASH_STDIN;                
+                messageTypeForStdin = Type.DONT_HASH_STDIN;
             }
-            
+
             for (String filename : producerParameters.getFilenamesFromCheckFile()) {
                 // if <stdin> occurs in the check file
                 if (filename.equals(producerParameters.getStdinName())) {
