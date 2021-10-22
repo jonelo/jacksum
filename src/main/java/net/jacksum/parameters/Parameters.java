@@ -210,6 +210,9 @@ public class Parameters implements
     // --unlock-all-windows-file-types
     private boolean unlockAllWindowsFileTypes = false;
 
+    // --unlock-ntfs-ads-scan
+    private boolean unlockNtfsAdsScan = false;
+
     // keeps all the filenames that have been specified at the command line
     private final List<String> filenamesFromArgs;
 
@@ -961,12 +964,21 @@ public class Parameters implements
         return unlockAllWindowsFileTypes;
     }
 
-    public void setUnlockAllUnixFileTypes(boolean b) {
-        unlockAllUnixFileTypes = b;
+    @Override
+    public boolean isUnlockNtfsAdsScan() {
+        return unlockNtfsAdsScan;
     }
 
-    public void setUnlockAllWindowsFileTypes(boolean b) {
-        unlockAllWindowsFileTypes = b;
+    public void setUnlockNtfsAdsScan(boolean unlockNtfsAdsScan) {
+        this.unlockNtfsAdsScan = unlockNtfsAdsScan;
+    }
+
+    public void setUnlockAllUnixFileTypes(boolean unlockAllUnixFileTypes) {
+        this.unlockAllUnixFileTypes = unlockAllUnixFileTypes;
+    }
+
+    public void setUnlockAllWindowsFileTypes(boolean unlockAllWindowsFileTypes) {
+        this.unlockAllWindowsFileTypes = unlockAllWindowsFileTypes;
     }
 
 

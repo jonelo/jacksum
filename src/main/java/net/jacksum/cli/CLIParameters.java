@@ -320,6 +320,8 @@ public class CLIParameters {
                 } else if (arg.equals("--unlock-all-windows-file-types")) {
                     parameters.setUnlockAllWindowsFileTypes(true);
 
+                } else if (arg.equals("--unlock-ntfs-ads-scan")) {
+                    parameters.setUnlockNtfsAdsScan(true);
 
                 } else if (arg.equals("-s") || arg.equals("--separator")) {
                     if (firstfile < args.length) {

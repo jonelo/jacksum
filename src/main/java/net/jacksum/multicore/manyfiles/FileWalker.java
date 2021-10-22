@@ -22,8 +22,13 @@
  */
 package net.jacksum.multicore.manyfiles;
 
+import org.n16n.sugar.io.NTFSADSFinder;
+
+import java.io.File;
 import java.nio.file.*;
+
 import static java.nio.file.FileVisitResult.*;
+
 import java.nio.file.attribute.*;
 import java.io.IOException;
 import java.util.*;
@@ -46,11 +51,12 @@ public class FileWalker {
     private final Path errorFile;
     private final boolean unlockAllUnixFileTypes;
     private final boolean unlockAllWindowsFileTypes;
+    private final boolean unlockNtfsAdsScan;
     private final static boolean onWindows = System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows");
 
-    public FileWalker(Message.Type messageTypeForFiles, ProducerParameters producerParameters, 
-            Path path, 
-            BlockingQueue<Message> queue) {
+    public FileWalker(Message.Type messageTypeForFiles, ProducerParameters producerParameters,
+                      Path path,
+                      BlockingQueue<Message> queue) {
         this.messageTypeForFiles = messageTypeForFiles;
         this.depth = producerParameters.getDepth();
         this.followSymlinksToDirs = !producerParameters.isDontFollowSymlinksToDirectories();
@@ -59,6 +65,7 @@ public class FileWalker {
         this.queue = queue;
         this.unlockAllUnixFileTypes = producerParameters.isUnlockAllUnixFileTypes();
         this.unlockAllWindowsFileTypes = producerParameters.isUnlockAllWindowsFileTypes();
+        this.unlockNtfsAdsScan = producerParameters.isUnlockNtfsAdsScan();
         if (producerParameters.isOutputFile()) {
             this.outputFile = Paths.get(producerParameters.getOutputFile()).toAbsolutePath().normalize();
         } else {
@@ -79,8 +86,8 @@ public class FileWalker {
         } else {
             opts = EnumSet.noneOf(FileVisitOption.class); //Collections.emptySet();
         }
-        
-        TreeAction treeAction = new TreeAction(messageTypeForFiles, depth, queue, followSymlinksToDirs, followSymlinksToFiles, unlockAllUnixFileTypes, unlockAllWindowsFileTypes, outputFile, errorFile);
+
+        TreeAction treeAction = new TreeAction(messageTypeForFiles, depth, queue, followSymlinksToDirs, followSymlinksToFiles, unlockAllUnixFileTypes, unlockAllWindowsFileTypes, unlockNtfsAdsScan, outputFile, errorFile);
         try {
             Files.walkFileTree(path, opts, depth, treeAction);
         } catch (IOException ex) {
@@ -97,12 +104,14 @@ public class FileWalker {
         private final Message.Type messageTypeForFiles;
         private final boolean unlockAllUnixFileTypes;
         private final boolean unlockAllWindowsFileTypes;
+        private final boolean unlockNtfsAdsScan;
         private final Path outputFile;
         private final Path errorFile;
 
         TreeAction(Message.Type messageTypeForFiles, int depth, BlockingQueue<Message> queue,
                    boolean followSymlinksToDirs, boolean followSymlinksToFiles,
                    boolean unlockAllUnixFileTypes, boolean unlockAllWindowsFileTypes,
+                   boolean unlockNtfsAdsScan,
                    Path outputFile, Path errorFile) {
             this.messageTypeForFiles = messageTypeForFiles;
             this.depth = depth;
@@ -111,6 +120,7 @@ public class FileWalker {
             this.followSymlinksToDirs = followSymlinksToDirs;
             this.unlockAllUnixFileTypes = unlockAllUnixFileTypes;
             this.unlockAllWindowsFileTypes = unlockAllWindowsFileTypes;
+            this.unlockNtfsAdsScan = unlockNtfsAdsScan;
             this.outputFile = outputFile;
             this.errorFile = errorFile;
         }
@@ -127,7 +137,7 @@ public class FileWalker {
                         String.format("Ignoring \"%s\", because it is a symlink to a file.", path), path));
                 return CONTINUE;
             }
-            
+
             if (!followSymlinksToDirs && Files.isSymbolicLink(path) && Files.isDirectory(path)) {
                 addMessageToQueue(new Message(Message.Type.INFO,
                         String.format("Ignoring \"%s\", because it is a symlink to a dir.", path), path));
@@ -175,6 +185,17 @@ public class FileWalker {
 
         @Override
         public FileVisitResult postVisitDirectory(Path path, IOException exc) {
+            if (onWindows && unlockNtfsAdsScan) {
+                // find NTFS Alternate Data Streams (ADS) in this path
+                try {
+                    List<String> list = NTFSADSFinder.find(path);
+                    for (String entry : list) {
+                        addMessageToQueue(new Message(messageTypeForFiles, null, path + File.separator + entry));
+                    }
+                } catch (IOException | InterruptedException e) {
+                    addMessageToQueue(new Message(Message.Type.ERROR, String.format("Cannot find alternate data streams, ignoring: %s", path), path));
+                }
+            }
             return CONTINUE;
         }
 

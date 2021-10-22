@@ -102,11 +102,19 @@ public class MessageProducer implements Runnable {
             // However, in some cases those characters are legal, actually. Microsoft Windows supports a schema in order
             // to access partitions, e.g. "\\.\c:\", and to access NTFS ADS (alternate data stream), e.g.
             // "message.txt:ads:$DATA". So we have to check the validity by our own code if the Path class can't handle it.
-            if (onWindows && producerParameters.isUnlockAllWindowsFileTypes() && specialWindowsFileExists(filename)) {
-                try {
-                    inputQueue.put(new Message(messageTypeForFiles,null, filename));
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
+            if (onWindows && (producerParameters.isUnlockAllWindowsFileTypes() || producerParameters.isUnlockNtfsAdsScan())) {
+                if (specialWindowsFileExists(filename)) {
+                    try {
+                        inputQueue.put(new Message(messageTypeForFiles, null, filename));
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    try {
+                        outputQueue.put(new Message(Type.ERROR, String.format("%s: not found.", filename), (Path) null));
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             } else {
                 // The shell wasn't able to resolve wildcards and simply passes the wildcard string to the app.

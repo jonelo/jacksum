@@ -3,9 +3,10 @@ Jacksum 3.1.0, TBD
 - new features:
 
     - added option --unlock-all-windows-file-types to allow Jacksum to read from all Windows files
-      types on Microsoft Windows including NTFS Alternate Data Streams, disks, partitions, RAM disks,
+      types on Microsoft Windows including NTFS Alternate Data Streams (ADS), disks, partitions, RAM disks,
       and the nul-device
-    - added option --unlock-all-unix-file-types to read from all file types on Unix-like
+    - added option --unlock-ntfs-ads-scan to allow Jacksum to scan for NTFS Alternate Data Streams (ADS).
+    - added option --unlock-all-unix-file-types to allow Jacksum to read from all types on Unix-like
       operating systems including block devices, character devices, named pipes (FIFOs), sockets,
       and doors (Solaris only)
     - added option --bom for adding a Byte-Order Mark (BOM) to the output if a charset
