@@ -122,7 +122,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                     
                     boolean cont = true;
                     
-                    // check the filesize if filesize is available in the map    
+                    // check if filesize is available in the map
                     if (map.get(filename).getFilesize() > -1 && map.get(filename).getFilesize() != message.getPayload().getSize()) {
                             print(filter.isFilterFailed(), FAILED, filename);
                             if (!parameters.isList() && parameters.getVerbose().isInfo()) {
