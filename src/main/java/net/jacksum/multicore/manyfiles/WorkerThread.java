@@ -73,10 +73,7 @@ public class WorkerThread implements Runnable {
     }
 
     private void processMessage() {
-        
-        
-        
-        
+
         AbstractChecksum algorithm;
         // construct the message
         try {
@@ -103,10 +100,10 @@ public class WorkerThread implements Runnable {
             message.getPayload().setSize(algorithm.getLength());
 
             if (message.getType().equals(Message.Type.HASH_FILE)) {
-                // set the timestamp to the payload of the message
-                if (gatheringParameters.isTimestampWanted()) {
-                    BasicFileAttributes attrs = Files.readAttributes(message.getPayload().getPath(), BasicFileAttributes.class);
-                    message.getPayload().setBasicFileAttributes(attrs);
+                // set the file attributes to the payload of the message (for regular files only)
+                if (gatheringParameters.isTimestampWanted() && message.getPayload().getPath() != null) {
+                        BasicFileAttributes attrs = Files.readAttributes(message.getPayload().getPath(), BasicFileAttributes.class);
+                        message.getPayload().setBasicFileAttributes(attrs);
                 }
             }
 
