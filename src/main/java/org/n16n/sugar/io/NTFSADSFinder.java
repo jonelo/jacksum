@@ -43,7 +43,7 @@ public class NTFSADSFinder {
 
     public static ArrayList<String> find(Path path) throws IOException,  InterruptedException {
         // Execute it
-        final ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "dir", "/r", path.toString());
+        final ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/U", "/C", "dir", "/R", path.toString());
         Process process = builder.start();
 
         // The correct way to get the output of the command is to start the
@@ -52,7 +52,7 @@ public class NTFSADSFinder {
 
         // Read the output of the command
         ArrayList<String> output = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-16LE"))) {
 
             String line;
             while ((line = reader.readLine()) != null) {
