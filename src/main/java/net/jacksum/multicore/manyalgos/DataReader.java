@@ -54,17 +54,21 @@ public class DataReader implements Runnable {
 
     private final Collection<BlockingQueue<DataUnit>> queues;
     private final File file;
+    private long total = 0L;
 
     public DataReader(File file, Collection<BlockingQueue<DataUnit>> queues) {
         this.queues = queues;
         this.file = file;
-
     }
 
     private void enqueue(DataUnit du) throws InterruptedException {
         for (BlockingQueue<DataUnit> queue : this.queues) {
             queue.put(du);
         }
+    }
+
+    public long getTotal() {
+        return total;
     }
 
     @Override
@@ -76,6 +80,7 @@ public class DataReader implements Runnable {
             DataUnit du = new DataUnit(AbstractChecksum.BUFFERSIZE);
             int read = du.readData(is);
             while (read > 0) {
+                total += read;
                 enqueue(du);
                 du = new DataUnit(AbstractChecksum.BUFFERSIZE);
                 read = du.readData(is);

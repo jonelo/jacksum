@@ -325,11 +325,15 @@ public class CombinedChecksum extends AbstractChecksum {
                 hashAlgorithms.add(HashAlgorithm.getAlgorithm(algorithm));
             }
             lengthBackup = length;
-            File file = new File(filename);
 
-            new ConcurrentHasher().updateHashes(file, hashAlgorithms);
+            // new ConcurrentHasher().updateHashes(file, hashAlgorithms);
+            // File.length() returns 0 bytes on disks and partitions like /dev/sda, /dev/sda1 on Linux,
+            // resp. \\.\c: on Windows, so we have to store the total bytes that have been read
+            ConcurrentHasher concurrentHasher = new ConcurrentHasher();
+            concurrentHasher.updateHashes(new File(filename), hashAlgorithms);
+            this.length += concurrentHasher.getTotalRead();
 
-            this.length += file.length();
+            // this.length += file.length();
             
             return length - lengthBackup;
 

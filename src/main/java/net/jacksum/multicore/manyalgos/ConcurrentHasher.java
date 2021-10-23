@@ -58,6 +58,11 @@ public class ConcurrentHasher {
 
     private static final int QUEUE_CAPACITY = 1024;
     private static final int THREAD_COUNT = Runtime.getRuntime().availableProcessors();
+    private long totalRead = 0L;
+
+    public long getTotalRead() {
+        return totalRead;
+    }
 
     private static Hasher minWeight(Hasher[] hashers) {
         Hasher answer = hashers[0];
@@ -101,7 +106,9 @@ public class ConcurrentHasher {
             }
 
             final ExecutorService pool = Executors.newFixedThreadPool(workers.length + 1);
-            pool.submit(new DataReader(src, queues));
+            //pool.submit(new DataReader(src, queues));
+            DataReader dataReader = new DataReader(src, queues);
+            pool.submit(dataReader);
 
             List<Future<?>> futures = new ArrayList<>(tasks.size());
 
@@ -112,6 +119,7 @@ public class ConcurrentHasher {
                 f.get();
             }
             pool.shutdown();
+            totalRead = dataReader.getTotal();
 
         } catch (InterruptedException | NoSuchAlgorithmException | ExecutionException ex) {
             System.err.println(ex.getMessage());
