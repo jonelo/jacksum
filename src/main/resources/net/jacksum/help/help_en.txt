@@ -1,6 +1,6 @@
 NAME
-    jacksum - free data integrity software for working with checksums, CRCs,
-              and message digests (hashes)
+    jacksum - a free, powerful, and cross platform command line utility which
+              is all about checksums, CRCs, and message digests (hashes)
 
 
 VERSION
@@ -14,36 +14,50 @@ SYNOPSIS
 DESCRIPTION
     Overview:
 \
-        Jacksum (JAva ChecKSUM) is a free and cross-platform data integrity
-        software for working with checksums, CRCs, and message digests
-        (hashes).
+        Jacksum (JAva ChecKSUM) is a free, powerful, and cross-platform
+        command line utility which is all about about checksums, CRCs,
+        and message digests (aka hashes, file fingerprints, file thumbprints).
 \
-        Jacksum supports 471 algorithms, including the most common
-        cryptographic and non-cryptographic hash functions.
+        Jacksum supports 471 algorithms, including checksums, CRCs, XOFs,
+        cryptographic, and non-cryptographic hash functions.
+        Jacksum also supports the "Rocksoft (tm) Model CRC Algorithm" to
+        customize CRCs.
 \
-        Jacksum can recursively compute hashes with multiple algorithms
-        simultaneously. Jacksum takes advantage of modern multi-processor/
-        multi-core environments, and saves time by hashing multiple files
-        in parallel.
-\
-        Jacksum can perform a verification of hashes against a set of known
-        hashes, and it can detect matching files, non-matching files,
+        Jacksum can act as a classic file integrity software that generates,
+        stores, and compares message digests to detect changes made to the
+        files. Actually it can detect matching files, non-matching files,
         missing files, and new files.
+\
+        Jacksum traverses file trees recursively with a depth limit.
+\
+        Jacksum also allows you to identify files by their digital
+        fingerprints, find files that match a given hash value, find all
+        duplicates of a file, and even find the algorithm used to calculate
+        a checksum/CRC/hash.
+\
+        Jacksum supports multi-threading on multi-processor and multi-core
+        computer systems. Jacksum can compute multiple hashes simultaneously,
+        and it can process multiple files simultaneously.
+\
+        Input data can come from nearly any input: files, disks, partitions,
+        standard input stream (stdin), and/or provided directly by command
+        line arguments. Also platform specific input such as NTFS Alternate
+        Data Streams (ADS) on Microsoft Windows, and block devices, character
+        devices, named pipes (FIFOs), and sockets (Unix-like OS only), and
+        doors (Solaris only) are supported and can be hashed.
 \
         Output can occur in predefined standard formats (BSD-, GNU/Linux-, or
         Solaris style, SFV or FCIV) or in a user-defined format which is highly
-        customizable, including many encodings for representing hash values,
-        including Hex, Base32, Base64, and BubbleBabble.
-\
-        Input data can come from files, standard input stream (stdin), or
-        provided directly by command line arguments.
+        customizable, including many encodings for representing hash values:
+        Hex (lower- and uppercase), Base16, Base32 (with and without padding),
+        Base32hex (with and without padding), Base64, Base64url, BubbleBabble,
+        and z-base-32.
 \
         Jacksum supports many charsets for reading and writing files
         properly, and it comes with full support for all common Unicode aware
-        charsets such as UTF-8.
-\
-        With Jacksum you can also find the algorithm used to calculate a
-        checksum/CRC/hash or find files that match a given hash value.
+        charsets such as UTF-8, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32LE,
+        UTF-32BE, and GB18030. A Byte-Order Mark (BOM) is supported for both
+        input and output, even if a BOM is optional for the selected charset.
 \
         Type `jacksum -h examples` and go to https://jacksum.net to learn more
         about Jacksum.
@@ -91,7 +105,7 @@ DESCRIPTION
 \
       * CRCs that are being used in many software products and protocols:
         CRC-8 (FLAC), CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16, CRC-24 (OpenPGP),
-        CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI),
+        CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32c,
         CRC-32 (UBICRC32), CRC-32 (PHP's crc32), CRC-64 (ISO 3309),
         CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO),
         CRC-64 (.xz and prog lang GO, const ECMA)
@@ -134,13 +148,21 @@ DESCRIPTION
 \
     Input:
 \
-        Input data can come from files, standard input stream (stdin), or
-        provided directly by command line arguments (see also options -,
-        and -q). Pointers to this data can be given by command line arguments,
+        Input data can come from any input: files, disks, partitions,
+        standard input stream (stdin), and/or provided directly by command
+        line arguments (see also the options -, and -q).
+        Also platform specific input such as NTFS Alternate Data Streams (ADS)
+        on Microsoft Windows, and block devices, character devices, named pipes
+        (FIFOs), sockets (Unix-like OS only), and doors (Solaris only) are
+        supported. Use the options --unlock-all-unix-file-types,
+        --unlock-all-windows-files-types, and --unlock-ntfs-ads-scan to
+        be able to read or scan platform specific file types.
+\
+        Pointers to the data can be given by command line arguments,
         by walking file trees recursively with a specific depth (-r), by file
         lists (-L), or by check lists (-c). In the case of lists, many different
         charsets can be selected in order to read localized, non-ASCII filenames
-        properly( see also options --charset-check-file, --charset-file-list). 
+        properly (see also options --charset-check-file, --charset-file-list).
         You can specify the format of file lists by setting --file-list-format.
         You can specify the format of the check file by selecting a predefined
         parser or by defining your own parser (see also option --compat) so you
@@ -151,12 +173,13 @@ DESCRIPTION
 \
         By default the output format is standardized and behaves like well known
         checksum resp. cryptographic hash tools on GNU/Linux such as sum,
-        sha1sum, md5sum, b2sum, digest, etc. The output format can also be made
-        compatible to the output that other famous tools such as openssl,
+        sha1sum, md5sum, b2sum, digest, etc. The output format can also be
+        made compatible to the output that other famous tools such as openssl,
         or FCIV produce. Also the BSD format or legacy formats such as sfv
         are supported (see option --compat).
+\
         The output can also be completely customized (see option -F). Hashes can
-        be encoded by 12 different encodings (see also option -E), or formatted
+        be encoded by 14 different encodings (see also option -E), or formatted
         for easier readability (see also options -g, and -G). Filenames
         and timestamps can be customized as well (see also options -P, and -t).
         Many different charsets are supported in order to write localized
@@ -176,18 +199,18 @@ DESCRIPTION
         directories.
 \
         Note that not all algorithms are suitable to perform highly reliable
-        integrity checks. Actually Johann N. Loefflmann recommends to use
+        integrity checks. Actually the author of Jacksum recommends to use
         non-broken, cryptographic hash functions, because those algorithms are
         designed for that purpose.
         Nonetheless Jacksum will continue to support legacy algorithms as well,
         because in real life they are still in use and they are also useful for
-        finding an algorithm by brute force if only the data and the hash are
-        known, and last but not least it is great for educational purposes.
+        finding an algorithm by brute force if only the data and the hash value
+        are known, and last but not least it is great for educational purposes.
 \
         Jacksum is written entirely in Java. Therefore it runs cross platform,
         without the need of recompilation. A Java Runtime Environment (JRE) or
         Java Development Kit (JDK) at least version 11 is required. The latest
-        available OpenJDK LTS release is recommended.
+        available compatible OpenJDK LTS release is recommended.
 
 
 PARAMETERS
@@ -293,10 +316,11 @@ OPTIONS
                 * UTF-32BE
 \
             If --bom is omitted, a BOM won't be written for the charsets above,
-            because a BOM isn't required and is optional only in those cases.
+            because a BOM isn't required and it is optional in those cases.
             Note that if you set charsets UTF-16 or UTF-32, a BOM will be
             written in any case, even if you don't set --bom, because it is
             required for those charsets to have a BOM in the output.
+            See also --utf8
 
 
     -c <file>
@@ -468,15 +492,15 @@ OPTIONS
                         * md5, sha1, sha224, sha256, sha384, sha512,
                           sha512t256, rmd16, skein256, skein512, skein1024
                           on BSD systems
-					    * md5sum, sha1sum, sha224sum, sha256sum, sha384sum,
+                        * md5sum, sha1sum, sha224sum, sha256sum, sha384sum,
                           sha512sum, b2sum, etc. with the --tag
                           option on Unix and GNU/Linux
-					    * cksum on GNU/Linux with GNU Core Utilities 9.0
-					      or later
+                        * cksum on GNU/Linux with GNU Core Utilities 9.0
+                          or later
 \
                     The compat file works with any algorithm that is supported
-					by Jacksum, it works even with concatenated algorithms.
-					If you don't specify -a, the algo defaults to sha3-256.
+                    by Jacksum, it works even with concatenated algorithms.
+                    If you don't specify -a, the algo defaults to sha3-256.
 \
 \
                 linux-untagged or linux
@@ -494,7 +518,7 @@ OPTIONS
                         * shasum on macOS
 \
                     The compat file works with any algorithm that is supported
-					by Jacksum, it works even with concatenated algorithms.
+                    by Jacksum, it works even with concatenated algorithms.
                     If you don't specify -a, the algorithm defaults to sha3-256.
 \
 \
@@ -519,50 +543,50 @@ OPTIONS
                     It was initially designed for crc32 only.
 \
                     The compat file works with any algorithm that is supported
-					by Jacksum, it works even with concatenated algorithms.
+                    by Jacksum, it works even with concatenated algorithms.
                     If you don't specify -a, the algorithm defaults to crc32,
                     because it is the algorithm that was used during the
                     original design of the SFV format.
 \
 \
-				solaris-tagged
-				    A lightweight plain text file format on Solaris with
-				    algorithm info in the file.
+                solaris-tagged
+                    A lightweight plain text file format on Solaris with
+                    algorithm info in the file.
 
                     This compatibility file can print and parse the output
                     like that of the tagged call "digest -v -a <algo>" on
                     Solaris.
 \
                     The compat file works with any algorithm that is supported
-					by Jacksum, it works even with concatenated algorithms.
+                    by Jacksum, it works even with concatenated algorithms.
                     If you don't specify -a, the algorithm defaults to
                     sha3-256.
 \
 \
                 solaris-untagged
-				    A lightweight plain text file format on Solaris without
-				    algorithm info in the file.
+                    A lightweight plain text file format on Solaris without
+                    algorithm info in the file.
 
                     This compatibility file can print and parse the output
                     like that of the untagged call "digest -a <algo>" on
                     Solaris.
 \
                     The compat file works with any algorithm that is supported
-					by Jacksum, it works even with concatenated algorithms.
+                    by Jacksum, it works even with concatenated algorithms.
                     If you don't specify -a, the algorithm defaults to
                     sha3-256.
 \
 \
                 openssl
-				    A lightweight plain text file format used by openssl.
+                    A lightweight plain text file format used by openssl.
 \
                     This compatibility file can print and parse the output
                     like that of the openssl program.
 \
                     The compat file works with any algorithm that is supported
-					by Jacksum, it works even with concatenated algorithms.
+                    by Jacksum, it works even with concatenated algorithms.
                     If you don't specify -a, the algorithm defaults
-					to sha3-256.
+                    to sha3-256.
 \
 \
             Available since Jacksum 3.0.0.
@@ -848,12 +872,12 @@ OPTIONS
                 * algorithm id
                 * hash length in bits and bytes
                 * blocksize in bits and bytes (if applicable)
-                * CRC implementation details (if applicable)
+                * CRC implementation details including poly (if applicable)
                 * whether an alternate implementation has been requested,
                   whether it is available and would be used
 \
-            If -a has been set with multiple algorithms, and --list has been set
-            it prints out:
+            If -a has been set to return multiple or even all algorithms,
+            and --list has been set, it prints out:
 \
                 * details for each algorithm
 
@@ -861,7 +885,7 @@ OPTIONS
     -I <string>
     --ignore-lines-starting-with-string <string>
             While reading a list by -L, or -c, lines are ignored if they start
-            with the string.
+            with the string <string>.
             Available since Jacksum 1.6.0, see also -c
 
 
@@ -927,7 +951,7 @@ OPTIONS
                         characters has to be enclosed in double quotes. This is
                         useful if Jacksum operates in Windows' shells where 
                         Jacksum isn't able to accept parameters resp. filenames
-                        that contain unicode characters.
+                        that contain Unicode characters.
 
 
     --legacy-stdin-name
@@ -937,7 +961,7 @@ OPTIONS
             be used for filenames or directory names on most file systems,
             <stdin> is a great choice for naming stdin for the output.
             If you set the --legacy-stdin-name, Jacksum uses the "-" again for
-            naming the standard input stream for the output.
+            naming the standard input stream.
 
 
     -o <file>
