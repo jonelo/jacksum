@@ -5,7 +5,7 @@ Jacksum 3.1.0, TBD
     - added option --unlock-all-windows-file-types to allow Jacksum to read from all Windows files
       types on Microsoft Windows including NTFS Alternate Data Streams (ADS), disks, partitions, RAM disks,
       and the nul-device
-    - added option --unlock-ntfs-ads-scan to allow Jacksum to scan for NTFS Alternate Data Streams (ADS).
+    - added option --unlock-ntfs-ads-scan to allow Jacksum to scan for NTFS Alternate Data Streams (ADS)
     - added option --unlock-all-unix-file-types to allow Jacksum to read from all types on Unix-like
       operating systems including block devices, character devices, named pipes (FIFOs), sockets,
       and doors (Solaris only)
@@ -14,16 +14,16 @@ Jacksum 3.1.0, TBD
       UTF-16LE, UTF-32LE, and UTF-32BE)
     - added option -q file:<file> (GitHub issue #12)
     - added z-base-32 encoding for hash value representation
-    - added number of improperly lines, and ignored lines to the statistics of the check mode
 
 - minor improvements:
 
+    - improved check mode statistics: added number of improperly lines, and number of ignored lines
     - improved the style of the short help to see everything even on terminals with 24-rows
     - improved the manpage: added the hash function tools that are supported by BusyBox
 
 - minor bug fixes:
 
-    - fixed: also don't follow symlinks to block devices, character devices, named pipes, sockets,
+    - fixed: don't follow symlinks to block devices, character devices, named pipes, sockets,
       or doors if -f (regular files only) has been set.
     - fixed: duplicate filenames in the checkfile leads to a misleading output,
       the latest duplicate filename in a checkfile should win, and all previous duplicate filenames should be ignored
