@@ -148,17 +148,75 @@ DESCRIPTION
 \
     Input:
 \
-        Input data can come from any input: files, disks, partitions,
-        standard input stream (stdin), and/or provided directly by command
-        line arguments (see also the options -, and -q).
-        Also platform specific input such as NTFS Alternate Data Streams (ADS)
-        on Microsoft Windows, and block devices, character devices, named pipes
-        (FIFOs), sockets (Unix-like OS only), and doors (Solaris only) are
-        supported. Use the options --unlock-all-unix-file-types,
-        --unlock-all-windows-files-types, and --unlock-ntfs-ads-scan to
-        be able to read or scan platform specific file types.
+      * Input data can come from any source.
 \
-        Pointers to the data can be given by command line arguments,
+      * On all supported platforms (Microsoft Windows, GNU/Linux, and Unix)
+        Jacksum allows you to generate, store, and compare hashes from
+\
+            * files
+            * standard input stream (stdin)
+            * command line arguments (see also -q)
+\
+      * On Unix (e.g. BSD, macOS, Solaris), and GNU/Linux (e.g. Ubuntu)
+        there are additional file types available and
+        Jacksum allows you to generate, store, and compare hashes from
+\
+            * block devices (i.e. disks and partitions, e.g.
+                  /dev/sda, /dev/sdb, /dev/sr0, etc. and
+                  /dev/sda1, /dev/sda2, etc. on GNU/Linux,
+                  /dev/disk0, /dev/disk1, etc. and
+                  /dev/disk0s1, etc. on macOS)
+            * character devices (e.g. /dev/null)
+            * named pipes (FIFOs)
+            * sockets
+            * doors (Solaris only)
+\
+        Use the option --scan-all-unix-file-types to scan the Unix specific
+        file types during recursively directory traversal.
+\
+        Note that reading entire disks or partitions may require sudo resp.
+        root privileges. You should also unmount block devices first before
+        reading from them, because if you don't unmount it, the device driver
+        of the block device may flag the disk as defect, and even that single
+        bit may lead to an entirely different hash value.
+        Reading copyright protected DVDs may lead to I/O errors.
+        The OS may permit or prohibit reading (and hashing) of particular
+        disks or partitions if those are in use (mounted).
+\
+        To unmount disks use "umount" on GNU/Linux and "diskutil umount" on
+        macOS. To find disk identifiers enter "lsblk" on GNU/Linux and
+        "diskutil list" on macOS.
+\
+\
+      * On Microsoft Windows there are additional file types available and
+        Jacksum allows you to generate, store, and compare hashes from
+\
+            * disks, CD-ROMs, DVDs, etc. (e.g. \\.\PhysicalDrive0)
+            * partitions (e.g. \\.\c:)
+            * invisible partitions which are not mounted by default,
+              e.g. the recovery partition or EFI partition
+              (e.g. \\?\Volume{4a343c6b-3576-5e5e-2072-303c6b352131}\)
+            * NTFS Alternate Data Streams on files
+              (e.g. my-file.txt:secret:$DATA)
+            * NTFS Alternate Data Streams on directories
+              (e.g. .:secret:$DATA)
+            * RAM disks
+            * the null-device (called nul on Microsoft Windows).
+\
+        Use the option --scan-ntfs-ads to scan for any NTFS Alternate
+        Data Streams (ADS) during recursively directory traversal.
+\
+        Note that reading data from disks and partitions may require
+        Administrator privileges.
+        Reading copyright protected DVDs may lead to I/O errors.
+        To find PhysicalDrive IDs on Microsoft Windows, enter the
+        PowerShell command Get-PhysicalDisk. To find partition drive
+        letters and access paths, enter the PowerShell commands
+        Get-Volume and Get-Partition or use the mountvol command on
+        the Windows Command Prompt.
+\
+\
+      * Pointers to the data can be given by command line arguments,
         by walking file trees recursively with a specific depth (-r), by file
         lists (-L), or by check lists (-c). In the case of lists, many different
         charsets can be selected in order to read localized, non-ASCII filenames
@@ -1079,106 +1137,47 @@ OPTIONS
             Jacksum 3.1.0
 
 
-    --unlock-all-unix-file-types
+    --scan-all-unix-file-types
             This option has an effect on Unix-like operating systems only.
             By default Jacksum reads from regular files, directories, and
-            symbolic links on all supported platforms.
+            symbolic links during recursively directory on all supported
+            platforms.
             You can change the behavior of following symbolic links by
             setting the options -f and/or -d.
 \
             In Unix-like operating systems there are additional file types
-            available. If you set this option, you allow Jacksum to read
-            also from
+            available. "Everything is a file" describes one of the defining
+            features of Unix, and its derivatives. And since everything is
+            a file and if you set this option, Jacksum will also calculate
+            message digests from
 \
-                * block devices
-                  (i.e. disks, e.g. /dev/disk0, /dev/sda,
-                  and partitions, e.g. /dev/disk0s1, /dev/sda1)
+                * block devices (i.e. disks, and partitions)
                 * character devices (e.g. /dev/null)
                 * named pipes (FIFOs)
                 * sockets
                 * doors (Solaris only)
 \
-            Warning: Jacksum doesn't read from those file types by default,
-            because it could make the process waiting on data forever (e.g.
-            a named pipe without a producer), reading data forever (e.g.
-            /dev/random which generates an infinite number of random numbers)
-            or hashing entire disks which you didn't want to hash by default.
-            Note that setting this option also generates a platform dependent
-            output which destroys the portability of check files.
+            if those are found during recursively directory traversal.
+            Jacksum doesn't read from those file types during recursively
+            directory traversal by default, because it could make the process
+            waiting on data forever (e.g. a named pipe without a producer),
+            reading data forever (e.g. /dev/random which generates an infinite
+            number of random numbers) or hashing entire disks or partitions
+            which you didn't want to hash by default. Note that setting this
+            option also generates a platform dependent output which destroys
+            the portability of check files.
             Use this option with care and wisdom.
-\
-            Enabling the option allows you to generate, store, and compare
-            hashes from disks (e.g. /dev/sda, /dev/sdb, /dev/sr0 on GNU/Linux,
-            and /dev/disk0, /dev/disk1 on macOS), CD-ROMs, DVDs (e.g. /dev/sr0
-            on GNU/Linux, /dev/disk5 on macOS) or partitions (e.g. /dev/sda2
-            on GNU/Linux, /dev/disk0s2 on macOS) or calculating hashes with a
-            message length of zero bytes from the null device (/dev/null on
-            both GNU/Linux and macOS). Note that reading entire disks or
-            partitions may require sudo resp. root privileges. You should also
-            unmount block devices first before reading from them, because if
-            you don't unmount it, the device driver of the block device may
-            flag the disk as defect, and even that single bit may lead to an
-            entirely different hash value.
-            Reading copyright protected DVDs may lead to I/O errors.
-            The OS may permit or prohibit reading (and hashing) of particular
-            disks or partitions if it is in use (mounted).
-\
-            To unmount disks use "umount" on GNU/Linux and "diskutil umount" on
-            macOS. To find disk identifiers enter "lsblk" on GNU/Linux and
-            "diskutil list" on macOS.
 
 
-    --unlock-all-windows-file-types
+    --scan-ntfs-ads
             This option has an effect on Microsoft Windows only.
-            Note that setting this option can make the output platform-
-            dependent which destroys the portability of check files.
-            Use this option with care an wisdom.
-\
-            By default Jacksum reads from regular files, directories, and
-            symbolic links on all supported platforms.
-            You can change the behavior of following symbolic links by
-            setting the options -f and/or -d.
-\
-            On Microsoft Windows there are additional file types available.
-            If you set this option, you allow Jacksum to read also from
-\
-                * disks (e.g. \\.\PhysicalDrive0)
-                * partitions (e.g. \\.\c:)
-                * invisible partitions which are not mounted by default,
-                  e.g. the recovery partition or EFI partition
-                  (e.g. \\?\Volume{4a343c6b-3576-5e5e-2072-303c6b352131}\)
-                * NTFS Alternate Data Streams (e.g. message.txt:secret:$DATA)
-                * RAM disks
-                * the null-device (i.e. nul)
-\
-            Jacksum doesn't read from those file types by default.
-            Jacksum doesn't search for those special file types while
-            gathering filenames recursively even if you set this option,
-            but it allows you to specify those files explicitly (i.e. e.g.
-            as command line arguments or by the --file-list option).
-            If you want Jacksum to find NTFS Alternate Data Streams (ADS)
-            automatically, set the option --unlock-ntfs-ads-scan.
-\
-            Enabling this option helps to generate, store, and compare
-            hashes from entire disks (e.g. \\PhysicalDrive0) and entire
-            partitions (e.g. \\.\c:) or calculating hashes with a message
-            length of zero bytes from the null-device (i.e. nul).
-            Note that reading data from disks and partitions may require
-            Administrator privileges.
-\
-            To find PhysicalDrive IDs on Microsoft Windows, enter the
-            PowerShell command Get-PhysicalDisk. To find partition drive
-            letters and access paths, enter the PowerShell commands
-            Get-Volume and Get-Partition or use the mountvol command on
-            the Windows Command Prompt.
-
-
-    --unlock-ntfs-ads-scan
-            This option has an effect on Microsoft Windows only.
-            If a directory has been specified, Jacksum scans that dir
-            not only for files, but also for NTFS Alternate Data Streams
-            (ADS) and calculates hashes for those. The option -r <depth>
-            is being respected.
+            Jacksum doesn't scan for ADS by default during recursively
+            directory traversal.
+            If you set this option, and if a directory has been specified,
+            Jacksum scans that dir not only for files, but also for NTFS
+            Alternate Data Streams (ADS) and calculates hashes for those.
+            ADS can be attached to both files and directories.
+            The option -r <depth> is being respected.
             Note that allowing Jacksum for scanning directories for ADS
             will slow down the filename gathering phase.
             Note that allowing Jacksum for scanning directories for ADS

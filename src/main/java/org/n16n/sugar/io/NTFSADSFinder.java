@@ -23,49 +23,28 @@
  */
 package org.n16n.sugar.io;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.FileStore;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class NTFSADSFinder {
-
-    private final static Pattern pattern = Pattern.compile(
-        "\\s+" // whitespaces
-        + "[0123456789,.]+\\s"   // file size (with possible comma or dot formatting), one whitespace
-        + "([^:]+:"    // group 1 = file name, then colon,
-        + "[^:]+:"     // then ADS, then colon,
-        + ".+)");      // then everything else ($DATA)
-
-
+public class NtfsAdsFinder {
     public static ArrayList<String> find(Path path) throws IOException,  InterruptedException {
-        // Execute it
-        final ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/U", "/C", "dir", "/R", path.toString());
-        Process process = builder.start();
+        ArrayList<String> list = new ArrayList<>();
 
-        // The correct way to get the output of the command is to start the
-        // process, read its output, wait for the process' end and then continue the
-        // call flow dependent on the exit value.
+        // check that user defined attributes are supported by the file store
+        FileStore store = Files.getFileStore(path);
+        if (store.supportsFileAttributeView(UserDefinedFileAttributeView.class)) {
 
-        // Read the output of the command
-        ArrayList<String> output = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_16LE))) {
+            UserDefinedFileAttributeView view =
+                    Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                Matcher matcher = pattern.matcher(line);
-                if (matcher.matches()) {
-                    output.add((matcher.group(1)));
-                }
+            for (String name: view.list()) {
+                list.add(String.format("%s:%s:$DATA", path, name));
             }
         }
-        process.waitFor();
-        //System.out.printf("Process ended with exit code %d\n", process.exitValue());
-        return output;
+        return list;
     }
-
 }

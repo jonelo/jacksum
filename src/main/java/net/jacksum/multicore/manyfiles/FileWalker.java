@@ -22,9 +22,8 @@
  */
 package net.jacksum.multicore.manyfiles;
 
-import org.n16n.sugar.io.NTFSADSFinder;
+import org.n16n.sugar.io.NtfsAdsFinder;
 
-import java.io.File;
 import java.nio.file.*;
 
 import static java.nio.file.FileVisitResult.*;
@@ -49,9 +48,8 @@ public class FileWalker {
     private final Message.Type messageTypeForFiles;
     private final Path outputFile;
     private final Path errorFile;
-    private final boolean unlockAllUnixFileTypes;
-    private final boolean unlockAllWindowsFileTypes;
-    private final boolean unlockNtfsAdsScan;
+    private final boolean scanAllUnixFileTypes;
+    private final boolean scanNtfsAds;
     private final static boolean onWindows = System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows");
 
     public FileWalker(Message.Type messageTypeForFiles, ProducerParameters producerParameters,
@@ -63,9 +61,8 @@ public class FileWalker {
         this.followSymlinksToFiles = !producerParameters.isDontFollowSymlinksToFiles();
         this.path = path;
         this.queue = queue;
-        this.unlockAllUnixFileTypes = producerParameters.isUnlockAllUnixFileTypes();
-        this.unlockAllWindowsFileTypes = producerParameters.isUnlockAllWindowsFileTypes();
-        this.unlockNtfsAdsScan = producerParameters.isUnlockNtfsAdsScan();
+        this.scanAllUnixFileTypes = producerParameters.scanAllUnixFileTypes();
+        this.scanNtfsAds = producerParameters.isScanNtfsAds();
         if (producerParameters.isOutputFile()) {
             this.outputFile = Paths.get(producerParameters.getOutputFile()).toAbsolutePath().normalize();
         } else {
@@ -87,7 +84,7 @@ public class FileWalker {
             opts = EnumSet.noneOf(FileVisitOption.class); //Collections.emptySet();
         }
 
-        TreeAction treeAction = new TreeAction(messageTypeForFiles, depth, queue, followSymlinksToDirs, followSymlinksToFiles, unlockAllUnixFileTypes, unlockAllWindowsFileTypes, unlockNtfsAdsScan, outputFile, errorFile);
+        TreeAction treeAction = new TreeAction(messageTypeForFiles, depth, queue, followSymlinksToDirs, followSymlinksToFiles, scanAllUnixFileTypes, scanNtfsAds, outputFile, errorFile);
         try {
             Files.walkFileTree(path, opts, depth, treeAction);
         } catch (IOException ex) {
@@ -102,25 +99,22 @@ public class FileWalker {
         private final boolean followSymlinksToFiles;
         private final boolean followSymlinksToDirs;
         private final Message.Type messageTypeForFiles;
-        private final boolean unlockAllUnixFileTypes;
-        private final boolean unlockAllWindowsFileTypes;
-        private final boolean unlockNtfsAdsScan;
+        private final boolean scanAllUnixFileTypes;
+        private final boolean scanNtfsAds;
         private final Path outputFile;
         private final Path errorFile;
 
         TreeAction(Message.Type messageTypeForFiles, int depth, BlockingQueue<Message> queue,
                    boolean followSymlinksToDirs, boolean followSymlinksToFiles,
-                   boolean unlockAllUnixFileTypes, boolean unlockAllWindowsFileTypes,
-                   boolean unlockNtfsAdsScan,
+                   boolean scanAllUnixFileTypes, boolean scanNtfsAds,
                    Path outputFile, Path errorFile) {
             this.messageTypeForFiles = messageTypeForFiles;
             this.depth = depth;
             this.queue = queue;
             this.followSymlinksToFiles = followSymlinksToFiles;
             this.followSymlinksToDirs = followSymlinksToDirs;
-            this.unlockAllUnixFileTypes = unlockAllUnixFileTypes;
-            this.unlockAllWindowsFileTypes = unlockAllWindowsFileTypes;
-            this.unlockNtfsAdsScan = unlockNtfsAdsScan;
+            this.scanAllUnixFileTypes = scanAllUnixFileTypes;
+            this.scanNtfsAds = scanNtfsAds;
             this.outputFile = outputFile;
             this.errorFile = errorFile;
         }
@@ -173,11 +167,10 @@ public class FileWalker {
 
             if (Files.isRegularFile(path)
                     // a named pipe for example (mkfifo myfifo)
-                    || (!onWindows && unlockAllUnixFileTypes)
-                    // do we have such special files that can be found by traversing?
-                    || (onWindows && unlockAllWindowsFileTypes)
+                    || (!onWindows && scanAllUnixFileTypes)
             ) {
                 addMessageToQueue(new Message(messageTypeForFiles, null, path));
+                findNtfsAds(path);
             } else {
                 // a named pipe for example (mkfifo myfifo)
                 addMessageToQueue(new Message(Message.Type.ERROR, String.format("%s: is not a regular file.", path), path));
@@ -187,19 +180,23 @@ public class FileWalker {
             return CONTINUE;
         }
 
-        @Override
-        public FileVisitResult postVisitDirectory(Path path, IOException exc) {
-            if (onWindows && unlockNtfsAdsScan) {
+        private void findNtfsAds(Path path) {
+            if (onWindows && scanNtfsAds) {
                 // find NTFS Alternate Data Streams (ADS) in this path
                 try {
-                    List<String> list = NTFSADSFinder.find(path);
+                    List<String> list = NtfsAdsFinder.find(path);
                     for (String entry : list) {
-                        addMessageToQueue(new Message(messageTypeForFiles, null, path + File.separator + entry));
+                        addMessageToQueue(new Message(messageTypeForFiles, null, entry));
                     }
                 } catch (IOException | InterruptedException e) {
                     addMessageToQueue(new Message(Message.Type.ERROR, String.format("Cannot find alternate data streams, ignoring: %s", path), path));
                 }
             }
+        }
+
+        @Override
+        public FileVisitResult postVisitDirectory(Path path, IOException exc) {
+            findNtfsAds(path);
             return CONTINUE;
         }
 

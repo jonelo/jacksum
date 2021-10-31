@@ -34,6 +34,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 
 import net.jacksum.multicore.manyfiles.Message.Type;
+import org.n16n.sugar.io.NtfsAdsFinder;
 
 public class MessageProducer implements Runnable {
 
@@ -85,16 +86,21 @@ public class MessageProducer implements Runnable {
                         fileWalker.walk();
                     }
 
-                } else if (Files.isRegularFile(path)
-                        // a named pipe on GNU/Linux for example (mkfifo myfifo)
-                        || (!onWindows && producerParameters.isUnlockAllUnixFileTypes())
-                        // e.g. the nul-device on Microsoft Windows
-                        || (onWindows && producerParameters.isUnlockAllWindowsFileTypes())) {
-                    inputQueue.put(new Message(messageTypeForFiles, null, path));
                 } else {
-                    // a named pipe on GNU/Linux for example (mkfifo myfifo)
-                    // or the nul-device on Microsoft Windows
-                    outputQueue.put(new Message(Type.ERROR, String.format("%s: is not a regular file.", path), path));
+                    inputQueue.put(new Message(messageTypeForFiles, null, path));
+
+                    if (onWindows && producerParameters.isScanNtfsAds()) {
+                        // find NTFS Alternate Data Streams (ADS) in this path
+                        try {
+                            List<String> list = NtfsAdsFinder.find(path);
+                            for (String entry : list) {
+                                inputQueue.put(new Message(messageTypeForFiles, null, entry));
+                            }
+                        } catch (IOException | InterruptedException e) {
+                            inputQueue.put(new Message(Message.Type.ERROR, String.format("Cannot find alternate data stream, ignoring: %s", path), path));
+                        }
+                    }
+
                 }
             } else {
                 outputQueue.put(new Message(Type.ERROR, String.format("%s: does not exist.", path), path));
@@ -105,7 +111,11 @@ public class MessageProducer implements Runnable {
             // However, in some cases those characters are legal, actually. Microsoft Windows supports a schema in order
             // to access partitions, e.g. "\\.\c:\", and to access NTFS ADS (alternate data stream), e.g.
             // "message.txt:ads:$DATA". So we have to check the validity by our own code if the Path class can't handle it.
-            if (onWindows && (producerParameters.isUnlockAllWindowsFileTypes() || producerParameters.isUnlockNtfsAdsScan())) {
+
+            // Also, if the shell wasn't able to resolve wildcards and simply passes the wildcard string to the app.
+            // Also, if the Windows File System Parser cannot transform the string that contains wildcards
+            // to a Path object, it throws an InvalidPathException.
+            if (onWindows) {
                 if (specialWindowsFileExists(filename)) {
                     try {
                         inputQueue.put(new Message(messageTypeForFiles, null, filename));
@@ -120,11 +130,9 @@ public class MessageProducer implements Runnable {
                     }
                 }
             } else {
-                // The shell wasn't able to resolve wildcards and simply passes the wildcard string to the app.
-                // The Windows File System Parser cannot transform the string that contains wildcards
-                // to a Path object, and it throws an InvalidPathException.
+                // POSIX path-names may not contain null characters.
                 try {
-                    outputQueue.put(new Message(Type.ERROR, String.format("%s: does not match anything: %s", filename, e.getMessage()), (Path) null));
+                    outputQueue.put(new Message(Type.ERROR, String.format("%s: not found: %s", filename, e.getMessage()), (Path) null));
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                     // Logger.getLogger(MessageProducer.class.getName()).log(Level.SEVERE, null, ex);

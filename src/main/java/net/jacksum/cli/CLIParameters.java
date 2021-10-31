@@ -314,14 +314,11 @@ public class CLIParameters {
                         handleUserParamError(arg, "--recursive");
                     }
 
-                } else if (arg.equals("--unlock-all-unix-file-types")) {
-                    parameters.setUnlockAllUnixFileTypes(true);
+                } else if (arg.equals("--scan-all-unix-file-types")) {
+                    parameters.setScanAllUnixFileTypes(true);
 
-                } else if (arg.equals("--unlock-all-windows-file-types")) {
-                    parameters.setUnlockAllWindowsFileTypes(true);
-
-                } else if (arg.equals("--unlock-ntfs-ads-scan")) {
-                    parameters.setUnlockNtfsAdsScan(true);
+                } else if (arg.equals("--scan-ntfs-ads")) {
+                    parameters.setScanNtfsAds(true);
 
                 } else if (arg.equals("-s") || arg.equals("--separator")) {
                     if (firstfile < args.length) {

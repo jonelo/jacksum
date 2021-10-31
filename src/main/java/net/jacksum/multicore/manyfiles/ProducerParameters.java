@@ -43,7 +43,6 @@ public interface ProducerParameters {
     String getOutputFile();
     boolean isErrorFile();
     String getErrorFile();
-    boolean isUnlockAllUnixFileTypes();
-    boolean isUnlockAllWindowsFileTypes();
-    boolean isUnlockNtfsAdsScan();
+    boolean scanAllUnixFileTypes();
+    boolean isScanNtfsAds();
 }

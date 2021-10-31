@@ -204,14 +204,11 @@ public class Parameters implements
     // --bom
     private boolean bom = false;
 
-    // --unlock-all-unix-file-types
-    private boolean unlockAllUnixFileTypes = false;
+    // --scan-all-unix-file-types
+    private boolean scanAllUnixFileTypes = false;
 
-    // --unlock-all-windows-file-types
-    private boolean unlockAllWindowsFileTypes = false;
-
-    // --unlock-ntfs-ads-scan
-    private boolean unlockNtfsAdsScan = false;
+    // --scan-ntfs-ads
+    private boolean scanNtfsAds = false;
 
     // keeps all the filenames that have been specified at the command line
     private final List<String> filenamesFromArgs;
@@ -955,32 +952,22 @@ public class Parameters implements
     }
 
     @Override
-    public boolean isUnlockAllUnixFileTypes() {
-        return unlockAllUnixFileTypes;
+    public boolean scanAllUnixFileTypes() {
+        return scanAllUnixFileTypes;
     }
 
     @Override
-    public boolean isUnlockAllWindowsFileTypes() {
-        return unlockAllWindowsFileTypes;
+    public boolean isScanNtfsAds() {
+        return scanNtfsAds;
     }
 
-    @Override
-    public boolean isUnlockNtfsAdsScan() {
-        return unlockNtfsAdsScan;
+    public void setScanNtfsAds(boolean scanNtfsAds) {
+        this.scanNtfsAds = scanNtfsAds;
     }
 
-    public void setUnlockNtfsAdsScan(boolean unlockNtfsAdsScan) {
-        this.unlockNtfsAdsScan = unlockNtfsAdsScan;
+    public void setScanAllUnixFileTypes(boolean scanAllUnixFileTypes) {
+        this.scanAllUnixFileTypes = scanAllUnixFileTypes;
     }
-
-    public void setUnlockAllUnixFileTypes(boolean unlockAllUnixFileTypes) {
-        this.unlockAllUnixFileTypes = unlockAllUnixFileTypes;
-    }
-
-    public void setUnlockAllWindowsFileTypes(boolean unlockAllWindowsFileTypes) {
-        this.unlockAllWindowsFileTypes = unlockAllWindowsFileTypes;
-    }
-
 
     public void setErrorFile(String errorFile) {
         this.errorFile = errorFile;
