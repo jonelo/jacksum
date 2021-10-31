@@ -148,7 +148,7 @@ DESCRIPTION
 \
     Input:
 \
-      * Input data can come from any source.
+      * Input data can come from almost any source.
 \
       * On all supported platforms (Microsoft Windows, GNU/Linux, and Unix)
         Jacksum allows you to generate, store, and compare hashes from
@@ -187,7 +187,6 @@ DESCRIPTION
         macOS. To find disk identifiers enter "lsblk" on GNU/Linux and
         "diskutil list" on macOS.
 \
-\
       * On Microsoft Windows there are additional file types available and
         Jacksum allows you to generate, store, and compare hashes from
 \
@@ -214,7 +213,6 @@ DESCRIPTION
         letters and access paths, enter the PowerShell commands
         Get-Volume and Get-Partition or use the mountvol command on
         the Windows Command Prompt.
-\
 \
       * Pointers to the data can be given by command line arguments,
         by walking file trees recursively with a specific depth (-r), by file
@@ -1431,7 +1429,7 @@ ALGORITHMS
                 Jacksum 1.0.0, alias "adler-32" since 1.2.0
             implementation:
                 java.util.zip.Adler32 as provided by the JDK.
-                The alternate implementation from net.jacksum.algorithm is used
+                The alternate implementation from net.jacksum.algorithms is used
                 if option -A has been specified.
 
 
@@ -2416,7 +2414,7 @@ ALGORITHMS
             since:
                 Jacksum 1.5.0
             implementation:
-                net.jacksum.algorithm
+                net.jacksum.algorithms.checksums
 
 
     ed2k, emule, edonkey
@@ -2437,7 +2435,7 @@ ALGORITHMS
             since:
                 Jacksum 1.5.0
             implementation:
-                net.jacksum.algorithm
+                net.jacksum.algorithms.md.Edonkey
 
 
     fletcher16, fletcher-16
@@ -2464,7 +2462,7 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
             implementation:
-                net.jacksum.algorithm.Fletcher16
+                net.jacksum.algorithms.checksums.Fletcher16
 
 
     fnv-0_<w>
@@ -2489,7 +2487,7 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
             implementation:
-                net.jacksum.algorithm.Fnv0_32 and Fnv0_n
+                net.jacksum.algorithms.checksums.Fnv0_32 and Fnv0_n
 
 
     fnv-1_<w>
@@ -2539,7 +2537,7 @@ ALGORITHMS
            since:
                 Jacksum 3.0.0
             implementation:
-                net.jacksum.algorithm.Fnv1_32 and Fnv1_n
+                net.jacksum.algorithms.checksums.Fnv1_32 and Fnv1_n
 
 
     fnv-1a_<w>
@@ -2590,7 +2588,7 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
             implementation:
-                net.jacksum.algorithm.Fnv1a_32 and Fnv1a_n
+                net.jacksum.algorithms.checksums.Fnv1a_32 and Fnv1a_n
 
 
     fork256, fork-256
@@ -2903,7 +2901,7 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
             implementation:
-                net.jacksum.algorithm.checksums.Joaat32
+                net.jacksum.algorithms.checksums.Joaat32
 
 
     k12, kangaroo12, kangarootwelve
@@ -3436,7 +3434,7 @@ ALGORITHMS
             since:
                 Jacksum 1.6.0
             implementation:
-                net.jacksum.algorithm
+                net.jacksum.algorithms.primitive.None
 
 
     panama
@@ -3510,7 +3508,7 @@ ALGORITHMS
             since:
                 Jacksum 1.6.0
             implementation:
-                net.jacksum.algorithm
+                net.jacksum.algorithms.primitive.Read
 
 
     rmd128, rmd-128, ripemd128, ripemd-128, ripe-md128
@@ -5111,7 +5109,7 @@ ALGORITHMS
                 Jacksum 1.3.0; 40, 48, and 56 bits are available since
                 Jacksum 3.0.0
             implementation:
-                net.jacksum.algorithm.Sum*
+                net.jacksum.algorithms.checksums.Sum*
 
 
     sum_bsd, bsd, bsdsum, sumbsd
@@ -5174,7 +5172,7 @@ ALGORITHMS
                 Jacksum 1.0.0, alias "bsdsum" since 1.2.0, alias "sumbsd"
                 since 1.6.0, "sum_bsd" since 2.0.0)
             implementation:
-                net.jacksum.algorithm
+                net.jacksum.algorithms.checksums.SumBSD
 
 
     sum_minix
@@ -5215,7 +5213,7 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
             implementation:
-                net.jacksum.algorithm
+                net.jacksum.algorithms.SumBSD_Minix
 
 
     sum_plan9, crc32_fddi
@@ -5329,7 +5327,7 @@ ALGORITHMS
                 Jacksum 1.2.0, alias "sumsysv" since 1.6.0 alias "sum_sysv"
                 since 2.0.0
             implementation:
-                net.jacksum.algorithm
+                net.jacksum.algorithms.checksums.SumSysV
 
 
     tiger128, tiger-128
@@ -5527,7 +5525,7 @@ ALGORITHMS
             since:
                 Jacksum 1.7.0
             implementation:
-                net.jacksum.algorithm
+                net.jacksum.algorithms.wrappers.MDTigerTree
 
 
     tth2, tree:tiger2
@@ -5553,7 +5551,7 @@ ALGORITHMS
             since:
                 Jacksum 1.7.0
             implementation:
-                net.jacksum.algorithm
+                net.jacksum.algorithms.wrappers.MDTigerTree
 
 
     vsh, vsh-1024
@@ -5719,7 +5717,7 @@ ALGORITHMS
             since:
                 Jacksum 1.3.0
             implementation:
-                net.jacksum.algorithm
+                net.jacksum.algorithms.checksums.Xor8
 
 
     xxhash32, xxh32
