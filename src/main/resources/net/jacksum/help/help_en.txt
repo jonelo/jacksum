@@ -2238,7 +2238,7 @@ ALGORITHMS
             published:
                 1992
             standard:
-                EMCA-182
+                ECMA-182
 \
             comment:
                 CRC-64 as defined by the ECMA (European Computer Manufacturers
