@@ -39,7 +39,7 @@ DESCRIPTION
         computer systems. Jacksum can compute multiple hashes simultaneously,
         and it can process multiple files simultaneously.
 \
-        Input data can come from nearly any input: files, disks, partitions,
+        Input data can come from almost any source: files, disks, partitions,
         standard input stream (stdin), and/or provided directly by command
         line arguments. Also platform specific input such as NTFS Alternate
         Data Streams (ADS) on Microsoft Windows, and block devices, character

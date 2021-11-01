@@ -10,35 +10,56 @@
 
 <img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
-**Jacksum** is a free and cross-platform file integrity software that generates, stores, and compares message digests (hashes) to detect changes made to the files.
+**Jacksum** is is a free, powerful, and cross-platform
+command line utility which is all about about checksums, CRCs,
+and message digests (aka hashes, file fingerprints, file thumbprints).
 
-Jacksum supports **471 algorithms**, including checksums, CRCs, cryptographic and non-cryptographic hash functions.
+Jacksum supports **471 algorithms**, including checksums, CRCs, XOFs,
+cryptographic, and non-cryptographic hash functions.
+Jacksum also supports the "Rocksoft (tm) Model CRC Algorithm" to
+customize CRCs.
 
-Jacksum can **recursively compute hashes** with **multiple algorithms**
-**simultaneously**. Jacksum takes advantage of modern **multi-processor/
-multi-core** environments, and saves time by **hashing multiple files
-in parallel**.
-
-Jacksum can perform a **verification of hashes** against a set of known
-hashes, and it can **detect matching files, non-matching files,
+Jacksum can act as a classic **file integrity software** that generates,
+stores, and compares message digests to detect changes made to the
+files. Actually it can **detect matching files, non-matching files,
 missing files, and new files**.
+
+Jacksum **traverses file trees recursively with a depth limit**.
+
+Jacksum also allows you to **identify files** by their digital
+fingerprints, find files that match a given hash value, **find all
+duplicates of a file**, and even **find the algorithm used to calculate
+a checksum/CRC/hash**.
+
+Jacksum supports **multi-threading** on **multi-processor** and **multi-core**
+computer systems. Jacksum can **compute multiple hashes simultaneously**,
+and it can **process multiple files simultaneously**.
+
+**Input** data can come from almost **any source**: files, disks, partitions,
+standard input stream (stdin), and/or provided directly by command
+line arguments. Also platform specific input such as **NTFS Alternate
+Data Streams (ADS)** on Microsoft Windows, and block devices, character
+devices, named pipes (FIFOs), and sockets (Unix-like OS only), and
+doors (Solaris only) are supported and can be hashed.
 
 **Output** can occur in **predefined standard formats** (BSD-, GNU/Linux-, or
 Solaris style, SFV or FCIV) or in a **user-defined format** which is highly
-customizable, including many encodings for representing hash values,
-including Hex, Base32, Base64, and BubbleBabble.
+customizable, including many encodings for representing hash values:
+Hex (lower- and uppercase), Base16, Base32 (with and without padding),
+Base32hex (with and without padding), Base64, Base64url, BubbleBabble,
+and z-base-32.
 
-**Input data** can come from **files**, **standard input stream** (stdin), or
-provided directly by **command line arguments**.
+Jacksum supports many **charsets for reading and writing files**
+properly, and it comes with full support for all common **Unicode** aware
+charsets such as UTF-8, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32LE,
+UTF-32BE, and GB18030. A **Byte-Order Mark (BOM)** is supported for both
+input and output, even if a BOM is optional for the selected charset.
 
-Jacksum supports **many charsets** for reading and writing files properly,
-and it comes with **full support** for **all common Unicode aware
-charsets such as UTF-8**.
+Jacksum is a **command line tool**, and it can be integrated in your
+**file browser**, see also [Integration](https://github.com/jonelo/jacksum#integration).
 
-With Jacksum you can also **find the algorithm used to calculate a
-checksum/CRC/hash** or **find files that match a given hash value**.
-
-Jacksum is a **command line tool**, and it can be integrated in your **file browser**, see also [Integration](https://github.com/jonelo/jacksum#integration). Jacksum can also be used as a **library** in your own projects by using its **API**. Jacksum keeps the binary small, because it bundles only what it really needs to do the job.
+Jacksum can also be used as a **library** in your own projects by using its
+**API**. Jacksum keeps the binary small, because it bundles only what it really needs to do the job.
 
 Jacksum is a synthetic word made of **JAva and ChecKSUM**, because Jacksum is written entirely in Java.
 
