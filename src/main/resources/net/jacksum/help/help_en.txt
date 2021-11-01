@@ -15,7 +15,7 @@ DESCRIPTION
     Overview:
 \
         Jacksum (JAva ChecKSUM) is a free, powerful, and cross-platform
-        command line utility which is all about about checksums, CRCs,
+        command line utility which is all about checksums, CRCs,
         and message digests (aka hashes, file fingerprints, file thumbprints).
 \
         Jacksum supports 471 algorithms, including checksums, CRCs, XOFs,
