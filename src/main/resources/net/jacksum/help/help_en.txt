@@ -32,8 +32,8 @@ DESCRIPTION
 \
         Jacksum also allows you to identify files by their digital
         fingerprints, find files that match a given hash value, find all
-        duplicates of a file, and even find the algorithm used to calculate
-        a checksum/CRC/hash.
+        duplicates of a file, and and even find the algorithm to a
+        checksum/CRC/hash by using a brute force algorithm.
 \
         Jacksum supports multi-threading on multi-processor and multi-core
         computer systems. Jacksum can compute multiple hashes simultaneously,

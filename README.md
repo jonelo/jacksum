@@ -24,21 +24,21 @@ stores, and compares message digests to detect changes made to the
 files. Actually it can **detect matching files, non-matching files,
 missing files, and new files**.
 
-Jacksum **traverses file trees recursively with a depth limit**.
+Jacksum traverses file trees **recursively** with a **depth limit**.
 
 Jacksum also allows you to **identify files** by their digital
-fingerprints, find files that match a given hash value, **find all
-duplicates of a file**, and even **find the algorithm used to calculate
-a checksum/CRC/hash**.
+fingerprints, find files that match a given hash value, find all
+duplicates of a file, and even **find the algorithm** to a
+checksum/CRC/hash by using a brute force algorithm.
 
-Jacksum supports **multi-threading** on **multi-processor** and **multi-core**
-computer systems. Jacksum can **compute multiple hashes simultaneously**,
-and it can **process multiple files simultaneously**.
+Jacksum supports **multi-threading** on multi-processor and multi-core
+computer systems. Jacksum can compute multiple **hashes simultaneously**,
+and it can process multiple **files simultaneously**.
 
 **Input** data can come from almost **any source**: files, disks, partitions,
 standard input stream (stdin), and/or provided directly by command
-line arguments. Also platform specific input such as **NTFS Alternate
-Data Streams (ADS)** on Microsoft Windows, and block devices, character
+line arguments. Also platform specific input such as NTFS Alternate
+Data Streams (ADS) on Microsoft Windows, and block devices, character
 devices, named pipes (FIFOs), and sockets (Unix-like OS only), and
 doors (Solaris only) are supported and can be hashed.
 
@@ -49,7 +49,7 @@ Hex (lower- and uppercase), Base16, Base32 (with and without padding),
 Base32hex (with and without padding), Base64, Base64url, BubbleBabble,
 and z-base-32.
 
-Jacksum supports many **charsets for reading and writing files**
+Jacksum supports **many charsets** for reading and writing files
 properly, and it comes with full support for all common **Unicode** aware
 charsets such as UTF-8, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32LE,
 UTF-32BE, and GB18030. A **Byte-Order Mark (BOM)** is supported for both
@@ -117,7 +117,7 @@ See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum
 
 ## Features
 
-- Jacksum supports 470 algorithms including
+- Jacksum supports 471 algorithms including
   - National and international standards of cryptographic hash functions: SHA-1, SHA-[224,256,384,512], SHA-512/[224,256] (USA, NIST FIPS 180-4); SHA3-[224,256,384,512], SHAKE[128,256] (USA (NIST FIPS 202); GOST, GOST Crypto-Pro (Russia, GOST R 34.11-94); Streebog-[256,512] (Russia, GOST R 34.11-2012); SM3 (China); Kupyna[256,384,512] (Ukraine, DSTU 7564:2014); LSH-256-[224,256], LSH-512-[224,256,384,512] (South Korea, KS X 3262); HAS-160 (KISA, South Korea)
   - All 5 candidates from round 3 the NIST SHA-3 competition (2007-2012): BLAKE-[224,256,348,512], Groestl-[224,256,384,512], JH[224,256,284,512], Keccak[224,256,384,512], Skein-256-[8..256], Skein-512-[8..512], Skein-1024-[8..1024]
   - 3 candidates from round 2 of the NIST SHA-3 competition (2007-2012): ECHO-[224,256,348,512], Fugue-[224,256,348,512], Luffa-[224,256,348,512]
