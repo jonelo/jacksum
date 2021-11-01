@@ -93,8 +93,10 @@ public class MessageProducer implements Runnable {
                         // find NTFS Alternate Data Streams (ADS) in this path
                         try {
                             List<String> list = NtfsAdsFinder.find(path);
-                            for (String entry : list) {
-                                inputQueue.put(new Message(messageTypeForFiles, null, entry));
+                            if (list != null) {
+                                for (String entry : list) {
+                                    inputQueue.put(new Message(messageTypeForFiles, null, entry));
+                                }
                             }
                         } catch (IOException | InterruptedException e) {
                             inputQueue.put(new Message(Message.Type.ERROR, String.format("Cannot find alternate data stream, ignoring: %s", path), path));

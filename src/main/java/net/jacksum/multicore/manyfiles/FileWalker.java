@@ -170,7 +170,9 @@ public class FileWalker {
                     || (!onWindows && scanAllUnixFileTypes)
             ) {
                 addMessageToQueue(new Message(messageTypeForFiles, null, path));
-                findNtfsAds(path);
+                if (onWindows && scanNtfsAds) {
+                    findNtfsAds(path);
+                }
             } else {
                 // a named pipe for example (mkfifo myfifo)
                 addMessageToQueue(new Message(Message.Type.ERROR, String.format("%s: is not a regular file.", path), path));
@@ -180,23 +182,26 @@ public class FileWalker {
             return CONTINUE;
         }
 
+        // find NTFS Alternate Data Streams (ADS) in this path
         private void findNtfsAds(Path path) {
-            if (onWindows && scanNtfsAds) {
-                // find NTFS Alternate Data Streams (ADS) in this path
-                try {
-                    List<String> list = NtfsAdsFinder.find(path);
+            try {
+                List<String> list = NtfsAdsFinder.find(path);
+                if (list != null) {
                     for (String entry : list) {
                         addMessageToQueue(new Message(messageTypeForFiles, null, entry));
                     }
-                } catch (IOException | InterruptedException e) {
-                    addMessageToQueue(new Message(Message.Type.ERROR, String.format("Cannot find alternate data streams, ignoring: %s", path), path));
                 }
+            } catch (IOException | InterruptedException e) {
+                addMessageToQueue(new Message(Message.Type.ERROR, String.format("Cannot find alternate data streams, ignoring: %s", path), path));
             }
         }
 
         @Override
         public FileVisitResult postVisitDirectory(Path path, IOException exc) {
-            findNtfsAds(path);
+            // ADS attached to directories
+            if (onWindows && scanNtfsAds) {
+                findNtfsAds(path);
+            }
             return CONTINUE;
         }
 

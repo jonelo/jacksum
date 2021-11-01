@@ -32,17 +32,21 @@ import java.util.ArrayList;
 
 public class NtfsAdsFinder {
     public static ArrayList<String> find(Path path) throws IOException,  InterruptedException {
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> list = null;
 
         // check that user defined attributes are supported by the file store
         FileStore store = Files.getFileStore(path);
         if (store.supportsFileAttributeView(UserDefinedFileAttributeView.class)) {
-
+            list = new ArrayList<>();
             UserDefinedFileAttributeView view =
                     Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
 
             for (String name: view.list()) {
-                list.add(String.format("%s:%s:$DATA", path, name));
+                if (path.toString().equals(".")) {
+                    list.add(String.format("%s:%s:$DATA", ".\\", name));
+                } else {
+                    list.add(String.format("%s:%s:$DATA", path, name));
+                }
             }
         }
         return list;
