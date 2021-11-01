@@ -11,7 +11,7 @@
 <img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
 **Jacksum** is is a free, powerful, and cross-platform
-command line utility which is all about about checksums, CRCs,
+command line utility which is all about checksums, CRCs,
 and message digests (aka hashes, file fingerprints, file thumbprints).
 
 Jacksum supports **471 algorithms**, including checksums, CRCs, XOFs,
