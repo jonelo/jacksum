@@ -124,11 +124,12 @@ Spread the word, or give a star here on GitHub.
 ## Documentation
 
 * Jacksum [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) (2002-2021)
+* Jacksum [Features](https://github.com/jonelo/jacksum/wiki/Features)
 * Jacksum [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (with many examples)
 * Jacksum [Wiki](https://github.com/jonelo/jacksum/wiki)
-* Jacksum [Source Code](https://github.com/jonelo/jacksum) (on github, mavenized with a pom.xml and an IntelliJ .idea config)
+* Jacksum [Source Code](https://github.com/jonelo/jacksum) (on GitHub, mavenized with a pom.xml and an IntelliJ .idea config)
   * Start your investigation journey by reading [net.jacksum.cli.Main](https://github.com/jonelo/jacksum/blob/main/src/main/java/net/jacksum/cli/Main.java) and [net.jacksum.JacksumAPI](https://github.com/jonelo/jacksum/blob/main/src/main/java/net/jacksum/JacksumAPI.java)
-  * Download and read the [jacksum-3.0.0-javadoc.jar](https://github.com/jonelo/jacksum/releases/download/v3.0.0/jacksum-3.0.0-javadoc.jar)
+  * Download and read the [jacksum-3.1.0-javadoc.jar](https://github.com/jonelo/jacksum/releases/download/v3.1.0/jacksum-3.1.0-javadoc.jar)
 * [https://jacksum.net](https://jacksum.net)
 
 ## Integration

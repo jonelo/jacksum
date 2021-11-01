@@ -87,6 +87,7 @@ public class CompatibilityProperties {
      *
      * @param compatFilename the filename of the properties file.
      * @throws java.io.IOException if there is an I/O problem with the file.
+     * @throws InvalidCompatibilityPropertiesException if the version of the compat file is incompatible with the expected version.
      */
     public CompatibilityProperties(String compatFilename) throws IOException, InvalidCompatibilityPropertiesException {
         String compatFilenameResolved = resolveAlias(compatFilename);
