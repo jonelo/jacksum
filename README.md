@@ -105,7 +105,7 @@ Open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and 
 java -jar jacksum-3.1.0.jar
 ```
 
-I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and Unix operating systems (e.g. macOS) in order to launch jacksum easily just by typing
+I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and Unix operating systems (e.g. macOS) and to put the script to a folder that is reachable by your PATH environment variable in order to launch jacksum easily just by typing
 
 ```
 jacksum
