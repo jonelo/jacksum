@@ -105,12 +105,16 @@ Open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and 
 java -jar jacksum-3.0.1.jar
 ```
 
-I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and macOS, and add it to your PATH. You find more instructions in those files.
+I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and Unix operating systems (e.g. macOS) in order to launch jacksum easily just by typing
+
+```
+jacksum
+```
 
 ### Examples of how to use it
 
 ```
-java -jar jacksum-3.0.1.jar -h
+jacksum -h examples
 ```
 
 See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples).
