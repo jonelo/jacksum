@@ -4,7 +4,7 @@ NAME
 
 
 VERSION
-    3.1.0
+    3.2.0
 
 
 SYNOPSIS
@@ -898,12 +898,29 @@ OPTIONS
             Available since Jacksum 1.6.0, see also -E, -g, -x and -X
 
 
+    --header
+            prints a header as a comment. The string that is used to mark a
+            line as a comment is read from the compatibility file if -C has
+            been specified, or if it has been specified with option -I.
+            If -C and -I are omitted, the hash sign is used.
+            The header contains the following information:
+\
+                - Jacksum version
+                - OS name, arch, and version
+                - JMV name, vendor, and version
+                - ISO 8601 timestamp of invocation
+                - working directory of invocation
+                - invocation args
+\
+            Available since Jacksum 3.2.0.
+
+
     -h [language] [word]
     --help [language] [word]
             prints the help, valid code for language is en; valid values for
             word are strings like section headers, options or algorithms.
             See section EXAMPLES for more information.
-            Available since Jacksum 1.0.0
+            Available since Jacksum 1.0.0,
             parameter word since Jacksum 1.6.0
 
 

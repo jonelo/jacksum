@@ -76,7 +76,7 @@ public class Parameters implements
         FormatParameters, AlgorithmParameters, CustomizedFormatParameters, StatisticsParameters,
         FileWalkerParameters, ProducerConsumerParameters, PathParameters,
         GatheringParameters, SequenceParameters, ProducerParameters, CheckConsumerParameters,
-        VerboseParameters, CompatibilityParameters {
+        VerboseParameters, CompatibilityParameters, HeaderParameters {
 
 
     /**
@@ -93,6 +93,16 @@ public class Parameters implements
         this.filelistFormat = filelistFormat;
     }
 
+    private String[] cliParameters;
+
+    public void setCLIParameters(String[] args) {
+        this.cliParameters = args;
+    }
+
+    @Override
+    public String[] getCLIParameters() {
+        return cliParameters;
+    }
 
     public final static String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
     private String algorithmIdentifier = ALGORITHM_IDENTIFIER_DEFAULT;
@@ -200,6 +210,9 @@ public class Parameters implements
 
     // --copyright
     private boolean copyrightWanted = false;
+
+    // --header
+    private boolean headerWanted = false;
 
     // --bom
     private boolean bom = false;
@@ -796,6 +809,10 @@ public class Parameters implements
                 this.setEncoding(compatibilityProperties.getHashEncoding());
                 this.setStdinName(compatibilityProperties.getStdinName());
                 this.setLineSeparator(compatibilityProperties.getLineSeparator());
+                if (this.getCommentChars() == null && compatibilityProperties.getIgnoreLinesStartingWithString() != null) {
+                    this.setCommentChars(compatibilityProperties.getIgnoreLinesStartingWithString());
+                }
+
                 AbstractChecksum.setStdinName(compatibilityProperties.getStdinName());
 
             } catch (IOException | InvalidCompatibilityPropertiesException ex) {
@@ -996,6 +1013,14 @@ public class Parameters implements
 
     public void setBom(boolean bom) {
         this.bom = bom;
+    }
+
+    public boolean isHeaderWanted() {
+        return headerWanted;
+    }
+
+    public void setHeaderWanted(boolean headerWanted) {
+        this.headerWanted = headerWanted;
     }
 
 
@@ -1308,7 +1333,7 @@ public class Parameters implements
                         }
                         bytes = Files.readAllBytes(p);
                     } else {
-                        throw new IllegalArgumentException(String.format("File % does not exist.", p));
+                        throw new IllegalArgumentException(String.format("File %s does not exist.", p));
                     }
                 } catch (IOException ioe) {
                     throw new IllegalArgumentException(ioe.getMessage());

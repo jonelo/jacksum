@@ -43,6 +43,9 @@ public class HashFilesAction implements Action {
 
     @Override
     public int perform() throws ExitException, ParameterException {
+        if (parameters.isHeaderWanted()) {
+            new Header(parameters).print();
+        }
 
         try {
             Engine engine = new Engine(parameters, consumer);

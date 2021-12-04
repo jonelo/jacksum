@@ -63,6 +63,7 @@ public class CLIParameters {
      */
     public Parameters parse() throws ParameterException {
         Parameters parameters = new Parameters();
+        parameters.setCLIParameters(args);
 
         boolean dashdash = false;
         String verboseControl = null;
@@ -98,6 +99,9 @@ public class CLIParameters {
 
                 } else if (arg.equals("--license")) {
                     parameters.setLicenseWanted(true);
+
+                } else if (arg.equals("--header")) {
+                    parameters.setHeaderWanted(true);
 
                 } else if (arg.equals("-c") || arg.equals("--check-file")) {
                     if (firstfile < args.length) {
