@@ -1439,7 +1439,7 @@ ALGORITHMS
                 if option -A has been specified.
 
 
-    blake<w>, blake-<w->
+    blake<w>, blake-<w>
             algorithm:
                 BLAKE-<w>
             length:
