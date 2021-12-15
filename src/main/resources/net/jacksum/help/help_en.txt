@@ -5647,7 +5647,7 @@ ALGORITHMS
                 gnu.crypto.hash.Whirlpool
 
 
-    whirlpool,whirlpool2, whirlpool-2
+    whirlpool, whirlpool2, whirlpool-2
             algorithm:
                 Whirlpool
             length:
