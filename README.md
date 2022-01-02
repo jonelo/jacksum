@@ -10,11 +10,11 @@
 
 <img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
-**Jacksum** is is a free, feature-rich, cross-platform
+**Jacksum** (**JAva ChecKSUM**) is is a free, feature-rich, cross-platform
 command line utility and lib, which is all about checksums, CRCs,
 and message digests (aka hashes, data/file fingerprints, thumbprints).
 
-Jacksum (**JAva ChecKSUM**) is written entirely in Java.
+Jacksum is written entirely in **Java**.
 
 Jacksum supports **471 data fingerprinting algorithms**, including checksums, CRCs, XOFs,
 cryptographic, and non-cryptographic hash functions.
