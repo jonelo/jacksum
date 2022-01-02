@@ -10,11 +10,11 @@
 
 <img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
-**Jacksum** is is a free, powerful, and cross-platform
-command line utility which is all about checksums, CRCs,
-and message digests (aka hashes, file fingerprints, file thumbprints).
+**Jacksum** is is a free, powerful, cross-platform
+command line utility, and lib which is all about checksums, CRCs,
+and message digests (aka hashes, data/file fingerprints, thumbprints).
 
-Jacksum supports **471 algorithms**, including checksums, CRCs, XOFs,
+Jacksum supports **471 fingerprinting algorithms**, including checksums, CRCs, XOFs,
 cryptographic, and non-cryptographic hash functions.
 Jacksum also supports the "Rocksoft (tm) Model CRC Algorithm" to
 customize CRCs.
@@ -150,7 +150,8 @@ Create an [issue on github](https://github.com/jonelo/jacksum/issues) and let me
 
 ## History
 
-Jacksum went to live and to the public in July 2002 on https://sourceforge.net/projects/jacksum/. Starting with version 3.0.0 it moved its repo to GitHub in Sept 2021.
+Jacksum was published in July 2002 on https://sourceforge.net/projects/jacksum/.
+In September 2021, starting with version 3.0.0, it moved its repo to GitHub.
 
 ## License
 
