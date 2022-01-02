@@ -21,8 +21,8 @@ customize CRCs.
 
 Jacksum can act as a classic **file integrity software** that generates,
 stores, and compares message digests to detect changes made to the
-files. Actually it can **detect matching files, non-matching files,
-missing files, and new files**.
+files. Actually it can **detect matching, non-matching,
+missing, and new files**.
 
 Jacksum traverses file trees **recursively** with a **depth limit**.
 
