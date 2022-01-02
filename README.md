@@ -14,7 +14,7 @@
 command line utility, and lib which is all about checksums, CRCs,
 and message digests (aka hashes, data/file fingerprints, thumbprints).
 
-Jacksum supports **471 fingerprinting algorithms**, including checksums, CRCs, XOFs,
+Jacksum supports **471 data fingerprinting algorithms**, including checksums, CRCs, XOFs,
 cryptographic, and non-cryptographic hash functions.
 Jacksum also supports the "Rocksoft (tm) Model CRC Algorithm" to
 customize CRCs.
