@@ -3,6 +3,7 @@ Jacksum 3.2.0, TBD
 - new features
 
     - added option --header
+    - added aliases rg32, rg-32, and rg64, rg-64 for radiogatun
 
 
 - performance improvements
