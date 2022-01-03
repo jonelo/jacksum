@@ -3,3 +3,8 @@ Jacksum 3.2.0, TBD
 - new features
 
     - added option --header
+
+
+- performance improvements
+
+    - since Java 9+ supports a fast CRC32c, it became the primary implementation for crc32c

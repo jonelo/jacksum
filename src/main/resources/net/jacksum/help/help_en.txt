@@ -2046,7 +2046,7 @@ ALGORITHMS
                 - 7z:               -
                 - Angstrom:         -
                 - BeOS:             -
-                - BusyBox:         -
+                - BusyBox:          -
                 - CentOS:           -
                 - DragonFly BSD:    -
                 - FreeBSD:          -
@@ -2055,7 +2055,7 @@ ALGORITHMS
                 - GNU/Linux:        -
                 - gpg:              -
                 - HP-UX:            -
-                - Java:             -
+                - Java 9+:          java.util.zip.CRC32C
                 - Kali Linux:       -
                 - macOS:            -
                 - Minix:            -
@@ -2073,7 +2073,9 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
             implementation:
-                crc:32,1EDC6F41,FFFFFFFF,true,true,FFFFFFFF
+                java.util.zip.CRC32c as provided by the JDK, or if option -A
+                has been set, net.jacksum.algorithms.crcs.CrcGeneric with
+                options crc:32,1EDC6F41,FFFFFFFF,true,true,FFFFFFFF
 
 
     crc32_bzip2, crc-32_bzip-2

@@ -175,7 +175,7 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS.put("crc16_minix", 69);
         WEIGHTS.put("crc24", 65);
         WEIGHTS.put("crc32", 18);
-        WEIGHTS.put("crc32c", 65);
+        WEIGHTS.put("crc32c", 17);
         WEIGHTS.put("crc32_mpeg2", 63);
         WEIGHTS.put("crc32_bzip2", 64);
         WEIGHTS.put("crc32_fddi", 65);

@@ -23,7 +23,7 @@
 
 package net.jacksum.algorithms.crcs;
 /*
-  A class that can be used to compute the Cksum of a data stream.
+  A class that can be used to compute the CRC32 of a data stream.
   This implementation uses the class java.util.zip.CRC32 from the Java Standard API.
  */
 
@@ -63,7 +63,7 @@ public class CRC32 extends AbstractChecksum {
 
     @Override
     public void update(byte b) {
-        update((int)(b & 0xFF));
+        update(b & 0xFF);
     }
 
     @Override

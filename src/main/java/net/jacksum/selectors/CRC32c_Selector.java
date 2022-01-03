@@ -22,11 +22,13 @@
  */
 package net.jacksum.selectors;
 
+import net.jacksum.algorithms.AbstractChecksum;
+import net.jacksum.algorithms.crcs.CRC32C;
+import net.jacksum.algorithms.crcs.CrcGeneric;
+
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import net.jacksum.algorithms.AbstractChecksum;
-import net.jacksum.algorithms.crcs.CrcGeneric;
 
 public class CRC32c_Selector extends Selector {
 
@@ -49,6 +51,11 @@ public class CRC32c_Selector extends Selector {
 
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
+        return new CRC32C();
+    }
+
+    @Override
+    public AbstractChecksum getAlternateImplementation() throws NoSuchAlgorithmException {
         return new CrcGeneric(32, 0x1edc6f41, 0xFFFFFFFFL, true, true, 0xFFFFFFFFL);
     }
 
