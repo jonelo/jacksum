@@ -44,6 +44,14 @@ public class Radiogatun32_Selector extends Selector {
     }
 
     @Override
+    public Map<String, String> getAvailableAliases() {
+        Map<String, String> map = new LinkedHashMap<>(2);
+        map.put("rg32", ID);
+        map.put("rg-32", ID);
+        return map;
+    }
+
+    @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
         return new MDCryptohashSphlib3(net.jacksum.zzadopt.fr.cryptohash.ext.Registry.RADIOGATUN32);
     }

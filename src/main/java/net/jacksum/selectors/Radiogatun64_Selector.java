@@ -46,8 +46,10 @@ public class Radiogatun64_Selector extends Selector {
     
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(1);
+        Map<String, String> map = new LinkedHashMap<>(3);
         map.put("radiogatun", ID);
+        map.put("rg64", ID);
+        map.put("rg-64", ID);
         return map;
     }
 

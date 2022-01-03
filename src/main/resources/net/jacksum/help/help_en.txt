@@ -3493,6 +3493,8 @@ ALGORITHMS
                 bits are implemented actually.
                 The <wordlen> is optional, so radiogatun or radiogatun:64
                 selects the RadioGatun[64] algorithm with 64-bit words.
+                rg32 and rg-32 are aliases for radiogatun:32, and
+                rg64 and rg-64 are aliases for radiogatun:64
                 Keccak is the successor of RadioGatún.
 \
             since:

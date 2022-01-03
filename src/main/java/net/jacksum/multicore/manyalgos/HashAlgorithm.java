@@ -685,7 +685,11 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS_ALIASES.put("md4sum", WEIGHTS.get("md4"));
         WEIGHTS_ALIASES.put("md5sum", WEIGHTS.get("md5"));
         WEIGHTS_ALIASES.put("mdc-2", WEIGHTS.get("mdc2"));
+        WEIGHTS_ALIASES.put("rg32", WEIGHTS.get("radiogatun:32"));
+        WEIGHTS_ALIASES.put("rg-32", WEIGHTS.get("radiogatun:32"));
         WEIGHTS_ALIASES.put("radiogatun", WEIGHTS.get("radiogatun:64"));
+        WEIGHTS_ALIASES.put("rg64", WEIGHTS.get("radiogatun:64"));
+        WEIGHTS_ALIASES.put("rg-64", WEIGHTS.get("radiogatun:64"));
         WEIGHTS_ALIASES.put("ripemd-128", WEIGHTS.get("ripemd128"));
         WEIGHTS_ALIASES.put("ripe-md128", WEIGHTS.get("ripemd128"));
         WEIGHTS_ALIASES.put("rmd128", WEIGHTS.get("ripemd128"));
