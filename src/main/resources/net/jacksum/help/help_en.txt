@@ -781,11 +781,11 @@ OPTIONS
                 dec                  decimal
                 oct                  octal
                 hex                  hexadecimal in lowercase chars (same as -x)
-                                     -g and -G are considered
+                                     Options -g and -G are taken into account
                 hexup                deprecated in 3.0, alias for hex-uppercase
                 hex-lowercase        alias for hex (3.0)
                 hex-uppercase        hexadecimal in uppercase chars (same as -X)
-                                     -g and -G are considered (3.0)
+                                     Options -g and -G are considered (3.0)
 \
                 bb                   alias for bubblebabble
                 bubblebabble         BubbleBabble (used by OpenSSH and SSH2)
@@ -795,7 +795,9 @@ OPTIONS
                 base32hex            Base32hex (RFC 4648) (3.0)
                 base32hex-nopadding  Base32hex, no padding (RFC 4648) (3.0)
                 base64               Base64 (RFC 4648)
+                base64-nopadding     Base64, no padding (RFC 4648) (3.2)
                 base64url            Base64 for URL (RFC 4648) (3.0)
+                base64url-nopadding  Base64 for URL, no padding (RFC4648) (3.2)
                 z-base-32            z-base-32 (3.1)
 \
             Available since Jacksum 1.6.0 if not stated otherwise,

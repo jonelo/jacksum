@@ -32,7 +32,6 @@ import org.n16n.sugar.util.GeneralString;
 
 import java.math.BigInteger;
 import java.util.Base64;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,8 +73,6 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
         }
     }
 
-
-
     public static void replaceAliases(StringBuilder format) {
         GeneralString.replaceAllStrings(format, "#HASH", "#CHECKSUM");
         GeneralString.replaceAllStrings(format, "#FINGERPRINT", "#CHECKSUM");
@@ -101,8 +98,12 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
                 return new Base32(Base32.Alphabet.BASE32HEX, Base32.Padding.NO_PADDING, Base32.UpperLower.UPPERCASE).encode(bytes);
             case BASE64:
                 return Base64.getEncoder().encodeToString(bytes);
+            case BASE64_NOPADDING:
+                return Base64.getEncoder().withoutPadding().encodeToString(bytes);
             case BASE64URL:
                 return Base64.getUrlEncoder().encodeToString(bytes);
+            case BASE64URL_NOPADDING:
+                return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
             case BUBBLEBABBLE:
                 return BubbleBabble.encode(bytes);
             case DEC:

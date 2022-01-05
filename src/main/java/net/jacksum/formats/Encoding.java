@@ -42,7 +42,9 @@ public enum Encoding {
     BASE32HEX("Base32hex"),
     BASE32HEX_NOPADDING("Base32hex (no padding)"),
     BASE64("Base 64"),
+    BASE64_NOPADDING("Base 64 (no padding)"),
     BASE64URL("Base 64 for URL"),
+    BASE64URL_NOPADDING("Base 64 for URL (no padding)"),
     BUBBLEBABBLE("BubbleBabble"),
     ZBASE32("z-base-32"),
     
@@ -100,7 +102,9 @@ public enum Encoding {
         map.put("base32hex", BASE32HEX);
         map.put("base32hex-nopadding", BASE32HEX_NOPADDING);
         map.put("base64", BASE64);
+        map.put("base64-nopadding", BASE64_NOPADDING);
         map.put("base64url", BASE64URL);
+        map.put("base64url-nopadding", BASE64URL_NOPADDING);
         map.put("z-base-32", ZBASE32);
         return map;
     }
