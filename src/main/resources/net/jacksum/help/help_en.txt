@@ -1209,9 +1209,32 @@ OPTIONS
             a custom separator string (\t, \n, \r, \", \' and \\ will be
             translated). The default value depends on the checksum algorithm,
             usually it is a single blank.
-            If you customize the separator, Jacksum may not be able to parse
-            the output again by default using -c. In that case you could write
-            your own compatibility file, see also -C.
+\
+            You can set <string> to any string that you like, but if you want
+            Jacksum to parse the output again using the -c option, you shall
+            set the separator to a string which allows Jacksum to parse the
+            output properly again. Jacksum won't tell you that your choice is
+            suboptimal if you choose a suboptimal separator sequence.
+\
+            Therefore here are some recommendations:
+            You shall avoid \n, and \r, because that will prevent a successful
+            line by line read. Also avoid the /, and the \\, because Jacksum
+            won't be able to detect where the path begins. Also you shall
+            avoid a character sequence that could be part of a the encoding
+            character set for hashes, such as a-z, 0-9 for hex, and the char
+            that you specified with -G if you also set -g. The same applies
+            to A-Z, 0-9 for hex-uppercase, = for base64, - for bb, etc.
+            Also you shall avoid a character sequence that could be part of
+            the file size (0-9) or the timestamp (depends on the -t setting)
+            for the same reasons.
+\
+            Examples that are perfectly fine to use in most cases are
+            " ", "\t", ",", ";", ":", "~", "@", "_" or any other sequence
+            that makes the separator unique such as "  ", ", ", "; ", "\t\t",
+            "---", "...", etc.
+\
+            If the default parser isn't able to parse the output you still
+            could write your own compatibility file, see also -C.
             Available since Jacksum 1.0.0, see also -F
 
 

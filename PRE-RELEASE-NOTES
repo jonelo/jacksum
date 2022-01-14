@@ -2,8 +2,9 @@ Jacksum 3.2.0, TBD
 
 - new features
 
+    - the default parser takes option -s into account (GitHub issue #9)
+    - added aliases rg32, rg-32, and rg64, rg-64 for radiogatun (GitHub issue #14)
     - added option --header
-    - added aliases rg32, rg-32, and rg64, rg-64 for radiogatun
     - added encodings base64-nopadding, and base64url-nopadding
 
 

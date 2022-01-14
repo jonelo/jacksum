@@ -47,7 +47,7 @@ public class CheckAction implements Action {
         this.parameters = parameters;
     }
 
-    private CompatibilityProperties buildParserProperties(Parameters parameters) throws ParameterException, ExitException {
+    private CompatibilityProperties buildParserProperties(Parameters parameters) throws ParameterException {
         CompatibilityProperties parserProperties;
         if (parameters.getCompatibilityID() == null) {
             parserProperties = new CompatibilityProperties();
@@ -78,20 +78,52 @@ public class CheckAction implements Action {
 
             // regular expression
             String regexp;
+            // example: the dot has a meaning in regex, so escape all dots by replacing all dots with
+            // "\\." in the regex which is "\\\\." as a Java String
+            // and there are many more regex characters ...
+            String separator = parameters.getSeparator();
 
+            separator = separator.replaceAll("\\\\", "\\\\\\\\") // escape the \ at first
+                                 .replaceAll("\\.", "\\\\.")
+                                 .replaceAll("\\^", "\\\\^")
+                                 .replaceAll("\\$", "\\\\$")
+                                 .replaceAll("\\*", "\\\\*")
+                                 .replaceAll("\\+", "\\\\+")
+                                 .replaceAll("\\-", "\\\\-")
+                                 .replaceAll("\\?", "\\\\?")
+                                 .replaceAll("\\(", "\\\\(")
+                                 .replaceAll("\\)", "\\\\)")
+                                 .replaceAll("\\(", "\\\\(")
+                                 .replaceAll("\\[", "\\\\[")
+                                 .replaceAll("\\]", "\\\\]")
+                                 .replaceAll("\\{", "\\\\{")
+                                 .replaceAll("\\}", "\\\\}")
+                                 .replaceAll("\\|", "\\\\|")
+                                 .replaceAll("\\/", "\\\\/");
+
+            String regex1stToken = "^(.+?)";
+            String regexStrToken = "(.+?)";
+            String regexIntToken = "(\\d+)";
+            String regexFilename="[*]*(.*)$";
+ // System.err.println(separator);
             // filesize is wanted, because there is a + sign
             if (parameters.getAlgorithmIdentifier().contains("+")) {
 
                 if (parameters.isTimestampWanted()) {
                     // hash, filesize, timestamp, and filename
-                    regexp = "^([^ ]+) \\s*(\\d+) \\s*([^ ]+) \\s*[*]*(.*)$";
+                    regexp = regex1stToken + separator +
+                             regexIntToken + separator +
+                             regexStrToken + separator +
+                             regexFilename;
                     parserProperties.setRegexHashPos(1);
                     parserProperties.setRegexpFilesizePos(2);
                     parserProperties.setRegexpTimestampPos(3);
                     parserProperties.setRegexpFilenamePos(4);
                 } else {
                     // hash, filesize, and filename
-                    regexp = "^([^ ]+) \\s*(\\d+) \\s*[*]*(.*)$";
+                    regexp = regex1stToken + separator +
+                             regexIntToken + separator +
+                             regexFilename;
                     parserProperties.setRegexHashPos(1);
                     parserProperties.setRegexpFilesizePos(2);
                     parserProperties.setRegexpFilenamePos(3);
@@ -100,13 +132,16 @@ public class CheckAction implements Action {
             } else {
                 if (parameters.isTimestampWanted()) {
                     // hash, timestamp, and filename
-                    regexp = "^([^ ]+) \\s*([^ ]+) \\s*[*]*(.*)$";
+                    regexp = regex1stToken + separator +
+                             regexStrToken + separator +
+                             regexFilename;
                     parserProperties.setRegexHashPos(1);
                     parserProperties.setRegexpTimestampPos(2);
                     parserProperties.setRegexpFilenamePos(3);
                 } else {
                     // hash, and filename
-                    regexp = "^([^ ]+) \\s*[*]*(.*)$";
+                    regexp = regex1stToken + separator +
+                             regexFilename;
                     parserProperties.setRegexHashPos(1);
                     parserProperties.setRegexpFilenamePos(2);
                 }
