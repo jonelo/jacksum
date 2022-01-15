@@ -82,7 +82,7 @@ public class CheckAction implements Action {
             // "\\." in the regex which is "\\\\." as a Java String
             // and there are many more regex characters ...
             String separator = parameters.getSeparator();
-
+            if (separator == null) separator = " ";
             separator = separator.replaceAll("\\\\", "\\\\\\\\") // escape the \ at first
                                  .replaceAll("\\.", "\\\\.")
                                  .replaceAll("\\^", "\\\\^")
