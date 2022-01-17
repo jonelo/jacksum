@@ -85,13 +85,15 @@ public class Parser {
     }
 
     private String fixSeparator(String line) {
-        // patch the path separator in the file if it is clear that it is from a foreign system
-        // are we on Windows and do we read a Linux file?
+        // Patch the path separator for line, if it is clear that it is from a foreign system.
+        // Are we on Windows and do we read a Linux file?
         if (File.separatorChar == '\\' && line.contains("/")) {
             return line.replace('/', '\\');
-            // are we on Linux and do we read a Windows file?
-        } else if (File.separatorChar == '/' && line.contains("\\")) {
-            return line.replace('\\', '/');
+        // Are we on Linux and do we read a Windows file?
+        // Well, in this case we do NOTHING, because it is allowed to have a \ in the filename
+        // real life example: /lib/systemd/system/system-systemd\x2dcryptsetup.slice
+        // } else if (File.separatorChar == '/' && line.contains("\\")) {
+        //    return line.replace('\\', '/');
         } else {
             return line;
         }

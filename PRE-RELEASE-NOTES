@@ -11,3 +11,9 @@ Jacksum 3.2.0, TBD
 - performance improvements
 
     - since Java 9+ supports a fast CRC32c, it became the primary implementation for crc32c
+
+
+- bug fixes
+
+    - fixed: on Linux during integrity checking, don't replace the back slash file separator for filenames,
+      because on Linux it is allowed to have backslashes in filenames (GitHub issue #17)
