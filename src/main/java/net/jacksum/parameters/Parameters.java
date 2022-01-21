@@ -835,7 +835,7 @@ public class Parameters implements
         }
 
         if ((groupcount > 0) && (encoding != null && !encoding.equals(Encoding.HEX) && !encoding.equals(Encoding.HEX_UPPERCASE))) {
-            messenger.print(WARNING, "-g expects a hex encoding, but -E is not set to hex or hexup. Ignoring -g.");
+            messenger.print(WARNING, "-g expects a hex encoding, but -E is not set to hex or hex-uppercase. Ignoring -g.");
         }
 
         if (groupingChar != null && encoding == null) {
@@ -844,7 +844,7 @@ public class Parameters implements
         }
 
         if ((groupingChar != null) && (encoding != null && !encoding.equals(Encoding.HEX) && !encoding.equals(Encoding.HEX_UPPERCASE))) {
-            messenger.print(WARNING, "-G expects a hex encoding, but -E is not set to hex or hexup. Ignoring -G.");
+            messenger.print(WARNING, "-G expects a hex encoding, but -E is not set to hex or hex-uppercase. Ignoring -G.");
         }
 
         // ignoring flags    
@@ -855,7 +855,7 @@ public class Parameters implements
 
         // both timestamp and sequence have been specified
         if (timestampFormat != null && sequence != null) {
-            messenger.print(WARNING, "A sequence has been specified (-q), timestamp (-t) will be ignored.");
+            messenger.print(WARNING, "A sequence (-q) has been specified, timestamp (-t) will be ignored.");
         }
 
 
