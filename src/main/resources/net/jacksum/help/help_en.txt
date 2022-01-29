@@ -907,9 +907,9 @@ OPTIONS
             If -C and -I are omitted, the hash sign is used.
             The header contains the following information:
 \
-                - Jacksum version
-                - OS name, arch, and version
+                - Jacksum version, and homepage
                 - JMV name, vendor, and version
+                - OS name, arch, and version
                 - ISO 8601 timestamp of invocation
                 - working directory of invocation
                 - invocation args

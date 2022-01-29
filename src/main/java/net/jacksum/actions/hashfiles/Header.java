@@ -42,26 +42,62 @@ public class Header {
         }
     }
 
-    public void print() {
-        String date = new SimpleDateFormat(FORMAT_ISO8601).format(new Date());
-        System.out.printf("%s%s", commentChars, headerParameters.getLineSeparator());
-        println("invoked by", String.format("%s %s", JacksumAPI.getName(), JacksumAPI.getVersionString()));
-        println("invoked on", String.format("OS: %s (arch: %s, version: %s)",
-                System.getProperty("os.name"),
-                System.getProperty("os.arch"),
-                System.getProperty("os.version")));
-        println("invoked on", String.format("JVM: %s (vendor: %s, version: %s)",
-                System.getProperty("java.vm.name"),
-                System.getProperty("java.vm.vendor"),
-                System.getProperty("java.vm.version")));
-        println("invoked on", date);
-        println("invoked from", System.getProperty("user.dir"));
-        println("invocation args", String.join(" ", headerParameters.getCLIParameters()));
+    private void printLine(String name, String value) {
+        System.out.printf("%s %s: %s%s", commentChars, name, value, headerParameters.getLineSeparator());
+        max = Math.max(max, name.length() + value.length() + add);
+    }
+
+    private void printEmptyCommentLine() {
         System.out.printf("%s%s", commentChars, headerParameters.getLineSeparator());
     }
 
-    public void println(String info, String value) {
-        System.out.printf("%s %s: %s%s", commentChars, info, value, headerParameters.getLineSeparator());
+    private int max = 0;
+    private final static int add = 3; // the blank before the name, the colon, and the blank after the name
+
+    public void print() {
+        max = 0;
+
+        // a single, empty comment line
+        printEmptyCommentLine();
+
+        // invoked by
+        printLine("created by",
+                String.format("%s %s (%s)",
+                JacksumAPI.getName(),
+                JacksumAPI.getVersionString(),
+                JacksumAPI.getURI()));
+
+        // invoked on JVM
+        printLine("invoked on JVM",
+                String.format("%s (vendor: %s, version: %s)",
+                        System.getProperty("java.vm.name"),
+                        System.getProperty("java.vm.vendor"),
+                        System.getProperty("java.vm.version")));
+
+        // invoked on OS
+        printLine("invoked on OS",
+                String.format("%s (arch: %s, version: %s)",
+                System.getProperty("os.name"),
+                System.getProperty("os.arch"),
+                System.getProperty("os.version")));
+
+        // invoked on date
+        printLine("invoked on date",
+                new SimpleDateFormat(FORMAT_ISO8601).format(new Date()));
+
+        // empty comment line
+        printEmptyCommentLine();
+
+        // current working directory
+        printLine("invoked from",
+                System.getProperty("user.dir"));
+
+        // invocation arguments
+        printLine("invocation args",
+                String.join(" ", headerParameters.getCLIParametersWithQuotes()));
+
+        // a single comment line, filled with underscores
+        System.out.printf("%s%s%s", commentChars, "_".repeat(max), headerParameters.getLineSeparator());
     }
 
 }

@@ -25,6 +25,8 @@ import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.jacksum.actions.hashfiles.Header;
 import org.n16n.sugar.util.ExitException;
 import net.jacksum.actions.Action;
 import net.jacksum.multicore.manyfiles.Engine;
@@ -169,6 +171,9 @@ public class CheckAction implements Action {
 
     @Override
     public int perform() throws ParameterException, ExitException {
+        if (parameters.isHeaderWanted()) {
+            new Header(parameters).print();
+        }
 
         CompatibilityProperties parserProperties = buildParserProperties(parameters);
 
