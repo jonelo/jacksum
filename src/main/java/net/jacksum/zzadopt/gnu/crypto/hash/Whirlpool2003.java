@@ -234,7 +234,7 @@ public final class Whirlpool2003 extends BaseHash {
 
    /** Trivial 0-arguments constructor. */
    public Whirlpool2003() {
-      super(Registry.WHIRLPOOL2003_HASH, 20, BLOCK_SIZE);
+      super(Registry.WHIRLPOOL2003_HASH, 64, BLOCK_SIZE);
    }
 
    /**

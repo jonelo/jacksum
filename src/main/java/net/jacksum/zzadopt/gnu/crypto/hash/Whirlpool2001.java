@@ -270,7 +270,7 @@ public final class Whirlpool2001 extends BaseHash {
 
    /** Trivial 0-arguments constructor. */
    public Whirlpool2001() {
-      super(Registry.WHIRLPOOL2001_HASH, 20, BLOCK_SIZE);
+      super(Registry.WHIRLPOOL2001_HASH, 64, BLOCK_SIZE);
    }
 
    /**
