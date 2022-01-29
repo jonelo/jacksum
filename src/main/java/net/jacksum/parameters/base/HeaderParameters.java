@@ -26,4 +26,5 @@ public interface HeaderParameters {
     String getLineSeparator();
     String getCommentChars();
     String[] getCLIParameters();
+    String[] getCLIParametersWithQuotes();
 }

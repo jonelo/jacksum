@@ -104,6 +104,18 @@ public class Parameters implements
         return cliParameters;
     }
 
+    public String[] getCLIParametersWithQuotes() {
+        List<String> list = new ArrayList<>();
+        for (String param : cliParameters) {
+            if (param.contains(" ")) {
+                list.add(String.format("\"%s\"", param));
+            } else {
+                list.add(param);
+            }
+        }
+        return list.toArray(new String[0]);
+    }
+
     public final static String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
     private String algorithmIdentifier = ALGORITHM_IDENTIFIER_DEFAULT;
 
