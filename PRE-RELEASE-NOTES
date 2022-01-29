@@ -17,3 +17,4 @@ Jacksum 3.2.0, TBD
 
     - fixed: on Linux during integrity checking, don't replace the back slash file separator for filenames,
       because on Linux it is allowed to have backslashes in filenames (GitHub issue #17)
+    - fixed: typo in manpage (bitwidth for RIPEMD 320)

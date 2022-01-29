@@ -3711,7 +3711,7 @@ ALGORITHMS
             algorithm:
                 RIPEMD-320
             length:
-               128 bits
+               320 bits
             type:
                 hash
             published:
