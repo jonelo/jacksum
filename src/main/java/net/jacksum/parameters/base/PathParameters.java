@@ -30,4 +30,5 @@ public interface PathParameters {
     boolean isDontFollowSymlinksToFiles();
     boolean isDontFollowSymlinksToDirectories();
     int getDepth();
+    boolean isPathAbsolute();
 }

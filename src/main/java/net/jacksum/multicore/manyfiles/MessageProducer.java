@@ -73,7 +73,13 @@ public class MessageProducer implements Runnable {
     private void handleFilename(String filename, boolean filenameIsInCheckFile, Message.Type messageTypeForFiles) {
         try {
             Path path = Paths.get(filename);
+
             if (Files.exists(path)) {
+
+                if (producerParameters.isPathAbsolute()) {
+                    path = path.toAbsolutePath().normalize();
+                }
+
                 if (Files.isDirectory(path)) {
                     if (filenameIsInCheckFile) {
                         outputQueue.put(new Message(Type.ERROR, String.format("%s: directory found in check file, but a filename was expected.", path), path));

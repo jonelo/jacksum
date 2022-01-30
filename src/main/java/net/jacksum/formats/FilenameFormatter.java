@@ -25,6 +25,10 @@
 package net.jacksum.formats;
 
 import java.io.File;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import net.jacksum.parameters.base.FilenameFormatParameters;
 
 public class FilenameFormatter implements FilenameFormatParameters {
@@ -42,13 +46,39 @@ public class FilenameFormatter implements FilenameFormatParameters {
         return parameters;
     }
 
-    
-    public String format(String filename) {
+
+    private String fixPathChar(String filename) {
         if (parameters.isPathCharSet()) {
             return filename.replace(File.separatorChar, parameters.getPathChar());
         } else {
             return filename;
         }
+    }
+
+
+    public String format(String filename) {
+        if (parameters.isNoPath()) {
+            try {
+                return Paths.get(filename).getFileName().toString();
+            } catch (InvalidPathException ipe) {
+                return filename;
+            }
+        }
+
+        if (parameters.getPathRelativeTo() != null) {
+            try {
+                // Get the relative path from two absolute paths
+                Path path1 = Paths.get(filename).toAbsolutePath().normalize();
+                Path path2 = parameters.getPathRelativeTo();
+
+                // Convert the absolute path to a relative path, and fix the path char
+                return fixPathChar(path2.relativize(path1).toString());
+
+            } catch (InvalidPathException ipe) {
+                return filename;
+            }
+        }
+        return fixPathChar(filename);
     }
 
     @Override
@@ -60,5 +90,15 @@ public class FilenameFormatter implements FilenameFormatParameters {
     public boolean isPathCharSet() {
         return parameters.isPathCharSet();
     }
-    
+
+    @Override
+    public boolean isNoPath() {
+        return parameters.isNoPath();
+    }
+
+    @Override
+    public Path getPathRelativeTo() {
+        return parameters.getPathRelativeTo();
+    }
+
 }

@@ -84,7 +84,15 @@ public class Parser {
         return null;
     }
 
-    private String fixSeparator(String line) {
+    // fixes the file path if --path-relative-to <path> has been set
+    // or if it is clear that we are on Windows and we read a Linux file
+    private String fixPath(String line) {
+
+        // concatenate the value of --path-relative-to and the path that has been parsed
+        if (props.getPathRelativeTo() != null) {
+            line = props.getPathRelativeTo().resolve(line).toString();
+        }
+
         // Patch the path separator for line, if it is clear that it is from a foreign system.
         // Are we on Windows and do we read a Linux file?
         if (File.separatorChar == '\\' && line.contains("/")) {
@@ -118,7 +126,7 @@ public class Parser {
             }
 
             if (props.getRegexpFilenamePos() > 0) {
-                hashEntry.setFilename(fixSeparator(matcher.group(props.getRegexpFilenamePos())));
+                hashEntry.setFilename(fixPath(matcher.group(props.getRegexpFilenamePos())));
             }
 
             if (props.getRegexpFilesizePos() > 0) {

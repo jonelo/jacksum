@@ -23,6 +23,8 @@
 package net.jacksum.formats;
 
 import java.io.File;
+import java.nio.file.Path;
+
 import net.jacksum.parameters.combined.FormatParameters;
 
 /**
@@ -30,13 +32,6 @@ import net.jacksum.parameters.combined.FormatParameters;
  * @author johann
  */
 public class FormatPreferences implements FormatParameters {
-
-    /**
-     * @param pathChar the pathChar to set
-     */
-    public void setPathChar(Character pathChar) {
-        this.pathChar = pathChar;
-    }
 
     // format stuff
     private String separator;
@@ -52,12 +47,13 @@ public class FormatPreferences implements FormatParameters {
     
     private long filesizeAsByteBlocks = -1;
     private String filesizeWithPrintfFormatted = null;
-    
+
+    private boolean noPath = false;
+    private Path pathRelativeTo = null;
     
     public FormatPreferences() {
         setDefaults();
     }
-
     
     private void setDefaults() {
         separator = " ";
@@ -66,6 +62,8 @@ public class FormatPreferences implements FormatParameters {
         grouping = 0;
         groupChar = ' ';
         setPathChar(File.separatorChar);
+        setNoPath(false);
+        setPathRelativeTo(null);
     }
 
     public void overwritePreferences(FormatParameters parameters) {
@@ -89,6 +87,12 @@ public class FormatPreferences implements FormatParameters {
         }
         if (parameters.isPathCharSet()) {
             setPathChar(parameters.getPathChar());
+        }
+        if (parameters.isNoPath()) {
+            setNoPath(parameters.isNoPath());
+        }
+        if (parameters.getPathRelativeTo() != null) {
+            setPathRelativeTo(parameters.getPathRelativeTo());
         }
     }
 
@@ -249,7 +253,24 @@ public class FormatPreferences implements FormatParameters {
     public boolean isPathCharSet() {
         return !pathChar.equals(File.separatorChar);
     }
-    
+
+    /**
+     * @param pathChar the pathChar to set
+     */
+    public void setPathChar(Character pathChar) {
+        this.pathChar = pathChar;
+    }
+
+
+    @Override
+    public boolean isNoPath() {
+        return noPath;
+    }
+
+    public void setNoPath(boolean noPath) {
+        this.noPath = noPath;
+    }
+
     /**
      * @return the filesizeAsByteBlocks
      */
@@ -278,5 +299,14 @@ public class FormatPreferences implements FormatParameters {
      */
     public void setSizeWithPrintfFormatted(String filesizeWithPrintfFormatted) {
         this.filesizeWithPrintfFormatted = filesizeWithPrintfFormatted;
+    }
+
+    @Override
+    public Path getPathRelativeTo() {
+        return pathRelativeTo;
+    }
+
+    public void setPathRelativeTo(Path pathRelativeTo) {
+        this.pathRelativeTo = pathRelativeTo;
     }
 }

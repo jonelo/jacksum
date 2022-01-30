@@ -22,6 +22,8 @@
  */
 package net.jacksum.parameters.base;
 
+import java.nio.file.Path;
+
 /**
  *
  * @author Johann
@@ -29,4 +31,6 @@ package net.jacksum.parameters.base;
 public interface FilenameFormatParameters {
     Character getPathChar();
     boolean isPathCharSet();
+    boolean isNoPath();
+    Path getPathRelativeTo();
 }

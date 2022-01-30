@@ -1038,6 +1038,23 @@ OPTIONS
             naming the standard input stream.
 
 
+    --no-path
+            Prints regular filenames without path information. The option is
+            useful if you want to create a simple database for file
+            identification purposes.
+\
+            This option has an effect during hash calculation mode only.
+            This option has no effect on NTFS ADS objects.
+            This option has no effect if you use a non-default output format
+            already by setting options -F or -C.
+\
+            If you want to store the default output in order to perform an
+            integrity check later, you shall not set this option, because
+            without path information it is impossible to find the files again.
+            Available since Jacksum 3.2.0, see also, -P, --path-relative-to,
+            and --path-absolute
+
+
     -o <file>
     --output-file <file>
             The output of the program goes to a file rather than the standard
@@ -1054,6 +1071,30 @@ OPTIONS
             Available since Jacksum 1.6.0, see also -o, -u and -U
 
 
+    --path-absolute
+           By default paths are printed relatively if you pass relative paths
+           as the program arguments, and paths are printed absolutely if you
+           pass absolute paths as the program arguments. If this option is set,
+           paths are printed absolutely in all cases.
+           Available since Jacksum 3.2.0, see also -P, --path-relative-to,
+           and --no-path
+
+
+    --path-relative-to <path>
+           By default paths are printed relatively if you pass relative paths
+           as the program arguments, and paths are printed absolutely if you
+           pass absolute paths as the program arguments.
+\
+           If this option is set during calculation mode, the paths of the
+           file objects are printed relative to the <path>. If <path> points
+           to a file, its folder name is used for <path>.
+\
+           If this option is set during check mode, the paths of the file
+           objects in the check file are simply prepended by <path>.
+           Available since Jacksum 3.2.0, see also -P, --path-absolute,
+           and --no-path
+
+
     -P <char>
     --path-separator <char>
             By default the system-dependent default name separator character is
@@ -1062,7 +1103,8 @@ OPTIONS
             change the default if a special output format for file names is
             required, for example to produce relative links for HTML pages on
             Microsoft Windows.
-            Available since Jacksum 1.5.0, see also -F
+            Available since Jacksum 1.5.0, see also -F, --path-absolute,
+            and --path-relative
 
 
     -q [<type>:]<sequence>

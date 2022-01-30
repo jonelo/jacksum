@@ -49,6 +49,7 @@ import org.n16n.sugar.util.GeneralString;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.Format;
@@ -237,6 +238,13 @@ public class Parameters implements
 
     // keeps all the filenames that have been specified at the command line
     private final List<String> filenamesFromArgs;
+
+    private boolean noPath = false;
+
+    private boolean pathAbsolute = false;
+
+    private Path pathRelativeTo = null;
+    private String pathRelativeToAsString = null;
 
     private final Messenger messenger;
 
@@ -505,6 +513,11 @@ public class Parameters implements
     @Override
     public boolean isPathCharSet() {
         return !pathChar.equals(File.separatorChar);
+    }
+
+    @Override
+    public boolean isNoPath() {
+        return noPath;
     }
 
     public void setPathChar(String arg) throws IllegalArgumentException {
@@ -839,6 +852,23 @@ public class Parameters implements
         checkForNonsenseParameterCombinations();
         handleCompatibility();
 
+        // validity check for --path-relative
+        if (pathRelativeToAsString != null) {
+            try {
+                Path path = Paths.get(pathRelativeToAsString);
+                if (Files.exists(path)) {
+                    if (Files.isDirectory(path)) {
+                        pathRelativeTo = path.toAbsolutePath().normalize();
+                    } else {
+                        pathRelativeTo = path.toAbsolutePath().normalize().getParent();
+                    }
+                } else {
+                    throw new ParameterException(String.format("%s does not exist.\n", pathRelativeToAsString));
+                }
+            } catch (InvalidPathException ipe) {
+                throw new ParameterException(String.format("%s is an invalid path.\n", pathRelativeToAsString));
+            }
+        }
 
         // warnings
         if (groupcount > 0 && encoding == null) {
@@ -1033,6 +1063,34 @@ public class Parameters implements
 
     public void setHeaderWanted(boolean headerWanted) {
         this.headerWanted = headerWanted;
+    }
+
+    public boolean isPathAbsolute() {
+        return pathAbsolute;
+    }
+
+    public void setPathAbsolute(boolean pathAbsolute) {
+        this.pathAbsolute = pathAbsolute;
+    }
+
+    public void setNoPath(boolean noPath) {
+        this.noPath = noPath;
+    }
+
+    public String getPathRelativeToAsString() {
+        return pathRelativeToAsString;
+    }
+
+    public void setPathRelativeToAsString(String pathRelativeToAsString) {
+        this.pathRelativeToAsString = pathRelativeToAsString;
+    }
+
+    public Path getPathRelativeTo() {
+        return pathRelativeTo;
+    }
+
+    public void setPathRelativeTo(Path pathRelativeTo) {
+        this.pathRelativeTo = pathRelativeTo;
     }
 
 

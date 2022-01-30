@@ -22,8 +22,10 @@
  */
 package net.jacksum.multicore.manyfiles;
 
-import java.util.List;
 import net.jacksum.actions.check.ListFilter;
+
+import java.nio.file.Path;
+import java.util.List;
 
 /**
  *
@@ -45,4 +47,6 @@ public interface ProducerParameters {
     String getErrorFile();
     boolean scanAllUnixFileTypes();
     boolean isScanNtfsAds();
+    boolean isPathAbsolute();
+    Path getPathRelativeTo();
 }

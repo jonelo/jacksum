@@ -85,6 +85,18 @@ public class CLIParameters {
                 } else if (arg.equals("-A") || arg.equals("--alternative")) {
                     parameters.setAlternateImplementationWanted(true);
 
+                } else if (arg.equals("--path-absolute")) {
+                    parameters.setPathAbsolute(true);
+
+                } else if (arg.equals("--path-relative-to")) {
+
+                    if (firstfile < args.length) {
+                        arg = args[firstfile++];
+                        parameters.setPathRelativeToAsString(arg);
+                    } else {
+                        handleUserParamError(arg, "--path-relative-to");
+                    }
+
                 } else if (arg.equals("-8") || arg.equals("--utf8")) {
                     parameters.setUtf8(true);
 
@@ -252,6 +264,9 @@ public class CLIParameters {
                     } else {
                         handleUserParamError(arg, "--file-list");
                     }
+
+                } else if (arg.equals("--no-path")) {
+                    parameters.setNoPath(true);
 
                 } else if (arg.equals("-o") || arg.equals("--output-file")) {
                     parameters.setOutputFileOverwrite(false);

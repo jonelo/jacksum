@@ -27,6 +27,7 @@ import org.n16n.sugar.util.Support;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Properties;
@@ -420,5 +421,12 @@ public class CompatibilityProperties {
         }
     }
 
+    private Path pathRelativeTo = null;
+    public void setPathRelativeTo(Path pathRelativeTo) {
+        this.pathRelativeTo = pathRelativeTo;
+    }
 
+    public Path getPathRelativeTo() {
+        return pathRelativeTo;
+    }
 }
