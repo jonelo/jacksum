@@ -78,10 +78,12 @@ public class Formatter {
     private static void _replaceFingerprintTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
         GeneralString.replaceAllStrings(buffer, "#CHECKSUM{i}", "#CHECKSUM");
         GeneralString.replaceAllStrings(buffer, "#CHECKSUM{0}", "#CHECKSUM");
+        GeneralString.replaceAllStrings(buffer, "#CHECKSUM{" + abstractChecksum.getName() + "}", "#CHECKSUM" );
         FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{i,([^}]+)\\})");
         FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{0,([^}]+)\\})");
+        FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{"+abstractChecksum.getName()+",([^}]+)\\})");
         FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{([^}]+)\\})");
-        GeneralString.replaceAllStrings(buffer, "#CHECKSUM", abstractChecksum.getValueFormatted());        
+        GeneralString.replaceAllStrings(buffer, "#CHECKSUM", abstractChecksum.getValueFormatted());
     }
     
     private static void _replaceAlgorithmTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
