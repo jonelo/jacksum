@@ -25,3 +25,4 @@ Jacksum 3.2.0, TBD
     - fixed: -F "#HASH{<algo>}" and -F "#HASH{<algo>,<encoding>}" does not work if just only one algorithm
       has been selected
     - fixed: typo in manpage (bitwidth for RIPEMD 320)
+    - improved error handling for the algorithm parameter

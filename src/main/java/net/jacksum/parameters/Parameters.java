@@ -852,6 +852,16 @@ public class Parameters implements
         checkForNonsenseParameterCombinations();
         handleCompatibility();
 
+        // validity check for --algorithm
+        if (algorithm != null) {
+            if (algorithm.startsWith("+")) {
+                throw new ParameterException(String.format("The algorithm %s must not start with a + sign, but it can end with one.", algorithm));
+            }
+            if (algorithm.contains("++")) {
+                throw new ParameterException(String.format("The algorithm %s must not contain ++.", algorithm));
+            }
+        }
+
         // validity check for --path-relative
         if (pathRelativeToAsString != null) {
             try {
