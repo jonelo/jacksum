@@ -6264,7 +6264,7 @@ EXAMPLES
 
 
 AUTHOR
-    Copyright (c) 2001-2021, Dipl.-Inf. (FH) Johann N. Loefflmann
+    Copyright (c) 2001-2022, Dipl.-Inf. (FH) Johann N. Loefflmann
     <https://jacksum.net>
 
 
