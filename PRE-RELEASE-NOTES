@@ -3,13 +3,13 @@ Jacksum 3.2.0, TBD
 - new features
 
     - the default parser takes option -s into account (GitHub issue #9)
-    - added aliases rg32, rg-32, and rg64, rg-64 for radiogatun (GitHub issue #14)
     - added option --header
-    - added encodings base64-nopadding, and base64url-nopadding
-    - added --no-path to omit the path
-    - added --path-absolute to print absolute paths
     - added --path-relative-to to print paths relative to another path
       (required for the File Browser Integration on Windows)
+    - added --path-absolute to print absolute paths
+    - added --no-path to omit the path
+    - added encodings base64-nopadding, and base64url-nopadding
+    - added aliases rg32, rg-32, and rg64, rg-64 for radiogatun (GitHub issue #14)
 
 - performance improvements
 
