@@ -18,28 +18,25 @@
   this program. If not, see <https://www.gnu.org/licenses/>.
 
  */
-package net.jacksum.actions.check;
+package net.jacksum.compats.parsing;
 
-/**
- *
- * @author Johann N. Loefflmann
- */
-public class InvalidCompatibilityPropertiesException extends Exception {
+
+public class InvalidParserParameterException extends Exception {
 
     /**
-     * Creates a new instance of <code>InvalidCompatibilityPropertiesException</code> without detail
+     * Creates a new instance of <code>ParseException</code> without detail
      * message.
      */
-    public InvalidCompatibilityPropertiesException() {
+    public InvalidParserParameterException() {
     }
 
     /**
-     * Constructs an instance of <code>InvalidCompatibilityPropertiesException</code> with the
-     * specified detail message.
+     * Constructs an instance of <code>ParseException</code> with the specified
+     * detail message.
      *
      * @param msg the detail message.
      */
-    public InvalidCompatibilityPropertiesException(String msg) {
+    public InvalidParserParameterException(String msg) {
         super(msg);
     }
 }

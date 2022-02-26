@@ -18,7 +18,7 @@
   this program. If not, see <https://www.gnu.org/licenses/>.
 
  */
-package net.jacksum.actions.check;
+package net.jacksum.compats.defs;
 
 import net.jacksum.JacksumAPI;
 import net.jacksum.algorithms.AbstractChecksum;
@@ -93,7 +93,7 @@ public class CompatibilityProperties {
     public CompatibilityProperties(String compatFilename) throws IOException, InvalidCompatibilityPropertiesException {
         String compatFilenameResolved = resolveAlias(compatFilename);
         if (isParserSupported(compatFilenameResolved)) {
-            props = readFromJarFile(String.format("/net/jacksum/actions/check/compatdefs/%s.properties", compatFilenameResolved));
+            props = readFromJarFile(String.format("/net/jacksum/compats/defs/%s.properties", compatFilenameResolved));
         } else {
             props = readFromLocalFile(compatFilenameResolved);
         }

@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import net.jacksum.algorithms.AbstractChecksum;
+import net.jacksum.compats.parsing.HashEntry;
 import net.jacksum.formats.FingerprintFormatter;
 import net.jacksum.multicore.manyfiles.Message;
 import net.jacksum.multicore.manyfiles.MessageConsumer;

@@ -18,28 +18,28 @@
   this program. If not, see <https://www.gnu.org/licenses/>.
 
  */
-package net.jacksum.actions.check;
+package net.jacksum.compats.defs;
 
 /**
  *
- * @author Johann
+ * @author Johann N. Loefflmann
  */
-public class IgnoredLineException extends Exception {
+public class InvalidCompatibilityPropertiesException extends Exception {
 
     /**
-     * Creates a new instance of <code>IgnoredLine</code> without detail
+     * Creates a new instance of <code>InvalidCompatibilityPropertiesException</code> without detail
      * message.
      */
-    public IgnoredLineException() {
+    public InvalidCompatibilityPropertiesException() {
     }
 
     /**
-     * Constructs an instance of <code>IgnoredLine</code> with the specified
-     * detail message.
+     * Constructs an instance of <code>InvalidCompatibilityPropertiesException</code> with the
+     * specified detail message.
      *
      * @param msg the detail message.
      */
-    public IgnoredLineException(String msg) {
+    public InvalidCompatibilityPropertiesException(String msg) {
         super(msg);
     }
 }

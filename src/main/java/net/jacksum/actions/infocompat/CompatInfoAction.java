@@ -23,7 +23,7 @@
 package net.jacksum.actions.infocompat;
 
 import net.jacksum.actions.Action;
-import net.jacksum.actions.check.CompatibilityProperties;
+import net.jacksum.compats.defs.CompatibilityProperties;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.parameters.ParameterException;
 import org.n16n.sugar.util.ExitException;

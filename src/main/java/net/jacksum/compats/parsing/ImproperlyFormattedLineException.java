@@ -18,7 +18,7 @@
   this program. If not, see <https://www.gnu.org/licenses/>.
 
  */
-package net.jacksum.actions.check;
+package net.jacksum.compats.parsing;
 
 /**
  *

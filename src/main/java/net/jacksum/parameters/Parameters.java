@@ -35,6 +35,8 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Messenger;
 import net.jacksum.cli.Verbose;
+import net.jacksum.compats.defs.CompatibilityProperties;
+import net.jacksum.compats.defs.InvalidCompatibilityPropertiesException;
 import net.jacksum.formats.Encoding;
 import net.jacksum.multicore.manyfiles.ProducerParameters;
 import net.jacksum.parameters.base.*;

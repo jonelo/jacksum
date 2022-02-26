@@ -1,6 +1,5 @@
 /*
 
-
   Jacksum 3.2.0 - a checksum utility in Java
   Copyright (c) 2001-2022 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
@@ -18,27 +17,29 @@
   You should have received a copy of the GNU General Public License along with
   this program. If not, see <https://www.gnu.org/licenses/>.
 
-
  */
-package net.jacksum.actions.check;
+package net.jacksum.compats.parsing;
 
-
-public class ParseErrorsHappenedException extends Exception {
+/**
+ *
+ * @author Johann
+ */
+public class IgnoredLineException extends Exception {
 
     /**
-     * Creates a new instance of <code>ParseErrorException</code> without detail
+     * Creates a new instance of <code>IgnoredLine</code> without detail
      * message.
      */
-    public ParseErrorsHappenedException() {
+    public IgnoredLineException() {
     }
 
     /**
-     * Constructs an instance of <code>ParseErrorException</code> with the
-     * specified detail message.
+     * Constructs an instance of <code>IgnoredLine</code> with the specified
+     * detail message.
      *
      * @param msg the detail message.
      */
-    public ParseErrorsHappenedException(String msg) {
+    public IgnoredLineException(String msg) {
         super(msg);
     }
 }

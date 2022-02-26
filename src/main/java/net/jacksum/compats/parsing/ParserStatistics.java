@@ -20,7 +20,7 @@
 
 
  */
-package net.jacksum.actions.check;
+package net.jacksum.compats.parsing;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -22,7 +22,7 @@
  */
 package net.jacksum.parameters.base;
 
-import net.jacksum.actions.check.CompatibilityProperties;
+import net.jacksum.compats.defs.CompatibilityProperties;
 
 public interface CompatibilityParameters {
      CompatibilityProperties getCompatibilityProperties();

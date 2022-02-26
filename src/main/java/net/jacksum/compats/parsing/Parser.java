@@ -19,14 +19,17 @@
   this program. If not, see <https://www.gnu.org/licenses/>.
 
  */
-package net.jacksum.actions.check;
+package net.jacksum.compats.parsing;
 
 import net.jacksum.JacksumAPI;
+import net.jacksum.actions.check.*;
 import net.jacksum.algorithms.AbstractChecksum;
+import net.jacksum.compats.defs.CompatibilityProperties;
 import org.n16n.sugar.io.BOM;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.file.InvalidPathException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.regex.Matcher;
