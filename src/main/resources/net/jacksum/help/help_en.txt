@@ -73,6 +73,14 @@ DESCRIPTION
         DSTU 7564:2014); LSH-256-[224,256], LSH-512-[224,256,384,512] (South
         Korea, KS X 3262); HAS-160 (KISA, South Korea)
 \
+      * eXtendable Output Functions (XOF) as cryptographic hash functions with
+        a fixed length: SHAKE128, SHAKE256, KangarooTwelve, MarsupilamiFourteen
+\
+      * International accepted, modern strong cryptographic hash functions:
+        BLAKE2s-[8..256], BLAKE2b-[8..512], BLAKE3, ed2k,
+        HAVAL-[160,192,224,256]-[3,4,5], RadioGatun[32,64], RIPEMD[160,256,320],
+        Tiger2, Whirlpool
+\
       * all 5 candidates from round 3 the NIST SHA-3 competition (2007-2012):
         BLAKE-[224,256,348,512], Groestl-[224,256,384,512], JH[224,256,284,512]
         Keccak[224,256,384,512], Skein-256-[8..256], Skein-512-[8..512],
@@ -83,14 +91,6 @@ DESCRIPTION
 \
       * Proposals from the 2005 NIST workshops before the SHA-3 competition:
         DHA-256, FORK-256, VSH-1024
-\
-      * International accepted, modern strong cryptographic hash functions:
-        BLAKE2s-[8..256], BLAKE2b-[8..512], BLAKE3, ed2k,
-        HAVAL-[160,192,224,256]-[3,4,5], RadioGatun[32,64], RIPEMD[160,256,320],
-        Tiger2, Whirlpool
-\
-      * eXtendable Output Functions (XOF) as cryptographic hash functions with
-        a fixed length: SHAKE128, SHAKE256, KangarooTwelve, MarsupilamiFourteen
 \
       * Broken cryptographic hash functions for education and backwards
         compatibility purposes:
