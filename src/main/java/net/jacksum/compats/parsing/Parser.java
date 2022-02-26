@@ -94,7 +94,13 @@ public class Parser {
 
         // concatenate the value of --path-relative-to and the path that has been parsed
         if (props.getPathRelativeTo() != null) {
-            line = props.getPathRelativeTo().resolve(line).toString();
+            try {
+                line = props.getPathRelativeTo().resolve(line).toString();
+            } catch (InvalidPathException ipe) {
+                // don't concatenate if it is a non-standard path, such as NTFS Data Streams
+                // and in that case we also don't need to replace the separator char, we simply return
+                return line;
+            }
         }
 
         // Patch the path separator for line, if it is clear that it is from a foreign system.
