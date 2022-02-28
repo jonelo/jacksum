@@ -32,7 +32,7 @@ DESCRIPTION
         and and even find the algorithm to a checksum/CRC/hash by calling a
         smart brute force algorithm.
 \
-        Since Jacksum supports a lot of features, features are explained
+        Since Jacksum supports a lot of features, features are explained briefly
         in the following sections:
 \
             - Algorithm support
