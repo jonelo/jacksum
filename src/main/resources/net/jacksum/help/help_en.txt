@@ -37,9 +37,9 @@ DESCRIPTION
 \
             - Algorithm support
             - Processing
-            - Performance
             - Input
             - Output
+            - Performance
             - System requirements
 \
         Type `jacksum -h examples` and go to https://jacksum.net to learn more
