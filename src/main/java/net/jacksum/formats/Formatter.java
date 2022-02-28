@@ -24,6 +24,8 @@
 package net.jacksum.formats;
 
 import java.io.File;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
 import java.util.Locale;
 import org.n16n.sugar.util.GeneralString;
 import net.jacksum.algorithms.AbstractChecksum;
@@ -119,6 +121,31 @@ public class Formatter {
     }
     
     private static void _replaceFilenameTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
+
+        FilenameFormatter filenameFormatter = new FilenameFormatter(abstractChecksum.getFormatPreferences());
+        String formattedFilename = filenameFormatter.format(abstractChecksum.getFilename());
+
+        if (buffer.toString().contains("#FILENAME{")) {
+
+            String name;
+            String directory;
+            try {
+                name = Paths.get(abstractChecksum.getFilename()).getFileName().toString();
+                directory = Paths.get(abstractChecksum.getFilename()).getParent().toString();
+                //directory = abstractChecksum.getFormatPreferences().getPathRelativeTo().relativize(directory).toString());
+            } catch (InvalidPathException ipe) {
+                name = formattedFilename;
+                directory = null;
+            }
+
+            GeneralString.replaceAllStrings(buffer, "#FILENAME{name}", name);
+            if (directory == null) directory = "";
+            GeneralString.replaceAllStrings(buffer, "#FILENAME{path}", directory);
+
+        }
+        GeneralString.replaceAllStrings(buffer, "#FILENAME", formattedFilename);
+
+/*
         if (buffer.toString().contains("#FILENAME{")) {
             File filetemp = new File(abstractChecksum.getFilename());
             GeneralString.replaceAllStrings(buffer, "#FILENAME{name}", filetemp.getName());
@@ -142,6 +169,7 @@ public class Formatter {
         } else {            
             GeneralString.replaceAllStrings(buffer, "#FILENAME", abstractChecksum.getFilename());
         }
+        */
     }
 
     private static void _replaceTimestampToken(StringBuilder buffer, AbstractChecksum abstractChecksum) {
