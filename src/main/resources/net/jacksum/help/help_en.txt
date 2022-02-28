@@ -1,6 +1,6 @@
 NAME
-    jacksum - a free, powerful, and cross platform command line utility which
-              is all about checksums, CRCs, and message digests (hashes)
+    jacksum - a free, open source, cross-platform, feature-rich, multi-threaded
+              data integrity verification tool.
 
 
 VERSION
@@ -14,104 +14,52 @@ SYNOPSIS
 DESCRIPTION
     Overview:
 \
-        Jacksum (JAva ChecKSUM) is a free, powerful, and cross-platform
-        command line utility which is all about checksums, CRCs,
-        and message digests (aka hashes, file fingerprints, file thumbprints).
+        Jacksum (JAva ChecKSUM) is a free, open source, cross-platform,
+        feature-rich, multi-threaded data integrity verification tool.
 \
-        Jacksum supports 471 algorithms, including checksums, CRCs, XOFs,
-        cryptographic, and non-cryptographic hash functions.
-        Jacksum also supports the "Rocksoft (tm) Model CRC Algorithm" to
-        customize CRCs.
+        Data integrity ensures that data items have not been changed,
+        destroyed, or lost in an unauthorized or accidental manner
+        since they were created, transmitted, or stored.
 \
-        Jacksum can act as a classic file integrity software that generates,
-        stores, and compares message digests to detect changes made to the
-        files. Actually it can detect matching files, non-matching files,
-        missing files, and new files.
+        Hash values are used to implement data integrity.
 \
-        Jacksum traverses file trees recursively with a depth limit.
+        As a data integrity software Jacksum can generate, store, and compare
+        hash values to detect changes made to files. Actually it can detect
+        matching, non-matching, missing, and new files.
 \
-        Jacksum also allows you to identify files by their digital
-        fingerprints, find files that match a given hash value, find all
-        duplicates of a file, and and even find the algorithm to a
-        checksum/CRC/hash by using a brute force algorithm.
+        Jacksum also allows you to identify files by their digital fingerprints,
+        find files that match a given hash value, find all duplicates of a file,
+        and and even find the algorithm to a checksum/CRC/hash by calling a
+        smart brute force algorithm.
 \
-        Jacksum supports multi-threading on multi-processor and multi-core
-        computer systems. Jacksum can compute multiple hashes simultaneously,
-        and it can process multiple files simultaneously.
+        Since Jacksum supports a lot of features, features are explained
+        in the following sections:
 \
-        Input data can come from almost any source: files, disks, partitions,
-        standard input stream (stdin), and/or provided directly by command
-        line arguments. Also platform specific input such as NTFS Alternate
-        Data Streams (ADS) on Microsoft Windows, and block devices, character
-        devices, named pipes (FIFOs), and sockets (Unix-like OS only), and
-        doors (Solaris only) are supported and can be hashed.
-\
-        Output can occur in predefined standard formats (BSD-, GNU/Linux-, or
-        Solaris style, SFV or FCIV) or in a user-defined format which is highly
-        customizable, including many encodings for representing hash values:
-        Hex (lower- and uppercase), Base16, Base32 (with and without padding),
-        Base32hex (with and without padding), Base64, Base64url, BubbleBabble,
-        and z-base-32.
-\
-        Jacksum supports many charsets for reading and writing files
-        properly, and it comes with full support for all common Unicode aware
-        charsets such as UTF-8, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32LE,
-        UTF-32BE, and GB18030. A Byte-Order Mark (BOM) is supported for both
-        input and output, even if a BOM is optional for the selected charset.
+            - Algorithm support
+            - Processing
+            - Performance
+            - Input
+            - Output
+            - System requirements
 \
         Type `jacksum -h examples` and go to https://jacksum.net to learn more
         about Jacksum.
 \
 \
-    Supported algorithms (standards):
+    Algorithm support:
 \
-      * National and international standards of cryptographic hash functions:
-        SHA-1, SHA-[224,256,384,512], SHA-512/[224,256] (USA, NIST FIPS 180-4);
-        SHA3-[224,256,384,512], SHAKE[128,256] (USA (NIST FIPS 202);
-        GOST, GOST Crypto-Pro (Russia, GOST R 34.11-94); Streebog-[256,512]
-        (Russia, GOST R 34.11-2012); SM3 (China); Kupyna[256,384,512] (Ukraine,
-        DSTU 7564:2014); LSH-256-[224,256], LSH-512-[224,256,384,512] (South
-        Korea, KS X 3262); HAS-160 (KISA, South Korea)
+        471 standard algorithms are supported, including checksums, cyclic
+        redundancy checks (CRCs), eXtendable Output Functions (XOFs),
+        cryptographic, and non-cryptographic hash functions. All those methods
+        map data of arbitrary size to fixed-size values. The values returned by
+        those algorithms are often called hashes, hash values, message digests,
+        file fingerprints, or file thumbprints.
 \
-      * eXtendable Output Functions (XOF) as cryptographic hash functions with
-        a fixed length: SHAKE128, SHAKE256, KangarooTwelve, MarsupilamiFourteen
-\
-      * International accepted, modern strong cryptographic hash functions:
-        BLAKE2s-[8..256], BLAKE2b-[8..512], BLAKE3, ed2k,
-        HAVAL-[160,192,224,256]-[3,4,5], RadioGatun[32,64], RIPEMD[160,256,320],
-        Tiger2, Whirlpool
-\
-      * all 5 candidates from round 3 the NIST SHA-3 competition (2007-2012):
-        BLAKE-[224,256,348,512], Groestl-[224,256,384,512], JH[224,256,284,512]
-        Keccak[224,256,384,512], Skein-256-[8..256], Skein-512-[8..512],
-        Skein-1024-[8..1024]
-\
-      * 3 candidates from round 2 of the NIST SHA-3 competition (2007-2012):
-        ECHO-[224,256,348,512], Fugue-[224,256,348,512], Luffa-[224,256,348,512]
-\
-      * Proposals from the 2005 NIST workshops before the SHA-3 competition:
-        DHA-256, FORK-256, VSH-1024
-\
-      * Broken cryptographic hash functions for education and backwards
-        compatibility purposes:
-        HAVAL-128-[3,4,5], MD2, MD4, MD5, MDC2, PANAMA, RIPEMD-128, SHA-0,
-        SHA-1, Tiger, Tiger/128, Tiger/160, Whirpool-0, Whirlpool-T
-\
-      * Checksums that can be found in software products and operating systems:
-        Adler-32, cksum (Minix), cksum (Unix), ELF (Unix), Fletcher's Checksum,
-        FNV-0_[32,64,128,256,512,1024], FNV-1_[32,64,128,256,512,1024],
-        FNV-1a_[32,64,128,256,512,1024], joaat, sum (BSD Unix), sum (Minix),
-        sum (System V Unix), sum [8,16,24,32,40,48,56], xor8, XXH32
-\
-      * CRCs that are being used in many software products and protocols:
-        CRC-8 (FLAC), CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16, CRC-24 (OpenPGP),
-        CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32c,
-        CRC-32 (UBICRC32), CRC-32 (PHP's crc32), CRC-64 (ISO 3309),
-        CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO),
-        CRC-64 (.xz and prog lang GO, const ECMA)
-\
-\
-    Supported algorithms (customizable):
+        Jacksum supports the "Rocksoft (tm) Model CRC Algorithm" to customize
+        CRCs. That feature allows the user to construct any of the possible
+        CRC combinations with a [8..64] bit width. Jacksum also extends that
+        well known model to include the length of the message optionally to
+        the CRC. To learn more about that subject type `jacksum -h crc:`
 \
         Jacksum supports the concatenating of algorithms. Simply use a + sign
         in order to concatenate several algorithms together, e. g. md5+sha1.
@@ -121,151 +69,290 @@ DESCRIPTION
         matches the filter criteria.
         To learn more about that subject type `jacksum -h -a`
 \
-        Jacksum supports the "Rocksoft (tm) Model CRC Algorithm" which allows to
-        construct any of the possible CRC combinations with a [8..64] bit width.
-        Jacksum also extends that well known model to include the length of the
-        message optionally to the CRC.
-        To learn more about that subject type `jacksum -h crc:`
-\
-\
-    Processing performance:
-\
-        Jacksum uses the computing power of multi-core processors if available.
-        This allows simultaneous/parallel calculation/verification of hashes
-        for many files. If more than one algorithm is chosen for the
-        calculation/verification process, Jacksum also distributes that load
-        across multiple cores. In that case the slowest algorithm selected
-        determines the minimum computation time. Any file is read only once in
-        any case.
-\
-        Jacksum comes with pure Java implementations for all supported
-        algorithms. By default Jacksum checks whether an algorithm is provided
-        by the JRE/JDK and if it is, it uses the implementation from the
-        JRE/JDK, because often that gives the best performance. Because
-        exceptions confirm the rule, this behavior can also be disabled by
-        setting the -A option.
-\
-\
-    Input:
-\
-      * Input data can come from almost any source.
-\
-      * On all supported platforms (Microsoft Windows, GNU/Linux, and Unix)
-        Jacksum allows you to generate, store, and compare hashes from
-\
-            * files
-            * standard input stream (stdin)
-            * command line arguments (see also -q)
-\
-      * On Unix, and GNU/Linux there are additional file types available and
-        Jacksum allows you to generate, store, and compare hashes from
-\
-            * block devices (i.e. disks and partitions, e.g.
-                  /dev/sda, /dev/sdb, /dev/sr0, etc. and
-                  /dev/sda1, /dev/sda2, etc. on GNU/Linux,
-                  /dev/disk0, /dev/disk1, etc. and
-                  /dev/disk0s1, etc. on macOS)
-            * character devices (e.g. /dev/null)
-            * named pipes (FIFOs)
-            * sockets
-            * doors (Solaris only)
-\
-        Use the option --scan-all-unix-file-types to scan the Unix specific
-        file types during recursively directory traversal.
-\
-        Note that reading entire disks or partitions may require sudo resp.
-        root privileges. You should also unmount block devices first before
-        reading from them, because if you don't unmount it, the device driver
-        of the block device may flag the disk as defect, and even that single
-        bit may lead to an entirely different hash value.
-        Reading copyright protected DVDs may lead to I/O errors.
-        The OS may permit or prohibit reading (and hashing) of particular
-        disks or partitions if those are in use (mounted).
-\
-        To unmount disks use "umount" on GNU/Linux and "diskutil umount" on
-        macOS. To find disk identifiers enter "lsblk" on GNU/Linux and
-        "diskutil list" on macOS.
-\
-      * On Microsoft Windows there are additional file types available and
-        Jacksum allows you to generate, store, and compare hashes from
-\
-            * disks, CD-ROMs, DVDs, etc. (e.g. \\.\PhysicalDrive0)
-            * partitions (e.g. \\.\c:)
-            * invisible partitions which are not mounted by default,
-              e.g. the recovery partition or EFI partition
-              (e.g. \\?\Volume{4a343c6b-3576-5e5e-2072-303c6b352131}\)
-            * RAM disks
-            * NTFS Alternate Data Streams on files
-              (e.g. my-file.txt:secret:$DATA)
-            * NTFS Alternate Data Streams on directories
-              (e.g. .\:secret:$DATA)
-            * the null-device (called nul on Microsoft Windows).
-\
-        Use the option --scan-ntfs-ads to scan for any NTFS Alternate
-        Data Streams (ADS) during recursively directory traversal.
-\
-        Note that reading data from disks and partitions may require
-        Administrator privileges.
-        Reading copyright protected DVDs may lead to I/O errors.
-        To find PhysicalDrive IDs on Microsoft Windows, enter the
-        PowerShell command Get-PhysicalDisk. To find partition drive
-        letters and access paths, enter the PowerShell commands
-        Get-Volume and Get-Partition or use the mountvol command on
-        the Windows Command Prompt.
-\
-      * Pointers to the data can be given by command line arguments,
-        by walking file trees recursively with a specific depth (-r), by file
-        lists (-L), or by check lists (-c). In the case of lists, many different
-        charsets can be selected in order to read localized, non-ASCII filenames
-        properly (see also options --charset-check-file, --charset-file-list).
-        You can specify the format of file lists by setting --file-list-format.
-        You can specify the format of the check file by selecting a predefined
-        parser or by defining your own parser (see also option --compat) so you
-        can process input even if it was not produced by Jacksum.
-\
-\
-    Output:
-\
-        By default the output format is standardized and behaves like well known
-        checksum resp. cryptographic hash tools on GNU/Linux such as sum,
-        sha1sum, md5sum, b2sum, digest, etc. The output format can also be
-        made compatible to the output that other famous tools such as openssl,
-        or FCIV produce. Also the BSD format or legacy formats such as sfv
-        are supported (see option --compat).
-\
-        The output can also be completely customized (see option -F). Hashes can
-        be encoded by 14 different encodings (see also option -E), or formatted
-        for easier readability (see also options -g, and -G). Filenames
-        and timestamps can be customized as well (see also options -P, and -t).
-        Many different charsets are supported in order to write localized
-        filenames properly (see also options --charset-stdout --charset-stderr,
-        and --charset-output-file, --charset-error-file).
-\
-\
-    Concluding remarks:
-\
-        Jacksum selects the appropriate operating mode dependent on the options
-        and parameters that you set. Any operation can be cancelled at any time
-        by hitting Ctrl+C in the terminal.
-\
-        Jacksum processes directory trees recursively by default and you can
-        control the walking depth by option -r. You can also set the options -f
-        and -d in order to disallow Jacksum to follow symlinks to files and/or
-        directories.
-\
         Note that not all algorithms are suitable to perform highly reliable
-        integrity checks. Actually the author of Jacksum recommends to use
-        non-broken, cryptographic hash functions, because those algorithms are
+        integrity checks. Actually it is recommended to use non-broken,
+        cryptographic hash functions, because those algorithms are simply
         designed for that purpose.
+\
         Nonetheless Jacksum will continue to support legacy algorithms as well,
         because in real life they are still in use and they are also useful for
         finding an algorithm by brute force if only the data and the hash value
         are known, and last but not least it is great for educational purposes.
 \
-        Jacksum is written entirely in Java. Therefore it runs cross platform,
-        without the need of recompilation. A Java Runtime Environment (JRE) or
-        Java Development Kit (JDK) at least version 11 is required. The latest
-        available compatible OpenJDK LTS release is recommended.
+        Note that even if the name of a cryptographic hash function sounds
+        strong, it does not necessarily mean that the algorithm is strong.
+\
+        Supported standard algorithms:
+\
+        - National and international standards of cryptographic hash functions:
+            - USA
+                - SHA3-[224,256,384,512], and SHAKE[128,256] (NIST FIPS 202)
+                - SHA-[224,256,384,512], SHA-512/[224,256] (NIST FIPS 180-4)
+                - SHA-1 (USA) [broken]
+            - China
+                - SM3 (GM/T 0004-2012, and ISO/IEC 10118-3:2018)
+            - Russia
+                - Streebog-[256,512] (GOST R 34.11-2012) [weak]
+                - GOST, and GOST Crypto-Pro (GOST R 34.11-94) [broken]
+            - Ukraine
+                - Kupyna[256,384,512] (DSTU 7564:2014)
+            - South Korea
+                - LSH-256-[224,256], LSH-512-[224,256,384,512] (KS X 3262)
+                - HAS-160 (KISA, South Korea) [weak]
+\
+        - Modern eXtendable Output Functions (XOF) as cryptographic hash functions
+          with a fixed length:
+            - SHAKE128
+            - SHAKE256
+            - KangarooTwelve
+            - MarsupilamiFourteen
+\
+        - International accepted, modern strong cryptographic hash functions:
+            - BLAKE3
+            - BLAKE2s-[8..256], BLAKE2b-[8..512]
+            - ed2k
+            - HAVAL-[160,192,224,256]-[3,4,5]
+            - RadioGatun[32,64]
+            - RIPEMD[160,256,320]
+            - Tiger2
+            - Whirlpool
+\
+        - all 5 candidates from round 3 the NIST SHA-3 competition (2007-2012):
+            - BLAKE-[224,256,348,512]
+            - Groestl-[224,256,384,512]
+            - JH[224,256,284,512]
+            - Keccak[224,256,384,512]
+            - Skein-256-[8..256], Skein-512-[8..512], Skein-1024-[8..1024]
+\
+        - 3 candidates from round 2 of the NIST SHA-3 competition (2007-2012):
+            - ECHO-[224,256,348,512]
+            - Fugue-[224,256,348,512]
+            - Luffa-[224,256,348,512]
+\
+        - Proposals from the 2005 NIST workshops before the SHA-3 competition:
+            - DHA-256
+            - FORK-256
+            - VSH-1024
+\
+        - Weak or broken cryptographic hash functions for education and backwards
+          compatibility purposes:
+            - HAVAL-128-[3,4,5]
+            - MD2
+            - MD4
+            - MD5
+            - MDC2
+            - PANAMA
+            - RIPEMD-128
+            - SHA-0
+            - SHA-1
+            - Tiger
+            - Tiger/128
+            - Tiger/160
+            - Whirpool-0
+            - Whirlpool-T
+\
+        - Checksums that can be found in software products and operating systems:
+            - Adler-32
+            - cksum (Minix), cksum (Unix)
+            - ELF (Unix)
+            - Fletcher's Checksum
+            - FNV-0_[32,64,128,256,512,1024]
+            - FNV-1_[32,64,128,256,512,1024],
+            - FNV-1a_[32,64,128,256,512,1024]
+            - joaat
+            - sum (BSD Unix), sum (Minix), sum (System V Unix), sum [8,16,24,32,40,48,56]
+            - xor8
+            - XXH32
+\
+        - CRCs that are being used in many software products and protocols:
+            - CRC-8 (FLAC)
+            - CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16
+            - CRC-24 (OpenPGP)
+            - CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32c,
+              CRC-32 (UBICRC32), CRC-32 (PHP's crc32)
+            - CRC-64 (ISO 3309), CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO),
+              CRC-64 (.xz and prog lang GO, const ECMA)
+\
+\
+    Processing:
+\
+        Jacksum selects the appropriate operating mode dependent on the options
+        and parameters that you set. Any operation can be cancelled at any time
+        by hitting Ctrl+C in the terminal.
+\
+        Jacksum traverses directory trees recursively by default. You can
+        control the walking depth by option -r. You can also set the options -f
+        and -d in order to disallow Jacksum to follow symlinks to files and/or
+        directories.
+\
+        Jacksum supports many charsets for reading and writing files
+        properly, and it comes with full support for all common Unicode aware
+        charsets such as UTF-8, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32LE,
+        UTF-32BE, and GB18030. A Byte-Order Mark (BOM) is supported for both
+        input and output, even if a BOM is optional for the selected charset.
+\
+\
+    Input:
+\
+        Input data can come from almost any source: files, disks, partitions,
+        standard input stream (stdin), and/or provided directly by command
+        line arguments. Also platform specific input such as NTFS Alternate
+        Data Streams (ADS) on Microsoft Windows, and block devices, character
+        devices, named pipes (FIFOs), and sockets (Unix-like OS only), and
+        doors (Solaris only) are supported and can be hashed.
+\
+        Pointers to the input data can be given by command line arguments,
+        by walking file trees recursively with a specific depth (-r), by file
+        lists (-L), or by check lists (-c). In the case of lists, many different
+        charsets can be selected in order to read localized, non-ASCII filenames
+        properly (see also options --charset-check-file, --charset-file-list).
+        You can specify the format of file-lists by setting --file-list-format.
+        You can specify the format of a check-file by selecting a predefined
+        parser or by defining your own parser (see also option --compat) so you
+        can process input even if it was not produced by Jacksum.
+\
+        All platforms:
+            On all supported platforms (Microsoft Windows, GNU/Linux, and Unix)
+            Jacksum allows you to generate, store, and compare hashes from
+\
+                - files
+                - standard input stream (stdin)
+                - command line arguments (see also -q)
+\
+        Unix, and GNU/Linux:
+            On Unix, and GNU/Linux there are additional file types available
+            and Jacksum allows you to generate, store, and compare hashes from
+\
+                - block devices (i.e. disks and partitions, e.g.
+                  /dev/sda, /dev/sdb, /dev/sr0, etc. and
+                  /dev/sda1, /dev/sda2, etc. on GNU/Linux,
+                  /dev/disk0, /dev/disk1, etc. and
+                  /dev/disk0s1, etc. on macOS)
+                - character devices (e.g. /dev/null)
+                - named pipes (FIFOs)
+                - sockets
+                - doors (Solaris only)
+\
+            Use the option --scan-all-unix-file-types to scan the Unix specific
+            file types during recursively directory traversal.
+\
+            Note that reading entire disks or partitions may require sudo resp.
+            root privileges. You should also unmount block devices first before
+            reading from them, because if you don't unmount it, the device
+            driver of the block device may flag the disk as defect, and even
+            that single bit may lead to an entirely different hash value.
+            Reading copyright protected DVDs may lead to I/O errors.
+            The OS may permit or prohibit reading (and hashing) of particular
+            disks or partitions if those are in use (mounted).
+\
+            To unmount disks use "umount" on GNU/Linux and "diskutil umount" on
+            macOS. To find disk identifiers enter "lsblk" on GNU/Linux and
+            "diskutil list" on macOS.
+\
+        Microsoft Windows:
+            On Microsoft Windows there are additional file types available and
+            Jacksum allows you to generate, store, and compare hashes from
+\
+                - disks, CD-ROMs, DVDs, etc. (e.g. \\.\PhysicalDrive0)
+                - partitions (e.g. \\.\c:)
+                - invisible partitions which are not mounted by default,
+                  e.g. the recovery partition or EFI partition
+                  (e.g. \\?\Volume{4a343c6b-3576-5e5e-2072-303c6b352131}\)
+                - RAM disks
+                - NTFS Alternate Data Streams on files
+                  (e.g. my-file.txt:secret:$DATA)
+                - NTFS Alternate Data Streams on directories
+                  (e.g. .\:secret:$DATA)
+                - the null-device (called nul on Microsoft Windows).
+\
+            Use the option --scan-ntfs-ads to scan for any NTFS Alternate
+            Data Streams (ADS) during recursively directory traversal.
+\
+            Note that reading data from disks and partitions may require
+            administrator privileges.
+            Reading copyright protected DVDs may lead to I/O errors.
+            To find PhysicalDrive IDs on Microsoft Windows, enter the
+            PowerShell command Get-PhysicalDisk. To find partition drive
+            letters and access paths, enter the PowerShell commands
+            Get-Volume and Get-Partition or use the mountvol command on
+            the Windows Command Prompt.
+\
+\
+    Output:
+\
+        Output can occur in default format, predefined standard formats
+        or in a user-defined format which is highly customizable.
+\
+        Default output:
+            By default the output format is standardized and behaves like well
+            known checksum resp. cryptographic hash tools on GNU/Linux such as
+            sum, sha1sum, md5sum, b2sum, digest, etc. However, the format
+            also supports multiple algorithms, file size, and time stamps.
+
+        Predefined output:
+            The output format can also be made compatible to the output that
+            other famous tools produce. BSD-, GNU/Linux-, Solaris, and openssl
+            styles are supported. Also legacy formats such as SFV and FCIV are
+            supported (see option --compat). In all cases, the predifined
+            formats can be used for all algorithms that Jacksum supports,
+            even if an original format was designed for one particular
+            algorithm only.
+\
+        Customized output:
+            The output can be completely customized (see option -F).
+\
+            14 different encodings can be selected to represent hash values:
+            Hex (lower- and uppercase), Base16, Base32 (with and without padding),
+            Base32hex (with and without padding), Base64, Base64url, BubbleBabble,
+            and z-base-32 (see also option -E).
+            In case of Hex, bytes can also be grouped and separated for easier
+            readability (see also options -g, and -G).
+\
+            Also many different charsets are supported in order to write localized
+            filenames properly (see also options --charset-stdout --charset-stderr,
+            and --charset-output-file, --charset-error-file).
+            Paths can be customized as well (see also options -P, --no-path,
+            --path-relative-to, and --path-absolute).
+\
+            Timestamps can be customized as well (see also option -t).
+\
+\
+    Performance:
+\
+        Jacksum supports multi-threading on multi-processor and multi-core
+        computer systems. Jacksum can compute multiple hashes simultaneously,
+        and it can process multiple files simultaneously.
+\
+        Many algorithms:
+            If more than one algorithm is chosen for the calculation or
+            verification process, Jacksum distributes that load across multiple
+            cores. In that case the slowest algorithm selected determines the
+            minimum computation time. Any file is read only once in any case.
+\
+        Many files:
+            Jacksum uses the computing power of multi-core processors if
+            available. This allows simultaneous/parallel calculation or
+            verification of hashes for many files that are stored on
+            direct access medias such as modern SSD.
+\
+        Alternative implementations:
+            Jacksum comes with pure Java implementations for all supported
+            algorithms. By default Jacksum checks whether an algorithm is
+            provided by the JRE/JDK and if it is, it uses the implementation
+            from the JRE/JDK, because often that gives the best performance.
+            Because exceptions confirm the rule, this behavior can also be
+            disabled by setting the -A option.
+\
+\
+    System requirements:
+\
+            Jacksum is written entirely in Java. Therefore it runs cross platform,
+            without the need of recompilation. A Java Runtime Environment (JRE) or
+            Java Development Kit (JDK) at least version 11 is required. The latest
+            available compatible OpenJDK LTS release is recommended.
+\
+            To take advantage of the performance of parallel processing, one or
+            more multi-core processors are required.
 
 
 PARAMETERS
@@ -3166,7 +3253,7 @@ ALGORITHMS
             published:
                 2015
             broken:
-                no
+                no, see also https://eprint.iacr.org/2015/959.pdf
             standard: 
                 DSTU 7564:2014
 \
@@ -5002,7 +5089,9 @@ ALGORITHMS
             published:
                 2012
             broken:
-                no
+                attack demonstrated in theory (attack breaks all rounds and has
+                lower complexity than security claim)
+                see also https://eprint.iacr.org/2014/675
             website:
                 https://www.streebog.net
             standards:
