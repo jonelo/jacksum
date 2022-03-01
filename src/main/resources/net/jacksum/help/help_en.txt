@@ -293,7 +293,7 @@ DESCRIPTION
             known checksum resp. cryptographic hash tools on GNU/Linux such as
             sha1sum, md5sum, b2sum, digest, etc. However, the format also
             supports multiple algorithms, file size, and time stamps.
-
+\
         Predefined output:
             The output format can also be made compatible to the output that
             other famous tools produce. BSD-, GNU/Linux-, Solaris, and openssl
