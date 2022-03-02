@@ -9,12 +9,16 @@ Jacksum 3.2.0, TBD
     - added --path-absolute to print absolute paths
     - added --no-path to omit the path
     - added encodings base64-nopadding, and base64url-nopadding
-    - added aliases rg32, rg-32, and rg64, rg-64 for radiogatun (GitHub issue #14)
 
 - performance improvements
 
     - since Java 9+ supports a fast CRC32c, it became the primary implementation for crc32c
 
+- minor improvements (comfort)
+
+    - added aliases rg32, rg-32, and rg64, rg-64 for radiogatun (GitHub issue #14)
+    - added alias called --style for the option --compat
+    - improved error handling for the algorithm parameter
 
 - bug fixes
 
@@ -25,4 +29,3 @@ Jacksum 3.2.0, TBD
     - fixed: -F "#HASH{<algo>}" and -F "#HASH{<algo>,<encoding>}" does not work if just only one algorithm
       has been selected
     - fixed: typo in manpage (bitwidth for RIPEMD 320)
-    - improved error handling for the algorithm parameter

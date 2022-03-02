@@ -589,6 +589,7 @@ OPTIONS
 
     -C <compatibility>
     --compat <compatibility>
+    --style <compatibility>
             Specifies the compatibility behavior of Jacksum for both input
             format and output format. Replace <compatibility> with one of the
             predefined keywords bsd or linux-tagged, fciv, linux or

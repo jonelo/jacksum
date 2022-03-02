@@ -136,7 +136,7 @@ public class CLIParameters {
                 } else if (arg.equals("--check-strict")) {
                     parameters.setCheckStrict(true);
 
-                } else if (arg.equals("-C") || arg.equals("--compat")) {
+                } else if (arg.equals("-C") || arg.equals("--compat") || arg.equals("--style")) {
                     if (firstfile < args.length) {
                         parameters.setCompatibilityID(args[firstfile++]);
                     } else {
