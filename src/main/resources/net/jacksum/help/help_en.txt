@@ -163,7 +163,7 @@ DESCRIPTION
             - ELF (Unix)
             - Fletcher's Checksum
             - FNV-0_[32,64,128,256,512,1024]
-            - FNV-1_[32,64,128,256,512,1024],
+            - FNV-1_[32,64,128,256,512,1024]
             - FNV-1a_[32,64,128,256,512,1024]
             - joaat
             - sum (BSD Unix), sum (Minix), sum (System V Unix)
@@ -232,7 +232,7 @@ DESCRIPTION
 \
                 - block devices (i. e. disks and partitions, e. g. /dev/sda,
                   /dev/sdb, /dev/sr0, etc. and /dev/sda1, /dev/sda2, etc. on
-                  GNU/Linux, /dev/disk0, /dev/disk1, etc. and /dev/disk0s1, etc.
+                  GNU/Linux; /dev/disk0, /dev/disk1, etc. and /dev/disk0s1, etc.
                   on macOS)
                 - character devices (e. g. /dev/null)
                 - named pipes (FIFOs)
@@ -242,18 +242,21 @@ DESCRIPTION
             Use the option --scan-all-unix-file-types to scan the Unix specific
             file types during recursively directory traversal.
 \
-            Note that reading entire disks or partitions may require sudo resp.
-            root privileges. You should also unmount block devices first before
-            reading from them, because if you don't unmount those, the device
-            driver of the block device may flag the disk as defect, and even
-            that single bit may lead to an entirely different hash value.
-            Reading copyright protected DVDs may lead to I/O errors. The OS may
-            permit or prohibit reading (and hashing) of particular disks or
-            partitions if those are in use (mounted).
+            Notes:
 \
-            To unmount disks use "umount" on GNU/Linux and "diskutil umount" on
-            macOS. To find disk identifiers enter "lsblk" on GNU/Linux and
-            "diskutil list" on macOS.
+                - Reading entire disks or partitions may require sudo resp.
+                  root privileges!
+                - Reading copyright protected DVDs may lead to I/O errors.
+                - The OS may permit or prohibit reading (and hashing) of
+                  particular disks or partitions if those are in use (mounted).
+                - You should unmount block devices first before reading from
+                  them, because if you don't unmount those, the device driver of
+                  the block device may flag the disk as defect, and even that
+                  single bit may lead to an entirely different hash value.
+                - To unmount disks use "umount" on GNU/Linux and
+                  "diskutil umount" on macOS.
+                - To find disk identifiers enter "lsblk" on GNU/Linux and
+                  "diskutil list" on macOS.
 \
         Microsoft Windows:
             On Microsoft Windows there are additional file types available and
@@ -274,13 +277,19 @@ DESCRIPTION
             Use the option --scan-ntfs-ads to scan for any NTFS Alternate
             Data Streams (ADS) during recursively directory traversal.
 \
-            Note that reading data from disks and partitions may require
-            administrator privileges. Reading copyright protected DVDs may lead
-            to I/O errors. To find PhysicalDrive IDs on Microsoft Windows, enter
-            the PowerShell command Get-PhysicalDisk. To find partition drive
-            letters and access paths, enter the PowerShell commands Get-Volume
-            and Get-Partition or use the "mountvol" command on the Windows
-            Command Prompt.
+            Notes:
+                - Reading data from raw disks and partitions usually require
+                  administrator privileges!
+                - Reading copyright protected DVDs may lead to I/O errors!
+                - To find PhysicalDrive IDs on Microsoft Windows, enter
+                  the PowerShell command Get-PhysicalDisk. To find partition
+                  drive letters and access paths, enter the PowerShell commands
+                  Get-Volume and Get-Partition or use the "mountvol" command on
+                  the Windows Command Prompt.
+                - Microsoft could change the syntax of the access paths without
+                  any notice or even prohibit to access particular raw disks
+                  and/or partitions in update releases or in new versions of
+                  Microsoft Windows.
 \
 \
     Output:
@@ -1012,7 +1021,8 @@ OPTIONS
     --help [language] [word]
             prints the help, valid code for language is en; valid values for
             word are strings like section headers, options or algorithms.
-            See section EXAMPLES for more information.
+            See section EXAMPLES for more information or simply type
+            'jacksum -h examples'
             Available since Jacksum 1.0.0,
             parameter word since Jacksum 1.6.0
 
@@ -1178,10 +1188,11 @@ OPTIONS
 \
            If this option is set during calculation mode, the paths of the
            file objects are printed relative to the <path>. If <path> points
-           to a file, its folder name is used for <path>.
+           to a file rather than to a folder, the folder name of the file is
+           used for <path>.
 \
-           If this option is set during check mode, the paths of the file
-           objects in the check file are simply prepended by <path>.
+           If this option is set during check mode, the path for each file
+           object in the check file is simply prepended by <path>.
            Available since Jacksum 3.2.0, see also -P, --path-absolute,
            and --no-path
 
@@ -6333,7 +6344,7 @@ EXAMPLES
 \
     Working with the help:
         jacksum -h -h
-            prints the help about the -h option
+            prints the help on the -h option
 \
         jacksum -h synopsis
             prints the entire SYNOPSIS section
