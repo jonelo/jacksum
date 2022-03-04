@@ -40,14 +40,14 @@ public class CRC32ubi_Selector extends Selector {
     
     @Override
     public Map<String, String> getAvailableAlgorithms() {
-        Map<String, String> map = new LinkedHashMap<>(1);
+        Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
         map.put(ID, "CRC-32 (UBICRC32/JAMCRC)");
         return map;
     }
     
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(4);
+        Map<String, String> map = new LinkedHashMap<>(6); // ceil(4/0.75)
         map.put("crc-32_ubi", ID);
         map.put("ubicrc32", ID);
         map.put("crc32_jamcrc", ID);

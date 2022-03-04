@@ -40,7 +40,7 @@ public class MarsupilamiFourteen_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         if (map == null) {
-            map = new LinkedHashMap<>(1);
+            map = new LinkedHashMap<>(2); // ceil(1/0.75)
             map.put(ID, "MarsupilamiFourteen (M14)");
         }
         return map;
@@ -48,7 +48,7 @@ public class MarsupilamiFourteen_Selector extends Selector {
     
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(1);
+        Map<String, String> map = new LinkedHashMap<>(3); // ceil(2/0.75)
         map.put("marsupilami14", ID);
         map.put("m14", ID);
         return map;

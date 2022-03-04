@@ -38,14 +38,14 @@ public class CRC64_Selector extends Selector {
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {
-        Map<String, String> map = new LinkedHashMap<>(1);
+        Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
         map.put(ID, "CRC-64 (ISO 3309)");
         return map;
     }
 
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(1);
+        Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
         map.put("crc-64", ID);
         return map;
     }

@@ -36,7 +36,7 @@ public class Haval_Selector extends Selector {
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {
-        Map<String, String> map = new LinkedHashMap<>(15);
+        Map<String, String> map = new LinkedHashMap<>(20); // ceil(15/0.75)
         map.put("haval_128_3", "HAVAL 128 (3 rounds)");
         map.put("haval_128_4", "HAVAL 128 (4 rounds)");
         map.put("haval_128_5", "HAVAL 128 (5 rounds)");
@@ -57,7 +57,7 @@ public class Haval_Selector extends Selector {
 
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(1);
+        Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
         map.put("haval", "haval_128_3");
         return map;
     }

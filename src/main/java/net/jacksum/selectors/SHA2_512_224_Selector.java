@@ -39,14 +39,14 @@ public class SHA2_512_224_Selector extends Selector {
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {
-        Map<String, String> map = new LinkedHashMap<>(1);
+        Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
         map.put(ID, "SHA-512/224 (SHA-2 family)");
         return map;
     }
 
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(1);
+        Map<String, String> map = new LinkedHashMap<>(3); // ceil(2/0.75)
         map.put("sha-512/224", ID);
         map.put("sha512t224", ID);
         return map;

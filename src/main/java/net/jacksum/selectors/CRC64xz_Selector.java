@@ -38,14 +38,14 @@ public class CRC64xz_Selector extends Selector {
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {
-        Map<String, String> map = new LinkedHashMap<>(1);
+        Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
         map.put(ID, "CRC-64 (.xz and prog lang GO, const ECMA)");
         return map;
     }
 
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(1);
+        Map<String, String> map = new LinkedHashMap<>(4); // ceil(3/0.75)
         map.put("crc-64_xz", ID);
         map.put("crc64_go-ecma", ID);
         map.put("crc-64_go-ecma", ID);

@@ -38,14 +38,14 @@ public class Ripemd160_Selector extends Selector {
     
     @Override
     public Map<String, String> getAvailableAlgorithms() {
-        Map<String, String> map = new LinkedHashMap<>(1);
+        Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
         map.put(ID, "RIPEMD-160");
         return map;
     }
     
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(4);
+        Map<String, String> map = new LinkedHashMap<>(6); // ceil(4/0.75)
         map.put("ripemd-160", ID);
         map.put("ripe-md160", ID);
         map.put("rmd160", ID);

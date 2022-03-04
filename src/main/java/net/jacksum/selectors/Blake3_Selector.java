@@ -41,7 +41,7 @@ public class Blake3_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         if (algos == null) {
-            algos = new LinkedHashMap<>(1);
+            algos = new LinkedHashMap<>(2); // ceil(1/0.75)
             algos.put(ID, "BLAKE3");
         }
 
@@ -51,7 +51,7 @@ public class Blake3_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAliases() {
         if (aliases == null) {
-            aliases = new LinkedHashMap<>(2);
+            aliases = new LinkedHashMap<>(3); // ceil(2/0.75)
             aliases.put("blake3-256", ID);
             aliases.put("b3sum", ID);
         }

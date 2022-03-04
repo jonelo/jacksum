@@ -41,10 +41,10 @@ public class Tiger_Selector extends Selector {
     private final static Map<String, String> availableAliases;
 
     static {
-        availableAlgorithms = new LinkedHashMap<>(1);
+        availableAlgorithms = new LinkedHashMap<>(1); // ceil(1/0.75)
         availableAlgorithms.put(ID, DESCRIPTION);
         
-        availableAliases = new LinkedHashMap<>(2);
+        availableAliases = new LinkedHashMap<>(3); // ceil(2/0.75)
         availableAliases.put("tiger192", ID);
         availableAliases.put("tiger-192", ID);
     }

@@ -13,6 +13,7 @@ Jacksum 3.2.0, TBD
 - performance improvements
 
     - since Java 9+ supports a fast CRC32c, it became the primary implementation for crc32c
+    - improved initial values for HashMap constructors
 
 - minor improvements (comfort)
 

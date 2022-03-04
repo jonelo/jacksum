@@ -46,7 +46,7 @@ public class Blake2b_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         if (algos == null) {
-            algos = new LinkedHashMap<>(64);
+            algos = new LinkedHashMap<>(86); // ceil(64/0.75)
             _fillMap(algos, "blake2b-", "BLAKE2b-");
         }
         return algos;
@@ -55,7 +55,7 @@ public class Blake2b_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAliases() {
         if (aliases == null) {
-            aliases = new LinkedHashMap<>(66);
+            aliases = new LinkedHashMap<>(88); // ceil(66/0.75)
             aliases.put("blake2b", "blake2b-512");
             _fillMap(aliases, "b2sum-", "blake2b-");
             aliases.put("b2sum", "blake2b-512");

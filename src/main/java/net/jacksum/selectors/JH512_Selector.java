@@ -38,14 +38,14 @@ public class JH512_Selector extends Selector {
     
     @Override
     public Map<String, String> getAvailableAlgorithms() {
-        Map<String, String> map = new HashMap<>(1);
+        Map<String, String> map = new HashMap<>(2); // ceil(1/0.75)
         map.put(ID, "JH512");
         return map;
     }
     
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new HashMap<>(1);
+        Map<String, String> map = new HashMap<>(2); // ceil(1/0.75)
         map.put("jh-512", ID);
         return map;
     }

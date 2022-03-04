@@ -38,14 +38,14 @@ public class Joaat32_Selector extends Selector {
     
     @Override
     public Map<String, String> getAvailableAlgorithms() {
-        Map<String, String> map = new LinkedHashMap<>(1);
+        Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
         map.put(ID, "Bob Jenkins' One-at-a-Time Hash (joaat)");
         return map;
     }
     
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(2);
+        Map<String, String> map = new LinkedHashMap<>(3); // ceil(2/0.75)
         map.put("joaat32", ID);
         map.put("joaat-32", ID);
         return map;

@@ -36,7 +36,7 @@ public class TTH_Selector extends Selector {
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {
-        Map<String, String> map = new LinkedHashMap<>(2);
+        Map<String, String> map = new LinkedHashMap<>(3); // ceil(2/0.75)
         map.put("tree:tiger", "Tiger Tree Hash (TTH)");
         map.put("tree:tiger2", "Tiger 2 Tree Hash");
         return map;
@@ -44,7 +44,7 @@ public class TTH_Selector extends Selector {
     
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(3);
+        Map<String, String> map = new LinkedHashMap<>(6); // ceil(4/0.75)
         map.put("tree:tiger192", "tree:tiger");
         map.put("tree:tiger-192", "tree:tiger");
         map.put("tth", "tree:tiger");

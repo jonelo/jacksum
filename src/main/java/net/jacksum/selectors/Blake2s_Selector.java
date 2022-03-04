@@ -40,7 +40,7 @@ public class Blake2s_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         if (algos == null) {
-            algos = new LinkedHashMap<>(32);
+            algos = new LinkedHashMap<>(43); // ceil(32/0.75)
             for (int i = 8; i <= 256; i += 8) {
                 algos.put("blake2s-" + i, "BLAKE2s-" + i);
             }
@@ -51,7 +51,7 @@ public class Blake2s_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAliases() {
         if (aliases == null) {
-            aliases = new LinkedHashMap<>(1);
+            aliases = new LinkedHashMap<>(2); // ceil(1/0.75)
             aliases.put("blake2s", "blake2s-256");
         }
         return aliases;

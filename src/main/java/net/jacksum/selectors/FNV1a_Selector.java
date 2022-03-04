@@ -37,7 +37,7 @@ public class FNV1a_Selector extends Selector {
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {
-        Map<String, String> map = new LinkedHashMap<>(6);
+        Map<String, String> map = new LinkedHashMap<>(8); // ceil(6/0.75)
         map.put("fnv-1a_32", "FNV-1a (32 bits)");
         map.put("fnv-1a_64", "FNV-1a (64 bits)");
         map.put("fnv-1a_128", "FNV-1a (128 bits)");

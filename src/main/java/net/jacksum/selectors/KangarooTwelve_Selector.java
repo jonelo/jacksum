@@ -40,7 +40,7 @@ public class KangarooTwelve_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         if (map == null) {
-            map = new LinkedHashMap<>(1);
+            map = new LinkedHashMap<>(2); // ceil(1/0.75)
             map.put(ID, "KangarooTwelve (K12)");
         }
         return map;
@@ -48,7 +48,7 @@ public class KangarooTwelve_Selector extends Selector {
     
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(1);
+        Map<String, String> map = new LinkedHashMap<>(3); // ceil(2/0.75)
         map.put("kangaroo12", ID);
         map.put("k12", ID);
         return map;

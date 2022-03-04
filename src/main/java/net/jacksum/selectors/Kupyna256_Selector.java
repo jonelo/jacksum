@@ -40,7 +40,7 @@ public class Kupyna256_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         if (map == null) {
-            map = new LinkedHashMap<>(1);
+            map = new LinkedHashMap<>(2); // ceil(1/0.75)
             map.put("kupyna-256", "Kupyna-256");
         }
         return map;

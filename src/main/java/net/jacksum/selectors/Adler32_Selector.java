@@ -42,7 +42,7 @@ public class Adler32_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         if (algos == null) {
-            algos = new LinkedHashMap<>(1);
+            algos = new LinkedHashMap<>(2); // ceil(1/0.75)
             algos.put(ID, "Adler-32");
         }
         return algos;
@@ -51,7 +51,7 @@ public class Adler32_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAliases() {
         if (aliases == null) {
-            aliases = new LinkedHashMap<>(2);
+            aliases = new LinkedHashMap<>(3); // ceil(2/0.75)
             aliases.put("adler32", ID);
             aliases.put("adler-32", ID);
         }

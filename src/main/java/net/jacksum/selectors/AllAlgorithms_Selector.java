@@ -47,7 +47,7 @@ public class AllAlgorithms_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         if (algos == null) {
-            algos = new LinkedHashMap<>(1);
+            algos = new LinkedHashMap<>(2); // ceil(1/0.75)
             algos.put(ID_ALL, "All algorithms");
         }
         return algos;

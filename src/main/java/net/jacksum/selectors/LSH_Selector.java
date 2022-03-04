@@ -39,7 +39,7 @@ public class LSH_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         if (map == null) {
-            map = new LinkedHashMap<>(6);
+            map = new LinkedHashMap<>(8); // ceil(6/0.75)
             map.put("lsh-256-224", "LSH-256-224");
             map.put("lsh-256-256", "LSH-256-256");
             map.put("lsh-512-224", "LSH-512-224");
