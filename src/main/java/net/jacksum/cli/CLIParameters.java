@@ -85,10 +85,10 @@ public class CLIParameters {
                 } else if (arg.equals("-A") || arg.equals("--alternative")) {
                     parameters.setAlternateImplementationWanted(true);
 
-                } else if (arg.equals("--path-absolute")) {
+                } else if (arg.equals("--path-absolute") || (arg.equals("--absolute"))) {
                     parameters.setPathAbsolute(true);
 
-                } else if (arg.equals("--path-relative-to")) {
+                } else if (arg.equals("--path-relative-to") || arg.equals("--relative-to")) {
 
                     if (firstfile < args.length) {
                         arg = args[firstfile++];

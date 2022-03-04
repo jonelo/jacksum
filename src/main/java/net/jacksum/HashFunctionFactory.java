@@ -129,7 +129,7 @@ public class HashFunctionFactory {
      * Returns all available algorithms that have a particular width
      *
      * @param width the width in bits that an algorithm must have.
-     * @return a map that ontains two string: the algo ID and a description
+     * @return a map that contains two strings: the algo ID and a description
      */
     public static Map<String, String> getAvailableAlgorithms(int width) {
         Map<String, String> map = getAvailableAlgorithms();

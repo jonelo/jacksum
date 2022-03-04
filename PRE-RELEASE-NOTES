@@ -18,6 +18,8 @@ Jacksum 3.2.0, TBD
 
     - added aliases rg32, rg-32, and rg64, rg-64 for radiogatun (GitHub issue #14)
     - added alias called --style for the option --compat
+    - added alias --absolute for --path-absolute
+    - added alias --relative-to for --path-relative-to
     - improved error handling for the algorithm parameter
 
 - bug fixes
