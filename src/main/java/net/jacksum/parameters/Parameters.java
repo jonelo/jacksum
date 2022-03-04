@@ -752,6 +752,20 @@ public class Parameters implements
             }
         }
 
+        int pathOptions = 0;
+        if (isPathAbsolute()) {
+            pathOptions++;
+        }
+        if (getPathRelativeToAsString() != null) {
+            pathOptions++;
+        }
+        if (isNoPath()) {
+            pathOptions++;
+        }
+        if (pathOptions > 1) {
+            throw new ParameterException("Only one of the following options is allowed: --no-path, --path-absolute, or --path-relative-to");
+        }
+
         try {
             if (timestampFormat != null &&
                     !timestampFormat.equals("default") &&
