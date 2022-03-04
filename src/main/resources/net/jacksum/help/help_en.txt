@@ -1168,6 +1168,7 @@ OPTIONS
 
 
     --path-absolute
+    --absolute
            By default paths are printed relatively if you pass relative paths
            as the program arguments, and paths are printed absolutely if you
            pass absolute paths as the program arguments. If this option is set,
@@ -1177,6 +1178,7 @@ OPTIONS
 
 
     --path-relative-to <path>
+    --relative-to <path>
            By default paths are printed relatively if you pass relative paths
            as the program arguments, and paths are printed absolutely if you
            pass absolute paths as the program arguments.
