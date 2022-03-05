@@ -102,7 +102,7 @@ For more information, see also the [comprehensive list of features](https://gith
 Open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
 
 ```
-java -jar jacksum-3.1.0.jar
+java -jar jacksum-3.2.0.jar
 ```
 
 I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and Unix operating systems (e.g. macOS) and to put the script to a folder that is reachable by your PATH environment variable in order to launch jacksum easily just by typing
@@ -133,7 +133,7 @@ Spread the word, or give a star here on GitHub.
 * Jacksum [Wiki](https://github.com/jonelo/jacksum/wiki)
 * Jacksum [Source Code](https://github.com/jonelo/jacksum) (on GitHub, mavenized with a pom.xml and an IntelliJ .idea config)
   * Start your investigation journey by reading [net.jacksum.cli.Main](https://github.com/jonelo/jacksum/blob/main/src/main/java/net/jacksum/cli/Main.java) and [net.jacksum.JacksumAPI](https://github.com/jonelo/jacksum/blob/main/src/main/java/net/jacksum/JacksumAPI.java)
-  * Download and read the [jacksum-3.1.0-javadoc.jar](https://github.com/jonelo/jacksum/releases/download/v3.1.0/jacksum-3.1.0-javadoc.jar)
+  * Download and read the [jacksum-3.2.0-javadoc.jar](https://github.com/jonelo/jacksum/releases/download/v3.2.0/jacksum-3.2.0-javadoc.jar)
 * [https://jacksum.net](https://jacksum.net)
 
 ## Integration
