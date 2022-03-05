@@ -749,15 +749,16 @@ OPTIONS
     --charset-check-file <charset>
     --check-file-charset <charset>
             Specifies the charset for the file that you can specify with -c.
-            If you don't specify this option, UTF-8 will be used for the
-            check file. See also options --check-file, --check-line
-            and --compat.
-            If you have a file that was created by a redirection on
-            Microsoft 10, Windows PowerShell 5.1, you should set <charset> to
-            UTF-16le for example. The available charsets can be printed out
-            by `jacksum --info`.
+            If you don't specify this option, UTF-8 will be used for the check
+            file. See also options --check-file, --check-line, and --compat.
+            If you have a file that was created by a redirection on Microsoft
+            10, Windows PowerShell 5.1, you should set <charset> to UTF-16le for
+            example. An ordinary OpenJDK 11 implementation usually provides more
+            than 170 different charsets. The available charsets can be printed
+            out by `jacksum --info`.
 \
-            Unicode aware charsets are
+            The Unicode aware charsets are
+\
                 GB18030
                     is a Chinese government standard. If a Byte-Order Mark (BOM)
                     is found it will be ignored, because a BOM in GB18030 is not
@@ -5931,13 +5932,13 @@ OUTPUT FORMAT
             If you specify neither a predefined format (option -C) nor a
             custom format (option -F), the following format is used:
 \
-            <checksum><sep><filesize><sep>[<timestamp><sep>]<filename>
+            <checksum><sep>[<filesize><sep>][<timestamp><sep>]<filename>
 \
             checksum  is a checksum, CRC or a hash; output
                       depends on options -a, -E, -g, -G, -x, and -X
             sep       is a separator; it can be modified by -s,
                       otherwise it is dependent on -a
-            filesize  is the size (bytes or blocks) of a file, it depends
+            filesize  is the size (in bytes or blocks) of a file, it depends
                       on -a, the filesize won't be written by any
                       message digest algorithm
             timestamp is the optional timestamp of a file; timestamps
@@ -6140,7 +6141,7 @@ EXAMPLES
 \
         `echo "5fdebc435ded46ae99136ca875afc6f05bde217be7dd018e1841924f71db46b5 *ubuntu-20.04.3-desktop-amd64.iso"
             | jacksum -a sha256 -C linux --check-file -`
-        checks the SHA256 message digest for the ubuntu iso on GNU/Linux
+        checks the SHA256 message digest for the Ubuntu iso on GNU/Linux
 \
         `echo 5fdebc435ded46ae99136ca875afc6f05bde217be7dd018e1841924f71db46b5 *ubuntu-20.04.3-desktop-amd64.iso|
             jacksum -a sha256 -C linux --check-file -`
