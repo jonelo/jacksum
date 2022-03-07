@@ -1,0 +1,3 @@
+Jacksum 3.2.1, TBD
+
+- fixed: option --path-realtive-to is not taken into account if --compat is set

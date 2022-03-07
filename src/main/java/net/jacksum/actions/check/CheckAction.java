@@ -62,6 +62,10 @@ public class CheckAction implements Action {
             parserProperties = parameters.getCompatibilityProperties();
         }
 
+        if (parameters.getPathRelativeTo() != null) {
+            parserProperties.setPathRelativeTo(parameters.getPathRelativeTo());
+        }
+
         parserProperties.setCheckStrict(parameters.isCheckStrict());
         return parserProperties;
     }
