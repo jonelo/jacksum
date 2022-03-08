@@ -4,7 +4,7 @@ NAME
 
 
 VERSION
-    3.2.0
+    3.2.1
 
 
 SYNOPSIS
@@ -76,11 +76,17 @@ DESCRIPTION
 \
         Note that even if the name of a cryptographic hash function sounds
         strong, it does not necessarily mean that the algorithm is still strong.
-        Also algorithms that started as cryptographic hash function could loose
-        that status if security analysts find weaknesses.
+        Also algorithms that started as strong cryptographic hash function could
+        loose that status if security analysts find weaknesses.
         MD5 for example is still used in many apps, but it is cryptographically
         broken since 2004 and it is deprecated. NIST formally deprecated use of
         SHA-1 in 2011. The advice is to avoid the use of single weak algorithms.
+\
+        The German Federal Office for Information Security (Bundesamt fuer
+        Sicherheit in der Informationstechnik, BSI) recommends the following
+        hash functions: SHA-256, SHA-512/256, SHA-384, SHA-512, SHA3-256,
+        SHA3-384, and SHA3-512. See also BSI TR-02102-1, version 2022-01 as of
+        January 28, 2022.
 \
         Nonetheless Jacksum will continue to support legacy algorithms as well,
         because in real life they are still in use and they are also useful for
