@@ -1,8 +1,10 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/jonelo/jacksum?color=blue)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/jonelo/jacksum?color=blue)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/jonelo/jacksum?color=green)
+![GitHub downloads latest](https://img.shields.io/github/downloads/jonelo/jacksum/v3.2.0/total?color=green)
 ![GitHub](https://img.shields.io/github/license/jonelo/jacksum?color=green)
 ![GitHub top language](https://img.shields.io/github/languages/top/jonelo/jacksum?color=green)
+![GitHub downloads](https://img.shields.io/github/downloads/jonelo/jacksum/total?color=green)
 
 * * *
 
@@ -48,8 +50,9 @@ doors (Solaris only) are supported and can be hashed.
 Solaris style, SFV or FCIV) or in a **user-defined format** which is highly
 customizable, including many encodings for representing hash values:
 Hex (lower- and uppercase), Base16, Base32 (with and without padding),
-Base32hex (with and without padding), Base64, Base64url, BubbleBabble,
-and z-base-32.
+Base32hex (with and without padding), Base64 (with and without padding),
+Base64url (with and without padding), BubbleBabble, and z-base-32.
+Paths can be omitted, printed absolutely or relative to a different path.
 
 Jacksum supports **many charsets** for reading and writing files
 properly, and it comes with full support for all common **Unicode** aware
@@ -127,7 +130,7 @@ Spread the word, or give a star here on GitHub.
 
 ## Documentation
 
-* Jacksum [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) (2002-2021)
+* Jacksum [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) (2002-2022)
 * Jacksum [Features](https://github.com/jonelo/jacksum/wiki/Features)
 * Jacksum [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (with many examples)
 * Jacksum [Wiki](https://github.com/jonelo/jacksum/wiki)
