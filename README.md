@@ -130,7 +130,7 @@ Spread the word, or give a star here on GitHub.
 
 ## Documentation
 
-* Jacksum [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) (2002-2021)
+* Jacksum [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) (2002-2022)
 * Jacksum [Features](https://github.com/jonelo/jacksum/wiki/Features)
 * Jacksum [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (with many examples)
 * Jacksum [Wiki](https://github.com/jonelo/jacksum/wiki)
