@@ -86,7 +86,7 @@ DESCRIPTION
         Sicherheit in der Informationstechnik, BSI) recommends the following
         hash functions: SHA-256, SHA-512/256, SHA-384, SHA-512, SHA3-256,
         SHA3-384, and SHA3-512. See also BSI TR-02102-1, version 2022-01 as of
-        January 28, 2022.
+        January 28, 2022 (https://bit.ly/3pP3OXE)
 \
         Nonetheless Jacksum will continue to support legacy algorithms as well,
         because in real life they are still in use and they are also useful for
@@ -2089,6 +2089,7 @@ ALGORITHMS
                 described by the Rocksoft-Model, because it uses a non-standard
                 update method which won't be fixed due to compatibility reasons.
                 See also https://jacksum.net/downloads/minix-bug-151.txt
+                or https://bit.ly/minix-bug-id-151
 \
             compatibility:
                 - 7z:              -
