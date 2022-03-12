@@ -697,9 +697,9 @@ OPTIONS
                     Windows.
 \
                     The compat file works with any algorithm that is supported
-					by Jacksum, it works even with concatenated algorithms. If
-					you don't specify -a, the algorithm defaults to sha1,
-					because that is the strongest algorithm that FCIV supports.
+                    by Jacksum, it works even with concatenated algorithms. If
+                    you don't specify -a, the algorithm defaults to sha1,
+                    because that is the strongest algorithm that FCIV supports.
 \
 \
                 sfv
