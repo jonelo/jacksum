@@ -717,7 +717,7 @@ OPTIONS
                 solaris-tagged
                     A lightweight plain text file format on Solaris with
                     algorithm info in the file.
-
+\
                     This compatibility file can print and parse the output like
                     that of the tagged call "digest -v -a <algo>" on Solaris.
 \
@@ -729,7 +729,7 @@ OPTIONS
                 solaris-untagged
                     A lightweight plain text file format on Solaris without
                     algorithm info in the file.
-
+\
                     This compatibility file can print and parse the output like
                     that of the untagged call "digest -a <algo>" on Solaris.
 \
