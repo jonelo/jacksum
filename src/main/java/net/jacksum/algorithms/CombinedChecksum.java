@@ -305,6 +305,15 @@ public class CombinedChecksum extends AbstractChecksum {
         return sb.toString();
     }
 
+    /**
+     * Reads the file
+     * @param filename the filename of the file that should be read, if filename
+     * is null, data is read from stdin
+     * @param reset if reset is true, reset() will be called before the
+     * checksum gets updated
+     * @return the number of bytes read
+     * @throws IOException
+     */
     @Override
     public long readFile(String filename, boolean reset) throws IOException {
 
