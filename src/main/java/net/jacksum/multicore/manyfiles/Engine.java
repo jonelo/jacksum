@@ -25,6 +25,8 @@ package net.jacksum.multicore.manyfiles;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+
+import net.jacksum.multicore.ThreadControl;
 import net.jacksum.parameters.combined.ProducerConsumerParameters;
 
 public class Engine {
@@ -38,21 +40,17 @@ public class Engine {
     
     private final ProducerConsumerParameters parameters;
 
-    private final static int MAX_CORES;
-    static {
-        MAX_CORES = Runtime.getRuntime().availableProcessors();
-    }
-    
+
     public Engine(ProducerConsumerParameters parameters, MessageConsumer consumer)
             throws NoSuchAlgorithmException {
         this.parameters = parameters;
-                
+
         AlgorithmPool algoPool = new AlgorithmPool(parameters);
-        inputQueue = new ArrayBlockingQueue<>(1024);
+        inputQueue = new ArrayBlockingQueue<>(4096);
         outputQueue = new ArrayBlockingQueue<>(1024);
                 
         fileProducer = new MessageProducer(parameters, inputQueue, outputQueue);
-        fileConsumer = new MessageWorker(parameters, MAX_CORES, algoPool, inputQueue, outputQueue);
+        fileConsumer = new MessageWorker(parameters, ThreadControl.getThreadsReading(), algoPool, inputQueue, outputQueue);
         //outputConsumer = new MessageConsumerStandard(parameters, outputQueue);
         
         outputConsumer = consumer;

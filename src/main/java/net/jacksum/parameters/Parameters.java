@@ -38,6 +38,7 @@ import net.jacksum.cli.Verbose;
 import net.jacksum.compats.defs.CompatibilityProperties;
 import net.jacksum.compats.defs.InvalidCompatibilityPropertiesException;
 import net.jacksum.formats.Encoding;
+import net.jacksum.multicore.ThreadControl;
 import net.jacksum.multicore.manyfiles.ProducerParameters;
 import net.jacksum.parameters.base.*;
 import net.jacksum.parameters.combined.FormatParameters;
@@ -249,6 +250,9 @@ public class Parameters implements
     private String pathRelativeToAsString = null;
 
     private final Messenger messenger;
+
+    private int threadsHashing = ThreadControl.getThreadsHashing();
+    private int threadsReading = ThreadControl.getThreadsReading();
 
 
     /**
@@ -1117,6 +1121,24 @@ public class Parameters implements
 
     public void setPathRelativeTo(Path pathRelativeTo) {
         this.pathRelativeTo = pathRelativeTo;
+    }
+
+    public int getThreadsHashing() {
+        return threadsHashing;
+    }
+
+    public void setThreadsHashing(int threadsHashing) {
+        this.threadsHashing = threadsHashing;
+        ThreadControl.setThreadsHashing(threadsHashing);
+    }
+
+    public int getThreadsReading() {
+        return threadsReading;
+    }
+
+    public void setThreadsReading(int threadsReading) {
+        this.threadsReading = threadsReading;
+        ThreadControl.setThreadsReading(threadsReading);
     }
 
 

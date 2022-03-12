@@ -41,6 +41,8 @@
  */
 package net.jacksum.multicore.manyalgos;
 
+import net.jacksum.multicore.ThreadControl;
+
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -53,11 +55,12 @@ import java.util.concurrent.*;
  * Hashers based on their weight.
  *
  * @author Federico Tello Gentile
+ * @contributor Johann N. Löfflmann
  */
 public class ConcurrentHasher {
 
     private static final int QUEUE_CAPACITY = 1024;
-    private static final int THREAD_COUNT = Runtime.getRuntime().availableProcessors();
+    private static int THREAD_COUNT = ThreadControl.getThreadsHashing();
     private long totalRead = 0L;
 
     public long getTotalRead() {

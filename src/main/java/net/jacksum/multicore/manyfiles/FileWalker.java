@@ -22,6 +22,7 @@
  */
 package net.jacksum.multicore.manyfiles;
 
+import net.jacksum.multicore.OSControl;
 import org.n16n.sugar.io.NtfsAdsFinder;
 
 import java.nio.file.*;
@@ -50,7 +51,7 @@ public class FileWalker {
     private final Path errorFile;
     private final boolean scanAllUnixFileTypes;
     private final boolean scanNtfsAds;
-    private final static boolean onWindows = System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows");
+    private final static boolean onWindows = OSControl.isWindows();
 
     public FileWalker(Message.Type messageTypeForFiles, ProducerParameters producerParameters,
                       Path path,

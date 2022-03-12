@@ -25,6 +25,7 @@ package net.jacksum.cli;
 import net.jacksum.actions.help.Help;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
+import net.jacksum.multicore.ThreadControl;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
 import org.n16n.sugar.io.GeneralIO;
@@ -344,6 +345,46 @@ public class CLIParameters {
                         parameters.setSeparator(org.n16n.sugar.util.GeneralString.translateEscapeSequences(args[firstfile++]));
                     } else {
                         handleUserParamError(arg, "--separator");
+                    }
+
+                } else if (arg.equals("--threads-hashing")) {
+                    if (firstfile < args.length) {
+                        arg = args[firstfile++];
+                        if (arg.equals("max")) {
+                            parameters.setThreadsHashing(ThreadControl.getThreadsMax());
+                        } else {
+                            try {
+                                int value = Integer.parseInt(arg);
+                                if (value < 1) {
+                                    throw new ParameterException("threads value has to be > 0.");
+                                }
+                                parameters.setThreadsHashing(value);
+                            } catch (NumberFormatException nfe) {
+                                throw new ParameterException(nfe.getMessage());
+                            }
+                        }
+                    } else {
+                        handleUserParamError(arg, "--threads-hashing");
+                    }
+
+                } else if (arg.equals("--threads-reading")) {
+                    if (firstfile < args.length) {
+                        arg = args[firstfile++];
+                        if (arg.equals("max")) {
+                            parameters.setThreadsReading(ThreadControl.getThreadsMax());
+                        } else {
+                            try {
+                                int value = Integer.parseInt(arg);
+                                if (value < 1) {
+                                    throw new ParameterException("threads value has to be > 0.");
+                                }
+                                parameters.setThreadsReading(value);
+                            } catch (NumberFormatException nfe) {
+                                throw new ParameterException(nfe.getMessage());
+                            }
+                        }
+                    } else {
+                        handleUserParamError(arg, "--threads-reading");
                     }
 
                 } else if (arg.equals("-t") || arg.equals("--timestamp")) {

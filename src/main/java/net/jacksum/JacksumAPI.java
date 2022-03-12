@@ -31,7 +31,7 @@ import net.jacksum.parameters.base.AlgorithmParameters;
 /**
  * This is the Main Application Program Interface (API). Use this API to get an
  * instance of an algorithm and to determine both the available algorithms and
- * available encodings for the hash functions.
+ * the available encodings to represent hash values.
  */
 public class JacksumAPI {
 
@@ -49,7 +49,7 @@ public class JacksumAPI {
     /**
      * The version of the API
      */
-    public final static String VERSION = "3.2.1";
+    public final static String VERSION = "3.3.0";
     /**
      * The URI of the program
      */

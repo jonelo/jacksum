@@ -4,7 +4,7 @@ NAME
 
 
 VERSION
-    3.2.1
+    3.3.0
 
 
 SYNOPSIS
@@ -1384,6 +1384,54 @@ OPTIONS
             If the default parser isn't able to parse the output you still
             could write your own compatibility file, see also -C.
             Available since Jacksum 1.0.0, see also -F
+
+
+    --threads-hashing <threads>
+            if multiple algorithms have been selected for calculation or
+            verification, the value of <threads> sets the maximum number
+            of parallel hashing threads. Each working thread can calculate
+            one hash value using a particular algorithm.
+            You can select more algorithms for parallelism than <threads> are
+            available.
+            The LPT-Algorithm (Longest Processing Time) is used which means
+            that the slowest algorithm selected determines the minimum
+            computation time.
+            By default, if this option is omitted, or if <threads> is set to
+            the value "max", <threads> is set to the number of available
+            processors. You can set <threads> above the value of max, but you
+            won't get better performance, because you can only use the computing
+            power that is physically available.
+
+
+    --threads-reading <threads>
+            sets the number of parallel working reading threads. That means how
+            many threads are allowed to read files from the file system at the
+            same time.
+\
+            By default, if this option is omitted, <threads> is set to 1, except
+            on macOS where <threads> is set to "max". If <threads> is set to 1,
+            the output is produced in a predictable order. If <threads> is set
+            to a value greater than 1, the output is produced in an
+            unpredictable order, because the actual load on the system can
+            affect the speed of each thread. If <threads> is set to the value
+            "max", <threads> is set to the number of available processors.
+\
+            Recommendations:
+\
+                - Set <threads> to a large value or even to max if you want to
+                  read/hash files from solid-state drives (SSD), because those
+                  drives have no physical moving parts, they are fast, and they
+                  benefit from multiple readers. You could set <threads> greater
+                  than "max", but usually you won't get better reading
+                  performance in this case.
+\
+                - Set <threads> to 1 if you want to read/hash files from HDDs,
+                  CD-ROMs, DVDs, or external connected drives, because those
+                  drives don't benefit from multiple readers. Actually the
+                  opposite is the the case. A larger value for <threads> can
+                  decrease the read performance dramatically in those cases.
+                  Set <threads> to 1 if if you want the output in a predictable
+                  order.
 
 
     -t <format>

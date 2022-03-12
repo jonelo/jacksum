@@ -33,6 +33,7 @@ import java.util.Locale;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 
+import net.jacksum.multicore.OSControl;
 import net.jacksum.multicore.manyfiles.Message.Type;
 import org.n16n.sugar.io.NtfsAdsFinder;
 
@@ -42,7 +43,7 @@ public class MessageProducer implements Runnable {
     private final BlockingQueue<Message> outputQueue;
     private final ProducerParameters producerParameters;
     private final List<String> allFiles;
-    private final static boolean onWindows = System.getProperty("os.name").toLowerCase(Locale.US).startsWith("windows");
+    private final static boolean onWindows = OSControl.isWindows();
 
     public MessageProducer(
             ProducerParameters producerParameters,
