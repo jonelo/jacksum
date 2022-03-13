@@ -396,8 +396,8 @@ OPTIONS
 \
     The following options are supported:
 #OPTIONS-BEGIN
-    -a <algo> | all[:<width>|:<string>] | crc:<crc> | unknown:<width> 
-    --algorithm <algo> | all[:<width>|:<string>] | crc:<crc> | unknown:<width>
+    -a <algo>[+<algo>]... | all[:<width:string>] | crc:<crc> | unknown:<width>
+    --algorithm <algo>[+<algo>]... | all[:<width|string>] | crc:<crc> | unknown:<width>
             Specifies the algorithm. Many algorithms support aliases in order
             to memorize their id more easily. Since Jacksum 1.0.0, see also -A.
             Starting with Jacksum 3, the default is sha3-256.
