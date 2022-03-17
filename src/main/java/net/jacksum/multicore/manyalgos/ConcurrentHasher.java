@@ -55,7 +55,7 @@ import java.util.concurrent.*;
  * Hashers based on their weight.
  *
  * @author Federico Tello Gentile
- * @contributor Johann N. Löfflmann
+ * contributor Johann N. Löfflmann
  */
 public class ConcurrentHasher {
 

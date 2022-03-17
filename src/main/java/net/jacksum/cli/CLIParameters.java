@@ -341,7 +341,7 @@ public class CLIParameters {
 
                 } else if (arg.equals("-s") || arg.equals("--separator")) {
                     if (firstfile < args.length) {
-                        parameters.setSeparator(org.n16n.sugar.util.GeneralString.translateEscapeSequences(args[firstfile++]));
+                        parameters.setSeparator(args[firstfile++]);
                     } else {
                         handleUserParamError(arg, "--separator");
                     }

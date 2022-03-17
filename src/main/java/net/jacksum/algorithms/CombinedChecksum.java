@@ -312,7 +312,7 @@ public class CombinedChecksum extends AbstractChecksum {
      * @param reset if reset is true, reset() will be called before the
      * checksum gets updated
      * @return the number of bytes read
-     * @throws IOException
+     * @throws IOException if an I/O exception occurs during reading
      */
     @Override
     public long readFile(String filename, boolean reset) throws IOException {

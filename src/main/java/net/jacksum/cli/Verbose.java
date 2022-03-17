@@ -22,6 +22,11 @@
  */
 package net.jacksum.cli;
 
+import org.n16n.sugar.util.Transformer;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class stores the verbose states. It controls the output of Warnings and
  * Details and wheather a statistics is printed.
@@ -47,7 +52,7 @@ public class Verbose {
     public void setDefault() {
         info = false;
         warnings = true;
-        setErrors(true);
+        errors = true;
         summary = false;
     }
 
@@ -58,14 +63,14 @@ public class Verbose {
     public void enableAll() {
         info = true;
         warnings = true;
-        setErrors(true);
+        errors = true;
         summary = true;
     }
 
     public void disableAll() {
         info = false;
         warnings = false;
-        setErrors(false);
+        errors = false;
         summary = false;
     }
 
@@ -143,6 +148,44 @@ public class Verbose {
      */
     public boolean isSummary() {
         return summary;
+    }
+
+    public boolean isDefault() {
+        return !info && warnings && errors && !summary;
+    }
+
+    public String toString() {
+        List<String> list = new ArrayList<>();
+        if (!info && warnings && errors && !summary) {
+            return "default";
+        }
+        if (info && warnings && errors && summary) {
+            return "all";
+        }
+        if (!info && !warnings && !errors && !summary) {
+            return "none";
+        }
+        if (info) {
+            list.add("info");
+        } else {
+            list.add("noinfo");
+        }
+        if (warnings) {
+            list.add("warnings");
+        } else {
+            list.add("nowarnings");
+        }
+        if (errors) {
+            list.add("errors");
+        } else {
+            list.add("noerrors");
+        }
+        if (summary) {
+            list.add("summary");
+        } else {
+            list.add("nosummary");
+        }
+        return Transformer.list2CsvString(list);
     }
 
     public void setVerbose(String arg) throws IllegalArgumentException {

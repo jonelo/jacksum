@@ -27,5 +27,5 @@ public interface SequenceParameters {
 
     boolean isSequence();
 
-    byte[] getSequence();
+    byte[] getSequenceAsBytes();
 }

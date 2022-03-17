@@ -52,7 +52,7 @@ public class QuickAction implements Action {
         }
 
         AbstractChecksum checksum = Actions.getChecksumInstance(parameters);
-        checksum.update(parameters.getSequence());
+        checksum.update(parameters.getSequenceAsBytes());
         statisticsQuick.addBytes(checksum.getLength());
 
         int exitCode;

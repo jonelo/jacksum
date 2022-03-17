@@ -64,7 +64,7 @@ public class FindDocumentedAlgorithms implements FindAlgoEngine {
                 throw new ParameterException("Error: No such algorithm: " + entry.getKey());
             }
             checksum.setParameters(parameters);
-            checksum.update(parameters.getSequence());
+            checksum.update(parameters.getSequenceAsBytes());
 
             CompareAndFindAlgo action = new CompareAndFindAlgo(checksum, parameters);
             action.perform();

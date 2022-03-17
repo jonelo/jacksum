@@ -20,6 +20,11 @@
  */
 package net.jacksum.actions.check;
 
+import org.n16n.sugar.util.Transformer;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Johann N. Loefflmann
@@ -105,9 +110,43 @@ public class ListFilter {
         this.filterMissing = filterMissing;
     }
     
-    
+    public String toString() {
+        if (filterOk && filterFailed && filterNew && filterMissing) {
+            return "all";
+        }
+        if (!filterOk && !filterFailed && !filterNew && !filterMissing) {
+            return "none";
+        }
+        if (filterFailed && filterMissing && !filterOk && !filterNew) {
+            return "bad";
+        }
+        if (!filterFailed && !filterMissing && filterOk && filterNew) {
+            return "good";
+        }
+        List<String> list = new ArrayList<>();
+        if (filterOk) {
+            list.add("ok");
+        }
+        if (filterFailed) {
+            list.add("failed");
+        }
+        if (filterNew) {
+            list.add("new");
+        }
+        if (filterMissing) {
+            list.add("missing");
+        }
+        return Transformer.list2CsvString(list);
+    }
+
+    private boolean filterHasBeenSet = false;
+
+    public boolean isFilterHasBeenSet() {
+        return filterHasBeenSet;
+    }
 
     public void setFilter(String arg) throws IllegalArgumentException {
+        filterHasBeenSet = true;
         enableAll(false);
         String[] tokens = arg.split(",");
         for (String token : tokens) {

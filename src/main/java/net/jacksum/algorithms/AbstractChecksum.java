@@ -78,7 +78,7 @@ abstract public class AbstractChecksum implements Checksum {
 //        this.checksumParameters = parameters;
         formatPreferences.overwritePreferences(parameters);
         formatter = new Formatter(formatPreferences);
-        this.sequence = parameters.getSequence();
+        this.sequence = parameters.getSequenceAsBytes();
     }
 
     public FormatPreferences getFormatPreferences() {

@@ -62,10 +62,11 @@ public class Header {
 
         // invoked by
         printLine("created by",
-                String.format("%s %s (%s)",
+                String.format("%s (%s, version: %s)",
                 JacksumAPI.getName(),
-                JacksumAPI.getVersionString(),
-                JacksumAPI.getURI()));
+                JacksumAPI.getURI(),
+                JacksumAPI.getVersionString()
+                ));
 
         // invoked on JVM
         printLine("invoked on JVM",

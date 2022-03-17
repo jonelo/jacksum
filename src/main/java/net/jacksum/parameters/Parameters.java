@@ -108,9 +108,18 @@ public class Parameters implements
         return cliParameters;
     }
 
+    private boolean parameterModifiedByAPI = false;
+    public void setParameterModifiedByAPI(boolean parameterModifiedByAPI) {
+        this.parameterModifiedByAPI = parameterModifiedByAPI;
+    }
+
     public String[] getCLIParametersWithQuotes() {
         List<String> list = new ArrayList<>();
-        for (String param : cliParameters) {
+        // if the parameter object has been modified by the API (e.g. by an GUI),
+        // the original args passed to the app aren't valid anymore, we need to
+        // build the args by the values of the current parameter object values.
+        String[] source = parameterModifiedByAPI ? this.toStringArrayList().toArray(new String[0]) : cliParameters;
+        for (String param : source) {
             if (param.contains(" ")) {
                 list.add(String.format("\"%s\"", param));
             } else {
@@ -135,9 +144,7 @@ public class Parameters implements
     private String checkLine = null;
     // --check-strict
     private boolean checkStrict = false;
-    // keeps all the filenames that have been specified by -c
-    private List<String> filenamesFromCheckFile = null;
-    // -C <compatibility>    
+    // -C <compatibility>
     private String compatibilityID = null;
     private CompatibilityProperties compatibilityProperties = null;
 
@@ -201,7 +208,8 @@ public class Parameters implements
     // -P
     private Character pathChar = File.separatorChar;
     // -q
-    private byte[] sequence = null;
+    private String sequenceAsString = null;
+    private byte[] sequenceAsBytes = null;
     // -r
     private boolean recursive = false;
     // -r <depth>
@@ -242,10 +250,13 @@ public class Parameters implements
     // keeps all the filenames that have been specified at the command line
     private final List<String> filenamesFromArgs;
 
+    // --no-path
     private boolean noPath = false;
 
+    // --path-absolute
     private boolean pathAbsolute = false;
 
+    // --path-realtive-to
     private Path pathRelativeTo = null;
     private String pathRelativeToAsString = null;
 
@@ -253,6 +264,12 @@ public class Parameters implements
 
     private int threadsHashing = ThreadControl.getThreadsHashing();
     private int threadsReading = ThreadControl.getThreadsReading();
+
+
+    // implicit parameters
+
+    // keeps all the filenames that have been specified by -c
+    private List<String> filenamesFromCheckFile = null;
 
 
     /**
@@ -375,8 +392,15 @@ public class Parameters implements
         return separator;
     }
 
+    private String separatorRaw = null;
+
+    private String getSeparatorRaw() {
+        return separatorRaw;
+    }
+
     public void setSeparator(String separator) {
-        this.separator = separator;
+        this.separatorRaw = separator;
+        this.separator = org.n16n.sugar.util.GeneralString.translateEscapeSequences(separator);
     }
 
     @Override
@@ -437,33 +461,42 @@ public class Parameters implements
 
     // -q
     @Override
-    public byte[] getSequence() {
-        return sequence;
+    public byte[] getSequenceAsBytes() {
+        return sequenceAsBytes;
     }
 
-    @Override
     public boolean isSequence() {
-        return sequence != null;
+        return sequenceAsBytes != null;
+    }
+
+    public String getSequenceAsString() {
+        return sequenceAsString;
+    }
+
+    // deprecated, use getSequenceAsBytes()
+    public byte[] getSequence() {
+        return getSequenceAsBytes();
     }
 
     // -q
     public void setSequence(String sequence) throws IllegalArgumentException {
+        this.sequenceAsString = sequence;
         String indicator = sequence.toLowerCase();
 
         if (indicator.startsWith("txt:")) {
-            this.sequence = sequence2bytes(SequenceType.TXT, sequence.substring(4));
+            this.sequenceAsBytes = sequence2bytes(SequenceType.TXT, sequence.substring(4));
         } else if (indicator.startsWith("txtf:")) {
-            this.sequence = sequence2bytes(SequenceType.TXTF, sequence.substring(5));
+            this.sequenceAsBytes = sequence2bytes(SequenceType.TXTF, sequence.substring(5));
         } else if (indicator.startsWith("dec:")) {
-            this.sequence = sequence2bytes(SequenceType.DEC, sequence.substring(4));
+            this.sequenceAsBytes = sequence2bytes(SequenceType.DEC, sequence.substring(4));
         } else if (indicator.startsWith("hex:")) {
-            this.sequence = sequence2bytes(SequenceType.HEX, sequence.substring(4));
+            this.sequenceAsBytes = sequence2bytes(SequenceType.HEX, sequence.substring(4));
         } else if (indicator.startsWith("bin:")) {
-            this.sequence = sequence2bytes(SequenceType.BIN, sequence.substring(4));
+            this.sequenceAsBytes = sequence2bytes(SequenceType.BIN, sequence.substring(4));
         } else if (indicator.startsWith("file:")) {
-            this.sequence = sequence2bytes(SequenceType.FILE, sequence.substring(5));
+            this.sequenceAsBytes = sequence2bytes(SequenceType.FILE, sequence.substring(5));
         } else {
-            this.sequence = sequence2bytes(SequenceType.HEX, sequence);
+            this.sequenceAsBytes = sequence2bytes(SequenceType.HEX, sequence);
         }
     }
 
@@ -734,7 +767,7 @@ public class Parameters implements
         }
 
         if (findAlgorithm) {
-            if (sequence == null) {
+            if (sequenceAsBytes == null) {
                 throw new ParameterException("Option -a unknown:<width> requires option -q");
             }
             if (expected == null) {
@@ -802,7 +835,7 @@ public class Parameters implements
         if (!isHelp()
                 && !isLicenseWanted()
                 && !isCopyrightWanted()
-                && sequence == null
+                && sequenceAsBytes == null
                 && getFilenamesFromArgs().isEmpty()
                 && getFilenamesFromFilelist().isEmpty()
                 && checkFile == null
@@ -926,7 +959,7 @@ public class Parameters implements
         }
 
         // both timestamp and sequence have been specified
-        if (timestampFormat != null && sequence != null) {
+        if (timestampFormat != null && sequenceAsBytes != null) {
             messenger.print(WARNING, "A sequence (-q) has been specified, timestamp (-t) will be ignored.");
         }
 
@@ -969,8 +1002,11 @@ public class Parameters implements
         return (helpLanguage != null);
     }
 
-    public void setLanguage(String helpLanguage) {
-        this.setHelpLanguage(helpLanguage);
+    /**
+     * @param helpLanguage the language of the help
+     */
+    public void setHelpLanguage(String helpLanguage) {
+        this.helpLanguage = helpLanguage;
     }
 
     @Override
@@ -1307,36 +1343,6 @@ public class Parameters implements
         this.charsetStderr = charsetStderr;
     }
 
-/*    
-    
-    @Override
-    public String toString() {
-        List<String> list = new ArrayList<>();
-        if (algorithm != null) {
-            list.add("--algorithm");
-            list.add(algorithm);
-        }
-        if (alternate) {
-            list.add("--alternative");
-        }
-        // TODO : add all other parameters
-
-        StringBuilder sb = new StringBuilder();
-        for (String entry : list) {
-            sb.append(entry);
-            sb.append(" ");
-        }
-        return sb.toString().trim();
-    }
-    
-  */
-
-    /**
-     * @param helpLanguage the helpLanguage to set
-     */
-    public void setHelpLanguage(String helpLanguage) {
-        this.helpLanguage = helpLanguage;
-    }
 
     /**
      * @return the versionWanted
@@ -1564,6 +1570,222 @@ public class Parameters implements
 
     public void setCopyrightWanted(boolean copyrightWanted) {
         this.copyrightWanted = copyrightWanted;
+    }
+
+    public List<String> toStringArrayList() {
+        List<String> list = new ArrayList<>();
+        if (algorithm != null) {
+            list.add("-a");
+            list.add(algorithm);
+        }
+        if (alternate) {
+            list.add("--alternative");
+        }
+        if (utf8) {
+            list.add("--utf8");
+        }
+        if (checkStrict) {
+            list.add("--check-strict");
+        }
+        if (copyrightWanted) {
+            list.add("--copyright");
+        }
+        if (licenseWanted) {
+            list.add("--license");
+        }
+        if (headerWanted) {
+            list.add("--header");
+        }
+        if (checkFile != null) {
+            list.add("-c");
+            list.add(checkFile);
+        }
+        if (checkLine != null) {
+            list.add("--check-line");
+            list.add(checkLine);
+        }
+        if (checkStrict) {
+            list.add("--check-strict");
+        }
+        if (compatibilityID != null) {
+            list.add("--style");
+        }
+        if (bom) {
+            list.add("--bom");
+        }
+        if (dontFollowSymlinksToDirectories) {
+            list.add("-d");
+        }
+        if (dontFollowSymlinksToFiles) {
+            list.add("-f");
+        }
+        if (expected != null) {
+            list.add("-e");
+            list.add(expected);
+        }
+        if (encoding != null) {
+            list.add("-E");
+            list.add(Encoding.encoding2String(encoding));
+        }
+        if (format != null) {
+            list.add("-F");
+            list.add(format);
+        }
+        if (isGroupingSet()) {
+            list.add("-g");
+            list.add(String.valueOf(getGrouping()));
+        }
+        if (isGroupCharSet()) {
+            list.add("-G");
+            list.add(String.valueOf(getGroupChar()));
+        }
+        if (isHelp()) {
+            list.add("-h");
+            if (isHelpLanguage()) {
+                list.add(getHelpLanguage());
+                if (isHelpSearchString()) {
+                    list.add(getHelpSearchString());
+                }
+            } else {
+                if (isHelpSearchString()) {
+                    list.add(getHelpSearchString());
+                }
+            }
+        }
+        if (isInfoMode()) {
+            list.add("--info");
+        }
+        if (getCommentChars() != null) {
+            list.add("-I");
+            list.add(getCommentChars());
+        }
+        if (isList()) {
+            list.add("-l");
+        }
+        if (listFilter.isFilterHasBeenSet()) {
+            list.add("--list-filter");
+            list.add(listFilter.toString());
+        }
+        if (stdinName.equals("-")) {
+            list.add("--legacy-stdin-name");
+        }
+        if (filelistFilename != null) {
+            list.add("--file-list");
+            list.add(filelistFilename);
+        }
+        if (filelistFormat != null) {
+            list.add("--file-list-format");
+            list.add(filelistFormat);
+        }
+        if (pathAbsolute) {
+            list.add("--path-absolute");
+        }
+        if (pathRelativeToAsString != null) {
+            list.add("--path-relative-to");
+            list.add(pathRelativeToAsString);
+        }
+        if (noPath) {
+            list.add("--no-path");
+        }
+        if (outputFile != null) {
+            if (outputFileOverwrite) {
+                list.add("--output-file-overwrite");
+            } else {
+                list.add("--output-file");
+            }
+            list.add(outputFile);
+        }
+        if (errorFile != null) {
+            if (errorFileOverwrite) {
+                list.add("--error-file-overwrite");
+            } else {
+                list.add("--error-file");
+            }
+            list.add(errorFile);
+        }
+        if (isPathCharSet()) {
+            list.add("-P");
+            list.add(String.valueOf(getPathChar()));
+        }
+        if (isSequence()) {
+            list.add("-q");
+            list.add(getSequenceAsString());
+        }
+        if (isRecursive()) {
+            list.add("-r");
+            if (getDepth() == Integer.MAX_VALUE) {
+                list.add("max");
+            } else {
+                list.add(String.valueOf(getDepth()));
+            }
+        }
+        if (scanAllUnixFileTypes) {
+            list.add("--scan-all-unix-file-types");
+        }
+        if (scanNtfsAds) {
+            list.add("--scan-ntfs-ads");
+        }
+        if (isSeparatorSet()) {
+            list.add("-s");
+            list.add(getSeparatorRaw());
+        }
+        if (getThreadsHashing() != ThreadControl.getThreadsMax()) {
+            list.add("--threads-hashing");
+            list.add(String.valueOf(getThreadsHashing()));
+        }
+        if (getThreadsReading() > 1) {
+            list.add("--threads-reading");
+            list.add(String.valueOf(getThreadsReading()));
+        }
+        if (isTimestampWanted()) {
+            list.add("-t");
+            list.add(getTimestampFormat());
+        }
+        if (isVersionWanted()) {
+            list.add("-v");
+        }
+        if (!verbose.isDefault()) {
+            list.add("--verbose");
+            list.add(verbose.toString());
+        }
+        if (!charsetFileList.equals("UTF-8")) {
+            list.add("--charset-file-list");
+            list.add(charsetFileList);
+        }
+        if (!charsetCheckFile.equals("UTF-8")) {
+            list.add("--charset-check-file");
+            list.add(charsetCheckFile);
+        }
+        if (!charsetErrorFile.equals("UTF-8")) {
+            list.add("--charset-error-file");
+            list.add(charsetErrorFile);
+        }
+        if (!charsetOutputFile.equals("UTF-8")) {
+            list.add("--charset-output-file");
+            list.add(charsetOutputFile);
+        }
+        if (charsetStdout != null) {
+            list.add("--charset-stdout");
+            list.add(charsetStdout);
+        }
+        if (charsetStderr != null) {
+            list.add("--charset-stderr");
+            list.add(charsetStderr);
+        }
+
+        if (stdin) {
+            list.add("-");
+        }
+
+        List<String> filenames = getFilenamesFromArgs();
+        if (filenames.size() > 0 && filenames.get(0).startsWith("-")) {
+            list.add("--");
+        }
+        for (String filename : filenames) {
+            list.add(filename);
+        }
+
+        return list;
     }
 
 }

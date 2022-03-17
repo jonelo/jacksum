@@ -15,3 +15,6 @@ Jacksum 3.3.0, TBD
 
     - fixed: option --path-relative-to is not taken into account if --compat has been set
     - fixed: wrong help section is printed out in case of user errors with --file-list-format
+    - fixed: if Jacksum is being called by an API, the invocation args are printed
+      from the actual parameter object values, and not from the CLI parameters
+
