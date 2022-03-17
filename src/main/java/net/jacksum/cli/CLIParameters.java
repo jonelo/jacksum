@@ -251,7 +251,6 @@ public class CLIParameters {
                     AbstractChecksum.setStdinName("-");
 
                 } else if (arg.equals("-L") || arg.equals("--file-list")) {
-
                     if (firstfile < args.length) {
                         parameters.setFilelistFilename(args[firstfile++]);
                     } else {
@@ -419,14 +418,6 @@ public class CLIParameters {
                     parameters.setVersionWanted(true);
                     parameters.getVerbose().setInfo(false); // no details if we don't want details explicitly
 
-                    /*
-                } else if (arg.equals("--verbose-all")) {
-                    verbose.enableAll();
-                    // it is valid to have just -V as the only parameter
-                    if (args.length == 1) {
-                        version = true;
-                    }
-                     */
                 } else if (arg.equals("-V") || arg.equals("--verbose")) {
                     if (firstfile < args.length) {
                         verboseControl = args[firstfile++];
@@ -506,7 +497,7 @@ public class CLIParameters {
 
             // processing arguments file list            
             for (int i = firstfile; i < args.length; i++) {
-                if (args[i].equals("-") && !dashdash) { // the dash could come even between normal filenames
+                if (args[i].equals("-") && !dashdash) { // the dash (stdin) could come even between normal filenames
                     parameters.setStdinForFilenamesFromArgs(true);
                 } else {
                     parameters.getFilenamesFromArgs().add(args[i]);
