@@ -1408,13 +1408,13 @@ OPTIONS
             many threads are allowed to read files from the file system at the
             same time.
 \
-            By default, if this option is omitted, <threads> is set to 1, except
-            on macOS where <threads> is set to "max". If <threads> is set to 1,
-            the output is produced in a predictable order. If <threads> is set
-            to a value greater than 1, the output is produced in an
-            unpredictable order, because the actual load on the system can
-            affect the speed of each thread. If <threads> is set to the value
-            "max", <threads> is set to the number of available processors.
+            By default, if this option is omitted, <threads> is set to 1. If
+            <threads> is set to 1, the output is produced in a predictable
+            order. If <threads> is set to a value greater than 1, the output is
+            produced in an unpredictable order, because the actual load on the
+            system can affect the speed of each thread. If <threads> is set to
+            the value "max", <threads> is set to the number of available
+            processors.
 \
             Recommendations:
 \

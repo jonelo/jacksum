@@ -23,7 +23,7 @@ package net.jacksum.multicore;
 public class ThreadControl {
     private static final int THREADS_MAX = Runtime.getRuntime().availableProcessors();
     private static int threadsHashing = THREADS_MAX;
-    private static int threadsReading = OSControl.isMacOS() ? THREADS_MAX : 1;
+    private static int threadsReading = 1; // OSControl.isMacOS() ? THREADS_MAX : 1;
 
     public static int getThreadsMax() {
         return THREADS_MAX;

@@ -9,8 +9,7 @@ Jacksum 3.3.0, TBD
 
 - performance:
 
-    - by default the option --threads-reading is set to 1, except on macOS,
-      where the value is set to "max" (since modern Macs do all have SSDs)
+    - by default the option --threads-reading is set to 1
 
 - bug fixes:
 
