@@ -14,3 +14,4 @@ Jacksum 3.3.0, TBD
 - bug fixes:
 
     - fixed: option --path-relative-to is not taken into account if --compat has been set
+    - fixed: wrong help section is printed out in case of user errors with --file-list-format

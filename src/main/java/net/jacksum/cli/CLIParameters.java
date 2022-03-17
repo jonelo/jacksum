@@ -259,11 +259,10 @@ public class CLIParameters {
                     }
 
                 } else if (arg.equals("--file-list-format")) {
-
                     if (firstfile < args.length) {
                         parameters.setFilelistFormat(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--file-list");
+                        handleUserParamError(arg, "--file-list-format");
                     }
 
                 } else if (arg.equals("--no-path")) {
