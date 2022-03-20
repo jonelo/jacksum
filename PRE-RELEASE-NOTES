@@ -11,16 +11,17 @@ Jacksum 3.3.0, TBD
 
 - performance:
 
-    - by default the option --threads-reading is set to 1
+    - the option --threads-reading is set to 1 by default to avoid performance degration
+      for hashing files stored on non-SSD-media such as HDDs or CD-ROMs
 
 - bug fixes:
 
     - fixed: option --path-relative-to is not taken into account if --compat has been set
-    - fixed: wrong help section is printed out in case of user errors with --file-list-format
-    - fixed: if Jacksum is being called by an API, the invocation args should be printed
-      from the actual parameter object values, and not from the CLI parameters
     - fixed: if a path cannot be relativized by --path-relative-to it should not print
       stacktrace, but simply return the unrelativized path (e.g. if both paths have a different roots
       on Microsoft Windows).
     - fixed: normalize paths if --path-relative-to is set to avoid false positives during verification
+    - fixed: if Jacksum is being called by an API, the invocation args should be printed
+      from the actual parameter object values, and not from the CLI parameters
+    - fixed: wrong help section is printed out in case of user errors with --file-list-format
 
