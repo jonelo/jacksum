@@ -43,6 +43,12 @@ public class CLIParameters {
 
     String[] args;
 
+    public static final String LONG_OPTION__ALGORITHM = "--algorithm";
+    public static final String SHORT_OPTION__ALGORITHM = "-a";
+    public static final String LONG_OPTION__ALTERNATIVE = "--alternative";
+    public static final String SHORT_OPTION__ALTERNATIVE = "-A";
+
+
     public CLIParameters(String[] args) {
         this.args = args;
     }
@@ -76,16 +82,19 @@ public class CLIParameters {
             while (firstfile < args.length && args[firstfile].startsWith("-") && !dashdash) {
                 arg = args[firstfile++];
 
-                if (arg.equals("-a") || arg.equals("--algorithm")) {
+                // --algorithm
+                if (arg.equals(SHORT_OPTION__ALGORITHM) || arg.equals(LONG_OPTION__ALGORITHM)) {
                     if (firstfile < args.length) {
                         parameters.setAlgorithm(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--algorithm");
+                        handleUserParamError(arg, LONG_OPTION__ALGORITHM);
                     }
 
-                } else if (arg.equals("-A") || arg.equals("--alternative")) {
+                // --alternative
+                } else if (arg.equals(SHORT_OPTION__ALTERNATIVE) || arg.equals(LONG_OPTION__ALTERNATIVE)) {
                     parameters.setAlternateImplementationWanted(true);
 
+                // --absolute
                 } else if (arg.equals("--path-absolute") || (arg.equals("--absolute"))) {
                     parameters.setPathAbsolute(true);
 
