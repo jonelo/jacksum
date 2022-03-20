@@ -22,4 +22,5 @@ Jacksum 3.3.0, TBD
     - fixed: if a path cannot be relativized by --path-relative-to it should not print
       stacktrace, but simply return the unrelativized path (e.g. if both paths have a different roots
       on Microsoft Windows).
+    - fixed: normalize paths if --path-relative-to is set to avoid false positives during verification
 
