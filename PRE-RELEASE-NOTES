@@ -19,4 +19,7 @@ Jacksum 3.3.0, TBD
     - fixed: wrong help section is printed out in case of user errors with --file-list-format
     - fixed: if Jacksum is being called by an API, the invocation args should be printed
       from the actual parameter object values, and not from the CLI parameters
+    - fixed: if a path cannot be relativized by --path-relative-to it should not print
+      stacktrace, but simply return the unrelativized path (e.g. if both paths have a different roots
+      on Microsoft Windows).
 

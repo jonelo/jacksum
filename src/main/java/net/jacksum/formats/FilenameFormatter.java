@@ -72,10 +72,14 @@ public class FilenameFormatter implements FilenameFormatParameters {
                 Path path2 = parameters.getPathRelativeTo();
 
                 // Convert the absolute path to a relative path, and fix the path char
+                // It throws an IllegalArgumentException if path1 is not a Path that can be relativized against path2
+                // e.g. if path1 and path2 have different roots (on Microsoft Windows)
                 return fixPathChar(path2.relativize(path1).toString());
 
             } catch (InvalidPathException ipe) {
                 return filename;
+            } catch (IllegalArgumentException iae) {
+                return fixPathChar(filename);
             }
         }
         return fixPathChar(filename);
