@@ -256,14 +256,22 @@ public class Parameters implements
     // --path-absolute
     private boolean pathAbsolute = false;
 
-    // --path-realtive-to
+    // --path-relative-to
     private Path pathRelativeTo = null;
     private String pathRelativeToAsString = null;
 
+    // --path-relative-to-entry
+    private int pathRelativeToLine = 0;
+
+    // --threads-hashing
+    private int threadsHashing = ThreadControl.getThreadsHashing();
+
+    // --threads-reading
+    private int threadsReading = ThreadControl.getThreadsReading();
+
     private final Messenger messenger;
 
-    private int threadsHashing = ThreadControl.getThreadsHashing();
-    private int threadsReading = ThreadControl.getThreadsReading();
+
 
 
     // implicit parameters
@@ -799,8 +807,11 @@ public class Parameters implements
         if (isNoPath()) {
             pathOptions++;
         }
+        if (pathRelativeToLine > 0) {
+            pathOptions++;
+        }
         if (pathOptions > 1) {
-            throw new ParameterException("Only one of the following options is allowed: --no-path, --path-absolute, or --path-relative-to");
+            throw new ParameterException("Only one of the following options is allowed: --no-path, --path-absolute, --path-relative-to, or --path-relative-to-line");
         }
 
         try {
@@ -821,6 +832,9 @@ public class Parameters implements
             throw new ExitException(e.getMessage(), ExitCode.PARAMETER_ERROR);
         }
 
+        if (isPathRelativeToLine() && getFilelistFilename() == null) {
+            throw new ParameterException("Option --path-relative-to-entry requires option --file-list");
+        }
 
     }
 
@@ -915,7 +929,12 @@ public class Parameters implements
             }
         }
 
-        // validity check for --path-relative
+        // validity check for --path-relative-to-entry
+        if (isPathRelativeToLine() && getFilenamesFromFilelist().size() > 0) {
+            setPathRelativeToAsString(getFilenamesFromFilelist().get(getPathRelativeToLine()-1));
+        }
+
+        // validity check for --path-relative-to, and set the value for the Path called pathRelativeTo
         if (pathRelativeToAsString != null) {
             try {
                 Path path = Paths.get(pathRelativeToAsString);
@@ -1175,6 +1194,18 @@ public class Parameters implements
     public void setThreadsReading(int threadsReading) {
         this.threadsReading = threadsReading;
         ThreadControl.setThreadsReading(threadsReading);
+    }
+
+    public int getPathRelativeToLine() {
+        return pathRelativeToLine;
+    }
+
+    public boolean isPathRelativeToLine() {
+        return pathRelativeToLine > 0;
+    }
+
+    public void setPathRelativeToLine(int number) {
+        this.pathRelativeToLine = number;
     }
 
 
@@ -1680,6 +1711,10 @@ public class Parameters implements
         if (pathAbsolute) {
             list.add("--path-absolute");
         }
+        if (isPathRelativeToLine()) {
+            list.add("--path-relative-to-entry");
+            list.add(String.valueOf(getPathRelativeToLine()));
+        } else
         if (pathRelativeToAsString != null) {
             list.add("--path-relative-to");
             list.add(pathRelativeToAsString);

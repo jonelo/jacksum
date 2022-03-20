@@ -1201,6 +1201,16 @@ OPTIONS
            and --no-path
 
 
+    --path-relative-to-entry <number>
+    --relative-to-entry <number>
+           Sets the option --path-relative-to <number>, where <number> is
+           the line number that is stored in the file list, specified by
+           --file-list. <number> starts at 1, and <number> has to be greater
+           than 0. This option requires the option --file-list. If file list is
+           empty, this option is ignored.
+           Available since Jacksum 3.3.0, see also --path-relative-to
+
+
     -P <char>
     --path-separator <char>
             By default the system-dependent default name separator character is

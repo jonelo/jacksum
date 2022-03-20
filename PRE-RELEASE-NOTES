@@ -6,6 +6,8 @@ Jacksum 3.3.0, TBD
       algorithms should run in parallel
     - added option --threads-reading to control the number of threads if multiple
       files should be read in parallel
+    - added option --path-relative-to-entry
+      (required for the integration at the Windows Explorer's SendTo-menu)
 
 - performance:
 
@@ -15,6 +17,6 @@ Jacksum 3.3.0, TBD
 
     - fixed: option --path-relative-to is not taken into account if --compat has been set
     - fixed: wrong help section is printed out in case of user errors with --file-list-format
-    - fixed: if Jacksum is being called by an API, the invocation args are printed
+    - fixed: if Jacksum is being called by an API, the invocation args should be printed
       from the actual parameter object values, and not from the CLI parameters
 

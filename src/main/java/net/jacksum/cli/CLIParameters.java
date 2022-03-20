@@ -90,12 +90,27 @@ public class CLIParameters {
                     parameters.setPathAbsolute(true);
 
                 } else if (arg.equals("--path-relative-to") || arg.equals("--relative-to")) {
-
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
                         parameters.setPathRelativeToAsString(arg);
                     } else {
                         handleUserParamError(arg, "--path-relative-to");
+                    }
+
+                } else if (arg.equals("--path-relative-to-entry") || arg.equals("--relative-to-entry")) {
+                    if (firstfile < args.length) {
+                        arg = args[firstfile++];
+                        try {
+                            int number = Integer.parseInt(arg);
+                            if (number < 1) {
+                                throw new ParameterException("line number has to be > 0.");
+                            }
+                            parameters.setPathRelativeToLine(number);
+                        } catch (NumberFormatException nfe) {
+                            throw new ParameterException(nfe.getMessage());
+                        }
+                    } else {
+                        handleUserParamError(arg, "--path-relative-to-entry");
                     }
 
                 } else if (arg.equals("-8") || arg.equals("--utf8")) {
