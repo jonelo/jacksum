@@ -18,7 +18,7 @@ Jacksum 3.3.0, TBD
 
     - fixed: option --path-relative-to is not taken into account if --compat has been set
     - fixed: if a path cannot be relativized by --path-relative-to it should not print
-      stacktrace, but simply return the unrelativized path (e.g. if both paths have a different roots
+      stacktrace, but simply return the non-relativized path (e.g. if both paths have a different roots
       on Microsoft Windows).
     - fixed: normalize paths if --path-relative-to is set to avoid false positives during verification
     - fixed: if Jacksum is being called by an API, the invocation args should be printed

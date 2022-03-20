@@ -1195,7 +1195,7 @@ OPTIONS
            to a file rather than to a folder, the folder name of the file is
            used for <path>. If a path cannot be relativized to <path>,
            (e.g. if both paths have a different root on Microsoft Windows),
-           the path is returned unrelativized.
+           the path is returned non-relativized.
 \
            If this option is set during check mode, the path for each file
            object in the check file is simply prepended by <path>.
