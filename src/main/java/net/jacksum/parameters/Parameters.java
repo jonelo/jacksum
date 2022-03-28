@@ -813,7 +813,7 @@ public class Parameters implements
             pathOptions++;
         }
         if (pathOptions > 1) {
-            throw new ParameterException("Only one of the following options is allowed: --no-path, --path-absolute, --path-relative-to, or --path-relative-to-line");
+            throw new ParameterException("Only one of the following options is allowed: --no-path, --path-absolute, --path-relative-to, or --path-relative-to-entry");
         }
 
         try {
