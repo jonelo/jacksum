@@ -1667,6 +1667,7 @@ public class Parameters implements
         }
         if (compatibilityID != null) {
             list.add("--style");
+            list.add(compatibilityID);
         }
         if (bom) {
             list.add("--bom");
