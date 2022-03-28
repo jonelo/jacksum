@@ -21,7 +21,9 @@ Jacksum 3.3.0, TBD
       stacktrace, but simply return the non-relativized path (e.g. if both paths have a different roots
       on Microsoft Windows).
     - fixed: normalize paths if --path-relative-to is set to avoid false positives during verification
-    - fixed: if Jacksum is being called by an API, the invocation args should be printed
+    - fixed: if ")" is part of a file name (e.g. "file (1).txt", the regexp in the bsd, solaris-tagged,
+      solaris-untagged, and openssl compat files don't detect the filename
+    - fixed: if Jacksum is being called by its API, the invocation args should be printed
       from the actual parameter object values, and not from the CLI parameters
     - fixed: wrong help section is printed out in case of user errors with --file-list-format
 
