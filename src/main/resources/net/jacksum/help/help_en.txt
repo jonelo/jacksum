@@ -625,10 +625,9 @@ OPTIONS
                 tools, you can specify one of the predefined build-in parsers
                 or define your own parser by providing a short property file.
 \
-                In check mode (if option --check has been set), the
-                <compatibility> determines the parser that is used to read the
-                the file content properly. You can specify the input file by
-                option -c (--check-file). With -C you can check against a list
+                In check mode (if option -c resp. --check-file has been set),
+                the <compatibility> determines the parser that is used to read
+                the file content properly. With -C you can check against a list
                 that was created by a different application or if you have
                 generated a list with Jacksum and the -F option was in use.
 \
