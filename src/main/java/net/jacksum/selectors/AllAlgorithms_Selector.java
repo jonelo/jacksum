@@ -134,7 +134,7 @@ public class AllAlgorithms_Selector extends Selector {
 
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
-        // won't be called by Jacksum, because the getImplementation method has been overwrittten!
+        // won't be called by Jacksum, because the getImplementation method has been overwritten!
         return getImplementation(PRIMARY);
     }
 
