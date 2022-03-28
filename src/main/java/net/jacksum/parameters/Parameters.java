@@ -271,6 +271,7 @@ public class Parameters implements
 
     private final Messenger messenger;
 
+    private int filesizeWanted = -1;
 
 
 
@@ -1206,6 +1207,31 @@ public class Parameters implements
 
     public void setPathRelativeToLine(int number) {
         this.pathRelativeToLine = number;
+    }
+
+
+    public void setFilesizeWanted(int filesizeWanted) {
+        this.filesizeWanted = filesizeWanted;
+    }
+
+    public int getFilesizeWanted() {
+        return filesizeWanted;
+    }
+
+    public void setFilesizeWanted(boolean filesizeWanted) {
+        this.filesizeWanted = filesizeWanted ? 1 : 0;
+    }
+
+    public void unsetFilesizeWanted() {
+        this.filesizeWanted = -1;
+    }
+
+    public boolean isFilesizeWantedSet() {
+        return filesizeWanted != -1;
+    }
+
+    public boolean isFilesizeWanted() {
+        return filesizeWanted == 1;
     }
 
 

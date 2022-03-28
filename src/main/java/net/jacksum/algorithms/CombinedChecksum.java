@@ -77,7 +77,7 @@ public class CombinedChecksum extends AbstractChecksum {
         filename = null;
         formatPreferences.setSeparator(" ");
         formatPreferences.setHashEncoding(Encoding.HEX);
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
     }
 
     public CombinedChecksum(String[] algos, boolean alternate) throws NoSuchAlgorithmException {

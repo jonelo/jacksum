@@ -34,7 +34,7 @@ public class Sum8 extends AbstractChecksum {
         super();
         bitWidth = 8;
         formatPreferences.setHashEncoding(Encoding.DEC);
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
         formatPreferences.setSeparator(" ");
     }
 

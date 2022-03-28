@@ -38,7 +38,7 @@ public class CRC32 extends AbstractChecksum {
         super();
         formatPreferences.setHashEncoding(Encoding.DEC);
         formatPreferences.setSeparator(" ");
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
         bitWidth = 32;
         crc32 = new java.util.zip.CRC32();
     }

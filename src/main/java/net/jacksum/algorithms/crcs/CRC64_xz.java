@@ -31,7 +31,7 @@ public class CRC64_xz extends CrcGeneric {
     public CRC64_xz() throws NoSuchAlgorithmException {
         super(64, 0x42f0e1eba9ea3693L, 0xffffffffffffffffL, true, true, 0xffffffffffffffffL);
         formatPreferences.setHashEncoding(Encoding.HEX);
-        formatPreferences.setSizeWanted(false);
+        formatPreferences.setFilesizeWanted(false);
     }
     
     // Testvectors at https://golang.org/src/hash/crc64/crc64_test.go

@@ -38,7 +38,7 @@ public class SumSysV extends AbstractChecksum {
         bitWidth = 16;
         formatPreferences.setHashEncoding(Encoding.DEC);
         formatPreferences.setSeparator(" ");
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
         formatPreferences.setSizeAsByteBlocks(512);        
     }
 

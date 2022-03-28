@@ -8,6 +8,7 @@ Jacksum 3.3.0, TBD
       files should be read in parallel
     - added option --path-relative-to-entry
       (required for the integration at the Windows Explorer's SendTo-menu)
+    - added option --filesize to control whether the file size should be added or not
 
 - performance:
 

@@ -61,4 +61,15 @@ public class SizeFormatter implements LengthFormatParameters {
         return parameters.getFilesizeWithPrintfFormatted();
     }
 
+
+    @Override
+    public boolean isFilesizeWantedSet() {
+        return parameters.isFilesizeWantedSet();
+    }
+
+    @Override
+    public boolean isFilesizeWanted() {
+        return parameters.isFilesizeWanted();
+    }
+
 }

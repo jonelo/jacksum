@@ -59,7 +59,7 @@ public class Edonkey extends AbstractChecksum {
         bitWidth = 128;
         formatPreferences.setHashEncoding(Encoding.HEX);
         formatPreferences.setSeparator(" ");
-        formatPreferences.setSizeWanted(false);
+        formatPreferences.setFilesizeWanted(false);
         md4 = HashFactory.getInstance(AUX_ALGORITHM);
         if (md4 == null) {
             throw new NoSuchAlgorithmException(AUX_ALGORITHM + " is an unknown algorithm.");

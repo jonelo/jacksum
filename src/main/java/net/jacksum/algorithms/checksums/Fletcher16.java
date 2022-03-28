@@ -39,7 +39,7 @@ public class Fletcher16 extends AbstractChecksum {
         bitWidth = 16;
         value = 0L;
         formatPreferences.setHashEncoding(Encoding.DEC);
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
         formatPreferences.setSeparator(" ");
     }
 

@@ -914,6 +914,24 @@ OPTIONS
             Available since Jacksum 3.0.0
 
 
+    --filesize <boolean>
+            by default or if this option is omitted, the file size is added to
+            the output if you select an algorithm that usually don't take the
+            length of the message into account and requires the file size to be
+            more reliable (usually simple checksums or CRCs). Also if you
+            select multiple algorithms the file size will be added. If you would
+            like to control whether the file size should be added or not, you
+            can use this option with the following values for <boolean>:
+\
+                default                  default behavior as described above,
+                                         the selected algorithm determines
+                                         whether file size is added or not
+                yes|on|true|1|enabled    enables the file size
+                no|off|false|0|disabled  disables the file size
+\
+            Available since Jacksum 3.3.0
+
+
     -F <format>
     --format <format>
             With this option you can set a customizable output format if the 

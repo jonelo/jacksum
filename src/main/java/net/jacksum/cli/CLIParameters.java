@@ -196,6 +196,25 @@ public class CLIParameters {
                 } else if (arg.equals("-f") || arg.equals("--dont-follow-symlinks-to-files")) {
                     parameters.setDontFollowSymlinksToFiles(true);
 
+                } else if (arg.equals("--filesize")) {
+                    if (firstfile < args.length) {
+                        arg = args[firstfile++];
+
+                        if (arg.equals("yes") || arg.equals("on") || arg.equals("true") || arg.equals("1") || arg.equals("enabled")) {
+                            parameters.setFilesizeWanted(true);
+                        } else
+                        if (arg.equals("no") || arg.equals("off") || arg.equals("false") || arg.equals("0") || arg.equals("disabled")) {
+                            parameters.setFilesizeWanted(false);
+                        } else
+                        if (arg.equals("default")) {
+                            parameters.setFilesizeWanted(-1);
+                        } else {
+                            throw new ParameterException("filesize value is invalid.");
+                        }
+                    } else {
+                        handleUserParamError(arg, "--filesize");
+                    }
+
                 } else if (arg.equals("-F") || arg.equals("--format")) {
                     if (firstfile < args.length) {
                         parameters.setFormat(args[firstfile++]);

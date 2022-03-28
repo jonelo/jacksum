@@ -37,7 +37,7 @@ public class CRC16_Minix extends CrcGeneric {
        
         formatPreferences.setHashEncoding(Encoding.DEC_FIXED_SIZE_WITH_LEADING_ZEROS);
         formatPreferences.setSeparator(" ");
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
         formatPreferences.setSizeWithPrintfFormatted("%6s"); // right-justified
     }
 

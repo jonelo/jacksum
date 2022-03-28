@@ -32,7 +32,7 @@ public class CRC32_MPEG2 extends Cksum {
         super();
         formatPreferences.setHashEncoding(Encoding.DEC);
         formatPreferences.setSeparator(" ");
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
         reset();
     }
 

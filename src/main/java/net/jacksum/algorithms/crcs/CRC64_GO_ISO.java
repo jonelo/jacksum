@@ -31,7 +31,7 @@ public class CRC64_GO_ISO extends CrcGeneric {
     public CRC64_GO_ISO() throws NoSuchAlgorithmException {
         super(64, 0x1bL, 0xffffffffffffffffL, true, true, 0xffffffffffffffffL);
         formatPreferences.setHashEncoding(Encoding.HEX);
-        formatPreferences.setSizeWanted(false);
+        formatPreferences.setFilesizeWanted(false);
     }
 
     // Testvectors at https://golang.org/src/hash/crc64/crc64_test.go

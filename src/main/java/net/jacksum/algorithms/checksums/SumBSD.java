@@ -36,7 +36,7 @@ public class SumBSD extends AbstractChecksum {
         bitWidth = 16;
         formatPreferences.setHashEncoding(Encoding.DEC_FIXED_SIZE_WITH_LEADING_ZEROS);
         formatPreferences.setSeparator(" ");
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
         formatPreferences.setSizeAsByteBlocks(1024);
         formatPreferences.setSizeWithPrintfFormatted("%5s"); // right-justified
     }

@@ -74,7 +74,7 @@ public class FCS16 extends AbstractChecksum {
         value = 0xFFFF;
         formatPreferences.setHashEncoding(Encoding.DEC);
         formatPreferences.setSeparator(" ");
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
     }
 
     @Override

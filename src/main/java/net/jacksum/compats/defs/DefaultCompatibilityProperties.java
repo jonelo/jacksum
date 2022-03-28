@@ -79,8 +79,8 @@ public class DefaultCompatibilityProperties {
         String regexIntToken = "(\\d+)";
         String regexFilename="[*]*(.*)$";
 
-        // filesize is wanted, because there is a + sign
-        if (parameters.getAlgorithmIdentifier().contains("+")) {
+        // filesize is wanted, because there is a + sign, or --filesize on has been set
+        if (parameters.getAlgorithmIdentifier().contains("+") || (parameters.isFilesizeWanted())) {
 
             if (parameters.isTimestampWanted()) {
                 // hash, filesize, timestamp, and filename

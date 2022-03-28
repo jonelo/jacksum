@@ -34,7 +34,7 @@ public class None extends AbstractChecksum {
         super();
         formatPreferences.setHashEncoding(Encoding.HEX);      
         formatPreferences.setSeparator(" ");
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
     }
 
     @Override

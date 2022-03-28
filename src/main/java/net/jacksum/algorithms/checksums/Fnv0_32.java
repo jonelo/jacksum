@@ -35,7 +35,7 @@ public class Fnv0_32 extends AbstractChecksum {
         super();
         bitWidth = 32;
         formatPreferences.setHashEncoding(Encoding.DEC);
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
         formatPreferences.setSeparator(" ");
     }
 

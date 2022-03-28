@@ -40,7 +40,7 @@ public class Fnv0_n extends AbstractChecksum {
     public Fnv0_n(int width) throws NoSuchAlgorithmException {
         super();
         formatPreferences.setHashEncoding(Encoding.DEC);
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
         formatPreferences.setSeparator(" ");
         init(width);
     }

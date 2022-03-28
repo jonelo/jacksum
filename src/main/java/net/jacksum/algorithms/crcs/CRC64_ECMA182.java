@@ -31,7 +31,7 @@ public class CRC64_ECMA182 extends CrcGeneric {
     public CRC64_ECMA182() throws NoSuchAlgorithmException {
         super(64, 0x42f0e1eba9ea3693L, 0x0L, false, false, 0x0L);
         formatPreferences.setHashEncoding(Encoding.HEX);
-        formatPreferences.setSizeWanted(false);
+        formatPreferences.setFilesizeWanted(false);
     }
 
 }

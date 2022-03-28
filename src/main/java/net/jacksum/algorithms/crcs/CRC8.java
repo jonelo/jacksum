@@ -331,7 +331,7 @@ public class CRC8 extends AbstractChecksum {
        value = 0;
        formatPreferences.setHashEncoding(Encoding.DEC);
        formatPreferences.setSeparator(" ");
-       formatPreferences.setSizeWanted(true);
+       formatPreferences.setFilesizeWanted(true);
     }
 
     @Override

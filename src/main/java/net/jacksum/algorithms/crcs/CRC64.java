@@ -125,7 +125,7 @@ public class CRC64 extends AbstractChecksum {
         bitWidth = 64;
         formatPreferences.setHashEncoding(Encoding.HEX);
         formatPreferences.setSeparator(" ");
-        formatPreferences.setSizeWanted(false);
+        formatPreferences.setFilesizeWanted(false);
         value = 0;
     }
 

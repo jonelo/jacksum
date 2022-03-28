@@ -40,7 +40,7 @@ public class Adler32 extends AbstractChecksum {
         bitWidth = 32;
         adler32 = new java.util.zip.Adler32();
         formatPreferences.setHashEncoding(Encoding.DEC);
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
         formatPreferences.setSeparator(" ");
     }
     

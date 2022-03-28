@@ -79,7 +79,7 @@ public class FCS32 extends AbstractChecksum {
         value = 0xFFFFFFFFL;
         formatPreferences.setHashEncoding(Encoding.DEC);
         formatPreferences.setSeparator(" ");
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
     }
 
     @Override

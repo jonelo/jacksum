@@ -32,4 +32,8 @@ public interface LengthFormatParameters {
 
     String getFilesizeWithPrintfFormatted();
 
+    boolean isFilesizeWantedSet();
+
+    boolean isFilesizeWanted();
+
 }

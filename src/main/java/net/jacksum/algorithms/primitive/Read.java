@@ -30,7 +30,7 @@ public class Read extends AbstractChecksum {
     public Read() {
         super();
         formatPreferences.setHashEncoding(Encoding.HEX);
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
         formatPreferences.setSeparator(" ");
     }
 

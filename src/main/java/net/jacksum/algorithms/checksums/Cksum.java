@@ -97,7 +97,7 @@ public class Cksum extends AbstractChecksum {
         value = 0;
         length = 0;
         formatPreferences.setHashEncoding(Encoding.DEC);
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
         formatPreferences.setSeparator(" ");
     }
 

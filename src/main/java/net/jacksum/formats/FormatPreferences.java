@@ -68,7 +68,10 @@ public class FormatPreferences implements FormatParameters {
 
     public void overwritePreferences(FormatParameters parameters) {
         setTimestampWanted(parameters.isTimestampWanted());
-        //setFilesizeWanted();
+
+        if (parameters.isFilesizeWantedSet()) {
+            setFilesizeWanted(parameters.isFilesizeWanted());
+        }
             
         if (parameters.isSeparatorSet()) {
             setSeparator(parameters.getSeparator());
@@ -244,7 +247,7 @@ public class FormatPreferences implements FormatParameters {
     /**
      * @param filesizeWanted the filesizeWanted to set
      */
-    public void setSizeWanted(boolean filesizeWanted) {
+    public void setFilesizeWanted(boolean filesizeWanted) {
         this.filesizeWanted = filesizeWanted;
     }
 
@@ -293,6 +296,12 @@ public class FormatPreferences implements FormatParameters {
     public String getFilesizeWithPrintfFormatted() {
         return filesizeWithPrintfFormatted;
     }
+
+    @Override
+    public boolean isFilesizeWantedSet() {
+        return true;
+    }
+
 
     /**
      * @param filesizeWithPrintfFormatted the filesizeWithPrintfFormatted to set

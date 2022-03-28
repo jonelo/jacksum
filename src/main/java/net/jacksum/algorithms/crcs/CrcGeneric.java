@@ -196,7 +196,7 @@ public class CrcGeneric extends AbstractChecksum {
     private void init() throws NoSuchAlgorithmException {
         formatPreferences.setHashEncoding(Encoding.DEC);
         formatPreferences.setSeparator(" ");
-        formatPreferences.setSizeWanted(true);
+        formatPreferences.setFilesizeWanted(true);
        
         topBit = 1L << (bitWidth - 1);       // stores the value (2 ^ width)
         maskAllBits = ~0L >>> (64 - bitWidth); // stores the value (2 ^ width) - 1
