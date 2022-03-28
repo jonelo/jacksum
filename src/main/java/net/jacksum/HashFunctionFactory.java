@@ -110,7 +110,7 @@ public class HashFunctionFactory {
      */
     public static Map<String, String> getAvailableAlgorithms() {
         // key, description
-        Map<String, String> map = new LinkedHashMap<>(512);
+        Map<String, String> map = new LinkedHashMap<>(683); // ceil(512/0.75)
 
         for (Class<?> selectorClass : allSupportedSelectorClasses) {
             try {
@@ -133,7 +133,7 @@ public class HashFunctionFactory {
      */
     public static Map<String, String> getAvailableAlgorithms(int width) {
         Map<String, String> map = getAvailableAlgorithms();
-        Map<String, String> mapFiltered = new LinkedHashMap<>(128);
+        Map<String, String> mapFiltered = new LinkedHashMap<>(171); // ceil(128/0,75)
 
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
@@ -162,7 +162,7 @@ public class HashFunctionFactory {
      */
     public static Map<String, String> getAvailableAlgorithms(String searchString) {
 
-        Map<String, String> mapFiltered = new LinkedHashMap<>(512);
+        Map<String, String> mapFiltered = new LinkedHashMap<>(683); // ceil(512/0.75)
 
         for (Class<?> selectorClass : allSupportedSelectorClasses) {
             try {
