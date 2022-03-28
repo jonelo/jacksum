@@ -120,7 +120,8 @@ public class Parameters implements
         // build the args by the values of the current parameter object values.
         String[] source = parameterModifiedByAPI ? this.toStringArrayList().toArray(new String[0]) : cliParameters;
         for (String param : source) {
-            if (param.contains(" ")) {
+            // the hash-sign acts as a comment on many GNU/Linux shells, it needs to be quoted
+            if (param.contains(" ") || param.startsWith("#")) {
                 list.add(String.format("\"%s\"", param));
             } else {
                 list.add(param);

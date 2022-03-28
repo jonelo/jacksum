@@ -27,4 +27,5 @@ Jacksum 3.3.0, TBD
     - fixed: if Jacksum is being called by its API, the invocation args should be printed
       from the actual parameter object values, and not from the CLI parameters
     - fixed: wrong help section is printed out in case of user errors with --file-list-format
+    - fix: --header's invocation arg need to be quoted if arg starts with a # sign
 
