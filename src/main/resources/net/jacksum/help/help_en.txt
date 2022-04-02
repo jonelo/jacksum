@@ -981,6 +981,17 @@ OPTIONS
                                          encoding (3.0)
                 #HASH{<algo>,<encoding>} like #HASH{<algo>}, but with an
                                          explicit encoding (3.0)
+\
+                #HASHES                  plural. Token will be replaced by the
+                                         hash, CRC or checksum value. If
+                                         multiple algorithms have been selected,
+                                         each hash value is separated by a comma
+                                         (depends on the options -a, -E, -g, -G,
+                                         -x, and -X) (3.3)
+\
+                #HASHES{<encoding>}      like #HASHES, but with an explicit
+                                         encoding (3.3)
+\
                 #FILENAME                will be replaced by the file name and
                                          path (depends on -P)
                 #FILENAME{name}          will be replaced by the file name (1.6)

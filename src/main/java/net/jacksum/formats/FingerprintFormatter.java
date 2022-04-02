@@ -74,6 +74,8 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
     }
 
     public static void replaceAliases(StringBuilder format) {
+        GeneralString.replaceAllStrings(format, "#HASHES", "#CHECKSUM"); // just in case the user specifies just only one algorithm
+        GeneralString.replaceAllStrings(format, "#ALGONAMES", "#ALGONAME"); // just in case the user specifies just only one algorithm
         GeneralString.replaceAllStrings(format, "#HASH", "#CHECKSUM");
         GeneralString.replaceAllStrings(format, "#FINGERPRINT", "#CHECKSUM");
         GeneralString.replaceAllStrings(format, "#DIGEST", "#CHECKSUM");

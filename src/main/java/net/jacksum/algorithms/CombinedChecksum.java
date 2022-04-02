@@ -35,6 +35,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.n16n.sugar.util.GeneralString;
 import net.jacksum.JacksumAPI;
 import net.jacksum.multicore.manyalgos.ConcurrentHasher;
@@ -217,24 +220,50 @@ public class CombinedChecksum extends AbstractChecksum {
     @Override
     public void preFormat(StringBuilder formatBuf) {
 
-        // normalize the checksum code token and the filesize/length token
-        Formatter.replaceAliases(formatBuf);
+        StringBuilder buf = new StringBuilder();
+        StringBuilder formatBufBeforeReplacementOfSingularTokens = new StringBuilder(formatBuf);
 
-        // normalize the output of every algorithm
+        // normalize the hash value encoding for every algorithm
         setEncoding(getFormatPreferences().getEncoding());
 
-        StringBuilder buf = new StringBuilder();
-        String format = formatBuf.toString();
+        // from here all plural tokens ...
+        String format = formatBufBeforeReplacementOfSingularTokens.toString();
 
+        // replacement of token #HASHES (plural)
+        if (format.contains("#HASHES")) {
+            // replacement of token #HASHES{<encoding>}
+            resolveEncoding(formatBufBeforeReplacementOfSingularTokens, ",", "(#HASHES\\{([^}]+)\\})");
+            // replacement of token #HASHES
+            GeneralString.replaceAllStrings(formatBufBeforeReplacementOfSingularTokens, "#HASHES", getHashes(","));
+        }
+
+        // replacement of token #ALGONAMES (plural)
+        if (format.contains("#ALGONAMES")) {
+            GeneralString.replaceAllStrings(formatBufBeforeReplacementOfSingularTokens, "#ALGONAMES{uppercase}", getNames(",").toUpperCase(Locale.US));
+            GeneralString.replaceAllStrings(formatBufBeforeReplacementOfSingularTokens, "#ALGONAMES{lowercase}", getNames(",").toLowerCase(Locale.US));
+            GeneralString.replaceAllStrings(formatBufBeforeReplacementOfSingularTokens, "#ALGONAMES", getNames(","));
+        }
+
+        // from here specific tokens only ...
+        // normalize the checksum code token and the filesize/length token
+        Formatter.replaceAliases(formatBufBeforeReplacementOfSingularTokens);
+
+        format = formatBufBeforeReplacementOfSingularTokens.toString();
         if (format.contains("#CHECKSUM{i") || format.contains("#ALGONAME{i")) {
 
             for (AbstractChecksum algorithm : algorithms) {
                 StringBuilder line = new StringBuilder(format);
+
+                // replacement of token #CHECKSUM{i}
                 GeneralString.replaceAllStrings(line, "#CHECKSUM{i}", algorithm.getValueFormatted());
+                // replacement of token #CHECKSUM{i,<encoding>}
                 FingerprintFormatter.resolveEncoding(line, algorithm, "(#CHECKSUM\\{i,([^}]+)\\})");
-                GeneralString.replaceAllStrings(line, "#ALGONAME{i}", algorithm.getName());
+
+                // replacement of tokens #ALGONAME{i}, #ALGONAME{i,uppercase}, and #ALGONAME{i,lowercase}
                 GeneralString.replaceAllStrings(line, "#ALGONAME{i,uppercase}", algorithm.getName().toUpperCase(Locale.US));
                 GeneralString.replaceAllStrings(line, "#ALGONAME{i,lowercase}", algorithm.getName().toLowerCase(Locale.US));
+                GeneralString.replaceAllStrings(line, "#ALGONAME{i}", algorithm.getName());
+
                 buf.append(line);
                 if (algorithms.size() > 1) {
                     buf.append("\n");
@@ -244,6 +273,7 @@ public class CombinedChecksum extends AbstractChecksum {
             buf.append(format);
         }
 
+        // are there still tokens which need to be transformed ?
         if (buf.toString().contains("#ALGONAME{")) {
             for (int i = 0; i < algorithms.size(); i++) {
                 // replace token "ALGONAME{<index>}" with value of ALGONAME{<index>}
@@ -265,8 +295,7 @@ public class CombinedChecksum extends AbstractChecksum {
         
         // are there still tokens which need to be transformed ?
         if (buf.toString().contains("#CHECKSUM{")) {
-           
-            // tocken #CHECKSUM indexed by an integer
+            // token #CHECKSUM indexed by an integer
             for (int i = 0; i < algorithms.size(); i++) {
                 // replace the token "#CHECKSUM{<i>}" with the formatted value of CHECKSUM{n}
                 GeneralString.replaceAllStrings(buf, "#CHECKSUM{" + i + "}", (algorithms.get(i)).getValueFormatted());
@@ -274,8 +303,6 @@ public class CombinedChecksum extends AbstractChecksum {
                 FingerprintFormatter.resolveEncoding(buf, algorithms.get(i), "(#CHECKSUM\\{" + i + ",\\s*([^}]+)\\})");
             }
         }
-        
-
 
         formatBuf.setLength(0);
         formatBuf.append(buf);
@@ -289,8 +316,68 @@ public class CombinedChecksum extends AbstractChecksum {
         this.getFormatPreferences().setHashEncoding(algorithms.get(0).getFormatPreferences().getEncoding());
     }
 
+    public void resolveEncoding(StringBuilder buf, String separator, String regex) {
+        if (algorithms.isEmpty()) {
+            return;
+        }
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(buf.toString());
+        try {
+            while (matcher.find()) {
+
+                StringBuilder sb = new StringBuilder();
+                int i;
+                for (i = 0; i < algorithms.size() - 1; i++) {
+                    sb.append((algorithms.get(i)).getValueFormatted(Encoding.string2Encoding(matcher.group(2))));
+                    sb.append(separator);
+                }
+                sb.append((algorithms.get(i)).getValueFormatted(Encoding.string2Encoding(matcher.group(2))));
+
+                GeneralString.replaceAllStrings(buf, matcher.group(1), sb.toString());
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e);
+        }
+    }
+
+
+    public String getHashes(String separator) {
+        if (algorithms.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        int i;
+        for (i = 0; i < algorithms.size() - 1; i++) {
+            sb.append((algorithms.get(i)).getValueFormatted());
+            sb.append(separator);
+        }
+        sb.append((algorithms.get(i)).getValueFormatted());
+        return sb.toString();
+    }
+
+
+    public String getNames(String separator) {
+        if (algorithms.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        int i;
+        for (i = 0; i < algorithms.size() - 1; i++) {
+            sb.append((algorithms.get(i)).getName());
+            sb.append(separator);
+        }
+        sb.append((algorithms.get(i)).getName());
+        return sb.toString();
+    }
+
+
     @Override
     public String getName() {
+        return getNames("+");
+/*
         if (algorithms.isEmpty()) {
             return null;
         }
@@ -302,7 +389,7 @@ public class CombinedChecksum extends AbstractChecksum {
             sb.append('+');
         }
         sb.append((algorithms.get(i)).getName());
-        return sb.toString();
+        return sb.toString();*/
     }
 
     /**
