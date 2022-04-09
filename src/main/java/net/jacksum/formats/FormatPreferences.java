@@ -50,7 +50,9 @@ public class FormatPreferences implements FormatParameters {
 
     private boolean noPath = false;
     private Path pathRelativeTo = null;
-    
+    private boolean gnuEscaping = false;
+    private boolean gnuEscapingSet = false;
+
     public FormatPreferences() {
         setDefaults();
     }
@@ -64,15 +66,13 @@ public class FormatPreferences implements FormatParameters {
         setPathChar(File.separatorChar);
         setNoPath(false);
         setPathRelativeTo(null);
+        setGnuEscaping(false);
+        gnuEscapingSet = false;
     }
 
     public void overwritePreferences(FormatParameters parameters) {
         setTimestampWanted(parameters.isTimestampWanted());
 
-        if (parameters.isFilesizeWantedSet()) {
-            setFilesizeWanted(parameters.isFilesizeWanted());
-        }
-            
         if (parameters.isSeparatorSet()) {
             setSeparator(parameters.getSeparator());
         }
@@ -85,6 +85,9 @@ public class FormatPreferences implements FormatParameters {
         if (parameters.isGroupCharSet()) {
             setGroupChar(parameters.getGroupChar());
         }
+        if (parameters.isFilesizeWantedSet()) {
+            setFilesizeWanted(parameters.isFilesizeWanted());
+        }
         if (parameters.isTimestampWanted()) {
             setTimestampFormat(parameters.getTimestampFormat());
         }
@@ -96,6 +99,9 @@ public class FormatPreferences implements FormatParameters {
         }
         if (parameters.getPathRelativeTo() != null) {
             setPathRelativeTo(parameters.getPathRelativeTo());
+        }
+        if (parameters.isGnuEscapingSetByUser()) {
+            setGnuEscaping(parameters.isGnuEscaping());
         }
     }
 
@@ -317,5 +323,20 @@ public class FormatPreferences implements FormatParameters {
 
     public void setPathRelativeTo(Path pathRelativeTo) {
         this.pathRelativeTo = pathRelativeTo;
+    }
+
+    @Override
+    public boolean isGnuEscaping() {
+        return gnuEscaping;
+    }
+
+    @Override
+    public boolean isGnuEscapingSetByUser() {
+        return gnuEscapingSet;
+    }
+
+    public void setGnuEscaping(boolean gnuEscaping) {
+        this.gnuEscaping = gnuEscaping;
+        this.gnuEscapingSet = true;
     }
 }

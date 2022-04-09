@@ -26,6 +26,7 @@ import net.jacksum.actions.check.*;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.compats.defs.CompatibilityProperties;
 import org.n16n.sugar.io.BOM;
+import org.n16n.sugar.util.GeneralString;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -117,6 +118,14 @@ public class Parser {
         }
     }
 
+    private String gnuUnescaping(String filename) {
+        StringBuilder buffer = new StringBuilder(filename);
+        GeneralString.replaceAllStrings(buffer, "\\\\", "\\"); // backslash
+        GeneralString.replaceAllStrings(buffer, "\\n", "\n"); // new line
+        GeneralString.replaceAllStrings(buffer, "\\r", "\r"); // carriage return
+        return buffer.toString();
+    }
+
     private HashEntry parseLine(String line) throws ImproperlyFormattedLineException, IgnoredLineException {
         if (props.isIgnoreEmptyLines() && line.trim().length() == 0) {
             throw new IgnoredLineException();
@@ -136,7 +145,10 @@ public class Parser {
             }
 
             if (props.getRegexpFilenamePos() > 0) {
-                hashEntry.setFilename(fixPath(matcher.group(props.getRegexpFilenamePos())));
+                boolean gnuEscaping = props.getRegexpGnuEscapingPos() > 0 && matcher.group(props.getRegexpGnuEscapingPos()).equals("\\");
+                String parsedFilename = matcher.group(props.getRegexpFilenamePos());
+                String realFilename = gnuEscaping ? gnuUnescaping(parsedFilename) : parsedFilename;
+                hashEntry.setFilename(fixPath(realFilename));
             }
 
             if (props.getRegexpFilesizePos() > 0) {

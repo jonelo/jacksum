@@ -35,6 +35,7 @@ import java.util.Properties;
 
 public class CompatibilityProperties {
     private final Properties props; // persistent Props
+    private final static int CURRENT_COMPAT_SYNTAX_VERSION = 3;
 
     private boolean strictCheck = false;
     private boolean hashAlgorithmUserSelected = false;
@@ -54,6 +55,7 @@ public class CompatibilityProperties {
     private final static String REGEXP_FILESIZE_POS = "parser.regexp.filesizePos";
     private final static String REGEXP_TIMESTAMP_POS = "parser.regexp.timestampPos";
     private final static String REGEXP_PERMISSIONS_POS = "parser.regexp.permissionsPos";
+    private final static String REGEXP_GNU_ESCAPING_POS = "parser.regexp.gnuEscapingPos";
     private final static String HASH_NIBBLES = "parser.regexp.nibbles";
     private final static String HASH_ALGORITHM = "algorithm.default";
     private final static String HASH_ALGORITHM_USER_SELECTABLE = "algorithm.userSelectable";
@@ -61,6 +63,8 @@ public class CompatibilityProperties {
     private final static String HASH_ENCODING = "formatter.hash.encoding";
     private final static String STDIN_NAME = "formatter.stdinName";
     private final static String LINE_SEPARATOR = "formatter.lineSeparator";
+    private final static String GNU_ESCAPING_USER_SELECTABLE = "formatter.gnuescaping.userSelectable";
+    private final static String GNU_ESCAPING_ENABLED = "formatter.gnuescaping.enabled";
     private final static String ALGONAME_DEFAULT_REPLACEMENT = "formatter.ALGONAME.defaultReplacement";
     private final static String ALGONAME_EXCEPTION_MAPPINGS = "formatter.ALGONAME.exceptionMappings";
 
@@ -87,7 +91,7 @@ public class CompatibilityProperties {
      * Creates a ParserProperties object based on a properties file
      *
      * @param compatFilename the filename of the properties file.
-     * @throws java.io.IOException if there is an I/O problem with the file.
+     * @throws IOException if there is an I/O problem with the file.
      * @throws InvalidCompatibilityPropertiesException if the version of the compat file is incompatible with the expected version.
      */
     public CompatibilityProperties(String compatFilename) throws IOException, InvalidCompatibilityPropertiesException {
@@ -106,8 +110,8 @@ public class CompatibilityProperties {
                 throw new InvalidCompatibilityPropertiesException(String.format("value of property compat.syntaxVersion must be an integer, but I found the value \"%s\" in \"%s\"", getCompatSyntaxVersion(), compatFilename));
             }
             // does it have the right version?
-            if (version < 2) {
-                throw new InvalidCompatibilityPropertiesException(String.format("value of property compat.syntaxVersion must be 2 or higher, but I found \"%s\" in \"%s\"", getCompatSyntaxVersion(), compatFilename));
+            if (version < CURRENT_COMPAT_SYNTAX_VERSION) {
+                throw new InvalidCompatibilityPropertiesException(String.format("value of property compat.syntaxVersion must be %s or higher, but I found \"%s\" in \"%s\"", CURRENT_COMPAT_SYNTAX_VERSION, getCompatSyntaxVersion(), compatFilename));
             }
         } else {
             // does not look like a valid property file
@@ -198,6 +202,31 @@ public class CompatibilityProperties {
         props.setProperty(LINES_IGNORE_EMPTY_LINES, ignore ? "true" : "false");
     }
 
+    public void setGnuEscapingUserSelectable(boolean gnuEscaping) {
+        props.setProperty(GNU_ESCAPING_USER_SELECTABLE, gnuEscaping ? "true" : "false");
+    }
+
+    public boolean isGnuEscapingUserSelectable() {
+        return props.getProperty(GNU_ESCAPING_USER_SELECTABLE, "false").equals("true");
+    }
+
+    public void setGnuEscapingEnabled(boolean gnuEscaping) {
+        props.setProperty(GNU_ESCAPING_ENABLED, gnuEscaping ? "true" : "false");
+    }
+
+    public boolean isGnuEscapingEnabled() {
+        return props.getProperty(GNU_ESCAPING_ENABLED, "false").equals("true");
+    }
+
+    public boolean isGnuEscapingSupported() {
+        // formatter.format contains #ESCAPETAG and parser knows the position of the #ESCAPETAG
+        return getFormat().contains("#ESCAPETAG") && getRegexpGnuEscapingPos() > 0;
+    }
+
+    public boolean isFilesizeSupported() {
+        return getFormat().contains("#FILESIZE") && getRegexpFilesizePos() > 0;
+    }
+
     public String getRegexp() {
         return props.getProperty(LINES_REGEXP);
     }
@@ -252,6 +281,14 @@ public class CompatibilityProperties {
 
     public void setRegexpPermissionsPos(int pos) {
         props.setProperty(REGEXP_PERMISSIONS_POS, String.valueOf(pos));
+    }
+
+    public int getRegexpGnuEscapingPos() {
+        return Integer.parseInt(props.getProperty(REGEXP_GNU_ESCAPING_POS, "-1"));
+    }
+
+    public void setRegexpGnuEscapingPos(int pos) {
+        props.setProperty(REGEXP_GNU_ESCAPING_POS, String.valueOf(pos));
     }
 
     public String getLineSeparator() {
@@ -347,6 +384,9 @@ public class CompatibilityProperties {
         props.setProperty(LINES_FORMAT, format);
     }
 
+    public String getFormat() {
+        return props.getProperty(LINES_FORMAT, "");
+    }
 
     public static Properties readFromLocalFile(String filename) throws IOException {
         Properties props = new Properties();
@@ -398,12 +438,14 @@ public class CompatibilityProperties {
     private boolean isParserSupported(String parser) {
         switch (parser) {
             case "bsd":
+            case "bsd-r":
             case "sfv":
-            case "linux":
+            case "gnu-linux":
             case "fciv":
-            case "openssl":
-            case "solaris-tagged":
-            case "solaris-untagged":
+            case "openssl-dgst":
+            case "openssl-dgst-r":
+            case "solaris-digest":
+            case "solaris-digest-v":
                 return true;
             default:
                 return false;
@@ -412,10 +454,34 @@ public class CompatibilityProperties {
 
     private String resolveAlias(String parser) {
         switch (parser) {
+            case "bsd-tagged":
             case "linux-tagged":
+            case "gnu-linux-tagged":
                 return "bsd";
+
+            case "bsd-untagged":
+            case "bsd-reversed":
+                return "bsd-r";
+
+            case "linux":
             case "linux-untagged":
-                return "linux";
+            case "gnu-linux-untagged":
+                return "gnu-linux";
+
+            case "openssl":
+            case "openssl-tagged":
+                return "openssl-dgst";
+
+            case "openssl-untagged":
+            case "openssl-r":
+                return "openssl-dgst-r";
+
+            case "solaris-tagged":
+                return "solaris-digest-v";
+
+            case "solaris-untagged":
+                return "solaris-digest";
+
             default:
                 return parser;
         }
@@ -429,4 +495,6 @@ public class CompatibilityProperties {
     public Path getPathRelativeTo() {
         return pathRelativeTo;
     }
+
+
 }

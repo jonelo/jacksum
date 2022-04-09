@@ -38,6 +38,7 @@ import net.jacksum.cli.Verbose;
 import net.jacksum.compats.defs.CompatibilityProperties;
 import net.jacksum.compats.defs.InvalidCompatibilityPropertiesException;
 import net.jacksum.formats.Encoding;
+import net.jacksum.multicore.OSControl;
 import net.jacksum.multicore.ThreadControl;
 import net.jacksum.multicore.manyfiles.ProducerParameters;
 import net.jacksum.parameters.base.*;
@@ -274,7 +275,9 @@ public class Parameters implements
 
     private int filesizeWanted = -1;
 
-
+    // --gnu-filename-escaping
+    private boolean gnuEscaping = !OSControl.isWindows(); // enabled by default on non-Windows systems
+    private boolean gnuEscapingSetByUser = false;
 
     // implicit parameters
 
@@ -841,7 +844,62 @@ public class Parameters implements
     }
 
 
-    private void handleImplicitSettings() {
+    private void handleWarningsAndImplicitSettings() {
+
+        // warnings
+        if (groupcount > 0 && encoding == null) {
+            setEncoding(Encoding.HEX);
+            messenger.print(WARNING, "-g has been set, but -E has not been set. Setting -E hex implicitly.");
+        }
+
+        if ((groupcount > 0) && (encoding != null && !encoding.equals(Encoding.HEX) && !encoding.equals(Encoding.HEX_UPPERCASE))) {
+            messenger.print(WARNING, "-g expects a hex encoding, but -E is not set to hex or hex-uppercase. Ignoring -g.");
+        }
+
+        if (groupingChar != null && encoding == null) {
+            setEncoding(Encoding.HEX);
+            messenger.print(WARNING, "-G has been set, but -E has not bee set. Setting -E hex implicitly.");
+        }
+
+        if ((groupingChar != null) && (encoding != null && !encoding.equals(Encoding.HEX) && !encoding.equals(Encoding.HEX_UPPERCASE))) {
+            messenger.print(WARNING, "-G expects a hex encoding, but -E is not set to hex or hex-uppercase. Ignoring -G.");
+        }
+
+        // ignoring flags
+        if (checkFile != null && format != null) {
+            messenger.print(WARNING, "Option -F will be ignored, because option -c is used.");
+            setFormat(null);
+        }
+
+        // both timestamp and sequence have been specified
+        if (timestampFormat != null && sequenceAsBytes != null) {
+            messenger.print(WARNING, "A sequence (-q) has been specified, timestamp (-t) will be ignored.");
+        }
+
+        // verification mode, but format has been set using -F <format>
+        if (checkFile != null && format != null) {
+            format = null;
+            messenger.print(WARNING, "Ignoring -F, because -c has been specified.");
+        }
+
+        // verification mode, no compat file has been given, and no algorithm id
+        if (checkFile != null && compatibilityID == null && algorithm == null) {
+            setAlgorithm(ALGORITHM_IDENTIFIER_DEFAULT);
+            messenger.print(INFO, String.format("Option -a has not been given, it is set implicitly to %s. Alternatively set -C <compatibility>.", ALGORITHM_IDENTIFIER_DEFAULT));
+            //throw new ParameterException("-a has to be set explicitly. Alternatively set -C <parser>.");
+        }
+
+        if (stdin && timestampFormat != null) {
+            setTimestampFormat(null);
+            messenger.print(WARNING, "Option -t has been ignored, because standard input is used.");
+        }
+
+        if (this.isGnuEscaping() && OSControl.isWindows()) {
+            gnuEscaping = false;
+            messenger.print(WARNING, String.format("Ignoring option --gnu-filename-escaping, because GNU file name escaping is not supported on Microsoft Windows."));
+        }
+
+
         // implicit settings
         if (isRecursive() && getFilenamesFromArgs().isEmpty() && getFilenamesFromFilelist().isEmpty()) {
             messenger.print(WARNING, "Option -r has been set, but no files have been given, reading files recursively, starting with current working directory ...");
@@ -868,15 +926,43 @@ public class Parameters implements
     }
 
     private void handleCompatibility() throws ExitException {
+
+        if (this.isGnuEscapingSetByUser() && OSControl.isWindows()) {
+            messenger.print(WARNING, String.format("Ignoring option --gnu-filename-escaping, because GNU escaping is not supported on Microsoft Windows."));
+            gnuEscaping = false;
+            gnuEscapingSetByUser = false;
+        }
+
         if (this.getCompatibilityID() != null) {
             try {
                 compatibilityProperties = new CompatibilityProperties(this.getCompatibilityID());
 
-                if (this.algorithm != null && compatibilityProperties.getHashAlgorithmUserSelectable()) {
-                    // we overwrite the default in the compatibilityProperties object ...
-                    compatibilityProperties.setHashAlgorithm(this.algorithm);
-                    // ... and flag that change by setting setHashAlgorithmUserSelected(true);
-                    compatibilityProperties.setHashAlgorithmUserSelected(true);
+                if (this.algorithm != null) {
+                    // if the style allows overwriting the algorithm and the algorithm has been set using -a ...
+                    if (compatibilityProperties.getHashAlgorithmUserSelectable()) {
+                        // ... we overwrite the default in the compatibilityProperties object ...
+                        compatibilityProperties.setHashAlgorithm(this.algorithm);
+                        // ... and flag that change by setting setHashAlgorithmUserSelected(true);
+                        compatibilityProperties.setHashAlgorithmUserSelected(true);
+                    } else {
+                        messenger.print(WARNING, String.format("Ignoring option --algorithm, because the style \"%s\" only supports a hardcoded algorithm.", compatibilityID));
+                    }
+                }
+
+                if (this.isGnuEscapingSetByUser()) {
+                    // if the style allows overwriting GnuEscaping and GnuEscaping has been set using --gnu-filename-escaping ...
+                    if (compatibilityProperties.isGnuEscapingSupported() && compatibilityProperties.isGnuEscapingUserSelectable()) {
+                        // ... we overwrite the default in the compatibilityProperties object ...
+                        compatibilityProperties.setGnuEscapingEnabled(this.isGnuEscaping());
+                    } else {
+                        messenger.print(WARNING, String.format("Ignoring option --gnu-filename-escaping, because the style \"%s\" doesn't support or allow to enable GNU escaping.", compatibilityID));
+                    }
+                }
+
+                if (this.isFilesizeWantedSet()) {
+                    if (!compatibilityProperties.isFilesizeSupported()) {
+                        messenger.print(WARNING, String.format("Ignoring option --filesize, because the style \"%s\" doesn't support file sizes.", compatibilityID));
+                    }
                 }
 
                 // patch this parameters object explicitly, because now the parameters
@@ -884,13 +970,13 @@ public class Parameters implements
                 if (!infoMode) { // we didn't specify both -C and --info
 
                     if (checkFile != null) { // we are in check mode
-                        messenger.print(INFO, String.format("Option --compat has been set, setting implicitly -a %s -E %s, stdin-name=%s",
+                        messenger.print(INFO, String.format("Option --compat/--style has been set, setting implicitly -a %s -E %s, stdin-name=%s",
                                 compatibilityProperties.getHashAlgorithm(),
                                 compatibilityProperties.getHashEncoding(),
                                 compatibilityProperties.getStdinName()));
                     } else { // we are in normal calculation/print mode
                         String fmt = compatibilityProperties.getFormat(this.getAlgorithmIdentifier());
-                        messenger.print(INFO, String.format("Option --compat has been set, setting implicitly -a %s -E %s -F \"%s\", stdin-name=%s",
+                        messenger.print(INFO, String.format("Option --compat/-style has been set, setting implicitly -a %s -E %s -F \"%s\", stdin-name=%s",
                                 compatibilityProperties.getHashAlgorithm(),
                                 compatibilityProperties.getHashEncoding(),
                                 fmt,
@@ -903,6 +989,7 @@ public class Parameters implements
                 this.setEncoding(compatibilityProperties.getHashEncoding());
                 this.setStdinName(compatibilityProperties.getStdinName());
                 this.setLineSeparator(compatibilityProperties.getLineSeparator());
+                this.setGnuEscaping(compatibilityProperties.isGnuEscapingEnabled());
                 if (this.getCommentChars() == null && compatibilityProperties.getIgnoreLinesStartingWithString() != null) {
                     this.setCommentChars(compatibilityProperties.getIgnoreLinesStartingWithString());
                 }
@@ -911,6 +998,13 @@ public class Parameters implements
 
             } catch (IOException | InvalidCompatibilityPropertiesException ex) {
                 throw new ExitException("Jacksum: " + ex.getMessage(), ExitCode.IO_ERROR);
+            }
+        } else { // -C hasn't been set, we want to use the default output formatter
+
+            // on Linux and Unix: enable GNU filename escaping for the default output formatter
+            // if the user didn't make a selection explicitly on GNU filename escaping
+            if (!OSControl.isWindows() && !this.isGnuEscapingSetByUser()) {
+                setGnuEscaping(true);
             }
         }
     }
@@ -954,61 +1048,9 @@ public class Parameters implements
             }
         }
 
-        // warnings
-        if (groupcount > 0 && encoding == null) {
-            setEncoding(Encoding.HEX);
-            messenger.print(WARNING, "-g has been set, but -E has not been set. Setting -E hex implicitly.");
-        }
-
-        if ((groupcount > 0) && (encoding != null && !encoding.equals(Encoding.HEX) && !encoding.equals(Encoding.HEX_UPPERCASE))) {
-            messenger.print(WARNING, "-g expects a hex encoding, but -E is not set to hex or hex-uppercase. Ignoring -g.");
-        }
-
-        if (groupingChar != null && encoding == null) {
-            setEncoding(Encoding.HEX);
-            messenger.print(WARNING, "-G has been set, but -E has not bee set. Setting -E hex implicitly.");
-        }
-
-        if ((groupingChar != null) && (encoding != null && !encoding.equals(Encoding.HEX) && !encoding.equals(Encoding.HEX_UPPERCASE))) {
-            messenger.print(WARNING, "-G expects a hex encoding, but -E is not set to hex or hex-uppercase. Ignoring -G.");
-        }
-
-        // ignoring flags    
-        if (checkFile != null && format != null) {
-            messenger.print(WARNING, "Option -F will be ignored, because option -c is used.");
-            setFormat(null);
-        }
-
-        // both timestamp and sequence have been specified
-        if (timestampFormat != null && sequenceAsBytes != null) {
-            messenger.print(WARNING, "A sequence (-q) has been specified, timestamp (-t) will be ignored.");
-        }
 
 
-        if (checkFile != null) {
-            if (format != null) { // -F <format>
-                format = null;
-                messenger.print(WARNING, "Ignoring -F, because -c has been specified.");
-            }
-            if (compatibilityID == null) {
-                if (algorithm == null) {
-                    throw new ParameterException("-a has to be set explicitly. Alternatively set -C <parser>.");
-                }
-
-                if (encoding == null) {
-                    throw new ParameterException("-E has to be set explicitly. Alternatively set -C <parser>.");
-                }
-            }
-
-        }
-
-        if (stdin && timestampFormat != null) {
-            setTimestampFormat(null);
-            messenger.print(WARNING, "Option -t has been ignored, because standard input is used.");
-        }
-
-
-        handleImplicitSettings();
+        handleWarningsAndImplicitSettings();
 
     }
 
@@ -1235,6 +1277,23 @@ public class Parameters implements
         return filesizeWanted == 1;
     }
 
+    public boolean isGnuEscaping() {
+        return gnuEscaping;
+    }
+
+    public boolean isGnuEscapingSetByUser() {
+        return gnuEscapingSetByUser;
+    }
+
+    public void setGnuEscaping(boolean gnuEscaping) {
+        this.gnuEscaping = gnuEscaping;
+        this.gnuEscapingSetByUser = true;
+    }
+
+    public void setGnuEscapingToDefault() {
+        this.gnuEscaping = !OSControl.isWindows();
+        this.gnuEscapingSetByUser = false;
+    }
 
     enum SequenceType {
         TXT, TXTF, DEC, HEX, BIN, FILE
@@ -1668,7 +1727,12 @@ public class Parameters implements
         if (compatibilityID != null) {
             list.add("--style");
             list.add(compatibilityID);
+        } else {
+           // TODO
+           // all properties here that are being set implicitly by a compat file
         }
+
+
         if (bom) {
             list.add("--bom");
         }

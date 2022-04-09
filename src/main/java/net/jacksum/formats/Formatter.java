@@ -23,29 +23,31 @@
 
 package net.jacksum.formats;
 
-import java.io.File;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.Locale;
+
+import net.jacksum.multicore.OSControl;
 import org.n16n.sugar.util.GeneralString;
 import net.jacksum.algorithms.AbstractChecksum;
 
 public class Formatter {
 
     private final static String EMPTY_STRING = "";
-        
+
+    private FormatPreferences formatPreferences;
     private LineFormatter lineFormatter;
     private FingerprintFormatter fingerprintFormatter;
-    private FilenameFormatter filenameFormatter;
+    private FilenameFormatter sharedFilenameFormatter;
     private SizeFormatter sizeFormatter;
     private TimestampFormatter timestampFormatter;
     
   
     
     public Formatter(FormatPreferences formatPreferences) {
-        
-        lineFormatter = new LineFormatter(formatPreferences);
 
+        this.formatPreferences = formatPreferences;
+        lineFormatter = new LineFormatter(formatPreferences);
         fingerprintFormatter = new FingerprintFormatter(formatPreferences);
         if (formatPreferences.isFilesizeWanted()) {
             sizeFormatter = new SizeFormatter(formatPreferences);
@@ -53,16 +55,31 @@ public class Formatter {
         if (formatPreferences.isTimestampWanted()) {
             timestampFormatter = new TimestampFormatter(formatPreferences);
         }
-        filenameFormatter = new FilenameFormatter(formatPreferences);
+        sharedFilenameFormatter = new FilenameFormatter(formatPreferences);
     }
-
 
     
     public String format(AbstractChecksum checksum) {
         String separator = lineFormatter.getParameters().getSeparator();
         String fingerprint = fingerprintFormatter.format(checksum.getByteArray());
+
+        // We need to check whether the file name has a problematic character in it (in other words, whether the
+        // problematic characters were replaced by calling fileformatter's format() method).
+        // To check that, we need to use a temp. non-shared fileformatter instance. And only in the case that GNU escaping
+        // have been performed successfully (there was at least one problematic character), we need to flag that fact
+        // in the output with a leading backslash (see filenameContainedProblematicChars).
+        FilenameFormatter nonSharedFilenameFormatter = checksum.getFormatPreferences().isGnuEscaping() ?
+                new FilenameFormatter(formatPreferences) : sharedFilenameFormatter;
+        String filenameFormatted = null;
+        if (checksum.getFilename() != null) {
+            filenameFormatted = nonSharedFilenameFormatter.format(checksum.getFilename());
+        }
+        boolean filenameContainedProblematicChars = nonSharedFilenameFormatter.didTheFormatMethodChangeProblematicChars();
         
-        return String.format("%s%s%s%s", 
+        return String.format("%s%s%s%s%s",
+                fingerprint.length() > 0 && filenameContainedProblematicChars ?
+                        "\\" : EMPTY_STRING,
+
                 fingerprint.length() > 0 ?
                         fingerprint : EMPTY_STRING,
 
@@ -73,7 +90,7 @@ public class Formatter {
                         separator + timestampFormatter.format(checksum.getTimestamp()) : EMPTY_STRING,
                 
                 checksum.getFilename() != null ?
-                        separator + filenameFormatter.format(checksum.getFilename()) : EMPTY_STRING);        
+                        separator + filenameFormatted : EMPTY_STRING);
     }
 
     
@@ -125,6 +142,10 @@ public class Formatter {
         FilenameFormatter filenameFormatter = new FilenameFormatter(abstractChecksum.getFormatPreferences());
         String formattedFilename = filenameFormatter.format(abstractChecksum.getFilename());
 
+        boolean escape = abstractChecksum.getFormatPreferences().isGnuEscaping();
+        boolean escaped = filenameFormatter.didTheFormatMethodChangeProblematicChars();
+        GeneralString.replaceAllStrings(buffer, "#ESCAPETAG", escape && escaped ? "\\" : "");
+
         if (buffer.toString().contains("#FILENAME{")) {
 
             String name;
@@ -132,16 +153,16 @@ public class Formatter {
             try {
                 name = Paths.get(abstractChecksum.getFilename()).getFileName().toString();
                 directory = Paths.get(abstractChecksum.getFilename()).getParent().toString();
-                //directory = abstractChecksum.getFormatPreferences().getPathRelativeTo().relativize(directory).toString());
             } catch (InvalidPathException ipe) {
                 name = formattedFilename;
                 directory = null;
             }
 
-            GeneralString.replaceAllStrings(buffer, "#FILENAME{name}", name);
+            GeneralString.replaceAllStrings(buffer, "#FILENAME{name}",
+                    escape ? FilenameFormatter.gnuEscapeProblematicCharsInFilename(name) : name);
             if (directory == null) directory = "";
-            GeneralString.replaceAllStrings(buffer, "#FILENAME{path}", directory);
-
+            GeneralString.replaceAllStrings(buffer, "#FILENAME{path}",
+                    escape ? FilenameFormatter.gnuEscapeProblematicCharsInFilename(directory) : directory);
         }
         GeneralString.replaceAllStrings(buffer, "#FILENAME", formattedFilename);
 
@@ -186,8 +207,13 @@ public class Formatter {
         // special chars: quotes
         GeneralString.replaceAllStrings(buffer, "#QUOTE", "\"");        
     }
+
+    private static void _replaceBintagToken(StringBuilder buffer, AbstractChecksum abstractChecksum) {
+        GeneralString.replaceAllStrings(buffer, "#BINTAG", OSControl.isWindows() ? "*": " ");
+    }
     
     public static String format(StringBuilder buffer, AbstractChecksum abstractChecksum, byte[] sequence) {
+        _replaceBintagToken(buffer, abstractChecksum);
         _replaceFingerprintTokens(buffer, abstractChecksum);
         _replaceAlgorithmTokens(buffer, abstractChecksum);
         _replaceSequenceTokens(buffer, abstractChecksum, sequence);
@@ -197,7 +223,6 @@ public class Formatter {
         _replaceSpecialCharTokens(buffer, abstractChecksum);       
         return buffer.toString();
     }
-
 
     public static void replaceAliases(StringBuilder format) {
         FingerprintFormatter.replaceAliases(format);
@@ -229,11 +254,11 @@ public class Formatter {
     }
 
     public FilenameFormatter getFilenameFormatter() {
-        return filenameFormatter;
+        return sharedFilenameFormatter;
     }
 
     public void setFilenameFormatter(FilenameFormatter filenameFormatter) {
-        this.filenameFormatter = filenameFormatter;
+        this.sharedFilenameFormatter = filenameFormatter;
     }
 
     /**

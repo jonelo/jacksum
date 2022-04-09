@@ -33,4 +33,6 @@ public interface FilenameFormatParameters {
     boolean isPathCharSet();
     boolean isNoPath();
     Path getPathRelativeTo();
+    boolean isGnuEscaping();
+    boolean isGnuEscapingSetByUser();
 }

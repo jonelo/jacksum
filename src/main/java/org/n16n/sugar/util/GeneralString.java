@@ -430,5 +430,24 @@ public class GeneralString {
     public static String trimLeft(String string) {
         return string.replaceAll("\\s+$", "");
     }
-    
+
+    public static boolean parseBoolean(String arg) throws IllegalArgumentException {
+        switch (arg) {
+            case "yes":
+            case "on":
+            case "true":
+            case "1":
+            case "enabled":
+                return true;
+            case "no":
+            case "off":
+            case "false":
+            case "0":
+            case "disabled":
+                return false;
+            default: throw new IllegalArgumentException(String.format
+                    ("the value \"%s\" does not represent a boolean. The values yes, on, true, 1, enabled or no, off, false, 0, disabled are supported.", arg));
+        }
+    }
+
 }

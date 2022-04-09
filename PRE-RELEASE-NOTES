@@ -2,13 +2,20 @@ Jacksum 3.3.0, TBD
 
 - new features:
 
-    - added option --threads-hashing to control the number of threads if multiple
+    - added option --threads-hashing <threads> to control the number of threads if multiple
       algorithms should run in parallel
-    - added option --threads-reading to control the number of threads if multiple
+    - added option --threads-reading <threads> to control the number of threads if multiple
       files should be read in parallel
-    - added option --path-relative-to-entry
+    - added option --path-relative-to-entry <integer>
       (required for the integration at the Windows Explorer's SendTo-menu)
-    - added option --filesize to control whether the file size should be added or not
+    - added option --filesize <boolean> to control whether the file size should be added or not
+    - added option --gnu-escaping to tag the lines where file names have been escaped (default, linux, and bsd styles)
+    - parse escaped file names that have been tagged in default, linux and bsd verification files
+    - added format token #BINTAG to tag binary mode in verification files with a Linux style produced on Microsoft Windows
+    - added format token #ESCAPETAG to tag lines where the file name has been escaped using the GNU file name escaping feature
+    - added format tokens #ALGONAMES, #ALGONAMES{uppercase}, and #ALGONAMES{lowercase} to print algorithm names
+      separated by a comma if multiple algorithms have been selected
+    - added format tokens #HASHES, #HASHES{<encoding>} to print hashes separated by comma if multiple algorithms have been selected
 
 - performance:
 
@@ -30,4 +37,3 @@ Jacksum 3.3.0, TBD
       from the actual parameter object values, and not from the CLI parameters
     - fixed: wrong help section is printed out in case of user errors with --file-list-format
     - fixed: slightly wrong error message if concurrent path options have been set
-

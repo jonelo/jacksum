@@ -29,6 +29,7 @@ import net.jacksum.multicore.ThreadControl;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
 import org.n16n.sugar.io.GeneralIO;
+import org.n16n.sugar.util.GeneralString;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -61,6 +62,12 @@ public class CLIParameters {
         Help.printHelp("en", helpString);
         throw new ParameterException(String.format("Option %s requires a valid parameter.", userArg));
     }
+
+    private void handleParamError(String helpString, String formattedMessage, String... values) throws ParameterException {
+        Help.printHelp("en", helpString);
+        throw new ParameterException(String.format("for option \"%s\": "+formattedMessage+ " For syntax on this option see above.", helpString, values));
+    }
+
 
     /**
      * Parses the CLI Parameters and returns a Parameters object
@@ -200,20 +207,31 @@ public class CLIParameters {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
 
-                        if (arg.equals("yes") || arg.equals("on") || arg.equals("true") || arg.equals("1") || arg.equals("enabled")) {
-                            parameters.setFilesizeWanted(true);
-                        } else
-                        if (arg.equals("no") || arg.equals("off") || arg.equals("false") || arg.equals("0") || arg.equals("disabled")) {
-                            parameters.setFilesizeWanted(false);
-                        } else
-                        if (arg.equals("default")) {
-                            parameters.setFilesizeWanted(-1);
-                        } else {
-                            throw new ParameterException("filesize value is invalid.");
+                        try {
+                            parameters.setFilesizeWanted(GeneralString.parseBoolean(arg));
+                        } catch (IllegalArgumentException iae) {
+                            handleParamError("--filesize", iae.getMessage(), arg);
+                            //throw new ParameterException(iae.getMessage());
                         }
                     } else {
                         handleUserParamError(arg, "--filesize");
                     }
+
+                } else if (arg.equals("--gnu-filename-escaping")) {
+                    if (firstfile < args.length) {
+                        arg = args[firstfile++];
+
+                        try {
+                            parameters.setGnuEscaping(GeneralString.parseBoolean(arg));
+                        } catch (IllegalArgumentException iae) {
+                            handleParamError("--gnu-filename-escaping", iae.getMessage(), arg);
+                            //throw new ParameterException(iae.getMessage());
+                        }
+
+                    } else {
+                        handleUserParamError(arg, "--gnu-filename-escaping");
+                    }
+
 
                 } else if (arg.equals("-F") || arg.equals("--format")) {
                     if (firstfile < args.length) {

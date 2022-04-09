@@ -29,7 +29,9 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import net.jacksum.multicore.OSControl;
 import net.jacksum.parameters.base.FilenameFormatParameters;
+import org.n16n.sugar.util.GeneralString;
 
 public class FilenameFormatter implements FilenameFormatParameters {
 
@@ -55,11 +57,39 @@ public class FilenameFormatter implements FilenameFormatParameters {
         }
     }
 
+    // if the filename contains a backslash, newline, or carriage return, the line is started with a backslash,
+    // and each problematic character in the file name is escaped with a backslash, making the output unambiguous
+    // even in the presence of arbitrary file names.
+    public static String gnuEscapeProblematicCharsInFilename(String filename) {
+        StringBuilder buffer = new StringBuilder(filename);
+        GeneralString.replaceAllStrings(buffer, "\\", "\\\\"); // backslash
+        GeneralString.replaceAllStrings(buffer, "\n", "\\n"); // new line
+        GeneralString.replaceAllStrings(buffer, "\r", "\\r"); // carriage return
+        return buffer.toString();
+    }
+
+    public boolean filenameContainedProblematicChars = false;
+
+    public boolean didTheFormatMethodChangeProblematicChars() {
+        return filenameContainedProblematicChars;
+    }
+
+    public String gnuEscapeProblematicCharsInFilenameWithResult(String filename) {
+        String newFilename = gnuEscapeProblematicCharsInFilename(filename);
+        // if there was a problematic character being replaced the length of the string will be larger
+        filenameContainedProblematicChars = newFilename.length() != filename.length();
+        return newFilename;
+    }
+
 
     public String format(String filename) {
+        filenameContainedProblematicChars = false;
+        boolean escape = parameters.isGnuEscaping() && !OSControl.isWindows();
+
         if (parameters.isNoPath()) {
             try {
-                return Paths.get(filename).getFileName().toString();
+                String filenameWithoutPath = Paths.get(filename).getFileName().toString();
+                return escape ? gnuEscapeProblematicCharsInFilenameWithResult(filenameWithoutPath) : filenameWithoutPath;
             } catch (InvalidPathException ipe) {
                 return filename;
             }
@@ -74,15 +104,16 @@ public class FilenameFormatter implements FilenameFormatParameters {
                 // Convert the absolute path to a relative path, and fix the path char
                 // It throws an IllegalArgumentException if path1 is not a Path that can be relativized against path2
                 // e.g. if path1 and path2 have different roots (on Microsoft Windows)
-                return fixPathChar(path2.relativize(path1).toString());
+                String filenameNew = path2.relativize(path1).toString();
+                return fixPathChar(escape ? gnuEscapeProblematicCharsInFilenameWithResult(filenameNew) : filenameNew);
 
             } catch (InvalidPathException ipe) {
                 return filename;
             } catch (IllegalArgumentException iae) {
-                return fixPathChar(filename);
+                return fixPathChar(escape ? gnuEscapeProblematicCharsInFilenameWithResult(filename) : filename);
             }
         }
-        return fixPathChar(filename);
+        return fixPathChar(escape ? gnuEscapeProblematicCharsInFilenameWithResult(filename) : filename);
     }
 
     @Override
@@ -103,6 +134,16 @@ public class FilenameFormatter implements FilenameFormatParameters {
     @Override
     public Path getPathRelativeTo() {
         return parameters.getPathRelativeTo();
+    }
+
+    @Override
+    public boolean isGnuEscaping() {
+        return parameters.isGnuEscaping();
+    }
+
+    @Override
+    public boolean isGnuEscapingSetByUser() {
+        return parameters.isGnuEscapingSetByUser();
     }
 
 }
