@@ -111,8 +111,8 @@ DESCRIPTION
             - Ukraine
                 - Kupyna[256,384,512] (DSTU 7564:2014)
 \
-        - Modern eXtendable Output Functions (XOF) as cryptographic hash functions
-          with a fixed length:
+        - Modern eXtendable Output Functions (XOF) as cryptographic hash
+          functions with a fixed length:
             - KangarooTwelve
             - MarsupilamiFourteen
             - SHAKE256
@@ -383,7 +383,7 @@ PARAMETERS
     The following parameters are supported:
 #PARAMETERS-BEGIN
     files and directories
-            names of files and directories. You can specify as many files and
+            Names of files and directories. You can specify as many files and
             directories as you like. Wildcards are supported, but they depend
             on the shell that you are using. With no parameters Jacksum reads
             from the standard input in the hash calculation mode.
