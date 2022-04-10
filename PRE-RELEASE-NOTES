@@ -16,11 +16,13 @@ Jacksum 3.3.0, TBD
     - added format tokens #ALGONAMES, #ALGONAMES{uppercase}, and #ALGONAMES{lowercase} to print algorithm names
       separated by a comma if multiple algorithms have been selected
     - added format tokens #HASHES, #HASHES{<encoding>} to print hashes separated by comma if multiple algorithms have been selected
+    - added API calls to allow working with the help
 
 - performance:
 
     - the option --threads-reading is set to 1 by default to avoid performance degration
       for hashing files stored on non-SSD-media such as HDDs or CD-ROMs
+    - faster output of the build-in help by using memory buffering before printing
     - improved initial values for HashMap constructors
 
 - bug fixes:
@@ -37,3 +39,5 @@ Jacksum 3.3.0, TBD
       from the actual parameter object values, and not from the CLI parameters
     - fixed: wrong help section is printed out in case of user errors with --file-list-format
     - fixed: slightly wrong error message if concurrent path options have been set
+    - fixed: algorithms with a numeric parameter (e.g. haval_<width>_<rounds>) cannot be found
+      by the build-in help function if fully expessed (e.g. jacksum -h haval_256_5)

@@ -31,7 +31,6 @@ import net.jacksum.actions.version.VersionAction;
  */
 public class Help {
 
-
     /**
      * Print help on standard output.
      *
@@ -39,17 +38,30 @@ public class Help {
      * @param search the search string, can be null
      */
     public static void printHelp(String code, String search) {
+        try {
+            System.out.print(searchHelp(code, search));
+        } catch (NothingFoundException nfe) {
+            System.err.print(nfe.getMessage());
+        } catch (FileNotFoundException fnfe) {
+            System.err.print(fnfe.getMessage());
+        } catch (IOException ioe) {
+            System.err.print(ioe.getMessage());
+        }
+    }
+
+    public static String searchHelp(String code, String search) throws NothingFoundException, IOException {
         String filename = "/net/jacksum/help/help_" + code + ".txt";
         try {
-            printLongHelp(filename, search);
+            return searchLongHelp(filename, search);
         } catch (FileNotFoundException fnfe) {
             // A note for maintainers of platform specific packages:
             // please keep the help file, don't remove it. The help file is important, because the
             // error system and --help options of Jacksum relies on it.
-            System.err.printf("FATAL: help file %s is not bundled with .jar file. Please file a bug for the maintainer of this package.%n", filename);
+            throw new FileNotFoundException(String.format("FATAL: help file %s is not bundled with .jar file. Please file a bug for the maintainer of this package.%n", filename));
         } catch (IOException ioe) {
-            System.err.printf("FATAL: problem while reading help file %s.%n", filename);
+            throw new IOException(String.format("FATAL: problem while reading help file %s.%n", filename));
         }
+
     }
 
     /**
@@ -94,6 +106,20 @@ public class Help {
      */
     public static void printLongHelp(String filename, String search) throws
             FileNotFoundException, IOException {
+        try {
+            System.out.print(searchLongHelp(filename, search));
+        } catch (NothingFoundException nfe) {
+            System.err.print(nfe.getMessage());
+        }
+    }
+
+    private final static String NEW_LINE = String.format("%n");
+
+    private static String searchLongHelp(String filename, String search) throws
+            FileNotFoundException, IOException, NothingFoundException {
+        StringBuilder out = new StringBuilder();
+
+
         InputStream is = null;
         InputStreamReader isr = null;
         BufferedReader br = null;
@@ -113,9 +139,9 @@ public class Help {
                 while ((line = br.readLine()) != null) {
                     if (line.startsWith("\\") || line.startsWith("#")) {
                         // those lines are treated as empty lines
-                        System.out.println();
+                        out.append(NEW_LINE);
                     } else {
-                        System.out.println(line);
+                        out.append(String.format("%s%n", line));
                     }
                 }
             } else {
@@ -125,28 +151,39 @@ public class Help {
                 StringBuilder buffer = new StringBuilder();
                 boolean found = false;
                 boolean inSearchableSection = false;
+                String searchUppercase = search.toUpperCase(Locale.US);
+
+                String section = "";
                 while ((line = br.readLine()) != null) {
 
+                    // an empty line indicates the start of a new block
                     boolean startOfAnewBlock = line.trim().length() == 0;
 
-                    boolean b = found && line.startsWith("#" + search.toUpperCase(Locale.US));
+                    // e.g. #OPTIONS
+                    boolean entireSection = found && line.startsWith("#" + searchUppercase);
+
+
+                    // we are at the begin of a searchable section
                     if (line.startsWith("#") && line.endsWith("-BEGIN")) {
+                        section = line.substring(1, line.length()-6);
+
                         inSearchableSection = true;
                         startOfAnewBlock = true;
 
                         // e.g. jacksum -h options
-                        if (b) {
+                        if (entireSection) {
                             startOfAnewBlock = false;
                             blockOutput = true;
                         }
+                    // we have reached the end of a searchable section
                     } else if (line.startsWith("#") && line.endsWith("-END")) {
+                        section = "";
                         inSearchableSection = false;
                         startOfAnewBlock = true;
 
-                        if (b) {
+                        if (entireSection) {
                             blockOutput = false;
                         }
-
                     }
 
                     // One backslash at pos 1 indicates that it belongs
@@ -156,19 +193,50 @@ public class Help {
                     }
 
                     //if (!startOfAnewBlock) {
-                        // put the current line to buffer
-                        buffer.append(line);
-                        buffer.append('\n');
+                    // put the current line to buffer
+                    buffer.append(String.format("%s%n", line));
                     //}
 
-                    if (!found
-                            && // e. g. jacksum -h -a
-                            ((inSearchableSection
-                            && line.substring(0, Math.min(12, line.length())).trim().length() > 0
-                            && line.trim().startsWith(search))
-                            // e. g. jacksum -h examples
-                            || (line.toLowerCase(Locale.US).startsWith(search.toLowerCase(Locale.US))))) {
-                        found = true;
+                    if (!found) {
+                        // search string is an exact option (e. g. "jacksum -h -a")
+                        // a fraction of an option (e. g. "jacksum -h --path")
+                        if (inSearchableSection // we are in a searchable section (options or algorithms)
+                          && line.substring(0, Math.min(line.length(), 12)).trim().length() > 0) { // in line there is an option or an algo
+
+                            if (section.equals("OPTIONS")
+                                && search.startsWith("-")
+                                && line.trim().startsWith(search)) {
+                                found = true;
+                            } else
+                            if (section.equals("ALGORITHMS")) { // in a line there could be many algorithms ids, separated by a comma
+
+                                String[] tokens = line.trim().split(",");
+                                for (String token : tokens) {
+                                    String trimmedToken = token.trim();
+                                    // if "<" is part of the token, it is a candidate for a regex,
+                                    // e.g. haval_128,3 for "haval, haval_<width>_<rounds>"
+                                    if (trimmedToken.contains("<")) {
+                                        // convert the trimmedToken to a regex
+                                        String pattern = trimmedToken.replaceAll("<.+?>", "(\\\\d+)"); // becomes (\d+) in regex
+                                        if (search.matches(pattern)) {
+                                            found = true;
+                                            break;
+                                        }
+                                    } else
+                                    if (trimmedToken.startsWith(search)) {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                        } else
+
+                        // we are out of a searchable section, but the user want to search for
+                        // a header or a fraction of a header, e. g. "jacksum -h examples", "jacksum -h ex"
+                        if (line.toLowerCase(Locale.US).startsWith(search.toLowerCase(Locale.US))) {
+                            found = true;
+                        }
                     }
 
                     // an empty line indicates the start of a new block
@@ -176,7 +244,7 @@ public class Help {
                     if (startOfAnewBlock && !blockOutput) {
                         // put out the buffer that has been filled with lines
                         if (found && buffer.length() > 0) {
-                            System.out.print(buffer);
+                            out.append(buffer);
                             foundAtLeastOneSection = true;
                         }
                         // new chance again
@@ -188,11 +256,11 @@ public class Help {
                 } // end-while
                 // is there still something in the buffer?
                 if (found && buffer.length() > 0) {
-                    System.out.print(buffer);
+                    out.append(buffer);
                     foundAtLeastOneSection = true;
                 }
                 if (!foundAtLeastOneSection) {
-                    System.err.printf("Your search \"%s\" did not match any section in the help.%n", search);
+                    throw new NothingFoundException(String.format("Your search \"%s\" did not match any section in the help.%n", search));
                 }
 
             } // end-if
@@ -208,6 +276,9 @@ public class Help {
                 is.close();
             }
         } // end-try
+
+        return out.toString();
     }
+
 
 }
