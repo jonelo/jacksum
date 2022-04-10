@@ -362,7 +362,7 @@ DESCRIPTION
             algorithms. By default Jacksum checks whether an algorithm is
             provided by the JRE/JDK and if it is, it uses the implementation
             from the JRE/JDK, because often that gives the best performance.
-            Because exceptions confirm the rule, this behavior can also be
+            Because exceptions confirm the rule, this behaviour can also be
             disabled by setting the -A option.
 \
 \
@@ -412,25 +412,45 @@ OPTIONS
                 Learn more on this topic by typing `jacksum --help crc:`
 \
             Several algorithms, handpicked (-a <algo>+...):
-                Algorithms can be concatenated with the plus character, e. g.
-                "sha1+crc32", "sha512+sha3-512+blake2b-512", etc.
+                Multiple algorithms can be selected by concatenating the
+                algorithms by the plus character.
+                Examples: "sha1+crc32", "sha512+sha3-512+blake2b-512", etc.
+                The new algorithm resulting from all concatenated algorithms
+                returns by default only one composite value consisting of all
+                chained hash values. This feature allows you to use any
+                combination of algorithms for any predefined standard style,
+                even if the style was designed to support only one algorithm.
+                Each file is read only once even if you select multiple
+                algorithms in order to minimize I/O calls which improves the
+                performance. Also each algorithm can run in parallel if you use
+                a computer which supports multi threading.
+                You can control the performance behaviour by setting the option
+                called --threads-hashing.
+\
                 If at least one plus character is found in <algorithms>, the
-                output is normalized by a hex checksum and a decimal file size.
-                You can customize that behavior by using the options -E, -F, -g,
-                and -G. Examples: "sha1+md5+crc32", "sha3-256+"
+                output is normalized by a hex lowercase checksum and a decimal
+                file size is inserted.
+                Example: "md5+", "sha256+", "sha3-256+"
+                You can disable adding the filesize by setting --filesize off.
+\
+                You can customize the output behaviour by using the options -E,
+                -F, -g, -G. Especially have a look at the various tokens for
+                --format which allows you to highly customize the output to
+                meet your actual needs.
                 Available since Jacksum 1.7.0
 \
             Several algorithms, filtered by bit width (-a all:<width>)
-                In order to use all algorithms that have a particular bit-
-                length, you can use "-a all:<width>" where <width> has to be a
-                multiple of 8 such as "all:224", "all:256", "all:888", "all:1024"
+                In order to use all algorithms that have a particular bit-width
+                you can use "-a all:<width>" where <width> has to be a
+                multiple of 8.
+                Examples: "all:224", "all:256", "all:888", "all:1024"
                 Available since Jacksum 3.0.0
 \
             Several algorithms, filtered by a string (-a all:<string>)
                 In order to use all algorithms that matches a particular string,
                 you can use "-a all:<string>" where <string> can be any string.
-                Algorithm IDs and Algorithm alias IDs are being searched, such
-                as "all:skein", "all:sha3-", "all:fnv", "all:whirlpool"
+                Algorithm IDs and Algorithm alias IDs are being searched.
+                Examples: "all:skein", "all:sha3-", "all:fnv", "all:whirlpool"
                 Available since Jacksum 3.0.0
 \
             All algorithms (-a all):
@@ -593,32 +613,38 @@ OPTIONS
             Available since Jacksum 3.0.0
 
 
-    -C <compatibility>
-    --compat <compatibility>
-    --style <compatibility>
-            Specifies the compatibility behavior of Jacksum for both input
+    -C <compatibility style>
+    --compat <compatibility style>
+    --style <compatibility style>
+            Specifies the compatibility behaviour of Jacksum for both input
             format and output format. Replace <compatibility> with one of the
-            predefined keywords bsd or linux-tagged, fciv, linux or
-            linux-untagged, sfv, openssl, solaris-tagged or solaris-untagged in
-            order to get a predefined behavior or replace it with a file that
-            contains the properties that are required for a compatibility file.
+            predefined keywords ad described below in order to get a predefined
+            behaviour or replace it with a file that contains the properties
+            that are required for a compatibility file.
             To get the properties of one of the predefined compatibility files,
             add the option --info. Example: `jacksum -C bsd --info`
             <compatibility> can be used for the hashing mode, the check mode
             and the info mode.
 \
-            calculating/hashing mode:
-                During normal hashing of files/messages the <compatibility>
-                determines the actual output format only. The algorithm
-                (--algorithm), the encoding of the hash (--encoding), and the
-                format (--format) will be used as defined in <compatibility>.
-                If <compatibility> supports the algorithm to be specified by the
-                user you can set -a to get the expected output format defined
-                in <compatibility> but with the algorithm you want. For example,
-                that allows you to print sha3-256 hashes in the legacy sfv
-                format.
+            calculating hash values mode:
+                During normal hashing of files/messages the <compatibility
+                style> determines the actual output format only. The algorithm
+                (--algorithm), the encoding for the representation of the hash
+                value (--encoding), and the format (--format) are used as
+                defined in <compatibility style>.
 \
-            verification/check mode:
+                If <compatibility style> supports the algorithm to be specified
+                by the user you can set option -a to get the expected output
+                format defined in <compatibility style> but with the algorithm
+                you want. For example, that allows you to print sha3-256 hashes
+                in the legacy sfv format.
+\
+                if <compatibility style> supports the GNU file name escaping
+                formatter to be enabled by the user, you can set option
+                --gnu-filename-escaping to tag all lines that contain file names
+                that have been escaped by that feature.
+\
+            verify hash values mode:
                 Jacksum can not only read output that has been produced by
                 itself, it is also able to read output produced by other tools.
                 For being compatible with both well and not so well known
@@ -626,9 +652,9 @@ OPTIONS
                 or define your own parser by providing a short property file.
 \
                 In check mode (if option -c resp. --check-file has been set),
-                the <compatibility> determines the parser that is used to read
-                the file content properly. With -C you can check against a list
-                that was created by a different application or if you have
+                the <compatibility style> determines the parser that is used to
+                read the file content properly. With -C you can check against a
+                list that was created by a different application or if you have
                 generated a list with Jacksum and the -F option was in use.
 \
                 To specify the character set of the actual input file use the
@@ -643,10 +669,11 @@ OPTIONS
                 in the compatibility file are printed out.
 \
 \
-            For <compatibility> the following predefined compatibility files
-            are supported:
+            For <compatibility style> the following predefined compatibility
+            files are supported:
 \
-                linux-tagged or bsd
+                bsd
+                    Aliases: bsd-tagged, linux-tagged, gnu-linux-tagged
                     A common lightweight plain text file format on BSD systems
                     and GNU/Linux. The algorithm info is stored in the file
                     (therefore it is called "tagged").
@@ -664,27 +691,34 @@ OPTIONS
                           and later
 \
                     The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated algorithms. If
-                    you don't specify -a, the algo defaults to sha3-256.
+                    by Jacksum, it also works with concatenated algorithms.
+                    GNU escaping can be disabled, see also option
+                    --gnu-filename-escaping.
+                    If you don't specify -a, the algo defaults to sha3-256.
+                    Available since Jacksum 3.0.0.
 \
 \
-                linux-untagged or linux
-                    A common lightweight plain text file format on GNU/Linux
-                    and macOS, without algorithm info in the file (untagged).
+                bsd-r
+                    Alias: bsd-untagged, bsd-reversed
+                    A common lightweight plain text file format on BSD systems.
+                    The algorithm info is not stored in the file
+                    (therefore it is called "untagged"). The BSD reversed mode
+                    format is similar to the GNU untagged format, but doesn't
+                    use a character to distinguish binary and text modes.
 \
                     This compatibility file can print and parse the output like
                     that of the programs
 \
-                        - md5sum, sha1sum, sha224sum, sha256sum, sha384sum,
-                          sha512sum, shasum, sha3sum, b2sum, etc. on Unix and
-                          GNU/Linux
-                        - cksum with the --untagged option set on GNU/Linux
-                          with the GNU Core Utilities 9.0 and later
-                        - shasum on macOS
+                        - md5, sha1, sha224, sha256, sha384, sha512,
+                          sha512t256, rmd16, skein256, skein512, skein1024
+                          with the -r option on BSD systems
 \
                     The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated algorithms. If
-                    you don't specify -a, the algorithm defaults to sha3-256.
+                    by Jacksum, it works even with concatenated algorithms.
+                    GNU escaping can be disabled, see also option
+                    --gnu-filename-escaping.
+                    If you don't specify -a, the algo defaults to sha3-256.
+                    Available since Jacksum 3.0.0.
 \
 \
                 fciv
@@ -699,6 +733,65 @@ OPTIONS
                     by Jacksum, it works even with concatenated algorithms. If
                     you don't specify -a, the algorithm defaults to sha1,
                     because that is the strongest algorithm that FCIV supports.
+                    Available since Jacksum 3.0.0.
+\
+\
+                gnu-linux
+                    Aliases: linux, linux-untagged, gnu-linux-untagged
+                    A common lightweight plain text file format on GNU/Linux
+                    and macOS, without algorithm info in the file (untagged).
+\
+                    This compatibility file can print and parse the output like
+                    that of the programs
+\
+                        - md5sum, sha1sum, sha224sum, sha256sum, sha384sum,
+                          sha512sum, shasum, sha3sum, b2sum, etc. on Unix and
+                          GNU/Linux
+                        - cksum with the --untagged option set on GNU/Linux
+                          with the GNU Core Utilities 9.0 and later
+                        - shasum on macOS
+\
+                    The compat file works with any algorithm that is supported
+                    by Jacksum, it works even with concatenated algorithms.
+                    GNU escaping can be disabled, see also option
+                    --gnu-filename-escaping.
+                    The binary mode tag is set to '*' on Windows, and ' ' on
+                    non-Windows systems.
+                    If you don't specify -a, the algorithm defaults to sha3-256.
+                    Available since Jacksum 3.0.0.
+\
+\
+                openssl-dgst
+                    Aliases: openssl, openssl-tagged
+                    A lightweight plain text file format used by openssl.
+\
+                    This compatibility file can print and parse the output
+                    like that of the openssl program with dgst parameter.
+\
+                    The compat file works with any algorithm that is supported
+                    by Jacksum, it works even with concatenated algorithms.
+                    GNU escaping can be disabled, see also option
+                    --gnu-filename-escaping.
+                    If you don't specify -a, the algorithm defaults to sha3-256.
+                    Available since Jacksum 3.0.0.
+\
+\
+                openssl-dgst-r
+                    Aliases: openssl-r, openssl-untagged
+                    A lightweight plain text file format used by openssl.
+\
+                    This compatibility file can print and parse the output
+                    like that of the openssl program with program arguments
+                    "dgst -r" which prints the digest in coreutils format.
+                    The binary mode flag is set always to "*", even on
+                    GNU/Linux.
+\
+                    The compat file works with any algorithm that is supported
+                    by Jacksum, it works even with concatenated algorithms.
+                    GNU escaping can be disabled, see also option
+                    --gnu-filename-escaping.
+                    If you don't specify -a, the algorithm defaults to sha3-256.
+                    Available since Jacksum 3.0.0.
 \
 \
                 sfv
@@ -707,48 +800,66 @@ OPTIONS
                     initially designed for crc32 only.
 \
                     The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated algorithms. If
-                    you don't specify -a, the algorithm defaults to crc32,
+                    by Jacksum, it works even with concatenated algorithms.
+                    If you don't specify -a, the algorithm defaults to crc32,
                     because it is the algorithm that was used during the
                     original design of the SFV format.
+                    Available since Jacksum 3.0.0.
 \
 \
-                solaris-tagged
+                solaris-digest
+                    Alias: solaris-untagged
                     A lightweight plain text file format on Solaris with
                     algorithm info in the file.
 \
                     This compatibility file can print and parse the output like
-                    that of the tagged call "digest -v -a <algo>" on Solaris.
+                    that of the tagged call "digest -a <algo>" on Solaris.
 \
                     The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated algorithms. If
-                    you don't specify -a, the algorithm defaults to sha3-256.
+                    by Jacksum, it works even with concatenated algorithms.
+                    If you don't specify -a, the algorithm defaults to sha3-256.
+                    Available since Jacksum 3.0.0.
 \
 \
-                solaris-untagged
+                solaris-digest-v
+                    Alias: solaris-tagged
                     A lightweight plain text file format on Solaris without
                     algorithm info in the file.
 \
                     This compatibility file can print and parse the output like
-                    that of the untagged call "digest -a <algo>" on Solaris.
+                    that of the untagged call "digest -v -a <algo>" on Solaris.
 \
                     The compat file works with any algorithm that is supported
                     by Jacksum, it works even with concatenated algorithms. If
                     you don't specify -a, the algorithm defaults to sha3-256.
+                    Available since Jacksum 3.0.0.
 \
 \
-                openssl
-                    A lightweight plain text file format used by openssl.
+            A dragon view about the features of the <compatibility styles>:
 \
-                    This compatibility file can print and parse the output
-                    like that of the openssl program.
+                <compatibility>    |algo |algo |hash |file |file |file |
+                                   |selec|name |value|size |time |name |
+                                   |table|in   |encod|     |stamp|escap|
+                                   |     |file |ing  |     |     |ing  |
+                ___________________|_____|_____|_____|_____|_____|_____|
+                default            |  *  |  -  |  *  |  d  |  d  |  e  |
+                bsd                |  *  |  E  |  h  |  -  |  -  |  e  |
+                bsd-r              |  *  |  -  |  h  |  -  |  -  |  e  |
+                fciv               |  *  |  -  |  h  |  -  |  -  |  -  |
+                gnu-linux          |  *  |  -  |  h  |  -  |  -  |  e  |
+                openssl-dgst       |  *  |  E  |  h  |  -  |  -  |  e  |
+                openssl-dgst-r     |  *  |  -  |  h  |  -  |  -  |  e  |
+                sfv                |  *  |  -  |  H  |  -  |  -  |  -  |
+                solaris-digest     |  *  |  -  |  h  |  -  |  -  |  d  |
+                solaris-digest-v   |  *  |  E  |  h  |  -  |  -  |  d  |
 \
-                    The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated algorithms. If
-                    you don't specify -a, the algorithm defaults to sha3-256.
-\
-\
-            Available since Jacksum 3.0.0.
+                Legend: * = any
+                        - = not available
+                        d = disabled by default, can be enabled
+                        e = enabled by default, can be disabled
+                        E = enabled by default, cannot be disabled
+                        h = hex
+                        H = hex, uppercase
 
 
     --charset-check-file <charset>
@@ -879,26 +990,43 @@ OPTIONS
                 ________________________________________________________________
 \
                 bin                  binary
+\
                 dec                  decimal
+\
                 oct                  octal
+\
                 hex                  hexadecimal in lowercase chars (same as -x)
                                      Options -g and -G are taken into account
-                hexup                deprecated in 3.0, alias for hex-uppercase
+\
                 hex-lowercase        alias for hex (3.0)
+\
+                hexup                deprecated in 3.0, alias for hex-uppercase
+\
                 hex-uppercase        hexadecimal in uppercase chars (same as -X)
                                      Options -g and -G are considered (3.0)
 \
                 bb                   alias for bubblebabble
+\
                 bubblebabble         BubbleBabble (used by OpenSSH and SSH2)
+\
                 base16               Base16 (RFC 4648)
+\
                 base32               Base32 (RFC 4648)
+\
                 base32-nopadding     Base32, no padding (RFC 4648) (3.0)
+\
                 base32hex            Base32hex (RFC 4648) (3.0)
+\
                 base32hex-nopadding  Base32hex, no padding (RFC 4648) (3.0)
+\
                 base64               Base64 (RFC 4648)
+\
                 base64-nopadding     Base64, no padding (RFC 4648) (3.2)
+\
                 base64url            Base64 for URL (RFC 4648) (3.0)
+\
                 base64url-nopadding  Base64 for URL, no padding (RFC4648) (3.2)
+\
                 z-base-32            z-base-32 (3.1)
 \
             Available since Jacksum 1.6.0 if not stated otherwise,
@@ -916,17 +1044,15 @@ OPTIONS
 
     --filesize <boolean>
             by default or if this option is omitted, the file size is added to
-            the output if you select an algorithm that usually don't take the
-            length of the message into account and requires the file size to be
-            more reliable (usually simple checksums or CRCs). Also if you
-            select multiple algorithms the file size will be added. If you would
-            like to control whether the file size should be added or not, you
-            can use this option with the following values for <boolean>:
+            the output if you select an algorithm that also adds the file size
+            to the output in order to be more reliable for integrity checks
+            (usually that applies to simple checksums and CRCs). Also if you
+            select multiple algorithms the file size will be added by default.
+            If you like to control whether the file size should be added or not,
+            you could use this option with the following values for <boolean>:
 \
-                default                  default behavior as described above,
-                                         the selected algorithm determines
-                                         whether file size is added or not
                 yes|on|true|1|enabled    enables the file size
+\
                 no|off|false|0|disabled  disables the file size
 \
             Available since Jacksum 3.3.0
@@ -941,11 +1067,12 @@ OPTIONS
             all tokens will be replaced with their corresponding values.
             The following tokens are supported:
 \
-                <token>                  description
+                <token>                  Description
                 ________________________________________________________________
 \
                 #ALGONAME                will be replaced by the name of the
-                                         algorithm.
+                                         selected algorithm.
+\
                 #ALGONAME{<i>}           If the character called + has been used
                                          to separate multiple algorithms by
                                          option -a, the token will be replaced
@@ -954,19 +1081,51 @@ OPTIONS
                                          use the single character called i
                                          rather than a number, it works like
                                          an automatic index. (1.7)
+\
                 #ALGONAME{lowercase}     alias for #ALGONAME (3.0)
+\
                 #ALGONAME{<i>,lowercase} alias for #ALGONAME{i} (3.0)
+\
                 #ALGONAME{uppercase}     like #ALGONAME, but the name of the
                                          algorithm appears in uppercase. (3.0)
+\
                 #ALGONAME{<i>,uppercase} like #ALGONAME{i}, but the name of the
                                          algorithm appears in uppercase. (3.0)
+\
+                #ALGONAMES               plural. Will be replaced by the name of
+                                         the selected algorithm. If multiple
+                                         algorithms have been selected, each
+                                         algorithm name is separated by a comma.
+                                         (3.3)
+\
+                #ALGONAMES{lowercase}    like #ALGONAMES, but the name(s) of the
+                                         algorithm(s) appear in lowercase. (3.3)
+\
+                #ALGONAMES{uppercase}    like #ALGONAMES, but the name(s) of the
+                                         algorithm(s) appear in uppercase. (3.3)
+\
+                #BINTAG                  On Microsoft Windows this token is
+                                         replaced by a '*', on all other
+                                         platforms it is replaced by a ' '.
+                                         (3.3)
+\
+                #ESCAPETAG               if the option called
+                                         --gnu-filename-escaping is enabled, the
+                                         <token> will be replaced by a single
+                                         backslash. If the option is disabled
+                                         (default), it will be replaced by an
+                                         empty string.
+                                         See also --gnu-filename-escaping  (3.3)
+\
                 #HASH                    will be replaced by the hash, CRC or
                                          checksum value (depends on the
-                                         options -a, -E, -g, -G, -x, -X)
+                                         options -a, -E, -g, -G, -x, -X) (3.3)
+\
                 #HASH{<encoding>}        The token will be replaced with the
                                          encoded checksum. Replace <encoding>
                                          with a supported encoding. For valid
                                          encoding values see option -E. (1.7)
+\
                 #HASH{<i>}               If the character called + has been used
                                          to separate multiple algorithms by
                                          option -a, the token will be replaced
@@ -974,11 +1133,14 @@ OPTIONS
                                          by a number. If you use the character
                                          called i rather than a number, it works
                                          like an automatic index. (1.7)
+\
                 #HASH{<algo>}            the token will be replaced with the
                                          hash identified by its algorithm
                                          name. (3.0)
+\
                 #HASH{<i>,<encoding>}    like #HASH{<i>}, but with an explicit
                                          encoding (3.0)
+\
                 #HASH{<algo>,<encoding>} like #HASH{<algo>}, but with an
                                          explicit encoding (3.0)
 \
@@ -994,24 +1156,33 @@ OPTIONS
 \
                 #FILENAME                will be replaced by the file name and
                                          path (depends on -P)
+\
                 #FILENAME{name}          will be replaced by the file name (1.6)
+\
                 #FILENAME{path}          will be replaced by the file path (1.6)
+\
                 #FILESIZE                will be replaced by the file size
+\
                 #LENGTH                  is an alis for #FILESIZE (3.0)
+\
                 #SEPARATOR               will be replaced by the separator which
                                          you can specify with -s
+\
                 #SEQUENCE                will be replaced by the hexadecimal 
                                          representation of the sequence which
                                          you can specify with -q (3.0)
+\
                 #SEQUENCE{<encoding>}    like #SEQUENCE, but with explicit
                                          encoding (3.0)
+\
                 #TIMESTAMP               will be replaced by the time stamp
                                          (depends on -t)
+\
                 #QUOTE                   will be replaced by one quote char (")
 \
-            Aliases for #HASH are #CHECKSUM are #DIGEST, and #FINGERPRINT.
+            Aliases for #HASH are #CHECKSUM, #DIGEST, and #FINGERPRINT.
             Available since Jacksum 1.5.0, if not other specified,
-            see also -a, -E, -g, -G, -P, -s, -t, -x, -X
+            see also -a, -E, -g, -G, --gnu-filename-escaping, -P, -s, -t, -x, -X
 
 
     -g <count>
@@ -1028,6 +1199,42 @@ OPTIONS
             Sets the separator for byte groups. Only valid if encoding is
             hexadecimal and -g has been set.
             Available since Jacksum 1.6.0, see also -E, -g, -x and -X
+
+
+    --gnu-filename-escaping <boolean>
+            On GNU/Linux and Unix operating systems, file names could contain
+            problematic characters such as newlines, and carriage returns.
+            The GNU Coreutils suggests to escape problematic characters in file
+            names with a backslash which ensures a single line per file on
+            standard output. The backslash itself also needs to be escaped.
+            That feature was introduced in the GNU Coreutils release 8.25 from
+            January 2016.
+\
+            Jacksum supports file name escaping as suggested by GNU for the
+            default output, the custom formatter (see option --format), and for
+            the style formatters (see option --style).
+\
+            By default or if the option is omitted, the style that has been
+            selected determines whether file name escaping is enabled or not.
+            Most styles allow to toggle the feature, and you can use this option
+            with the following values for <boolean> to control the actual
+            behaviour explicitly:
+\
+                yes|on|true|1|enabled    enables the GNU file name escaping
+\
+                no|off|false|0|disabled  disables the GNU file name escaping
+\
+            The default style enables the feature on GNU/Linux and Unix systems
+            only. On Microsoft Windows it is disabled, because on Windows
+            it is not allowed to use newlines or carriage returns in filenames,
+            and it makes no sense to enable it on Windows.
+\
+            If file name escaping is enabled (implicitly or explicitly) and if a
+            file contains a backslash, newline, or carriage return, the line
+            starts with a backslash, and the problematic characters in the file
+            name are escaped with a backslash.
+\
+            Available since Jacksum 3.3.0, see also -F, token #ESCAPETAG
 
 
     --header
@@ -1155,8 +1362,8 @@ OPTIONS
                         horizontal tab). A file name that contains space
                         characters has to be enclosed in double quotes. This is
                         useful if Jacksum operates in Windows' shells where 
-                        Jacksum isn't able to accept parameters resp. filenames
-                        that contain Unicode characters.
+                        Jacksum isn't able to accept program arguments resp.
+                        file names that contain Unicode characters.
 
 
     --legacy-stdin-name
@@ -1346,7 +1553,7 @@ OPTIONS
             By default Jacksum reads from regular files, directories, and
             symbolic links during recursively directory on all supported
             platforms.
-            You can change the behavior of following symbolic links by
+            You can change the behaviour of following symbolic links by
             setting the options -f and/or -d.
 \
             In Unix-like operating systems there are additional file types
@@ -6024,22 +6231,46 @@ OUTPUT FORMAT
 \
     The output format of Jacksum:
 \
-            If you specify neither a predefined format (option -C) nor a
-            custom format (option -F), the following format is used:
+            If you specify neither a predefined format (option -C/--style) nor a
+            customized format (option -F), the following default format is used.
+            Actually it is a very flexible format which is based on the BSD
+            reversed mode format (it doesn't use a character to distinguish
+            binary and text mode), but it allows you to include optionally file
+            size, and time stamp, and to flag/enable filename escaping as
+            suggested by the GNU coreutils.
 \
-            <checksum><sep>[<filesize><sep>][<timestamp><sep>]<filename>
+            [escchar]checksum<sep>[filesize<sep>][timestamp<sep>]<filename>
 \
-            checksum  is a checksum, CRC or a hash; output
-                      depends on options -a, -E, -g, -G, -x, and -X
-            sep       is a separator; it can be modified by -s,
-                      otherwise it is dependent on -a
-            filesize  is the size (in bytes or blocks) of a file, it depends
-                      on -a, the filesize won't be written by any
-                      message digest algorithm
-            timestamp is the optional timestamp of a file; timestamps
-                      can be requested with -t
-            filename  is a filename, paths can be part of the output,
-                      output depends on -P.
+            escchar   optional. The escape character can only be a backslash.
+                      The existance of the backslash represents whether file
+                      name escaping is required or not for the line. You can
+                      enable GNU escaping by setting the option
+                      --gnu-filename-escaping.
+\
+            checksum  is a checksum, CRC or a hash value; by default the
+                      encoding/representation of the hash value depends on the
+                      option -a, but you can specify the encoding explicitly
+                      by setting -E, -g, -G, -x, and -X.
+\
+            <sep>     is the separator string; it can be modified by -s,
+                      otherwise it depends on the -a setting.
+\
+            filesize  optional. It is the size (in bytes or blocks) of a file,
+                      the actual representation for the size depends on the -a
+                      setting, often it is a normal decimal representation.
+                      The filesize won't be written by any crytographic hash
+                      function, but it can be forced by setting the option
+                      called --filesize.
+\
+            timestamp optional. It is the timestamp of a file; timestamps
+                      can be requested and configured with option -t.
+\
+            filename  is the name of a file. Paths can be omitted by option
+                      --no-path, made absolute by option --path-absolute, and
+                      made relative to another path by setting the option called
+                      --path-relative-to. Furthermore the path separator can be
+                      specified by -P, and problematic characters in file names
+                      can be escaped by setting --gnu-filename-escaping.
 
 
 EXIT STATUS
