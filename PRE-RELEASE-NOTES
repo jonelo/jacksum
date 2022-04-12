@@ -16,7 +16,7 @@ Jacksum 3.3.0, TBD
     - added format tokens #ALGONAMES, #ALGONAMES{uppercase}, and #ALGONAMES{lowercase} to print algorithm names
       separated by a comma if multiple algorithms have been selected
     - added format tokens #HASHES, #HASHES{<encoding>} to print hashes separated by comma if multiple algorithms have been selected
-    - added API calls to allow working with the help
+    - added public API calls to allow requesting the build-in help
 
 - performance:
 
