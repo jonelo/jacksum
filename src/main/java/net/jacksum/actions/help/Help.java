@@ -24,6 +24,7 @@ package net.jacksum.actions.help;
 
 import java.io.*;
 import java.util.Locale;
+
 import net.jacksum.actions.version.VersionAction;
 
 /**
@@ -34,7 +35,7 @@ public class Help {
     /**
      * Print help on standard output.
      *
-     * @param code the language code (e.g. en)
+     * @param code   the language code (e.g. en)
      * @param search the search string, can be null
      */
     public static void printHelp(String code, String search) {
@@ -50,9 +51,13 @@ public class Help {
     }
 
     public static String searchHelp(String code, String search) throws NothingFoundException, IOException {
+        return searchHelp(code, search, false);
+    }
+
+    public static String searchHelp(String code, String search, boolean strict) throws NothingFoundException, IOException {
         String filename = "/net/jacksum/help/help_" + code + ".txt";
         try {
-            return searchLongHelp(filename, search);
+            return searchLongHelp(filename, search, strict);
         } catch (FileNotFoundException fnfe) {
             // A note for maintainers of platform specific packages:
             // please keep the help file, don't remove it. The help file is important, because the
@@ -75,16 +80,16 @@ public class Help {
 
     public static void printShortUsage() {
         System.out.printf(
-                  "Usage:%n"
-                + "    jacksum [option]... [file|directory]...%n%n"
+                "Usage:%n"
+                        + "    jacksum [option]... [file|directory]...%n%n"
 
-                + "For more help type%n"
+                        + "For more help type%n"
 
-                + "    jacksum -h%n%n"
+                        + "    jacksum -h%n%n"
         );
-        
+
     }
-    
+
     /**
      * Print copyright and short license info
      */
@@ -98,16 +103,16 @@ public class Help {
      * Print the documentation.
      *
      * @param filename the flat file in the jar file containing the
-     * documentation
-     * @param search the search string
+     *                 documentation
+     * @param search   the search string
      * @throws FileNotFoundException if the help file cannot be
-     * foundAtLeastOneSection
-     * @throws IOException if an I/O exception occurs
+     *                               foundAtLeastOneSection
+     * @throws IOException           if an I/O exception occurs
      */
     public static void printLongHelp(String filename, String search) throws
             FileNotFoundException, IOException {
         try {
-            System.out.print(searchLongHelp(filename, search));
+            System.out.print(searchLongHelp(filename, search, false));
         } catch (NothingFoundException nfe) {
             System.err.print(nfe.getMessage());
         }
@@ -115,7 +120,7 @@ public class Help {
 
     private final static String NEW_LINE = String.format("%n");
 
-    private static String searchLongHelp(String filename, String search) throws
+    private static String searchLongHelp(String filename, String search, boolean strict) throws
             FileNotFoundException, IOException, NothingFoundException {
         StringBuilder out = new StringBuilder();
 
@@ -165,7 +170,7 @@ public class Help {
 
                     // we are at the begin of a searchable section
                     if (line.startsWith("#") && line.endsWith("-BEGIN")) {
-                        section = line.substring(1, line.length()-6);
+                        section = line.substring(1, line.length() - 6);
 
                         inSearchableSection = true;
                         startOfAnewBlock = true;
@@ -175,7 +180,7 @@ public class Help {
                             startOfAnewBlock = false;
                             blockOutput = true;
                         }
-                    // we have reached the end of a searchable section
+                        // we have reached the end of a searchable section
                     } else if (line.startsWith("#") && line.endsWith("-END")) {
                         section = "";
                         inSearchableSection = false;
@@ -201,14 +206,14 @@ public class Help {
                         // search string is an exact option (e. g. "jacksum -h -a")
                         // a fraction of an option (e. g. "jacksum -h --path")
                         if (inSearchableSection // we are in a searchable section (options or algorithms)
-                          && line.substring(0, Math.min(line.length(), 12)).trim().length() > 0) { // in line there is an option or an algo
+                                && line.substring(0, Math.min(line.length(), 12)).trim().length() > 0) { // in line there is an option or an algo
 
-                            if (section.equals("OPTIONS")
-                                && search.startsWith("-")
-                                && line.trim().startsWith(search)) {
-                                found = true;
-                            } else
-                            if (section.equals("ALGORITHMS")) { // in a line there could be many algorithms ids, separated by a comma
+                            if (section.equals("OPTIONS") && search.startsWith("-")) {
+                                String trimmedLine = line.trim();
+                                if (strict && trimmedLine.equals(search) || !strict && trimmedLine.startsWith(search)) {
+                                    found = true;
+                                }
+                            } else if (section.equals("ALGORITHMS")) { // in a line there could be many algorithms ids, separated by a comma
 
                                 String[] tokens = line.trim().split(",");
                                 for (String token : tokens) {
@@ -222,8 +227,7 @@ public class Help {
                                             found = true;
                                             break;
                                         }
-                                    } else
-                                    if (trimmedToken.startsWith(search)) {
+                                    } else if (strict && trimmedToken.equals(search) || !strict && trimmedToken.startsWith(search)) {
                                         found = true;
                                         break;
                                     }
@@ -232,11 +236,11 @@ public class Help {
 
                         } else
 
-                        // we are out of a searchable section, but the user want to search for
-                        // a header or a fraction of a header, e. g. "jacksum -h examples", "jacksum -h ex"
-                        if (line.toLowerCase(Locale.US).startsWith(search.toLowerCase(Locale.US))) {
-                            found = true;
-                        }
+                            // we are out of a searchable section, but the user want to search for
+                            // a header or a fraction of a header, e. g. "jacksum -h examples", "jacksum -h ex"
+                            if (line.toLowerCase(Locale.US).startsWith(search.toLowerCase(Locale.US))) {
+                                found = true;
+                            }
                     }
 
                     // an empty line indicates the start of a new block
