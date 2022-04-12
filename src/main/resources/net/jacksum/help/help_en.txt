@@ -3137,7 +3137,7 @@ ALGORITHMS
                 fr.cryptohash.Fugue<length>
 
 
-    gost[:init] 
+    gost, gost:<init>
             algorithm:
                 GOST R 34.11-94
             length:
@@ -3156,10 +3156,10 @@ ALGORITHMS
                 Published in 1994 as the Soviet Standard GOST R-34.11-94.
                 The default encoding is hexadecimal.
                 The hash function is based on the GOST block cipher
-                GOST 28147-89. If you don't specify init or if you set init to
+                GOST 28147-89. If you omit <init> or if you set <init> to
                 "default" it will initialize the underlying cipher with the
                 default S-boxes as also described in RFC 5831 (March 2010).
-                If you set init to "crypto-pro" it will initialize the cipher
+                If you set <init> to "crypto-pro" it will initialize the cipher
                 with the S-Boxes as suggested by the Crypto-Pro company in
                 January 2006 as described in RFC 4357.
                 For the GOST-Standard from 2012 see streebog.
