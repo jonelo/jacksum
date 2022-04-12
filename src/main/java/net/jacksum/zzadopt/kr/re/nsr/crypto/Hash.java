@@ -53,7 +53,7 @@ public abstract class Hash {
     public abstract Hash newInstance();
 
     /**
-     * 내부 계산에 사용되는 메시지 블록 비트 길이를 리턴한다.
+     * Returns the message block bit length used for internal calculations.
      *
      * @return 메시지 블록 비트 길이
      */
@@ -213,7 +213,7 @@ public abstract class Hash {
 
     /**
      *
-     * @param wordlenbits 워드 길이, 비트 단위, 256 or 512
+     * @param wordlenbits Word length, in bits, 256 or 512
      * @param hashlenbits 출력 길이, 비트 단위, 1 ~ wordlenbits
      * @param data 해시를 계산할 데이터
      * @param offset 데이터 시작 오프셋

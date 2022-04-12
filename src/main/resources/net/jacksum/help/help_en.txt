@@ -3579,14 +3579,15 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
 
-    lsh-<b>-<width>
+    lsh-<wordlength>-<length>
             algorithm:
                 LSH (Lightweight Secure Hash)
             length:
-                the actual output length <width> is dependent on the <b> value.
-                <b> can become 256 or 512.
-                If <b> is 256, <width> can become 224 or 256.
-                If <b> is 512, <width> can become 224, 256, 384, or 512.
+                the actual output <length> is dependent on the <wordlength>
+                value. <wordlength> can become 256 or 512 bits.
+                If <wordlength> is 256, <length> can become 224 or 256.
+                If <wordlength> is 512, <length> can become 224, 256, 384, or
+                512.
             type:
                 cryptographic hash
             published:
