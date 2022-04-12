@@ -57,7 +57,7 @@ DESCRIPTION
 \
         Jacksum supports the "Rocksoft (tm) Model CRC Algorithm" to customize
         CRCs. That feature allows you to construct any of the possible CRC
-        combinations with a [8..64] bit width. Jacksum also extends that
+        combinations with a [8..64] bit length. Jacksum also extends that
         well known model to include the length of the message optionally to
         the CRC. To learn more about that subject type `jacksum -h crc:`
 \
@@ -65,7 +65,7 @@ DESCRIPTION
         use a + sign in order to concatenate several algorithms together, e. g.
         tth+ed2k+sha1+md5. You can select all supported algorithms at once
         (-a all), use a filter by specifying a string (-a all:<string>) or a bit
-        width of the message digest (-a all:<width>) in order to concatenate
+        length of the message digest (-a all:<length>) in order to concatenate
         all algorithms that matches the filter criteria.
         To learn more about that subject type `jacksum -h -a`
 \
@@ -396,8 +396,8 @@ OPTIONS
 \
     The following options are supported:
 #OPTIONS-BEGIN
-    -a <algo>[+<algo>]... | all[:<width:string>] | crc:<crc> | unknown:<width>
-    --algorithm <algo>[+<algo>]... | all[:<width|string>] | crc:<crc> | unknown:<width>
+    -a <algo>[+<algo>]... | all[:<length|string>] | crc:<crc> | unknown:<length>
+    --algorithm <algo>[+<algo>]... | all[:<length|string>] | crc:<crc> | unknown:<length>
             Specifies the algorithm. Many algorithms support aliases in order
             to memorize their id more easily. Since Jacksum 1.0.0, see also -A.
             Starting with Jacksum 3, the default is sha3-256.
@@ -439,9 +439,9 @@ OPTIONS
                 meet your actual needs.
                 Available since Jacksum 1.7.0
 \
-            Several algorithms, filtered by bit width (-a all:<width>)
-                In order to use all algorithms that have a particular bit-width
-                you can use "-a all:<width>" where <width> has to be a
+            Several algorithms, filtered by bit length (-a all:<length>)
+                In order to use all algorithms that have a particular bit-length
+                you can use "-a all:<length>" where <length> has to be a
                 multiple of 8.
                 Examples: "all:224", "all:256", "all:888", "all:1024"
                 Available since Jacksum 3.0.0
@@ -460,18 +460,18 @@ OPTIONS
                 If "all" is used, the output is normalized by a hex checksum
                 and a decimal file size.
 \
-            Find an unknown algorithm (-a unknown:<width>):
+            Find an unknown algorithm (-a unknown:<length>):
                 If you only know both the input and the output, and if you want
                 to know the algorithm that has been used to produce the output,
-                you can set <algorithm> to unknown:<width>. Replace
-                <width> with the length of the digest in bits. In that case,
+                you can set <algorithm> to unknown:<length>. Replace
+                <length> with the length of the digest in bits. In that case,
                 all supported algorithms will be tested whether there is one
                 which can produce the expected output. Also a list of well known
                 CRCs will be checked, and finally all CRC-algorithms will be
                 tested by brute force (init and xorOut are set to either
                 all bits zero or all bits one while refIn and refOut are set to
                 either true or false for all potential polynomials of the given
-                width). Please be patient! Both options -q and -e are required
+                length). Please be patient! Both options -q and -e are required
                 in this case.
                 Available since Jacksum 3.0.0, see also -V, -e, -E, -q
 
@@ -1808,7 +1808,8 @@ OPTIONS
             is set to default.
             If you set one of the following options, <control set> is set to
             all, because usually you don't want to miss any information for
-            those operations: --check-file, --check-line, and -a unknown:<width>
+            those operations: --check-file, --check-line, and
+            -a unknown:<length>.
             If you set option --version , <control set> ist set to none.
             If you set option --info, <control set> is set to default again.
             Available since Jacksum 1.6.0
@@ -1907,9 +1908,9 @@ ALGORITHMS
                 if option -A has been specified.
 
 
-    blake<width>, blake-<width>
+    blake<length>, blake-<length>
             algorithm:
-                BLAKE-<width>
+                BLAKE-<length>
             length:
                 224, 384, 256 or 512 bits
             type:
@@ -1930,15 +1931,15 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
             implementation:
-                fr.cryptohash.BLAKE<width>
+                fr.cryptohash.BLAKE<length>
 
 
-    blake2b, blake2b-<width>, b2sum, b2sum-<width>
+    blake2b, blake2b-<length>, b2sum, b2sum-<length>
             algorithm:
                 BLAKE2b
             length:
                 freely selectable, as long as it is a multiple of 8 and not
-                greater than 512. If <width> is omitted, <width> is set to 512
+                greater than 512. If <length> is omitted, <length> is set to 512
             type:
                 cryptographic hash function
             published:
@@ -1957,7 +1958,7 @@ ALGORITHMS
             compatibility:
                 - 7z:              -
                 - Azure Cloud Shell (Common Base Linux 10):
-                                   /usr/bin/b2sum [-l <width>]
+                                   /usr/bin/b2sum [-l <length>]
                 - Angstrom:        -
                 - BeOS:            -
                 - BusyBox:         -
@@ -1966,13 +1967,13 @@ ALGORITHMS
                 - FreeBSD:         -
                 - FreeDOS:         -
                 - GNU/Hurd (GNU Coreutils 8.26+ 11/2016):
-                                   /usr/bin/b2sum [-l <width>]
+                                   /usr/bin/b2sum [-l <length>]
                 - GNU/Hurd (GNU Coreutils 9.0+ 09/2021):
-                                   /usr/bin/cksum -a blake2b [-l <width>]
+                                   /usr/bin/cksum -a blake2b [-l <length>]
                 - GNU/Linux (GNU Coreutils 8.26+ 11/2016):
-                                   /usr/bin/b2sum [-l <width>]
+                                   /usr/bin/b2sum [-l <length>]
                 - GNU/Linux (GNU Coreutils 9.0+ 09/2021):
-                                   /usr/bin/cksum -a blake2b [-l <width>]
+                                   /usr/bin/cksum -a blake2b [-l <length>]
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Java:            -
@@ -1982,26 +1983,26 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
-                - openSUSE:        /usr/bin/b2sum [-l <width>]
+                - openSUSE:        /usr/bin/b2sum [-l <length>]
                 - OpenSSL 1.1.0+:  openssl dgst -blake2b512
                 - PHP:             -
                 - Plan 9:          -
                 - Python 3.6+:     hashlib.blake2b
                 - Solaris:         -
                 - Tru64:           -
-                - Ubuntu 17.04+:   /usr/bin/b2sum [-l <width>]
+                - Ubuntu 17.04+:   /usr/bin/b2sum [-l <length>]
                 - Windows:         -
 \
             since:
                  Jacksum 3.0.0
 
 
-    blake2s, blake2s-<width>
+    blake2s, blake2s-<length>
             algorithm:
                 BLAKE2s
             length:
                 freely selectable, as long as it is a multiple of 8 and not
-                greater than 256. If <width> is omitted, w is set to 256
+                greater than 256. If <length> is omitted, <length> is set to 256.
             type:
                 cryptographic hash function
             published:
@@ -2217,7 +2218,7 @@ ALGORITHMS
                 Jacksum 3.0.0
 
 
-    crc:<params>
+    crc:<width,poly,init,refIn,refOut,xorOut[,incLen[,xorLen]]>
             algorithm:
                 CRC (generic)
             length:
@@ -2227,12 +2228,12 @@ ALGORITHMS
 \
             comment:
                 With this generic CRC you can specify all CRC-algorithms which
-                can be described by the famous
-                "Rocksoft (tm) Model CRC Algorithm".
-                The default encoding is decimal.
-                <params> must have at least 6 values, which have
-                to be separated by a comma. The required
-                params are: width,poly,init,refIn,refOut,xorOut
+                can be described by the famous "Rocksoft (tm) Model CRC
+                Algorithm". The default encoding is decimal. Parameters after
+                crc: must have at least 6, and can have 7 or 8 values. All
+                values have to be separated by a comma. The required parameters
+                are: width,poly,init,refIn,refOut,xorOut. The optional
+                parameters are incLen, and xorLen.
 \
                     width
                         width of the crc, expressed in bits. This is one less
@@ -2842,7 +2843,7 @@ ALGORITHMS
                 de.flexiprovider.core.md.DHA256
 
 
-    echo<width>, echo-<width>
+    echo<length>, echo-<length>
             algorithm:
                 ECHO
             length:
@@ -2872,7 +2873,7 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
             implementation:
-                fr.cryptohash.ECHO<width>
+                fr.cryptohash.ECHO<length>
 
 
     elf, elf32, elf-32
@@ -2942,7 +2943,7 @@ ALGORITHMS
                 net.jacksum.algorithms.checksums.Fletcher16
 
 
-    fnv-0_<width>
+    fnv-0_<length>
             algorithm:
                 FNV-0
             length:
@@ -2958,8 +2959,8 @@ ALGORITHMS
                 The FNV-0 is the historic FNV algorithm that is deprecated.
                 The FNV-0 hashes all buffers that contain only 0 octets to a
                 hash value of 0. The FNV-1 and FNV-1a hash do not suffer from
-                this minor problem. The output width <width> can vary from 32 bits
-                to 1024 bits.
+                this minor problem. The output <length> can vary from 32
+                bits to 1024 bits.
 \
             since:
                 Jacksum 3.0.0
@@ -2967,7 +2968,7 @@ ALGORITHMS
                 net.jacksum.algorithms.checksums.Fnv0_32 and Fnv0_n
 
 
-    fnv-1_<width>
+    fnv-1_<length>
             algorithm:
                 FNV-1
             length:
@@ -2980,7 +2981,7 @@ ALGORITHMS
             comment:
                 Fowler-Noll-Vo is a non-cryptographic hash function created by
                 Glenn Fowler, Landon Curt Noll, and Phong Vo.
-                The output width <width> can vary from 32 bits to 1024 bits.
+                The output <length> can vary from 32 bits to 1024 bits.
 \
             compatibility:
                 - 7z:              -
@@ -3017,7 +3018,7 @@ ALGORITHMS
                 net.jacksum.algorithms.checksums.Fnv1_32 and Fnv1_n
 
 
-    fnv-1a_<width>
+    fnv-1a_<length>
             algorithm:
                 FNV-1a
             length: 
@@ -3032,7 +3033,7 @@ ALGORITHMS
                 created by Glenn Fowler, Landon Curt Noll, and Phong Vo.
                 The only difference between the FNV-1a hash and the FNV-1 hash
                 is the order of the xor and multiply in the update method.
-                The output width <width> can vary from 32 bits to 1024 bits.
+                The output <length> can vary from 32 bits to 1024 bits.
 \
             compatibility:
                 - 7z:              -
@@ -3104,7 +3105,7 @@ ALGORITHMS
                 de.flexiprovider.core.md.FORK256
 
 
-    fugue<width>, fugue-<width>
+    fugue<length>, fugue-<length>
             algorithm:
                 Fugue
             length:
@@ -3133,7 +3134,7 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
             implementation:
-                fr.cryptohash.Fugue<width>
+                fr.cryptohash.Fugue<length>
 
 
     gost[:init] 
@@ -3200,7 +3201,7 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.GOST3411Digest
 
 
-    groestl<width>, groestl-<width>
+    groestl<length>, groestl-<length>
             algorithm:
                 Groestl
             length:
@@ -3223,7 +3224,7 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
             implementation:
-                fr.cryptohash.Groestl<width>
+                fr.cryptohash.Groestl<length>
 
 
     has160, has-160
@@ -3249,7 +3250,7 @@ ALGORITHMS
                 gnu.crypto.hash.Has160 (by jonelo)
 
 
-    haval, haval_<width>_<rounds>
+    haval, haval_<length>_<rounds>
             algorithm:
                 HAVAL
             length:
@@ -3266,10 +3267,10 @@ ALGORITHMS
                 Haval was invented by Yuliang Zheng, Josef Pieprzyk, and
                 Jennifer Seberry in 1992. The Haval message-digest algorithm has
                 a variable output length, with variable number of rounds. The
-                output length <width> can vary from 128 to 256 bits in
-                increments of 32 bits. The number of <rounds> can vary from 3
-                to 5. The default values (just "haval") are 128 and 3. The
-                default encoding is hexadecimal.
+                output <length> can vary from 128 to 256 bits in increments of
+                32 bits. The number of <rounds> can vary from 3 to 5. The
+                default values (just "haval") are 128 and 3. The default
+                encoding is hexadecimal.
 \
             compatibility:
                 - Angstrom:        -
@@ -3287,7 +3288,7 @@ ALGORITHMS
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
-                - PHP:             hash("haval<width>,<rounds>", $input);
+                - PHP:             hash("haval<length>,<rounds>", $input);
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
@@ -3304,7 +3305,7 @@ ALGORITHMS
                 gnu.crypto.hash.Haval
 
 
-    jh<width>, jh-<width>
+    jh<length>, jh-<length>
             algorithm:
                 JH
             length:
@@ -3328,7 +3329,7 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
             implementation:
-                fr.cryptohash.JH<width>
+                fr.cryptohash.JH<length>
 
 
     joaat, joaat32, joaat-32
@@ -3501,7 +3502,7 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.Kangaroo
 
 
-    keccak<width>, keccak-<width>
+    keccak<length>, keccak-<length>
             algorithm:
                 Keccak
             length:
@@ -3537,7 +3538,7 @@ ALGORITHMS
                 - IBM AIX:         -
                 - Java 9+:         -
                 - Kali Linux:      -
-                - KeccakSum:       KeccakSum --sha3-<width> --no-suffix --outputbits <width> --hex
+                - KeccakSum:       KeccakSum --sha3-<length> --no-suffix --outputbits <length> --hex
                 - LibreSSL:        -
                 - macOS:           -
                 - Minix:           -
@@ -3556,9 +3557,9 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
             implementation:
-                fr.cryptohash.Keccak<width>
+                fr.cryptohash.Keccak<length>
 
-    kupyna-<width>
+    kupyna-<length>
             algorithm:
                 Kupyna
             length:
@@ -3608,7 +3609,7 @@ ALGORITHMS
                 kr.re.nsr.crypto
 
 
-    luffa<width>, luffa-<width>
+    luffa<length>, luffa-<length>
             algorithm:
                 Luffa v2.0.1
             length:
@@ -3635,7 +3636,7 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
             implementation:
-                fr.cryptohash.Luffa<width>
+                fr.cryptohash.Luffa<length>
 
 
     md2, md2sum
@@ -5200,12 +5201,12 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.SHAKEDigest
 
 
-    skein-256, skein-256-<width>, skein256
+    skein-256, skein-256-<length>, skein256
             algorithm:
                 Skein-256
             length:
-                customizable (w > 0 and w % 8 = 0),
-                w = 256 bits if w is not specified
+                customizable (<length> > 0 and <length> % 8 = 0),
+                <length> = 256 bits if <length> is not specified
             type:
                 cryptographic hash function
             published:
@@ -5265,12 +5266,12 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.SkeinDigest
 
 
-    skein-512, skein-512-<width>, skein512
+    skein-512, skein-512-<length>, skein512
             algorithm:
                 Skein-512
             length:
-                customizable (w > 0 and w % 8 = 0),
-                w = 512 bits if w is not specified
+                customizable (w > 0 and <length> % 8 = 0),
+                <length> = 512 bits if <length> is not specified
             type:
                 cryptographic hash function
             published:
@@ -5330,12 +5331,12 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.SkeinDigest
 
 
-    skein-1024, skein-1024-<width>, skein1024
+    skein-1024, skein-1024-<length>, skein1024
             algorithm:
                 Skein-1024
             length:
-                customizable (w > 0 and w % 8 = 0),
-                w = 1024 bits if w is not specified
+                customizable (w > 0 and <length> % 8 = 0),
+                <length> = 1024 bits if <length> is not specified
             type:
                 cryptographic hash function
             published:
@@ -5572,7 +5573,7 @@ ALGORITHMS
                 Jacksum 3.0.0
 
 
-    sum<width>, sum-<width>
+    sum<length>, sum-<length>
             algorithm:
                 Sum
             length:
@@ -5582,7 +5583,7 @@ ALGORITHMS
 \
             comment:
                 classic checksum, value is computed by adding together all
-                values in the input data stream modulo 2^<width>.
+                values in the input data stream modulo 2^<length>.
                 This algorithm doesn't care about the arrangement of bytes.
                 The default encoding is decimal.
                 sum8 is used by the Intel HEX file format for example.
@@ -6312,11 +6313,11 @@ EXAMPLES
 \
         `jacksum -a all:128 --list`
         prints a list of all supported algorithm IDs that produce a digest
-        width of 128 bits.
+        length of 128 bits.
 \
         `jacksum -a all:8 --list --info`
         prints a list of all supported algorithms IDs that produce a digest
-        width of 8 bits, and for each algorithm ID additional information is
+        length of 8 bits, and for each algorithm ID additional information is
         printed.
 \
 \
@@ -6535,10 +6536,10 @@ EXAMPLES
     Find the algorithm that produces a particular hash:
 \
         `jacksum -a unknown:16 -q hex:050000 -E hex -e d893`
-        Finds all algorithms with a digest width of 16 bits that can produce the
-        hex output d893 for the hex input 050000. The example above returns 20
-        potential algorithms, each of those returns the same checksum. Test with
-        more input/output sequences in order to find the right algorithm.
+        Finds all algorithms with a digest length of 16 bits that can produce
+        the hex output d893 for the hex input 050000. The example above returns
+        20 potential algorithms, each of those returns the same checksum. Test
+        with more input/output sequences in order to find the right algorithm.
 \
 \
     Customize the output format:
