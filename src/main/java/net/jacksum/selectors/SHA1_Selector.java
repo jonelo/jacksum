@@ -36,7 +36,7 @@ import net.jacksum.algorithms.wrappers.MDgnu;
  */
 public class SHA1_Selector extends Selector {
     
-    private static final String ID = "sha1";
+    private static final String ID = "sha-1";
     
     @Override
     public Map<String, String> getAvailableAlgorithms() {
@@ -48,9 +48,9 @@ public class SHA1_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAliases() {
         Map<String, String> map = new LinkedHashMap<>(8); // ceil(6/0.75)
-        map.put("sha1sum", ID);
         map.put("sha", ID);
-        map.put("sha-1", ID);
+        map.put("sha1", ID);
+        map.put("sha1sum", ID);
         map.put("sha160", ID);
         map.put("sha-160", ID);
         map.put("dss1", ID);

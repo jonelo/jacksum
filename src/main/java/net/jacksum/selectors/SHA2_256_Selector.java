@@ -35,7 +35,7 @@ import net.jacksum.algorithms.wrappers.MDgnu;
  */
 public class SHA2_256_Selector extends Selector {
 
-    private static final String ID = "sha256";
+    private static final String ID = "sha-256";
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {
@@ -47,7 +47,7 @@ public class SHA2_256_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAliases() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
-        map.put("sha-256", ID);
+        map.put("sha256", ID);
         return map;
     }
 
