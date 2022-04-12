@@ -96,16 +96,16 @@ DESCRIPTION
         Supported standard algorithms:
 \
         - International and national standards of cryptographic hash functions:
-            - USA
+            - United States of America (USA)
                 - SHA3-[224,256,384,512], and SHAKE[128,256] (NIST FIPS 202)
                 - SHA-[224,256,384,512], SHA-512/[224,256] (NIST FIPS 180-4)
                 - SHA-1 (USA) [broken]
-            - People's Republic of China
+            - People's Republic of China (PRC)
                 - SM3 (GM/T 0004-2012, and ISO/IEC 10118-3:2018)
             - Russian Federation
                 - Streebog-[256,512] (GOST R 34.11-2012) [weak]
                 - GOST, and GOST Crypto-Pro (GOST R 34.11-94) [broken]
-            - South Korea
+            - Republic of Korea (ROK)
                 - LSH-256-[224,256], LSH-512-[224,256,384,512] (KS X 3262)
                 - HAS-160 (KISA)
             - Ukraine
