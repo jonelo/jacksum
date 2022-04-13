@@ -3924,9 +3924,9 @@ ALGORITHMS
             type:
                 cryptographic hash function
             published:
-                1998
+                December 1998
             broken:
-                yes
+                April 2007, see also http://radiogatun.noekeon.org/panama/
 \
             comment:
                 PANAMA was designed by Joan Daemen (Belgium) and Craig Clapp
