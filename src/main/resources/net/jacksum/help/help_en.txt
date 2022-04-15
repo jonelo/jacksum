@@ -1853,10 +1853,13 @@ ALGORITHMS
     adler32, adler-32
             algorithm:  
                 Adler-32
+\
             length:
                 32 bits
+\
             type:
                 checksum
+\
             published:
                 1995
 \
@@ -1902,6 +1905,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.0.0, alias "adler-32" since 1.2.0
+\
             implementation:
                 java.util.zip.Adler32 as provided by the JDK.
                 The alternate implementation from net.jacksum.algorithms is used
@@ -1911,12 +1915,16 @@ ALGORITHMS
     blake<length>, blake-<length>
             algorithm:
                 BLAKE-<length>
+\
             length:
                 224, 384, 256 or 512 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 12/2010
+\
             website:
                 https://131002.net/blake/
 \
@@ -1930,6 +1938,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 fr.cryptohash.BLAKE<length>
 
@@ -1937,15 +1946,20 @@ ALGORITHMS
     blake2b, blake2b-<length>, b2sum, b2sum-<length>
             algorithm:
                 BLAKE2b
+\
             length:
                 freely selectable, as long as it is a multiple of 8 and not
                 greater than 512. If <length> is omitted, <length> is set to 512
+\
             type:
                 cryptographic hash function
+\
             published:
                 12/2012
+\
             broken:
                 no
+\
             website:
                 https://blake2.net
 \
@@ -2000,15 +2014,20 @@ ALGORITHMS
     blake2s, blake2s-<length>
             algorithm:
                 BLAKE2s
+\
             length:
                 freely selectable, as long as it is a multiple of 8 and not
                 greater than 256. If <length> is omitted, <length> is set to 256.
+\
             type:
                 cryptographic hash function
+\
             published:
                 12/2012
+\
             broken:
                 no
+\
             website:
                 https://blake2.net
 \
@@ -2046,6 +2065,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crypto.digests.Blake2s
 
@@ -2053,12 +2073,16 @@ ALGORITHMS
     blake3, blake3-256
             algorithm:
                 BLAKE3
+\
             length:
                 256 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 01/2020
+\
             broken:
                 no
             website:
@@ -2099,6 +2123,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 io.github.rctcwyvrn.blake3
 
@@ -2106,8 +2131,10 @@ ALGORITHMS
     cksum
             algorithm:
                 POSIX 1003.2 CRC algorithm
+\
             length:
                 32 bits
+\
             type:
                 checksum, based on CRC
 \
@@ -2167,6 +2194,7 @@ ALGORITHMS
 \
             since:
                  Jacksum 1.0.0
+\
             implementation:
                  crc:32,04C11DB7,0,false,false,FFFFFFFF,false
 
@@ -2174,8 +2202,10 @@ ALGORITHMS
     cksum_minix
             algorithm:
                 cksum algorithm on Minix 3.2.0 and earlier
+\
             length:
                 32 bits
+\
             type:
                 checksum
 \
@@ -2221,8 +2251,10 @@ ALGORITHMS
     crc:<width,poly,init,refIn,refOut,xorOut[,incLen[,xorLen]]>
             algorithm:
                 CRC (generic)
+\
             length:
                 8..64 bits
+\
             type:
                 CRC
 \
@@ -2314,8 +2346,10 @@ ALGORITHMS
     crc8, crc-8
             algorithm:
                 CRC-8
+\
             length:
                 8 bits
+\
             type:
                 CRC
 \
@@ -2328,16 +2362,18 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
-                implementation:
-            implementation:
+\
+             implementation:
                 8,7,0,false,false,0
 
 
     crc16, crc-16
             algorithm:
                 CRC-16 (ARC)
+\
             length:
                 16 bits
+\
             type:
                 CRC
 \
@@ -2350,6 +2386,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.2.0
+\
             implementation:
                 crc:16,8005,0,true,true,0
 
@@ -2357,8 +2394,10 @@ ALGORITHMS
     crc16_x25, crc-16_x-25, fcs16, fcs-16
             algorithm:
                 CRC-16 (Frame Checking Sequence)
+\
             length:
                 16 bits
+\
             type:
                 CRC
 \
@@ -2368,6 +2407,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.5.0 (aliases _x25 and _x-25 since 1.7.0)
+\
             implementation:
                 crc:16,1021,FFFF,true,true,FFFF
 
@@ -2375,8 +2415,10 @@ ALGORITHMS
     crc16_minix, crc-16_minix
             algorithm:
                 Minix' crc
+\
             length:
                 16 bits
+\
             type:
                 checksum
 \
@@ -2418,6 +2460,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 based on crc:16,1021,0,false,false,0
 
@@ -2425,8 +2468,10 @@ ALGORITHMS
     crc24, crc-24
             algorithm:
                 CRC-24
+\
             length:
                 24 bits
+\
             type:
                 CRC
 \
@@ -2444,8 +2489,10 @@ ALGORITHMS
     crc32, crc-32, fcs32, fcs-32
             algorithm:
                 CRC-32
+\
             length:
                 32 bits
+\
             type:
                 CRC
 \
@@ -2488,6 +2535,7 @@ ALGORITHMS
             since:
                 Jacksum 1.0.0, alias crc-32 since 1.2.0, aliases fcs32 and
                 fcs-32 since 1.5.0
+\
             implementation:
                 java.util.zip.CRC32 as provided by the JDK or
                 net.jacksum.algorithms.crcs.FCS32 (if option -A is set) which
@@ -2498,8 +2546,10 @@ ALGORITHMS
     crc32c, crc-32c
             algorithm:
                 CRC-32c (iSCSI)
+\
             length:
                 32 bits
+\
             type:
                 CRC
 \
@@ -2542,6 +2592,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 java.util.zip.CRC32c as provided by the JDK, or if option -A
                 has been set, net.jacksum.algorithms.crcs.CrcGeneric with
@@ -2551,8 +2602,10 @@ ALGORITHMS
     crc32_bzip2, crc-32_bzip-2
             algorithm:
                 CRC-32 (bzip2)
+\
             length:
                 32 bits
+\
             type:
                 CRC
 \
@@ -2561,6 +2614,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.7.0
+\
             implementation:
                 crc:32,04C11DB7,FFFFFFFF,false,false,FFFFFFFF
 
@@ -2568,8 +2622,10 @@ ALGORITHMS
     crc32_mpeg2, crc-32_mpeg-2
             algorithm:
                 CRC-32 (MPEG-2)
+\
             length:
                 32 bits
+\
             type:
                 CRC
 \
@@ -2579,6 +2635,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.4.0
+\
             implementation:
                 crc:32,04C11DB7,FFFFFFFF,false,false,0
 
@@ -2586,9 +2643,11 @@ ALGORITHMS
     crc32_php, crc-32_php
             algorithm:
                 CRC-32 (PHP's crc32)
+\
             length:
                 32 bits
-            typ:
+\
+            type:
                 CRC
 \
             comment:
@@ -2629,6 +2688,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 crc:32,04C11DB7,FFFFFFFF,false,false,FFFFFFFF
                 using reflected bytes for the output
@@ -2637,8 +2697,10 @@ ALGORITHMS
     crc32_ubi, crc-32_ubi, ubicrc32, crc32_jamcrc, crc-32_jamcrc
             algorithm:
                 CRC-32 (UBICRC32 and JAMCRC)
+\
             length:
                 32 bits
+\
             type:
                 CRC
 \
@@ -2681,6 +2743,7 @@ ALGORITHMS
 \
         since:
             Jacksum 3.0.0
+\
         implementation:
             crc:32,04C11DB7,FFFFFFFF,true,true,0
 
@@ -2688,8 +2751,10 @@ ALGORITHMS
     crc64, crc-64
             algorithm:
                 CRC-64 (ISO 3309)
+\
             length:
                 64 bits
+\
             type:
                 CRC
 \
@@ -2700,6 +2765,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.5.0
+\
             implementation:
                 crc:64,1B,0,true,true,0 -E hex
 
@@ -2707,12 +2773,16 @@ ALGORITHMS
     crc64_ecma, crc-64_ecma
             algorithm:
                 CRC-64 (ECMA-182)
+\
             length:
                 64 Bits
+\
             type:
                 CRC
+\
             published:
                 1992
+\
             standard:
                 ECMA-182
 \
@@ -2726,6 +2796,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 crc:64,42f0e1eba9ea3693,0,false,false,0 -E hex
 
@@ -2733,8 +2804,10 @@ ALGORITHMS
     crc64_go-iso, crc-64_go-iso
             algorithm:
                 CRC-64 (programming language GO, const ISO)
+\
             length:
                 64 Bits
+\
             type:
                 CRC
 \
@@ -2750,6 +2823,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 crc:64,1b,ffffffffffffffff,true,true,ffffffffffffffff -E hex
 
@@ -2757,8 +2831,10 @@ ALGORITHMS
     crc64_xz, crc-64_xz, crc64_go-ecma, crc-64_go-ecma
             algorithm:
                 CRC-64 (.xz, and prog lang GO, const ECMA)
+\
             length:
                 64 Bits
+\
             type:
                 CRC
 \
@@ -2806,6 +2882,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 crc:64,42f0e1eba9ea3693,ffffffffffffffff,true,true,ffffffffffffffff -E hex
 
@@ -2813,14 +2890,19 @@ ALGORITHMS
     dha256, dha-256
             algorithm:
                 DHA-256
+\
             length:
                 256 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 11/2005
+\
             broken:
                 no
+\
             website:
                 http://www.nist.gov/hash-function (archived)
                 http://csrc.nist.gov/groups/ST/hash/documents/ChangD_DHA256.pdf
@@ -2839,6 +2921,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 de.flexiprovider.core.md.DHA256
 
@@ -2850,10 +2933,13 @@ ALGORITHMS
                 224, 384, 256 or 512 bits
             type:
                 cryptographic hash function
+\
             published:
                 2008
+\
             broken:
                 no
+\
             website:
                 https://crypto.orange-labs.fr/ECHO/
 \
@@ -2872,6 +2958,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 fr.cryptohash.ECHO<length>
 
@@ -2879,8 +2966,10 @@ ALGORITHMS
     elf, elf32, elf-32
             algorithm:
                 ELF
+\
             length:
                 32 bits
+\
             type:
                 hash function
 \
@@ -2891,6 +2980,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.5.0
+\
             implementation:
                 net.jacksum.algorithms.checksums
 
@@ -2898,10 +2988,13 @@ ALGORITHMS
     ed2k, emule, edonkey
             algorithm:
                 eMule/eDonkey
+\
             length:
                 128 bits
+\
             type:
                 cryptographic hash function
+\
             broken:
                 no
 \
@@ -2912,6 +3005,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.5.0
+\
             implementation:
                 net.jacksum.algorithms.md.Edonkey
 
@@ -2919,10 +3013,13 @@ ALGORITHMS
     fletcher16, fletcher-16
             algorithm:
                 Fletcher's checksum
+\
             length:
                 16 bits
+\
             type:
                 checksum
+\
             published:
                 01/1982
 \
@@ -2939,6 +3036,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 net.jacksum.algorithms.checksums.Fletcher16
 
@@ -2946,10 +3044,13 @@ ALGORITHMS
     fnv-0_<length>
             algorithm:
                 FNV-0
+\
             length:
                 32, 64, 128, 256, 512 or 1024 bits
+\
             type:
                 non-cryptographic hash function
+\
             published:
                 1991
 \
@@ -2971,10 +3072,13 @@ ALGORITHMS
     fnv-1_<length>
             algorithm:
                 FNV-1
+\
             length:
                 32, 64, 128, 256, 512 or 1024 bits
+\
             type:
                 non-cryptographic hash function
+\
             published:
                 1991
 \
@@ -3014,17 +3118,21 @@ ALGORITHMS
 \
            since:
                 Jacksum 3.0.0
-            implementation:
+\
+           implementation:
                 net.jacksum.algorithms.checksums.Fnv1_32 and Fnv1_n
 
 
     fnv-1a_<length>
             algorithm:
                 FNV-1a
+\
             length: 
                 32, 64, 128, 256, 512 or 1024 bits
+\
             type:
                 non-cryptographic hash function
+\
             published:
                 1991
 \
@@ -3065,6 +3173,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 net.jacksum.algorithms.checksums.Fnv1a_32 and Fnv1a_n
 
@@ -3072,14 +3181,19 @@ ALGORITHMS
     fork256, fork-256
             algorithm:
                 FORK-256
+\
             length:
                 256 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 11/2005
+\
             broken:
                 yes
+\
             website:
                 http://www.nist.gov/hash-function (archived)
                 http://www.csrc.nist.gov/pki/HashWorkshop/2005/Nov1_Presentations/Sung_FORK-256.pdf
@@ -3101,6 +3215,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 de.flexiprovider.core.md.FORK256
 
@@ -3108,14 +3223,19 @@ ALGORITHMS
     fugue<length>, fugue-<length>
             algorithm:
                 Fugue
+\
             length:
                 224, 384, 256 or 512 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2008
+\
             broken:
                 no
+\
             website:
                 https://researcher.watson.ibm.com/researcher/view_group.php?id=3253
 \
@@ -3133,6 +3253,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 fr.cryptohash.Fugue<length>
 
@@ -3140,14 +3261,19 @@ ALGORITHMS
     gost, gost:<init>
             algorithm:
                 GOST R 34.11-94
+\
             length:
                 256 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 1994
+\
             broken:
                 2008, see also http://dx.doi.org/10.1007/978-3-540-85174-5_10
+\
             standard:
                 GOST R 34.11-94
 \
@@ -3197,6 +3323,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0, init available since Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crypto.digests.GOST3411Digest
 
@@ -3204,14 +3331,19 @@ ALGORITHMS
     groestl<length>, groestl-<length>
             algorithm:
                 Groestl
+\
             length:
                 224, 384, 256 oder 512 Bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 01/2011
+\
             broken:
                 no
+\
             website:
                 http://www.groestl.info/
 \
@@ -3223,6 +3355,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 fr.cryptohash.Groestl<length>
 
@@ -3230,12 +3363,16 @@ ALGORITHMS
     has160, has-160
             algorithm:
                 HAS-160
+\
             length:
                 160 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2000
+\
             broken:
                 no
 \
@@ -3246,6 +3383,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.7.0
+\
             implementation:
                 gnu.crypto.hash.Has160 (by jonelo)
 
@@ -3253,12 +3391,16 @@ ALGORITHMS
     haval, haval_<length>_<rounds>
             algorithm:
                 HAVAL
+\
             length:
                 128, 160, 192, 224 or 256 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 1992
+\
             broken:      
                 2004, but 128 bits only,
                 see https://eprint.iacr.org/2004/199.pdf
@@ -3301,6 +3443,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.4.0
+\
             implementation:
                 gnu.crypto.hash.Haval
 
@@ -3312,10 +3455,13 @@ ALGORITHMS
                 224, 384, 256 oder 512 bits
             type:
                 cryptographic hash function
+\
             published:
                 01/2011
+\
             broken:
                 no
+\
             website:
                 https://www3.ntu.edu.sg/home/wuhj/research/jh/
 \
@@ -3328,6 +3474,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 fr.cryptohash.JH<length>
 
@@ -3335,12 +3482,16 @@ ALGORITHMS
     joaat, joaat32, joaat-32
             algorithm:
                 Bob Jenkins' One-at-a-Time Hash (joaat)
+\
             length:
                 32 Bits
+\
             type:
                 non-cryptographic hash function
+\
             published:
                 1997
+\
             website:
                 http://www.burtleburtle.net/bob/hash/doobs.html
 \
@@ -3378,6 +3529,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 net.jacksum.algorithms.checksums.Joaat32
 
@@ -3385,14 +3537,19 @@ ALGORITHMS
     k12, kangaroo12, kangarootwelve
             algorithm:
                 KangarooTwelve
+\
             length:
                 256 bits
+\
             type:
                 XOF as a cryptographic hash function with a fixed length
+\
             published:
                 04/2018
+\
             broken:
                 no
+\
             website:
                 https://keccak.team/kangarootwelve.html
 \
@@ -3438,6 +3595,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crypto.digests.Kangaroo
 
@@ -3445,14 +3603,19 @@ ALGORITHMS
     m14, marsupilami14, marsupilamifourteen
             algorithm:
                 MarsupilamiFourteen
+\
             length:
                 512 bits
+\
             type:
                 XOF as a cryptographic hash function with a fixed length
+\
             published:
                 04/2018
+\
             broken:
                 no
+\
             website:
                 https://keccak.team/kangarootwelve.html
 \
@@ -3505,14 +3668,19 @@ ALGORITHMS
     keccak<length>, keccak-<length>
             algorithm:
                 Keccak
+\
             length:
                 224, 256, 288, 384, or 512  bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2012
+\
             broken:
                 no
+\
             website:
                 https://keccak.team/
 \
@@ -3562,14 +3730,19 @@ ALGORITHMS
     kupyna-<length>
             algorithm:
                 Kupyna
+\
             length:
                 256, 384, or 512 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2015
+\
             broken:
                 no, see also https://eprint.iacr.org/2015/959.pdf
+\
             standard: 
                 DSTU 7564:2014
 \
@@ -3583,20 +3756,26 @@ ALGORITHMS
     lsh-<wordlength>-<length>
             algorithm:
                 LSH (Lightweight Secure Hash)
+\
             length:
                 the actual output <length> is dependent on the <wordlength>
                 value. <wordlength> can become 256 or 512 bits.
                 If <wordlength> is 256, <length> can become 224 or 256.
                 If <wordlength> is 512, <length> can become 224, 256, 384, or
                 512.
+\
             type:
                 cryptographic hash
+\
             published:
                 2014
+\
             broken:
                 no
+\
             website:
                 https://seed.kisa.or.kr/kisa/Board/22/detailView.do
+\
             standard:
                 KS X 3262
 \
@@ -3605,6 +3784,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 kr.re.nsr.crypto
 
@@ -3612,14 +3792,19 @@ ALGORITHMS
     luffa<length>, luffa-<length>
             algorithm:
                 Luffa v2.0.1
+\
             length:
                 224, 384, 256 or 512 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 10/2009
+\
             broken:
                 no
+\
             website:
                 https://www.hitachi.com/rd/yrl/crypto/luffa/
 \
@@ -3635,6 +3820,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 fr.cryptohash.Luffa<length>
 
@@ -3642,12 +3828,16 @@ ALGORITHMS
     md2, md2sum
             algorithm:
                 MD2
+\
             length:
                 128 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 1998
+\
             broken:
                 yes
 \
@@ -3697,6 +3887,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.2.0
+\
             implementation:
                 gnu.crypto.hash.MD2
 
@@ -3704,12 +3895,16 @@ ALGORITHMS
     md4, md4sum
             algorithm:
                 MD4
+\
             length:
                 128 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 1990
+\
             broken:
                 yes
 \
@@ -3758,6 +3953,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.2.0
+\
             implementation:
                 gnu.crypto.hash.MD4
 
@@ -3765,12 +3961,16 @@ ALGORITHMS
     md5, md5sum
             algorithm:
                 MD5
+\
             length:
                 128 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 1991
+\
             broken:
                 yes
 \
@@ -3835,6 +4035,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.0.0
+\
             implementation:
                 java.security.MessageDigest. gnu.crypto.hash.MD5 is the
                 alternate implementation and it will be used if you have set the
@@ -3844,12 +4045,16 @@ ALGORITHMS
     mdc2, mdc-2
             algorithm:
                 MDC-2
+\
             length:
                 128 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 1987
+\
             broken:
                 yes
 \
@@ -3894,6 +4099,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.kapott.hbci.security.MDC2
 
@@ -3901,8 +4107,10 @@ ALGORITHMS
     none
             algorithm:
                 none
+\
             length:
                 0 bits
+\
             type:
                 n/a
 \
@@ -3919,14 +4127,18 @@ ALGORITHMS
     panama
             algorithm:
                 PANAMA
+\
             length:
                 256 bits
+\
             type:
                 cryptographic hash function
+\
             published:
-                December 1998
+                12/1998
+\
             broken:
-                April 2007, see also http://radiogatun.noekeon.org/panama/
+                04/2007, see also http://radiogatun.noekeon.org/panama/
 \
             comment:
                 PANAMA was designed by Joan Daemen (Belgium) and Craig Clapp
@@ -3937,6 +4149,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 fr.cryptohash.PANAMA
 
@@ -3944,14 +4157,19 @@ ALGORITHMS
     radiogatun, radiogatun:<wordlen>, rg<wordlen>, rg-<wordlen>
             algorithm:
                 RadioGatun[32] and RadioGatun[64]
+\
             length:
                 256 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2006
+\
             broken:
                 no
+\
             website:
                 http://radiogatun.noekeon.org/
 \
@@ -3970,6 +4188,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 fr.cryptohash.RadioGatun32 and fr.cryptohash.RadioGatun64
 
@@ -3977,8 +4196,10 @@ ALGORITHMS
     read
             algorithm:
                 read
+\
             length:
                 0 bits
+\
             type:
                 n/a
 \
@@ -3988,6 +4209,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
+\
             implementation:
                 net.jacksum.algorithms.primitive.Read
 
@@ -3995,12 +4217,16 @@ ALGORITHMS
     rmd128, rmd-128, ripemd128, ripemd-128, ripe-md128
             algorithm:
                 RIPEMD-128
+\
             length:
                 128 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 1996
+\
             broken:
                 2004, https://eprint.iacr.org/2004/199.pdf
 \
@@ -4038,6 +4264,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.2.0, alias rmd128 and rmd-128 since 1.4.0
+\
             implementation:
                 gnu.crypto.hash.RipeMD128
 
@@ -4045,12 +4272,16 @@ ALGORITHMS
     rmd160, rmd-160, ripemd160, ripemd-160, ripe-md160
             algorithm:
                RIPEMD-160
+\
             length:
                160 bits
+\
             type:
                cryptographic hash function
+\
             published:
                1996
+\
             broken:
                 no
 \                  
@@ -4099,6 +4330,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.2.0, alias rmd160 and rmd-160 since 1.4.0
+\
             implementation:
                 gnu.crypto.hash.RipeMD160
 
@@ -4106,12 +4338,16 @@ ALGORITHMS
     rmd256, rmd-256, ripemd256, ripemd-256, ripe-md256
             algorithm:
                 RIPEMD-256
+\
             length:
                 256 bits
+\
             type:
                 cryptographic hash function
+\
             published: 
                 1996
+\
             broken:
                 no
 \
@@ -4149,6 +4385,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
+\
             implementation:
                 org.bouncycastle.crypto.digests
 
@@ -4156,12 +4393,16 @@ ALGORITHMS
     rmd320, rmd-320, ripemd320, ripemd-320, ripe-md320
             algorithm:
                 RIPEMD-320
+\
             length:
                320 bits
+\
             type:
                 hash
+\
             published:
                 1996
+\
             broken:
                 no
 \
@@ -4199,6 +4440,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
+\
             implementation:
                 org.bouncycastle.crypto.digests
 
@@ -4206,12 +4448,16 @@ ALGORITHMS
     sha0, sha-0
             algorithm:
                 SHA-0
+\
             length:
                 160 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 1993
+\
             broken:
                 2004
 \
@@ -4256,6 +4502,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
+\
             implementation:
                 gnu.crypto.hash.Sha0 (by jonelo)
 
@@ -4263,14 +4510,19 @@ ALGORITHMS
     sha-1, sha, sha1, sha1sum, sha160, sha-160, dssl
             algorithm:
                 SHA-1
+\
             length:
                 160 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 1995
+\
             broken:
                 02/2017, see also https://shattered.io
+\
             standard:
                 NIST FIPS 180-1
 \                                   
@@ -4344,6 +4596,7 @@ ALGORITHMS
                 Jacksum 1.0.0, alias sha-1 since 1.2.0, aliases sha160 and
                 sha-160 since 1.5.0, aliases dss1 and sha1sum since 2.0.0,
                 default algorithm since 1.5.0 for the Jacksum 1.x family.
+\
             implementation:
                 java.security.MessageDigest as provided by the JRE.
                 gnu.crypto.hash.Sha160 is the alternate implementation and it
@@ -4353,14 +4606,19 @@ ALGORITHMS
     sha-224, sha224
             algorithm:
                 SHA-224
+\
             length:
                 224 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2004
+\
             broken:
-                no
+                no, but legacy (not recommended anymore by the BSI)
+\
             standard:
                 NIST FIPS 180-2
 \
@@ -4420,6 +4678,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
+\
             implementation:
                 gnu.crypto.hash.Sha224 (by jonelo)
 
@@ -4427,14 +4686,19 @@ ALGORITHMS
     sha-256, sha256
             algorithm:
                 SHA-256
+\
             length:
                 256 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2001
+\
             broken:
                 no
+\
             standard:
                 NIST FIPS 180-2
 \
@@ -4500,6 +4764,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.3.0
+\
             implementation:
                 java.security.MessageDigest as provided by the JRE.
                 gnu.crypto.hash.Sha256 is an alternate implementation and it is
@@ -4509,14 +4774,18 @@ ALGORITHMS
     sha-384, sha384
             algorithm:
                 SHA-384
+\
             length:
                 384 bits
+\
             type:
                 cryptographic hash function
             published:
                 2001
+\
             broken:
                 no
+\
             standard:
                 NIST FIPS 180-2
 \
@@ -4581,6 +4850,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.3.0
+\
             implementation:
                 java.security.MessageDigest as provided by the JRE.
                 gnu.crypto.hash.Sha384 is an alternate implementation and it is
@@ -4590,14 +4860,19 @@ ALGORITHMS
     sha-512, sha512
             algorithm:
                 SHA-512
+\
             length:
                 512 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2001
+\
             broken:
                 no
+\
             standard:
                 NIST FIPS 180-2
 \
@@ -4662,6 +4937,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.3.0
+\
             implementation:
                 java.security.MessageDigest as provided by the JRE.
                 gnu.crypto.hash.Sha512 is an alternate implementation and it is
@@ -4670,21 +4946,26 @@ ALGORITHMS
 
     sha-512/224, sha512/224, sha512t224
             algorithm:
-                SHA-512/224   
+                SHA-512/224
+\
             length:
                 224 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 03/2012
+\
             broken:
                 no
+\
             standard:
                 NIST FIPS 180-4
 \
             comment:
                 In March 2012, the secure hash standard was updated in
-                FIPS PUB 180-4, adding the hash functions SHA-512/224.
+                FIPS PUB 180-4, adding the hash function SHA-512/224.
 \
             compatibility:
                 - 7z:              -
@@ -4730,20 +5011,25 @@ ALGORITHMS
     sha-512/256, sha512/256, sha512t256
             algorithm:
                 SHA-512/256
+\
             length:
                 256 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 03/2012
+\
             broken:
                 no
+\
             standard:
                 NIST FIPS 180-4
 \
             comment:
                 In March 2012, the secure hash standard was updated in
-                FIPS 180-4, adding the hash functions SHA-512/256.
+                FIPS 180-4, adding the hash function SHA-512/256.
 \
             compatibility:
                 - 7z:              -
@@ -4781,6 +5067,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crytpo.digests.SHA512tDigest
 
@@ -4788,14 +5075,19 @@ ALGORITHMS
     sha3-224, sha-3-224
             algorithm:
                 SHA-3
+\
             length:
                 224 bits
+\
             type:
-                cryptographic hash function                  
+                cryptographic hash function
+\
             published:
                 08/2015
+\
             broken:
                 no
+\
             standard:
                 NIST FIPS 202 (SHA-3 Standard)
 \
@@ -4844,6 +5136,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 java.security.MessageDigest, the alternate implementation
                 org.bouncycastle.crytpo.digests.SHA3Digest will be used if your
@@ -4854,14 +5147,19 @@ ALGORITHMS
     sha3-256, sha-3-256
             algorithm:
                 SHA-3
+\
             length:
                 256 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 08/2015
+\
             broken:
                 no
+\
             standard:
                 NIST FIPS 202 (SHA-3 Standard)
 \
@@ -4909,6 +5207,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 java.security.MessageDigest, the alternate implementation
                 org.bouncycastle.crytpo.digests.SHA3Digest will be used if your
@@ -4919,14 +5218,19 @@ ALGORITHMS
     sha3-384, sha-3-384
             algorithm:
                 SHA-3
+\
             length:
                 384 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 08/2015
+\
             broken:
                 no
+\
             standard:
                 NIST FIPS 202 (SHA-3 Standard)
 \
@@ -4975,6 +5279,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 java.security.MessageDigest, the alternate implementation
                 org.bouncycastle.crytpo.digests.SHA3Digest will be used if your
@@ -4985,14 +5290,19 @@ ALGORITHMS
     sha3-512, sha-3-512
             algorithm:
                 SHA-3
+\
             length:
                 512 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 08/2015
+\
             broken:
                 no
+\
             standard:
                 NIST FIPS 202 (SHA-3 Standard)
 \
@@ -5040,6 +5350,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 java.security.MessageDigest, the alternate implementation
                 org.bouncycastle.crytpo.digests.SHA3Digest will be used if your
@@ -5050,16 +5361,22 @@ ALGORITHMS
     shake128
             algorithm:
                 SHAKE128 (Secure Hash Algorithm KECCAK, 128 bit security)
+\
             length:
                 256 bits
+\
             type:
                 XOF as a cryptographic hash function with a fixed output length
+\
             published:
                 08/2015
+\
             broken:
                 no
+\
             website:
                 https://csrc.nist.gov/publications/detail/fips/202/final
+\
             standard:
                 NIST FIPS PUB 202 (SHA-3 Standard)
 \
@@ -5120,6 +5437,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crypto.digests.SHAKEDigest
 
@@ -5127,16 +5445,22 @@ ALGORITHMS
     shake256
             algorithm:
                 SHAKE256 (Secure Hash Algorithm KECCAK, 256 bit security)
+\
             length:
                 512 bits
+\
             type:
                 XOF as a cryptographic hash function with a fixed output length
+\
             published:
                 08/2015
+\
             broken:
                 no
+\
             website:
                 https://csrc.nist.gov/publications/detail/fips/202/final
+\
             standard:
                 NIST FIPS PUB 202 (SHA-3 Standard)
 \
@@ -5197,6 +5521,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crypto.digests.SHAKEDigest
 
@@ -5204,15 +5529,20 @@ ALGORITHMS
     skein-256, skein-256-<length>, skein256
             algorithm:
                 Skein-256
+\
             length:
                 customizable (<length> > 0 and <length> % 8 = 0),
                 <length> = 256 bits if <length> is not specified
+\
             type:
                 cryptographic hash function
+\
             published:
                 10/2010
+\
             broken:
                 no
+\
             website:
                 http://www.skein-hash.info/
                 https://www.schneier.com/academic/skein/
@@ -5262,6 +5592,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crypto.digests.SkeinDigest
 
@@ -5269,15 +5600,20 @@ ALGORITHMS
     skein-512, skein-512-<length>, skein512
             algorithm:
                 Skein-512
+\
             length:
                 customizable (w > 0 and <length> % 8 = 0),
                 <length> = 512 bits if <length> is not specified
+\
             type:
                 cryptographic hash function
+\
             published:
                 10/2010
+\
             broken:
                 no
+\
             website:
                 http://www.skein-hash.info/
                 https://www.schneier.com/academic/skein/
@@ -5327,6 +5663,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crypto.digests.SkeinDigest
 
@@ -5334,15 +5671,20 @@ ALGORITHMS
     skein-1024, skein-1024-<length>, skein1024
             algorithm:
                 Skein-1024
+\
             length:
                 customizable (w > 0 and <length> % 8 = 0),
                 <length> = 1024 bits if <length> is not specified
+\
             type:
                 cryptographic hash function
+\
             published:
                 10/2010
+\
             broken:
                 no
+\
             website:
                 http://www.skein-hash.info/
                 https://www.schneier.com/academic/skein/
@@ -5392,6 +5734,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crypto.digests.SkeinDigest
 
@@ -5399,18 +5742,24 @@ ALGORITHMS
     streebog256, streebog-256
             algorithm:
                 Streebog Hash Function (GOST R 34.11-2012)
+\
             length:
                 256 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2012
+\
             broken:
                 attack demonstrated in theory (attack breaks all rounds and has
                 lower complexity than security claim)
                 see also https://eprint.iacr.org/2014/675
+\
             website:
                 https://www.streebog.net
+\
             standards:
                 GOST R 34.11-2012
                 RFC 6986
@@ -5454,6 +5803,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crypto.digests.GOST3411_2012_256Digest
 
@@ -5461,16 +5811,22 @@ ALGORITHMS
     streebog512, streebog-512
             algorithm:
                 Streebog Hash Function (GOST R 34.11-2012)
+\
             length:
                 512 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2012
+\
             broken:
                 no
+\
             website:
                 https://www.streebog.net
+\
             standards:
                 GOST R 34.11-2012
                 RFC 6986
@@ -5521,12 +5877,16 @@ ALGORITHMS
     sm3
             algorithm:
                 SM3
+\
             length:
                 256 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 12/2010
+\
             broken:
                 no
 \
@@ -5535,7 +5895,7 @@ ALGORITHMS
                 National Standard". It was published by the State Cryptography
                 Administration on December 17, 2010 as GM/T 0004-2012.
 \
-                Use -C tagged or -F "SM3 (#FILENAME) = #DIGEST" to get the
+                Use -C linux-tagged or -F "SM3 (#FILENAME) = #DIGEST" to get the
                 "cksum -a sm3" output format from the GNU Core Utilities 9.0.
 \
             compatibility:
@@ -5576,8 +5936,10 @@ ALGORITHMS
     sum<length>, sum-<length>
             algorithm:
                 Sum
+\
             length:
                 8, 16, 24, 32, 40, 48, or 56 bits
+\
             type:
                 checksum
 \
@@ -5591,6 +5953,7 @@ ALGORITHMS
             since:
                 Jacksum 1.3.0; 40, 48, and 56 bits are available since
                 Jacksum 3.0.0
+\
             implementation:
                 net.jacksum.algorithms.checksums.Sum*
 
@@ -5598,8 +5961,10 @@ ALGORITHMS
     sum_bsd, bsd, bsdsum, sumbsd
             algorithm:
                 BSD checksum algorithm
+\
             length:
                 16 bits
+\
             type:
                 checksum
 \                
@@ -5654,6 +6019,7 @@ ALGORITHMS
             since:
                 Jacksum 1.0.0, alias "bsdsum" since 1.2.0, alias "sumbsd"
                 since 1.6.0, "sum_bsd" since 2.0.0)
+\
             implementation:
                 net.jacksum.algorithms.checksums.SumBSD
 
@@ -5661,8 +6027,10 @@ ALGORITHMS
     sum_minix
             algorithm:
                 Minix' sum
+\
             length:
                 16 bits
+\
             type:
                 checksum
 \
@@ -5695,6 +6063,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 net.jacksum.algorithms.SumBSD_Minix
 
@@ -5702,8 +6071,10 @@ ALGORITHMS
     sum_plan9, crc32_fddi
             algorithm:
                 FDDI CRC / Plan 9 sum
+\
             length:
                 32 bits
+\
             type:
                 CRC
 \
@@ -5744,6 +6115,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 crc:32,04C11DB7,0,true,true,0,true,CC55CC55
 
@@ -5751,10 +6123,13 @@ ALGORITHMS
     sum_sysv, sysv, sysvsum, sumsysv
             algorithm:
                UNIX System V checksum algorithm
+\
             length:
                 16 bits
+\
             type:
                 checksum
+\
             published:
                 1985                  
 \
@@ -5807,8 +6182,9 @@ ALGORITHMS
                 - OpenSSL:         -
 \
             since:
-                Jacksum 1.2.0, alias "sumsysv" since 1.6.0 alias "sum_sysv"
-                since 2.0.0
+                Jacksum 1.2.0, alias "sumsysv" since 1.6.0,
+                alias "sum_sysv" since 2.0.0
+\
             implementation:
                 net.jacksum.algorithms.checksums.SumSysV
 
@@ -5816,12 +6192,16 @@ ALGORITHMS
     tiger128, tiger-128
             algorithm:
                 Tiger 128
+\
             length:
                 128 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 1995
+\
             broken:
                 yes
 \
@@ -5859,6 +6239,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
+\
             implementation:
                 gnu.crypto.hash.Tiger160 (by jonelo)
 
@@ -5866,12 +6247,16 @@ ALGORITHMS
     tiger160, tiger-160
             algorithm:
                 Tiger 160
+\
             length:
                 160 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 1995
+\
             broken:
                 yes
 \
@@ -5909,6 +6294,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
+\
             implementation:
                 gnu.crypto.hash.Tiger160 (by jonelo)
 
@@ -5916,12 +6302,16 @@ ALGORITHMS
     tiger, tiger192, tiger-192
             algorithm:
                 Tiger
+\
             length:
                 192 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 1995
+\
             broken:
                 yes
 \
@@ -5959,6 +6349,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.4.0
+\
             implementation:
                 gnu.crypto.hash.Tiger
 
@@ -5966,12 +6357,16 @@ ALGORITHMS
     tiger2        
             algorithm:
                 Tiger2
+\
             length:
                 192 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2005
+\
             broken:
                 no
 \
@@ -5981,6 +6376,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
+\
             implementation:
                 gnu.crypto.hash.Tiger2 (by jonelo)
 
@@ -5988,10 +6384,13 @@ ALGORITHMS
     tth, tree:tiger, tree:tiger192, tree:tiger-192
             algorithm:
                 Tiger Tree Hash (based on a Hash tree/Merkle tree)
+\
             length:
                 192 bits
+\
             published:
                 Merkle tree was published in 1979, tiger was published in 1995.
+\
             type:
                 hash tree
 \
@@ -6007,6 +6406,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.7.0
+\
             implementation:
                 net.jacksum.algorithms.wrappers.MDTigerTree
 
@@ -6014,10 +6414,13 @@ ALGORITHMS
     tth2, tree:tiger2
             algorithm:
                 Tiger Tree Hash 2 (based on a Hash tree/Merkle tree)
+\
             length:
                 192 bits
+\
             published:
                 Merkle tree was published in 1979, tiger2 was published in 2005.
+\
             type:
                 hash tree
 \
@@ -6033,6 +6436,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.7.0
+\
             implementation:
                 net.jacksum.algorithms.wrappers.MDTigerTree
 
@@ -6040,14 +6444,19 @@ ALGORITHMS
     vsh, vsh-1024
             algorithm:
                 VSH (Very Smooth Hash)
+\
             length:
                 1024 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 11/2005
+\
             broken:
                 no
+\
             website:
                 http://www.nist.gov/hash-function (archived)
                 http://www.csrc.nist.gov/pki/HashWorkshop/2005/Nov1_Presentations/LENSTRA_vsh.pdf (archived)
@@ -6067,6 +6476,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 de.flexiprovider.core.md.VSH
 
@@ -6074,12 +6484,16 @@ ALGORITHMS
     whirlpool0, whirlpool-0
             algorithm:
                 Whirlpool-0
+\
             length:
                 512 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2000
+\
             broken:
                 yes
 \
@@ -6091,6 +6505,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
+\
             implementation:
                 gnu.crypto.hash.Whirlpool (by jonelo)
 
@@ -6098,12 +6513,16 @@ ALGORITHMS
     whirlpool1, whirlpool-1, whirlpool-t
             algorithm:
                 Whirlpool-1
+\
             length:
                 512 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2001
+\
             broken:
                 yes
 \
@@ -6120,6 +6539,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.2.0
+\
             implementation:
                 gnu.crypto.hash.Whirlpool
 
@@ -6127,12 +6547,16 @@ ALGORITHMS
     whirlpool, whirlpool2, whirlpool-2
             algorithm:
                 Whirlpool
+\
             length:
                 512 bits
+\
             type:
                 cryptographic hash function
+\
             published:
                 2003
+\
             broken:
                 no
 \
@@ -6180,6 +6604,7 @@ ALGORITHMS
 \ 
             since:
                  Jacksum 1.6.0
+\
             implementation:
                  gnu.crypto.hash.Whirlpool (by jonelo)
 
@@ -6187,8 +6612,10 @@ ALGORITHMS
     xor8, xor-8
             algorithm:
                 Exclusive-OR
+\
             length:
                 8 bits
+\
             type:
                 checksum
 \
@@ -6199,6 +6626,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.3.0
+\
             implementation:
                 net.jacksum.algorithms.checksums.Xor8
 
@@ -6206,10 +6634,13 @@ ALGORITHMS
     xxhash32, xxh32
             algorithm:
                 xxHash32 (XXH32)
+\
             length:
                 32 Bits
+\
             type:
                 non-cryptographic hash function
+\
             website:
                 http://www.xxhash.com/
 \
@@ -6224,6 +6655,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.apache.commons.codec.digest.XXHash32
 
