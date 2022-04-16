@@ -226,6 +226,11 @@ public class Help {
                                         if (search.matches(pattern)) {
                                             found = true;
                                             break;
+                                        } else {
+                                            if (!strict && trimmedToken.startsWith(search)) {
+                                                found = true;
+                                                break;
+                                            }
                                         }
                                     } else if (strict && trimmedToken.equals(search) || !strict && trimmedToken.startsWith(search)) {
                                         found = true;
