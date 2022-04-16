@@ -72,6 +72,9 @@ import static net.jacksum.cli.Messenger.MsgType.WARNING;
  * The parameter cluster.
  */
 public class Parameters implements
+        // for Java serialization
+        Serializable,
+
         // all action parameter interfaces
         ExpectationActionParameters, CheckActionParameters,
         AlgoInfoActionParameters, AppInfoActionParameters, CompatInfoActionParameters,
@@ -84,55 +87,10 @@ public class Parameters implements
         VerboseParameters, CompatibilityParameters, HeaderParameters {
 
 
-    /**
-     * @return the filelistFormat
-     */
-    public String getFilelistFormat() {
-        return filelistFormat;
-    }
-
-    /**
-     * @param filelistFormat the filelistFormat to set
-     */
-    public void setFilelistFormat(String filelistFormat) {
-        this.filelistFormat = filelistFormat;
-    }
-
-    private String[] cliParameters;
-
-    public void setCLIParameters(String[] args) {
-        this.cliParameters = args;
-    }
-
-    @Override
-    public String[] getCLIParameters() {
-        return cliParameters;
-    }
-
-    private boolean parameterModifiedByAPI = false;
-    public void setParameterModifiedByAPI(boolean parameterModifiedByAPI) {
-        this.parameterModifiedByAPI = parameterModifiedByAPI;
-    }
-
-    public String[] getCLIParametersWithQuotes() {
-        List<String> list = new ArrayList<>();
-        // if the parameter object has been modified by the API (e.g. by an GUI),
-        // the original args passed to the app aren't valid anymore, we need to
-        // build the args by the values of the current parameter object values.
-        String[] source = parameterModifiedByAPI ? this.toStringArrayList().toArray(new String[0]) : cliParameters;
-        for (String param : source) {
-            // the hash-sign acts as a comment on many GNU/Linux shells, it needs to be quoted
-            if (param.contains(" ") || param.startsWith("#")) {
-                list.add(String.format("\"%s\"", param));
-            } else {
-                list.add(param);
-            }
-        }
-        return list.toArray(new String[0]);
-    }
-
+    private static final long serialVersionUID = -4852681006262279554L;
     public final static String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
     private String algorithmIdentifier = ALGORITHM_IDENTIFIER_DEFAULT;
+    private String[] cliParameters;
 
     // -a
     private String algorithm = null;
@@ -284,9 +242,23 @@ public class Parameters implements
     // keeps all the filenames that have been specified by -c
     private List<String> filenamesFromCheckFile = null;
 
+    private boolean parameterModifiedByAPI = false;
+
+
+    // ************************************** constructors *********************************************************
 
     /**
-     * Parameters Constructor
+     * Parameterless Parameters Constructor.
+     */
+    public Parameters() {
+        this.filenamesFromArgs = new ArrayList<>();
+        verbose = new Verbose();
+        messenger = new Messenger(verbose);
+        listFilter = new ListFilter();
+    }
+
+    /**
+     * Parameters Constructor.
      *
      * @param args all arguments
      * @throws ParameterException if a parameter error occurs
@@ -295,12 +267,20 @@ public class Parameters implements
         this();
     }
 
-    public Parameters() {
-        this.filenamesFromArgs = new ArrayList<>();
-        verbose = new Verbose();
-        messenger = new Messenger(verbose);
-        listFilter = new ListFilter();
+    // ************************************** public methods *********************************************************
+
+    /**
+     * Return Parameters, but checked
+     *
+     * @return Parameters, but checked.
+     * @throws ParameterException if parameter combinations are invalid
+     * @throws ExitException      if an exit should happen.
+     */
+    public Parameters checked() throws ParameterException, ExitException {
+        checkParameters();
+        return this;
     }
+
 
     /**
      * Returns the action type dependent on the parameters.
@@ -358,29 +338,61 @@ public class Parameters implements
         }
     }
 
-    @Override
-    public boolean isHelpSearchString() {
-        return (helpSearchString != null);
+    /**
+     * @return the filelistFormat
+     */
+    public String getFilelistFormat() {
+        return filelistFormat;
+    }
+
+    /**
+     * @param filelistFormat the filelistFormat to set
+     */
+    public void setFilelistFormat(String filelistFormat) {
+        this.filelistFormat = filelistFormat;
     }
 
 
-    /**
-     * Return Parameters, but checked
-     *
-     * @return Parameters, but checked.
-     * @throws ParameterException if parameter combinations are invalid
-     * @throws ExitException      if an exit should happen.
-     */
-    public Parameters checked() throws ParameterException, ExitException {
-        checkParameters();
-        return this;
+    public void setCLIParameters(String[] args) {
+        this.cliParameters = args;
+    }
+
+    @Override
+    public String[] getCLIParameters() {
+        return cliParameters;
+    }
+
+    public void setParameterModifiedByAPI(boolean parameterModifiedByAPI) {
+        this.parameterModifiedByAPI = parameterModifiedByAPI;
+    }
+
+    public String[] getCLIParametersWithQuotes() {
+        List<String> list = new ArrayList<>();
+        // if the parameter object has been modified by the API (e.g. by an GUI),
+        // the original args passed to the app aren't valid anymore, we need to
+        // build the args by the values of the current parameter object values.
+        String[] source = parameterModifiedByAPI ? this.toStringArrayList().toArray(new String[0]) : cliParameters;
+        for (String param : source) {
+            // the hash-sign acts as a comment on many GNU/Linux shells, it needs to be quoted
+            if (param.contains(" ") || param.startsWith("#")) {
+                list.add(String.format("\"%s\"", param));
+            } else {
+                list.add(param);
+            }
+        }
+        return list.toArray(new String[0]);
+    }
+
+
+    @Override
+    public boolean isHelpSearchString() {
+        return (helpSearchString != null);
     }
 
     @Override
     public List<String> getFilenamesFromArgs() {
         return filenamesFromArgs;
     }
-
 
     public void setCommentChars(String commentChars) {
         this.commentChars = commentChars;
@@ -661,399 +673,6 @@ public class Parameters implements
     public boolean isTimestampWanted() {
         return timestampFormat != null;
     }
-
-    private void handleCharsets() throws ParameterException, ExitException {
-        if (isUtf8()) {
-            setCharsetStdout("UTF-8");
-            setCharsetStderr("UTF-8");
-        }
-
-        if (getCharsetStdout() != null) {
-            // change stdout
-            try {
-                System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, getCharsetStdout()));
-            } catch (UnsupportedEncodingException e) {
-                throw new ExitException(String.format("Encoding %s for stdout is not supported by your JVM or OS.", getCharsetStdout()), ExitCode.IO_ERROR);
-            }
-        }
-
-        if (getCharsetStderr() != null) {
-            // change stderr
-            try {
-                System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err), true, getCharsetStderr()));
-            } catch (UnsupportedEncodingException e) {
-                throw new ExitException(String.format("Encoding %s for stdout is not supported by your JVM or OS.", getCharsetStderr()), ExitCode.IO_ERROR);
-            }
-        }
-
-        boolean outputFileAndErrorFileAreEqual = false;
-
-        if (isOutputFile() && isErrorFile()) {
-            Path outputFilePath = Paths.get(getOutputFile()).toAbsolutePath().normalize();
-            Path errorFilePath = Paths.get(getErrorFile()).toAbsolutePath().normalize();
-            outputFileAndErrorFileAreEqual = outputFilePath.equals(errorFilePath);
-        }
-
-        if (outputFileAndErrorFileAreEqual && !charsetOutputFile.equals(charsetErrorFile)) {
-            throw new ParameterException("Output and error file are the same, but character sets for output and error file have been set differently.");
-        }
-
-        PrintStream streamShared = null;
-        boolean isShared = false;
-        if (outputFileAndErrorFileAreEqual) {
-            try {
-                streamShared = new PrintStream(new FileOutputStream(getOutputFile()), true, getCharsetOutputFile());
-                isShared = true;
-            } catch (UnsupportedEncodingException | FileNotFoundException e) {
-                //Logger.getLogger(Parameters.class.getName()).log(Level.SEVERE, null, e);
-                throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
-            }
-        }
-
-        if (isOutputFile()) {
-            try {
-                File f = new File(getOutputFile());
-                if (!isOutputFileOverwrite() && f.exists()) {
-                    throw new ExitException("Jacksum: Error: the file " + f + " already exists. Specify the file by -O to overwrite it.", ExitCode.IO_ERROR);
-                }
-
-                if (isShared) {
-                    System.setOut(streamShared);
-                } else {
-                    PrintStream out;
-                    out = new PrintStream(new FileOutputStream(getOutputFile()), true, getCharsetOutputFile());
-                    //PrintStream tee = new TeeStream(System.out, out);
-                    System.setOut(out);
-                }
-            } catch (UnsupportedEncodingException | FileNotFoundException | ExitException e) {
-                // Logger.getLogger(Parameters.class.getName()).log(Level.SEVERE, null, e);
-                throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
-            }
-        }
-
-        if (isErrorFile()) {
-            try {
-                File f = new File(getErrorFile());
-                if (!isErrorFileOverwrite() && f.exists()) {
-                    throw new ExitException("Jacksum: Error: the file " + f + " already exists. Specify the file by -U to overwrite it.", ExitCode.IO_ERROR);
-                }
-
-                if (isShared) {
-                    System.setErr(streamShared);
-                } else {
-                    PrintStream err;
-                    err = new PrintStream(new FileOutputStream(getErrorFile()), true, getCharsetErrorFile());
-                    //PrintStream tee = new TeeStream(System.out, err);
-                    System.setErr(err);
-                }
-            } catch (UnsupportedEncodingException | FileNotFoundException | ExitException e) {
-                Logger.getLogger(Parameters.class.getName()).log(Level.SEVERE, null, e);
-                throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
-            }
-        }
-
-        // add BOM, dependent on the charset, if desired
-        String bomCharset = null;
-        if (bom && isOutputFile()) {
-            bomCharset = getCharsetOutputFile();
-        } else if (bom && getCharsetStdout() != null) {
-            bomCharset = getCharsetStdout();
-        }
-        if (bomCharset != null) {
-            byte[] actualBOM = BOM.getBOM(bomCharset);
-            if (actualBOM != null && actualBOM.length > 0) {
-                BOM.writeBOM(actualBOM);
-            }
-        }
-
-    }
-
-
-    private void checkForNonsenseParameterCombinations() throws ParameterException, ExitException {
-        // exit if selected parameters make no sense
-        if ((expected != null) && getAlgorithmIdentifier().equals("none")) {
-            throw new ParameterException("-a none and -e cannot go together.");
-        }
-
-        if (stdin && isSequence()) {
-            throw new ParameterException("Cannot read from both standard input and -q.");
-        }
-
-        if (findAlgorithm) {
-            if (sequenceAsBytes == null) {
-                throw new ParameterException("Option -a unknown:<width> requires option -q");
-            }
-            if (expected == null) {
-                throw new ParameterException("Option -a unknown:<width> requires option -e");
-            }
-            if (encoding == null) {
-                throw new ParameterException("Option -a unknown:<width> requires option -E");
-            }
-        }
-
-
-        if (getCheckFile() != null && !getCheckFile().equals("-")) { // the - means: read from stdin
-            File f = new File(getCheckFile());
-            if (f.isDirectory()) {
-                throw new ParameterException(String.format("Parameter -c %s is a directory, but a filename was expected.", getCheckFile()));
-            }
-            if (!f.exists()) {
-                throw new ExitException(String.format("Jacksum: %s: No such file or directory. Exit.", getCheckFile()), ExitCode.IO_ERROR);
-            }
-        }
-
-        int pathOptions = 0;
-        if (isPathAbsolute()) {
-            pathOptions++;
-        }
-        if (getPathRelativeToAsString() != null) {
-            pathOptions++;
-        }
-        if (isNoPath()) {
-            pathOptions++;
-        }
-        if (pathRelativeToLine > 0) {
-            pathOptions++;
-        }
-        if (pathOptions > 1) {
-            throw new ParameterException("Only one of the following options is allowed: --no-path, --path-absolute, --path-relative-to, or --path-relative-to-entry");
-        }
-
-        try {
-            if (timestampFormat != null &&
-                    !timestampFormat.equals("default") &&
-                    !timestampFormat.equals("unixtime") &&
-                    !timestampFormat.equals("unixtime-ms") &&
-                    !timestampFormat.equals("iso8601")) {
-                // #QUOTE and #SEPARATOR should be replaced
-                this.timestampFormat = decodeQuote(this.timestampFormat);
-                this.timestampFormat = decodeSeparator(this.timestampFormat, this.separator);
-                // test, if the timestampformat is valid
-                Format timestampFormatter = new SimpleDateFormat(this.timestampFormat);
-                // ... ignore the return value, just force an IllegalArgumentException if format is invalid
-                timestampFormatter.format(new Date());
-            }
-        } catch (IllegalArgumentException e) {
-            throw new ExitException(e.getMessage(), ExitCode.PARAMETER_ERROR);
-        }
-
-        if (isPathRelativeToLine() && getFilelistFilename() == null) {
-            throw new ParameterException("Option --path-relative-to-entry requires option --file-list");
-        }
-
-    }
-
-
-    private void handleWarningsAndImplicitSettings() {
-
-        // warnings
-        if (groupcount > 0 && encoding == null) {
-            setEncoding(Encoding.HEX);
-            messenger.print(WARNING, "-g has been set, but -E has not been set. Setting -E hex implicitly.");
-        }
-
-        if ((groupcount > 0) && (encoding != null && !encoding.equals(Encoding.HEX) && !encoding.equals(Encoding.HEX_UPPERCASE))) {
-            messenger.print(WARNING, "-g expects a hex encoding, but -E is not set to hex or hex-uppercase. Ignoring -g.");
-        }
-
-        if (groupingChar != null && encoding == null) {
-            setEncoding(Encoding.HEX);
-            messenger.print(WARNING, "-G has been set, but -E has not bee set. Setting -E hex implicitly.");
-        }
-
-        if ((groupingChar != null) && (encoding != null && !encoding.equals(Encoding.HEX) && !encoding.equals(Encoding.HEX_UPPERCASE))) {
-            messenger.print(WARNING, "-G expects a hex encoding, but -E is not set to hex or hex-uppercase. Ignoring -G.");
-        }
-
-        // ignoring flags
-        if (checkFile != null && format != null) {
-            messenger.print(WARNING, "Option -F will be ignored, because option -c is used.");
-            setFormat(null);
-        }
-
-        // both timestamp and sequence have been specified
-        if (timestampFormat != null && sequenceAsBytes != null) {
-            messenger.print(WARNING, "A sequence (-q) has been specified, timestamp (-t) will be ignored.");
-        }
-
-        // verification mode, but format has been set using -F <format>
-        if (checkFile != null && format != null) {
-            format = null;
-            messenger.print(WARNING, "Ignoring -F, because -c has been specified.");
-        }
-
-        // verification mode, no compat file has been given, and no algorithm id
-        if (checkFile != null && compatibilityID == null && algorithm == null) {
-            setAlgorithm(ALGORITHM_IDENTIFIER_DEFAULT);
-            messenger.print(INFO, String.format("Option -a has not been given, it is set implicitly to %s. Alternatively set -C <compatibility>.", ALGORITHM_IDENTIFIER_DEFAULT));
-            //throw new ParameterException("-a has to be set explicitly. Alternatively set -C <parser>.");
-        }
-
-        if (stdin && timestampFormat != null) {
-            setTimestampFormat(null);
-            messenger.print(WARNING, "Option -t has been ignored, because standard input is used.");
-        }
-
-        if (this.isGnuEscaping() && OSControl.isWindows()) {
-            gnuEscaping = false;
-            messenger.print(WARNING, String.format("Ignoring option --gnu-filename-escaping, because GNU file name escaping is not supported on Microsoft Windows."));
-        }
-
-
-        // implicit settings
-        if (isRecursive() && getFilenamesFromArgs().isEmpty() && getFilenamesFromFilelist().isEmpty()) {
-            messenger.print(WARNING, "Option -r has been set, but no files have been given, reading files recursively, starting with current working directory ...");
-            filenamesFromArgs.add(".");
-        }
-
-        if (!isHelp()
-                && !isLicenseWanted()
-                && !isCopyrightWanted()
-                && sequenceAsBytes == null
-                && getFilenamesFromArgs().isEmpty()
-                && getFilenamesFromFilelist().isEmpty()
-                && checkFile == null
-                && checkLine == null
-                && !isRecursive()
-                && !stdin
-                && !infoMode
-                && !list
-                && !versionWanted) {
-            messenger.print(WARNING, "No files have been specified, reading from standard input stream (stdin) ...");
-            stdin = true;
-        }
-
-    }
-
-    private void handleCompatibility() throws ExitException {
-
-        if (this.isGnuEscapingSetByUser() && OSControl.isWindows()) {
-            messenger.print(WARNING, String.format("Ignoring option --gnu-filename-escaping, because GNU escaping is not supported on Microsoft Windows."));
-            gnuEscaping = false;
-            gnuEscapingSetByUser = false;
-        }
-
-        if (this.getCompatibilityID() != null) {
-            try {
-                compatibilityProperties = new CompatibilityProperties(this.getCompatibilityID());
-
-                if (this.algorithm != null) {
-                    // if the style allows overwriting the algorithm and the algorithm has been set using -a ...
-                    if (compatibilityProperties.getHashAlgorithmUserSelectable()) {
-                        // ... we overwrite the default in the compatibilityProperties object ...
-                        compatibilityProperties.setHashAlgorithm(this.algorithm);
-                        // ... and flag that change by setting setHashAlgorithmUserSelected(true);
-                        compatibilityProperties.setHashAlgorithmUserSelected(true);
-                    } else {
-                        messenger.print(WARNING, String.format("Ignoring option --algorithm, because the style \"%s\" only supports a hardcoded algorithm.", compatibilityID));
-                    }
-                }
-
-                if (this.isGnuEscapingSetByUser()) {
-                    // if the style allows overwriting GnuEscaping and GnuEscaping has been set using --gnu-filename-escaping ...
-                    if (compatibilityProperties.isGnuEscapingSupported() && compatibilityProperties.isGnuEscapingUserSelectable()) {
-                        // ... we overwrite the default in the compatibilityProperties object ...
-                        compatibilityProperties.setGnuEscapingEnabled(this.isGnuEscaping());
-                    } else {
-                        messenger.print(WARNING, String.format("Ignoring option --gnu-filename-escaping, because the style \"%s\" doesn't support or allow to enable GNU escaping.", compatibilityID));
-                    }
-                }
-
-                if (this.isFilesizeWantedSet()) {
-                    if (!compatibilityProperties.isFilesizeSupported()) {
-                        messenger.print(WARNING, String.format("Ignoring option --filesize, because the style \"%s\" doesn't support file sizes.", compatibilityID));
-                    }
-                }
-
-                // patch this parameters object explicitly, because now the parameters
-                // come from the compatibilityID object (the compatibilityProperties)
-                if (!infoMode) { // we didn't specify both -C and --info
-
-                    if (checkFile != null) { // we are in check mode
-                        messenger.print(INFO, String.format("Option --compat/--style has been set, setting implicitly -a %s -E %s, stdin-name=%s",
-                                compatibilityProperties.getHashAlgorithm(),
-                                compatibilityProperties.getHashEncoding(),
-                                compatibilityProperties.getStdinName()));
-                    } else { // we are in normal calculation/print mode
-                        String fmt = compatibilityProperties.getFormat(this.getAlgorithmIdentifier());
-                        messenger.print(INFO, String.format("Option --compat/-style has been set, setting implicitly -a %s -E %s -F \"%s\", stdin-name=%s",
-                                compatibilityProperties.getHashAlgorithm(),
-                                compatibilityProperties.getHashEncoding(),
-                                fmt,
-                                compatibilityProperties.getStdinName()));
-
-                        this.setFormat(fmt);
-                    }
-                }
-                this.setAlgorithm(compatibilityProperties.getHashAlgorithm());
-                this.setEncoding(compatibilityProperties.getHashEncoding());
-                this.setStdinName(compatibilityProperties.getStdinName());
-                this.setLineSeparator(compatibilityProperties.getLineSeparator());
-                this.setGnuEscaping(compatibilityProperties.isGnuEscapingEnabled());
-                if (this.getCommentChars() == null && compatibilityProperties.getIgnoreLinesStartingWithString() != null) {
-                    this.setCommentChars(compatibilityProperties.getIgnoreLinesStartingWithString());
-                }
-
-                AbstractChecksum.setStdinName(compatibilityProperties.getStdinName());
-
-            } catch (IOException | InvalidCompatibilityPropertiesException ex) {
-                throw new ExitException("Jacksum: " + ex.getMessage(), ExitCode.IO_ERROR);
-            }
-        } else { // -C hasn't been set, we want to use the default output formatter
-
-            // on Linux and Unix: enable GNU filename escaping for the default output formatter
-            // if the user didn't make a selection explicitly on GNU filename escaping
-            if (!OSControl.isWindows() && !this.isGnuEscapingSetByUser()) {
-                setGnuEscaping(true);
-            }
-        }
-    }
-
-    // ignore/disable unsupported/unsuitable/incompatible parameters
-    public void checkParameters() throws ParameterException, ExitException {
-        handleCharsets();
-        checkForNonsenseParameterCombinations();
-        handleCompatibility();
-
-        // validity check for --algorithm
-        if (algorithm != null) {
-            if (algorithm.startsWith("+")) {
-                throw new ParameterException(String.format("The algorithm %s must not start with a + sign, but it can end with one.", algorithm));
-            }
-            if (algorithm.contains("++")) {
-                throw new ParameterException(String.format("The algorithm %s must not contain ++.", algorithm));
-            }
-        }
-
-        // validity check for --path-relative-to-entry
-        if (isPathRelativeToLine() && getFilenamesFromFilelist().size() > 0) {
-            setPathRelativeToAsString(getFilenamesFromFilelist().get(getPathRelativeToLine()-1));
-        }
-
-        // validity check for --path-relative-to, and set the value for the Path called pathRelativeTo
-        if (pathRelativeToAsString != null) {
-            try {
-                Path path = Paths.get(pathRelativeToAsString);
-                if (Files.exists(path)) {
-                    if (Files.isDirectory(path)) {
-                        pathRelativeTo = path.toAbsolutePath().normalize();
-                    } else {
-                        pathRelativeTo = path.toAbsolutePath().normalize().getParent();
-                    }
-                } else {
-                    throw new ParameterException(String.format("%s does not exist.\n", pathRelativeToAsString));
-                }
-            } catch (InvalidPathException ipe) {
-                throw new ParameterException(String.format("%s is an invalid path.\n", pathRelativeToAsString));
-            }
-        }
-
-
-
-        handleWarningsAndImplicitSettings();
-
-    }
-
 
     @Override
     public String getHelpLanguage() {
@@ -1532,59 +1151,6 @@ public class Parameters implements
     }
 
 
-    //******************************************** private methods
-
-    private static String decodeQuote(String format) {
-        return GeneralString.replaceAllStrings(format, "#QUOTE", "\"");
-    }
-
-    private static String decodeSeparator(String format, String separator) {
-        if (separator != null) {
-            format = GeneralString.replaceAllStrings(format, "#SEPARATOR", separator);
-        }
-        return format;
-    }
-
-    private byte[] sequence2bytes(SequenceType sequenceType, String sequence)
-            throws IllegalArgumentException {
-        byte[] bytes;
-        switch (sequenceType) {
-            case TXT:
-                bytes = ByteSequences.text2Bytes(sequence);
-                break;
-            case TXTF:
-                bytes = ByteSequences.textf2Bytes(sequence);
-                break;
-            case DEC:
-                bytes = ByteSequences.decText2Bytes(sequence);
-                break;
-            case HEX:
-                bytes = ByteSequences.hexText2Bytes(sequence);
-                //System.out.println(Service.format(bytes));
-                break;
-            case BIN:
-                bytes = ByteSequences.binText2Bytes(sequence);
-                break;
-            case FILE:
-                try {
-                    Path p = Path.of(sequence);
-                    if (Files.exists(p)) {
-                        if (Files.size(p) > 128 * 1024 * 1024) {
-                            throw new IllegalArgumentException(String.format("File %s is greater than 128 MiB which exceeds the limit for option -q file:<file>", sequence));
-                        }
-                        bytes = Files.readAllBytes(p);
-                    } else {
-                        throw new IllegalArgumentException(String.format("File %s does not exist.", p));
-                    }
-                } catch (IOException ioe) {
-                    throw new IllegalArgumentException(ioe.getMessage());
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("unknown sequence type: " + sequenceType);
-        }
-        return bytes;
-    }
 
     @Override
     public long getFilesizeAsByteBlocks() {
@@ -1913,6 +1479,451 @@ public class Parameters implements
         }
 
         return list;
+    }
+
+    // ignore/disable unsupported/unsuitable/incompatible parameters
+    public void checkParameters() throws ParameterException, ExitException {
+        handleCharsets();
+        checkForNonsenseParameterCombinations();
+        handleCompatibility();
+
+        // validity check for --algorithm
+        if (algorithm != null) {
+            if (algorithm.startsWith("+")) {
+                throw new ParameterException(String.format("The algorithm %s must not start with a + sign, but it can end with one.", algorithm));
+            }
+            if (algorithm.contains("++")) {
+                throw new ParameterException(String.format("The algorithm %s must not contain ++.", algorithm));
+            }
+        }
+
+        // validity check for --path-relative-to-entry
+        if (isPathRelativeToLine() && getFilenamesFromFilelist().size() > 0) {
+            setPathRelativeToAsString(getFilenamesFromFilelist().get(getPathRelativeToLine()-1));
+        }
+
+        // validity check for --path-relative-to, and set the value for the Path called pathRelativeTo
+        if (pathRelativeToAsString != null) {
+            try {
+                Path path = Paths.get(pathRelativeToAsString);
+                if (Files.exists(path)) {
+                    if (Files.isDirectory(path)) {
+                        pathRelativeTo = path.toAbsolutePath().normalize();
+                    } else {
+                        pathRelativeTo = path.toAbsolutePath().normalize().getParent();
+                    }
+                } else {
+                    throw new ParameterException(String.format("%s does not exist.\n", pathRelativeToAsString));
+                }
+            } catch (InvalidPathException ipe) {
+                throw new ParameterException(String.format("%s is an invalid path.\n", pathRelativeToAsString));
+            }
+        }
+
+        handleWarningsAndImplicitSettings();
+
+    }
+
+
+    // ************************************** private methods *********************************************************
+
+    private static String decodeQuote(String format) {
+        return GeneralString.replaceAllStrings(format, "#QUOTE", "\"");
+    }
+
+    private static String decodeSeparator(String format, String separator) {
+        if (separator != null) {
+            format = GeneralString.replaceAllStrings(format, "#SEPARATOR", separator);
+        }
+        return format;
+    }
+
+    private byte[] sequence2bytes(SequenceType sequenceType, String sequence)
+            throws IllegalArgumentException {
+        byte[] bytes;
+        switch (sequenceType) {
+            case TXT:
+                bytes = ByteSequences.text2Bytes(sequence);
+                break;
+            case TXTF:
+                bytes = ByteSequences.textf2Bytes(sequence);
+                break;
+            case DEC:
+                bytes = ByteSequences.decText2Bytes(sequence);
+                break;
+            case HEX:
+                bytes = ByteSequences.hexText2Bytes(sequence);
+                //System.out.println(Service.format(bytes));
+                break;
+            case BIN:
+                bytes = ByteSequences.binText2Bytes(sequence);
+                break;
+            case FILE:
+                try {
+                    Path p = Path.of(sequence);
+                    if (Files.exists(p)) {
+                        if (Files.size(p) > 128 * 1024 * 1024) {
+                            throw new IllegalArgumentException(String.format("File %s is greater than 128 MiB which exceeds the limit for option -q file:<file>", sequence));
+                        }
+                        bytes = Files.readAllBytes(p);
+                    } else {
+                        throw new IllegalArgumentException(String.format("File %s does not exist.", p));
+                    }
+                } catch (IOException ioe) {
+                    throw new IllegalArgumentException(ioe.getMessage());
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("unknown sequence type: " + sequenceType);
+        }
+        return bytes;
+    }
+
+    private void handleCharsets() throws ParameterException, ExitException {
+        if (isUtf8()) {
+            setCharsetStdout("UTF-8");
+            setCharsetStderr("UTF-8");
+        }
+
+        if (getCharsetStdout() != null) {
+            // change stdout
+            try {
+                System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, getCharsetStdout()));
+            } catch (UnsupportedEncodingException e) {
+                throw new ExitException(String.format("Encoding %s for stdout is not supported by your JVM or OS.", getCharsetStdout()), ExitCode.IO_ERROR);
+            }
+        }
+
+        if (getCharsetStderr() != null) {
+            // change stderr
+            try {
+                System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err), true, getCharsetStderr()));
+            } catch (UnsupportedEncodingException e) {
+                throw new ExitException(String.format("Encoding %s for stdout is not supported by your JVM or OS.", getCharsetStderr()), ExitCode.IO_ERROR);
+            }
+        }
+
+        boolean outputFileAndErrorFileAreEqual = false;
+
+        if (isOutputFile() && isErrorFile()) {
+            Path outputFilePath = Paths.get(getOutputFile()).toAbsolutePath().normalize();
+            Path errorFilePath = Paths.get(getErrorFile()).toAbsolutePath().normalize();
+            outputFileAndErrorFileAreEqual = outputFilePath.equals(errorFilePath);
+        }
+
+        if (outputFileAndErrorFileAreEqual && !charsetOutputFile.equals(charsetErrorFile)) {
+            throw new ParameterException("Output and error file are the same, but character sets for output and error file have been set differently.");
+        }
+
+        PrintStream streamShared = null;
+        boolean isShared = false;
+        if (outputFileAndErrorFileAreEqual) {
+            try {
+                streamShared = new PrintStream(new FileOutputStream(getOutputFile()), true, getCharsetOutputFile());
+                isShared = true;
+            } catch (UnsupportedEncodingException | FileNotFoundException e) {
+                //Logger.getLogger(Parameters.class.getName()).log(Level.SEVERE, null, e);
+                throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
+            }
+        }
+
+        if (isOutputFile()) {
+            try {
+                File f = new File(getOutputFile());
+                if (!isOutputFileOverwrite() && f.exists()) {
+                    throw new ExitException("Jacksum: Error: the file " + f + " already exists. Specify the file by -O to overwrite it.", ExitCode.IO_ERROR);
+                }
+
+                if (isShared) {
+                    System.setOut(streamShared);
+                } else {
+                    PrintStream out;
+                    out = new PrintStream(new FileOutputStream(getOutputFile()), true, getCharsetOutputFile());
+                    //PrintStream tee = new TeeStream(System.out, out);
+                    System.setOut(out);
+                }
+            } catch (UnsupportedEncodingException | FileNotFoundException | ExitException e) {
+                // Logger.getLogger(Parameters.class.getName()).log(Level.SEVERE, null, e);
+                throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
+            }
+        }
+
+        if (isErrorFile()) {
+            try {
+                File f = new File(getErrorFile());
+                if (!isErrorFileOverwrite() && f.exists()) {
+                    throw new ExitException("Jacksum: Error: the file " + f + " already exists. Specify the file by -U to overwrite it.", ExitCode.IO_ERROR);
+                }
+
+                if (isShared) {
+                    System.setErr(streamShared);
+                } else {
+                    PrintStream err;
+                    err = new PrintStream(new FileOutputStream(getErrorFile()), true, getCharsetErrorFile());
+                    //PrintStream tee = new TeeStream(System.out, err);
+                    System.setErr(err);
+                }
+            } catch (UnsupportedEncodingException | FileNotFoundException | ExitException e) {
+                Logger.getLogger(Parameters.class.getName()).log(Level.SEVERE, null, e);
+                throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
+            }
+        }
+
+        // add BOM, dependent on the charset, if desired
+        String bomCharset = null;
+        if (bom && isOutputFile()) {
+            bomCharset = getCharsetOutputFile();
+        } else if (bom && getCharsetStdout() != null) {
+            bomCharset = getCharsetStdout();
+        }
+        if (bomCharset != null) {
+            byte[] actualBOM = BOM.getBOM(bomCharset);
+            if (actualBOM != null && actualBOM.length > 0) {
+                BOM.writeBOM(actualBOM);
+            }
+        }
+
+    }
+
+
+    private void checkForNonsenseParameterCombinations() throws ParameterException, ExitException {
+        // exit if selected parameters make no sense
+        if ((expected != null) && getAlgorithmIdentifier().equals("none")) {
+            throw new ParameterException("-a none and -e cannot go together.");
+        }
+
+        if (stdin && isSequence()) {
+            throw new ParameterException("Cannot read from both standard input and -q.");
+        }
+
+        if (findAlgorithm) {
+            if (sequenceAsBytes == null) {
+                throw new ParameterException("Option -a unknown:<width> requires option -q");
+            }
+            if (expected == null) {
+                throw new ParameterException("Option -a unknown:<width> requires option -e");
+            }
+            if (encoding == null) {
+                throw new ParameterException("Option -a unknown:<width> requires option -E");
+            }
+        }
+
+
+        if (getCheckFile() != null && !getCheckFile().equals("-")) { // the - means: read from stdin
+            File f = new File(getCheckFile());
+            if (f.isDirectory()) {
+                throw new ParameterException(String.format("Parameter -c %s is a directory, but a filename was expected.", getCheckFile()));
+            }
+            if (!f.exists()) {
+                throw new ExitException(String.format("Jacksum: %s: No such file or directory. Exit.", getCheckFile()), ExitCode.IO_ERROR);
+            }
+        }
+
+        int pathOptions = 0;
+        if (isPathAbsolute()) {
+            pathOptions++;
+        }
+        if (getPathRelativeToAsString() != null) {
+            pathOptions++;
+        }
+        if (isNoPath()) {
+            pathOptions++;
+        }
+        if (pathRelativeToLine > 0) {
+            pathOptions++;
+        }
+        if (pathOptions > 1) {
+            throw new ParameterException("Only one of the following options is allowed: --no-path, --path-absolute, --path-relative-to, or --path-relative-to-entry");
+        }
+
+        try {
+            if (timestampFormat != null &&
+                    !timestampFormat.equals("default") &&
+                    !timestampFormat.equals("unixtime") &&
+                    !timestampFormat.equals("unixtime-ms") &&
+                    !timestampFormat.equals("iso8601")) {
+                // #QUOTE and #SEPARATOR should be replaced
+                this.timestampFormat = decodeQuote(this.timestampFormat);
+                this.timestampFormat = decodeSeparator(this.timestampFormat, this.separator);
+                // test, if the timestampformat is valid
+                Format timestampFormatter = new SimpleDateFormat(this.timestampFormat);
+                // ... ignore the return value, just force an IllegalArgumentException if format is invalid
+                timestampFormatter.format(new Date());
+            }
+        } catch (IllegalArgumentException e) {
+            throw new ExitException(e.getMessage(), ExitCode.PARAMETER_ERROR);
+        }
+
+        if (isPathRelativeToLine() && getFilelistFilename() == null) {
+            throw new ParameterException("Option --path-relative-to-entry requires option --file-list");
+        }
+
+    }
+
+
+    private void handleWarningsAndImplicitSettings() {
+
+        // warnings
+        if (groupcount > 0 && encoding == null) {
+            setEncoding(Encoding.HEX);
+            messenger.print(WARNING, "-g has been set, but -E has not been set. Setting -E hex implicitly.");
+        }
+
+        if ((groupcount > 0) && (encoding != null && !encoding.equals(Encoding.HEX) && !encoding.equals(Encoding.HEX_UPPERCASE))) {
+            messenger.print(WARNING, "-g expects a hex encoding, but -E is not set to hex or hex-uppercase. Ignoring -g.");
+        }
+
+        if (groupingChar != null && encoding == null) {
+            setEncoding(Encoding.HEX);
+            messenger.print(WARNING, "-G has been set, but -E has not bee set. Setting -E hex implicitly.");
+        }
+
+        if ((groupingChar != null) && (encoding != null && !encoding.equals(Encoding.HEX) && !encoding.equals(Encoding.HEX_UPPERCASE))) {
+            messenger.print(WARNING, "-G expects a hex encoding, but -E is not set to hex or hex-uppercase. Ignoring -G.");
+        }
+
+        // ignoring flags
+        if (checkFile != null && format != null) {
+            messenger.print(WARNING, "Option -F will be ignored, because option -c is used.");
+            setFormat(null);
+        }
+
+        // both timestamp and sequence have been specified
+        if (timestampFormat != null && sequenceAsBytes != null) {
+            messenger.print(WARNING, "A sequence (-q) has been specified, timestamp (-t) will be ignored.");
+        }
+
+        // verification mode, but format has been set using -F <format>
+        if (checkFile != null && format != null) {
+            format = null;
+            messenger.print(WARNING, "Ignoring -F, because -c has been specified.");
+        }
+
+        // verification mode, no compat file has been given, and no algorithm id
+        if (checkFile != null && compatibilityID == null && algorithm == null) {
+            setAlgorithm(ALGORITHM_IDENTIFIER_DEFAULT);
+            messenger.print(INFO, String.format("Option -a has not been given, it is set implicitly to %s. Alternatively set -C <compatibility>.", ALGORITHM_IDENTIFIER_DEFAULT));
+            //throw new ParameterException("-a has to be set explicitly. Alternatively set -C <parser>.");
+        }
+
+        if (stdin && timestampFormat != null) {
+            setTimestampFormat(null);
+            messenger.print(WARNING, "Option -t has been ignored, because standard input is used.");
+        }
+
+        if (this.isGnuEscaping() && OSControl.isWindows()) {
+            gnuEscaping = false;
+            messenger.print(WARNING, String.format("Ignoring option --gnu-filename-escaping, because GNU file name escaping is not supported on Microsoft Windows."));
+        }
+
+
+        // implicit settings
+        if (isRecursive() && getFilenamesFromArgs().isEmpty() && getFilenamesFromFilelist().isEmpty()) {
+            messenger.print(WARNING, "Option -r has been set, but no files have been given, reading files recursively, starting with current working directory ...");
+            filenamesFromArgs.add(".");
+        }
+
+        if (!isHelp()
+                && !isLicenseWanted()
+                && !isCopyrightWanted()
+                && sequenceAsBytes == null
+                && getFilenamesFromArgs().isEmpty()
+                && getFilenamesFromFilelist().isEmpty()
+                && checkFile == null
+                && checkLine == null
+                && !isRecursive()
+                && !stdin
+                && !infoMode
+                && !list
+                && !versionWanted) {
+            messenger.print(WARNING, "No files have been specified, reading from standard input stream (stdin) ...");
+            stdin = true;
+        }
+
+    }
+
+    private void handleCompatibility() throws ExitException {
+
+        if (this.isGnuEscapingSetByUser() && OSControl.isWindows()) {
+            messenger.print(WARNING, String.format("Ignoring option --gnu-filename-escaping, because GNU escaping is not supported on Microsoft Windows."));
+            gnuEscaping = false;
+            gnuEscapingSetByUser = false;
+        }
+
+        if (this.getCompatibilityID() != null) {
+            try {
+                compatibilityProperties = new CompatibilityProperties(this.getCompatibilityID());
+
+                if (this.algorithm != null) {
+                    // if the style allows overwriting the algorithm and the algorithm has been set using -a ...
+                    if (compatibilityProperties.getHashAlgorithmUserSelectable()) {
+                        // ... we overwrite the default in the compatibilityProperties object ...
+                        compatibilityProperties.setHashAlgorithm(this.algorithm);
+                        // ... and flag that change by setting setHashAlgorithmUserSelected(true);
+                        compatibilityProperties.setHashAlgorithmUserSelected(true);
+                    } else {
+                        messenger.print(WARNING, String.format("Ignoring option --algorithm, because the style \"%s\" only supports a hardcoded algorithm.", compatibilityID));
+                    }
+                }
+
+                if (this.isGnuEscapingSetByUser()) {
+                    // if the style allows overwriting GnuEscaping and GnuEscaping has been set using --gnu-filename-escaping ...
+                    if (compatibilityProperties.isGnuEscapingSupported() && compatibilityProperties.isGnuEscapingUserSelectable()) {
+                        // ... we overwrite the default in the compatibilityProperties object ...
+                        compatibilityProperties.setGnuEscapingEnabled(this.isGnuEscaping());
+                    } else {
+                        messenger.print(WARNING, String.format("Ignoring option --gnu-filename-escaping, because the style \"%s\" doesn't support or allow to enable GNU escaping.", compatibilityID));
+                    }
+                }
+
+                if (this.isFilesizeWantedSet()) {
+                    if (!compatibilityProperties.isFilesizeSupported()) {
+                        messenger.print(WARNING, String.format("Ignoring option --filesize, because the style \"%s\" doesn't support file sizes.", compatibilityID));
+                    }
+                }
+
+                // patch this parameters object explicitly, because now the parameters
+                // come from the compatibilityID object (the compatibilityProperties)
+                if (!infoMode) { // we didn't specify both -C and --info
+
+                    if (checkFile != null) { // we are in check mode
+                        messenger.print(INFO, String.format("Option --compat/--style has been set, setting implicitly -a %s -E %s, stdin-name=%s",
+                                compatibilityProperties.getHashAlgorithm(),
+                                compatibilityProperties.getHashEncoding(),
+                                compatibilityProperties.getStdinName()));
+                    } else { // we are in normal calculation/print mode
+                        String fmt = compatibilityProperties.getFormat(this.getAlgorithmIdentifier());
+                        messenger.print(INFO, String.format("Option --compat/-style has been set, setting implicitly -a %s -E %s -F \"%s\", stdin-name=%s",
+                                compatibilityProperties.getHashAlgorithm(),
+                                compatibilityProperties.getHashEncoding(),
+                                fmt,
+                                compatibilityProperties.getStdinName()));
+
+                        this.setFormat(fmt);
+                    }
+                }
+                this.setAlgorithm(compatibilityProperties.getHashAlgorithm());
+                this.setEncoding(compatibilityProperties.getHashEncoding());
+                this.setStdinName(compatibilityProperties.getStdinName());
+                this.setLineSeparator(compatibilityProperties.getLineSeparator());
+                this.setGnuEscaping(compatibilityProperties.isGnuEscapingEnabled());
+                if (this.getCommentChars() == null && compatibilityProperties.getIgnoreLinesStartingWithString() != null) {
+                    this.setCommentChars(compatibilityProperties.getIgnoreLinesStartingWithString());
+                }
+
+                AbstractChecksum.setStdinName(compatibilityProperties.getStdinName());
+
+            } catch (IOException | InvalidCompatibilityPropertiesException ex) {
+                throw new ExitException("Jacksum: " + ex.getMessage(), ExitCode.IO_ERROR);
+            }
+        } else { // -C hasn't been set, we want to use the default output formatter
+
+            // on Linux and Unix: enable GNU filename escaping for the default output formatter
+            // if the user didn't make a selection explicitly on GNU filename escaping
+            if (!OSControl.isWindows() && !this.isGnuEscapingSetByUser()) {
+                setGnuEscaping(true);
+            }
+        }
     }
 
 }

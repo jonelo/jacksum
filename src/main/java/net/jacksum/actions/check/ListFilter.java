@@ -22,6 +22,7 @@ package net.jacksum.actions.check;
 
 import org.n16n.sugar.util.Transformer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +30,9 @@ import java.util.List;
  *
  * @author Johann N. Loefflmann
  */
-public class ListFilter {
+public class ListFilter implements Serializable  {
 
+    private static final long serialVersionUID = 6991044446442208067L;
     private boolean filterOk;
     private boolean filterFailed;
     private boolean filterNew;

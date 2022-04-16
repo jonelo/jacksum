@@ -23,7 +23,11 @@
 package net.jacksum.cli;
 
 
-public class Messenger {
+import java.io.Serializable;
+
+public class Messenger implements Serializable {
+
+    private static final long serialVersionUID = 6273013117713291439L;
 
     public enum MsgType {
         INFO, WARNING, ERROR

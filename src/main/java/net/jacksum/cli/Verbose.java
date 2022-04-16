@@ -24,16 +24,18 @@ package net.jacksum.cli;
 
 import org.n16n.sugar.util.Transformer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This class stores the verbose states. It controls the output of Warnings and
- * Details and wheather a statistics is printed.
+ * Details and whether a statistics is printed.
  */
-public class Verbose {
+public class Verbose implements Serializable  {
 
 
+    private static final long serialVersionUID = 8842662811741634082L;
     private boolean info;
     private boolean warnings;
     private boolean errors;
