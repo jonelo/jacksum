@@ -24,6 +24,7 @@ package net.jacksum.formats;
 
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -69,6 +70,8 @@ public enum Encoding {
     public String getDescription() {
         return description;
     }
+
+    public String toString() { return name().toLowerCase(Locale.US);}
 
     /**
      * Returns all available encodings.
