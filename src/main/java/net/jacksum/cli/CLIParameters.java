@@ -565,56 +565,7 @@ public class CLIParameters {
                 }
             }
 
-            // processing list that has been specified with -L            
-            if (parameters.getFilelistFilename() != null) {
-                try {
-                    if (parameters.getFilelistFilename().equals("-")) { // stdin
 
-                        if (parameters.getFilelistFormat().equals("list")) {
-
-                            parameters.getFilenamesFromFilelist().addAll(
-                                    GeneralIO.readLinesFromStdin(
-                                            Charset.forName(parameters.getCharsetFileList()),
-                                            true,
-                                            parameters.getCommentChars(), false));
-                        } else if (parameters.getFilelistFormat().equals("ssv")) { // space separated values
-                            parameters.getFilenamesFromFilelist().addAll(
-                                    GeneralIO.readLinesFromStdin(
-                                            Charset.forName(parameters.getCharsetFileList()),
-                                            true,
-                                            parameters.getCommentChars(), true));
-                        } else {
-                            Help.printHelp("en", "--file-list-format");
-                            throw new ParameterException(String.format("Filelist format \"%s\" is unsupported.", parameters.getFilelistFormat()));
-                        }
-                    } else {
-                        if (parameters.getFilelistFormat().equals("list")) {
-
-                            parameters.getFilenamesFromFilelist().addAll(
-                                    GeneralIO.readLinesFromTextFile(
-                                            parameters.getFilelistFilename(),
-                                            Charset.forName(parameters.getCharsetFileList()),
-                                            true,
-                                            parameters.getCommentChars(), false));
-                        } else if (parameters.getFilelistFormat().equals("ssv")) { // space separated values
-                            parameters.getFilenamesFromFilelist().addAll(
-                                    GeneralIO.readLinesFromTextFile(
-                                            parameters.getFilelistFilename(),
-                                            Charset.forName(parameters.getCharsetFileList()),
-                                            true,
-                                            parameters.getCommentChars(), true));
-
-                        } else {
-                            Help.printHelp("en", "--file-list-format");
-                            throw new ParameterException(String.format("Filelist format \"%s\" is unsupported.", parameters.getFilelistFormat()));
-                        }
-                    }
-                } catch (UnsupportedCharsetException uce) {
-                    throw new ParameterException(String.format("Charset \"%s\" is unsupported. Check the supported character sets with jacksum --info.", parameters.getCharsetFileList()));
-                } catch (IOException ex) {
-                    throw new ParameterException(String.format("File %s not found or cannot be read.", parameters.getFilelistFilename()));
-                }
-            }
 
         } // end-if args.length > 0
         // end parsing arguments

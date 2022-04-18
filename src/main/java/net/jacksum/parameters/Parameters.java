@@ -25,6 +25,7 @@ package net.jacksum.parameters;
 import net.jacksum.actions.ActionType;
 import net.jacksum.actions.check.*;
 import net.jacksum.actions.compare.CompareActionInterface;
+import net.jacksum.actions.help.Help;
 import net.jacksum.actions.help.HelpActionParameters;
 import net.jacksum.actions.infoalgo.AlgoInfoActionParameters;
 import net.jacksum.actions.infoapp.AppInfoActionParameters;
@@ -46,12 +47,16 @@ import net.jacksum.parameters.combined.FormatParameters;
 import net.jacksum.parameters.combined.GatheringParameters;
 import net.jacksum.parameters.combined.ProducerConsumerParameters;
 import net.jacksum.parameters.combined.StatisticsParameters;
+import org.bouncycastle.crypto.digests.SkeinEngine;
 import org.n16n.sugar.io.BOM;
+import org.n16n.sugar.io.GeneralIO;
 import org.n16n.sugar.util.ByteSequences;
 import org.n16n.sugar.util.ExitException;
 import org.n16n.sugar.util.GeneralString;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -87,8 +92,8 @@ public class Parameters implements
         VerboseParameters, CompatibilityParameters, HeaderParameters {
 
 
-    private static final long serialVersionUID = -4852681006262279554L;
     public final static String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
+    private static final long serialVersionUID = -6991198855612622290L;
     private String algorithmIdentifier = ALGORITHM_IDENTIFIER_DEFAULT;
     private String[] cliParameters;
 
@@ -156,7 +161,7 @@ public class Parameters implements
     // keeps all the filenames that have been specified by -L
     private List<String> filenamesFromFilelist = new ArrayList<>();
     // --file-list-format
-    private String filelistFormat = "list";
+    private String filelistFormat = null;
     // -O/-o
     private String outputFile = null;
     // -U/-u
@@ -208,7 +213,7 @@ public class Parameters implements
     private boolean scanNtfsAds = false;
 
     // keeps all the filenames that have been specified at the command line
-    private final List<String> filenamesFromArgs;
+    private List<String> filenamesFromArgs;
 
     // --no-path
     private boolean noPath = false;
@@ -278,6 +283,10 @@ public class Parameters implements
      */
     public Parameters checked() throws ParameterException, ExitException {
         checkParameters();
+        return this;
+    }
+
+    public Parameters unchecked() {
         return this;
     }
 
@@ -392,6 +401,10 @@ public class Parameters implements
     @Override
     public List<String> getFilenamesFromArgs() {
         return filenamesFromArgs;
+    }
+
+    public void setFilenamesFromArgs(List<String> filenamesFromArgs) {
+        this.filenamesFromArgs = filenamesFromArgs;
     }
 
     public void setCommentChars(String commentChars) {
@@ -662,11 +675,7 @@ public class Parameters implements
     }
 
     public void setTimestampFormat(String timestampFormat) {
-//        if (timestampFormat.equals(DEFAULT)) {
-//            this.timestampFormat = TIMESTAMPFORMAT_DEFAULT;
-//        } else {
         this.timestampFormat = timestampFormat;
-//        }
     }
 
     @Override
@@ -713,6 +722,15 @@ public class Parameters implements
     public String getAlgorithmIdentifier() {
         return algorithmIdentifier;
     }
+
+    public boolean isAlgorithmSetByUser() {
+        return algorithm != null;
+    }
+
+    public String getAlgorithm() {
+        return algorithm;
+    }
+
 
     public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
@@ -1255,6 +1273,208 @@ public class Parameters implements
         this.copyrightWanted = copyrightWanted;
     }
 
+    /**
+     * Updates this parameters instance with values from the newParameters object.
+     * @param newParameters the parameters object with new values
+     */
+    public void update(Parameters newParameters) {
+        if (newParameters.getAlgorithm() != null) {
+            this.setAlgorithm(newParameters.getAlgorithm());
+        }
+        if (newParameters.isAlternateImplementationWanted()) {
+            this.setAlternateImplementationWanted(true);
+        }
+        if (newParameters.isUtf8()) {
+            this.setUtf8(true);
+        }
+        if (newParameters.isCheckStrict()) {
+            this.setCheckStrict(true);
+        }
+        if (newParameters.isCopyrightWanted()) {
+            this.setCopyrightWanted(true);
+        }
+        if (newParameters.isLicenseWanted()) {
+            this.setLicenseWanted(true);
+        }
+        if (newParameters.isHeaderWanted()) {
+            this.setHeaderWanted(true);
+        }
+        if (newParameters.getCheckFile() != null) {
+            this.setCheckFile(newParameters.getCheckFile());
+        }
+        if (newParameters.getCheckLine() != null) {
+            this.setCheckLine(newParameters.getCheckLine());
+        }
+        if (newParameters.isCheckStrict()) {
+            this.setCheckStrict(true);
+        }
+        if (newParameters.getCompatibilityID() != null) {
+            this.setCompatibilityID(newParameters.getCompatibilityID());
+        } else {
+            // all properties here that are being set implicitly by a compat file
+            if (newParameters.getEncoding() != null) {
+                this.setEncoding(newParameters.getEncoding());
+            }
+            if (newParameters.getFormat() != null) {
+                this.setFormat(newParameters.getFormat());
+            }
+            if (newParameters.getCommentChars() != null) {
+                this.setCommentChars(newParameters.getCommentChars());
+            }
+            if (newParameters.getStdinName().equals("-")) {
+                this.setStdinName("-");
+            }
+        }
+        if (newParameters.isBom()) {
+            this.setBom(true);
+        }
+        if (newParameters.isDontFollowSymlinksToDirectories()) {
+            this.setDontFollowSymlinksToDirectories(true);
+        }
+        if (newParameters.isDontFollowSymlinksToFiles()) {
+            this.setDontFollowSymlinksToFiles(true);
+        }
+        if (newParameters.getExpectedString() != null) {
+            this.setExpected(newParameters.getExpectedString());
+        }
+        if (newParameters.isGroupingSet()) {
+            this.setGrouping(newParameters.getGrouping());
+        }
+        if (newParameters.isGroupCharSet()) {
+            this.setGroupChar(newParameters.getGroupChar());
+        }
+        if (newParameters.isHelp()) {
+            this.setHelp(true);
+            if (newParameters.isHelpLanguage()) {
+                this.setHelpLanguage(newParameters.getHelpLanguage());
+                if (newParameters.isHelpSearchString()) {
+                    this.setHelpSearchString(newParameters.getHelpSearchString());
+                }
+            } else {
+                if (newParameters.isHelpSearchString()) {
+                    this.setHelpSearchString(newParameters.getHelpSearchString());
+                }
+            }
+        }
+        if (newParameters.isInfoMode()) {
+            this.setInfoMode(true);
+        }
+        if (newParameters.isList()) {
+            this.setList(true);
+        }
+        if (newParameters.getListFilter().isFilterHasBeenSet()) {
+            this.setListFilter(newParameters.getListFilter());
+        }
+        if (newParameters.getFilelistFilename() != null) {
+            this.setFilelistFilename(newParameters.getFilelistFilename());
+            this.setFilenamesFromFilelist(new ArrayList<>());
+        }
+        if (newParameters.getFilelistFormat() != null) {
+            this.setFilelistFormat(newParameters.getFilelistFormat());
+        }
+        if (newParameters.isPathAbsolute()) {
+            this.setPathAbsolute(true); //
+            this.setPathRelativeToLine(0);
+            this.setPathRelativeToAsString(null);
+            this.setNoPath(false);
+        } else
+        if (newParameters.isPathRelativeToLine()) {
+            this.setPathAbsolute(false);
+            this.setPathRelativeToLine(newParameters.getPathRelativeToLine()); //
+            this.setPathRelativeToAsString(null);
+            this.setNoPath(false);
+        } else
+        if (newParameters.getPathRelativeToAsString() != null) {
+            this.setPathAbsolute(false);
+            this.setPathRelativeToLine(0);
+            this.setPathRelativeToAsString(newParameters.getPathRelativeToAsString()); //
+            this.setNoPath(false);
+        } else
+        if (newParameters.isNoPath()) {
+            this.setPathAbsolute(false);
+            this.setPathRelativeToLine(0);
+            this.setPathRelativeToAsString(null);
+            this.setNoPath(true); //
+        }
+        if (newParameters.getOutputFile() != null) {
+            if (newParameters.isOutputFileOverwrite()) {
+                this.setOutputFileOverwrite(true);
+            } else {
+                this.setOutputFileOverwrite(false);
+            }
+            this.setOutputFile(newParameters.getOutputFile());
+        }
+        if (newParameters.getErrorFile() != null) {
+            if (newParameters.isErrorFileOverwrite()) {
+                this.setErrorFileOverwrite(true);
+            } else {
+                this.setErrorFileOverwrite(false);
+            }
+            this.setErrorFile(newParameters.getErrorFile());
+        }
+        if (newParameters.isPathCharSet()) {
+            this.setPathChar(newParameters.getPathChar());
+        }
+        if (newParameters.isSequence()) {
+            this.setSequence(newParameters.getSequenceAsString());
+        }
+        if (newParameters.isRecursive()) {
+            this.setRecursive(true);
+            this.setDepth(newParameters.getDepth());
+        }
+        if (newParameters.scanAllUnixFileTypes()) {
+            this.setScanAllUnixFileTypes(true);
+        }
+        if (newParameters.isScanNtfsAds()) {
+            this.setScanNtfsAds(true);
+        }
+        if (newParameters.isSeparatorSet()) {
+            this.setSeparator(newParameters.getSeparatorRaw());
+        }
+        if (newParameters.getThreadsHashing() != ThreadControl.getThreadsMax()) {
+            this.setThreadsHashing(newParameters.getThreadsHashing());
+        }
+        if (newParameters.getThreadsReading() > 1) {
+            this.setThreadsReading(newParameters.getThreadsReading());
+        }
+        if (newParameters.isFilesizeWantedSet()) {
+            this.setFilesizeWanted(newParameters.isFilesizeWanted());
+        }
+        if (newParameters.isTimestampWanted()) {
+            this.setTimestampFormat(newParameters.getTimestampFormat());
+        }
+        if (newParameters.isVersionWanted()) {
+            this.setVersionWanted(true);
+        }
+        if (!newParameters.getVerbose().isDefault()) {
+            this.setVerbose(newParameters.getVerbose());
+        }
+        if (!newParameters.getCharsetFileList().equals("UTF-8")) {
+            this.setCharsetFileList(newParameters.getCharsetFileList());
+        }
+        if (!newParameters.getCharsetCheckFile().equals("UTF-8")) {
+            this.setCharsetCheckFile(newParameters.getCharsetCheckFile());
+        }
+        if (!newParameters.getCharsetErrorFile().equals("UTF-8")) {
+            this.setCharsetErrorFile(newParameters.getCharsetErrorFile());
+        }
+        if (!newParameters.getCharsetOutputFile().equals("UTF-8")) {
+            this.setCharsetOutputFile(newParameters.getCharsetOutputFile());
+        }
+        if (newParameters.getCharsetStdout() != null) {
+            this.setCharsetStdout(newParameters.getCharsetStdout());
+        }
+        if (newParameters.getCharsetStderr() != null) {
+            this.setCharsetStderr(newParameters.getCharsetStderr());
+        }
+        if (newParameters.isStdinForFilenamesFromArgs()) {
+            this.setStdinForFilenamesFromArgs(true);
+        }
+        if (newParameters.getFilenamesFromArgs() != null) {
+            this.setFilenamesFromArgs(newParameters.getFilenamesFromArgs());
+        }
+    }
+
     public List<String> toStringArrayList() {
         List<String> list = new ArrayList<>();
         if (algorithm != null) {
@@ -1294,11 +1514,23 @@ public class Parameters implements
             list.add("--style");
             list.add(compatibilityID);
         } else {
-           // TODO
-           // all properties here that are being set implicitly by a compat file
+            // all properties here that are being set implicitly by a compat file
+            if (encoding != null) {
+                list.add("-E");
+                list.add(Encoding.encoding2String(encoding));
+            }
+            if (format != null) {
+                list.add("-F");
+                list.add(format);
+            }
+            if (getCommentChars() != null) {
+                list.add("-I");
+                list.add(getCommentChars());
+            }
+            if (stdinName.equals("-")) {
+                list.add("--legacy-stdin-name");
+            }
         }
-
-
         if (bom) {
             list.add("--bom");
         }
@@ -1311,14 +1543,6 @@ public class Parameters implements
         if (expected != null) {
             list.add("-e");
             list.add(expected);
-        }
-        if (encoding != null) {
-            list.add("-E");
-            list.add(Encoding.encoding2String(encoding));
-        }
-        if (format != null) {
-            list.add("-F");
-            list.add(format);
         }
         if (isGroupingSet()) {
             list.add("-g");
@@ -1344,19 +1568,12 @@ public class Parameters implements
         if (isInfoMode()) {
             list.add("--info");
         }
-        if (getCommentChars() != null) {
-            list.add("-I");
-            list.add(getCommentChars());
-        }
         if (isList()) {
             list.add("-l");
         }
         if (listFilter.isFilterHasBeenSet()) {
             list.add("--list-filter");
             list.add(listFilter.toString());
-        }
-        if (stdinName.equals("-")) {
-            list.add("--legacy-stdin-name");
         }
         if (filelistFilename != null) {
             list.add("--file-list");
@@ -1366,9 +1583,13 @@ public class Parameters implements
             list.add("--file-list-format");
             list.add(filelistFormat);
         }
+        if (isFilesizeWantedSet()) {
+            list.add("--filesize");
+            list.add(isFilesizeWanted() ? "on": "off");
+        }
         if (pathAbsolute) {
             list.add("--path-absolute");
-        }
+        } else
         if (isPathRelativeToLine()) {
             list.add("--path-relative-to-entry");
             list.add(String.valueOf(getPathRelativeToLine()));
@@ -1376,7 +1597,7 @@ public class Parameters implements
         if (pathRelativeToAsString != null) {
             list.add("--path-relative-to");
             list.add(pathRelativeToAsString);
-        }
+        } else
         if (noPath) {
             list.add("--no-path");
         }
@@ -1483,6 +1704,7 @@ public class Parameters implements
 
     // ignore/disable unsupported/unsuitable/incompatible parameters
     public void checkParameters() throws ParameterException, ExitException {
+        expandFileList();
         handleCharsets();
         checkForNonsenseParameterCombinations();
         handleCompatibility();
@@ -1577,6 +1799,18 @@ public class Parameters implements
                 throw new IllegalArgumentException("unknown sequence type: " + sequenceType);
         }
         return bytes;
+    }
+
+    transient private PrintStream stdOutBackup = System.out;
+    transient private PrintStream stdErrBackup = System.err;
+
+
+    public void restoreStdOut() {
+        System.setOut(stdOutBackup);
+    }
+
+    public void restoreStdErr() {
+        System.setErr(stdErrBackup);
     }
 
     private void handleCharsets() throws ParameterException, ExitException {
@@ -1922,6 +2156,60 @@ public class Parameters implements
             // if the user didn't make a selection explicitly on GNU filename escaping
             if (!OSControl.isWindows() && !this.isGnuEscapingSetByUser()) {
                 setGnuEscaping(true);
+            }
+        }
+    }
+
+
+    public void expandFileList() throws ParameterException {
+        // processing list that has been specified with -L
+        if (this.getFilelistFilename() != null) {
+            try {
+                if (this.getFilelistFilename().equals("-")) { // stdin
+
+                    if (this.getFilelistFormat() == null || this.getFilelistFormat().equals("list")) {
+
+                        this.getFilenamesFromFilelist().addAll(
+                                GeneralIO.readLinesFromStdin(
+                                        Charset.forName(this.getCharsetFileList()),
+                                        true,
+                                        this.getCommentChars(), false));
+                    } else if (this.getFilelistFormat().equals("ssv")) { // space separated values
+                        this.getFilenamesFromFilelist().addAll(
+                                GeneralIO.readLinesFromStdin(
+                                        Charset.forName(this.getCharsetFileList()),
+                                        true,
+                                        this.getCommentChars(), true));
+                    } else {
+                        Help.printHelp("en", "--file-list-format");
+                        throw new ParameterException(String.format("Filelist format \"%s\" is unsupported.", this.getFilelistFormat()));
+                    }
+                } else {
+                    if (this.getFilelistFormat() == null || this.getFilelistFormat().equals("list")) {
+
+                        this.getFilenamesFromFilelist().addAll(
+                                GeneralIO.readLinesFromTextFile(
+                                        this.getFilelistFilename(),
+                                        Charset.forName(this.getCharsetFileList()),
+                                        true,
+                                        this.getCommentChars(), false));
+                    } else if (this.getFilelistFormat().equals("ssv")) { // space separated values
+                        this.getFilenamesFromFilelist().addAll(
+                                GeneralIO.readLinesFromTextFile(
+                                        this.getFilelistFilename(),
+                                        Charset.forName(this.getCharsetFileList()),
+                                        true,
+                                        this.getCommentChars(), true));
+
+                    } else {
+                        Help.printHelp("en", "--file-list-format");
+                        throw new ParameterException(String.format("Filelist format \"%s\" is unsupported.", this.getFilelistFormat()));
+                    }
+                }
+            } catch (UnsupportedCharsetException uce) {
+                throw new ParameterException(String.format("Charset \"%s\" is unsupported. Check the supported character sets with jacksum --info.", this.getCharsetFileList()));
+            } catch (IOException ex) {
+                throw new ParameterException(String.format("File %s not found or cannot be read.", this.getFilelistFilename()));
             }
         }
     }
