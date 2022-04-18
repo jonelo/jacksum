@@ -27,13 +27,16 @@ import org.n16n.sugar.util.Support;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Properties;
 
 
-public class CompatibilityProperties {
+public class CompatibilityProperties implements Serializable {
+
+    private static final long serialVersionUID = 7076123016945520132L;
     private final Properties props; // persistent Props
     private final static int CURRENT_COMPAT_SYNTAX_VERSION = 3;
 
