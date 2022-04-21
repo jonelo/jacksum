@@ -47,7 +47,6 @@ import net.jacksum.parameters.combined.FormatParameters;
 import net.jacksum.parameters.combined.GatheringParameters;
 import net.jacksum.parameters.combined.ProducerConsumerParameters;
 import net.jacksum.parameters.combined.StatisticsParameters;
-import org.bouncycastle.crypto.digests.SkeinEngine;
 import org.n16n.sugar.io.BOM;
 import org.n16n.sugar.io.GeneralIO;
 import org.n16n.sugar.util.ByteSequences;
@@ -226,7 +225,7 @@ public class Parameters implements
     private String pathRelativeToAsString = null;
 
     // --path-relative-to-entry
-    private int pathRelativeToLine = 0;
+    private int pathRelativeToEntry = 0;
 
     // --threads-hashing
     private int threadsHashing = ThreadControl.getThreadsHashing();
@@ -877,16 +876,16 @@ public class Parameters implements
         ThreadControl.setThreadsReading(threadsReading);
     }
 
-    public int getPathRelativeToLine() {
-        return pathRelativeToLine;
+    public int getPathRelativeToEntry() {
+        return pathRelativeToEntry;
     }
 
-    public boolean isPathRelativeToLine() {
-        return pathRelativeToLine > 0;
+    public boolean isPathRelativeToEntry() {
+        return pathRelativeToEntry > 0;
     }
 
-    public void setPathRelativeToLine(int number) {
-        this.pathRelativeToLine = number;
+    public void setPathRelativeToEntry(int number) {
+        this.pathRelativeToEntry = number;
     }
 
 
@@ -1374,25 +1373,25 @@ public class Parameters implements
         }
         if (newParameters.isPathAbsolute()) {
             this.setPathAbsolute(true); //
-            this.setPathRelativeToLine(0);
+            this.setPathRelativeToEntry(0);
             this.setPathRelativeToAsString(null);
             this.setNoPath(false);
         } else
-        if (newParameters.isPathRelativeToLine()) {
+        if (newParameters.isPathRelativeToEntry()) {
             this.setPathAbsolute(false);
-            this.setPathRelativeToLine(newParameters.getPathRelativeToLine()); //
+            this.setPathRelativeToEntry(newParameters.getPathRelativeToEntry()); //
             this.setPathRelativeToAsString(null);
             this.setNoPath(false);
         } else
         if (newParameters.getPathRelativeToAsString() != null) {
             this.setPathAbsolute(false);
-            this.setPathRelativeToLine(0);
+            this.setPathRelativeToEntry(0);
             this.setPathRelativeToAsString(newParameters.getPathRelativeToAsString()); //
             this.setNoPath(false);
         } else
         if (newParameters.isNoPath()) {
             this.setPathAbsolute(false);
-            this.setPathRelativeToLine(0);
+            this.setPathRelativeToEntry(0);
             this.setPathRelativeToAsString(null);
             this.setNoPath(true); //
         }
@@ -1590,9 +1589,9 @@ public class Parameters implements
         if (pathAbsolute) {
             list.add("--path-absolute");
         } else
-        if (isPathRelativeToLine()) {
+        if (isPathRelativeToEntry()) {
             list.add("--path-relative-to-entry");
-            list.add(String.valueOf(getPathRelativeToLine()));
+            list.add(String.valueOf(getPathRelativeToEntry()));
         } else
         if (pathRelativeToAsString != null) {
             list.add("--path-relative-to");
@@ -1720,8 +1719,8 @@ public class Parameters implements
         }
 
         // validity check for --path-relative-to-entry
-        if (isPathRelativeToLine() && getFilenamesFromFilelist().size() > 0) {
-            setPathRelativeToAsString(getFilenamesFromFilelist().get(getPathRelativeToLine()-1));
+        if (isPathRelativeToEntry() && getFilenamesFromFilelist().size() > 0) {
+            setPathRelativeToAsString(getFilenamesFromFilelist().get(getPathRelativeToEntry()-1));
         }
 
         // validity check for --path-relative-to, and set the value for the Path called pathRelativeTo
@@ -1963,7 +1962,7 @@ public class Parameters implements
         if (isNoPath()) {
             pathOptions++;
         }
-        if (pathRelativeToLine > 0) {
+        if (pathRelativeToEntry > 0) {
             pathOptions++;
         }
         if (pathOptions > 1) {
@@ -1988,7 +1987,7 @@ public class Parameters implements
             throw new ExitException(e.getMessage(), ExitCode.PARAMETER_ERROR);
         }
 
-        if (isPathRelativeToLine() && getFilelistFilename() == null) {
+        if (isPathRelativeToEntry() && getFilelistFilename() == null) {
             throw new ParameterException("Option --path-relative-to-entry requires option --file-list");
         }
 
