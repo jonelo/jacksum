@@ -2044,11 +2044,11 @@ public class Parameters implements
             messenger.print(WARNING, "Option -t has been ignored, because standard input is used.");
         }
 
-        if (this.isGnuEscaping() && OSControl.isWindows()) {
+        if (this.isGnuEscapingSetByUser() && this.isGnuEscaping() && OSControl.isWindows()) {
             gnuEscaping = false;
+            gnuEscapingSetByUser = false;
             messenger.print(WARNING, String.format("Ignoring option --gnu-filename-escaping, because GNU file name escaping is not supported on Microsoft Windows."));
         }
-
 
         // implicit settings
         if (isRecursive() && getFilenamesFromArgs().isEmpty() && getFilenamesFromFilelist().isEmpty()) {
@@ -2076,12 +2076,6 @@ public class Parameters implements
     }
 
     private void handleCompatibility() throws ExitException {
-
-        if (this.isGnuEscapingSetByUser() && OSControl.isWindows()) {
-            messenger.print(WARNING, String.format("Ignoring option --gnu-filename-escaping, because GNU escaping is not supported on Microsoft Windows."));
-            gnuEscaping = false;
-            gnuEscapingSetByUser = false;
-        }
 
         if (this.getCompatibilityID() != null) {
             try {
@@ -2139,7 +2133,7 @@ public class Parameters implements
                 this.setEncoding(compatibilityProperties.getHashEncoding());
                 this.setStdinName(compatibilityProperties.getStdinName());
                 this.setLineSeparator(compatibilityProperties.getLineSeparator());
-                this.setGnuEscaping(compatibilityProperties.isGnuEscapingEnabled());
+                gnuEscaping = compatibilityProperties.isGnuEscapingEnabled();
                 if (this.getCommentChars() == null && compatibilityProperties.getIgnoreLinesStartingWithString() != null) {
                     this.setCommentChars(compatibilityProperties.getIgnoreLinesStartingWithString());
                 }
