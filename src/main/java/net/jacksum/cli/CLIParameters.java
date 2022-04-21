@@ -28,12 +28,7 @@ import net.jacksum.formats.Encoding;
 import net.jacksum.multicore.ThreadControl;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
-import org.n16n.sugar.io.GeneralIO;
 import org.n16n.sugar.util.GeneralString;
-
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.UnsupportedCharsetException;
 
 /**
  * All parameters for the Command Line Interface (CLI)
@@ -121,7 +116,7 @@ public class CLIParameters {
                             if (number < 1) {
                                 throw new ParameterException("line number has to be > 0.");
                             }
-                            parameters.setPathRelativeToLine(number);
+                            parameters.setPathRelativeToEntry(number);
                         } catch (NumberFormatException nfe) {
                             throw new ParameterException(nfe.getMessage());
                         }
