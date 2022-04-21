@@ -69,6 +69,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static net.jacksum.cli.CLIParameters.*;
 import static net.jacksum.cli.Messenger.MsgType.INFO;
 import static net.jacksum.cli.Messenger.MsgType.WARNING;
 
@@ -91,10 +92,15 @@ public class Parameters implements
         VerboseParameters, CompatibilityParameters, HeaderParameters {
 
 
-    public final static String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
-    private static final long serialVersionUID = -6991198855612622290L;
+    public static final String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
+    private static final long serialVersionUID = -230285762747369227L;
     private String algorithmIdentifier = ALGORITHM_IDENTIFIER_DEFAULT;
     private String[] cliParameters;
+    public static final String UTF_8 = "UTF-8";
+
+    transient private PrintStream stdOutBackup = System.out;
+    transient private PrintStream stdErrBackup = System.err;
+
 
     // -a
     private String algorithm = null;
@@ -113,13 +119,13 @@ public class Parameters implements
     private CompatibilityProperties compatibilityProperties = null;
 
     // --charset-check-file <charset>
-    private String charsetCheckFile = "UTF-8";
+    private String charsetCheckFile = UTF_8;
     // --charset-file-list <charset>
-    private String charsetFileList = "UTF-8";
+    private String charsetFileList = UTF_8;
     // --charset-error-file <charset>
-    private String charsetErrorFile = "UTF-8";
+    private String charsetErrorFile = UTF_8;
     // --charset-output-file <charset>
-    private String charsetOutputFile = "UTF-8";
+    private String charsetOutputFile = UTF_8;
     // --charset-stdout <charset>
     private String charsetStdout = null;
     // --charset-stderr <charset>
@@ -332,10 +338,6 @@ public class Parameters implements
         } else if (isInfoMode() && algorithm == null) {
             return ActionType.INFO_APP;
 
-
-//        } else if (stdin
-//                || (getFilenamesFromArgs().isEmpty())) { // no file parameter
-//            return ActionType.STDIN;
         } else if (!getFilenamesFromArgs().isEmpty()
                 || !getFilenamesFromFilelist().isEmpty()
                 || stdin) {
@@ -1448,16 +1450,16 @@ public class Parameters implements
         if (!newParameters.getVerbose().isDefault()) {
             this.setVerbose(newParameters.getVerbose());
         }
-        if (!newParameters.getCharsetFileList().equals("UTF-8")) {
+        if (!newParameters.getCharsetFileList().equalsIgnoreCase(UTF_8)) {
             this.setCharsetFileList(newParameters.getCharsetFileList());
         }
-        if (!newParameters.getCharsetCheckFile().equals("UTF-8")) {
+        if (!newParameters.getCharsetCheckFile().equalsIgnoreCase(UTF_8)) {
             this.setCharsetCheckFile(newParameters.getCharsetCheckFile());
         }
-        if (!newParameters.getCharsetErrorFile().equals("UTF-8")) {
+        if (!newParameters.getCharsetErrorFile().equalsIgnoreCase(UTF_8)) {
             this.setCharsetErrorFile(newParameters.getCharsetErrorFile());
         }
-        if (!newParameters.getCharsetOutputFile().equals("UTF-8")) {
+        if (!newParameters.getCharsetOutputFile().equalsIgnoreCase(UTF_8)) {
             this.setCharsetOutputFile(newParameters.getCharsetOutputFile());
         }
         if (newParameters.getCharsetStdout() != null) {
@@ -1477,82 +1479,82 @@ public class Parameters implements
     public List<String> toStringArrayList() {
         List<String> list = new ArrayList<>();
         if (algorithm != null) {
-            list.add("-a");
+            list.add(_ALGORITHM);
             list.add(algorithm);
         }
         if (alternate) {
-            list.add("--alternative");
+            list.add(_ALTERNATIVE);
         }
         if (utf8) {
-            list.add("--utf8");
+            list.add(__UTF8);
         }
         if (checkStrict) {
-            list.add("--check-strict");
+            list.add(__CHECK_STRICT);
         }
         if (copyrightWanted) {
-            list.add("--copyright");
+            list.add(__COPYRIGHT);
         }
         if (licenseWanted) {
-            list.add("--license");
+            list.add(__LICENSE);
         }
         if (headerWanted) {
-            list.add("--header");
+            list.add(__HEADER);
         }
         if (checkFile != null) {
-            list.add("-c");
+            list.add(_CHECK_FILE);
             list.add(checkFile);
         }
         if (checkLine != null) {
-            list.add("--check-line");
+            list.add(__CHECK_LINE);
             list.add(checkLine);
         }
         if (checkStrict) {
-            list.add("--check-strict");
+            list.add(__CHECK_STRICT);
         }
         if (compatibilityID != null) {
-            list.add("--style");
+            list.add(__STYLE);
             list.add(compatibilityID);
         } else {
             // all properties here that are being set implicitly by a compat file
             if (encoding != null) {
-                list.add("-E");
+                list.add(_ENCODING);
                 list.add(Encoding.encoding2String(encoding));
             }
             if (format != null) {
-                list.add("-F");
+                list.add(_FORMAT);
                 list.add(format);
             }
             if (getCommentChars() != null) {
-                list.add("-I");
+                list.add(_IGNORE_LINES_STARTING_WITH_STRING);
                 list.add(getCommentChars());
             }
-            if (stdinName.equals("-")) {
-                list.add("--legacy-stdin-name");
+            if (stdinName.equals(DASH)) {
+                list.add(__LEGACY_STDIN_NAME);
             }
         }
         if (bom) {
-            list.add("--bom");
+            list.add(__BOM);
         }
         if (dontFollowSymlinksToDirectories) {
-            list.add("-d");
+            list.add(_DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES);
         }
         if (dontFollowSymlinksToFiles) {
-            list.add("-f");
+            list.add(_DONT_FOLLOW_SYMLINKS_TO_FILES);
         }
         if (expected != null) {
-            list.add("-e");
+            list.add(_EXPECT_HASH);
             list.add(expected);
         }
         if (isGroupingSet()) {
-            list.add("-g");
+            list.add(_GROUP_BYTES);
             list.add(String.valueOf(getGrouping()));
         }
         if (isGroupCharSet()) {
-            list.add("-G");
+            list.add(_GROUP_BYTES_SEPARATOR);
             list.add(String.valueOf(getGroupChar()));
         }
         if (isHelp()) {
-            list.add("-h");
+            list.add(_HELP);
             if (isHelpLanguage()) {
                 list.add(getHelpLanguage());
                 if (isHelpSearchString()) {
@@ -1565,67 +1567,67 @@ public class Parameters implements
             }
         }
         if (isInfoMode()) {
-            list.add("--info");
+            list.add(__INFO);
         }
         if (isList()) {
-            list.add("-l");
+            list.add(_LIST);
         }
         if (listFilter.isFilterHasBeenSet()) {
-            list.add("--list-filter");
+            list.add(__LIST_FILTER);
             list.add(listFilter.toString());
         }
         if (filelistFilename != null) {
-            list.add("--file-list");
+            list.add(__FILE_LIST);
             list.add(filelistFilename);
         }
         if (filelistFormat != null) {
-            list.add("--file-list-format");
+            list.add(__FILE_LIST_FORMAT);
             list.add(filelistFormat);
         }
         if (isFilesizeWantedSet()) {
-            list.add("--filesize");
-            list.add(isFilesizeWanted() ? "on": "off");
+            list.add(__FILESIZE);
+            list.add(isFilesizeWanted() ? "true": "false");
         }
         if (pathAbsolute) {
-            list.add("--path-absolute");
+            list.add(__PATH_ABSOLUTE);
         } else
         if (isPathRelativeToEntry()) {
-            list.add("--path-relative-to-entry");
+            list.add(__PATH_RELATIVE_TO_ENTRY);
             list.add(String.valueOf(getPathRelativeToEntry()));
         } else
         if (pathRelativeToAsString != null) {
-            list.add("--path-relative-to");
+            list.add(__PATH_RELATIVE_TO);
             list.add(pathRelativeToAsString);
         } else
         if (noPath) {
-            list.add("--no-path");
+            list.add(__NO_PATH);
         }
         if (outputFile != null) {
             if (outputFileOverwrite) {
-                list.add("--output-file-overwrite");
+                list.add(__OUTPUT_FILE_OVERWRITE);
             } else {
-                list.add("--output-file");
+                list.add(__OUTPUT_FILE);
             }
             list.add(outputFile);
         }
         if (errorFile != null) {
             if (errorFileOverwrite) {
-                list.add("--error-file-overwrite");
+                list.add(__ERROR_FILE_OVERWRITE);
             } else {
-                list.add("--error-file");
+                list.add(__ERROR_FILE);
             }
             list.add(errorFile);
         }
         if (isPathCharSet()) {
-            list.add("-P");
+            list.add(_PATH_SEPARATOR);
             list.add(String.valueOf(getPathChar()));
         }
         if (isSequence()) {
-            list.add("-q");
+            list.add(_QUICK);
             list.add(getSequenceAsString());
         }
         if (isRecursive()) {
-            list.add("-r");
+            list.add(_RECURSIVE);
             if (getDepth() == Integer.MAX_VALUE) {
                 list.add("max");
             } else {
@@ -1633,66 +1635,66 @@ public class Parameters implements
             }
         }
         if (scanAllUnixFileTypes) {
-            list.add("--scan-all-unix-file-types");
+            list.add(__SCAN_ALL_UNIX_FILE_TYPES);
         }
         if (scanNtfsAds) {
-            list.add("--scan-ntfs-ads");
+            list.add(__SCAN_NTFS_ADS);
         }
         if (isSeparatorSet()) {
-            list.add("-s");
+            list.add(_SEPARATOR);
             list.add(getSeparatorRaw());
         }
         if (getThreadsHashing() != ThreadControl.getThreadsMax()) {
-            list.add("--threads-hashing");
+            list.add(__THREADS_HASHING);
             list.add(String.valueOf(getThreadsHashing()));
         }
         if (getThreadsReading() > 1) {
-            list.add("--threads-reading");
+            list.add(__THREADS_READING);
             list.add(String.valueOf(getThreadsReading()));
         }
         if (isTimestampWanted()) {
-            list.add("-t");
+            list.add(_TIMESTAMP);
             list.add(getTimestampFormat());
         }
         if (isVersionWanted()) {
-            list.add("-v");
+            list.add(_VERSION);
         }
         if (!verbose.isDefault()) {
-            list.add("--verbose");
+            list.add(_VERBOSE);
             list.add(verbose.toString());
         }
-        if (!charsetFileList.equals("UTF-8")) {
-            list.add("--charset-file-list");
+        if (!charsetFileList.equalsIgnoreCase(UTF_8)) {
+            list.add(__CHARSET_FILE_LIST);
             list.add(charsetFileList);
         }
-        if (!charsetCheckFile.equals("UTF-8")) {
-            list.add("--charset-check-file");
+        if (!charsetCheckFile.equalsIgnoreCase(UTF_8)) {
+            list.add(__CHARSET_CHECK_FILE);
             list.add(charsetCheckFile);
         }
-        if (!charsetErrorFile.equals("UTF-8")) {
-            list.add("--charset-error-file");
+        if (!charsetErrorFile.equalsIgnoreCase(UTF_8)) {
+            list.add(__CHARSET_ERROR_FILE);
             list.add(charsetErrorFile);
         }
-        if (!charsetOutputFile.equals("UTF-8")) {
-            list.add("--charset-output-file");
+        if (!charsetOutputFile.equalsIgnoreCase(UTF_8)) {
+            list.add(__CHARSET_OUTPUT_FILE);
             list.add(charsetOutputFile);
         }
         if (charsetStdout != null) {
-            list.add("--charset-stdout");
+            list.add(__CHARSET_STDOUT);
             list.add(charsetStdout);
         }
         if (charsetStderr != null) {
-            list.add("--charset-stderr");
+            list.add(__CHARSET_STDERR);
             list.add(charsetStderr);
         }
 
         if (stdin) {
-            list.add("-");
+            list.add(DASH);
         }
 
         List<String> filenames = getFilenamesFromArgs();
-        if (filenames.size() > 0 && filenames.get(0).startsWith("-")) {
-            list.add("--");
+        if (filenames.size() > 0 && filenames.get(0).startsWith(DASH)) {
+            list.add(DASHDASH);
         }
         for (String filename : filenames) {
             list.add(filename);
@@ -1800,10 +1802,6 @@ public class Parameters implements
         return bytes;
     }
 
-    transient private PrintStream stdOutBackup = System.out;
-    transient private PrintStream stdErrBackup = System.err;
-
-
     public void restoreStdOut() {
         System.setOut(stdOutBackup);
     }
@@ -1814,8 +1812,8 @@ public class Parameters implements
 
     private void handleCharsets() throws ParameterException, ExitException {
         if (isUtf8()) {
-            setCharsetStdout("UTF-8");
-            setCharsetStderr("UTF-8");
+            setCharsetStdout(UTF_8);
+            setCharsetStderr(UTF_8);
         }
 
         if (getCharsetStdout() != null) {
@@ -1864,7 +1862,7 @@ public class Parameters implements
             try {
                 File f = new File(getOutputFile());
                 if (!isOutputFileOverwrite() && f.exists()) {
-                    throw new ExitException("Jacksum: Error: the file " + f + " already exists. Specify the file by -O to overwrite it.", ExitCode.IO_ERROR);
+                    throw new ExitException(String.format("Jacksum: Error: the file %s already exists. Specify the file by -O to overwrite it.", f), ExitCode.IO_ERROR);
                 }
 
                 if (isShared) {
@@ -1885,7 +1883,7 @@ public class Parameters implements
             try {
                 File f = new File(getErrorFile());
                 if (!isErrorFileOverwrite() && f.exists()) {
-                    throw new ExitException("Jacksum: Error: the file " + f + " already exists. Specify the file by -U to overwrite it.", ExitCode.IO_ERROR);
+                    throw new ExitException(String.format("Jacksum: Error: the file %s already exists. Specify the file by -U to overwrite it.", f), ExitCode.IO_ERROR);
                 }
 
                 if (isShared) {
@@ -1966,7 +1964,8 @@ public class Parameters implements
             pathOptions++;
         }
         if (pathOptions > 1) {
-            throw new ParameterException("Only one of the following options is allowed: --no-path, --path-absolute, --path-relative-to, or --path-relative-to-entry");
+            throw new ParameterException(String.format("Only one of the following options is allowed: %s, %s, %s, or %s",
+                    __NO_PATH, __PATH_ABSOLUTE, __PATH_RELATIVE_TO, __PATH_RELATIVE_TO_ENTRY));
         }
 
         try {
@@ -1988,7 +1987,7 @@ public class Parameters implements
         }
 
         if (isPathRelativeToEntry() && getFilelistFilename() == null) {
-            throw new ParameterException("Option --path-relative-to-entry requires option --file-list");
+            throw new ParameterException(String.format("Option %s requires option %s", __PATH_RELATIVE_TO_ENTRY, __FILE_LIST));
         }
 
     }
@@ -2036,18 +2035,17 @@ public class Parameters implements
         if (checkFile != null && compatibilityID == null && algorithm == null) {
             setAlgorithm(ALGORITHM_IDENTIFIER_DEFAULT);
             messenger.print(INFO, String.format("Option -a has not been given, it is set implicitly to %s. Alternatively set -C <compatibility>.", ALGORITHM_IDENTIFIER_DEFAULT));
-            //throw new ParameterException("-a has to be set explicitly. Alternatively set -C <parser>.");
         }
 
         if (stdin && timestampFormat != null) {
             setTimestampFormat(null);
-            messenger.print(WARNING, "Option -t has been ignored, because standard input is used.");
+            messenger.print(WARNING, String.format("Option %s has been ignored, because standard input is used.", __TIMESTAMP));
         }
 
         if (this.isGnuEscapingSetByUser() && this.isGnuEscaping() && OSControl.isWindows()) {
             gnuEscaping = false;
             gnuEscapingSetByUser = false;
-            messenger.print(WARNING, String.format("Ignoring option --gnu-filename-escaping, because GNU file name escaping is not supported on Microsoft Windows."));
+            messenger.print(WARNING, String.format("Ignoring option %s, because GNU file name escaping is not supported on Microsoft Windows.", __GNU_FILENAME_ESCAPING));
         }
 
         // implicit settings
@@ -2089,7 +2087,7 @@ public class Parameters implements
                         // ... and flag that change by setting setHashAlgorithmUserSelected(true);
                         compatibilityProperties.setHashAlgorithmUserSelected(true);
                     } else {
-                        messenger.print(WARNING, String.format("Ignoring option --algorithm, because the style \"%s\" only supports a hardcoded algorithm.", compatibilityID));
+                        messenger.print(WARNING, String.format("Ignoring option %s, because the style \"%s\" only supports a hardcoded algorithm.", __ALGORITHM, compatibilityID));
                     }
                 }
 
@@ -2099,13 +2097,13 @@ public class Parameters implements
                         // ... we overwrite the default in the compatibilityProperties object ...
                         compatibilityProperties.setGnuEscapingEnabled(this.isGnuEscaping());
                     } else {
-                        messenger.print(WARNING, String.format("Ignoring option --gnu-filename-escaping, because the style \"%s\" doesn't support or allow to enable GNU escaping.", compatibilityID));
+                        messenger.print(WARNING, String.format("Ignoring option %s, because the style \"%s\" doesn't support or allow to enable GNU escaping.", __GNU_FILENAME_ESCAPING, compatibilityID));
                     }
                 }
 
                 if (this.isFilesizeWantedSet()) {
                     if (!compatibilityProperties.isFilesizeSupported()) {
-                        messenger.print(WARNING, String.format("Ignoring option --filesize, because the style \"%s\" doesn't support file sizes.", compatibilityID));
+                        messenger.print(WARNING, String.format("Ignoring option %s, because the style \"%s\" doesn't support file sizes.", __FILESIZE, compatibilityID));
                     }
                 }
 
@@ -2174,8 +2172,8 @@ public class Parameters implements
                                         true,
                                         this.getCommentChars(), true));
                     } else {
-                        Help.printHelp("en", "--file-list-format");
-                        throw new ParameterException(String.format("Filelist format \"%s\" is unsupported.", this.getFilelistFormat()));
+                        Help.printHelp(HELP_DEFAULT_LANGUAGE, __FILE_LIST_FORMAT);
+                        throw new ParameterException(String.format("File list format \"%s\" is unsupported.", this.getFilelistFormat()));
                     }
                 } else {
                     if (this.getFilelistFormat() == null || this.getFilelistFormat().equals("list")) {
@@ -2195,8 +2193,8 @@ public class Parameters implements
                                         this.getCommentChars(), true));
 
                     } else {
-                        Help.printHelp("en", "--file-list-format");
-                        throw new ParameterException(String.format("Filelist format \"%s\" is unsupported.", this.getFilelistFormat()));
+                        Help.printHelp(HELP_DEFAULT_LANGUAGE, __FILE_LIST_FORMAT);
+                        throw new ParameterException(String.format("File list format \"%s\" is unsupported.", this.getFilelistFormat()));
                     }
                 }
             } catch (UnsupportedCharsetException uce) {

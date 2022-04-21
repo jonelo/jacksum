@@ -39,10 +39,104 @@ public class CLIParameters {
 
     String[] args;
 
-    public static final String LONG_OPTION__ALGORITHM = "--algorithm";
-    public static final String SHORT_OPTION__ALGORITHM = "-a";
-    public static final String LONG_OPTION__ALTERNATIVE = "--alternative";
-    public static final String SHORT_OPTION__ALTERNATIVE = "-A";
+    public static final String __ALGORITHM = "--algorithm";
+    public static final String _ALGORITHM = "-a";
+    public static final String _ALTERNATIVE = "-A";
+    public static final String __ALTERNATIVE = "--alternative";
+    public static final String __PATH_ABSOLUTE = "--path-absolute";
+    public static final String __ABSOLUTE = "--absolute";
+    public static final String __PATH_RELATIVE_TO = "--path-relative-to";
+    public static final String __RELATIVE_TO = "--relative-to";
+    public static final String __PATH_RELATIVE_TO_ENTRY = "--path-relative-to-entry";
+    public static final String __RELATIVE_TO_ENTRY = "--relative-to-entry";
+    public static final String _UTF8 = "-8";
+    public static final String __UTF8 = "--utf8";
+    public static final String __COPYRIGHT = "--copyright";
+    public static final String __LICENSE = "--license";
+    public static final String __HEADER = "--header";
+    public static final String _CHECK_FILE = "-c";
+    public static final String __CHECK_FILE = "--check-file";
+    public static final String __CHECK_LINE = "--check-line";
+    public static final String __CHECK_STRICT = "--check-strict";
+    public static final String _COMPAT = "-C";
+    public static final String __COMPAT = "--compat";
+    public static final String __STYLE = "--style";
+    public static final String __BOM = "--bom";
+    public static final String _DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES = "-d";
+    public static final String __DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES = "--dont-follow-symlinks-to-directories";
+    public static final String _EXPECT_HASH = "-e";
+    public static final String __EXPECT_HASH = "--expect-hash";
+    public static final String _ENCODING = "-E";
+    public static final String __ENCODING = "--encoding";
+    public static final String _DONT_FOLLOW_SYMLINKS_TO_FILES = "-f";
+    public static final String __DONT_FOLLOW_SYMLINKS_TO_FILES = "--dont-follow-symlinks-to-files";
+    public static final String __FILESIZE = "--filesize";
+    public static final String __GNU_FILENAME_ESCAPING = "--gnu-filename-escaping";
+    public static final String _FORMAT = "-F";
+    public static final String __FORMAT = "--format";
+    public static final String _GROUP_BYTES = "-g";
+    public static final String __GROUP_BYTES = "--group-bytes";
+    public static final String _GROUP_BYTES_SEPARATOR = "-G";
+    public static final String __GROUP_BYTES_SEPARATOR = "--group-bytes-separator";
+    public static final String _HELP = "-h";
+    public static final String __HELP = "--help";
+    public static final String __INFO = "--info";
+    public static final String _IGNORE_LINES_STARTING_WITH_STRING = "-I";
+    public static final String __IGNORE_LINES_STARTING_WITH_STRING = "--ignore-lines-starting-with-string";
+    public static final String _LIST = "-l";
+    public static final String __LIST = "--list";
+    public static final String __LIST_FILTER = "--list-filter";
+    public static final String __LEGACY_STDIN_NAME = "--legacy-stdin-name";
+    public static final String _FILE_LIST = "-L";
+    public static final String __FILE_LIST = "--file-list";
+    public static final String __FILE_LIST_FORMAT = "--file-list-format";
+    public static final String __NO_PATH = "--no-path";
+    public static final String _OUTPUT_FILE = "-o";
+    public static final String __OUTPUT_FILE = "--output-file";
+    public static final String _OUTPUT_FILE_OVERWRITE = "-O";
+    public static final String __OUTPUT_FILE_OVERWRITE = "--output-file-overwrite";
+    public static final String _PATH_SEPARATOR = "-P";
+    public static final String __PATH_SEPARATOR = "--path-separator";
+    public static final String _QUICK = "-q";
+    public static final String __QUICK = "--quick";
+    public static final String _RECURSIVE = "-r";
+    public static final String __RECURSIVE = "--recursive";
+    public static final String __SCAN_ALL_UNIX_FILE_TYPES = "--scan-all-unix-file-types";
+    public static final String __SCAN_NTFS_ADS = "--scan-ntfs-ads";
+    public static final String _SEPARATOR = "-s";
+    public static final String __SEPARATOR = "--separator";
+    public static final String __THREADS_HASHING = "--threads-hashing";
+    public static final String __THREADS_READING =  "--threads-reading";
+    public static final String _TIMESTAMP = "-t";
+    public static final String __TIMESTAMP = "--timestamp";
+    public static final String _ERROR_FILE = "-u";
+    public static final String __ERROR_FILE = "--error-file";
+    public static final String _ERROR_FILE_OVERWRITE = "-U";
+    public static final String __ERROR_FILE_OVERWRITE = "--error-file-overwrite";
+    public static final String _VERSION = "-v";
+    public static final String __VERSION = "--version";
+    public static final String _VERBOSE = "-V";
+    public static final String __VERBOSE = "--verbose";
+    public static final String _HEX_LOWERCASE = "-x";
+    public static final String __HEX_LOWERCASE = "--hex-lowercase";
+    public static final String _HEX_UPPERCASE = "-X";
+    public static final String __HEX_UPPERCASE = "--hex-uppercase";
+    public static final String __CHARSET_FILE_LIST = "--charset-file-list";
+    public static final String __FILE_LIST_CHARSET = "--file-list-charset";
+    public static final String __CHARSET_CHECK_FILE = "--charset-check-file";
+    public static final String __CHECK_FILE_CHARSET = "--check-file-charset";
+    public static final String __CHARSET_ERROR_FILE =  "--charset-error-file";
+    public static final String __ERROR_FILE_CHARSET = "--error-file-charset";
+    public static final String __CHARSET_OUTPUT_FILE = "--charset-output-file";
+    public static final String __OUTPUT_FILE_CHARSET = "--output-file-charset";
+    public static final String __CHARSET_STDOUT = "--charset-stdout";
+    public static final String __STDOUT_CHARSET = "--stdout-charset";
+    public static final String __CHARSET_STDERR = "--charset-stderr";
+    public static final String __STDERR_CHARSET = "--stderr-charset";
+
+    public static final String DASH = "-";
+    public static final String DASHDASH = "--";
+    public static final String HELP_DEFAULT_LANGUAGE = "en";
 
 
     public CLIParameters(String[] args) {
@@ -81,34 +175,35 @@ public class CLIParameters {
         if (args.length == 0) {
             parameters.setHelp(true);
         } else {
-            while (firstfile < args.length && args[firstfile].startsWith("-") && !dashdash) {
+            while (firstfile < args.length && args[firstfile].startsWith(DASH) && !dashdash) {
                 arg = args[firstfile++];
 
                 // --algorithm
-                if (arg.equals(SHORT_OPTION__ALGORITHM) || arg.equals(LONG_OPTION__ALGORITHM)) {
+                if (arg.equals(_ALGORITHM) || arg.equals(__ALGORITHM)) {
                     if (firstfile < args.length) {
                         parameters.setAlgorithm(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, LONG_OPTION__ALGORITHM);
+                        handleUserParamError(arg, __ALGORITHM);
                     }
 
                 // --alternative
-                } else if (arg.equals(SHORT_OPTION__ALTERNATIVE) || arg.equals(LONG_OPTION__ALTERNATIVE)) {
+                } else if (arg.equals(_ALTERNATIVE) || arg.equals(__ALTERNATIVE)) {
                     parameters.setAlternateImplementationWanted(true);
 
-                // --absolute
-                } else if (arg.equals("--path-absolute") || (arg.equals("--absolute"))) {
+                // --path-absolute
+                } else if (arg.equals(__PATH_ABSOLUTE) || (arg.equals(__ABSOLUTE))) {
                     parameters.setPathAbsolute(true);
 
-                } else if (arg.equals("--path-relative-to") || arg.equals("--relative-to")) {
+                // --path-relative-to
+                } else if (arg.equals(__PATH_RELATIVE_TO) || arg.equals(__RELATIVE_TO)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
                         parameters.setPathRelativeToAsString(arg);
                     } else {
-                        handleUserParamError(arg, "--path-relative-to");
+                        handleUserParamError(arg, __PATH_RELATIVE_TO);
                     }
 
-                } else if (arg.equals("--path-relative-to-entry") || arg.equals("--relative-to-entry")) {
+                } else if (arg.equals(__PATH_RELATIVE_TO_ENTRY) || arg.equals(__RELATIVE_TO_ENTRY)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
                         try {
@@ -121,69 +216,69 @@ public class CLIParameters {
                             throw new ParameterException(nfe.getMessage());
                         }
                     } else {
-                        handleUserParamError(arg, "--path-relative-to-entry");
+                        handleUserParamError(arg, __PATH_RELATIVE_TO_ENTRY);
                     }
 
-                } else if (arg.equals("-8") || arg.equals("--utf8")) {
+                } else if (arg.equals(_UTF8) || arg.equals(__UTF8)) {
                     parameters.setUtf8(true);
 
-                } else if (arg.equals("-")) {
+                } else if (arg.equals(DASH)) {
                     parameters.setStdinForFilenamesFromArgs(true);
 
-                } else if (arg.equals("--")) {
+                } else if (arg.equals(DASHDASH)) {
                     dashdash = true;
 
-                } else if (arg.equals("--copyright")) {
+                } else if (arg.equals(__COPYRIGHT)) {
                     parameters.setCopyrightWanted(true);
 
-                } else if (arg.equals("--license")) {
+                } else if (arg.equals(__LICENSE)) {
                     parameters.setLicenseWanted(true);
 
-                } else if (arg.equals("--header")) {
+                } else if (arg.equals(__HEADER)) {
                     parameters.setHeaderWanted(true);
 
-                } else if (arg.equals("-c") || arg.equals("--check-file")) {
+                } else if (arg.equals(_CHECK_FILE) || arg.equals(__CHECK_FILE)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
                         parameters.setCheckFile(arg);
                         parameters.getVerbose().enableAll();
                     } else {
-                        handleUserParamError(arg, "--check-file");
+                        handleUserParamError(arg, __CHECK_FILE);
                     }
 
-                } else if (arg.equals("--check-line")) {
+                } else if (arg.equals(__CHECK_LINE)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
                         parameters.setCheckLine(arg);
                         parameters.getVerbose().enableAll();
                     } else {
-                        handleUserParamError(arg, "--check-line");
+                        handleUserParamError(arg, __CHECK_LINE);
                     }
 
-                } else if (arg.equals("--check-strict")) {
+                } else if (arg.equals(__CHECK_STRICT)) {
                     parameters.setCheckStrict(true);
 
-                } else if (arg.equals("-C") || arg.equals("--compat") || arg.equals("--style")) {
+                } else if (arg.equals(_COMPAT) || arg.equals(__COMPAT) || arg.equals(__STYLE)) {
                     if (firstfile < args.length) {
                         parameters.setCompatibilityID(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--compat");
+                        handleUserParamError(arg, __COMPAT);
                     }
 
-                } else if (arg.equals("--bom")) {
+                } else if (arg.equals(__BOM)) {
                     parameters.setBom(true);
 
-                } else if (arg.equals("-d") || arg.equals("--dontFollowSymlinksToDirectories")) {
+                } else if (arg.equals(_DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES) || arg.equals(__DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES)) {
                     parameters.setDontFollowSymlinksToDirectories(true);
 
-                } else if (arg.equals("-e") || (arg.equals("--expect-hash"))) {
+                } else if (arg.equals(_EXPECT_HASH) || (arg.equals(__EXPECT_HASH))) {
                     if (firstfile < args.length) {
                         parameters.setExpected(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--expect-hash");
+                        handleUserParamError(arg, __EXPECT_HASH);
                     }
 
-                } else if (arg.equals("-E") || arg.equals("--encoding")) {
+                } else if (arg.equals(_ENCODING) || arg.equals(__ENCODING)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
                         try {
@@ -192,62 +287,60 @@ public class CLIParameters {
                             throw new ParameterException(e.getMessage());
                         }
                     } else {
-                        handleUserParamError(arg, "--encoding");
+                        handleUserParamError(arg, __ENCODING);
                     }
 
-                } else if (arg.equals("-f") || arg.equals("--dont-follow-symlinks-to-files")) {
+                } else if (arg.equals(_DONT_FOLLOW_SYMLINKS_TO_FILES) || arg.equals(__DONT_FOLLOW_SYMLINKS_TO_FILES)) {
                     parameters.setDontFollowSymlinksToFiles(true);
 
-                } else if (arg.equals("--filesize")) {
+                } else if (arg.equals(__FILESIZE)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
 
                         try {
                             parameters.setFilesizeWanted(GeneralString.parseBoolean(arg));
                         } catch (IllegalArgumentException iae) {
-                            handleParamError("--filesize", iae.getMessage(), arg);
-                            //throw new ParameterException(iae.getMessage());
+                            handleParamError(__FILESIZE, iae.getMessage(), arg);
                         }
                     } else {
-                        handleUserParamError(arg, "--filesize");
+                        handleUserParamError(arg, __FILESIZE);
                     }
 
-                } else if (arg.equals("--gnu-filename-escaping")) {
+                } else if (arg.equals(__GNU_FILENAME_ESCAPING)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
 
                         try {
                             parameters.setGnuEscaping(GeneralString.parseBoolean(arg));
                         } catch (IllegalArgumentException iae) {
-                            handleParamError("--gnu-filename-escaping", iae.getMessage(), arg);
-                            //throw new ParameterException(iae.getMessage());
+                            handleParamError(__GNU_FILENAME_ESCAPING, iae.getMessage(), arg);
                         }
 
                     } else {
-                        handleUserParamError(arg, "--gnu-filename-escaping");
+                        handleUserParamError(arg, __GNU_FILENAME_ESCAPING);
                     }
 
 
-                } else if (arg.equals("-F") || arg.equals("--format")) {
+                } else if (arg.equals(_FORMAT) || arg.equals(__FORMAT)) {
                     if (firstfile < args.length) {
                         parameters.setFormat(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--format");
+                        handleUserParamError(arg, __FORMAT);
                     }
 
-                } else if (arg.equals("-g") || arg.equals("--group-bytes")) {
+                } else if (arg.equals(_GROUP_BYTES) || arg.equals(__GROUP_BYTES)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
                         try {
                             parameters.setGrouping(arg);
                         } catch (IllegalArgumentException e) {
-                            throw new ParameterException(arg + " is not a decimal number.");
+                            throw new ParameterException(String.format("%s is not a decimal number.", arg));
                         }
                     } else {
-                        handleUserParamError(arg, "--group-bytes");
+                        handleUserParamError(arg, __GROUP_BYTES);
                     }
 
-                } else if (arg.equals("-G") || arg.equals("--group-bytes-separator")) {
+                } else if (arg.equals(_GROUP_BYTES_SEPARATOR) || arg.equals(__GROUP_BYTES_SEPARATOR)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
                         try {
@@ -256,18 +349,18 @@ public class CLIParameters {
                             throw new ParameterException(e.getMessage());
                         }
                     } else {
-                        handleUserParamError(arg, "--group-bytes-separator");
+                        handleUserParamError(arg, __GROUP_BYTES_SEPARATOR);
                     }
 
-                } else if (arg.equals("-h") || arg.equals("--help")) {
+                } else if (arg.equals(_HELP) || arg.equals(__HELP)) {
                     // default inits
                     parameters.setHelp(true);
-                    parameters.setHelpLanguage("en");
+                    parameters.setHelpLanguage(HELP_DEFAULT_LANGUAGE);
                     parameters.setHelpSearchString(null);
                     if (firstfile < args.length) {
                         String helpLanguageOrSearchString = args[firstfile++];
 
-                        if (helpLanguageOrSearchString.equalsIgnoreCase("en")) {
+                        if (helpLanguageOrSearchString.equalsIgnoreCase(HELP_DEFAULT_LANGUAGE)) {
                             parameters.setHelpLanguage(helpLanguageOrSearchString);
                             if (firstfile < args.length) {
                                 parameters.setHelpSearchString(args[firstfile++]);
@@ -277,73 +370,73 @@ public class CLIParameters {
                         }
                     }
 
-                } else if (arg.equals("--info")) {
+                } else if (arg.equals(__INFO)) {
                     parameters.setInfoMode(true);
 
-                } else if (arg.equals("-I") || arg.equals("--ignore-lines-starting-with-string")) {
+                } else if (arg.equals(_IGNORE_LINES_STARTING_WITH_STRING) || arg.equals(__IGNORE_LINES_STARTING_WITH_STRING)) {
                     if (firstfile < args.length) {
                         parameters.setCommentChars(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--ignore-lines-starting-with-string");
+                        handleUserParamError(arg, __IGNORE_LINES_STARTING_WITH_STRING);
                     }
 
-                } else if (arg.equals("-l") || arg.equals("--list")) {
+                } else if (arg.equals(_LIST) || arg.equals(__LIST)) {
                     parameters.setList(true);
 
-                } else if (arg.equals("--list-filter")) {
+                } else if (arg.equals(__LIST_FILTER)) {
                     if (firstfile < args.length) {
                         try {
                             parameters.getListFilter().setFilter(args[firstfile++]);
                         } catch (IllegalArgumentException e) {
-                            Help.printHelp("en", "--list-filter");
+                            Help.printHelp(HELP_DEFAULT_LANGUAGE, __LIST_FILTER);
                             throw new ParameterException(e.getMessage());
                         }
                     } else {
-                        handleUserParamError(arg, "--list-filter");
+                        handleUserParamError(arg, __LIST_FILTER);
                     }
 
-                } else if (arg.equals("--legacy-stdin-name")) {
+                } else if (arg.equals(__LEGACY_STDIN_NAME)) {
                     parameters.setStdinName("-");
                     AbstractChecksum.setStdinName("-");
 
-                } else if (arg.equals("-L") || arg.equals("--file-list")) {
+                } else if (arg.equals(_FILE_LIST) || arg.equals(__FILE_LIST)) {
                     if (firstfile < args.length) {
                         parameters.setFilelistFilename(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--file-list");
+                        handleUserParamError(arg, __FILE_LIST);
                     }
 
-                } else if (arg.equals("--file-list-format")) {
+                } else if (arg.equals(__FILE_LIST_FORMAT)) {
                     if (firstfile < args.length) {
                         parameters.setFilelistFormat(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--file-list-format");
+                        handleUserParamError(arg, __FILE_LIST_FORMAT);
                     }
 
-                } else if (arg.equals("--no-path")) {
+                } else if (arg.equals(__NO_PATH)) {
                     parameters.setNoPath(true);
 
-                } else if (arg.equals("-o") || arg.equals("--output-file")) {
+                } else if (arg.equals(_OUTPUT_FILE) || arg.equals(__OUTPUT_FILE)) {
                     parameters.setOutputFileOverwrite(false);
 
                     if (firstfile < args.length) {
                         parameters.setOutputFile(args[firstfile++]);
 
                     } else {
-                        handleUserParamError(arg, "--output-file");
+                        handleUserParamError(arg, __OUTPUT_FILE);
                     }
 
-                } else if (arg.equals("-O") || arg.equals("--output-file-overwrite")) {
+                } else if (arg.equals(_OUTPUT_FILE_OVERWRITE) || arg.equals(__OUTPUT_FILE_OVERWRITE)) {
                     parameters.setOutputFileOverwrite(true);
 
                     if (firstfile < args.length) {
                         parameters.setOutputFile(args[firstfile++]);
 
                     } else {
-                        handleUserParamError(arg, "--output-file-overwrite");
+                        handleUserParamError(arg, __OUTPUT_FILE_OVERWRITE);
                     }
 
-                } else if (arg.equals("-P") || arg.equals("--path-separator")) {
+                } else if (arg.equals(_PATH_SEPARATOR) || arg.equals(__PATH_SEPARATOR)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
                         try {
@@ -352,10 +445,10 @@ public class CLIParameters {
                             throw new ParameterException(e.getMessage());
                         }
                     } else {
-                        handleUserParamError(arg, "--path-separator");
+                        handleUserParamError(arg, __PATH_SEPARATOR);
                     }
 
-                } else if (arg.equals("-q") || arg.equals("--quick")) {
+                } else if (arg.equals(_QUICK) || arg.equals(__QUICK)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
                         try {
@@ -364,10 +457,10 @@ public class CLIParameters {
                             throw new ParameterException(e.getMessage());
                         }
                     } else {
-                        handleUserParamError(arg, "--quick");
+                        handleUserParamError(arg, __QUICK);
                     }
 
-                } else if (arg.equals("-r") || arg.equals("--recursive")) {
+                } else if (arg.equals(_RECURSIVE) || arg.equals(__RECURSIVE)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
                         if (arg.equals("max")) {
@@ -385,23 +478,23 @@ public class CLIParameters {
                                 throw new ParameterException(nfe.getMessage());
                             }
                     } else {
-                        handleUserParamError(arg, "--recursive");
+                        handleUserParamError(arg, __RECURSIVE);
                     }
 
-                } else if (arg.equals("--scan-all-unix-file-types")) {
+                } else if (arg.equals(__SCAN_ALL_UNIX_FILE_TYPES)) {
                     parameters.setScanAllUnixFileTypes(true);
 
-                } else if (arg.equals("--scan-ntfs-ads")) {
+                } else if (arg.equals(__SCAN_NTFS_ADS)) {
                     parameters.setScanNtfsAds(true);
 
-                } else if (arg.equals("-s") || arg.equals("--separator")) {
+                } else if (arg.equals(_SEPARATOR) || arg.equals(__SEPARATOR)) {
                     if (firstfile < args.length) {
                         parameters.setSeparator(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--separator");
+                        handleUserParamError(arg, __SEPARATOR);
                     }
 
-                } else if (arg.equals("--threads-hashing")) {
+                } else if (arg.equals(__THREADS_HASHING)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
                         if (arg.equals("max")) {
@@ -418,10 +511,10 @@ public class CLIParameters {
                             }
                         }
                     } else {
-                        handleUserParamError(arg, "--threads-hashing");
+                        handleUserParamError(arg, __THREADS_HASHING);
                     }
 
-                } else if (arg.equals("--threads-reading")) {
+                } else if (arg.equals(__THREADS_READING)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
                         if (arg.equals("max")) {
@@ -438,95 +531,95 @@ public class CLIParameters {
                             }
                         }
                     } else {
-                        handleUserParamError(arg, "--threads-reading");
+                        handleUserParamError(arg, __THREADS_READING);
                     }
 
-                } else if (arg.equals("-t") || arg.equals("--timestamp")) {
+                } else if (arg.equals(_TIMESTAMP) || arg.equals(__TIMESTAMP)) {
                     if (firstfile < args.length) {
                         try {
                             parameters.setTimestampFormat(args[firstfile++]);
                         } catch (IllegalArgumentException e) {
-                            throw new ParameterException("Option -t is wrong (" + e.getMessage() + ")");
+                            throw new ParameterException(String.format("Option -t is wrong (\"%s\")", e.getMessage()));
                         }
                     } else {
-                        handleUserParamError(arg, "--timestamp");
+                        handleUserParamError(arg, __TIMESTAMP);
                     }
 
-                } else if (arg.equals("-u") || arg.equals("--error-file")) {
+                } else if (arg.equals(_ERROR_FILE) || arg.equals(__ERROR_FILE)) {
                     parameters.setErrorFileOverwrite(false);
 
                     if (firstfile < args.length) {
                         parameters.setErrorFile(args[firstfile++]);
 
                     } else {
-                        handleUserParamError(arg, "--error-file");
+                        handleUserParamError(arg, __ERROR_FILE);
                     }
 
-                } else if (arg.equals("-U") || arg.equals("--error-file-overwrite")) {
+                } else if (arg.equals(_ERROR_FILE_OVERWRITE) || arg.equals(__ERROR_FILE_OVERWRITE)) {
                     parameters.setErrorFileOverwrite(true);
                     if (firstfile < args.length) {
                         parameters.setErrorFile(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--error-file-overwrite");
+                        handleUserParamError(arg, __ERROR_FILE_OVERWRITE);
                     }
 
-                } else if (arg.equals("-v") || arg.equals("--version")) {
+                } else if (arg.equals(_VERSION) || arg.equals(__VERSION)) {
                     parameters.setVersionWanted(true);
                     parameters.getVerbose().setInfo(false); // no details if we don't want details explicitly
 
-                } else if (arg.equals("-V") || arg.equals("--verbose")) {
+                } else if (arg.equals(_VERBOSE) || arg.equals(__VERBOSE)) {
                     if (firstfile < args.length) {
                         verboseControl = args[firstfile++];
                     } else {
-                        handleUserParamError(arg, "--verbose");
+                        handleUserParamError(arg, __VERBOSE);
                     }
 
-                } else if (arg.equals("-x") || arg.equals("--hex-lowercase")) {
+                } else if (arg.equals(_HEX_LOWERCASE) || arg.equals(__HEX_LOWERCASE)) {
                     parameters.setEncoding(Encoding.HEX);
 
-                } else if (arg.equals("-X") || arg.equals("--hex-uppercase")) {
+                } else if (arg.equals(_HEX_UPPERCASE) || arg.equals(__HEX_UPPERCASE)) {
                     parameters.setEncoding(Encoding.HEX_UPPERCASE);
 
-                } else if (arg.equals("--charset-file-list") || arg.equals("--file-list-charset")) {
+                } else if (arg.equals(__CHARSET_FILE_LIST) || arg.equals(__FILE_LIST_CHARSET)) {
                     if (firstfile < args.length) {
                         parameters.setCharsetFileList(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--charset-file-list");
+                        handleUserParamError(arg, __CHARSET_FILE_LIST);
                     }
 
-                } else if (arg.equals("--charset-check-file") || arg.equals("--check-file-charset")) {
+                } else if (arg.equals(__CHARSET_CHECK_FILE) || arg.equals(__CHECK_FILE_CHARSET)) {
                     if (firstfile < args.length) {
                         parameters.setCharsetCheckFile(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--charset-check-file");
+                        handleUserParamError(arg, __CHARSET_CHECK_FILE);
                     }
 
-                } else if (arg.equals("--charset-error-file") || arg.equals("--error-file-charset")) {
+                } else if (arg.equals(__CHARSET_ERROR_FILE) || arg.equals(__ERROR_FILE_CHARSET)) {
                     if (firstfile < args.length) {
                         parameters.setCharsetErrorFile(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--charset-error-file");
+                        handleUserParamError(arg, __CHARSET_ERROR_FILE);
                     }
 
-                } else if (arg.equals("--charset-output-file") || arg.equals("--output-file-charset")) {
+                } else if (arg.equals(__CHARSET_OUTPUT_FILE) || arg.equals(__OUTPUT_FILE_CHARSET)) {
                     if (firstfile < args.length) {
                         parameters.setCharsetOutputFile(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--charset-output-file");
+                        handleUserParamError(arg, __CHARSET_OUTPUT_FILE);
                     }
 
-                } else if (arg.equals("--charset-stdout") || arg.equals("--stdout-charset")) {
+                } else if (arg.equals(__CHARSET_STDOUT) || arg.equals(__STDOUT_CHARSET)) {
                     if (firstfile < args.length) {
                         parameters.setCharsetStdout(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--charset-stdout");
+                        handleUserParamError(arg, __CHARSET_STDOUT);
                     }
 
-                } else if (arg.equals("--charset-stderr") || arg.equals("--stderr-charset")) {
+                } else if (arg.equals(__CHARSET_STDERR) || arg.equals(__STDERR_CHARSET)) {
                     if (firstfile < args.length) {
                         parameters.setCharsetStderr(args[firstfile++]);
                     } else {
-                        handleUserParamError(arg, "--charset-stderr");
+                        handleUserParamError(arg, __CHARSET_STDERR);
                     }
 
                 } else {
@@ -546,21 +639,19 @@ public class CLIParameters {
                 try {
                     parameters.getVerbose().setVerbose(verboseControl);
                 } catch (IllegalArgumentException e) {
-                    Help.printHelp("en", "--verbose");
+                    Help.printHelp(HELP_DEFAULT_LANGUAGE, __VERBOSE);
                     throw new ParameterException(e.getMessage());
                 }
             }
 
             // processing arguments file list            
             for (int i = firstfile; i < args.length; i++) {
-                if (args[i].equals("-") && !dashdash) { // the dash (stdin) could come even between normal filenames
+                if (args[i].equals(DASH) && !dashdash) { // the dash (stdin) could come even between normal filenames
                     parameters.setStdinForFilenamesFromArgs(true);
                 } else {
                     parameters.getFilenamesFromArgs().add(args[i]);
                 }
             }
-
-
 
         } // end-if args.length > 0
         // end parsing arguments
