@@ -20,7 +20,7 @@ Jacksum 3.3.0, TBD
 
 - performance:
 
-    - the option --threads-reading is set to 1 by default to avoid performance degration
+    - the option --threads-reading is set to 1 by default to avoid performance degradation
       for hashing files stored on non-SSD-media such as HDDs or CD-ROMs
     - faster output of the build-in help by using memory buffering before printing
     - improved initial values for HashMap constructors
