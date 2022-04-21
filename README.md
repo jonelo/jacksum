@@ -16,7 +16,7 @@
 command line utility and lib, which is all about checksums, CRCs,
 and message digests (aka hashes, data/file fingerprints, thumbprints).
 
-Jacksum is written entirely in **Java**.
+Jacksum is written entirely in **Java** ☕.
 
 Jacksum supports **471 data fingerprinting algorithms**, including checksums, CRCs, XOFs,
 cryptographic, and non-cryptographic hash functions.
