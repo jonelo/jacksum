@@ -35,7 +35,7 @@ import java.util.List;
 public class Verbose implements Serializable  {
 
 
-    private static final long serialVersionUID = 8842662811741634082L;
+    private static final long serialVersionUID = 468201896069418113L;
     private boolean info;
     private boolean warnings;
     private boolean errors;
@@ -56,6 +56,14 @@ public class Verbose implements Serializable  {
         warnings = true;
         errors = true;
         summary = false;
+    }
+
+    /**
+     * Checks whether all flags have been set to true.
+     * @return whether all flags have been set to true.
+     */
+    public boolean isAllEnabled() {
+        return info && warnings && errors && summary;
     }
 
     /**
@@ -233,9 +241,4 @@ public class Verbose implements Serializable  {
             }
         }
     }
-    
-    
-  
-
-
 }
