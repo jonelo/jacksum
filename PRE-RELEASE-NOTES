@@ -9,7 +9,7 @@ Jacksum 3.3.0, TBD
     - added option --path-relative-to-entry <integer>
       (required for the integration at the Windows Explorer's SendTo-menu)
     - added option --filesize <boolean> to control whether the file size should be added or not
-    - added option --gnu-escaping to tag the lines where file names have been escaped (default, linux, and bsd styles)
+    - added option --gnu-filename-escaping <boolean> to tag the lines where file names have been escaped (default, linux, and bsd styles)
     - parse escaped file names that have been tagged in default, linux and bsd verification files
     - added format token #BINTAG to tag binary mode in verification files with a Linux style produced on Microsoft Windows
     - added format token #ESCAPETAG to tag lines where the file name has been escaped using the GNU file name escaping feature
