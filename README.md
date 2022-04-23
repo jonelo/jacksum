@@ -73,7 +73,7 @@ Call `mvn -version` to check whether your maven would use at least Java 11. Alte
 Download the .jar (or .zip) file as described above, open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
 
 ```
-java -jar jacksum-3.2.0.jar
+java -jar jacksum-3.3.0.jar
 ```
 
 I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and Unix operating systems (e.g. macOS) and to put the script to a folder that is reachable by your PATH environment variable in order to launch jacksum easily just by typing
