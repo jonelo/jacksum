@@ -82,14 +82,6 @@ I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script
 jacksum
 ```
 
-## Examples of how to use it
-
-```
-jacksum -h examples
-```
-
-See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples).
-
 ## Features
 
 <img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
@@ -145,9 +137,18 @@ Jacksum can also be used as a **library** in your own projects by using its
 For more information, see also the [comprehensive list of features](https://github.com/jonelo/jacksum/wiki/Features).
 
 
+## Examples of how to use it
+
+```
+jacksum -h examples
+```
+
+See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples).
+
+
 ## Contribution
 
-We appreciate feedback from users, bug hunters, and fresh ideas from open minded people. Feel free and file [support requests, change requests, bug reports and feature requests on GitHub](https://github.com/jonelo/jacksum/issues)
+I appreciate feedback from users, bug hunters, and fresh ideas from open minded people. Feel free and file [support requests, change requests, bug reports and feature requests on GitHub](https://github.com/jonelo/jacksum/issues)
 
 Spread the word, or give a star here on GitHub. 
 
@@ -162,22 +163,18 @@ Spread the word, or give a star here on GitHub.
   * Download and read the [jacksum-3.2.0-javadoc.jar](https://github.com/jonelo/jacksum/releases/download/v3.2.0/jacksum-3.2.0-javadoc.jar)
 * [https://jacksum.net](https://jacksum.net)
 
-## Integration
+## Integrations
 
+* [Jacksum File Browser Integration for Microsoft Windows](https://github.com/jonelo/jacksum-fbi-windows)
 * [Jacksum File Browser Integration for GNU/Linux](https://github.com/jonelo/jacksum-fbi-linux)
 * [Jacksum File Browser Integration for macOS](https://github.com/jonelo/jacksum-fbi-macos)
 * [Jacksum on Docker](https://hub.docker.com/r/jonelo/jacksum)
-
-## Products that are powered by Jacksum
-
-Create an [issue on github](https://github.com/jonelo/jacksum/issues) and let me know that you use Jacksum for your product if you want to be listed here.
-
-- NumericalChameleon, see http://www.numericalchameleon.net
+* [HashGarten](https://github.com/jonelo/HashGarten)
+* NumericalChameleon, see http://www.numericalchameleon.net
 
 ## History
 
-Jacksum version 1.0.0 was published in July 2002 on https://sourceforge.net/projects/jacksum/.
-Starting with Jacksum version 3.0.0 in September 2021, it moved its repo to GitHub.
+Jacksum version 1.0.0 was published in July 2002 on https://sourceforge.net/projects/jacksum/. Starting with Jacksum version 3.0.0 in September 2021, it moved its repo to GitHub.
 
 ## License
 
