@@ -10,13 +10,89 @@
 
 # Jacksum
 
-<img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
+## What is it?
 
-**Jacksum** (**JAva ChecKSUM**) is is a free, feature-rich, cross-platform
-command line utility and lib, which is all about checksums, CRCs,
-and message digests (aka hashes, data/file fingerprints, thumbprints).
+**Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform, feature-rich, multi-threaded data integrity verification tool on the command line. It is also a lib, and it is all about checksums, CRCs, and message digests (aka hashes, data/file fingerprints, thumbprints). For a full feature list go to [Features](https://github.com/jonelo/jacksum/wiki/Features).
 
 Jacksum is written entirely in **Java** ☕.
+
+## Is this something for you?
+
+If you are a command line user (advanced user, sysadmin, computer scientist, security engineer, forensics engineer, reverse engineer, ...) or a Java developer this .jar package is for you.
+
+## System Requirements
+
+- GNU/Linux, Microsoft Windows, or macOS
+- JDK 11 or later
+- 2 MiB disk space
+
+<details>
+<summary>Details:</summary>
+
+- To download the (Open)JDK 11 or later, you can go to any vendor that provides OpenJDK compatible builds, LTS (long term support) releases are recommended, examples are
+  - https://adoptium.net
+  - https://openjdk.java.net
+  - https://www.azul.com/downloads/?package=jdk
+  - https://bell-sw.com/pages/downloads/
+  - https://www.microsoft.com/openjdk/
+  - https://aws.amazon.com/de/corretto/
+  - https://sapmachine.io
+  - https://github.com/alibaba/dragonwell8
+- Supported architectures are dependent on the OS and the JDK vendor:
+  - x86 64 bit (x64)
+  - x86 32 bit (x86)
+  - ARM 64 bit (AArch64, resp. M1)
+  - ARM 32 bit (AArch32)
+  - PPC 64 bit (ppc64)
+- a GitHub user have had success to run Jacksum without modification even on a smartphone running Android on ARM 64 bit, see also https://github.com/jonelo/jacksum/issues/7
+- GNU/Linux is the correct term to refer to "Linux", see also https://www.gnu.org/gnu/linux-and-gnu.en.html
+- actual RAM requirement is dependent on the OS, the architecture, the JDK, the JRE's (default) garbage collector settings and usage. Tests have shown that Jacksum feels pretty comfortable with 512 MiB Java heap on a x64 Windows 10 system for example while verifying millions of files of all sizes (0 bytes to several GiB).
+
+</details>
+
+## How to download
+
+The latest released .jar file can be found at https://github.com/jonelo/jacksum/releases/latest
+The .zip file also contains simple scripts to call Jacksum on Windows, Linux, and macOS from the command line.
+
+
+## How to clone/compile/package/install it (for developers)
+
+Jacksum can be build by Maven. On the command line you can simply clone the source code by calling `git clone` and compile/package/install by calling `mvn install`. After installation, the .jar file can be found unter the target directory and in your $HOME/.m2/ directory structure. You should set JAVA_HOME properly so that the JDK tools such as javac and javadoc can be found. Example on Ubuntu 20.04.4 LTS:
+
+```
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+git clone https://github.com/jonelo/jacksum.git
+cd jacksum
+mvn install
+```
+Call `mvn -version` to check whether your maven would use at least Java 11. Alternatively use an IDE which supports both cloning from a GitHub repo and Maven.
+
+## How to configure and install it (for users)
+
+Download the .jar (or .zip) file as described above, open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
+
+```
+java -jar jacksum-3.2.0.jar
+```
+
+I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and Unix operating systems (e.g. macOS) and to put the script to a folder that is reachable by your PATH environment variable in order to launch jacksum easily just by typing
+
+```
+jacksum
+```
+
+## Examples of how to use it
+
+```
+jacksum -h examples
+```
+
+See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples).
+
+## Features
+
+<img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
 Jacksum supports **471 data fingerprinting algorithms**, including checksums, CRCs, XOFs,
 cryptographic, and non-cryptographic hash functions.
@@ -68,80 +144,6 @@ Jacksum can also be used as a **library** in your own projects by using its
 
 For more information, see also the [comprehensive list of features](https://github.com/jonelo/jacksum/wiki/Features).
 
-## System Requirements
-
-- GNU/Linux, Microsoft Windows, or macOS
-- JDK 11 or later
-- 2 MiB disk space
-
-<details>
-<summary>Details:</summary>
-
-- To download the (Open)JDK 11 or later, you can go to any vendor that provides OpenJDK compatible builds, LTS (long term support) releases are recommended, examples are
-  - https://adoptium.net
-  - https://openjdk.java.net
-  - https://www.azul.com/downloads/?package=jdk
-  - https://bell-sw.com/pages/downloads/
-  - https://www.microsoft.com/openjdk/
-  - https://aws.amazon.com/de/corretto/
-  - https://sapmachine.io
-  - https://github.com/alibaba/dragonwell8
-- Supported architectures are dependent on the OS and the JDK vendor:
-  - x86 64 bit (x64)
-  - x86 32 bit (x86)
-  - ARM 64 bit (AArch64, resp. M1)
-  - ARM 32 bit (AArch32)
-  - PPC 64 bit (ppc64)
-- a GitHub user have had success to run Jacksum without modification even on a smartphone running Android on ARM 64 bit, see also https://github.com/jonelo/jacksum/issues/7
-- GNU/Linux is the correct term to refer to "Linux", see also https://www.gnu.org/gnu/linux-and-gnu.en.html
-- actual RAM requirement is dependent on the OS, the architecture, the JDK, the JRE's (default) garbage collector settings and usage. Tests have shown that Jacksum feels pretty comfortable with 512 MiB Java heap on a x64 Windows 10 system for example while verifying millions of files of all sizes (0 bytes to several GiB).
-
-</details>
-
-## Quick Start
-
-### Is this something for you?
-
-If you are a command line user (advanced user, sysadmin, computer scientist, security engineer, forensics engineer, reverse engineer, ...) or a Java developer this .jar package is for you.
-
-### How to download
-
-The latest released .jar file can be found at https://github.com/jonelo/jacksum/releases/latest
-The .zip file also contains simple scripts to call Jacksum on Windows, Linux, and macOS from the command line.
-
-### How to clone/compile/package/install it (for developers)
-
-Jacksum can be build by Maven. On the command line you can simply clone the source code by calling `git clone` and compile/package/install by calling `mvn install`. After installation, the .jar file can be found unter the target directory and in your $HOME/.m2/ directory structure. You should set JAVA_HOME properly so that the JDK tools such as javac and javadoc can be found. Example on Ubuntu 20.04.4 LTS:
-
-```
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-git clone https://github.com/jonelo/jacksum.git
-cd jacksum
-mvn install
-```
-Call `mvn -version` to check whether your maven would use at least Java 11. Alternatively use an IDE which supports both cloning from a GitHub repo and Maven.
-
-### How to configure and install it (for users)
-
-Download the .jar (or .zip) file as described above, open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
-
-```
-java -jar jacksum-3.2.0.jar
-```
-
-I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and Unix operating systems (e.g. macOS) and to put the script to a folder that is reachable by your PATH environment variable in order to launch jacksum easily just by typing
-
-```
-jacksum
-```
-
-### Examples of how to use it
-
-```
-jacksum -h examples
-```
-
-See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples).
 
 ## Contribution
 
@@ -174,8 +176,8 @@ Create an [issue on github](https://github.com/jonelo/jacksum/issues) and let me
 
 ## History
 
-Jacksum was published in July 2002 on https://sourceforge.net/projects/jacksum/.
-In September 2021, starting with version 3.0.0, it moved its repo to GitHub.
+Jacksum version 1.0.0 was published in July 2002 on https://sourceforge.net/projects/jacksum/.
+Starting with Jacksum version 3.0.0 in September 2021, it moved its repo to GitHub.
 
 ## License
 
