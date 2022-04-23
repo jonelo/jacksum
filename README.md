@@ -119,7 +119,7 @@ git clone https://github.com/jonelo/jacksum.git
 cd jacksum
 mvn install
 ```
-Use `mnv -version` to check whether your maven would use at least Java 11. Alternatively use an IDE which supports both cloning from a GitHub repo and Maven.
+Call `mvn -version` to check whether your maven would use at least Java 11. Alternatively use an IDE which supports both cloning from a GitHub repo and Maven.
 
 ### How to configure and install it (for users)
 
