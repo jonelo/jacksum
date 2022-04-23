@@ -1,3 +1,48 @@
+Jacksum 3.3.0, April, 23
+
+- new features:
+
+    - added option --threads-hashing <threads> to control the number of threads if multiple
+      algorithms should run in parallel
+    - added option --threads-reading <threads> to control the number of threads if multiple
+      files should be read in parallel
+    - added option --path-relative-to-entry <integer>
+      (required for the integration at the Windows Explorer's SendTo-menu)
+    - added option --filesize <boolean> to control whether the file size should be added or not
+    - added option --gnu-filename-escaping <boolean> to tag the lines where file names have been escaped (default, linux, and bsd styles)
+    - parse escaped file names that have been tagged in default, linux and bsd verification files
+    - added format token #BINTAG to tag binary mode in verification files with a Linux style produced on Microsoft Windows
+    - added format token #ESCAPETAG to tag lines where the file name has been escaped using the GNU file name escaping feature
+    - added format tokens #ALGONAMES, #ALGONAMES{uppercase}, and #ALGONAMES{lowercase} to print algorithm names
+      separated by a comma if multiple algorithms have been selected
+    - added format tokens #HASHES, #HASHES{<encoding>} to print hashes separated by comma if multiple algorithms have been selected
+    - added public API calls to allow requesting info from the build-in help
+
+- performance:
+
+    - the option --threads-reading is set to 1 by default to avoid performance degradation
+      for hashing files stored on non-SSD-media such as HDDs or CD-ROMs
+    - faster output of the build-in help by using memory buffering before printing
+    - improved initial values for HashMap constructors
+
+- bug fixes:
+
+    - fixed: if ")" is part of a file name (e.g. "file (1).txt", the regexp in the bsd, solaris-tagged,
+      solaris-untagged, and openssl compat files don't detect the filename
+    - fixed: if a path cannot be relativized by --path-relative-to it should not print
+      stacktrace, but simply return the non-relativized path (e.g. if both paths have a different roots
+      on Microsoft Windows).
+    - fixed: normalize paths if --path-relative-to is set to avoid false positives during verification
+    - fixed: option --path-relative-to is not taken into account if --compat has been set
+    - fixed: --header's invocation arg need to be quoted if arg starts with a # sign
+    - fixed: if Jacksum is being called by its API, the invocation args should be printed
+      from the actual parameter object values, and not from the CLI parameters
+    - fixed: wrong help section is printed out in case of user errors with --file-list-format
+    - fixed: slightly wrong error message if concurrent path options have been set
+    - fixed: algorithms with a numeric parameter (e.g. haval_<width>_<rounds>) cannot be found
+      by the build-in help function if fully expessed (e.g. jacksum -h haval_256_5)
+
+
 Jacksum 3.2.0, March 5, 2022
 
 - new features

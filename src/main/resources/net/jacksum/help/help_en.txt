@@ -1251,7 +1251,7 @@ OPTIONS
                 - working directory of invocation
                 - invocation args
 \
-            Available since Jacksum 3.2.0.
+            Available since Jacksum 3.3.0.
 
 
     -h [language] [word]
@@ -1389,7 +1389,7 @@ OPTIONS
             If you want to store the default output in order to perform an
             integrity check later, you shall not set this option, because
             without path information it is impossible to find the files again.
-            Available since Jacksum 3.2.0, see also, -P, --path-relative-to,
+            Available since Jacksum 3.3.0, see also, -P, --path-relative-to,
             and --path-absolute
 
 
@@ -1415,7 +1415,7 @@ OPTIONS
             as the program arguments, and paths are printed absolutely if you
             pass absolute paths as the program arguments. If this option is set,
             paths are printed absolutely in all cases.
-            Available since Jacksum 3.2.0, see also -P, --path-relative-to,
+            Available since Jacksum 3.3.0, see also -P, --path-relative-to,
             and --no-path
 
 
@@ -1434,7 +1434,7 @@ OPTIONS
 \
             If this option is set during check mode, the path for each file
             object in the check file is simply prepended by <path>.
-            Available since Jacksum 3.2.0, see also -P, --path-absolute,
+            Available since Jacksum 3.3.0, see also -P, --path-absolute,
             and --no-path
 
 

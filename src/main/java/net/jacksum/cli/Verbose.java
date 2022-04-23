@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.2.0 - a checksum utility in Java
+  Jacksum 3.3.0 - a checksum utility in Java
   Copyright (c) 2001-2022 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -33,7 +33,6 @@ import java.util.List;
  * Details and whether a statistics is printed.
  */
 public class Verbose implements Serializable  {
-
 
     private static final long serialVersionUID = 468201896069418113L;
     private boolean info;

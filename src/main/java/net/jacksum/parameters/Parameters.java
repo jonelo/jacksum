@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.2.0 - a checksum utility in Java
+  Jacksum 3.3.0 - a checksum utility in Java
   Copyright (c) 2001-2022 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -93,7 +93,7 @@ public class Parameters implements
 
 
     public static final String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
-    private static final long serialVersionUID = -230285762747369227L;
+    private static final long serialVersionUID = 1067527470925003672L;
     private String algorithmIdentifier = ALGORITHM_IDENTIFIER_DEFAULT;
     private String[] cliParameters;
     public static final String UTF_8 = "UTF-8";
@@ -2155,6 +2155,7 @@ public class Parameters implements
     public void expandFileList() throws ParameterException {
         // processing list that has been specified with -L
         if (this.getFilelistFilename() != null) {
+            this.getFilenamesFromFilelist().clear();
             try {
                 if (this.getFilelistFilename().equals("-")) { // stdin
 
