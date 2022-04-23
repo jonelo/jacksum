@@ -100,9 +100,30 @@ For more information, see also the [comprehensive list of features](https://gith
 
 ## Quick Start
 
-### How to configure and install it
+### Is this something for you?
 
-Open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
+If you are a command line user (advanced user, sysadmin, computer scientist, security engineer, forensics engineer, reverse engineer, ...) or a Java developer this .jar package is for you.
+
+### How to download
+
+The latest released .jar file can be found at https://github.com/jonelo/jacksum/releases/latest
+The .zip file also contains simple scripts to call Jacksum on Windows, Linux, and macOS from the command line.
+
+### How to clone/compile/package/install it (for developers)
+
+Jacksum can be build by Maven. On the command line you can simply clone the source code by calling `git clone` and compile/package/install by calling `mvn install`. After installation, the .jar file can be found unter the target directory and in your $HOME/.m2/ directory structure. You should set JAVA_HOME properly so that the JDK tools such as javac and javadoc can be found. Example on Ubuntu 20.04.4 LTS:
+
+```
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+git clone https://github.com/jonelo/jacksum.git
+cd jacksum
+mvn install
+```
+Use `mnv -version` to check whether your maven would use at least Java 11. Alternatively use an IDE which supports both cloning from a GitHub repo and Maven.
+
+### How to configure and install it (for users)
+
+Download the .jar (or .zip) file as described above, open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
 
 ```
 java -jar jacksum-3.2.0.jar
