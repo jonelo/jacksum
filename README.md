@@ -61,10 +61,17 @@ The .zip file also contains simple scripts to call Jacksum on Windows, Linux, an
 Jacksum can be build by Maven. On the command line you can simply clone the source code by calling `git clone` and compile/package/install by calling `mvn install`. After installation, the .jar file can be found unter the target directory and in your $HOME/.m2/ directory structure. You should set JAVA_HOME properly so that the JDK tools such as javac and javadoc can be found. Example on Ubuntu 20.04.4 LTS:
 
 ```
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-git clone https://github.com/jonelo/jacksum.git
-cd jacksum
-mvn install
+$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+$ git clone https://github.com/jonelo/jacksum.git
+$ cd jacksum
+$ git tag -l
+v3.0.0
+v3.0.1
+v3.1.0
+v3.2.0
+v3.3.0
+$ git checkout tags/v3.3.0 -b three-three-zero
+$ mvn install
 ```
 Call `mvn -version` to check whether your maven would use at least Java 11. Alternatively use an IDE which supports both cloning from a GitHub repo and Maven.
 
