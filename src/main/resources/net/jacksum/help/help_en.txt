@@ -36,10 +36,11 @@ DESCRIPTION
         in the following sections:
 \
             - Algorithm support
+            - Operating modes
             - Processing
+            - Performance
             - Input
             - Output
-            - Performance
             - System requirements
 \
         Type `jacksum -h examples` and go to https://jacksum.net to learn more
@@ -187,22 +188,109 @@ DESCRIPTION
               const ISO), CRC-64 (.xz and prog lang GO, const ECMA)
 \
 \
-    Processing:
+    Operating Modes:
 \
         Jacksum selects the appropriate operating mode dependent on the options
-        and parameters that you set. Any operation can be cancelled at any time
-        by hitting Ctrl+C in the terminal.
+        and parameters that you set.
 \
-        Jacksum traverses directory trees recursively by default. You can
-        control the walking depth by option -r. You can also set the options -f
-        and -d in order to disallow Jacksum to follow symlinks to files and/or
-        directories.
+            Operating mode description        | Mode is activated if the
+                                              | the following is set
+            __________________________________|_________________________________
+            calculate hash values of files    | files and/or directories and/or
+                                              | --file-list
+                                              |
+            verify file integrity by reading  | -c or --check-line
+            precalculated hash values         |
+                                              |
+            find the algorithm that was       | -a is set to unknown:<length>
+            used to produce a hash            |
+                                              |
+            find all files that matches a     | -e
+            particular hash                   |
+                                              |
+            provide input (max. 128 MiB) on   | -q
+            the command line and hash it      |
+                                              |
+            provide input (max. 128 MiB) on   | -q, and -e
+            the command line and verify       |
+            data integrity                    |
+
+        In addition to the modes above that deal with actual data, there are
+        also non-data modes that don't deal with data, but queries the
+        application itself. Jacksum supports the following non-data modes:
+
+            print the copyright               | --copyright
+                                              |
+            print the English manpage         | --help
+                                              |
+            print detailed information        | --info
+            about the application             |
+                                              |
+            print detailed information        | -a, and --info
+            about the algorithm               |
+                                              |
+            print each algorithm id on a      | -a, and -l
+            separate line                     |
+                                              |
+            print detailed information        | -a, -l, and --info
+            about each algorithm              |
+                                              |
+            print properties of a style       | --style, and --info
+                                              |
+            print the license                 | --license
+                                              |
+            prints the application version    | --version
 \
-        Jacksum supports many charsets for reading and writing files properly,
-        and it comes with full support for all common Unicode aware charsets
-        such as UTF-8, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32LE, UTF-32BE,
-        and GB18030. A Byte-Order Mark (BOM) is supported for both input and
-        output, even if a BOM is optional for the selected charset.
+\
+    Processing:
+\
+        Recursive file tree walking:
+\
+            Jacksum traverses directory trees recursively by default. You can
+            control the walking depth by option -r. You can also set the
+            options -f and -d in order to disallow Jacksum to follow symlinks
+            to files and/or directories.
+\
+        Statistics:
+            If you specify option --verbose summary, statistics about the
+            processing will be printed.
+\
+        Cancelling:
+            Any operation can be cancelled at any time by hitting Ctrl+C in the
+            terminal.
+\
+\
+    Performance:
+\
+        Jacksum supports multi-threading on multi-processor and multi-core
+        computer systems. Jacksum can compute multiple hashes simultaneously,
+        and it can process multiple files simultaneously.
+\
+        Many algorithms:
+            If more than one algorithm is chosen for the calculation or
+            verification process, Jacksum distributes that load across multiple
+            cores. In that case the slowest algorithm selected determines the
+            minimum computation time. Any file is read only once in any case.
+            By default Jacksum uses all available cores if multiple algorithms
+            have been chosen. You can limit that behaviour by setting
+            --threads-hashing.
+\
+        Many files:
+            Jacksum can use the computing power of multi-core processors if
+            available. This allows simultaneous/parallel calculation or
+            verification of hashes for many files that are stored on
+            direct access medias such as modern SSD. By default only one
+            thread is used since Jacksum does not know on which medium the
+            files are located. You can contol that behaviour by setting
+            --threads-reading.
+\
+        Alternative implementations:
+            Jacksum comes with pure Java implementations for all supported
+            algorithms. By default Jacksum checks whether an algorithm is
+            provided by the JRE/JDK and if it is, it uses the implementation
+            from the JRE/JDK, because often that gives the best performance.
+            Because exceptions confirm the rule, this behaviour can also be
+            disabled by setting the -A option.
 \
 \
     Input:
@@ -213,16 +301,6 @@ DESCRIPTION
         Streams (ADS) on Microsoft Windows, and block devices, character
         devices, named pipes (FIFOs), and sockets (Unix-like OS only), and doors
         (Solaris only) are supported and can be hashed.
-\
-        Pointers to the input data can be given by command line arguments, by
-        walking file trees recursively with a specific depth (-r), by file lists
-        (-L), or by check lists (-c). In the case of lists, many different
-        charsets can be selected in order to read localized, non-ASCII filenames
-        properly (see also options --charset-check-file, --charset-file-list).
-        You can specify the format of file-lists by setting --file-list-format.
-        You can specify the format of a check-file by selecting a predefined
-        parser or by defining your own parser (see also option --compat) so you
-        can process input even if it was not produced by Jacksum.
 \
         All platforms:
             On all supported platforms (Microsoft Windows, GNU/Linux, and Unix)
@@ -297,17 +375,55 @@ DESCRIPTION
                   and/or partitions in update releases or in new versions of
                   Microsoft Windows.
 \
+        File pointers:
+            Pointers to the input data can be given by command line arguments,
+            by walking file trees recursively with a specific depth (-r) and
+            gathering the file names found in each directory, by file lists
+            (-L), and by check lists (-c).
+\
+        Format of input text files:
+            You can specify the format of file-lists by setting the option
+            --file-list-format.
+            You can specify the format of a check-file by selecting a predefined
+            style/parser or by defining your own style/parser (see also option
+            --compat or --style) so you can process input even if it was not
+            produced by Jacksum.
+\
+        Charsets:
+            For file lists stored in text files, many different charsets can be
+            set in order to read localized, non-ASCII filenames properly (see
+            options --charset-check-file, --charset-file-list).
+\
+            By default UTF-8 is used if you read from a file list. If UTF-8 does
+            not meet your needs, you can set any charset for any file that
+            Jacksum should read for you as long as it is supported by your JDK.
+            Usually any OpenJDK comes with full support for all common Unicode
+            aware charsets such as UTF-8, UTF-16, UTF-16BE, UTF-16LE, UTF-32,
+            UTF-32LE, UTF-32BE, and GB18030. In addition to that, Jacksum will
+            ignore a Byte-Order Mark (BOM) if a BOM is optional for a particular
+            charset.
+\
 \
     Output:
 \
         Output can occur in default format, predefined standard formats or in a
-        user-defined format which is highly customizable.
+        user-defined format which is highly customizable. Also charsets can
+        be set for all kind of outputs if the default charset does not meet your
+        needs.
 \
         Default output:
             By default the output format is standardized and behaves like well
             known checksum resp. cryptographic hash tools on GNU/Linux such as
-            sha1sum, md5sum, b2sum, digest, etc. However, the format also
-            supports multiple algorithms, file size, and time stamps.
+            sha1sum, md5sum, b2sum, digest, etc. The default format also
+            supports GNU filename escaping to ensure one single line per file on
+            standard output - even if the file name has problematic characters
+            such as newlines or carriage returns.
+            Since Jacksum v3 reads files in binary format by default, it is not
+            necessary to flag that mode by a star or a 2nd blank.
+            In addition to that well known GNU/Linux hash value output format,
+            Jacksum also supports multiple algorithms and not just one by
+            concatenating hash values, optional file size, and an optional time
+            stamp for the files.
 \
         Predefined output:
             The output format can also be made compatible to the output that
@@ -338,32 +454,20 @@ DESCRIPTION
             Timestamps can be customized by using the option -t. Predefined
             formats for timestamps such as ISO8601 or Unixtime are available.
 \
+       Charsets:
+            By default UTF-8 is used if output goes to a file, and the system
+            charset is used for both standard output channel (stdout) and
+            standard error channel (stderr). You can use option -8 to force
+            UTF-8 also for both stdout and stderr.
 \
-    Performance:
-\
-        Jacksum supports multi-threading on multi-processor and multi-core
-        computer systems. Jacksum can compute multiple hashes simultaneously,
-        and it can process multiple files simultaneously.
-\
-        Many algorithms:
-            If more than one algorithm is chosen for the calculation or
-            verification process, Jacksum distributes that load across multiple
-            cores. In that case the slowest algorithm selected determines the
-            minimum computation time. Any file is read only once in any case.
-\
-        Many files:
-            Jacksum uses the computing power of multi-core processors if
-            available. This allows simultaneous/parallel calculation or
-            verification of hashes for many files that are stored on
-            direct access medias such as modern SSD.
-\
-        Alternative implementations:
-            Jacksum comes with pure Java implementations for all supported
-            algorithms. By default Jacksum checks whether an algorithm is
-            provided by the JRE/JDK and if it is, it uses the implementation
-            from the JRE/JDK, because often that gives the best performance.
-            Because exceptions confirm the rule, this behaviour can also be
-            disabled by setting the -A option.
+            If UTF-8 does not meet your needs, you can set any charset for any
+            file that Jacksum should write for you as long as it is supported
+            by your JDK. Usually any OpenJDK comes with full support for all
+            common Unicode aware charsets such as UTF-8, UTF-16, UTF-16BE,
+            UTF-16LE, UTF-32, UTF-32LE, UTF-32BE, and GB18030. In addition to
+            that, Jacksum also allows to write a Byte-Order Mark (BOM), even if
+            a BOM is optional for a particular charset. See option --bom for
+            more information.
 \
 \
     System requirements:
@@ -513,12 +617,9 @@ OPTIONS
             Verify (check) files against a list of hashes. The list can either
             be a former output of Jacksum or an output of a different hash
             application.
-            You have to specify at least the options -a and -E,
-            because Jacksum must know which algorithm and which encoding
-            were used when <list> was generated.
-            In addition to that you need to set all options that could
-            generate <list> again, e. g. the options -g, -G, -t, -d, -f may
-            become necessary as well. The option -F will be ignored.
+            You need to set all non-default options that could generate <list>
+            again. The options -a, -E, -g, -G, -t, -d, -f may become necessary.
+            The option -F is ignored.
 \
             If you have used option -F or if the output of <list> is not in the
             quasi-standard output format like
@@ -539,7 +640,7 @@ OPTIONS
             To exclude files from being checked, just remove the lines from the
             list. This can be done with findstr /V (on Windows) and with grep -v
             (on both Linux and Unix). Example: check all files in md5.check, but
-            exclude any .iso  files:
+            exclude any .iso files:
             findstr /V .iso$ hashes.md5 | jacksum -E hex -a md5 -c -
 \
             For each file in <list> Jacksum shows the status of the file's
@@ -6708,6 +6809,8 @@ OUTPUT FORMAT
 
 
 EXIT STATUS
+    If Jacksum exists, the exit code reflects the following:
+
     0  - everything is OK
     1  - there was at least one mismatch during the verification process
     >1 - in case of a parameter-, .jacksum- or I/O-error
