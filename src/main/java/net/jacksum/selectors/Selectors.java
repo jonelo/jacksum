@@ -121,6 +121,7 @@ public class Selectors {
         SHAKE128_Selector.class,
         SHAKE256_Selector.class,
         Skein_Selector.class,
+        SM3_Selector.class,
         Streebog256_Selector.class,
         Streebog512_Selector.class,
         SumBSD_Selector.class,

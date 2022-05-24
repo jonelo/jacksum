@@ -7,3 +7,4 @@ Jacksum 3.4.0, TBD
 - performance:
 
 - bug fixes:
+    - sm3 not returned by calling "jacksum -a all -l"
