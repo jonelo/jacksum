@@ -22,7 +22,7 @@ Jacksum is written entirely in **Java** ☕.
 
 If you are a command line user (advanced user, sysadmin, computer scientist, security engineer, forensics engineer, reverse engineer, ...) or a Java developer this .jar package is for you.
 
-If you are a normal user and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration installer. See also [Integrations](jacksum#Integrations)
+If you are a normal user and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration installer. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
 
 ## System Requirements
 
