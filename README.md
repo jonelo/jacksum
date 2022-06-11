@@ -12,13 +12,17 @@
 
 ## What is it?
 
-**Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform, feature-rich, multi-threaded data integrity verification tool on the command line. It is also a lib, and it is all about checksums, CRCs, and message digests (aka hashes, data/file fingerprints, thumbprints). For a full feature list go to [Features](https://github.com/jonelo/jacksum/wiki/Features).
+**Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform, feature-rich, multi-threaded data integrity verification tool on the command line. It is also a lib, and it is all about checksums, CRCs, and message digests (aka hashes, data/file fingerprints, thumbprints).
+
+For a full feature list go to [Features](https://github.com/jonelo/jacksum/wiki/Features).
 
 Jacksum is written entirely in **Java** ☕.
 
-## Is this something for you?
+## Is this the right package for you?
 
 If you are a command line user (advanced user, sysadmin, computer scientist, security engineer, forensics engineer, reverse engineer, ...) or a Java developer this .jar package is for you.
+
+If you are a normal user and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration installer. See also [Integrations](jacksum#Integrations)
 
 ## System Requirements
 
@@ -27,7 +31,7 @@ If you are a command line user (advanced user, sysadmin, computer scientist, sec
 - 2 MiB disk space
 
 <details>
-<summary>Details:</summary>
+<summary>Details ...</summary>
 
 - To download the (Open)JDK 11 or later, you can go to any vendor that provides OpenJDK compatible builds, LTS (long term support) releases are recommended, examples are
   - https://adoptium.net
@@ -50,10 +54,40 @@ If you are a command line user (advanced user, sysadmin, computer scientist, sec
 
 </details>
 
-## How to download
+## Where to download?
 
 The latest released .jar file can be found at https://github.com/jonelo/jacksum/releases/latest
 The .zip file also contains simple scripts to call Jacksum on Windows, Linux, and macOS from the command line.
+
+## How to configure and install it (for users)
+
+Download the .jar (or .zip) file as described above, open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
+
+```
+java -jar jacksum-3.3.0.jar
+```
+
+I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and Unix operating systems (e.g. macOS) and to put the script to a folder that is reachable by your PATH environment variable in order to launch jacksum easily just by typing
+
+```
+jacksum
+```
+
+<details>
+<summary>Details ...</summary>
+
+The following snippet could help you to setup Jacksum on GNU/Linux. In the example below, the launch script will be stored in `$HOME/bin/` which will also be added to your PATH. The jar file will be stored to `/opt/java/apps/jacksum/` so other users on the computer have access to it as well. 
+
+```
+$ echo 'export PATH="$PATH=$HOME/bin"' >> $HOME/.profile
+$ export VERSION=3.3.0
+$ unzip jacksum-$VERSION.zip
+$ cp jacksum-$VERSION/unix/jacksum ~/bin && chmod +x ~/bin/jacksum
+$ sudo mkdir -p /opt/java/apps/jacksum && cp jacksum-$VERSION/jacksum-$VERSION.jar /opt/java/apps/jacksum/
+$ rm -R jacksum-$VERSION/
+```
+
+</details>
 
 
 ## How to clone/compile/package/install it (for developers)
@@ -75,19 +109,6 @@ $ mvn install
 ```
 Call `mvn -version` to check whether your maven would use at least Java 11. Alternatively use an IDE which supports both cloning from a GitHub repo and Maven.
 
-## How to configure and install it (for users)
-
-Download the .jar (or .zip) file as described above, open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
-
-```
-java -jar jacksum-3.3.0.jar
-```
-
-I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and Unix operating systems (e.g. macOS) and to put the script to a folder that is reachable by your PATH environment variable in order to launch jacksum easily just by typing
-
-```
-jacksum
-```
 
 ## Features
 
