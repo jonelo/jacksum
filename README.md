@@ -89,25 +89,13 @@ $ rm -R jacksum-$VERSION/
 
 </details>
 
-
-## How to clone/compile/package/install it (for developers)
-
-Jacksum can be build by Maven. On the command line you can simply clone the source code by calling `git clone` and compile/package/install by calling `mvn install`. After installation, the .jar file can be found unter the target directory and in your $HOME/.m2/ directory structure. You should set JAVA_HOME properly so that the JDK tools such as javac and javadoc can be found. Example on Ubuntu 20.04.4 LTS:
+## Examples of how to use it
 
 ```
-$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-$ git clone https://github.com/jonelo/jacksum.git
-$ cd jacksum
-$ git tag -l
-v3.0.0
-v3.0.1
-v3.1.0
-v3.2.0
-v3.3.0
-$ git checkout tags/v3.3.0 -b three-three-zero
-$ mvn install
+jacksum -h examples
 ```
-Call `mvn -version` to check whether your maven would use at least Java 11. Alternatively use an IDE which supports both cloning from a GitHub repo and Maven.
+
+See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples).
 
 
 ## Features
@@ -165,21 +153,6 @@ Jacksum can also be used as a **library** in your own projects by using its
 For more information, see also the [comprehensive list of features](https://github.com/jonelo/jacksum/wiki/Features).
 
 
-## Examples of how to use it
-
-```
-jacksum -h examples
-```
-
-See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples).
-
-
-## Contribution
-
-I appreciate feedback from users, bug hunters, and fresh ideas from open minded people. Feel free and file [support requests, change requests, bug reports and feature requests on GitHub](https://github.com/jonelo/jacksum/issues)
-
-Spread the word, or give a star here on GitHub. 
-
 ## Documentation
 
 * Jacksum [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) (2002-2022)
@@ -203,6 +176,40 @@ Spread the word, or give a star here on GitHub.
 ## History
 
 Jacksum version 1.0.0 was published in July 2002 on https://sourceforge.net/projects/jacksum/. Starting with Jacksum version 3.0.0 in September 2021, it moved its repo to GitHub.
+
+## Contribution
+
+I appreciate feedback from users, bug hunters, and fresh ideas from open minded people. Feel free and file [support requests, change requests, bug reports and feature requests on GitHub](https://github.com/jonelo/jacksum/issues)
+
+Spread the word, or give a star here on GitHub. 
+
+
+## How to clone/compile/package/install it (for developers)
+
+Jacksum can be build by Maven. On the command line you can simply clone the source code by calling `git clone` and compile/package/install by calling `mvn install`. After installation, the .jar file can be found unter the target directory and in your $HOME/.m2/ directory structure. You should set JAVA_HOME properly so that the JDK tools such as javac and javadoc can be found.
+
+<details>
+<summary>Details ...</summary>
+
+Example on Ubuntu 20.04.4 LTS:
+
+```
+$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+$ git clone https://github.com/jonelo/jacksum.git
+$ cd jacksum
+$ git tag -l
+v3.0.0
+v3.0.1
+v3.1.0
+v3.2.0
+v3.3.0
+$ git checkout tags/v3.3.0 -b three-three-zero
+$ mvn install
+```
+Call `mvn -version` to check whether your maven would use at least Java 11. Alternatively use an IDE which supports both cloning from a GitHub repo and Maven.
+
+</details>
+
 
 ## License
 
