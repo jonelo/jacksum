@@ -2,6 +2,11 @@ Jacksum 3.4.0, TBD
 
 - new features:
 
+    - added option -w resp. --wanted-list to find files that match hashes in a precalculated list
+    - added option --wanted-list-charset and --charset-wanted-list to specify the charset for
+      the "wanted list"-file
+    - added option --wanted-list-filter in order to filter the output produced by -w,
+      allows both positive and negative matching
     - documented operating modes to the help file
 
 - performance:

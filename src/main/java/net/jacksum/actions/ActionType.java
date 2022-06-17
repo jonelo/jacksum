@@ -27,5 +27,5 @@ package net.jacksum.actions;
  * All action types that are supported by Jacksum.
  */
 public enum ActionType {
-    VERSION, QUICK, FILES, CHECK, HELP, INFO_APP, INFO_ALGO, INFO_COMPAT, FIND_ALGO, COPYRIGHT, LICENSE
+    VERSION, QUICK, HASH_FILES, WANTED_LIST, CHECK, HELP, INFO_APP, INFO_ALGO, INFO_COMPAT, FIND_ALGO, COPYRIGHT, LICENSE
 }

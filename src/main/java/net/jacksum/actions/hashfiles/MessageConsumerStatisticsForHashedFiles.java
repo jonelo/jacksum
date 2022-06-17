@@ -34,6 +34,8 @@ public class MessageConsumerStatisticsForHashedFiles extends Statistics {
     private long errors;
     private long bytesRead;
     private long filesMatchesExpectation = -1;
+    private long filesMatchesWanted = -1;
+    private long filesNoMatchesWanted = -1;
    
     @Override
     public Map<String, Object> build() {
@@ -45,6 +47,12 @@ public class MessageConsumerStatisticsForHashedFiles extends Statistics {
         if (filesMatchesExpectation > -1) {
             map.put("files matching expected hash", filesMatchesExpectation);
         }
+        if (filesMatchesWanted > -1) {
+            map.put("files matching wanted hashes", filesMatchesWanted);
+        }
+        if (filesNoMatchesWanted > -1) {
+            map.put("files not matching wanted hashes", filesNoMatchesWanted);
+        }
         return map;
     }
 
@@ -54,6 +62,7 @@ public class MessageConsumerStatisticsForHashedFiles extends Statistics {
         errors = 0;
         bytesRead = 0;
         filesMatchesExpectation = -1;
+        setFilesMatchesWanted(-1);
     }
 
     /**
@@ -112,6 +121,28 @@ public class MessageConsumerStatisticsForHashedFiles extends Statistics {
         this.filesMatchesExpectation = filesMatchesExpectation;
     }
 
-    
-    
+
+    /**
+     * Returns the number of files that match wanted hashes
+     * @return the number of files that match wanted hashes
+     */
+    public long getFilesMatchesWanted() {
+        return filesMatchesWanted;
+    }
+
+    /**
+     * Sets the number of files that match wanted hashes
+     * @param filesMatchesWanted the number of files that match wanted hashes
+     */
+    public void setFilesMatchesWanted(long filesMatchesWanted) {
+        this.filesMatchesWanted = filesMatchesWanted;
+    }
+
+    public long getFilesNoMatchesWanted() {
+        return filesNoMatchesWanted;
+    }
+
+    public void setFilesNoMatchesWanted(long filesNoMatchesWanted) {
+        this.filesNoMatchesWanted = filesNoMatchesWanted;
+    }
 }

@@ -32,6 +32,7 @@ import net.jacksum.actions.infoapp.AppInfoActionParameters;
 import net.jacksum.actions.infocompat.CompatInfoActionParameters;
 import net.jacksum.actions.quick.QuickActionParameters;
 import net.jacksum.actions.version.VersionActionParameters;
+import net.jacksum.actions.wanted.WantedListFilter;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Messenger;
@@ -126,6 +127,8 @@ public class Parameters implements
     private String charsetErrorFile = UTF_8;
     // --charset-output-file <charset>
     private String charsetOutputFile = UTF_8;
+    // --charset-wanted-list <charset>
+    private String charsetWantedList = UTF_8;
     // --charset-stdout <charset>
     private String charsetStdout = null;
     // --charset-stderr <charset>
@@ -159,6 +162,8 @@ public class Parameters implements
     private boolean list = false;
     // --list-filter
     private ListFilter listFilter;
+    // --list-filter-wanted
+    private WantedListFilter wantedListFilter;
     // --legacy-stdin-name
     private String stdinName = "<stdin>";
     // -L <file>
@@ -192,6 +197,8 @@ public class Parameters implements
     private boolean versionWanted = false;
     // -V
     private Verbose verbose;
+    // -w
+    private String wantedList = null;
     // -
     private boolean stdin = false;
     // --utf8
@@ -265,6 +272,7 @@ public class Parameters implements
         verbose = new Verbose();
         messenger = new Messenger(verbose);
         listFilter = new ListFilter();
+        wantedListFilter = new WantedListFilter();
     }
 
     /**
@@ -341,7 +349,11 @@ public class Parameters implements
         } else if (!getFilenamesFromArgs().isEmpty()
                 || !getFilenamesFromFilelist().isEmpty()
                 || stdin) {
-            return ActionType.FILES;
+            if (isWantedList()) {
+                return ActionType.WANTED_LIST;
+            } else {
+                return ActionType.HASH_FILES;
+            }
 
         } else { // default
             return ActionType.HELP;
@@ -933,6 +945,34 @@ public class Parameters implements
         this.gnuEscapingSetByUser = false;
     }
 
+    public String getWantedList() {
+        return wantedList;
+    }
+
+    public boolean isWantedList() {
+        return wantedList != null;
+    }
+
+    public void setWantedList(String wantedList) {
+        this.wantedList = wantedList;
+    }
+
+    public String getCharsetWantedList() {
+        return charsetWantedList;
+    }
+
+    public void setCharsetWantedList(String charsetWantedList) {
+        this.charsetWantedList = charsetWantedList;
+    }
+
+    public WantedListFilter getWantedListFilter() {
+        return wantedListFilter;
+    }
+
+    public void setWantedListFilter(WantedListFilter wantedListFilter) {
+        this.wantedListFilter = wantedListFilter;
+    }
+
     enum SequenceType {
         TXT, TXTF, DEC, HEX, BIN, FILE
     }
@@ -1366,6 +1406,9 @@ public class Parameters implements
         if (newParameters.getListFilter().isFilterHasBeenSet()) {
             this.setListFilter(newParameters.getListFilter());
         }
+        if (newParameters.getWantedListFilter().isFilterHasBeenSet()) {
+            this.setWantedListFilter(newParameters.getWantedListFilter());
+        }
         if (newParameters.getFilelistFilename() != null) {
             this.setFilelistFilename(newParameters.getFilelistFilename());
             this.setFilenamesFromFilelist(new ArrayList<>());
@@ -1575,6 +1618,10 @@ public class Parameters implements
         if (listFilter.isFilterHasBeenSet()) {
             list.add(__LIST_FILTER);
             list.add(listFilter.toString());
+        }
+        if (wantedListFilter.isFilterHasBeenSet()) {
+            list.add(__WANTED_LIST_FILTER);
+            list.add(wantedListFilter.toString());
         }
         if (filelistFilename != null) {
             list.add(__FILE_LIST);

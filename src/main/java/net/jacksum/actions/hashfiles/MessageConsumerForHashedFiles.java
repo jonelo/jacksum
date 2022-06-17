@@ -69,7 +69,11 @@ public class MessageConsumerForHashedFiles extends MessageConsumer {
                 break;
         }
     }
-    
+
+    @Override
+    public void handleMessagesFinal() {
+    }
+
     @Override
     public Statistics getStatistics() {
         ((MessageConsumerStatisticsForHashedFiles)statistics).setFilesRead(filesRead);

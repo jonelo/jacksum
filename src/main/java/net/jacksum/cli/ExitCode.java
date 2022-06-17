@@ -34,5 +34,6 @@ public class ExitCode {
             PARAMETER_ERROR = 2,
             CHECKFILE_PARSE_ERROR = 3,
             IO_ERROR = 4,
+            WANTED_NOTFOUND = 5,
             INTERNAL_ERROR = 99;
 }

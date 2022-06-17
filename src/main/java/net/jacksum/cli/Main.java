@@ -37,7 +37,7 @@ public class Main {
      * Creates the Main program (CLI).
      *
      * @param args the program arguments
-     * @throws org.n16n.sugar.util.ExitException in case an exit should happen.
+     * @throws net.loefflmann.sugar.util.ExitException in case an exit should happen.
      */
     public Main(String[] args) throws ExitException {
         Statistics statistics = new StatisticsElapsedTime();

@@ -46,6 +46,8 @@ public abstract class MessageConsumer implements Runnable {
      * @param message the Message.
      */
     public abstract void handleMessage(Message message);
+
+    public abstract void handleMessagesFinal();
     
     public abstract int getExitCode();
     
@@ -61,6 +63,7 @@ public abstract class MessageConsumer implements Runnable {
                 }
                 // logQueue.put(new Message(INFO, "Output Consumer: consumed " + message.getPath()));
             }
+            handleMessagesFinal();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

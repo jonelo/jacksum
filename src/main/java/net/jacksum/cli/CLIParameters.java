@@ -86,6 +86,7 @@ public class CLIParameters {
     public static final String _LIST = "-l";
     public static final String __LIST = "--list";
     public static final String __LIST_FILTER = "--list-filter";
+    public static final String __WANTED_LIST_FILTER = "--wanted-list-filter";
     public static final String __LEGACY_STDIN_NAME = "--legacy-stdin-name";
     public static final String _FILE_LIST = "-L";
     public static final String __FILE_LIST = "--file-list";
@@ -117,6 +118,8 @@ public class CLIParameters {
     public static final String __VERSION = "--version";
     public static final String _VERBOSE = "-V";
     public static final String __VERBOSE = "--verbose";
+    public static final String _WANTED_LIST = "-w";
+    public static final String __WANTED_LIST = "--wanted-list";
     public static final String _HEX_LOWERCASE = "-x";
     public static final String __HEX_LOWERCASE = "--hex-lowercase";
     public static final String _HEX_UPPERCASE = "-X";
@@ -129,6 +132,9 @@ public class CLIParameters {
     public static final String __ERROR_FILE_CHARSET = "--error-file-charset";
     public static final String __CHARSET_OUTPUT_FILE = "--charset-output-file";
     public static final String __OUTPUT_FILE_CHARSET = "--output-file-charset";
+    public static final String __CHARSET_WANTED_LIST = "--charset-wanted-list";
+    public static final String __WANTED_LIST_CHARSET = "--wanted-list-charset";
+
     public static final String __CHARSET_STDOUT = "--charset-stdout";
     public static final String __STDOUT_CHARSET = "--stdout-charset";
     public static final String __CHARSET_STDERR = "--charset-stderr";
@@ -395,6 +401,19 @@ public class CLIParameters {
                         handleUserParamError(arg, __LIST_FILTER);
                     }
 
+                } else if (arg.equals(__WANTED_LIST_FILTER)) {
+                    if (firstfile < args.length) {
+                        try {
+                            parameters.getWantedListFilter().setFilter(args[firstfile++]);
+                        } catch (IllegalArgumentException e) {
+                            Help.printHelp(HELP_DEFAULT_LANGUAGE, __WANTED_LIST_FILTER);
+                            throw new ParameterException(e.getMessage());
+                        }
+                    } else {
+                        handleUserParamError(arg, __WANTED_LIST_FILTER);
+                    }
+
+
                 } else if (arg.equals(__LEGACY_STDIN_NAME)) {
                     parameters.setStdinName("-");
                     AbstractChecksum.setStdinName("-");
@@ -574,6 +593,15 @@ public class CLIParameters {
                         handleUserParamError(arg, __VERBOSE);
                     }
 
+                } else if (arg.equals(_WANTED_LIST) || arg.equals(__WANTED_LIST)) {
+                    if (firstfile < args.length) {
+                        arg = args[firstfile++];
+                        parameters.setWantedList(arg);
+                        parameters.getVerbose().enableAll();
+                    } else {
+                        handleUserParamError(arg, __WANTED_LIST);
+                    }
+
                 } else if (arg.equals(_HEX_LOWERCASE) || arg.equals(__HEX_LOWERCASE)) {
                     parameters.setEncoding(Encoding.HEX);
 
@@ -592,6 +620,13 @@ public class CLIParameters {
                         parameters.setCharsetCheckFile(args[firstfile++]);
                     } else {
                         handleUserParamError(arg, __CHARSET_CHECK_FILE);
+                    }
+
+                } else if (arg.equals(__CHARSET_WANTED_LIST) || arg.equals(__WANTED_LIST_CHARSET)) {
+                    if (firstfile < args.length) {
+                        parameters.setCharsetWantedList(args[firstfile++]);
+                    } else {
+                        handleUserParamError(arg, __CHARSET_WANTED_LIST);
                     }
 
                 } else if (arg.equals(__CHARSET_ERROR_FILE) || arg.equals(__ERROR_FILE_CHARSET)) {

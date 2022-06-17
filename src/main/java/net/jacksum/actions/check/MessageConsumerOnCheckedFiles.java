@@ -244,6 +244,10 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
     }
 
     @Override
+    public void handleMessagesFinal() {
+    }
+
+    @Override
     public Statistics getStatistics() {
         ((MessageConsumerStatisticsOnCheckedFiles) statistics).setListFilter(parameters.getListFilter());
         ((MessageConsumerStatisticsOnCheckedFiles) statistics).setBytesRead(bytesRead);

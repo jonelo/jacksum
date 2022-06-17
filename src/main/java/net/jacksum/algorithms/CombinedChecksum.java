@@ -38,7 +38,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.n16n.sugar.util.GeneralString;
+import net.loefflmann.sugar.util.GeneralString;
 import net.jacksum.JacksumAPI;
 import net.jacksum.multicore.manyalgos.ConcurrentHasher;
 import net.jacksum.multicore.manyalgos.HashAlgorithm;

@@ -1,6 +1,8 @@
 NAME
-    jacksum - a free, open source, cross-platform, feature-rich, multi-threaded
-              data integrity verification tool.
+    Jacksum - a free, open source, cross-platform, feature-rich, multi-threaded
+              command line tool for calculating hash values, verifying data
+              integrity, finding files by their fingerprints, and finding
+              algorithms to a hash.
 
 
 VERSION
@@ -27,10 +29,12 @@ DESCRIPTION
         hash values to detect changes made to files. Actually it can detect
         matching, non-matching, missing, and new files.
 \
-        Jacksum also allows you to identify files by their digital fingerprints,
-        find files that match a given hash value, find all duplicates of a file,
-        and even find the algorithm to a checksum/CRC/hash by calling a smart
-        brute force algorithm.
+        Jacksum also allows you to identify files by their digital fingerprints.
+        You can find all files that match a given set of known hash values, and
+        you can find all duplicates of a file set.
+\
+        Jacksum also allows you to find the algorithm to a checksum/CRC/hash
+        by calling a fast and smart brute force algorithm.
 \
         Since Jacksum supports a lot of features, features are explained briefly
         in the following sections:
@@ -188,32 +192,36 @@ DESCRIPTION
               const ISO), CRC-64 (.xz and prog lang GO, const ECMA)
 \
 \
-    Operating Modes:
+    Operating modes:
 \
         Jacksum selects the appropriate operating mode dependent on the options
         and parameters that you set.
 \
             Operating mode description        | Mode is activated if the
-                                              | the following is set
+                                              | the following option is set
             __________________________________|_________________________________
             calculate hash values of files    | files and/or directories and/or
                                               | --file-list
                                               |
-            verify file integrity by reading  | -c or --check-line
-            precalculated hash values         |
+            verify file integrity by reading  | -c resp. --check-file or
+            precalculated hash values         | --check-line
                                               |
-            find the algorithm that was       | -a is set to unknown:<length>
-            used to produce a hash            |
+            find the algorithm that was       | -a resp. --algorithm is set to
+            used to produce a hash            | unknown:<length>
                                               |
-            find all files that matches a     | -e
+            find all files that matches one   | -e resp. --expect-hash
             particular hash                   |
                                               |
-            provide input (max. 128 MiB) on   | -q
-            the command line and hash it      |
+            find all files that matches any   | -w resp. --wanted-list
+            of the hashes in a precalculated  |
+            file                              |
                                               |
-            provide input (max. 128 MiB) on   | -q, and -e
-            the command line and verify       |
-            data integrity                    |
+            provide input as program argument | -q resp. --quick
+            (max. 128 MiB) and hash it        |
+                                              |
+            provide input as program argument | -q, and -e
+            (max. 128 MiB) and verify data    |
+            integrity                         |
 
         In addition to the modes above that deal with actual data, there are
         also non-data modes that don't deal with data, but queries the
@@ -229,7 +237,7 @@ DESCRIPTION
             print detailed information        | -a, and --info
             about the algorithm               |
                                               |
-            print each algorithm id on a      | -a, and -l
+            print each algorithm id on a      | -a, and -l resp. --list
             separate line                     |
                                               |
             print detailed information        | -a, -l, and --info
@@ -239,7 +247,7 @@ DESCRIPTION
                                               |
             print the license                 | --license
                                               |
-            prints the application version    | --version
+            print the application version     | --version
 \
 \
     Processing:
@@ -567,16 +575,15 @@ OPTIONS
             Find an unknown algorithm (-a unknown:<length>):
                 If you only know both the input and the output, and if you want
                 to know the algorithm that has been used to produce the output,
-                you can set <algorithm> to unknown:<length>. Replace
-                <length> with the length of the digest in bits. In that case,
-                all supported algorithms will be tested whether there is one
-                which can produce the expected output. Also a list of well known
-                CRCs will be checked, and finally all CRC-algorithms will be
-                tested by brute force (init and xorOut are set to either
-                all bits zero or all bits one while refIn and refOut are set to
-                either true or false for all potential polynomials of the given
-                length). Please be patient! Both options -q and -e are required
-                in this case.
+                you can set <algorithm> to unknown:<length>. Replace <length>
+                with the length of the digest in bits. In that case, all
+                supported algorithms will be tested whether there is one which
+                can produce the expected output. Also a list of well known CRCs
+                will be checked, and finally all CRC-algorithms will be tested
+                by brute force (init and xorOut are set to either all bits zero
+                or all bits one while refIn and refOut are set to either true or
+                false for all potential polynomials of the given length). Please
+                be patient! Both options -q and -e are required in this case.
                 Available since Jacksum 3.0.0, see also -V, -e, -E, -q
 
 
@@ -1011,6 +1018,14 @@ OPTIONS
             Available since Jacksum 3.0.0.
 
 
+    --charset-wanted-list <charset>
+    --wanted-list-charset <charset>
+            Specifies the charset for the file that you can specify with -w.
+            If you don't specify this option, UTF-8 will be used.
+            See also -w resp. --wanted-list.
+            Available since Jacksum 3.4.0.
+
+
     --charset-file-list <charset>
     --file-list-charset <charset>
             Specifies the charset for the file that you can specify with -L.
@@ -1412,6 +1427,8 @@ OPTIONS
             If option -a is set, it lists the IDs of the algorithms only.
             If option -c and --list-filter is set, it lists the filenames only
             without the status OK, FAILED, MISSING or NEW.
+            If options --wanted-list and --wanted-list-filter are set, it lists
+            the filenames only without the status MATCH or NO MATCH.
 
 
     --list-filter <filter>
@@ -1435,6 +1452,30 @@ OPTIONS
             Only if the filter is set to ok or failed or both, the hashing 
             occurs. For detecting missing or new files, hashing is not required.
             Available since Jacksum 3.0.0, see also -c, and --list
+
+
+    --wanted-list-filter <filter>
+            Filters the output that is being produced by -w.
+            <filter> has to be one or more of the following keywords,
+            separated by a comma:
+\
+                match           show MATCHing files (with real name in brackets)
+                nomatch         show NOt MATCHing files (with hash in brackets)
+\
+                all             <filter> is set to match,nomatch
+                default         <filter> is set to match
+                none            does not print anything (useful if you are
+                                interested in the summary only) or if you want
+                                to define your own filter
+                positive        <filter> is set to none,match
+                negative        <filter> ist set to none,nomatch
+\
+            Matching file names are being printed with the name in brackets
+            that is given in the wanted hash list.
+            Non matching file names are being printed with the hash in brackets,
+            because the hash was not found in the wanted hash list.
+            Hashing occurs in any case, independent on the filter set.
+            Available since Jacksum 3.4.0, see also -w, and --list
 
 
     -L <textfile>
@@ -1915,6 +1956,17 @@ OPTIONS
             If you set option --info, <control set> is set to default again.
             Available since Jacksum 1.6.0
             The keywords all and none are available since Jacksum 3.0.0
+
+
+    -w <hash-file>
+    --wanted-list <hash-file>
+            This option puts Jacksum in wanted-list mode. In wanted-list mode,
+            Jacksum only prints files that matches or not matches files in the
+            <hash-file>, dependent on --wanted-list-filter.
+            The format of the <hash-file> is expected to be the default output,
+            but it can be specified by --style if it is not the default.
+            Available since Jacksum 3.4.0, see also --wanted-list-charset, and
+            --style
 
 
     -x
