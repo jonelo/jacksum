@@ -1449,7 +1449,8 @@ OPTIONS
                 good            <filter> is set to none,ok,new
                 bad             <filter> ist set to none,failed,missing
 \
-            Only if the filter is set to ok or failed or both, the hashing 
+            If this option is omitted, <filter> is set to all.
+            Only if the filter is set to ok or failed or both, the hashing
             occurs. For detecting missing or new files, hashing is not required.
             Available since Jacksum 3.0.0, see also -c, and --list
 
@@ -1958,13 +1959,14 @@ OPTIONS
                 none            does not print anything (useful if you are
                                 interested in the summary only) or if you want
                                 to define your own filter
-                positive        <filter> is set to none,match
+                positive        <filter> is set to none,match (default)
                 negative        <filter> ist set to none,nomatch
 \
             Matching file names are being printed with the name in brackets
             that is given in the wanted hash list.
-            Non matching file names are being printed with the hash in brackets,
+            Non-matching file names are being printed with the hash in brackets,
             because the hash was not found in the wanted hash list.
+            If this option is omitted, the <filter> is set to positive.
             Hashing occurs in any case, independent on the filter set.
             Available since Jacksum 3.4.0, see also -w, and --list
 
