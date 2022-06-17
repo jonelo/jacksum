@@ -2,8 +2,9 @@ Jacksum 3.4.0, June 17, 2022
 
 - new features:
 
+    - features in this release are mostly around GitHub issue #10
     - added option -w resp. --wanted-list to find files that match hashes in a precalculated list
-    - added option --wanted-list-charset and --charset-wanted-list to specify the charset for
+    - added option --wanted-list-charset and alias --charset-wanted-list to specify the charset for
       the "wanted list"-file
     - added option --wanted-list-filter in order to filter the output produced by -w,
       allows both positive and negative matching
