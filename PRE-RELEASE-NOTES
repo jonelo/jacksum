@@ -8,3 +8,4 @@ Jacksum 3.4.0, TBD
 
 - bug fixes:
     - sm3 not returned by calling "jacksum -a all -l"
+    - if "--file-list <list>" and "--format #FILENAME{path}" is set, a NPE is thrown if the parent of a file in the list is null

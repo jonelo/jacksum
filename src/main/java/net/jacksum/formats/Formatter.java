@@ -24,6 +24,7 @@
 package net.jacksum.formats;
 
 import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
 
@@ -148,14 +149,20 @@ public class Formatter {
 
         if (buffer.toString().contains("#FILENAME{")) {
 
-            String name;
-            String directory;
+            String name = null;
+            String directory = null;
             try {
                 name = Paths.get(abstractChecksum.getFilename()).getFileName().toString();
-                directory = Paths.get(abstractChecksum.getFilename()).getParent().toString();
+                Path parent = Paths.get(abstractChecksum.getFilename()).getParent();
+                if (parent == null) {
+                    directory = Paths.get("./").toString();
+                } else {
+                    directory = Paths.get(abstractChecksum.getFilename()).getParent().toString();
+                }
             } catch (InvalidPathException ipe) {
                 name = formattedFilename;
-                directory = null;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             GeneralString.replaceAllStrings(buffer, "#FILENAME{name}",
