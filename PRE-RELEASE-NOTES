@@ -9,3 +9,5 @@ Jacksum 3.4.0, TBD
 - bug fixes:
     - sm3 not returned by calling "jacksum -a all -l"
     - if "--file-list <list>" and "--format #FILENAME{path}" is set, a NPE is thrown if the parent of a file in the list is null
+    - false positives during -c: files are found as NEW more than once if the specified file references have different relative paths
+      to the same file

@@ -20,6 +20,9 @@
  */
 package net.jacksum.actions.check;
 
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -68,7 +71,16 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
             map.put(hashEntry.getFilename(), hashEntry);
         }*/
         hashEntries.forEach(hashEntry -> {
-            map.put(hashEntry.getFilename(), hashEntry);
+
+            // we need to put the absolute, normalized path to the hash map in order to detect
+            // unique filenames
+            try {
+                Path absolute = Paths.get(hashEntry.getFilename()).toAbsolutePath().normalize();
+                map.put(absolute.toString(), hashEntry);
+            } catch (InvalidPathException ipe) {
+                map.put(hashEntry.getFilename(), hashEntry);
+            }
+
         });
     }
 
@@ -98,13 +110,16 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
 
         ListFilter filter = parameters.getListFilter();
         String filename;
+        String filenameAsKey;
+
         switch (message.getType()) {
             case FILE_HASHED:
             case FILE_HASHED_AND_MATCHES_EXPECTATION:
                 // some statistics
                 filesRead++;
                 bytesRead += message.getPayload().getSize();
-                
+
+                filenameAsKey = null;
                 // set the filename
                 if (message.getPayload().getPath() == null) {
                     if (message.getPayload().getSpecialPath() == null) {
@@ -114,32 +129,36 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                     }
                 } else {
                     filename = message.getPayload().getPath().toString();
+                    filenameAsKey = message.getPayload().getPath().toAbsolutePath().normalize().toString();
+                }
+                if (filenameAsKey == null) {
+                    filenameAsKey = filename;
                 }
                 
                 
                 
                 // is it a file that we can compare ...?
-                if (map.containsKey(filename)) {
+                if (map.containsKey(filenameAsKey)) {
                     
                     boolean cont = true;
                     
                     // check if filesize is available in the map
-                    if (map.get(filename).getFilesize() > -1 && map.get(filename).getFilesize() != message.getPayload().getSize()) {
+                    if (map.get(filenameAsKey).getFilesize() > -1 && map.get(filenameAsKey).getFilesize() != message.getPayload().getSize()) {
                             print(filter.isFilterFailed(), FAILED, filename);
                             if (!parameters.isList() && parameters.getVerbose().isInfo()) {
-                                System.err.printf("           [filesize expected: %s, actual: %s]\n", map.get(filename).getFilesize(), message.getPayload().getSize());
+                                System.err.printf("           [filesize expected: %s, actual: %s]\n", map.get(filenameAsKey).getFilesize(), message.getPayload().getSize());
                             }
                             mismatches++;
                             cont = false;
                     }
                     
                     // check the timestamp if timestamp is available in the map
-                    if (cont && map.get(filename).getTimestamp() != null) {
+                    if (cont && map.get(filenameAsKey).getTimestamp() != null) {
                         String actualTimestampAsString = timestampFormatter.format(message.getPayload().getBasicFileAttributes().lastModifiedTime().to(TimeUnit.MILLISECONDS));
-                        if (!map.get(filename).getTimestamp().equals(actualTimestampAsString)) {
+                        if (!map.get(filenameAsKey).getTimestamp().equals(actualTimestampAsString)) {
                             print(filter.isFilterFailed(), FAILED, filename);
                             if (!parameters.isList() && parameters.getVerbose().isInfo()) {
-                                System.err.printf("           [timestamp expected: %s, actual: %s]\n", map.get(filename).getTimestamp(), actualTimestampAsString);
+                                System.err.printf("           [timestamp expected: %s, actual: %s]\n", map.get(filenameAsKey).getTimestamp(), actualTimestampAsString);
                             }
                             mismatches++;
                             cont = false;                            
@@ -148,7 +167,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                     
                     if (cont) {
                         // compare the hashes: OK or FAILED
-                        if (FingerprintFormatter.encodeBytes(message.getPayload().getDigest(), parameters.getEncoding(), 0, ' ').equals(map.get(filename).getHash())) {
+                        if (FingerprintFormatter.encodeBytes(message.getPayload().getDigest(), parameters.getEncoding(), 0, ' ').equals(map.get(filenameAsKey).getHash())) {
                             print(filter.isFilterOk(), OK, filename);
                             matches++;
                             //map.get(filename).setStatus(HashEntry.Status.OK);
@@ -167,6 +186,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                 break;
 
             case FILE_NOT_HASHED:
+                filenameAsKey = null;
                 if (message.getPayload().getPath() == null) {
 
                     if (message.getPayload().getSpecialPath() == null) {
@@ -176,8 +196,13 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                     }
                 } else {
                     filename = message.getPayload().getPath().toString();
+                    filenameAsKey = message.getPayload().getPath().toAbsolutePath().normalize().toString();
                 }
-                if (!map.containsKey(filename)) {
+                if (filenameAsKey == null) {
+                    filenameAsKey = filename;
+                }
+
+                if (!map.containsKey(filenameAsKey)) {
                     print(filter.isFilterNew(), NEW, filename);
                     newFiles++;
                 }
@@ -187,6 +212,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                 messenger.print(ERROR, message.getInfo());                
                 errors++;
 
+                filenameAsKey = null;
                 if (message.getPayload().getPath() == null) {
                     if (message.getPayload().getSpecialPath() == null) {
                         filename = AbstractChecksum.getStdinName();
@@ -195,8 +221,13 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                     }
                 } else {
                     filename = message.getPayload().getPath().toString();
+                    filenameAsKey = message.getPayload().getPath().toAbsolutePath().normalize().toString();
                 }
-                if (map.containsKey(filename)) {
+                if (filenameAsKey == null) {
+                    filenameAsKey = filename;
+                }
+
+                if (map.containsKey(filenameAsKey)) {
                     print(filter.isFilterMissing(), MISSING, filename);
                     filesMissing++;
                 }
