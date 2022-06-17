@@ -1,5 +1,5 @@
 /*
- * Jacksum 3.3.0 - a checksum utility in Java
+ * Jacksum 3.4.0 - a checksum utility in Java
  * Copyright (c) 2001-2022 Dipl.-Inf. (FH) Johann N. Löfflmann,
  * All Rights Reserved, <https://jacksum.net>.
  *
@@ -20,7 +20,7 @@
 /*
 
 
-  Jacksum 3.3.0 - a checksum utility in Java
+  Jacksum 3.4.0 - a checksum utility in Java
   Copyright (c) 2001-2022 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
