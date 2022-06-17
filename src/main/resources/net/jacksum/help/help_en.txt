@@ -1454,30 +1454,6 @@ OPTIONS
             Available since Jacksum 3.0.0, see also -c, and --list
 
 
-    --wanted-list-filter <filter>
-            Filters the output that is being produced by -w.
-            <filter> has to be one or more of the following keywords,
-            separated by a comma:
-\
-                match           show MATCHing files (with real name in brackets)
-                nomatch         show NOt MATCHing files (with hash in brackets)
-\
-                all             <filter> is set to match,nomatch
-                default         <filter> is set to match
-                none            does not print anything (useful if you are
-                                interested in the summary only) or if you want
-                                to define your own filter
-                positive        <filter> is set to none,match
-                negative        <filter> ist set to none,nomatch
-\
-            Matching file names are being printed with the name in brackets
-            that is given in the wanted hash list.
-            Non matching file names are being printed with the hash in brackets,
-            because the hash was not found in the wanted hash list.
-            Hashing occurs in any case, independent on the filter set.
-            Available since Jacksum 3.4.0, see also -w, and --list
-
-
     -L <textfile>
     --file-list <textfile>
             Process <textfile> as a filelist. By default each line in the file
@@ -1967,6 +1943,30 @@ OPTIONS
             but it can be specified by --style if it is not the default.
             Available since Jacksum 3.4.0, see also --wanted-list-charset, and
             --style
+
+
+    --wanted-list-filter <filter>
+            Filters the output that is being produced by -w.
+            <filter> has to be one or more of the following keywords,
+            separated by a comma:
+\
+                match           show MATCHing files (with real name in brackets)
+                nomatch         show NOt MATCHing files (with hash in brackets)
+\
+                all             <filter> is set to match,nomatch
+                default         <filter> is set to match
+                none            does not print anything (useful if you are
+                                interested in the summary only) or if you want
+                                to define your own filter
+                positive        <filter> is set to none,match
+                negative        <filter> ist set to none,nomatch
+\
+            Matching file names are being printed with the name in brackets
+            that is given in the wanted hash list.
+            Non matching file names are being printed with the hash in brackets,
+            because the hash was not found in the wanted hash list.
+            Hashing occurs in any case, independent on the filter set.
+            Available since Jacksum 3.4.0, see also -w, and --list
 
 
     -x
