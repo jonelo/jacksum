@@ -25,8 +25,8 @@ package net.jacksum.actions.license;
 
 import net.jacksum.actions.Action;
 import net.jacksum.cli.ExitCode;
-import org.n16n.sugar.io.GeneralIO;
-import org.n16n.sugar.util.ExitException;
+import net.loefflmann.sugar.io.GeneralIO;
+import net.loefflmann.sugar.util.ExitException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

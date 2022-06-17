@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 
 import net.jacksum.multicore.OSControl;
 import net.jacksum.multicore.manyfiles.Message.Type;
-import org.n16n.sugar.io.NtfsAdsFinder;
+import net.loefflmann.sugar.io.NtfsAdsFinder;
 
 public class MessageProducer implements Runnable {
 

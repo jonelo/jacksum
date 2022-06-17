@@ -26,7 +26,7 @@ import net.jacksum.actions.Action;
 import net.jacksum.compats.defs.CompatibilityProperties;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.parameters.ParameterException;
-import org.n16n.sugar.util.ExitException;
+import net.loefflmann.sugar.util.ExitException;
 
 
 public class CompatInfoAction implements Action {

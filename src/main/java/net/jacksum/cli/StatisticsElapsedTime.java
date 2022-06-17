@@ -25,7 +25,7 @@ package net.jacksum.cli;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import net.jacksum.statistics.Statistics;
-import org.n16n.sugar.math.StopWatch;
+import net.loefflmann.sugar.math.StopWatch;
 
 public class StatisticsElapsedTime extends Statistics {
 

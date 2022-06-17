@@ -21,7 +21,7 @@
  @author Johann N. Löfflmann
 
  */
-package org.n16n.sugar.io;
+package net.loefflmann.sugar.io;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,7 +32,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import org.n16n.sugar.util.GeneralString;
+import net.loefflmann.sugar.util.GeneralString;
 
 /**
  *

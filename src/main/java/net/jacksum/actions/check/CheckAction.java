@@ -32,7 +32,7 @@ import net.jacksum.compats.defs.DefaultCompatibilityProperties;
 import net.jacksum.compats.parsing.HashEntry;
 import net.jacksum.compats.parsing.InvalidParserParameterException;
 import net.jacksum.compats.parsing.Parser;
-import org.n16n.sugar.util.ExitException;
+import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.actions.Action;
 import net.jacksum.multicore.manyfiles.Engine;
 import net.jacksum.parameters.ParameterException;

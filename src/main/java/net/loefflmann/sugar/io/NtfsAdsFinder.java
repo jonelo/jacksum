@@ -21,7 +21,7 @@
  @author Johann N. Löfflmann
 
  */
-package org.n16n.sugar.io;
+package net.loefflmann.sugar.io;
 
 import java.io.IOException;
 import java.nio.file.FileStore;

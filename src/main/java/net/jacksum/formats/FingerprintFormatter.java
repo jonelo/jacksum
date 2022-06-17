@@ -24,11 +24,11 @@ package net.jacksum.formats;
 
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.parameters.base.FingerprintFormatParameters;
-import org.n16n.sugar.encodings.Base32;
-import org.n16n.sugar.encodings.BubbleBabble;
-import org.n16n.sugar.encodings.ZBase32;
-import org.n16n.sugar.util.ByteSequences;
-import org.n16n.sugar.util.GeneralString;
+import net.loefflmann.sugar.encodings.Base32;
+import net.loefflmann.sugar.encodings.BubbleBabble;
+import net.loefflmann.sugar.encodings.ZBase32;
+import net.loefflmann.sugar.util.ByteSequences;
+import net.loefflmann.sugar.util.GeneralString;
 
 import java.math.BigInteger;
 import java.util.Base64;

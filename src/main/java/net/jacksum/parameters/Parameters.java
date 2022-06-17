@@ -47,11 +47,11 @@ import net.jacksum.parameters.combined.FormatParameters;
 import net.jacksum.parameters.combined.GatheringParameters;
 import net.jacksum.parameters.combined.ProducerConsumerParameters;
 import net.jacksum.parameters.combined.StatisticsParameters;
-import org.n16n.sugar.io.BOM;
-import org.n16n.sugar.io.GeneralIO;
-import org.n16n.sugar.util.ByteSequences;
-import org.n16n.sugar.util.ExitException;
-import org.n16n.sugar.util.GeneralString;
+import net.loefflmann.sugar.io.BOM;
+import net.loefflmann.sugar.io.GeneralIO;
+import net.loefflmann.sugar.util.ByteSequences;
+import net.loefflmann.sugar.util.ExitException;
+import net.loefflmann.sugar.util.GeneralString;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -439,7 +439,7 @@ public class Parameters implements
 
     public void setSeparator(String separator) {
         this.separatorRaw = separator;
-        this.separator = org.n16n.sugar.util.GeneralString.translateEscapeSequences(separator);
+        this.separator = net.loefflmann.sugar.util.GeneralString.translateEscapeSequences(separator);
     }
 
     @Override

@@ -31,7 +31,7 @@ import java.nio.file.Paths;
 
 import net.jacksum.multicore.OSControl;
 import net.jacksum.parameters.base.FilenameFormatParameters;
-import org.n16n.sugar.util.GeneralString;
+import net.loefflmann.sugar.util.GeneralString;
 
 public class FilenameFormatter implements FilenameFormatParameters {
 

@@ -29,7 +29,7 @@ import java.nio.file.Paths;
 import java.util.Locale;
 
 import net.jacksum.multicore.OSControl;
-import org.n16n.sugar.util.GeneralString;
+import net.loefflmann.sugar.util.GeneralString;
 import net.jacksum.algorithms.AbstractChecksum;
 
 public class Formatter {

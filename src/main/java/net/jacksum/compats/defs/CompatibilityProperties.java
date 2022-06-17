@@ -22,7 +22,7 @@ package net.jacksum.compats.defs;
 
 import net.jacksum.JacksumAPI;
 import net.jacksum.algorithms.AbstractChecksum;
-import org.n16n.sugar.util.Support;
+import net.loefflmann.sugar.util.Support;
 
 import java.io.FileInputStream;
 import java.io.IOException;

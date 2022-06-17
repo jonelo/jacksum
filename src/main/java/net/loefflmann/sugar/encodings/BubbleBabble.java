@@ -21,7 +21,7 @@
  @author Johann N. Löfflmann
 
  */
-package org.n16n.sugar.encodings;
+package net.loefflmann.sugar.encodings;
 
 /*
   encode() has been ported to Java from the OpenSSH's C source called key.c by

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.n16n.sugar.util.ExitException;
+import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.actions.Action;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.parameters.ParameterException;

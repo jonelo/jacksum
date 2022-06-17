@@ -22,7 +22,7 @@
 
  */
 
-package org.n16n.sugar.encodings;
+package net.loefflmann.sugar.encodings;
 
 import java.io.*;
 

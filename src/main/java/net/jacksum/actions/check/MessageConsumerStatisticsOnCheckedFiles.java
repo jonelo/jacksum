@@ -25,7 +25,7 @@ package net.jacksum.actions.check;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import net.jacksum.statistics.Statistics;
-import org.n16n.sugar.math.GeneralMath;
+import net.loefflmann.sugar.math.GeneralMath;
 
 
 public class MessageConsumerStatisticsOnCheckedFiles extends Statistics {

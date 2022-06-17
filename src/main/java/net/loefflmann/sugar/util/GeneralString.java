@@ -38,7 +38,7 @@
   * 26-May-2005: split
 
  */
-package org.n16n.sugar.util;
+package net.loefflmann.sugar.util;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.ArrayList;

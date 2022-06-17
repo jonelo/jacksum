@@ -23,7 +23,7 @@
 package net.jacksum.statistics;
 
 import java.math.BigInteger;
-import org.n16n.sugar.math.GeneralMath;
+import net.loefflmann.sugar.math.GeneralMath;
 
 public class CrcMath {
 

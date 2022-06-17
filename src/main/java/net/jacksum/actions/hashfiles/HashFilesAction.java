@@ -25,7 +25,7 @@ package net.jacksum.actions.hashfiles;
 
 import net.jacksum.multicore.manyfiles.Engine;
 import java.security.NoSuchAlgorithmException;
-import org.n16n.sugar.util.ExitException;
+import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.actions.Action;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;

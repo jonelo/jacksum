@@ -26,7 +26,7 @@ import net.jacksum.actions.Actions;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
 import net.jacksum.statistics.Statistics;
-import org.n16n.sugar.util.ExitException;
+import net.loefflmann.sugar.util.ExitException;
 
 /**
  * This is the Jacksum Command Line Interface (CLI).

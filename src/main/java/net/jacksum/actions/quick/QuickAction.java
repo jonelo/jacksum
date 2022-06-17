@@ -23,7 +23,7 @@
 
 package net.jacksum.actions.quick;
 
-import org.n16n.sugar.util.ExitException;
+import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.actions.Action;
 import net.jacksum.actions.Actions;
 import net.jacksum.actions.compare.CompareAndPrintResult;

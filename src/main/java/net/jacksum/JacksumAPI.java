@@ -24,7 +24,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
-import org.n16n.sugar.util.Version;
+import net.loefflmann.sugar.util.Version;
 import net.jacksum.formats.Encoding;
 import net.jacksum.parameters.base.AlgorithmParameters;
 

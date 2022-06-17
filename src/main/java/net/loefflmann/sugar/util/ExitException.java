@@ -21,43 +21,31 @@
   @author Johann N. Löfflmann
 
  */
-package org.n16n.sugar.math;
+package net.loefflmann.sugar.util;
 
-public class StopWatch {
+/**
+ * This exception is thrown if the program should exit
+ */
+public class ExitException extends Exception {
 
-    private long begin = 0;
-    private long end = 0;
+    private final int exitcode;
 
-    /**
-     * A simple stop watch object. You have to call start() and stop()
-     * explicitly.
-     */
-    public StopWatch() {
+    public ExitException(String s) {
+        super(s);
+        exitcode = 0;
     }
 
-    public void start() {
-        // http://blogs.sun.com/dholmes/entry/inside_the_hotspot_vm_clocks
-        // If you are interested in measuring/calculating elapsed time,
-        // then always use System.nanoTime(). On most systems it will give a
-        // resolution on the order of microseconds.
-
-        begin = System.nanoTime();
+    public ExitException(String s, int exitcode) {
+        super(s);
+        this.exitcode = exitcode;
+    }
+    
+    public ExitException(int exitcode) {
+        this(null, exitcode);
     }
 
-    public void stop() {
-        end = System.nanoTime();
-    }
-
-    public long getDurationInMs() {
-        if (end == 0) {
-            stop();
-        }
-        return (end - begin) / 1000000L;
-    }
-
-    public String getDurarionAsString() {
-        long ms = getDurationInMs();
-        return GeneralMath.duration(ms);
+    public int getExitCode() {
+        return exitcode;
     }
 
 }

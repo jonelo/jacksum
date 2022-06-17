@@ -23,7 +23,7 @@
 package net.jacksum.multicore.manyfiles;
 
 import net.jacksum.multicore.OSControl;
-import org.n16n.sugar.io.NtfsAdsFinder;
+import net.loefflmann.sugar.io.NtfsAdsFinder;
 
 import java.nio.file.*;
 

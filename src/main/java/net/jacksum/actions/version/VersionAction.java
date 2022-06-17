@@ -23,7 +23,7 @@
 package net.jacksum.actions.version;
 
 import net.jacksum.JacksumAPI;
-import org.n16n.sugar.util.ExitException;
+import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.actions.Action;
 import net.jacksum.cli.ExitCode;
 

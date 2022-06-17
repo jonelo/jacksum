@@ -25,8 +25,8 @@ import net.jacksum.JacksumAPI;
 import net.jacksum.actions.check.*;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.compats.defs.CompatibilityProperties;
-import org.n16n.sugar.io.BOM;
-import org.n16n.sugar.util.GeneralString;
+import net.loefflmann.sugar.io.BOM;
+import net.loefflmann.sugar.util.GeneralString;
 
 import java.io.*;
 import java.nio.charset.Charset;

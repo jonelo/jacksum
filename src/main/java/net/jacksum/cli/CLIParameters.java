@@ -28,7 +28,7 @@ import net.jacksum.formats.Encoding;
 import net.jacksum.multicore.ThreadControl;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
-import org.n16n.sugar.util.GeneralString;
+import net.loefflmann.sugar.util.GeneralString;
 
 /**
  * All parameters for the Command Line Interface (CLI)

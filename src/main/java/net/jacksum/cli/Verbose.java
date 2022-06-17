@@ -22,7 +22,7 @@
  */
 package net.jacksum.cli;
 
-import org.n16n.sugar.util.Transformer;
+import net.loefflmann.sugar.util.Transformer;
 
 import java.io.Serializable;
 import java.util.ArrayList;

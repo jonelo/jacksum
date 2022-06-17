@@ -14,7 +14,7 @@
  */
 package net.jacksum.zzadopt.de.flexiprovider.core.md;
 
-import org.n16n.sugar.util.ByteSequences;
+import net.loefflmann.sugar.util.ByteSequences;
 import net.jacksum.zzadopt.de.flexiprovider.api.MessageDigest;
 import net.jacksum.zzadopt.de.flexiprovider.common.util.BigEndianConversions;
 

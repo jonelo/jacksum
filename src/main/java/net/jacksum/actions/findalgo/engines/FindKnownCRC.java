@@ -34,7 +34,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.crcs.CrcGeneric;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
-import org.n16n.sugar.io.GeneralIO;
+import net.loefflmann.sugar.io.GeneralIO;
 
 /**
  *

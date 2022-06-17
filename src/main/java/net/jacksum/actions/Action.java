@@ -23,7 +23,7 @@
 
 package net.jacksum.actions;
 
-import org.n16n.sugar.util.ExitException;
+import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.parameters.ParameterException;
 
 /**

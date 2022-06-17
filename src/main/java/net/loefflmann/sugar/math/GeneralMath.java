@@ -21,7 +21,7 @@
   @author Johann N. Löfflmann
 
  */
-package org.n16n.sugar.math;
+package net.loefflmann.sugar.math;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

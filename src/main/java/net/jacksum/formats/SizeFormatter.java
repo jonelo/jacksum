@@ -23,7 +23,7 @@
 package net.jacksum.formats;
 
 import net.jacksum.parameters.base.LengthFormatParameters;
-import org.n16n.sugar.util.GeneralString;
+import net.loefflmann.sugar.util.GeneralString;
 
 public class SizeFormatter implements LengthFormatParameters {
 

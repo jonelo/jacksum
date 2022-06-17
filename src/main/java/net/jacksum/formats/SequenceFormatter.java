@@ -25,7 +25,7 @@ package net.jacksum.formats;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.n16n.sugar.util.GeneralString;
+import net.loefflmann.sugar.util.GeneralString;
 
 /**
  *

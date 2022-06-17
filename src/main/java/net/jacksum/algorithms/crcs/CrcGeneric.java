@@ -35,7 +35,7 @@
 package net.jacksum.algorithms.crcs;
 
 import java.security.NoSuchAlgorithmException;
-import org.n16n.sugar.util.ByteSequences;
+import net.loefflmann.sugar.util.ByteSequences;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 

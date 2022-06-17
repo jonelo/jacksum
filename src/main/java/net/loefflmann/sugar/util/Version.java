@@ -22,7 +22,7 @@
 
  */
 
-package org.n16n.sugar.util;
+package net.loefflmann.sugar.util;
 
 import java.util.StringTokenizer;
 

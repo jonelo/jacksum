@@ -24,8 +24,8 @@ package net.jacksum.actions.infoalgo;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import org.n16n.sugar.util.ByteSequences;
-import org.n16n.sugar.util.ExitException;
+import net.loefflmann.sugar.util.ByteSequences;
+import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.JacksumAPI;
 import net.jacksum.actions.Action;
 import net.jacksum.algorithms.AbstractChecksum;

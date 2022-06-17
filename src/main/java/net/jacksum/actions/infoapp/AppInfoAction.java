@@ -27,8 +27,8 @@ import net.jacksum.actions.Action;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.parameters.Parameters;
 import net.jacksum.statistics.CrcMath;
-import org.n16n.sugar.util.ExitException;
-import org.n16n.sugar.util.Support;
+import net.loefflmann.sugar.util.ExitException;
+import net.loefflmann.sugar.util.Support;
 
 import java.nio.charset.Charset;
 import java.util.*;

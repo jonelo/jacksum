@@ -37,12 +37,12 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *  Modifications by jonelo on June 10, 2021:                            *
- *  - changed package org.lightningj.util to org.n16n.sugar.encodings    *
+ *  - changed package org.lightningj.util to net.loefflmann.sugar.encodings *
  *  - reformatted code using IntelliJ and fixed some javadoc typos       *
- *  - some minor code improvements
+ *  - some minor code improvements                                       *
  *                                                                       *
  *************************************************************************/
-package org.n16n.sugar.encodings;
+package net.loefflmann.sugar.encodings;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;

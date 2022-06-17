@@ -24,7 +24,7 @@
 /*
   EncodingException.java
  */
-package org.n16n.sugar.encodings;
+package net.loefflmann.sugar.encodings;
 
 /**
  * Thrown to indicate that the application has attempted to specify a non-
