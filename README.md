@@ -1,7 +1,7 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/jonelo/jacksum?color=blue)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/jonelo/jacksum?color=blue)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/jonelo/jacksum?color=green)
-![GitHub downloads latest](https://img.shields.io/github/downloads/jonelo/jacksum/v3.3.0/total?color=green)
+![GitHub downloads latest](https://img.shields.io/github/downloads/jonelo/jacksum/v3.4.0/total?color=green)
 ![GitHub](https://img.shields.io/github/license/jonelo/jacksum?color=green)
 ![GitHub top language](https://img.shields.io/github/languages/top/jonelo/jacksum?color=green)
 ![GitHub downloads](https://img.shields.io/github/downloads/jonelo/jacksum/total?color=green)
@@ -64,7 +64,7 @@ The .zip file also contains simple scripts to call Jacksum on Windows, Linux, an
 Download the .jar (or .zip) file as described above, open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
 
 ```
-java -jar jacksum-3.3.0.jar
+java -jar jacksum-3.4.0.jar
 ```
 
 I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and Unix operating systems (e.g. macOS) and to put the script to a folder that is reachable by your PATH environment variable in order to launch jacksum easily just by typing
@@ -80,7 +80,7 @@ The following snippet could help you to setup Jacksum on GNU/Linux. In the examp
 
 ```
 $ echo 'export PATH="$PATH=$HOME/bin"' >> $HOME/.profile
-$ export VERSION=3.3.0
+$ export VERSION=3.4.0
 $ unzip jacksum-$VERSION.zip
 $ cp jacksum-$VERSION/unix/jacksum ~/bin && chmod +x ~/bin/jacksum
 $ sudo mkdir -p /opt/java/apps/jacksum && cp jacksum-$VERSION/jacksum-$VERSION.jar /opt/java/apps/jacksum/
