@@ -12,13 +12,17 @@
 
 ## What is it?
 
-**Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform, feature-rich, multi-threaded data integrity verification tool on the command line. It is also a lib, and it is all about checksums, CRCs, and message digests (aka hashes, data/file fingerprints, thumbprints). For a full feature list go to [Features](https://github.com/jonelo/jacksum/wiki/Features).
+**Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform, feature-rich, multi-threaded data integrity verification tool on the command line. It is also a lib, and it is all about checksums, CRCs, and message digests (aka hashes, data/file fingerprints, thumbprints).
+
+For a full feature list go to [Features](https://github.com/jonelo/jacksum/wiki/Features).
 
 Jacksum is written entirely in **Java** ☕.
 
-## Is this something for you?
+## Is this the right package for you?
 
 If you are a command line user (advanced user, sysadmin, computer scientist, security engineer, forensics engineer, reverse engineer, ...) or a Java developer this .jar package is for you.
+
+If you are a normal user and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration installer. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
 
 ## System Requirements
 
@@ -27,7 +31,7 @@ If you are a command line user (advanced user, sysadmin, computer scientist, sec
 - 2 MiB disk space
 
 <details>
-<summary>Details:</summary>
+<summary>Details ...</summary>
 
 - To download the (Open)JDK 11 or later, you can go to any vendor that provides OpenJDK compatible builds, LTS (long term support) releases are recommended, examples are
   - https://adoptium.net
@@ -50,23 +54,10 @@ If you are a command line user (advanced user, sysadmin, computer scientist, sec
 
 </details>
 
-## How to download
+## Where to download?
 
 The latest released .jar file can be found at https://github.com/jonelo/jacksum/releases/latest
 The .zip file also contains simple scripts to call Jacksum on Windows, Linux, and macOS from the command line.
-
-
-## How to clone/compile/package/install it (for developers)
-
-Jacksum can be build by Maven. On the command line you can simply clone the source code by calling `git clone` and compile/package/install by calling `mvn install`. After installation, the .jar file can be found unter the target directory and in your $HOME/.m2/ directory structure. You should set JAVA_HOME properly so that the JDK tools such as javac and javadoc can be found. Example on Ubuntu 20.04.4 LTS:
-
-```
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-git clone https://github.com/jonelo/jacksum.git
-cd jacksum
-mvn install
-```
-Call `mvn -version` to check whether your maven would use at least Java 11. Alternatively use an IDE which supports both cloning from a GitHub repo and Maven.
 
 ## How to configure and install it (for users)
 
@@ -81,6 +72,31 @@ I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script
 ```
 jacksum
 ```
+
+<details>
+<summary>Details ...</summary>
+
+The following snippet could help you to setup Jacksum on GNU/Linux. In the example below, the launch script will be stored in `$HOME/bin/` which will also be added to your PATH. The jar file will be stored to `/opt/java/apps/jacksum/` so other users on the computer have access to it as well. 
+
+```
+$ echo 'export PATH="$PATH=$HOME/bin"' >> $HOME/.profile
+$ export VERSION=3.3.0
+$ unzip jacksum-$VERSION.zip
+$ cp jacksum-$VERSION/unix/jacksum ~/bin && chmod +x ~/bin/jacksum
+$ sudo mkdir -p /opt/java/apps/jacksum && cp jacksum-$VERSION/jacksum-$VERSION.jar /opt/java/apps/jacksum/
+$ rm -R jacksum-$VERSION/
+```
+
+</details>
+
+## Examples of how to use it
+
+```
+jacksum -h examples
+```
+
+See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples).
+
 
 ## Features
 
@@ -137,21 +153,6 @@ Jacksum can also be used as a **library** in your own projects by using its
 For more information, see also the [comprehensive list of features](https://github.com/jonelo/jacksum/wiki/Features).
 
 
-## Examples of how to use it
-
-```
-jacksum -h examples
-```
-
-See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples).
-
-
-## Contribution
-
-I appreciate feedback from users, bug hunters, and fresh ideas from open minded people. Feel free and file [support requests, change requests, bug reports and feature requests on GitHub](https://github.com/jonelo/jacksum/issues)
-
-Spread the word, or give a star here on GitHub. 
-
 ## Documentation
 
 * Jacksum [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) (2002-2022)
@@ -175,6 +176,40 @@ Spread the word, or give a star here on GitHub.
 ## History
 
 Jacksum version 1.0.0 was published in July 2002 on https://sourceforge.net/projects/jacksum/. Starting with Jacksum version 3.0.0 in September 2021, it moved its repo to GitHub.
+
+## Contribution
+
+I appreciate feedback from users, bug hunters, and fresh ideas from open minded people. Feel free and file [support requests, change requests, bug reports and feature requests on GitHub](https://github.com/jonelo/jacksum/issues)
+
+Spread the word, or give a star here on GitHub. 
+
+
+## How to clone/compile/package/install it (for developers)
+
+Jacksum can be build by Maven. On the command line you can simply clone the source code by calling `git clone` and compile/package/install by calling `mvn install`. After installation, the .jar file can be found unter the target directory and in your $HOME/.m2/ directory structure. You should set JAVA_HOME properly so that the JDK tools such as javac and javadoc can be found.
+
+<details>
+<summary>Details ...</summary>
+
+Example on Ubuntu 20.04.4 LTS:
+
+```
+$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+$ git clone https://github.com/jonelo/jacksum.git
+$ cd jacksum
+$ git tag -l
+v3.0.0
+v3.0.1
+v3.1.0
+v3.2.0
+v3.3.0
+$ git checkout tags/v3.3.0 -b three-three-zero
+$ mvn install
+```
+Call `mvn -version` to check whether your maven would use at least Java 11. Alternatively use an IDE which supports both cloning from a GitHub repo and Maven.
+
+</details>
+
 
 ## License
 
