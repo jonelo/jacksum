@@ -8,58 +8,58 @@
 
 * * *
 
+<img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
+
 # Jacksum
 
-## What is it?
+**Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform, feature-rich, multi-threaded command line tool for calculating hash values, verifying data integrity, finding files by their fingerprints, and finding algorithms to a hash value.
 
-**Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform, feature-rich, multi-threaded data integrity verification tool on the command line. It is also a lib, and it is all about checksums, CRCs, and message digests (aka hashes, data/file fingerprints, thumbprints).
+Jacksum supports 472 hash functions, and a bunch of [features](https://github.com/jonelo/jacksum/wiki/Features).
 
-For a full feature list go to [Features](https://github.com/jonelo/jacksum/wiki/Features).
-
-Jacksum is written entirely in **Java** ☕.
+Jacksum is also a library. It is written entirely in **Java** ☕.
 
 ## Is this the right package for you?
 
-If you are a command line user (advanced user, sysadmin, computer scientist, security engineer, forensics engineer, reverse engineer, ...) or a Java developer this .jar package is for you.
+If you are skilled command line user (advanced user, sysadmin, computer scientist, cybersecurity engineer, penetration tester, forensics engineer, reverse engineer, ...) this package is for you.
 
-If you are a normal user and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration installer. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
+If you are a Java developer and you want to use the power of Jacksum in your app, this lib in .jar format is for you as well.
 
-## System Requirements
+If you prefer a graphical user interface and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration installer which is available for many different file managers. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
 
-- GNU/Linux, Microsoft Windows, or macOS
-- JDK 11 or later
-- 2 MiB disk space
+## Hash functions
 
-<details>
-<summary>Details ...</summary>
+Hash functions play an important role in many cryptographic and non-cryptographic mechanisms, for example when verifying data integrity or identifying files. They map a bit string m ∈ {0, 1}* of arbitrary length to a bit string h ∈ {0, 1}n of fixed length n ∈ ℕ.
 
-- To download the (Open)JDK 11 or later, you can go to any vendor that provides OpenJDK compatible builds, LTS (long term support) releases are recommended, examples are
-  - https://adoptium.net
-  - https://openjdk.java.net
-  - https://www.azul.com/downloads/?package=jdk
-  - https://bell-sw.com/pages/downloads/
-  - https://www.microsoft.com/openjdk/
-  - https://aws.amazon.com/de/corretto/
-  - https://sapmachine.io
-  - https://github.com/alibaba/dragonwell8
-- Supported architectures are dependent on the OS and the JDK vendor:
-  - x86 64 bit (x64)
-  - x86 32 bit (x86)
-  - ARM 64 bit (AArch64, resp. M1)
-  - ARM 32 bit (AArch32)
-  - PPC 64 bit (ppc64)
-- a GitHub user have had success to run Jacksum without modification even on a smartphone running Android on ARM 64 bit, see also https://github.com/jonelo/jacksum/issues/7
-- GNU/Linux is the correct term to refer to "Linux", see also https://www.gnu.org/gnu/linux-and-gnu.en.html
-- actual RAM requirement is dependent on the OS, the architecture, the JDK, the JRE's (default) garbage collector settings and usage. Tests have shown that Jacksum feels pretty comfortable with 512 MiB Java heap on a x64 Windows 10 system for example while verifying millions of files of all sizes (0 bytes to several GiB).
+The result of a hash function is the hash value.
 
-</details>
+Jacksum supports 472 hash functions, both cryptographic and non-cryptographic hash functions.
+
+### Cryptographic hash functions
+
+This version supports the following cryptographic hash functions:
+
+BLAKE-[224,256,348,512], BLAKE2b-[8..512], BLAKE2s-[8..256], BLAKE3, DHA-256, ECHO-[224,256,348,512], ed2k, FORK-256, Fugue-[224,256,348,512], GOST Crypto-Pro (GOST R 34.11-94), GOST R 34.11-94, Groestl-[224,256,384,512], HAS-160 (KISA), HAVAL-128-[3,4,5], HAVAL-[160,192,224,256]-[3,4,5], JH[224,256,284,512], KangarooTwelve, Keccak[224,256,384,512], Kupyna[256,384,512] (DSTU 7564:2014), LSH-256-[224,256], LSH-512-[224,256,384,512] (KS X 3262), Luffa-[224,256,348,512], MD2, MD4, MD5, MDC2, MarsupilamiFourteen, PANAMA, RIPEMD-128, RIPEMD[160,256,320], RadioGatun[32,64], SHA-0, SHA-1, SHA-[224,256,384,512], SHA-512/[224,256]  (NIST FIPS 180-4), SHA3-[224,256,384,512], SHAKE[128,256] (NIST FIPS 202), SM3, Skein-1024-[8..1024], Skein-256-[8..256], Skein-512-[8..512], Streebog-[256,512] (GOST R 34.11-2012), Tiger, Tiger/128, Tiger/160, Tiger2, VSH-1024, Whirlpool-T, Whirpool-0, and Whirlpool.
+
+### Non-cryptographic hash functions
+
+#### Classical checksums
+
+This version supports the following classical checksums:
+
+Adler-32, ELF (Unix), FNV-0_[32,64,128,256,512,1024], FNV-1_[32,64,128,256,512,1024], FNV-1a_[32,64,128,256,512,1024], Fletcher's Checksum, XXH32, cksum (Minix), cksum (Unix), joaat, sum (BSD Unix), sum (Minix), sum (System V Unix), sum [8,16,24,32,40,48,56], xor8
+
+#### CRCs
+
+This version supports the quasi-standard called "Rocksoft (tm) Model CRC Algorithm", and even an extended model of it which allows you to define CRCs based on particular parameters. This version supports the following CRCs explicitly:
+
+CRC-8 (FLAC), CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16, CRC-24 (OpenPGP), CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32 (UBICRC32), CRC-32 (PHP's crc32), CRC-64 (ISO 3309), CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO), CRC-64 (.xz and prog lang GO, const ECMA)
 
 ## Where to download?
 
 The latest released .jar file can be found at https://github.com/jonelo/jacksum/releases/latest
 The .zip file also contains simple scripts to call Jacksum on Windows, Linux, and macOS from the command line.
 
-## How to configure and install it (for users)
+## How to install and configure it
 
 Download the .jar (or .zip) file as described above, open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
 
@@ -99,8 +99,6 @@ See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum
 
 
 ## Features
-
-<img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
 Jacksum supports **471 data fingerprinting algorithms**, including checksums, CRCs, XOFs,
 cryptographic, and non-cryptographic hash functions.
@@ -151,6 +149,36 @@ Jacksum can also be used as a **library** in your own projects by using its
 **API**. Jacksum keeps the binary small, because it bundles only what it really needs to do the job.
 
 For more information, see also the [comprehensive list of features](https://github.com/jonelo/jacksum/wiki/Features).
+
+## System Requirements
+
+- GNU/Linux, Microsoft Windows, or macOS
+- JDK 11 or later
+- 2 MiB disk space
+
+<details>
+<summary>Details ...</summary>
+
+- To download the (Open)JDK 11 or later, you can go to any vendor that provides OpenJDK compatible builds, LTS (long term support) releases are recommended, examples are
+  - https://adoptium.net
+  - https://openjdk.java.net
+  - https://www.azul.com/downloads/?package=jdk
+  - https://bell-sw.com/pages/downloads/
+  - https://www.microsoft.com/openjdk/
+  - https://aws.amazon.com/de/corretto/
+  - https://sapmachine.io
+  - https://github.com/alibaba/dragonwell8
+- Supported architectures are dependent on the OS and the JDK vendor:
+  - x86 64 bit (x64)
+  - x86 32 bit (x86)
+  - ARM 64 bit (AArch64, resp. M1)
+  - ARM 32 bit (AArch32)
+  - PPC 64 bit (ppc64)
+- a GitHub user have had success to run Jacksum without modification even on a smartphone running Android on ARM 64 bit, see also https://github.com/jonelo/jacksum/issues/7
+- GNU/Linux is the correct term to refer to "Linux", see also https://www.gnu.org/gnu/linux-and-gnu.en.html
+- actual RAM requirement is dependent on the OS, the architecture, the JDK, the JRE's (default) garbage collector settings and usage. Tests have shown that Jacksum feels pretty comfortable with 512 MiB Java heap on a x64 Windows 10 system for example while verifying millions of files of all sizes (0 bytes to several GiB).
+
+</details>
 
 
 ## Documentation
