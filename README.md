@@ -28,7 +28,7 @@ If you prefer a graphical user interface and you just would like to calc and ver
 
 ## Hash functions
 
-Hash functions play an important role in many cryptographic and non-cryptographic mechanisms, for example when verifying data integrity or identifying files. They map a bit string m ∈ {0, 1}* of arbitrary length to a bit string h ∈ {0, 1}n of fixed length n ∈ ℕ.
+Hash functions play an important role in many cryptographic and non-cryptographic mechanisms, for example when verifying data integrity or identifying files. They map a bit string m ∈ {0, 1}* of arbitrary length to a bit string h ∈ {0, 1}<sup>n</sup> of fixed length n ∈ ℕ.
 
 The result of a hash function is the hash value.
 
