@@ -95,7 +95,7 @@ $ rm -R jacksum-$VERSION/
 jacksum -h examples
 ```
 
-See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples).
+See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples), and the [Cheat Sheet in the Wiki](https://github.com/jonelo/jacksum/wiki/Cheat-Sheet).
 
 
 ## Features
