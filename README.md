@@ -209,8 +209,8 @@ For more information, see also the [comprehensive list of features](https://gith
 * [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) - since 2002!
 * The first release of Jacksum was published in July 2002 on https://sourceforge.net/projects/jacksum/
 * I made a pause in Jacksum development beteween 2007 and 2020
+* Jacksum is actively developed again
 * In September 2021 I moved the repo to GitHub
-* Development is active again since 2021
 
 ## Contribution
 
