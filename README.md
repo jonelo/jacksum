@@ -18,13 +18,27 @@ Jacksum supports 472 hash functions, and a bunch of [features](https://github.co
 
 Jacksum is also a library. It is written entirely in **Java** ☕.
 
-## Is this the right package for you?
+## Don't panic. It is a CLI, but there is also a GUI
 
 If you are skilled command line user (advanced user, sysadmin, computer scientist, cybersecurity engineer, penetration tester, forensics engineer, reverse engineer, ...) this package is for you.
 
 If you are a Java developer and you want to use the power of Jacksum in your app, this lib in .jar format is for you as well.
 
 If you prefer a graphical user interface and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration installer which is available for many different file managers. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
+
+## Screenshot
+
+Stay tuned.
+
+## Documentation
+
+* [https://jacksum.net](https://jacksum.net) - Homepage
+* [Features](https://github.com/jonelo/jacksum/wiki/Features)
+* [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (with many examples)
+* [Wiki](https://github.com/jonelo/jacksum/wiki)
+* [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) - since 2002!
+* [Source Code](https://github.com/jonelo/jacksum) (on GitHub, mavenized with a pom.xml and an IntelliJ .idea config)
+
 
 ## Hash functions
 
@@ -181,17 +195,6 @@ For more information, see also the [comprehensive list of features](https://gith
 </details>
 
 
-## Documentation
-
-* Jacksum [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) (2002-2022)
-* Jacksum [Features](https://github.com/jonelo/jacksum/wiki/Features)
-* Jacksum [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (with many examples)
-* Jacksum [Wiki](https://github.com/jonelo/jacksum/wiki)
-* Jacksum [Source Code](https://github.com/jonelo/jacksum) (on GitHub, mavenized with a pom.xml and an IntelliJ .idea config)
-  * Start your investigation journey by reading [net.jacksum.cli.Main](https://github.com/jonelo/jacksum/blob/main/src/main/java/net/jacksum/cli/Main.java) and [net.jacksum.JacksumAPI](https://github.com/jonelo/jacksum/blob/main/src/main/java/net/jacksum/JacksumAPI.java)
-  * Download and read the [jacksum-3.2.0-javadoc.jar](https://github.com/jonelo/jacksum/releases/download/v3.2.0/jacksum-3.2.0-javadoc.jar)
-* [https://jacksum.net](https://jacksum.net)
-
 ## Integrations
 
 * [Jacksum File Browser Integration for Microsoft Windows](https://github.com/jonelo/jacksum-fbi-windows)
@@ -203,7 +206,11 @@ For more information, see also the [comprehensive list of features](https://gith
 
 ## History
 
-Jacksum version 1.0.0 was published in July 2002 on https://sourceforge.net/projects/jacksum/. Starting with Jacksum version 3.0.0 in September 2021, it moved its repo to GitHub.
+* [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) - since 2002!
+* The first release of Jacksum was published in July 2002 on https://sourceforge.net/projects/jacksum/
+* I made a pause in Jacksum development beteween 2007 and 2020
+* In September 2021 I moved the repo to GitHub
+* Development is active again since 2021
 
 ## Contribution
 
