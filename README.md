@@ -198,7 +198,7 @@ For more information, see also the [comprehensive list of features](https://gith
 * [Jacksum File Browser Integration for GNU/Linux](https://github.com/jonelo/jacksum-fbi-linux)
 * [Jacksum File Browser Integration for macOS](https://github.com/jonelo/jacksum-fbi-macos)
 * [Jacksum on Docker](https://hub.docker.com/r/jonelo/jacksum)
-* [HashGarten](https://github.com/jonelo/HashGarten)
+* [HashGarten](https://github.com/jonelo/HashGarten) - a GUI for Jacksum
 * NumericalChameleon, see http://www.numericalchameleon.net
 
 ## History
