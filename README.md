@@ -20,11 +20,9 @@ Jacksum is also a library. It is written entirely in **Java** ☕.
 
 ## Don't panic. It is a CLI, but there is also a GUI
 
-If you are skilled command line user (advanced user, sysadmin, computer scientist, cybersecurity engineer, penetration tester, forensics engineer, reverse engineer, ...) this package is for you.
+Jacksum supports a command line interface (CLI). And if you are skilled command line user (advanced user, sysadmin, computer scientist, cybersecurity engineer, penetration tester, forensics engineer, reverse engineer, ...) you can benefit from the pure power on the command line.
 
-If you are a Java developer and you want to use the power of Jacksum in your app, this lib in .jar format is for you as well.
-
-If you prefer a graphical user interface and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration installer which is available for many different file managers. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
+If you prefer a graphical user interface (GUI) and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Manager Integration (FBI) installer which comes with HashGarten which is a GUI for Jacksum. The installer is available for many different file managers on all modern desktop operating systems. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
 
 ## Screenshot
 
