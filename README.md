@@ -32,6 +32,36 @@ If you prefer a graphical user interface (GUI) and you just would like to calc a
 
 Stay tuned.
 
+## System Requirements
+
+- GNU/Linux, Microsoft Windows, or macOS
+- JDK 11 or later
+- 2 MiB disk space
+
+<details>
+<summary>Details ...</summary>
+
+- To download the (Open)JDK 11 or later, you can go to any vendor that provides OpenJDK compatible builds, LTS (long term support) releases are recommended, examples are
+  - https://adoptium.net
+  - https://openjdk.java.net
+  - https://www.azul.com/downloads/?package=jdk
+  - https://bell-sw.com/pages/downloads/
+  - https://www.microsoft.com/openjdk/
+  - https://aws.amazon.com/de/corretto/
+  - https://sapmachine.io
+  - https://github.com/alibaba/dragonwell8
+- Supported architectures are dependent on the OS and the JDK vendor:
+  - x86 64 bit (x64)
+  - x86 32 bit (x86)
+  - ARM 64 bit (AArch64, resp. M1)
+  - ARM 32 bit (AArch32)
+  - PPC 64 bit (ppc64)
+- a GitHub user have had success to run Jacksum without modification even on a smartphone running Android on ARM 64 bit, see also https://github.com/jonelo/jacksum/issues/7
+- GNU/Linux is the correct term to refer to "Linux", see also https://www.gnu.org/gnu/linux-and-gnu.en.html
+- actual RAM requirement is dependent on the OS, the architecture, the JDK, the JRE's (default) garbage collector settings and usage. Tests have shown that Jacksum feels pretty comfortable with 512 MiB Java heap on a x64 Windows 10 system for example while verifying millions of files of all sizes (0 bytes to several GiB).
+
+</details>
+
 
 ## Where to download?
 
@@ -129,35 +159,6 @@ Jacksum can also be used as a **library** in your own projects by using its
 
 For more information, see also the [comprehensive list of features](https://github.com/jonelo/jacksum/wiki/Features).
 
-## System Requirements
-
-- GNU/Linux, Microsoft Windows, or macOS
-- JDK 11 or later
-- 2 MiB disk space
-
-<details>
-<summary>Details ...</summary>
-
-- To download the (Open)JDK 11 or later, you can go to any vendor that provides OpenJDK compatible builds, LTS (long term support) releases are recommended, examples are
-  - https://adoptium.net
-  - https://openjdk.java.net
-  - https://www.azul.com/downloads/?package=jdk
-  - https://bell-sw.com/pages/downloads/
-  - https://www.microsoft.com/openjdk/
-  - https://aws.amazon.com/de/corretto/
-  - https://sapmachine.io
-  - https://github.com/alibaba/dragonwell8
-- Supported architectures are dependent on the OS and the JDK vendor:
-  - x86 64 bit (x64)
-  - x86 32 bit (x86)
-  - ARM 64 bit (AArch64, resp. M1)
-  - ARM 32 bit (AArch32)
-  - PPC 64 bit (ppc64)
-- a GitHub user have had success to run Jacksum without modification even on a smartphone running Android on ARM 64 bit, see also https://github.com/jonelo/jacksum/issues/7
-- GNU/Linux is the correct term to refer to "Linux", see also https://www.gnu.org/gnu/linux-and-gnu.en.html
-- actual RAM requirement is dependent on the OS, the architecture, the JDK, the JRE's (default) garbage collector settings and usage. Tests have shown that Jacksum feels pretty comfortable with 512 MiB Java heap on a x64 Windows 10 system for example while verifying millions of files of all sizes (0 bytes to several GiB).
-
-</details>
 
 ## Documentation
 
