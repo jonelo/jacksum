@@ -12,9 +12,13 @@
 
 # Jacksum
 
-**Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform, feature-rich, multi-threaded command line tool for calculating hash values, verifying data integrity, finding files by their fingerprints, and finding algorithms to a hash value.
+**Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform, feature-rich, multi-threaded command line tool for calculating hash values, verifying data integrity, finding files by their fingerprints, and finding algorithms to hash values.
 
-Jacksum supports 472 hash functions, and a bunch of [features](https://github.com/jonelo/jacksum/wiki/Features).
+Jacksum supports 472 hash functions, both cryptographic and non-cryptographic hash functions including CRCs and checksums:
+
+Adler-32, BLAKE-[224,256,348,512], BLAKE2b-[8..512], BLAKE2s-[8..256], BLAKE3, cksum (Minix), cksum (Unix), CRC-8 (FLAC), CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16, CRC-24 (OpenPGP), CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32 (UBICRC32), CRC-32 (PHP's crc32), CRC-64 (ISO 3309), CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO), CRC-64 (.xz and prog lang GO, const ECMA), DHA-256, ECHO-[224,256,348,512], ed2k, ELF (Unix), Fletcher's Checksum, FNV-0_[32,64,128,256,512,1024], FNV-1_[32,64,128,256,512,1024], FNV-1a_[32,64,128,256,512,1024], FORK-256, Fugue-[224,256,348,512], GOST Crypto-Pro (GOST R 34.11-94), GOST R 34.11-94, Groestl-[224,256,384,512], HAS-160 (KISA), HAVAL-128-[3,4,5], HAVAL-[160,192,224,256]-[3,4,5], JH[224,256,284,512], joaat, KangarooTwelve, Keccak[224,256,384,512], Kupyna[256,384,512] (DSTU 7564:2014), LSH-256-[224,256], LSH-512-[224,256,384,512] (KS X 3262), Luffa-[224,256,348,512], MD2, MD4, MD5, MDC2, MarsupilamiFourteen, PANAMA, RIPEMD-128, RIPEMD[160,256,320], RadioGatun[32,64], SHA-0, SHA-1, SHA-[224,256,384,512], SHA-512/[224,256]  (NIST FIPS 180-4), SHA3-[224,256,384,512], SHAKE[128,256] (NIST FIPS 202), SM3, Skein-1024-[8..1024], Skein-256-[8..256], Skein-512-[8..512], Streebog-[256,512] (GOST R 34.11-2012), sum (BSD Unix), sum (Minix), sum (System V Unix), sum [8,16,24,32,40,48,56], Tiger, Tiger/128, Tiger/160, Tiger2, VSH-1024, Whirpool-0, Whirlpool-T, Whirlpool, xor8, and XXH32.
+
+Jacksum comes with a bunch of [features](https://github.com/jonelo/jacksum/wiki/Features).
 
 Jacksum is also a library. It is written entirely in **Java** ☕.
 
@@ -28,43 +32,6 @@ If you prefer a graphical user interface (GUI) and you just would like to calc a
 
 Stay tuned.
 
-## Documentation
-
-* [https://jacksum.net](https://jacksum.net) - Homepage
-* [Features](https://github.com/jonelo/jacksum/wiki/Features)
-* [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (with many examples)
-* [Wiki](https://github.com/jonelo/jacksum/wiki)
-* [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) - since 2002!
-* [Source Code](https://github.com/jonelo/jacksum) (on GitHub, mavenized with a pom.xml and an IntelliJ .idea config)
-
-
-## Hash functions
-
-Hash functions play an important role in many cryptographic and non-cryptographic mechanisms, for example when verifying data integrity or identifying files. They map a bit string m ∈ {0, 1}<sup>*</sup> of arbitrary length to a bit string h ∈ {0, 1}<sup>n</sup> of fixed length n ∈ ℕ.
-
-The result of a hash function is the hash value.
-
-Jacksum supports 472 hash functions, both cryptographic and non-cryptographic hash functions.
-
-### Cryptographic hash functions
-
-This version supports the following cryptographic hash functions:
-
-BLAKE-[224,256,348,512], BLAKE2b-[8..512], BLAKE2s-[8..256], BLAKE3, DHA-256, ECHO-[224,256,348,512], ed2k, FORK-256, Fugue-[224,256,348,512], GOST Crypto-Pro (GOST R 34.11-94), GOST R 34.11-94, Groestl-[224,256,384,512], HAS-160 (KISA), HAVAL-128-[3,4,5], HAVAL-[160,192,224,256]-[3,4,5], JH[224,256,284,512], KangarooTwelve, Keccak[224,256,384,512], Kupyna[256,384,512] (DSTU 7564:2014), LSH-256-[224,256], LSH-512-[224,256,384,512] (KS X 3262), Luffa-[224,256,348,512], MD2, MD4, MD5, MDC2, MarsupilamiFourteen, PANAMA, RIPEMD-128, RIPEMD[160,256,320], RadioGatun[32,64], SHA-0, SHA-1, SHA-[224,256,384,512], SHA-512/[224,256]  (NIST FIPS 180-4), SHA3-[224,256,384,512], SHAKE[128,256] (NIST FIPS 202), SM3, Skein-1024-[8..1024], Skein-256-[8..256], Skein-512-[8..512], Streebog-[256,512] (GOST R 34.11-2012), Tiger, Tiger/128, Tiger/160, Tiger2, VSH-1024, Whirlpool-T, Whirpool-0, and Whirlpool.
-
-### Non-cryptographic hash functions
-
-#### Classical checksums
-
-This version supports the following classical checksums:
-
-Adler-32, ELF (Unix), FNV-0_[32,64,128,256,512,1024], FNV-1_[32,64,128,256,512,1024], FNV-1a_[32,64,128,256,512,1024], Fletcher's Checksum, XXH32, cksum (Minix), cksum (Unix), joaat, sum (BSD Unix), sum (Minix), sum (System V Unix), sum [8,16,24,32,40,48,56], xor8
-
-#### CRCs
-
-This version supports the quasi-standard called "Rocksoft (tm) Model CRC Algorithm", and even an extended model of it which allows you to define CRCs based on particular parameters. This version supports the following CRCs explicitly:
-
-CRC-8 (FLAC), CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16, CRC-24 (OpenPGP), CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32 (UBICRC32), CRC-32 (PHP's crc32), CRC-64 (ISO 3309), CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO), CRC-64 (.xz and prog lang GO, const ECMA)
 
 ## Where to download?
 
@@ -192,6 +159,16 @@ For more information, see also the [comprehensive list of features](https://gith
 
 </details>
 
+## Documentation
+
+* [https://jacksum.net](https://jacksum.net) - Homepage
+* [Features](https://github.com/jonelo/jacksum/wiki/Features)
+* [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (with many examples)
+* [Wiki](https://github.com/jonelo/jacksum/wiki)
+* [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) - since 2002!
+* [Developer Guide](https://github.com/jonelo/jacksum/wiki/Developer-Guide)
+* [Source Code](https://github.com/jonelo/jacksum) (on GitHub, mavenized with a pom.xml and an IntelliJ .idea config)
+
 
 ## Integrations
 
@@ -215,34 +192,6 @@ For more information, see also the [comprehensive list of features](https://gith
 I appreciate feedback from users, bug hunters, and fresh ideas from open minded people. Feel free and file [support requests, change requests, bug reports and feature requests on GitHub](https://github.com/jonelo/jacksum/issues)
 
 Spread the word, or give a star here on GitHub. 
-
-
-## How to clone/compile/package/install it (for developers)
-
-Jacksum can be build by Maven. On the command line you can simply clone the source code by calling `git clone` and compile/package/install by calling `mvn install`. After installation, the .jar file can be found unter the target directory and in your $HOME/.m2/ directory structure. You should set JAVA_HOME properly so that the JDK tools such as javac and javadoc can be found.
-
-<details>
-<summary>Details ...</summary>
-
-Example on Ubuntu 20.04.4 LTS:
-
-```
-$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-$ git clone https://github.com/jonelo/jacksum.git
-$ cd jacksum
-$ git tag -l
-v3.0.0
-v3.0.1
-v3.1.0
-v3.2.0
-v3.3.0
-$ git checkout tags/v3.3.0 -b three-three-zero
-$ mvn install
-```
-Call `mvn -version` to check whether your maven would use at least Java 11. Alternatively use an IDE which supports both cloning from a GitHub repo and Maven.
-
-</details>
-
 
 ## License
 
