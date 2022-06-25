@@ -20,9 +20,9 @@ Jacksum is also a library. It is written entirely in **Java** ☕.
 
 ## Don't panic. It is a CLI, but there is also a GUI
 
-Jacksum supports a command line interface (CLI). And if you are skilled command line user (advanced user, sysadmin, computer scientist, cybersecurity engineer, penetration tester, forensics engineer, reverse engineer, ...) you can benefit from the pure power on the command line.
+Jacksum provides a command line interface (CLI). And if you are a skilled command line user (advanced user, sysadmin, computer scientist, cybersecurity engineer, penetration tester, forensics engineer, reverse engineer, ...) you could benefit from the power on the command line.
 
-If you prefer a graphical user interface (GUI) and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Manager Integration (FBI) installer which comes with HashGarten which is a GUI for Jacksum. The installer is available for many different file managers on all modern desktop operating systems. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
+If you prefer a graphical user interface (GUI) and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration (FBI) installer which comes with [HashGarten](https://github.com/jonelo/HashGarten) that is a GUI for Jacksum. The installer is available for many different file managers on Windows, Linux, and macOS. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
 
 ## Screenshot
 
@@ -40,7 +40,7 @@ Stay tuned.
 
 ## Hash functions
 
-Hash functions play an important role in many cryptographic and non-cryptographic mechanisms, for example when verifying data integrity or identifying files. They map a bit string m ∈ {0, 1}* of arbitrary length to a bit string h ∈ {0, 1}<sup>n</sup> of fixed length n ∈ ℕ.
+Hash functions play an important role in many cryptographic and non-cryptographic mechanisms, for example when verifying data integrity or identifying files. They map a bit string m ∈ {0, 1}<sup>*</sup> of arbitrary length to a bit string h ∈ {0, 1}<sup>n</sup> of fixed length n ∈ ℕ.
 
 The result of a hash function is the hash value.
 
