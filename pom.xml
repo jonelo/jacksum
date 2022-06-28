@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.jacksum</groupId>
     <artifactId>jacksum</artifactId>
-    <version>3.4.0</version>
+    <version>3.5.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,7 +15,7 @@
     <description>Jacksum (JAva ChecKSUM) is a powerful command line utility
         which is all about about checksums, CRCs, and message digests
         (aka hashes, file fingerprints, file thumbprints).
-        Jacksum supports 471 algorithms; predefined and customizable output;
+        Jacksum supports 472 algorithms; predefined and customizable output;
         file integrity verification; recursively operation with depth limit;
         multi-core and Unicode support; free and cross platform.
     </description>
