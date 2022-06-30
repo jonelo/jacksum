@@ -67,15 +67,41 @@ As a data integrity software Jacksum can generate, store, and compare hash value
 
 Example:
 
-    $ jacksum --style bsd -c file.hashes
+    $ jacksum -c file.hashes --style bsd
            OK  ./ubuntu-22.04-desktop-amd64.iso
 
 ### Finding files by their hashes
 
 Jacksum also helps you to find all files that match any of the hashes in a given set of known hash values. Both positive and negative matching is supported.
 
-    $ jacksum --style bsd --wanted-list file.hashes .
-        MATCH  ubuntu-22.04-desktop-amd64.iso (./ubuntu-22.04-desktop-amd64.iso)
+    $ jacksum --wanted-list log4j.hashes --style linux --threads-reading 16 /
+
+<details>
+<summary>Result ...</summary>
+
+```
+    MATCH  /opt/serverapp/okmijnuhbzgv.jar (log4j-core-2.12.0.jar)
+
+Jacksum: total lines in check file: 42
+Jacksum: improperly formatted lines in check file: 0
+Jacksum: properly formatted lines in check file: 33
+Jacksum: ignored lines (empty lines and comments): 9
+Jacksum: correctness of check file: 100.00 %
+
+Jacksum: files read successfully: 252299
+Jacksum: files read with errors: 0
+Jacksum: total bytes read: 117670015750
+Jacksum: total bytes read (human readable): 109 GiB, 602 MiB, 892 KiB, 774 bytes
+Jacksum: files matching wanted hashes: 1
+Jacksum: files not matching wanted hashes: 252266
+
+Jacksum: elapsed time: 8 min, 38 s, 215 ms
+```
+</details>
+
+See also [CVE-2021-44832: Find vulnerable .jar files using Jacksum](https://loefflmann.blogspot.com/2022/06/CVE-2021-44832%20Find%20vulnerable%20.jar%20files%20using%20Jacksum%203.4.0%20or%20later.html)
+
+
 
 ### Finding all duplicates by knowing a hash only
 
@@ -91,7 +117,7 @@ Since Jacksum supports so many algorithms, Jacksum also helps you to find the al
     $ jacksum -a unknown:16 -q hex:050000 -E hex -e d893
     
 <details>
-<summary>Result</summary>
+<summary>Result ...</summary>
 
 ```
 Trying 13 algorithms with a width of 16 bits that are supported by Jacksum 3.0.0 ...
