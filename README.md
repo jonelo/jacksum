@@ -67,8 +67,40 @@ As a data integrity software Jacksum can generate, store, and compare hash value
 
 Example:
 
-    $ jacksum -c file.hashes --style bsd
-           OK  ./ubuntu-22.04-desktop-amd64.iso
+    $ jacksum -a sha3-256 -c file.hashes .
+
+<details>
+<summary>Result ...</summary>
+
+```
+Jacksum: Error: ./drei: does not exist.
+  MISSING  ./drei
+      NEW  ./file.hashes
+      NEW  ./fünf
+   FAILED  ./eins
+       OK  ./zwei
+       OK  ./vier
+
+Jacksum: total lines in check file: 4
+Jacksum: improperly formatted lines in check file: 0
+Jacksum: properly formatted lines in check file: 4
+Jacksum: ignored lines (empty lines and comments): 0
+Jacksum: correctness of check file: 100.00 %
+
+Jacksum: matches (OK): 2
+Jacksum: mismatches (FAILED): 1
+Jacksum: new files (NEW): 2
+Jacksum: missing files (MISSING): 1
+
+Jacksum: total files read: 3
+Jacksum: total bytes read: 12
+Jacksum: total bytes read (human readable): 12 bytes
+Jacksum: total file read errors: 1
+
+Jacksum: elapsed time: 151 ms
+```
+</details>
+
 
 ### Finding files by their hashes
 
