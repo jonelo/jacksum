@@ -1,28 +1,38 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/jonelo/jacksum?color=blue)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/jonelo/jacksum?color=blue)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/jonelo/jacksum?color=green)
-![GitHub downloads latest](https://img.shields.io/github/downloads/jonelo/jacksum/v3.3.0/total?color=green)
+![GitHub downloads latest](https://img.shields.io/github/downloads/jonelo/jacksum/v3.4.0/total?color=green)
 ![GitHub](https://img.shields.io/github/license/jonelo/jacksum?color=green)
 ![GitHub top language](https://img.shields.io/github/languages/top/jonelo/jacksum?color=green)
 ![GitHub downloads](https://img.shields.io/github/downloads/jonelo/jacksum/total?color=green)
 
 * * *
 
+<img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
+
 # Jacksum
 
-## What is it?
+**Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform, feature-rich, multi-threaded command line tool for calculating hash values, verifying data integrity, finding files by their fingerprints, and finding algorithms to hash values.
 
-**Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform, feature-rich, multi-threaded data integrity verification tool on the command line. It is also a lib, and it is all about checksums, CRCs, and message digests (aka hashes, data/file fingerprints, thumbprints).
+Jacksum supports 472 hash functions, both cryptographic and non-cryptographic hash functions including CRCs and classic checksums:
 
-For a full feature list go to [Features](https://github.com/jonelo/jacksum/wiki/Features).
+Adler-32, BLAKE-[224,256,348,512], BLAKE2b-[8..512], BLAKE2s-[8..256], BLAKE3, cksum (Minix), cksum (Unix), CRC-8 (FLAC), CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16, CRC-24 (OpenPGP), CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32 (UBICRC32), CRC-32 (PHP's crc32), CRC-64 (ISO 3309), CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO), CRC-64 (.xz and prog lang GO, const ECMA), DHA-256, ECHO-[224,256,348,512], ed2k, ELF (Unix), Fletcher's Checksum, FNV-0_[32,64,128,256,512,1024], FNV-1_[32,64,128,256,512,1024], FNV-1a_[32,64,128,256,512,1024], FORK-256, Fugue-[224,256,348,512], GOST Crypto-Pro (GOST R 34.11-94), GOST R 34.11-94, Groestl-[224,256,384,512], HAS-160 (KISA), HAVAL-128-[3,4,5], HAVAL-[160,192,224,256]-[3,4,5], JH[224,256,284,512], joaat, KangarooTwelve, Keccak[224,256,384,512], Kupyna[256,384,512] (DSTU 7564:2014), LSH-256-[224,256], LSH-512-[224,256,384,512] (KS X 3262), Luffa-[224,256,348,512], MD2, MD4, MD5, MDC2, MarsupilamiFourteen, PANAMA, RIPEMD-128, RIPEMD[160,256,320], RadioGatun[32,64], SHA-0, SHA-1, SHA-[224,256,384,512], SHA-512/[224,256]  (NIST FIPS 180-4), SHA3-[224,256,384,512], SHAKE[128,256] (NIST FIPS 202), SM3, Skein-1024-[8..1024], Skein-256-[8..256], Skein-512-[8..512], Streebog-[256,512] (GOST R 34.11-2012), sum (BSD Unix), sum (Minix), sum (System V Unix), sum [8,16,24,32,40,48,56], Tiger, Tiger/128, Tiger/160, Tiger2, VSH-1024, Whirpool-0, Whirlpool-T, Whirlpool, xor8, and XXH32.
 
-Jacksum is written entirely in **Java** ☕.
+The algorithms above are mainly powered by existing portions from large libraries such as [Bouncy Castle](https://www.bouncycastle.org), [GNU Crypto](https://www.gnu.org/software/gnu-crypto/), Flexiprovider (abandoned), and Projet RNRT SAPHIR (abandoned). Libraries that have been abandoned are now supported by Jacksum (the hash part only). There are also algorithms that have been contributed to Jacksum by institutions, and individual developers, some have been translated to Java from C-sources or have been implemented from scratch. The Jacksum manpage clearly points out the origin for each algorithm. Any algorithm that is accepted by Jacksum will benefit from the framework that applies to all algorithms. For more information on that subject please go to the [copyright page](https://jacksum.net/en/legal/copyright.html).
 
-## Is this the right package for you?
+Jacksum comes with a bunch of [features](https://github.com/jonelo/jacksum/wiki/Features).
 
-If you are a command line user (advanced user, sysadmin, computer scientist, security engineer, forensics engineer, reverse engineer, ...) or a Java developer this .jar package is for you.
+Jacksum is also a library. It is written entirely in **Java** ☕.
 
-If you are a normal user and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration installer. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
+## Don't panic. It is a CLI, but there is also a GUI
+
+Jacksum provides a command line interface (CLI). And if you are a skilled command line user (advanced user, sysadmin, computer scientist, cybersecurity engineer, penetration tester, forensics engineer, reverse engineer, ...) you could benefit from the power on the command line.
+
+If you prefer a graphical user interface (GUI) and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration (FBI) installer which comes with [HashGarten](https://github.com/jonelo/HashGarten) that is a GUI for Jacksum. The installer is available for many different file managers on Windows, Linux, and macOS. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
+
+## Screenshot
+
+Stay tuned.
 
 ## System Requirements
 
@@ -54,17 +64,18 @@ If you are a normal user and you just would like to calc and verify hashes with 
 
 </details>
 
+
 ## Where to download?
 
 The latest released .jar file can be found at https://github.com/jonelo/jacksum/releases/latest
 The .zip file also contains simple scripts to call Jacksum on Windows, Linux, and macOS from the command line.
 
-## How to configure and install it (for users)
+## How to install and configure it
 
 Download the .jar (or .zip) file as described above, open a terminal (on Microsoft Windows, it is known as the "Command Prompt") and start Jacksum by typing
 
 ```
-java -jar jacksum-3.3.0.jar
+java -jar jacksum-3.4.0.jar
 ```
 
 I recommend to adjust the Windows batch file (jacksum.bat) resp. the bash script (jacksum) for GNU/Linux and Unix operating systems (e.g. macOS) and to put the script to a folder that is reachable by your PATH environment variable in order to launch jacksum easily just by typing
@@ -80,7 +91,7 @@ The following snippet could help you to setup Jacksum on GNU/Linux. In the examp
 
 ```
 $ echo 'export PATH="$PATH=$HOME/bin"' >> $HOME/.profile
-$ export VERSION=3.3.0
+$ export VERSION=3.4.0
 $ unzip jacksum-$VERSION.zip
 $ cp jacksum-$VERSION/unix/jacksum ~/bin && chmod +x ~/bin/jacksum
 $ sudo mkdir -p /opt/java/apps/jacksum && cp jacksum-$VERSION/jacksum-$VERSION.jar /opt/java/apps/jacksum/
@@ -95,12 +106,10 @@ $ rm -R jacksum-$VERSION/
 jacksum -h examples
 ```
 
-See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples).
+See also the [EXAMPLES section of the manpage](https://github.com/jonelo/jacksum/wiki/Manpage#examples), and the [Cheat Sheet in the Wiki](https://github.com/jonelo/jacksum/wiki/Cheat-Sheet).
 
 
 ## Features
-
-<img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
 Jacksum supports **471 data fingerprinting algorithms**, including checksums, CRCs, XOFs,
 cryptographic, and non-cryptographic hash functions.
@@ -155,14 +164,14 @@ For more information, see also the [comprehensive list of features](https://gith
 
 ## Documentation
 
-* Jacksum [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) (2002-2022)
-* Jacksum [Features](https://github.com/jonelo/jacksum/wiki/Features)
-* Jacksum [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (with many examples)
-* Jacksum [Wiki](https://github.com/jonelo/jacksum/wiki)
-* Jacksum [Source Code](https://github.com/jonelo/jacksum) (on GitHub, mavenized with a pom.xml and an IntelliJ .idea config)
-  * Start your investigation journey by reading [net.jacksum.cli.Main](https://github.com/jonelo/jacksum/blob/main/src/main/java/net/jacksum/cli/Main.java) and [net.jacksum.JacksumAPI](https://github.com/jonelo/jacksum/blob/main/src/main/java/net/jacksum/JacksumAPI.java)
-  * Download and read the [jacksum-3.2.0-javadoc.jar](https://github.com/jonelo/jacksum/releases/download/v3.2.0/jacksum-3.2.0-javadoc.jar)
-* [https://jacksum.net](https://jacksum.net)
+* [https://jacksum.net](https://jacksum.net) - Homepage
+* [Features](https://github.com/jonelo/jacksum/wiki/Features)
+* [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (with many examples)
+* [Wiki](https://github.com/jonelo/jacksum/wiki)
+* [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) - since 2002!
+* [Developer Guide](https://github.com/jonelo/jacksum/wiki/Developer-Guide)
+* [Source Code](https://github.com/jonelo/jacksum) (on GitHub, mavenized with a pom.xml and an IntelliJ .idea config)
+
 
 ## Integrations
 
@@ -170,46 +179,22 @@ For more information, see also the [comprehensive list of features](https://gith
 * [Jacksum File Browser Integration for GNU/Linux](https://github.com/jonelo/jacksum-fbi-linux)
 * [Jacksum File Browser Integration for macOS](https://github.com/jonelo/jacksum-fbi-macos)
 * [Jacksum on Docker](https://hub.docker.com/r/jonelo/jacksum)
-* [HashGarten](https://github.com/jonelo/HashGarten)
+* [HashGarten](https://github.com/jonelo/HashGarten) - a GUI for Jacksum
 * NumericalChameleon, see http://www.numericalchameleon.net
 
 ## History
 
-Jacksum version 1.0.0 was published in July 2002 on https://sourceforge.net/projects/jacksum/. Starting with Jacksum version 3.0.0 in September 2021, it moved its repo to GitHub.
+* [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) - since 2002!
+* The first release of Jacksum was published in July 2002 on https://sourceforge.net/projects/jacksum/
+* I made a pause in Jacksum development beteween 2007 and 2020
+* Jacksum is actively developed again
+* In September 2021 I moved the repo to GitHub
 
 ## Contribution
 
 I appreciate feedback from users, bug hunters, and fresh ideas from open minded people. Feel free and file [support requests, change requests, bug reports and feature requests on GitHub](https://github.com/jonelo/jacksum/issues)
 
 Spread the word, or give a star here on GitHub. 
-
-
-## How to clone/compile/package/install it (for developers)
-
-Jacksum can be build by Maven. On the command line you can simply clone the source code by calling `git clone` and compile/package/install by calling `mvn install`. After installation, the .jar file can be found unter the target directory and in your $HOME/.m2/ directory structure. You should set JAVA_HOME properly so that the JDK tools such as javac and javadoc can be found.
-
-<details>
-<summary>Details ...</summary>
-
-Example on Ubuntu 20.04.4 LTS:
-
-```
-$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-$ git clone https://github.com/jonelo/jacksum.git
-$ cd jacksum
-$ git tag -l
-v3.0.0
-v3.0.1
-v3.1.0
-v3.2.0
-v3.3.0
-$ git checkout tags/v3.3.0 -b three-three-zero
-$ mvn install
-```
-Call `mvn -version` to check whether your maven would use at least Java 11. Alternatively use an IDE which supports both cloning from a GitHub repo and Maven.
-
-</details>
-
 
 ## License
 
