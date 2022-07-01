@@ -70,7 +70,7 @@ Example to simulate the sum command from [Plan 9](https://en.wikipedia.org/wiki/
 Data integrity ensures that data items have not been changed, destroyed, or lost in an unauthorized or accidental manner since they were created,
 transmitted, or stored.
 
-As a file integrity software Jacksum can generate, store, and compare hash values to detect changes made to files. Actually it can detect matching, non-matching, missing, and new files.
+As being a file/data integrity software Jacksum can generate, store, and compare hash values to detect changes made to files. Actually it can detect matching, non-matching, missing, and new files.
 
 Example:
 
