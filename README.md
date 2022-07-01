@@ -32,7 +32,7 @@ If you prefer a graphical user interface (GUI) and you just would like to calc a
 
 ## Screenshot
 
-Stay tuned.
+<img width="100%" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/screenshot-jacksum_on_ubuntu-cli_examples.png" alt="Jacksum on Ubuntu, CLI examples" style="vertical-align:top;margin:10px 10px" />
 
 ## Core Features
 
