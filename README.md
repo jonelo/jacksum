@@ -14,7 +14,7 @@
 
 **Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform, feature-rich, multi-threaded command line tool for calculating hash values, verifying data integrity, finding files by their fingerprints, and finding algorithms to hash values.
 
-Jacksum supports 472 hash functions, both cryptographic and non-cryptographic hash functions including CRCs and classic checksums:
+Jacksum supports **472 hash functions**, both cryptographic and non-cryptographic hash functions including CRCs and classic checksums:
 
 Adler-32, BLAKE-[224,256,348,512], BLAKE2b-[8..512], BLAKE2s-[8..256], BLAKE3, cksum (Minix), cksum (Unix), CRC-8 (FLAC), CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16, CRC-24 (OpenPGP), CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32 (UBICRC32), CRC-32 (PHP's crc32), CRC-64 (ISO 3309), CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO), CRC-64 (.xz and prog lang GO, const ECMA), DHA-256, ECHO-[224,256,348,512], ed2k, ELF (Unix), Fletcher's Checksum, FNV-0_[32,64,128,256,512,1024], FNV-1_[32,64,128,256,512,1024], FNV-1a_[32,64,128,256,512,1024], FORK-256, Fugue-[224,256,348,512], GOST Crypto-Pro (GOST R 34.11-94), GOST R 34.11-94, Groestl-[224,256,384,512], HAS-160 (KISA), HAVAL-128-[3,4,5], HAVAL-[160,192,224,256]-[3,4,5], JH[224,256,284,512], joaat, KangarooTwelve, Keccak[224,256,384,512], Kupyna[256,384,512] (DSTU 7564:2014), LSH-256-[224,256], LSH-512-[224,256,384,512] (KS X 3262), Luffa-[224,256,348,512], MD2, MD4, MD5, MDC2, MarsupilamiFourteen, PANAMA, RIPEMD-128, RIPEMD[160,256,320], RadioGatun[32,64], SHA-0, SHA-1, SHA-[224,256,384,512], SHA-512/[224,256]  (NIST FIPS 180-4), SHA3-[224,256,384,512], SHAKE[128,256] (NIST FIPS 202), SM3, Skein-1024-[8..1024], Skein-256-[8..256], Skein-512-[8..512], Streebog-[256,512] (GOST R 34.11-2012), sum (BSD Unix), sum (Minix), sum (System V Unix), sum [8,16,24,32,40,48,56], Tiger, Tiger/128, Tiger/160, Tiger2, VSH-1024, Whirpool-0, Whirlpool-T, Whirlpool, xor8, and XXH32.
 
@@ -214,12 +214,14 @@ Jacksum traverses file trees **recursively** with a **depth limit**.
 
 Jacksum supports **multi-threading** on multi-processor and multi-core
 computer systems. Jacksum can compute multiple **hashes simultaneously**,
-and it can process multiple **files simultaneously**.
+and it can read/process multiple **files simultaneously** on SSDs.
+
+The user can **control the number of threads** for multi-threading tasks.
 
 **Input** data can come from almost **any source**: files, disks, partitions,
 standard input stream (stdin), and/or provided directly by command
-line arguments. Also platform specific input such as NTFS Alternate
-Data Streams (ADS) on Microsoft Windows, and block devices, character
+line arguments. Also platform specific input such as **NTFS Alternate
+Data Streams (ADS)** on Microsoft Windows, and block devices, character
 devices, named pipes (FIFOs), and sockets (Unix-like OS only), and
 doors (Solaris only) are supported and can be hashed.
 
@@ -229,16 +231,16 @@ customizable, including many encodings for representing hash values:
 Hex (lower- and uppercase), Base16, Base32 (with and without padding),
 Base32hex (with and without padding), Base64 (with and without padding),
 Base64url (with and without padding), BubbleBabble, and z-base-32.
-Paths can be omitted, printed absolutely or relative to a different path.
 
-Jacksum supports **many charsets** for reading and writing files
+**GNU filename escaping** is supported.
+
+**Paths** can be omitted, printed absolutely or relative to a different path.
+
+Jacksum supports **many charsets** for reading and writing hash files
 properly, and it comes with full support for all common **Unicode** aware
 charsets such as UTF-8, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32LE,
 UTF-32BE, and GB18030. A **Byte-Order Mark (BOM)** is supported for both
 input and output, even if a BOM is optional for the selected charset.
-
-Jacksum can also be used as a **library** in your own projects by using its
-**API**. Jacksum keeps the binary small, because it bundles only what it really needs to do the job.
 
 For more details, see also the [comprehensive list of features](https://github.com/jonelo/jacksum/wiki/Features).
 
