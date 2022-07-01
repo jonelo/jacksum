@@ -59,10 +59,10 @@ Examples:
 
 Jacksum also supports the "Rocksoft (tm) Model CRC Algorithm" to customize CRCs, and en extended model of it to define CRCs that incorporate the length of the message.
 
-Example:
+Example to simulate the sum command from [Plan 9](https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs):
 
-    $ jacksum -a crc:32,04C11DB7,FFFFFFFF,true,true,0 -x -q txt:123456789
-    340bc6d9 9
+    $ jacksum -a crc:32,04C11DB7,0,true,true,0,true,CC55CC55 -x -q txt:123456789
+    afcbb09a 9
 
 
 ### Verify data integrity
