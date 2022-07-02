@@ -1,7 +1,7 @@
 # This is a collection of well known CRCs, copied from
 # https://reveng.sourceforge.io/crc-catalogue/all.htm
 # Credits: Greg Cook, who did a really great job in gathering the CRC catalogue!
-# Latest update of this file: June 26, 2021
+# Latest update of this file: July 2, 2022
 # Syntax: description;crc:<width>,<poly>,<init>,<refin>,<refout>,<xorout>
 # See also jacksum --help crc:
 
@@ -27,6 +27,7 @@ CRC-8/DARC;crc:8,39,0,true,true,0
 CRC-8/DVB-S2;crc:8,d5,0,false,false,0
 CRC-8/GSM-A;crc:8,1d,0,false,false,0
 CRC-8/GSM-B;crc:8,49,0,false,false,ff
+CRC-8/HITAG;crc:8,1d,ff,false,false,0
 CRC-8/I-432-1;crc:8,7,0,false,false,55
 CRC-8/I-CODE;crc:8,1d,fd,false,false,0
 CRC-8/LTE;crc:8,9b,0,false,false,0
@@ -68,6 +69,7 @@ CRC-16/IBM-SDLC;crc:16,1021,ffff,true,true,ffff
 CRC-16/ISO-IEC-14443-3-A;crc:16,1021,c6c6,true,true,0
 CRC-16/KERMIT;crc:16,1021,0,true,true,0
 CRC-16/LJ1200;crc:16,6f63,0,false,false,0
+CRC-16/M17;crc:16,5935,ffff,false,false,0
 CRC-16/MAXIM-DOW;crc:16,8005,0,true,true,ffff
 CRC-16/MCRF4XX;crc:16,1021,ffff,true,true,0
 CRC-16/MODBUS;crc:16,8005,ffff,true,true,0
@@ -104,6 +106,7 @@ CRC-32/CKSUM;crc:32,4c11db7,0,false,false,ffffffff
 CRC-32/ISCSI;crc:32,1edc6f41,ffffffff,true,true,ffffffff
 CRC-32/ISO-HDLC;crc:32,4c11db7,ffffffff,true,true,ffffffff
 CRC-32/JAMCRC;crc:32,4c11db7,ffffffff,true,true,0
+CRC-32/MEF;crc:32,741b8cd7,ffffffff,true,true,0
 CRC-32/MPEG-2;crc:32,4c11db7,ffffffff,false,false,0
 CRC-32/XFER;crc:32,af,0,false,false,0
 CRC-40/GSM;crc:40,4820009,0,false,false,ffffffffff
