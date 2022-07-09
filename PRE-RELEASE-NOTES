@@ -7,4 +7,4 @@ Jacksum 3.5.0, TBD
   - updated the crc-catalogue for the CRC finder with CRC-8/HITAG, CRC-16/M17, and CRC-32/MEF
 
 - bug fixes:
-
+  - updated serialversionUID in the Parameters class, because members have changed in Jacksum 3.4.0
