@@ -17,27 +17,60 @@ DESCRIPTION
     Overview:
 \
         Jacksum (JAva ChecKSUM) is a free, open source, cross-platform,
-        feature-rich, multi-threaded data integrity verification tool.
+        feature-rich, multi-threaded command line tool for calculating hash
+        values, verifying data integrity, finding files by their fingerprints,
+        and finding algorithms to a hash.
+\
+        You can use 472 different hash functions to achieve those goals.
+\
+        Type `jacksum -h examples` and go to https://jacksum.net to learn more
+        about Jacksum.
+\
+\
+    Calculating hash values:
+\
+        A hash function f maps a bit string m of arbitrary length to a bit
+        string h of fixed length n:
+\
+            h = f(m)
+\
+        m is often called the message or data, h is often called the checksum,
+        hash, hash value, message digest, data's fingerprint/thumbprint.
+\
+\
+    Verifying data integrity
 \
         Data integrity ensures that data items have not been changed, destroyed,
         or lost in an unauthorized or accidental manner since they were created,
         transmitted, or stored.
 \
-        Hash values are used to implement data integrity.
-\
         As a data integrity software Jacksum can generate, store, and compare
         hash values to detect changes made to files. Actually it can detect
-        matching, non-matching, missing, and new files.
+        not only matching, and non-matching files, but also missing, and new
+        files.
 \
-        Jacksum also allows you to identify files by their digital fingerprints.
-        You can find all files that match a given set of known hash values, and
-        you can find all duplicates of a file set.
 \
-        Jacksum also allows you to find the algorithm to a checksum/CRC/hash
-        by calling a fast and smart brute force algorithm.
+    Finding files by their hashes
 \
-        Since Jacksum supports a lot of features, features are explained briefly
-        in the following sections:
+        Jacksum helps you to find all files that match any of the hashes
+        in a given set of known hash values. Both positive and negative
+        matching is supported.
+\
+\
+    Finding all duplicates by knowing a hash only
+\
+        Jacksum helps you to find all duplicates of a file.
+\
+\
+    Finding the algorithm to a hash
+\
+        Since Jacksum supports hundreds of algorithms, Jacksum helps you to
+        find the algorithm to a checksum/CRC/hash by calling a fast and smart
+        brute force algorithm if the data is known, and the hash is unknown.
+\
+\
+    Since Jacksum supports a lot of more features which is worth mentioning,
+    features are explained briefly in the following separate sections:
 \
             - Algorithm support
             - Operating modes
@@ -47,18 +80,13 @@ DESCRIPTION
             - Output
             - System requirements
 \
-        Type `jacksum -h examples` and go to https://jacksum.net to learn more
-        about Jacksum.
-\
 \
     Algorithm support:
 \
-        472 standard algorithms are supported, including checksums, cyclic
-        redundancy checks (CRCs), eXtendable Output Functions (XOFs),
-        cryptographic, and non-cryptographic hash functions. All those methods
-        map data of arbitrary size to fixed-size values. Those values are often
-        called hashes, hash values, message digests, file fingerprints, or file
-        thumbprints.
+        Jacksum supports 472 standard algorithms, both cryptographic, and
+        non-cryptographic hash functions including cyclic redundancy checks
+        (CRCs), classic checksums and the modern eXtendable Output Functions
+        (XOFs).
 \
         Jacksum supports the "Rocksoft (tm) Model CRC Algorithm" to customize
         CRCs. That feature allows you to construct any of the possible CRC
