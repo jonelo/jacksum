@@ -3337,7 +3337,7 @@ ALGORITHMS
                 CRC-64 (ECMA-182)
 \
             length:
-                64 Bits
+                64 bits
 \
             type:
                 CRC
@@ -3368,7 +3368,7 @@ ALGORITHMS
                 CRC-64 (programming language GO, const ISO)
 \
             length:
-                64 Bits
+                64 bits
 \
             type:
                 CRC
@@ -3395,7 +3395,7 @@ ALGORITHMS
                 CRC-64 (.xz, and prog lang GO, const ECMA)
 \
             length:
-                64 Bits
+                64 bits
 \
             type:
                 CRC
@@ -3958,7 +3958,7 @@ ALGORITHMS
                 Groestl
 \
             length:
-                224, 384, 256 oder 512 Bits
+                224, 384, 256 oder 512 bits
 \
             type:
                 cryptographic hash function
@@ -4109,7 +4109,7 @@ ALGORITHMS
                 Bob Jenkins' One-at-a-Time Hash (joaat)
 \
             length:
-                32 Bits
+                32 bits
 \
             type:
                 non-cryptographic hash function
@@ -7261,7 +7261,7 @@ ALGORITHMS
                 xxHash32 (XXH32)
 \
             length:
-                32 Bits
+                32 bits
 \
             type:
                 non-cryptographic hash function
@@ -7452,7 +7452,7 @@ EXAMPLES
         files within the current folder (.)
 \
         `jacksum -a crc:16,1021,FFFF,false,false,0 .`
-        a CRC with customized parameters has been used: 16 Bit, Polynomial 1021
+        a CRC with customized parameters has been used: 16 bits, Polynomial 1021
         (hex, without the leading bit), initvalue FFFF (hex), mirror neither
         the input nor the output, no xor.
 \
