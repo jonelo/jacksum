@@ -3449,6 +3449,69 @@ ALGORITHMS
                 crc:64,42f0e1eba9ea3693,ffffffffffffffff,true,true,ffffffffffffffff -E hex
 
 
+    crc82, crc82_darc, crc82, crc82_darc
+            algorithm:
+                CRC-82 (DARC)
+\
+            length:
+                82 bits internally,
+                88 bits (MSB zero padded) for representation
+\
+            type:
+                CRC
+\
+            comment:
+                DARC stands for "DAta Radio Channel", and it is the CRC that is
+                used by the European Telecommunications Standard
+                ETSI EN 300 751.
+\
+                Note: although 84 bits would be enough to represent the 82 bit
+                CRC in hex for example, Jacksum produces the output with 88 bits
+                (zero padding to the left) to guarantee the output to be always
+                a multiple of 8-bit bytes. In hex that means (ceil(82/8)=11)
+                bytes are used to represent that CRC, and the first 6 bits (big
+                endian view) will always be zero. In other words for example, in
+                hex representation the first nibble will always be zero. Other
+                encodings such as base64 require a sequence of 8-bit bytes
+                anyway.
+\
+            compatibility:
+                - 7z:              -
+                - Angstrom:        -
+                - BeOS:            -
+                - CentOS:          -
+                - DragonFly BSD:   -
+                - eComStation:     -
+                - FreeBSD:         -
+                - FreeDOS:         -
+                - GNU/Hurd:        -
+                - GNU/Linux:       -
+                - gpg:             -
+                - HP-UX:           -
+                - Java:            -
+                - Kali Linux:      -
+                - macOS:           -
+                - Minix:           -
+                - MS-DOS:          -
+                - NetBSD:          -
+                - NextStep:        -
+                - OpenSSL:         -
+                - PHP:             -
+                - Plan 9:          -
+                - PowerShell:      -
+                - Python:          -
+                - Solaris:         -
+                - Ubuntu:          -
+                - Windows:         -
+\
+            since:
+                Jacksum 3.5.0
+\
+            implementation:
+                net.jacksum.algorithms.crcs.CRC82_DARC (derived from
+                Mark Adler's public domain C-code on stackoverflow.com)
+
+
     dha256, dha-256
             algorithm:
                 DHA-256

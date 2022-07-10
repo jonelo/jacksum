@@ -50,6 +50,7 @@ public class Selectors {
         CRC64_ECMA182_Selector.class,
         CRC64_GO_Selector.class,
         CRC64xz_Selector.class,
+        CRC82darc_Selector.class,
         DHA256_Selector.class,
         ECHO224_Selector.class,
         ECHO256_Selector.class,
@@ -343,7 +344,9 @@ public class Selectors {
         // CRCs
         // ----   
         CRCGeneric_Selector.class,
-        
+
+        CRC82darc_Selector.class,
+
         CRC64_Selector.class,
         CRC64_ECMA182_Selector.class,
         CRC64_GO_Selector.class,
@@ -364,7 +367,7 @@ public class Selectors {
         FCS16_Selector.class,
         
         CRC8_Selector.class,
-        
+
         // special selectors
         None_Selector.class,
         Read_Selector.class,
