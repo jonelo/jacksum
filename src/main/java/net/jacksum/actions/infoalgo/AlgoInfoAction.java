@@ -58,8 +58,13 @@ public class AlgoInfoAction implements Action {
 
         System.out.printf("%shash length:\n", indent);
         System.out.printf("%s  %-32s%s\n", indent, "bits:", checksum.getSize());
-        System.out.printf("%s  %-32s%s\n", indent, "bytes:", checksum.getSize() / 8);
-        System.out.printf("%s  %-32s%s\n", indent, "nibbles:", checksum.getSize() / 4);
+        int bitsPadded = checksum.getSize() % 8 > 0 ? 1 : 0;
+        int bytes = checksum.getSize() / 8 + bitsPadded;
+        if (bitsPadded > 0) {
+            System.out.printf("%s  %-32s%s\n", indent, "bits (zero padded):", bytes * 8);
+        }
+        System.out.printf("%s  %-32s%s\n", indent, "bytes:", bytes);
+        System.out.printf("%s  %-32s%s\n", indent, "nibbles:", bytes * 2);
         System.out.println();
 
         int blockSize = checksum.getBlockSize();

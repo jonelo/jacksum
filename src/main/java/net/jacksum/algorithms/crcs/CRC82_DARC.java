@@ -20,6 +20,7 @@
 package net.jacksum.algorithms.crcs;
 
 import net.jacksum.algorithms.AbstractChecksum;
+import net.jacksum.formats.Encoding;
 
 // Credit: this code has been translated from C to Java by Johann N. Löfflmann.
 // The original C code has been written by Mark Adler who placed the code
@@ -35,6 +36,15 @@ public class CRC82_DARC extends AbstractChecksum {
 
     private long POLYHIGH = 0x22080L;
     private long POLYLOW = 0x8a00a2022200c430L;
+
+    public CRC82_DARC() {
+        super();
+        bitWidth = 82;
+        formatPreferences.setHashEncoding(Encoding.HEX);
+        formatPreferences.setSeparator(" ");
+        formatPreferences.setFilesizeWanted(false);
+        reset();
+    }
 
     @Override
     public void reset() {
