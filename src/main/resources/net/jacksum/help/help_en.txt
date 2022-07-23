@@ -21,7 +21,7 @@ DESCRIPTION
         values, verifying data integrity, finding files by their fingerprints,
         and finding algorithms to a hash.
 \
-        You can use 472 different hash functions to achieve those goals.
+        You can use 474 different hash functions to achieve those goals.
 \
         Type `jacksum -h examples` and go to https://jacksum.net to learn more
         about Jacksum.
@@ -6568,7 +6568,7 @@ ALGORITHMS
                 Sum
 \
             length:
-                8, 16, 24, 32, 40, 48, or 56 bits
+                8, 16, 24, 32, 40, 48, 56, or 64 bits
 \
             type:
                 checksum
@@ -6576,13 +6576,15 @@ ALGORITHMS
             comment:
                 classic checksum, value is computed by adding together all
                 values in the input data stream modulo 2^<length>.
-                This algorithm doesn't care about the arrangement of bytes.
+                This algorithm does not consider the order of the bytes in the
+                data stream. And since the algorithm only adds up the values of
+                the bytes, all zero bytes are ignored.
                 The default encoding is decimal.
                 sum8 is used by the Intel HEX file format for example.
 \
             since:
                 Jacksum 1.3.0; 40, 48, and 56 bits are available since
-                Jacksum 3.0.0
+                Jacksum 3.0.0, 64 bits are available since Jacksum 3.5.0
 \
             implementation:
                 net.jacksum.algorithms.checksums.Sum*
