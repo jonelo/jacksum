@@ -1,8 +1,5 @@
 NAME
-    Jacksum - a free, open source, cross-platform, feature-rich, multi-threaded
-              command line tool for calculating hash values, verifying data
-              integrity, finding files by their fingerprints, and finding
-              algorithms to a hash.
+    Jacksum - a hash utility. No more and no less.
 
 
 VERSION
@@ -250,102 +247,104 @@ DESCRIPTION
 \
             Calculate hash values:
 \
-                Calculate hash values from files on the disk
-\
-                    Examples:
-                        jacksum .
-                        jacksum --file-list file.list
-                        jacksum --file-list file.list .
+                Calculate hash values from files stored on the disk
 \
                     Trigger args:
-                        specify files and/or directories and/or --file-list
+                    specify files and/or directories and/or --file-list
+
+                    Examples:
+                    jacksum myfile
+                    jacksum mydir/
+                    jacksum mydir/ myfile
+                    jacksum --file-list myfile.list
+                    jacksum --file-list myfile.list mydir1/ myfile* mydir2/
 \
 \
                 Calculate a hash value from standard input
 \
-                    Example:
-                        echo hello | jacksum -
-\
                     Trigger args:
-                        specify the hyphen as file
+                    specify the hyphen as file
+
+                    Example:
+                    echo -n hello | jacksum -
 \
 \
                 Calculate a hash value by providing input as program argument
 \
-                    Example:
-                        jacksum -q txt:hello
-\
                     Trigger args:
-                        option -q (resp. --quick)
+                    option -q (resp. --quick)
+\
+                    Example:
+                    jacksum -q txt:hello
 \
 \
             Verify data integrity:
 \
-                Verify file integrity by a hash list,
+                Verify file integrity by a hash list only,
                 and find ok, failed, and missing files.
 \
-                    Example:
-                        jacksum --check-file my.hashes
-\
                     Trigger args:
-                        Option -c (resp. --check-file) or --check-line
+                    Option -c (resp. --check-file) or --check-line
+                    and don't specify additional files or folders
+\
+                    Example:
+                    jacksum --check-file my.hashes
 \
 \
                 Verify file integrity by both a hash list and file list,
                 and find ok, failed, missing, and new files.
 \
-                    Examples:
-                        jacksum -c my.hashes .
-                        jacksum -c my.hashes --file-list file.list
-\
                     Trigger args:
-                        Option -c (resp. --check-file) or --check-line
-                        and specify files and/or folders
+                    Option -c (resp. --check-file) or --check-line
+                    and specify files and/or folders
+
+                    Examples:
+                    jacksum -c my.hashes .
+                    jacksum -c my.hashes --file-list file.list
 \
 \
                 Verify data integrity by providing input data as program argument
 \
-                    Example:
-                        jacksum -a md5 -e 5d41402abc4b2a76b9719d911017c592 -q txt:hello
-\
                     Trigger args:
-                        Option -q (resp. --quick) and -e (resp. --expect-hash)
+                    Option -q (resp. --quick) and -e (resp. --expect-hash)
+\
+                    Example:
+                    jacksum -a md5 -e 5d41402abc4b2a76b9719d911017c592 -q txt:hello
 \
 \
-           Find missing and/or new files only:
+           Find missing and/or new files:
 \
-                Skip hashing and only show a list of missing files, i.e. files
+                Skip hashing and show a list of missing files only, i.e. files
                 that are in the checksum file but not present on the disk anymore
 \
-                    Examples:
-                        jacksum -c my.hashes --list-filter missing
-\
                     Trigger args:
-                        Options -c (resp. --check-file) or --check-line
-                        and --list-filter missing
+                    Options -c (resp. --check-file) or --check-line
+                    and --list-filter missing
+\
+                    Examples:
+                    jacksum -c my.hashes --list-filter missing
 \
 \
-                Skip hashing and only show a list of new files, i.e. files
+                Skip hashing and show a list of new files only, i.e. files
                 that are not in the checksum file, but now exists on the disk.
 \
+                    Trigger args:
+                    Options -c (resp. --check-file) or --check-line
+                    and --list-filter new
+                    and specify files and/or folders
+\
                     Examples:
-                        jacksum -c my.hashes --list-filter new .
+                    jacksum -c my.hashes --list-filter new .
 \
-                    Required args:
-                        Options -c (resp. --check-file) or --check-line
-                        and --list-filter new
-                        and specify files and/or folders
+                Skip hashing and show a list of new or missing files only.
 \
-\
-                Skip hashing and only show a list of new or missing files.
+                    Trigger args:
+                    Options -c (resp. --check-file) or --check-line
+                    and -list-filter none,missing,new
+                    and specify files and/or folders
 \
                     Example:
-                        jacksum -c my.hashes --list-filter none,missing,new .
-\
-                    Required args:
-                        Options -c (resp. --check-file) or --check-line
-                        and -list-filter none,missing,new
-                        and specify files and/or folders
+                    jacksum -c my.hashes --list-filter none,missing,new .
 \
 \
             Find files by hashes:
@@ -353,45 +352,53 @@ DESCRIPTION
                 Find all files that matches one particular hash (find all
                 duplicates of one file)
 \
-                    Example:
-                        jacksum -a md5 -e 5d41402abc4b2a76b9719d911017c592 .
+                    Trigger args:
+                    Option -e (resp. --expect-hash)
+                    and specify file and/or folders
 \
-                    Required args:
-                        Option -e (resp. --expect-hash)
-                        and specify file and/or folders
+                    Example:
+                    jacksum -a md5 -e 5d41402abc4b2a76b9719d911017c592 .
 \
 \
                 Find all files that match any of the hashes in a checksum file
                 (positive matching)
 \
-                    Example:
-                        jacksum --wanted-list vulnerable-log4j.hashes .
+                    Trigger args:
+                    Option -w (resp. --wanted-list)
+                    and specify file and/or folders
 \
-                    Required args:
-                        Option -w (resp. --wanted-list)
-                        and specify file and/or folders
+                    Example:
+                    jacksum --wanted-list vulnerable-log4j.hashes .
 \
 \
                 Find all files that don't match any of the hashes that can be
                 found in a checksum file (negative matching)
 \
-                    Example:
-                        jacksum --wanted-list known.hashes --wanted-list-filter negative
+                    Trigger args:
+                    Option -w (resp. --wanted-list)
+                    and specify file and/or folders
 \
-                    Required args:
-                        Option -w (resp. --wanted-list)
-                        and specify file and/or folders
+                    Example:
+                    jacksum --wanted-list known.hashes --wanted-list-filter negative .
 \
 \
             Find hash functions:
 \
                 Find the algorithm that was used to produce a hash
 \
-                    Example:
-                        jacksum -a unknown:16 -q hex:050000 -E hex -e d893
-\
                     Trigger args:
-                        Option -a (resp. --algorithm) is set to unknown:<length>
+                    Option -a (resp. --algorithm) is set to unknown:<length>
+\
+                    Example:
+                    jacksum -a unknown:16 -q hex:050000 -E hex -e d893
+\
+                Find all algorithms of a particular bit width
+\
+                     Trigger args:
+                     Options -a all:<width> and --list have been set
+\
+                     Example:
+                     jacksum -a all:32 --list
 \
 \
         In addition to the modes above that deal with actual data, there are
@@ -846,15 +853,15 @@ OPTIONS
                 - UTF-8
                 - UTF-16BE
                 - UTF-16LE
-                - UTF-32LE
                 - UTF-32BE
+                - UTF-32LE
 \
             If --bom is omitted, a BOM won't be written for the charsets above,
             because a BOM isn't required and it is optional in those cases.
-            Note that if you set charsets UTF-16 or UTF-32, a BOM will be
-            written in any case, even if you don't set --bom, because it is
-            required for those charsets to have a BOM in the output.
-            See also --utf8
+            Note that if you set charsets UTF-16 or UTF-32 (no little endian LE
+            or big endian BE indicator), a BOM will be written in any case,
+            even if you don't set --bom, because it is required for those
+            charsets to have a BOM in the output. See also --utf8
 \
             Available since Jacksum 3.1.0
 
