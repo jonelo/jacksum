@@ -32,7 +32,7 @@ import net.jacksum.formats.Encoding;
  */
 
 // ftp://ftp.rfc-editor.org/in-notes/rfc1331.txt
-public class FCS32 extends AbstractChecksum {
+public class FCS32 extends AbstractChecksum implements CRC {
 
 
     private long value;
@@ -111,4 +111,33 @@ public class FCS32 extends AbstractChecksum {
          (byte)(val&0xff)};
     }
 
+    @Override
+    public byte[] getPolyAsBytes() {
+        return new byte[]{(byte)0x04, (byte)0xC1, (byte)0x1D, (byte)0xB7};
+    }
+
+    @Override
+    public int getWidth() {
+        return bitWidth;
+    }
+
+    @Override
+    public long getInitialValue() {
+        return 0xFFFFFFFFL;
+    }
+
+    @Override
+    public boolean getRefIn() {
+        return true;
+    }
+
+    @Override
+    public boolean getRefOut() {
+        return true;
+    }
+
+    @Override
+    public long getXorOut() {
+        return 0xFFFFFFFFL;
+    }
 }

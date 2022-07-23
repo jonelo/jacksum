@@ -28,7 +28,7 @@ package net.jacksum.algorithms.crcs;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
-public class FCS16 extends AbstractChecksum {
+public class FCS16 extends AbstractChecksum implements CRC {
 
     protected int value;
 
@@ -105,4 +105,33 @@ public class FCS16 extends AbstractChecksum {
     }
 
 
+    @Override
+    public byte[] getPolyAsBytes() {
+        return new byte[]{(byte)0x10,(byte)0x21};
+    }
+
+    @Override
+    public int getWidth() {
+        return 16;
+    }
+
+    @Override
+    public long getInitialValue() {
+        return 0xFFFFL;
+    }
+
+    @Override
+    public boolean getRefIn() {
+        return true;
+    }
+
+    @Override
+    public boolean getRefOut() {
+        return true;
+    }
+
+    @Override
+    public long getXorOut() {
+        return 0xFFFFL;
+    }
 }

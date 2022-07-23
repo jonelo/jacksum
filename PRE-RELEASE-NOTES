@@ -2,6 +2,11 @@ Jacksum 3.5.0, TBD
 
 - new features:
   - added CRC-82/DARC with aliases crc82, crc82_darc, crc-82, crc-82_darc.
+  - improved --info for CRCs:
+    - added the polynomial representations: normal, reversed, and Koopman
+    - added the reciprocal polynomial for CRCs
+    - added binary and hex for each poly representation
+    - added polynomial representations and CRC parameters also for optimized CRC implementations
 
 - updates:
   - improved documentation

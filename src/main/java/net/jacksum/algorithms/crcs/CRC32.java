@@ -30,7 +30,7 @@ package net.jacksum.algorithms.crcs;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
-public class CRC32 extends AbstractChecksum {
+public class CRC32 extends AbstractChecksum implements CRC {
 
     private final java.util.zip.CRC32 crc32;
 
@@ -79,6 +79,41 @@ public class CRC32 extends AbstractChecksum {
          (byte)((val>>16)&0xff),
          (byte)((val>>8)&0xff),
          (byte)(val&0xff)};
+    }
+
+    @Override
+    public byte[] getPolyAsBytes() {
+        return new byte[] {
+                (byte) 0x04,
+                (byte) 0xC1,
+                (byte) 0x1D,
+                (byte) 0xB7
+        };
+    }
+
+    @Override
+    public int getWidth() {
+        return 32;
+    }
+
+    @Override
+    public long getInitialValue() {
+        return 0xFFFFFFFFL;
+    }
+
+    @Override
+    public boolean getRefIn() {
+        return true;
+    }
+
+    @Override
+    public boolean getRefOut() {
+        return true;
+    }
+
+    @Override
+    public long getXorOut() {
+        return 0xFFFFFFFFL;
     }
 
 }

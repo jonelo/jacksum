@@ -27,10 +27,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.crcs.CRC16;
+import net.jacksum.algorithms.crcs.CrcGeneric;
 
 /**
  *
- * @author johann
+ * @author Johann N. Löfflmann
  */
 public class CRC16_Selector extends Selector {
 
@@ -53,6 +54,11 @@ public class CRC16_Selector extends Selector {
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
         return new CRC16();
+    }
+
+    @Override
+    public AbstractChecksum getAlternateImplementation() throws NoSuchAlgorithmException {
+        return new CrcGeneric(16, 0x8005, 0, true, true, 0);
     }
     
     @Override

@@ -33,6 +33,10 @@ public class SumPlan9 extends CrcGeneric {
        super (32, 0x04C11DB7, 0, true, true, 0);      
     }
 
+    // we overwrote getFinal(), so we mark the class as "tainted"
+    public boolean isTainted() {
+        return true;
+    }
     
     @Override
     public long getFinal() {

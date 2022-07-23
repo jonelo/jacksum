@@ -28,10 +28,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.SumPlan9;
+import net.jacksum.algorithms.crcs.CrcGeneric;
 
 /**
  *
- * @author johann
+ * @author Johann N. Löfflmann
  */
 public class CRC32fddi_Selector extends Selector {
 
@@ -54,6 +55,11 @@ public class CRC32fddi_Selector extends Selector {
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
         return new SumPlan9();
+    }
+
+    @Override
+    public AbstractChecksum getAlternateImplementation() throws NoSuchAlgorithmException {
+        return new CrcGeneric(32, 0x04C11DB7L, 0, true, true, 0, true, new byte[]{(byte)0xCC, (byte)0x55, (byte)0xCC, (byte)0x55});
     }
     
 }

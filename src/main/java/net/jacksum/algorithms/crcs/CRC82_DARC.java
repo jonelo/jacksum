@@ -30,7 +30,12 @@ import net.jacksum.formats.Encoding;
 // CRC definition:
 // width=82 poly=0x0308c0111011401440411 init=0 refin=true refout=true xorout=0
 // check=0x09ea83f625023801fd612 name="CRC-82/DARC"
-public class CRC82_DARC extends AbstractChecksum {
+
+// poly=       0000110000100011000000000100010001000000010001010000000001010001000000010000010001
+// reflected = 1000100000100000001000101000000000101000100000001000100010000000001100010000110000
+// high=       100010000010000000
+// low=                          1000101000000000101000100000001000100010000000001100010000110000
+public class CRC82_DARC extends AbstractChecksum implements CRC {
 
     private long[] crc = new long[2];
 
@@ -85,7 +90,7 @@ public class CRC82_DARC extends AbstractChecksum {
              (byte)(crc[1]&0xff),
 
              // The low 64 bits of the CRC are in crc[0]
-             (byte)((crc[0]>>56)&0xff),
+             (byte)((crc[0]>>>56)&0xff),  // note the >>> in this case!
              (byte)((crc[0]>>48)&0xff),
              (byte)((crc[0]>>40)&0xff),
              (byte)((crc[0]>>32)&0xff),
@@ -93,5 +98,47 @@ public class CRC82_DARC extends AbstractChecksum {
              (byte)((crc[0]>>16)&0xff),
              (byte)((crc[0]>>8)&0xff),
              (byte)(crc[0]&0xff)};
+    }
+
+    @Override
+    public byte[] getPolyAsBytes() {
+        return new byte[] {
+                (byte) 0x00,
+                (byte) 0x30,
+                (byte) 0x8c,
+                (byte) 0x01,
+                (byte) 0x11,
+                (byte) 0x01,
+                (byte) 0x14,
+                (byte) 0x01,
+                (byte) 0x44,
+                (byte) 0x04,
+                (byte) 0x11
+        };
+    }
+
+    @Override
+    public int getWidth() {
+        return 82;
+    }
+
+    @Override
+    public long getInitialValue() {
+        return 0;
+    }
+
+    @Override
+    public boolean getRefIn() {
+        return true;
+    }
+
+    @Override
+    public boolean getRefOut() {
+        return true;
+    }
+
+    @Override
+    public long getXorOut() {
+        return 0;
     }
 }

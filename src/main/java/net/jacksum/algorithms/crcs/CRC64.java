@@ -26,7 +26,7 @@ package net.jacksum.algorithms.crcs;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
-public class CRC64 extends AbstractChecksum {
+public class CRC64 extends AbstractChecksum implements CRC {
 
   private long value;
     // CRC-64 look-up table
@@ -148,7 +148,7 @@ public class CRC64 extends AbstractChecksum {
     public byte[] getByteArray() {
         long val = value;
         return new byte[]
-        {(byte)((val>>56)&0xff),
+        {(byte)((val>>>56)&0xff),
          (byte)((val>>48)&0xff),
          (byte)((val>>40)&0xff),
          (byte)((val>>32)&0xff),
@@ -161,6 +161,45 @@ public class CRC64 extends AbstractChecksum {
     @Override
     public long getValue() {
         return value;
+    }
+
+    @Override
+    public byte[] getPolyAsBytes() {
+        return new byte[] {
+                (byte)0x00,
+                (byte)0x00,
+                (byte)0x00,
+                (byte)0x00,
+                (byte)0x00,
+                (byte)0x00,
+                (byte)0x00,
+                (byte)0x1B,
+        };
+    }
+
+    @Override
+    public int getWidth() {
+        return 64;
+    }
+
+    @Override
+    public long getInitialValue() {
+        return 0;
+    }
+
+    @Override
+    public boolean getRefIn() {
+        return true;
+    }
+
+    @Override
+    public boolean getRefOut() {
+        return true;
+    }
+
+    @Override
+    public long getXorOut() {
+        return 0;
     }
 
     /*

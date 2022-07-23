@@ -42,7 +42,7 @@ public class CRC32_MPEG2 extends Cksum {
         length = 0;
     }
 
-    // this method is provided in the superclass, but 'value' is overriden
+    // this method is provided in the superclass, but 'value' is overridden
     // the MPEG2 CRC is just the raw value as below
     @Override
     public long getValue() {

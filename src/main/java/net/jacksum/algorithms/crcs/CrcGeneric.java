@@ -31,6 +31,10 @@
  * Williams (ross@guest.adelaide.edu.au.). This document is likely to be in
  * "ftp.adelaide.edu.au/pub/rocksoft"
  * Note: Rocksoft is a trademark of Rocksoft Pty Ltd, Adelaide, Australia.
+ *
+ * Ross Williams founded Rocksoft which was sold to ADIC (now Quantum) in 2006.
+ * This paper can also be found on Dr. Ross Williams' homepage at
+ * http://www.ross.net/crc/crcpaper.html
  */
 package net.jacksum.algorithms.crcs;
 
@@ -39,7 +43,7 @@ import net.loefflmann.sugar.util.ByteSequences;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
-public class CrcGeneric extends AbstractChecksum {
+public class CrcGeneric extends AbstractChecksum implements CRC {
 
     protected long value;      // the value, must be accessed by subclasses
     private long poly;         // The algorithm's polynomial which is specified without its top bit
@@ -641,17 +645,36 @@ public class CrcGeneric extends AbstractChecksum {
      * @return a math formatted poly
      */
     public static String polyAsMathExpression(int width, long poly) {
+        byte[] bytes = new byte[8];
+        ByteSequences.setLongInByteArray(poly, bytes);
+        return polyAsMathExpression(width, bytes);
+    }
+
+    /**
+     * Formats a poly dependent on width as a math expression
+     * @param width the width of the poly
+     * @param poly the poly stored in a byte array
+     * @return a math formatted poly
+     */
+    public static String polyAsMathExpression(int width, byte[] poly) {
+        return polyAsMathExpression(width, ByteSequences.formatAsBits(poly));
+    }
+
+
+    /**
+     * Formats a poly dependent on width as a math expression
+     * @param width the width of the poly
+     * @param bits the poly stored in a String (which may only consists of '0', and '1')
+     * @return a math formatted poly
+     */
+    public static String polyAsMathExpression(int width, String bits) {
         StringBuilder sb = new StringBuilder();
         // this is implicitly always set
         sb.append("x^").append(width);
-        
-        byte[] bytes = new byte[8];
-        ByteSequences.setLongInByteArray(poly, bytes);
-        String bits = ByteSequences.formatAsBits(bytes);
-        
+
         int exponent;
         for (int i = 0; i < bits.length(); i++) {
-            exponent = (64 - 1 - i);
+            exponent = (bits.length() - 1 - i);
             if (bits.charAt(i) == '1') {
                 switch (exponent) {
                     case 0:
@@ -669,4 +692,19 @@ public class CrcGeneric extends AbstractChecksum {
         return sb.toString();
     }
 
+    @Override
+    public byte[] getPolyAsBytes() {
+        long p = poly;
+        byte[] array = new byte[bitWidth / 8 + ((bitWidth % 8 > 0) ? 1 : 0)];
+
+        for (int i = array.length - 1; i > -1; i--) {
+            array[i] = (byte) (p & 0xFF);
+            p >>>= 8;
+        }
+        return array;
+    }
+
+    public boolean isTainted() {
+        return false;
+    }
 }

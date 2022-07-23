@@ -31,7 +31,7 @@ import net.jacksum.formats.Encoding;
  * This is a 100% Java implementation.
  */
 
-public class CRC16 extends AbstractChecksum {
+public class CRC16 extends AbstractChecksum implements CRC {
 
     private int value;
 
@@ -106,4 +106,33 @@ public class CRC16 extends AbstractChecksum {
          (byte)(value&0xff)};
     }
 
+    @Override
+    public byte[] getPolyAsBytes() {
+        return new byte[] { (byte)0x80, (byte)0x05 };
+    }
+
+    @Override
+    public int getWidth() {
+        return bitWidth;
+    }
+
+    @Override
+    public long getInitialValue() {
+        return 0;
+    }
+
+    @Override
+    public boolean getRefIn() {
+        return true;
+    }
+
+    @Override
+    public boolean getRefOut() {
+        return true;
+    }
+
+    @Override
+    public long getXorOut() {
+        return 0;
+    }
 }

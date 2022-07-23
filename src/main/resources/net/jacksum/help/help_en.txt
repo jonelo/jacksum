@@ -1722,7 +1722,9 @@ OPTIONS
                 - algorithm id
                 - hash length in bits and bytes
                 - blocksize in bits and bytes (if applicable)
-                - CRC implementation details including poly (if applicable)
+                - CRC implementation details including different representations
+                  of the polynomial (normal, reversed, and Koopman repr.)
+                - the corresponding reciprocal polynomial of a CRC
                 - whether an alternate implementation has been requested,
                   whether it is available and would be used
 \
@@ -2847,6 +2849,9 @@ ALGORITHMS
                         hexadecimal representation (as it's always 1). The
                         hexadecimal polynomial contains only the coefficients
                         x^(n-1) ... x^0.
+                        To view the poly in a non-normal representation
+                        (reversed and Koopman), and to view the corresponding
+                        reciprocal poly, just add the option --info.
 \
                     init
                         this parameter specifies the initial value of the

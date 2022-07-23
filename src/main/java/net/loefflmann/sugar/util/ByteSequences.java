@@ -206,6 +206,24 @@ public class ByteSequences {
         }
     }
 
+    public static byte[] unsignedLongToBytes(long l) {
+        byte[] result = new byte[Long.BYTES];
+        for (int i = Long.BYTES - 1; i >= 0; i--) {
+            result[i] = (byte)(l & 0xFF);
+            l >>>= Byte.SIZE;
+        }
+        return result;
+    }
+
+    public static byte[] signedLongToBytes(long l) {
+        byte[] result = new byte[Long.BYTES];
+        for (int i = Long.BYTES - 1; i >= 0; i--) {
+            result[i] = (byte)(l & 0xFF);
+            l >>= Byte.SIZE;
+        }
+        return result;
+    }
+
     public static void setIntInByteArray(int i, byte[] b) throws IndexOutOfBoundsException {
         setIntInByteArray(i, b, 0);
     }
@@ -225,6 +243,23 @@ public class ByteSequences {
             sb.insert(0, '0');
         }
         return sb.toString();
+    }
+
+
+    public static String formatAsBits(byte[] bytes, int bits) {
+        String bytesAsBits = formatAsBits(bytes);
+        if (bytesAsBits.length() > bits) {
+            return bytesAsBits.substring(bytesAsBits.length() - bits);
+        } else
+        if (bytesAsBits.length() < bits) {
+            StringBuilder sb = new StringBuilder(bits);
+            sb.append(bytesAsBits);
+            while (sb.length() < bits) {
+                sb.insert(0, '0');
+            }
+            return sb.toString();
+        } else
+        return bytesAsBits; // bytesAsBits.length() == bits)
     }
 
     public static String format(byte[] bytes, boolean uppercase, int group, char groupChar) {

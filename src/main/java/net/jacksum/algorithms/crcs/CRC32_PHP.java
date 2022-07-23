@@ -26,12 +26,16 @@ package net.jacksum.algorithms.crcs;
 import java.security.NoSuchAlgorithmException;
 
 
-public class CRC32_PHP  extends CrcGeneric {
+public class CRC32_PHP extends CrcGeneric {
     
     public CRC32_PHP() throws NoSuchAlgorithmException{
        super (32, 0x04C11DB7, 0xFFFFFFFFL, false, false, 0xFFFFFFFFL);
     }
-    
+
+    public boolean isTainted() {
+        return true;
+    }
+
     @Override
     public byte[] getByteArray() {
         byte[] bytes = super.getByteArray();
