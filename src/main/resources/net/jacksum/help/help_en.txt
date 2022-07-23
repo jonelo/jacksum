@@ -3317,7 +3317,7 @@ ALGORITHMS
 
     crc64, crc-64
             algorithm:
-                CRC-64 (ISO 3309)
+                CRC-64 (often wrongly assumed as a FCS in ISO 3309)
 \
             length:
                 64 bits
@@ -3326,9 +3326,30 @@ ALGORITHMS
                 CRC
 \
             comment:
-                this algorithm is described in the ISO 3309 standard and used in
-                HDLC. Generator poly is x^64 + x^4 + x^3 + x + 1.
+                Generator poly is x^64 + x^4 + x^3 + x + 1.
                 The default encoding is hexadecimal.
+                The CRC was used by the SWISS-PROT and TrEMBL protein sequence
+                data banks before the CRC was changed to a different CRC-64
+                in 2009, because the polynomial is not a good choice for
+                hashing actually.
+\
+                Note:
+                Wikipedia claims for years that the poly of this CRC-64 is
+                defined in the ISO-33009 standard, and many sources on the web
+                (e.g. golang.org) and even books (e.g. "Python Cookbook, 2nd
+                Edition, 2005, Oreilly Recipe 2.30. Calculating CRC-64 Cyclic
+                Redundancy Checks" seem to have copied that information
+                unchecked.
+\
+                If you read all the original ISO papers you came to the
+                conclusion that a 64 bit CRC was never published in ISO 3309 or
+                in any of the revised versions of it (ISO 3309:1984,
+                ISO/IEC 3309:1991, ISO/IEC 3309:1993, ISO/IEC 13239:2002).
+                The current HDLC is defined in the ISO/IEC 13239 and it does
+                not define a CRC 64 bit polynomial, and it never defined one in
+                any of the papers that have been withdrawn. It does however
+                define 8, 16, and 32 bit frame checking sequences (FCS).
+                See also https://issues.omg.org/issues/DDSIRTP25-34
 \
             since:
                 Jacksum 1.5.0
@@ -3382,11 +3403,15 @@ ALGORITHMS
                 Used in the crc64 package from the programming language GO.
                 See also https://golang.org/pkg/hash/crc64/
 \
-                The poly is defined in ISO 3309, but for the algorithm in GO,
-                only the polynomial is used from the ISO 3309. The crc
-                parameters init, refin, refout, and xorOut are different.
-                Note that the Go API documentation uses the reversed
-                representation of the poly for the const.ISO.
+                According to the website above, the poly x^64+x^4+x^3+x+1 is
+                defined in ISO 3309 (which actually isn't true, because ISO 3309
+                and the successors including ISO/IEC 13239:2002 don't specify a
+                64 bit poly at all).
+                Anyway, for the algorithm in GO, that polynomial is used.
+                The crc parameters init, refin, refout, and xorOut are
+                non-default. Note that the Go API documentation uses the reversed
+                representation of the poly for the const.ISO (0xD800000000000000)
+                instead of the normal representation (0x1B).
 \
             since:
                 Jacksum 3.0.0
@@ -3416,7 +3441,9 @@ ALGORITHMS
                 algorithm in GO, only the polynomial is used from ECMA. The crc
                 parameters init, refin, refout, and xorOut are different.
                 Note that the Go API documentation uses the reversed
-                representation of the poly for the const.ECMA.
+                representation of the poly for the const.ECMA
+                (0xC96C5795D7870F42) rather than the normal representation
+                (0x42f0e1eba9ea3693).
 \
             compatibility:
                 - 7z:              7z h -scrccrc64
