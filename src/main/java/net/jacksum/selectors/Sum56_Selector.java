@@ -35,17 +35,19 @@ import net.jacksum.algorithms.checksums.Sum56;
  */
 public class Sum56_Selector extends Selector {
 
+    private static final String ID = "sum56";
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
-        map.put("sum56", "sum 56");
+        map.put(ID, "sum 56");
         return map;
     }
     
     @Override
     public Map<String, String> getAvailableAliases() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
-        map.put("sum-56", "sum56");
+        map.put("sum-56", ID);
         return map;
     }
 

@@ -34,17 +34,19 @@ import net.jacksum.algorithms.checksums.Sum8;
  */
 public class Sum8_Selector extends Selector {
 
+    private static final String ID = "sum8";
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
-        map.put("sum8", "sum 8");
+        map.put(ID, "sum 8");
         return map;
     }
     
     @Override
     public Map<String, String> getAvailableAliases() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
-        map.put("sum-8", "sum8");
+        map.put("sum-8", ID);
         return map;
     }
 
