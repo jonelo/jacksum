@@ -99,13 +99,19 @@ DESCRIPTION
         all algorithms that matches the filter criteria.
         To learn more about that subject type `jacksum -h -a`
 \
-        Note that not all algorithms are suitable to perform highly reliable
-        integrity checks today. Actually it is recommended to use non-broken,
-        cryptographic hash functions, because those algorithms are simply
-        designed for that purpose.
+        Note that many non-cryptographic hash functions including classic
+        checksums, and CRCs are still a suitable error-checking technique as a
+        quick way to compare small files that have been moved from one location
+        to another to ensure that no data has been lost - preasumed sender and
+        receiver have no interest in creating fake transmissions.
+\
+        Note however that not all algorithms are suitable to perform highly
+        reliable integrity checks today. Actually it is recommended to use
+        non-broken, cryptographic hash functions, because those algorithms are
+        simply designed for that purpose.
 \
         Note that even if the name of a cryptographic hash function sounds
-        strong, it does not necessarily mean that the algorithm is still strong.
+        strong, it does not necessarily mean that the algorithm is rally strong.
         Also algorithms that started as strong cryptographic hash function could
         loose that status if security analysts find weaknesses.
         MD5 for example is still used in many apps, but it is cryptographically
