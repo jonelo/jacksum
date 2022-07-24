@@ -115,10 +115,10 @@ public class AlgoInfoAction implements Action {
 
             System.out.printf("%n%sPolynomial representations:%n", indent);
             System.out.printf(FORMAT, indent, "mathematical:", CrcGeneric.polyAsMathExpression(crc.getWidth(), polyAsBytes));
-            System.out.printf(FORMAT, indent, "normal [binary]:", polyAsBits);
-            System.out.printf(FORMAT, indent, "normal [hex]:", new BigInteger(polyAsBits, 2).toString(16));
-            System.out.printf(FORMAT, indent, "reversed [binary]:", reversedPolyAsBits);
-            System.out.printf(FORMAT, indent, "reversed [hex]:", new BigInteger(reversedPolyAsBits, 2).toString(16));
+            System.out.printf(FORMAT, indent, "normal/MSB first [binary]:", polyAsBits);
+            System.out.printf(FORMAT, indent, "normal/MSB first [hex]:", new BigInteger(polyAsBits, 2).toString(16));
+            System.out.printf(FORMAT, indent, "reversed/LSB first [binary]:", reversedPolyAsBits);
+            System.out.printf(FORMAT, indent, "reversed/LSB first [hex]:", new BigInteger(reversedPolyAsBits, 2).toString(16));
             System.out.printf(FORMAT, indent, "Koopman [binary]:", koopmanPolyAsBits);
             System.out.printf(FORMAT, indent, "Koopman [hex]:", new BigInteger(koopmanPolyAsBits, 2).toString(16));
 
