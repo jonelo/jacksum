@@ -374,12 +374,12 @@ public class CRC8 extends AbstractChecksum implements CRC {
     }
 
     @Override
-    public boolean getRefIn() {
+    public boolean isRefIn() {
         return false;
     }
 
     @Override
-    public boolean getRefOut() {
+    public boolean isRefOut() {
         return false;
     }
 

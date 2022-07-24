@@ -27,6 +27,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import net.jacksum.algorithms.crcs.CRC;
+import net.jacksum.algorithms.crcs.CrcUtils;
 import net.loefflmann.sugar.util.ByteSequences;
 import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.JacksumAPI;
@@ -90,8 +91,8 @@ public class AlgoInfoAction implements Action {
             System.out.printf(FORMAT, indent, "width (in bits):", crc.getWidth());
             System.out.printf(FORMAT, indent, "polynomial [hex]:", new BigInteger(polyAsBits, 2).toString(16));
             System.out.printf(FORMAT, indent, "init [hex]:", ByteSequences.hexformat(crc.getInitialValue(), crc.getWidth() / 4));
-            System.out.printf(FORMAT, indent, "refIn:", crc.getRefIn());
-            System.out.printf(FORMAT, indent, "refOut:", crc.getRefOut());
+            System.out.printf(FORMAT, indent, "refIn:", crc.isRefIn());
+            System.out.printf(FORMAT, indent, "refOut:", crc.isRefOut());
             System.out.printf(FORMAT, indent, "xorOut [hex]:", ByteSequences.hexformat(crc.getXorOut(), crc.getWidth() / 4));
 
             if (checksum instanceof CrcGeneric) {
@@ -100,10 +101,10 @@ public class AlgoInfoAction implements Action {
                 // only if we don't overwrite any methods in CrcGeneric we can be sure that the object can be fully constructed again
                 // by the value for "Jacksum CRC algo def"
                 if (!crcGen.isTainted()) {
-                    if (crcGen.isIncludeLength()) {
-                        System.out.printf(FORMAT, indent, "incLenMSO:", crcGen.isIncludeLengthMSOfirst());
-                        if (crcGen.isXorLength()) {
-                            byte[] xorLengthArray = crcGen.getXorLengthArray();
+                    if (crcGen.getModel().isIncludeLength()) {
+                        System.out.printf(FORMAT, indent, "incLenMSO:", crcGen.getModel().isIncludeLengthMSOfirst());
+                        if (crcGen.getModel().isXorLength()) {
+                            byte[] xorLengthArray = crcGen.getModel().getXorLengthArray();
                             if (xorLengthArray != null) {
                                 System.out.printf(FORMAT, indent, "xorLen [hex]:", ByteSequences.format(xorLengthArray));
                             }
@@ -114,7 +115,7 @@ public class AlgoInfoAction implements Action {
             }
 
             System.out.printf("%n%sPolynomial representations:%n", indent);
-            System.out.printf(FORMAT, indent, "mathematical:", CrcGeneric.polyAsMathExpression(crc.getWidth(), polyAsBytes));
+            System.out.printf(FORMAT, indent, "mathematical:", CrcUtils.polyAsMathExpression(crc.getWidth(), polyAsBytes));
             System.out.printf(FORMAT, indent, "normal/MSB first [binary]:", polyAsBits);
             System.out.printf(FORMAT, indent, "normal/MSB first [hex]:", new BigInteger(polyAsBits, 2).toString(16));
             System.out.printf(FORMAT, indent, "reversed/LSB first [binary]:", reversedPolyAsBits);
@@ -123,11 +124,10 @@ public class AlgoInfoAction implements Action {
             System.out.printf(FORMAT, indent, "Koopman [hex]:", new BigInteger(koopmanPolyAsBits, 2).toString(16));
 
             System.out.printf("%n%sReciprocal poly (similar error detection strength):%n", indent);
-            System.out.printf(FORMAT, indent, "mathematical:", CrcGeneric.polyAsMathExpression(crc.getWidth(), reciprocalPolyAsBits));
+            System.out.printf(FORMAT, indent, "mathematical:", CrcUtils.polyAsMathExpression(crc.getWidth(), reciprocalPolyAsBits));
             System.out.printf(FORMAT, indent, "normal [binary]:", reciprocalPolyAsBits);
             System.out.printf(FORMAT, indent, "normal [hex]:", new BigInteger(reciprocalPolyAsBits, 2).toString(16));
         }
-
 
 
         if (checksum.isActualAlternateImplementationUsed()) {

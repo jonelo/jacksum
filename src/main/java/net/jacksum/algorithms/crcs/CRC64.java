@@ -188,12 +188,12 @@ public class CRC64 extends AbstractChecksum implements CRC {
     }
 
     @Override
-    public boolean getRefIn() {
+    public boolean isRefIn() {
         return true;
     }
 
     @Override
-    public boolean getRefOut() {
+    public boolean isRefOut() {
         return true;
     }
 

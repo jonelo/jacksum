@@ -38,160 +38,71 @@
  */
 package net.jacksum.algorithms.crcs;
 
-import java.security.NoSuchAlgorithmException;
-import net.loefflmann.sugar.util.ByteSequences;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
+
+import java.security.NoSuchAlgorithmException;
 
 public class CrcGeneric extends AbstractChecksum implements CRC {
 
     protected long value;      // the value, must be accessed by subclasses
-    private long poly;         // The algorithm's polynomial which is specified without its top bit
-    private long initialValue; // Initial register value
-    private boolean refIn;     // Reflect input bytes?
-    private boolean refOut;    // Reflect output CRC?
-    private long xorOut;       // XOR this to output CRC
     private long[] table;      // Precomputed values
     private long topBit;       // Stores the value (2 ^ width)
     private long maskAllBits;  // Stores the value (2 ^ width) - 1
     private long maskHelp;     // Stores the value (2 ^ (width-8)) -1
-    private boolean includeLength = false; // include the length
-    private boolean includeLengthMSOfirst = true; // include the length with the most significant octet first
-    private boolean xorLength = false; // XOR the length
-    private byte[] xorLengthArray; // the XOR array
+    private CrcModelExtended model;
 
     /**
      * Constructor with all parameters as defined in the
      * Rocksoft^tm Model CRC Algorithm
-     * @param initialValue the initial register value
      * @param width width in bits
      * @param poly The algorithm's polynomial (without the highest bit)
+     * @param initialValue the initial register value
      * @param refIn Reflect input bytes?
      * @param refOut Reflect output CRC?
      * @param xorOut XOR this to output CRC
-     * @throws java.security.NoSuchAlgorithmException if the parameter cannot be used to create a correct object
+     * @throws NoSuchAlgorithmException if the parameter cannot be used to create a correct object
      */
-    public CrcGeneric(int width, long poly,
-            long initialValue, boolean refIn,
-            boolean refOut, long xorOut) throws NoSuchAlgorithmException {
+    public CrcGeneric(int width, long poly, long initialValue, boolean refIn, boolean refOut, long xorOut)
+            throws NoSuchAlgorithmException {
         super();
-        commonParamsInit(width, poly, initialValue, refIn, refOut, xorOut);
+        model = new CrcModelExtended(width, poly, initialValue, refIn, refOut, xorOut);
         init();
     }
 
-    public CrcGeneric(int width, long poly,
-            long initialValue, boolean refIn,
-            boolean refOut, long xorOut, boolean includeLengthLTR) throws NoSuchAlgorithmException {
+    public CrcGeneric(int width, long poly, long initialValue, boolean refIn, boolean refOut, long xorOut,
+                       boolean includeLengthLTR) throws NoSuchAlgorithmException {
         super();
-        commonParamsInit(width, poly, initialValue, refIn, refOut, xorOut);
-        includeLengthInit(includeLengthLTR);
+        model = new CrcModelExtended(width, poly, initialValue, refIn, refOut, xorOut, includeLengthLTR);
         init();
     }
 
-    public CrcGeneric(int width, long poly,
-            long initialValue, boolean refIn,
-            boolean refOut, long xorOut, boolean includeLengthLTR,
-            byte[] xorLengthArray) throws NoSuchAlgorithmException {
+    public CrcGeneric(int width, long poly, long initialValue, boolean refIn, boolean refOut, long xorOut,
+                       boolean includeLengthLTR,  byte[] xorLengthArray) throws NoSuchAlgorithmException {
         super();
-        commonParamsInit(width, poly, initialValue, refIn, refOut, xorOut);
-        includeLengthInit(includeLengthLTR);
-        xorLengthArrayInit(xorLengthArray);
+        model = new CrcModelExtended(width, poly, initialValue, refIn, refOut, xorOut, includeLengthLTR, xorLengthArray);
         init();
     }
 
-    private void xorLengthArrayInit(byte[] xorLengthArray) {
-        this.xorLength = true;
-        this.xorLengthArray = xorLengthArray;
+    public CrcGeneric(CrcModelExtended model) throws NoSuchAlgorithmException {
+        super();
+        this.model = model;
+        init();
     }
 
-    private void includeLengthInit(boolean includeLengthMSO) {
-        this.includeLength = true;
-        this.includeLengthMSOfirst = includeLengthMSO;
-    }
-
-    private void commonParamsInit(int width, long poly,
-            long initialValue, boolean refIn,
-            boolean refOut, long xorOut) {
-        formatPreferences.setHashEncoding(Encoding.DEC);
-        this.bitWidth = width;
-        this.poly = poly;
-        this.initialValue = initialValue;
-        this.refIn = refIn;
-        this.refOut = refOut;
-        this.xorOut = xorOut;
-    }
-
-    /*
-     * Get the default encoding for the CrcGeneric
-     * @return the default encoding
-
-
-    @Override
-    public Encoding getDefaultEncoding() {
-        // set the default encoding explicitly, otherwise the output 
-        // which is returned by getValueFormatted() could be negative if width is 64 bit
-        return Encoding.DEC;
-    }
-*/
     /**
      * Constructor with a String parameter
      * @param props All parameters as defined in the Rocksoft^tm Model CRC Algorithm separated by a comma
      *        Example: crc:32,04C11DB7,FFFFFFFF,true,true,FFFFFFFF[,false,FFFFFFFF]
-     * @throws java.security.NoSuchAlgorithmException if the parameter cannot be used to create a correct object
+     * @throws NoSuchAlgorithmException if the parameter cannot be used to create a correct object
      */
     public CrcGeneric(String props) throws NoSuchAlgorithmException {
-        String[] array = props.split(",");
-        if (array.length < 6) {
-            throw new NoSuchAlgorithmException("Can't create the algorithm, at least 6 parameters are expected.");
-        }
-        if (array.length > 8) {
-            throw new NoSuchAlgorithmException("Can't create the algorithm, no more than 8 parameters are allowed.");
-        }
-        if (props.startsWith("crc:")) {
-            array[0] = array[0].substring(4);
-        }
-        try {
-            bitWidth = Integer.parseInt(array[0]);
-            poly = new java.math.BigInteger(array[1], 16).longValue();  //Long.parseLong(array[1], 16);
-            initialValue = new java.math.BigInteger(array[2], 16).longValue(); //Long.parseLong(array[2], 16);
-            refIn = array[3].equalsIgnoreCase("true");
-            refOut = array[4].equalsIgnoreCase("true");
-            xorOut = new java.math.BigInteger(array[5], 16).longValue();
-            // 7th and 8th parameter (array index 6 and 7) are optional
-            if (array.length >= 7) {
-                includeLength = true;
-                includeLengthMSOfirst = array[6].equalsIgnoreCase("true");
-                if (array.length >= 8) {
-                    xorLength = true;
-                    xorLengthArray = hextext2bytes(array[7]);                    
-                }
-            }
-        } catch (NumberFormatException e) {
-            throw new NoSuchAlgorithmException("Unknown algorithm: invalid parameter. " + e);
-        } catch (IllegalArgumentException iae) {
-            throw new NoSuchAlgorithmException("Unknown algorithm: invalid parameter. "+iae.getMessage());
-        }
+        model = new CrcModelExtended(props);
         init();
     }
 
-    private static byte[] hextext2bytes(String text) throws IllegalArgumentException {
-        byte[] bytes;
-        // by default, a hex sequence is expected
-        if ((text.length() % 2) == 1) {
-            throw new IllegalArgumentException("An even number of nibbles was expected.");
-        }
-        try {
-            bytes = new byte[text.length() / 2];
-            int x = 0;
-            for (int i = 0; i < text.length();) {
-                String str = text.substring(i, i += 2);
-                bytes[x++] = (byte) Integer.parseInt(str, 16);
-            }
-        } catch (NumberFormatException nfe) {
-            throw new IllegalArgumentException("Not a hex number. " + nfe.getMessage());
-        }
-
-        return bytes;
+    public CrcModelExtended getModel() {
+        return model;
     }
 
     /**
@@ -201,9 +112,10 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
         formatPreferences.setHashEncoding(Encoding.DEC);
         formatPreferences.setSeparator(" ");
         formatPreferences.setFilesizeWanted(true);
-       
-        topBit = 1L << (bitWidth - 1);       // stores the value (2 ^ width)
-        maskAllBits = ~0L >>> (64 - bitWidth); // stores the value (2 ^ width) - 1
+        bitWidth = model.getWidth();
+
+        topBit = 1L << (model.getWidth() - 1);       // stores the value (2 ^ width)
+        maskAllBits = ~0L >>> (64 - model.getWidth()); // stores the value (2 ^ width) - 1
         maskHelp = maskAllBits >>> 8;     // stores the value (2 ^ (width-8)) -1
         check();
         fillTable();
@@ -214,16 +126,16 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
      * Checks the parameters of the object
      */
     private void check() throws NoSuchAlgorithmException {
-        if (bitWidth < 8 || bitWidth > 64) {
+        if (model.getWidth() < 8 || model.getWidth() > 64) {
             throw new NoSuchAlgorithmException("Error: width has to be in range [8..64].");
         }
 
-        if (poly != (poly & maskAllBits)) {
-            throw new NoSuchAlgorithmException("Error: invalid polynomial for the " + bitWidth + " bit CRC.");
+        if (model.getPoly() != (model.getPoly() & maskAllBits)) {
+            throw new NoSuchAlgorithmException(String.format("Error: invalid polynomial for the %s bit CRC.", model.getWidth()));
         }
 
-        if (initialValue != (initialValue & maskAllBits)) {
-            throw new NoSuchAlgorithmException("Error: invalid init value for the " + bitWidth + " bit CRC.");
+        if (model.getInit() != (model.getInit() & maskAllBits)) {
+            throw new NoSuchAlgorithmException(String.format("Error: invalid init value for the %s bit CRC.", model.getWidth()));
         }
     }
 
@@ -234,17 +146,17 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
     public void reset() {
         length = 0;
         // Load the register with an initial value.
-        value = initialValue;
+        value = model.getInit();
 
-        if (refIn) {
+        if (model.isRefIn()) {
             // Reflect the initial value.
-            value = reflect(value, bitWidth);
+            value = CrcUtils.reflect(value, bitWidth);
         }
     }
 
     @Override
     public int getSize() {
-        return bitWidth;
+        return model.getWidth();
     }
 
     /**
@@ -252,51 +164,9 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
      * @return a String which is understood by the constructor
      */
     public String getString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("crc:");
-        int nibbles = bitWidth / 4 + ((bitWidth % 4 > 0) ? 1 : 0);
-        sb.append(bitWidth);
-        sb.append(",");
-        sb.append(ByteSequences.hexformat(poly, nibbles).toUpperCase());
-        sb.append(",");
-        sb.append(ByteSequences.hexformat(initialValue, nibbles).toUpperCase());
-        sb.append(",");
-        sb.append(refIn ? "true" : "false");
-        sb.append(",");
-        sb.append(refOut ? "true" : "false");
-        sb.append(",");
-        sb.append(ByteSequences.hexformat(xorOut, nibbles).toUpperCase());
-        if (includeLength) {
-            sb.append(",");
-            sb.append(includeLengthMSOfirst ? "true" : "false");
-            if (xorLength) {
-                sb.append(",");
-                sb.append(ByteSequences.format(xorLengthArray, true));
-            }
-        }
-        return sb.toString();
+        return model.getString();
     }
-    
-    public boolean isIncludeLength() {
-        return includeLength;
-    }
-    
-    public boolean isXorLength() {
-        return xorLength;
-    }
-    
-    public boolean isIncludeLengthMSOfirst() {
-        return includeLengthMSOfirst;
-    }
-    
-    public byte[] getXorLengthArray() {
-        if (xorLength) {
-            return xorLengthArray;
-        } else {
-            return null;
-        }
-            
-    }
+
 
     /**
      * Get the name of the algorithm
@@ -311,120 +181,6 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
         }
     }
 
-    /**
-     * Set the initial register value
-     * @param initialValue the initial register value
-     */
-    public void setInitialValue(long initialValue) {
-        this.initialValue = initialValue;
-    }
-
-    /**
-     * Get the initial register value
-     * @return the initial register value
-     */
-    public long getInitialValue() {
-        return initialValue;
-    }
-
-    /**
-     * Set the width in bits
-     * @param width the width in bits
-     */
-    public void setWidth(int width) {
-        this.bitWidth = width;
-    }
-
-    /**
-     * Get the width in bits
-     * @return the width in bits
-     */
-    public int getWidth() {
-        return bitWidth;
-    }
-
-    /**
-     * Set the algorithm's polynomial
-     * @param poly the algorithm's polynomial
-     */
-    public void setPoly(long poly) {
-        this.poly = poly;
-    }
-
-    /**
-     * Get the algorithm's polynomial
-     * @return the algorithm's polynomial
-     */
-    public long getPoly() {
-        return this.poly;
-    }
-
-    /**
-     * Reflect input bytes?
-     * @param refIn reflect input bytes?
-     */
-    public void setRefIn(boolean refIn) {
-        this.refIn = refIn;
-    }
-
-    /**
-     * Should input bytes be reflected?
-     * @return should input bytes be reflected?
-     */
-    public boolean getRefIn() {
-        return this.refIn;
-    }
-
-    /**
-     * Set whether the output CRC should be reflected
-     * @param refOut should the output CRC be reflected?
-     */
-    public void setRefOut(boolean refOut) {
-        this.refOut = refOut;
-    }
-
-    /**
-     * Get whether the output CRC should be reflected
-     * @return should the output CRC be reflected?
-     */
-    public boolean getRefOut() {
-        return this.refOut;
-    }
-
-    /**
-     * Set the XOR parameter
-     * @param xorOut the XOR parameter
-     */
-    public void setXorOut(long xorOut) {
-        this.xorOut = xorOut;
-    }
-
-    /**
-     * Get the XOR parameter
-     * @return the XOR parameter
-     */
-    public long getXorOut() {
-        return xorOut;
-    }
-
-    /**
-     * Reflects a value by taking the least significant bits into account
-     * Example: reflect(0x3e23L, 3) ==> 0x3e26
-     *          11111000100011 ==> 11111000100110
-     *
-     * @param value the value which should be reflected
-     * @param bits the number of bits to be reflected
-     * @return the value with the bottom bits [0,64] reflected.
-     */
-    private static long reflect(long value, int bits) {
-        long temp = 0L;
-        for (int i = 0; i < bits; i++) {
-            temp <<= 1L;
-            temp |= (value & 1L);
-            value >>>= 1L;
-        }
-        return (value << bits) | temp;
-    }
 
     /**
      * Precomputes all 256 values
@@ -440,8 +196,8 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
             // initialize the remainder
             remainder = (long) dividend;
 
-            if (refIn) { // reflection?
-                remainder = reflect(remainder, 8);
+            if (model.isRefIn()) { // reflection?
+                remainder = CrcUtils.reflect(remainder, 8);
             }
 
             remainder <<= (bitWidth - 8);
@@ -451,12 +207,12 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
                 mybit = ((remainder & topBit) != 0);
                 remainder <<= 1;
                 if (mybit) {
-                    remainder ^= poly;
+                    remainder ^= model.getPoly();
                 }
             }
 
-            if (refIn) { // reflection?
-                remainder = reflect(remainder, bitWidth);
+            if (model.isRefIn()) { // reflection?
+                remainder = CrcUtils.reflect(remainder, bitWidth);
             }
             // save the result in the table
             table[dividend] = (remainder & maskAllBits);
@@ -469,7 +225,7 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
         // if condition not in the loop, therefore two separate loops
         int index;
         // divide the byte by the polynomial
-        if (refIn) {
+        if (model.isRefIn()) {
             for (int i = offset; i < length + offset; i++) {
                 // Compute the index into the precomputed CRC table.
                 index = ((int) (value ^ bytes[i]) & 0xff);
@@ -490,7 +246,7 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
 
                 // Slide the value a full byte to the left.
                 value <<= 8;
-                
+
                 // xor the value with the appropriate precomputed table value
                 value ^= (table[index]);
             }
@@ -516,7 +272,7 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
         long lengthSaved = length;
 
         // include the length of the file to the checksum value
-        if (includeLength) {
+        if (model.isIncludeLength()) {
             int numberOfBytesRequired = 0;
             for (; length != 0; length >>= 8) {
                 numberOfBytesRequired++;
@@ -534,9 +290,9 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
             }
 
             // we only want the length, but no xor'ing
-            if (!xorLength) {
+            if (!model.isXorLength()) {
                 // we want the least significant octet first
-                if (!includeLengthMSOfirst) {
+                if (!model.isIncludeLengthMSOfirst()) {
                     reverse(array);
                 }
                 update(array);
@@ -544,7 +300,7 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
             } else { // we want the length, but xor'ing it first
 
                 // allocate the size we need
-                byte[] output = new byte[xorLengthArray.length];
+                byte[] output = new byte[model.getXorLengthArray().length];
                 // put the length to the right in output
 
                 // 010203040506  6  array
@@ -563,11 +319,11 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
                 System.arraycopy(array, srcPos, output, destPos, min);
 
                 // xor'ing the length value
-                for (int i = 0; i < xorLengthArray.length; i++) {
-                    output[i] ^= (xorLengthArray[i] & 0xFF);
+                for (int i = 0; i < model.getXorLengthArray().length; i++) {
+                    output[i] ^= (model.getXorLengthArray()[i] & 0xFF);
                 }
 
-                if (!includeLengthMSOfirst) {
+                if (!model.isIncludeLengthMSOfirst()) {
                     reverse(output);
                 }
                 update(output);
@@ -580,11 +336,11 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
         length = lengthSaved;
 
         // is output reflection still necessary?
-        if (refIn != refOut) {
-            remainder = reflect(remainder, bitWidth);
+        if (model.isRefIn() != model.isRefOut()) {
+            remainder = CrcUtils.reflect(remainder, bitWidth);
         }
         // the final remainder is the CRC result
-        return (remainder ^ xorOut) & maskAllBits;
+        return (remainder ^ model.getXorOut()) & maskAllBits;
     }
 
     // reverses the byte array
@@ -633,68 +389,15 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
     protected long[] getTable() {
         return table;
     }
-    
+
     protected String polyAsMathExpression() {
-        return polyAsMathExpression(bitWidth, poly);
-    }
-    
-    /**
-     * Formats a poly dependent on width as a math expression
-     * @param width the width of the poly
-     * @param poly the poly stored in a Java long
-     * @return a math formatted poly
-     */
-    public static String polyAsMathExpression(int width, long poly) {
-        byte[] bytes = new byte[8];
-        ByteSequences.setLongInByteArray(poly, bytes);
-        return polyAsMathExpression(width, bytes);
+        return CrcUtils.polyAsMathExpression(model.getWidth(), model.getPoly());
     }
 
-    /**
-     * Formats a poly dependent on width as a math expression
-     * @param width the width of the poly
-     * @param poly the poly stored in a byte array
-     * @return a math formatted poly
-     */
-    public static String polyAsMathExpression(int width, byte[] poly) {
-        return polyAsMathExpression(width, ByteSequences.formatAsBits(poly));
-    }
-
-
-    /**
-     * Formats a poly dependent on width as a math expression
-     * @param width the width of the poly
-     * @param bits the poly stored in a String (which may only consists of '0', and '1')
-     * @return a math formatted poly
-     */
-    public static String polyAsMathExpression(int width, String bits) {
-        StringBuilder sb = new StringBuilder();
-        // this is implicitly always set
-        sb.append("x^").append(width);
-
-        int exponent;
-        for (int i = 0; i < bits.length(); i++) {
-            exponent = (bits.length() - 1 - i);
-            if (bits.charAt(i) == '1') {
-                switch (exponent) {
-                    case 0:
-                        sb.append(" + 1");
-                        break;
-                    case 1:
-                        sb.append(" + x");
-                        break;
-                    default:
-                        sb.append(" + x^").append(exponent);
-                        break;
-                }
-            }
-        }
-        return sb.toString();
-    }
 
     @Override
     public byte[] getPolyAsBytes() {
-        long p = poly;
+        long p = model.getPoly();
         byte[] array = new byte[bitWidth / 8 + ((bitWidth % 8 > 0) ? 1 : 0)];
 
         for (int i = array.length - 1; i > -1; i--) {
@@ -702,6 +405,31 @@ public class CrcGeneric extends AbstractChecksum implements CRC {
             p >>>= 8;
         }
         return array;
+    }
+
+    @Override
+    public int getWidth() {
+        return model.getWidth();
+    }
+
+    @Override
+    public long getInitialValue() {
+        return model.getInit();
+    }
+
+    @Override
+    public boolean isRefIn() {
+        return model.isRefIn();
+    }
+
+    @Override
+    public boolean isRefOut() {
+        return model.isRefOut();
+    }
+
+    @Override
+    public long getXorOut() {
+        return model.getXorOut();
     }
 
     public boolean isTainted() {

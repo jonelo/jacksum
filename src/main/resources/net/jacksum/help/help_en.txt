@@ -2821,10 +2821,10 @@ ALGORITHMS
 
     crc:<width,poly,init,refIn,refOut,xorOut[,incLen[,xorLen]]>
             algorithm:
-                CRC (generic)
+                CRC (Cyclic Redundancy Check), generic
 \
             length:
-                8..64 bits
+                [8..64] bits
 \
             type:
                 CRC
@@ -2888,14 +2888,14 @@ ALGORITHMS
                 supports two additional parameters which can be optionally
                 specified in order to take the fact into account that some
                 famous CRCs (such as POSIX cksum, the FDDI CRC resp. the Plan 9
-                sum) include the length of the file to the checksum value.
+                sum) include the length of the file/data to the checksum value.
                 Those are the parameters which can be separated by a comma:
 \
-                    incLen
+                    includeLen
                         this is a boolean parameter. It is optional. If it is
                         omitted, no length is included to the CRC. If it is
                         set, one or more octets representing the length of the
-                        file as a binary value, will be used to include the
+                        file/data as a binary value, will be used to include the
                         length of the file to the checksum value (before the
                         refOut). If it is set to true, the most significant
                         octet of the length will be processed first to the

@@ -24,7 +24,7 @@ public interface CRC {
 
     public int getWidth();
     public long getInitialValue();
-    public boolean getRefIn();
-    public boolean getRefOut();
+    public boolean isRefIn();
+    public boolean isRefOut();
     public long getXorOut();
 }
