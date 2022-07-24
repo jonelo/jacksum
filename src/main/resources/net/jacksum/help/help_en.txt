@@ -2819,7 +2819,7 @@ ALGORITHMS
                 Jacksum 3.0.0
 
 
-    crc:<width,poly,init,refIn,refOut,xorOut[,incLen[,xorLen]]>
+    crc:<width,poly,init,refIn,refOut,xorOut[,includeLen[,xorLen]]>
             algorithm:
                 CRC (Cyclic Redundancy Check), generic
 \
@@ -2836,7 +2836,7 @@ ALGORITHMS
                 crc: must have at least 6, and can have 7 or 8 values. All
                 values have to be separated by a comma. The required parameters
                 are: width,poly,init,refIn,refOut,xorOut. The optional
-                parameters are incLen, and xorLen.
+                parameters are includeLen, and xorLen.
 \
                     width
                         width of the crc, expressed in bits. This is one less
@@ -2914,7 +2914,7 @@ ALGORITHMS
 \
             since:
                 Available since Jacksum 1.7.0,
-                incLen and xorLen since Jacksum 3.0.0
+                includeLen and xorLen since Jacksum 3.0.0
 
 
     crc8, crc-8
