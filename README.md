@@ -320,7 +320,7 @@ $ rm -R jacksum-$VERSION/
 * [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) - since 2002!
 * [Developer Guide](https://github.com/jonelo/jacksum/wiki/Developer-Guide)
 * [Source Code](https://github.com/jonelo/jacksum) (on GitHub, mavenized with a pom.xml and an IntelliJ .idea config)
-
+* [References](https://github.com/jonelo/jacksum/wiki/References)
 
 ## Integrations
 
