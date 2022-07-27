@@ -18,7 +18,7 @@ DESCRIPTION
         values, verifying data integrity, finding files by their fingerprints,
         and finding algorithms to a hash.
 \
-        You can use 474 different hash functions to achieve those goals.
+        You can use 475 different hash functions to achieve those goals.
 \
         Type `jacksum -h examples` and go to https://jacksum.net to learn more
         about Jacksum.
@@ -80,7 +80,7 @@ DESCRIPTION
 \
     Algorithm support:
 \
-        Jacksum supports 472 standard algorithms, both cryptographic, and
+        Jacksum supports 475 standard algorithms, both cryptographic, and
         non-cryptographic hash functions including cyclic redundancy checks
         (CRCs), classic checksums and the modern eXtendable Output Functions
         (XOFs).
@@ -6991,6 +6991,12 @@ ALGORITHMS
                 developed by Ross Anderson and Eli Biham, 1995.
                 The default encoding is hexadecimal.
 \
+                Note that PHP 5.3 and earlier has a bug in the tiger193,3
+                implementation (bug #60221 Tiger hash output byte order) which
+                resulted in a non-big-endian representation. PHP 5.4 fixed that.
+                See also https://bugs.php.net/bug.php?id=60221 and
+                https://www.php.net/ChangeLog-5.php#PHP_5_4
+\
             compatibility:
                 - 7z:              -
                 - Angstrom:        -
@@ -7012,7 +7018,7 @@ ALGORITHMS
                 - NetBSD:          -
                 - NextStep:        -
                 - OpenSSL:         -
-                - PHP:             hash("tiger192,3", $input);
+                - PHP 5.4+:        hash("tiger192,3", $input);
                 - Plan 9:          -
                 - PowerShell:      -
                 - Python:          -
@@ -7024,6 +7030,63 @@ ALGORITHMS
 \
             implementation:
                 gnu.crypto.hash.Tiger
+
+
+    tiger-192-4-php, tiger_192_4_php
+            algorithm:
+                PHP's variant on Tiger with 32 rounds called tiger192,4
+\
+            length:
+                192 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                2005
+\
+            broken:
+                no
+\
+            comment:
+                Tiger was developed by Ross Anderson and Eli Biham, 1995.
+                The default encoding is hexadecimal.
+                PHP's tiger192,4 extends the standard Tiger from 24 (3*8)
+                to 32 (4*8) rounds. See also https://bit.ly/3BoVyo0
+\
+            compatibility:
+                - 7z:              -
+                - Angstrom:        -
+                - BeOS:            -
+                - BusyBox:         -
+                - CentOS:          -
+                - DragonFly BSD:   -
+                - FreeBSD:         -
+                - FreeDOS:         -
+                - GNU/Hurd:        -
+                - GNU/Linux:       -
+                - gpg:             -
+                - HP-UX:           -
+                - Java:            -
+                - Kali Linux:      -
+                - macOS:           -
+                - Minix:           -
+                - MS-DOS:          -
+                - NetBSD:          -
+                - NextStep:        -
+                - OpenSSL:         -
+                - PHP 5.1+:        hash("tiger192,4", $input);
+                - Plan 9:          -
+                - PowerShell:      -
+                - Python:          -
+                - Solaris:         -
+                - Windows:         -
+\
+            since:
+                Jacksum 3.5.0
+\
+            implementation:
+                mini-modification on bouncycastle's TigerDigest
 
 
     tiger2        

@@ -10,6 +10,7 @@ Jacksum 3.5.0, TBD
     - added the reciprocal polynomial for CRCs
     - added binary and hex for each poly representation
     - added polynomial representations and CRC parameters also for optimized CRC implementations
+  - added PHP's variant on Tiger called tiger192,4 by modifying bouncycastle's TigerDigest slightly.
   - added sum64
 
 - updates:

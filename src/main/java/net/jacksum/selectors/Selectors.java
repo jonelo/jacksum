@@ -146,6 +146,7 @@ public class Selectors {
         Whirlpool1_Selector.class,
         Whirlpool2_Selector.class,
         Xor8_Selector.class,
+        Tiger192_4_PHP_version_Selector.class,
         xxHash32_Selector.class
 
     };
@@ -268,7 +269,8 @@ public class Selectors {
         Tiger_Selector.class,
         Tiger160_Selector.class,
         Tiger128_Selector.class,
-        TTH_Selector.class,        
+        TTH_Selector.class,
+        Tiger192_4_PHP_version_Selector.class,
         // not stable enough with other algos except Tiger and Tiger2
         //TreeHash_Selector.class,
         

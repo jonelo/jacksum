@@ -23,18 +23,7 @@ package net.jacksum.algorithms.wrappers;
 
 import java.security.NoSuchAlgorithmException;
 import org.bouncycastle.crypto.ExtendedDigest;
-import org.bouncycastle.crypto.digests.DSTU7564Digest;
-import org.bouncycastle.crypto.digests.GOST3411Digest;
-import org.bouncycastle.crypto.digests.GOST3411_2012_256Digest;
-import org.bouncycastle.crypto.digests.GOST3411_2012_512Digest;
-import org.bouncycastle.crypto.digests.Kangaroo;
-import org.bouncycastle.crypto.digests.KeccakDigest;
-import org.bouncycastle.crypto.digests.RIPEMD256Digest;
-import org.bouncycastle.crypto.digests.RIPEMD320Digest;
-import org.bouncycastle.crypto.digests.SHA3Digest;
-import org.bouncycastle.crypto.digests.SHA512tDigest;
-import org.bouncycastle.crypto.digests.SHAKEDigest;
-import org.bouncycastle.crypto.digests.SM3Digest;
+import org.bouncycastle.crypto.digests.*;
 import org.bouncycastle.crypto.engines.GOST28147Engine;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
@@ -155,6 +144,12 @@ public class MDbouncycastle extends AbstractChecksum {
         if (arg.equalsIgnoreCase("marsupilamifourteen")) { // 256-bit security strength
             md = new Kangaroo.MarsupilamiFourteen(64); // parameter in bytes, not bits
         } else
+
+        if (arg.equalsIgnoreCase("tiger-192-4-php")) {
+            md = new TigerDigest_192_4_PHP_version(); // parameter in bytes, not bits
+        } else
+
+
 
 /*
         if (arg.equalsIgnoreCase("haraka-512")) {
