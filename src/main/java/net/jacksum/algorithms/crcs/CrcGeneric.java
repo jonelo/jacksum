@@ -27,14 +27,16 @@
  * in the Java programming language
  *
  * For more information on the Rocksoft^tm Model CRC Algorithm, see the document
- * titled "A Painless Guide to CRC Error Detection Algorithms" by Ross
- * Williams (ross@guest.adelaide.edu.au.). This document is likely to be in
- * "ftp.adelaide.edu.au/pub/rocksoft"
- * Note: Rocksoft is a trademark of Rocksoft Pty Ltd, Adelaide, Australia.
+ * titled "A Painless Guide to CRC Error Detection Algorithms" written by Ross
+ * Williams in 1993.
  *
- * Ross Williams founded Rocksoft which was sold to ADIC (now Quantum) in 2006.
- * This paper can also be found on Dr. Ross Williams' homepage at
+ * The original links are gone meanwhile, but you can still find the paper
+ * on Dr. Ross Williams' homepage at
  * http://www.ross.net/crc/crcpaper.html
+ *
+ * Note: Rocksoft was a trademark of Rocksoft Pty Ltd, Adelaide, Australia.
+ * Ross Williams founded Rocksoft which was sold to ADIC (now Quantum) in 2006.
+ *
  */
 package net.jacksum.algorithms.crcs;
 
