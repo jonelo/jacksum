@@ -99,7 +99,6 @@ public class CrcUtils {
      * Reverses a byte array.
      *
      * @param array the array that should be reversed.
-     * @return the reversed array.
      */
     public static void reverse(byte[] array) {
         if (array == null || array.length == 1) {
