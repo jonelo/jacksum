@@ -19,7 +19,7 @@
 
 package net.jacksum.algorithms.crcs;
 
-public interface CRC {
+public interface CrcInfo {
     public byte[] getPolyAsBytes();
 
     public int getWidth();

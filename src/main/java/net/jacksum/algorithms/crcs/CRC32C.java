@@ -30,7 +30,7 @@ package net.jacksum.algorithms.crcs;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
-public class CRC32C extends AbstractChecksum implements CRC {
+public class CRC32C extends AbstractChecksum implements CrcInfo {
 
     private final java.util.zip.CRC32C crc32c;
 

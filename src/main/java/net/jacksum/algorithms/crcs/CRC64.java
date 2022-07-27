@@ -26,7 +26,7 @@ package net.jacksum.algorithms.crcs;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
-public class CRC64 extends AbstractChecksum implements CRC {
+public class CRC64 extends AbstractChecksum implements CrcInfo {
 
   private long value;
     // CRC-64 look-up table

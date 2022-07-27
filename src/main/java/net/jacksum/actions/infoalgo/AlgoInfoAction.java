@@ -26,7 +26,7 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import net.jacksum.algorithms.crcs.CRC;
+import net.jacksum.algorithms.crcs.CrcInfo;
 import net.jacksum.algorithms.crcs.CrcUtils;
 import net.loefflmann.sugar.util.ByteSequences;
 import net.loefflmann.sugar.util.ExitException;
@@ -79,8 +79,8 @@ public class AlgoInfoAction implements Action {
             System.out.printf(FORMAT, indent, "bytes:", Integer.toString(blockSize));
         }
 
-        if (checksum instanceof CRC) {
-            CRC crc = (CRC) checksum;
+        if (checksum instanceof CrcInfo) {
+            CrcInfo crc = (CrcInfo) checksum;
             byte[] polyAsBytes = crc.getPolyAsBytes();
             String polyAsBits = ByteSequences.formatAsBits(polyAsBytes, crc.getWidth());
             String reversedPolyAsBits = new StringBuilder(polyAsBits).reverse().toString();

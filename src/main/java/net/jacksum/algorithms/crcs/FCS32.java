@@ -32,7 +32,7 @@ import net.jacksum.formats.Encoding;
  */
 
 // ftp://ftp.rfc-editor.org/in-notes/rfc1331.txt
-public class FCS32 extends AbstractChecksum implements CRC {
+public class FCS32 extends AbstractChecksum implements CrcInfo {
 
 
     private long value;

@@ -28,7 +28,7 @@ package net.jacksum.algorithms.crcs;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
-public class FCS16 extends AbstractChecksum implements CRC {
+public class FCS16 extends AbstractChecksum implements CrcInfo {
 
     protected int value;
 

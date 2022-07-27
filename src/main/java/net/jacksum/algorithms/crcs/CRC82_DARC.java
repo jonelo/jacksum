@@ -35,7 +35,7 @@ import net.jacksum.formats.Encoding;
 // reflected = 1000100000100000001000101000000000101000100000001000100010000000001100010000110000
 // high=       100010000010000000
 // low=                          1000101000000000101000100000001000100010000000001100010000110000
-public class CRC82_DARC extends AbstractChecksum implements CRC {
+public class CRC82_DARC extends AbstractChecksum implements CrcInfo {
 
     private long[] crc = new long[2];
 

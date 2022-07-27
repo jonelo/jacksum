@@ -43,7 +43,7 @@ import net.jacksum.formats.Encoding;
 
 import java.security.NoSuchAlgorithmException;
 
-public class CrcGeneric extends AbstractChecksum implements CrcInfo {
+public class CrcGeneric2 extends AbstractChecksum implements CrcInfo {
 
     protected long value;      // the value, must be accessed by subclasses
     private long[] table;      // Precomputed values
@@ -63,28 +63,28 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
      * @param xorOut XOR this to output CRC
      * @throws NoSuchAlgorithmException if the parameter cannot be used to create a correct object
      */
-    public CrcGeneric(int width, long poly, long initialValue, boolean refIn, boolean refOut, long xorOut)
+    public CrcGeneric2(int width, long poly, long initialValue, boolean refIn, boolean refOut, long xorOut)
             throws NoSuchAlgorithmException {
         super();
         model = new CrcModelExtended(width, poly, initialValue, refIn, refOut, xorOut);
         init();
     }
 
-    public CrcGeneric(int width, long poly, long initialValue, boolean refIn, boolean refOut, long xorOut,
+    public CrcGeneric2(int width, long poly, long initialValue, boolean refIn, boolean refOut, long xorOut,
                        boolean includeLengthLTR) throws NoSuchAlgorithmException {
         super();
         model = new CrcModelExtended(width, poly, initialValue, refIn, refOut, xorOut, includeLengthLTR);
         init();
     }
 
-    public CrcGeneric(int width, long poly, long initialValue, boolean refIn, boolean refOut, long xorOut,
+    public CrcGeneric2(int width, long poly, long initialValue, boolean refIn, boolean refOut, long xorOut,
                        boolean includeLengthLTR,  byte[] xorLengthArray) throws NoSuchAlgorithmException {
         super();
         model = new CrcModelExtended(width, poly, initialValue, refIn, refOut, xorOut, includeLengthLTR, xorLengthArray);
         init();
     }
 
-    public CrcGeneric(CrcModelExtended model) throws NoSuchAlgorithmException {
+    public CrcGeneric2(CrcModelExtended model) throws NoSuchAlgorithmException {
         super();
         this.model = model;
         init();
@@ -96,13 +96,9 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
      *        Example: crc:32,04C11DB7,FFFFFFFF,true,true,FFFFFFFF[,false,FFFFFFFF]
      * @throws NoSuchAlgorithmException if the parameter cannot be used to create a correct object
      */
-    public CrcGeneric(String props) throws NoSuchAlgorithmException {
+    public CrcGeneric2(String props) throws NoSuchAlgorithmException {
         model = new CrcModelExtended(props);
         init();
-    }
-
-    public CrcModelExtended getModel() {
-        return model;
     }
 
     /**
@@ -113,7 +109,7 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
         formatPreferences.setSeparator(" ");
         formatPreferences.setFilesizeWanted(true);
         bitWidth = model.getWidth();
-
+       
         topBit = 1L << (model.getWidth() - 1);       // stores the value (2 ^ width)
         maskAllBits = ~0L >>> (64 - model.getWidth()); // stores the value (2 ^ width) - 1
         maskHelp = maskAllBits >>> 8;     // stores the value (2 ^ (width-8)) -1
@@ -166,7 +162,7 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
     public String getString() {
         return model.getString();
     }
-
+    
 
     /**
      * Get the name of the algorithm
@@ -246,7 +242,7 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
 
                 // Slide the value a full byte to the left.
                 value <<= 8;
-
+                
                 // xor the value with the appropriate precomputed table value
                 value ^= (table[index]);
             }
@@ -389,11 +385,11 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
     protected long[] getTable() {
         return table;
     }
-
+    
     protected String polyAsMathExpression() {
         return CrcUtils.polyAsMathExpression(model.getWidth(), model.getPoly());
     }
-
+    
 
     @Override
     public byte[] getPolyAsBytes() {

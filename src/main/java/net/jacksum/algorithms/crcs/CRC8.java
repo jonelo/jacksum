@@ -59,7 +59,7 @@ import net.jacksum.formats.Encoding;
 /**
  * A class that can be used to compute the Crc8 of a data stream.
  */
-public class CRC8 extends AbstractChecksum implements CRC {
+public class CRC8 extends AbstractChecksum implements CrcInfo {
 
     private byte value;
     // CRC-8, poly = x^8 + x^2 + x^1 + 1, init = 0
