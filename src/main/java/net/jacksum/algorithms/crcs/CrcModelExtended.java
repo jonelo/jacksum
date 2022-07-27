@@ -17,6 +17,14 @@
  * this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
+/*
+ * This class implements an extention of the famous "Rocksoft^tm Model CRC Algorithm".
+ * The extention was suggested by Johann N. Löfflmann as part of the Jacksum 3.0.0 release on Sept 4, 2021.
+ * The extended model allows to include the (optional xor'ed) length to the CRC to describe algorithms such
+ * as the POSIX cksum or the FDDI CRC (Plan 9's sum). For more information, see also the output of
+ * `jacksum -h crc:`
+ */
+
 package net.jacksum.algorithms.crcs;
 
 import net.loefflmann.sugar.util.ByteSequences;
@@ -38,21 +46,20 @@ public class CrcModelExtended extends CrcModel {
      * @param refIn Reflect input bytes?
      * @param refOut Reflect output CRC?
      * @param xorOut XOR this to output CRC
-     * @throws NoSuchAlgorithmException if the parameter cannot be used to create a correct object
      */
     public CrcModelExtended(int width, long poly, long init, boolean refIn, boolean refOut, long xorOut) {
         super(width, poly, init, refIn, refOut, xorOut);
     }
 
-    public CrcModelExtended(int width, long poly, long initialValue, boolean refIn, boolean refOut, long xorOut,
+    public CrcModelExtended(int width, long poly, long init, boolean refIn, boolean refOut, long xorOut,
                             boolean includeLengthLTR) {
-        super(width, poly, initialValue, refIn, refOut, xorOut);
+        super(width, poly, init, refIn, refOut, xorOut);
         includeLengthInit(includeLengthLTR);
     }
 
-    public CrcModelExtended(int width, long poly, long initialValue, boolean refIn, boolean refOut, long xorOut,
+    public CrcModelExtended(int width, long poly, long init, boolean refIn, boolean refOut, long xorOut,
                             boolean includeLengthLTR,  byte[] xorLengthArray) {
-        super(width, poly, initialValue, refIn, refOut, xorOut);
+        super(width, poly, init, refIn, refOut, xorOut);
         includeLengthInit(includeLengthLTR);
         xorLengthArrayInit(xorLengthArray);
     }
@@ -70,6 +77,11 @@ public class CrcModelExtended extends CrcModel {
             }
         }
     }
+
+    public CrcModelExtended(CrcModelExtended model) {
+        this(model.getWidth(), model.getPoly(), model.getInit(), model.isRefIn(), model.isRefOut(), model.getXorOut(), model.isIncludeLength(), model.getXorLengthArray());
+    }
+
 
     public String getString() {
         StringBuilder sb = new StringBuilder();

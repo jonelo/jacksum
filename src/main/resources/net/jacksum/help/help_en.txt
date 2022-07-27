@@ -2876,7 +2876,6 @@ ALGORITHMS
                         most significant bit (MSB) and bit 0 being treated as
                         the least significant bit. If this parameter is false,
                         each byte is reflected before being processed.
-                        true or false
 \
                     refOut
                         this is a boolean parameter. If it is set to false, the
@@ -2887,7 +2886,8 @@ ALGORITHMS
                     xorOut
                         this value is XORed to the final register value (after
                         the refOut) stage before the value is returned as the
-                        official checksum, specify as hex
+                        official checksum, specify as hex. Obviously a xorOut
+                        value of 0 has no impact.
 \
                 Normally here ends the parameter list for the "Rocksoft (tm)
                 Model CRC Algorithm" schema. However, the Jacksum project

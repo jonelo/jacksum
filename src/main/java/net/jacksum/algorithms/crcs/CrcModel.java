@@ -17,8 +17,24 @@
  * this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
+/*
+ * This class implements the "Rocksoft^tm Model CRC Algorithm"
+ * in the Java programming language
+ *
+ * For more information on the Rocksoft^tm Model CRC Algorithm, see the document
+ * titled "A Painless Guide to CRC Error Detection Algorithms" by Ross
+ * Williams (ross@guest.adelaide.edu.au.). This document is likely to be in
+ * "ftp.adelaide.edu.au/pub/rocksoft"
+ * Note: Rocksoft is a trademark of Rocksoft Pty Ltd, Adelaide, Australia.
+ *
+ * Ross Williams founded Rocksoft which was sold to ADIC (now Quantum) in 2006.
+ * This paper can also be found on Dr. Ross Williams' homepage at
+ * http://www.ross.net/crc/crcpaper.html
+ */
+
 package net.jacksum.algorithms.crcs;
 
+import net.jacksum.zzadopt.com.github.snksoft.crc.CRC;
 import net.loefflmann.sugar.util.ByteSequences;
 
 import java.security.NoSuchAlgorithmException;
@@ -41,7 +57,6 @@ public class CrcModel {
      * @param refIn Reflect input bytes?
      * @param refOut Reflect output CRC?
      * @param xorOut XOR this to output CRC
-     * @throws NoSuchAlgorithmException if the parameter cannot be used to create a correct object
      */
     public CrcModel(int width, long poly, long init, boolean refIn, boolean refOut, long xorOut) {
         this.width = width;
@@ -50,6 +65,10 @@ public class CrcModel {
         this.refIn = refIn;
         this.refOut = refOut;
         this.xorOut = xorOut;
+    }
+
+    public CrcModel(CrcModel model) {
+        this(model.getWidth(), model.getPoly(), model.getInit(), model.isRefIn(), model.isRefOut(), model.getXorOut());
     }
 
     public CrcModel(String props) throws NoSuchAlgorithmException {
@@ -75,7 +94,6 @@ public class CrcModel {
         } catch (IllegalArgumentException iae) {
             throw new NoSuchAlgorithmException("Unknown algorithm: invalid parameter. "+iae.getMessage());
         }
-
     }
 
     public String getString() {
@@ -191,6 +209,10 @@ public class CrcModel {
      */
     public long getXorOut() {
         return xorOut;
+    }
+
+    public CRC.Parameters getParameters() {
+        return new CRC.Parameters(width, poly, init, refIn, refOut, xorOut);
     }
 
 }
