@@ -78,8 +78,8 @@ public class CrcUtils {
 
     /**
      * Reflects a value by taking the least significant bits into account
-     * Example: reflect(0x3e23L, 3) ==> 0x3e26
-     *          11111000100011 ==> 11111000100110
+     * Example: reflect(0x3e23L, 3) ➜ 0x3e26
+     *          11111000100011 ➜ 11111000100110
      *
      * @param value the value which should be reflected
      * @param bits the number of bits to be reflected
@@ -94,6 +94,29 @@ public class CrcUtils {
         }
         return (value << bits) | temp;
     }
+
+    /**
+     * Reverses a byte array.
+     *
+     * @param array the array that should be reversed.
+     * @return the reversed array.
+     */
+    public static void reverse(byte[] array) {
+        if (array == null || array.length == 1) {
+            return;
+        }
+        int start = 0;
+        int end = array.length - 1;
+        byte backup;
+        while (end > start) {
+            backup = array[end];
+            array[end] = array[start];
+            array[start] = backup;
+            start++;
+            end--;
+        }
+    }
+
 
     public static byte[] hextext2bytes(String text) throws IllegalArgumentException {
         byte[] bytes;

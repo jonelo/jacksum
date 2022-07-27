@@ -39,7 +39,7 @@ public class CRC32_PHP extends CrcGeneric {
     @Override
     public byte[] getByteArray() {
         byte[] bytes = super.getByteArray();
-        CrcGeneric.reverse(bytes);
+        CrcUtils.reverse(bytes);
         return bytes;
     }
 }
