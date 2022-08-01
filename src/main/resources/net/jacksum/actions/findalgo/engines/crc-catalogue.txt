@@ -1,7 +1,7 @@
 # This is a collection of well known CRCs, copied from
 # https://reveng.sourceforge.io/crc-catalogue/all.htm
 # Credits: Greg Cook, who did a really great job in gathering the CRC catalogue!
-# Latest update of this file: July 2, 2022
+# Latest update of this file: Aug 1, 2022
 # Syntax: description;crc:<width>,<poly>,<init>,<refin>,<refout>,<xorout>
 # See also jacksum --help crc:
 
@@ -115,3 +115,7 @@ CRC-64/GO-ISO;crc:64,1b,ffffffffffffffff,true,true,ffffffffffffffff
 CRC-64/WE;crc:64,42f0e1eba9ea3693,ffffffffffffffff,false,false,ffffffffffffffff
 CRC-64/XZ;crc:64,42f0e1eba9ea3693,ffffffffffffffff,true,true,ffffffffffffffff
 CRC-82/DARC;crc:82,308c0111011401440411,0,true,true,0
+
+# added by jonelo, July 28, 2022
+CRC-64/JONES;crc:64,ad93d23594c935a9,ffffffffffffffff,true,true,0
+CRC-64/REDIS;crc:64,ad93d23594c935a9,0,true,true,0
