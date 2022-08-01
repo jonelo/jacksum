@@ -32,28 +32,34 @@ import java.util.Map;
 
 /**
  *
- * @author johann
+ * @author Johann N. Löfflmann
  */
-public class Tiger192_4_PHP_version_Selector extends Selector {
-    private static final String ID = "tiger-192-4-php";
+public class Tiger_PHP_flavour_4_rounds_Selector extends Selector {
+    private static final String ID_192_4 = "tiger-192-4-php";
+    private static final String ID_160_4 = "tiger-160-4-php";
+    private static final String ID_128_4 = "tiger-128-4-php";
     
     @Override
     public Map<String, String> getAvailableAlgorithms() {
-        Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
-        map.put(ID, "PHP's Tiger 192,4");
+        Map<String, String> map = new LinkedHashMap<>(4); // ceil(3/0.75)
+        map.put(ID_192_4, "PHP's tiger192,4");
+        map.put(ID_160_4, "PHP's tiger160,4");
+        map.put(ID_128_4, "PHP's tiger128,4");
         return map;
     }
     
     @Override
     public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
-        map.put("tiger_192_4_php", ID);
+        Map<String, String> map = new LinkedHashMap<>(4); // ceil(3/0.75)
+        map.put("tiger_192_4_php", ID_192_4);
+        map.put("tiger_160_4_php", ID_160_4);
+        map.put("tiger_128_4_php", ID_128_4);
         return map;
     }
 
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
-        return new MDbouncycastle("tiger-192-4-php");
+        return new MDbouncycastle(name);
     }
 
 }

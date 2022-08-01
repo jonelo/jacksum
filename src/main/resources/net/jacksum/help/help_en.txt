@@ -18,7 +18,7 @@ DESCRIPTION
         values, verifying data integrity, finding files by their fingerprints,
         and finding algorithms to a hash.
 \
-        You can use 475 different hash functions to achieve those goals.
+        You can use 477 different hash functions to achieve those goals.
 \
         Type `jacksum -h examples` and go to https://jacksum.net to learn more
         about Jacksum.
@@ -80,7 +80,7 @@ DESCRIPTION
 \
     Algorithm support:
 \
-        Jacksum supports 475 standard algorithms, both cryptographic, and
+        Jacksum supports 477 standard algorithms, both cryptographic, and
         non-cryptographic hash functions including cyclic redundancy checks
         (CRCs), classic checksums and the modern eXtendable Output Functions
         (XOFs).
@@ -6916,6 +6916,64 @@ ALGORITHMS
                 gnu.crypto.hash.Tiger160 (by jonelo)
 
 
+    tiger-128-4-php, tiger_128_4_php
+            algorithm:
+                PHP's variant on Tiger with 32 rounds called tiger128,4
+\
+            length:
+                128 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                2005
+\
+            broken:
+                no
+\
+            comment:
+                PHP's tiger128,4 extends the standard Tiger 128 from 24 (3*8)
+                to 32 (4*8) rounds. See also https://bit.ly/3BoVyo0
+                Actually the hash value is the first 128 bits of the result of
+                tiger-192-4-php.
+                The default encoding is hexadecimal.
+\
+            compatibility:
+                - 7z:              -
+                - Angstrom:        -
+                - BeOS:            -
+                - BusyBox:         -
+                - CentOS:          -
+                - DragonFly BSD:   -
+                - FreeBSD:         -
+                - FreeDOS:         -
+                - GNU/Hurd:        -
+                - GNU/Linux:       -
+                - gpg:             -
+                - HP-UX:           -
+                - Java:            -
+                - Kali Linux:      -
+                - macOS:           -
+                - Minix:           -
+                - MS-DOS:          -
+                - NetBSD:          -
+                - NextStep:        -
+                - OpenSSL:         -
+                - PHP 5.1+:        hash("tiger128,4", $input);
+                - Plan 9:          -
+                - PowerShell:      -
+                - Python:          -
+                - Solaris:         -
+                - Windows:         -
+\
+            since:
+                Jacksum 3.5.0
+\
+            implementation:
+                mini-modification on bouncycastle's TigerDigest
+
+
     tiger160, tiger-160
             algorithm:
                 Tiger 160
@@ -6933,7 +6991,7 @@ ALGORITHMS
                 yes
 \
             comment:
-                the hash value is the first 160 bits of the result of Tiger-192.
+                The hash value is the first 160 bits of the result of Tiger-192.
                 The default encoding is hexadecimal.
 \
             compatibility:
@@ -6969,6 +7027,64 @@ ALGORITHMS
 \
             implementation:
                 gnu.crypto.hash.Tiger160 (by jonelo)
+
+
+    tiger-160-4-php, tiger_160_4_php
+            algorithm:
+                PHP's variant on Tiger with 32 rounds called tiger160,4
+\
+            length:
+                160 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                2005
+\
+            broken:
+                no
+\
+            comment:
+                PHP's tiger160,4 extends the standard Tiger 160 from 24 (3*8)
+                to 32 (4*8) rounds. See also https://bit.ly/3BoVyo0
+                Actually the hash value is the first 160 bits of the result of
+                tiger-192-4-php.
+                The default encoding is hexadecimal.
+\
+            compatibility:
+                - 7z:              -
+                - Angstrom:        -
+                - BeOS:            -
+                - BusyBox:         -
+                - CentOS:          -
+                - DragonFly BSD:   -
+                - FreeBSD:         -
+                - FreeDOS:         -
+                - GNU/Hurd:        -
+                - GNU/Linux:       -
+                - gpg:             -
+                - HP-UX:           -
+                - Java:            -
+                - Kali Linux:      -
+                - macOS:           -
+                - Minix:           -
+                - MS-DOS:          -
+                - NetBSD:          -
+                - NextStep:        -
+                - OpenSSL:         -
+                - PHP 5.1+:        hash("tiger160,4", $input);
+                - Plan 9:          -
+                - PowerShell:      -
+                - Python:          -
+                - Solaris:         -
+                - Windows:         -
+\
+            since:
+                Jacksum 3.5.0
+\
+            implementation:
+                mini-modification on bouncycastle's TigerDigest
 
 
     tiger, tiger192, tiger-192

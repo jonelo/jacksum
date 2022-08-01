@@ -40,7 +40,7 @@ public class MDbouncycastle extends AbstractChecksum {
     protected ExtendedDigest md = null;
     protected boolean virgin = true;
     protected byte[] digest = null;
-    
+    private int newDigestWidthInBits = -1;
     
     public MDbouncycastle() throws NoSuchAlgorithmException {
         
@@ -146,10 +146,18 @@ public class MDbouncycastle extends AbstractChecksum {
         } else
 
         if (arg.equalsIgnoreCase("tiger-192-4-php")) {
-            md = new TigerDigest_192_4_PHP_version(); // parameter in bytes, not bits
+            md = new TigerDigest_192_4_PHP_version();
         } else
 
+        if (arg.equalsIgnoreCase("tiger-160-4-php")) {
+            md = new TigerDigest_192_4_PHP_version();
+            newDigestWidthInBits = 160;
+        } else
 
+        if (arg.equalsIgnoreCase("tiger-128-4-php")) {
+            md = new TigerDigest_192_4_PHP_version();
+            newDigestWidthInBits = 128;
+        } else
 
 /*
         if (arg.equalsIgnoreCase("haraka-512")) {
@@ -161,7 +169,11 @@ public class MDbouncycastle extends AbstractChecksum {
 */
             
         throw new NoSuchAlgorithmException(arg + " is an unknown algorithm.");
-        bitWidth = md.getDigestSize()*8;
+        if (newDigestWidthInBits > 0) {
+            bitWidth = newDigestWidthInBits;
+        } else {
+            bitWidth = md.getDigestSize() * 8;
+        }
     }
 
 
@@ -202,8 +214,14 @@ public class MDbouncycastle extends AbstractChecksum {
             virgin = false;
         }
         // we don't expose internal representations
-        byte[] save = new byte[digest.length];
-        System.arraycopy(digest, 0, save, 0, digest.length);
+        int digestWidthInBytes = 0;
+        if (newDigestWidthInBits > 0) {
+            digestWidthInBytes = (newDigestWidthInBits / 8) + (newDigestWidthInBits % 8 > 0 ? 1 : 0);
+        } else {
+            digestWidthInBytes = digest.length;
+        }
+        byte[] save = new byte[digestWidthInBytes];
+        System.arraycopy(digest, 0, save, 0, digestWidthInBytes);
         return save;
     }
     
