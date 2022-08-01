@@ -64,9 +64,9 @@ public class AlgoInfoAction implements Action {
 
         System.out.printf("%shash length:%n", indent);
         System.out.printf(FORMAT, indent, "bits:", checksum.getSize());
-        int bitsPadded = checksum.getSize() % 8 > 0 ? 1 : 0;
-        int bytes = checksum.getSize() / 8 + bitsPadded;
-        if (bitsPadded > 0) {
+        int padOneByte = checksum.getSize() % 8 > 0 ? 1 : 0;
+        int bytes = checksum.getSize() / 8 + padOneByte;
+        if (padOneByte > 0) {
             System.out.printf(FORMAT, indent, "bits (zero padded to 8-bit bytes):", bytes * 8);
         }
         System.out.printf(FORMAT, indent, "bytes:", bytes);
