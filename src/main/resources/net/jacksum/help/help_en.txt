@@ -573,11 +573,11 @@ DESCRIPTION
             On Microsoft Windows there are additional file types available and
             Jacksum allows you to generate, store, and compare hashes from
 \
-                - disks, CD-ROMs, DVDs, etc. (e. g. \\.\PhysicalDrive0)
                 - partitions (e. g. \\.\c:)
-                - invisible partitions which are not mounted by default,
+                - hidden partitions which are not mounted by default,
                   e.g. the recovery partition or EFI partition
                   (e. g. \\?\Volume{4a343c6b-3576-5e5e-2072-303c6b352131}\)
+                - disks, CD-ROMs, DVDs, etc. (e. g. \\.\PhysicalDrive0)
                 - RAM disks
                 - NTFS Alternate Data Streams on files
                   (e. g. my-file.txt:secret:$DATA)
