@@ -4,7 +4,7 @@ import org.bouncycastle.crypto.Xof;
 
 
 /**
- * implementation of SHAKE based on following KeccakNISTInterface.c from http://keccak.noekeon.org/
+ * implementation of SHAKE based on following KeccakNISTInterface.c from https://keccak.noekeon.org/
  * <p>
  * Following the naming conventions used in the C source code to enable easy review of the implementation.
  */
@@ -29,12 +29,23 @@ public class SHAKEDigest
         this(128);
     }
 
+    /**
+     * Base constructor.
+     *
+     * @param bitLength the security strength in bits of the XOF.
+     */
     public SHAKEDigest(int bitLength)
     {
         super(checkBitLength(bitLength));
     }
 
-    public SHAKEDigest(SHAKEDigest source) {
+    /**
+     * Clone constructor
+     *
+     * @param source the other digest to be copied.
+     */
+    public SHAKEDigest(SHAKEDigest source)
+    {
         super(source);
     }
 

@@ -274,17 +274,6 @@ public final class Arrays
         java.util.Arrays.fill(a, val);
     }
 
-    /**
-     * @deprecated Use {@link #fill(byte[], int, int, byte)} instead.
-     * @param a a byte array.
-     * @param fromIndex an int.
-     * @param val a byte.
-     */
-    public static void fill(byte[] a, int fromIndex, byte val)
-    {
-        fill(a, fromIndex, a.length, val);
-    }
-
     public static void fill(byte[] a, int fromIndex, int toIndex, byte val)
     {
         java.util.Arrays.fill(a, fromIndex, toIndex, val);
@@ -305,17 +294,6 @@ public final class Arrays
         java.util.Arrays.fill(a, val);
     }
 
-    /**
-     * @deprecated Use {@link #fill(int[], int, int, int)} instead.
-     * @param a an int array.
-     * @param fromIndex an int.
-     * @param val an int.
-     */
-    public static void fill(int[] a, int fromIndex, int val)
-    {
-        java.util.Arrays.fill(a, fromIndex, a.length, val);
-    }
-
     public static void fill(int[] a, int fromIndex, int toIndex, int val)
     {
         java.util.Arrays.fill(a, fromIndex, toIndex, val);
@@ -324,17 +302,6 @@ public final class Arrays
     public static void fill(long[] a, long val)
     {
         java.util.Arrays.fill(a, val);
-    }
-
-    /**
-     * @deprecated Use {@link #fill(long[], int, int, long)} instead.
-     * @param a a long array.
-     * @param fromIndex an int.
-     * @param val a long.
-     */
-    public static void fill(long[] a, int fromIndex, long val)
-    {
-        java.util.Arrays.fill(a, fromIndex, a.length, val);
     }
 
     public static void fill(long[] a, int fromIndex, int toIndex, long val)
@@ -355,17 +322,6 @@ public final class Arrays
     public static void fill(short[] a, short val)
     {
         java.util.Arrays.fill(a, val);
-    }
-
-    /**
-     * @deprecated Use {@link #fill(short[], int, int, short)} instead.
-     * @param val a short array.
-     * @param fromIndex an int.
-     * @param a short.
-     */
-    public static void fill(short[] a, int fromIndex, short val)
-    {
-        java.util.Arrays.fill(a, fromIndex, a.length, val);
     }
 
     public static void fill(short[] a, int fromIndex, int toIndex, short val)
