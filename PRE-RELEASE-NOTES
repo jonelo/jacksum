@@ -1,13 +1,13 @@
 Jacksum 3.5.0, TBD
 
 - new algorithms:
-  - replaced own CRC engine by the BSD 3-clause licenced CRC engine java-crc 1.0.3 from S&K Software Development Ltd., New Zealand
-    (https://github.com/snksoft/java-crc) in order to benefit from the extra [1..7] CRC bit widths.
+  - replaced own CRC engine by the BSD 3-clause licenced CRC engine java-crc 1.0.3 from S&K Software Development Ltd.,
+    New Zealand (https://github.com/snksoft/java-crc) in order to benefit from the extra [1..7] CRC bit widths.
   - added CRC-82/DARC with aliases crc82, crc82_darc, crc-82, crc-82_darc
     (translated by Johann N. Loefflmann to Java from C-code that was written by Mark Adler)
   - added PHP's variants on Tiger called "tiger192,4", "tiger160,4", and "tiger128,4"
-    by modifying bouncycastle's TigerDigest slightly.
-  - added sum64
+    by adjusting Bouncy Castle's TigerDigest slightly.
+  - added legacy sum64
 
 - new features:
   - improved --info for CRCs:
