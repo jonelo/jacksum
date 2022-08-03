@@ -4233,6 +4233,12 @@ ALGORITHMS
                 algorithm and it has a 128-bit security strength like SHAKE128.
                 A XOF can be specialized to a hash function by selecting a
                 fixed output length.
+                "To achieve 128-bit security strength, the output n must be
+                chosen long enough so that there are no generic attacks that
+                violate 128-bit security. So for 128-bit (second) preimage
+                security the output should be at least 128 bits, and for
+                128-bit collision security the output should be at least 256
+                bits." See also https://keccak.team/files/KangarooTwelve.pdf
                 Jacksum restricts the set of the supported value for the output
                 length to 256 bits in order to define a reasonable hash
                 function.
