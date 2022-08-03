@@ -3060,6 +3060,10 @@ ALGORITHMS
                 used by Open PGP for example (RFC 2440).
                 The default encoding is decimal.
 \
+            compatibility:
+                - Bouncy Castle:   org.bouncycastle.bcpg.CRC24 (bcpg-jdk)
+                - JDK:             -
+\
             since:
                 Jacksum 1.6.0
             implementation:
