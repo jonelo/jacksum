@@ -2479,6 +2479,7 @@ ALGORITHMS
                 - Solaris:         -
                 - Tru64:           -
                 - Windows:         -
+                - Wolfram:         Hash[expr, "Adler32", "HexString"]
 \
             since:
                 Jacksum 1.0.0, alias "adler-32" since 1.2.0
@@ -2583,6 +2584,8 @@ ALGORITHMS
                 - Tru64:           -
                 - Ubuntu 17.04+:   /usr/bin/b2sum [-l <length>]
                 - Windows:         -
+                - Wolfram:         Hash[expr, "BLAKE2b-512", "HexString"]
+                                   Hash[expr, {"BLAKE2b", <length>}, "HexString"]
 \
             since:
                  Jacksum 3.0.0
@@ -2639,6 +2642,8 @@ ALGORITHMS
                 - Tru64:           -
                 - Ubuntu:          -
                 - Windows:         -
+                - Wolfram:         Hash[expr, "BLAKE2s-512", "HexString"]
+                                   Hash[expr, {"BLAKE2s", <length>}, "HexString"]
 \
             since:
                 Jacksum 3.0.0
@@ -2697,6 +2702,7 @@ ALGORITHMS
                 - Tru64:           -
                 - Ubuntu:          -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -2768,6 +2774,7 @@ ALGORITHMS
                 - Tcl:             crc::cksum
                 - Tru64:           CMD_ENV=xpg4;export CMD_ENV; /bin/cksum
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                  Jacksum 1.0.0
@@ -2820,6 +2827,7 @@ ALGORITHMS
                 - Solaris:         -
                 - Tru64:           -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -3115,6 +3123,7 @@ ALGORITHMS
                 - Solaris:         -
                 - Tcl:             crc::crc32
                 - Windows:         -
+                - Wolfram:         Hash[expr, "CRC32", "HexString"]
 \
             since:
                 Jacksum 1.0.0, alias crc-32 since 1.2.0, aliases fcs32 and
@@ -3173,6 +3182,7 @@ ALGORITHMS
                 - Python:           -
                 - Solaris:          -
                 - Windows:          -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -3269,6 +3279,7 @@ ALGORITHMS
                 - Solaris:         -
                 - Ubuntu:          -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -3324,6 +3335,7 @@ ALGORITHMS
                 - Solaris:         -
                 - Ubuntu (+mtd-utils): /usr/sbin/ubicrc32
                 - Windows:         -
+                - Wolfram:         -
 \
         since:
             Jacksum 3.0.0
@@ -3490,6 +3502,7 @@ ALGORITHMS
                 - Solaris:         -
                 - Ubuntu:          -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -3552,6 +3565,7 @@ ALGORITHMS
                 - Solaris:         -
                 - Ubuntu:          -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.5.0
@@ -3788,7 +3802,7 @@ ALGORITHMS
                 - Plan 9:          -
                 - Solaris:         -
                 - Windows:         -
-                - OpenSSL:         -
+                - Wolfram:         -
 \
            since:
                 Jacksum 3.0.0
@@ -3844,6 +3858,7 @@ ALGORITHMS
                 - Plan 9:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -3994,6 +4009,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 1.6.0, init available since Jacksum 3.0.0
@@ -4114,6 +4130,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 1.4.0
@@ -4200,6 +4217,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -4272,6 +4290,7 @@ ALGORITHMS
                 - Solaris:         -
                 - Ubuntu:          -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -4338,6 +4357,7 @@ ALGORITHMS
                 - Solaris:         -
                 - Ubuntu:          -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -4401,6 +4421,8 @@ ALGORITHMS
                 - Solaris:         -
                 - Ubuntu:          -
                 - Windows:         -
+                - Wolfram:         Hash[expr, "Keccak<length>", "HexString"]
+                                   Hash[expr, {"Keccak", <length>}, "HexString"]
 \
             since:
                 Jacksum 3.0.0
@@ -4564,6 +4586,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows 7+:      certutil -hashfile <file> MD2
+                - Wolfram:         Hash[expr, "MD2", "HexString"]
 \
             since:
                 Jacksum 1.2.0
@@ -4630,6 +4653,7 @@ ALGORITHMS
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=md4
                 - Windows 7+:      certutil -hashfile <file> MD4
+                - Wolfram:         Hash[expr, "MD4", "HexString"]
 \
             since:
                 Jacksum 1.2.0
@@ -4711,6 +4735,7 @@ ALGORITHMS
                                    /usr/bin/sum --method=md5
                                    /usr/bin/md5sum
                 - Windows 7+:      certutil -hashfile <file> MD5
+                - Wolfram:         Hash[expr, "MD5", "HexString"]
                 - Visopsys:        /programs/md5
 \
             since:
@@ -4776,6 +4801,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -4941,6 +4967,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 1.2.0, alias rmd128 and rmd-128 since 1.4.0
@@ -5007,6 +5034,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         Hash[expr, "RIPEMD160", "HexString"]
 \
             since:
                 Jacksum 1.2.0, alias rmd160 and rmd-160 since 1.4.0
@@ -5062,6 +5090,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 1.6.0
@@ -5117,6 +5146,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 1.6.0
@@ -5179,6 +5209,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 1.6.0
@@ -5271,6 +5302,7 @@ ALGORITHMS
                                    /usr/bin/sum --method=sha1
                                    /usr/bin/sha1sum
                 - Windows 7+:      certutil -hashfile <file> SHA1
+                - Wolfram:         Hash[expr, "SHA1", "HexString"]
 \
             since:
                 Jacksum 1.0.0, alias sha-1 since 1.2.0, aliases sha160 and
@@ -5355,6 +5387,8 @@ ALGORITHMS
                 - Solaris 11.2+:   /usr/bin/sha224sum
                 - Solaris 11 Express: -
                 - Windows:         -
+                - Wolfram:         Hash[expr, "SHA224", "HexString"]
+                                   Hash[expr, {"SHA", 224}, "HexString"]
 \
             since:
                 Jacksum 1.6.0
@@ -5441,6 +5475,8 @@ ALGORITHMS
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=sha256
                 - Windows 7+:      certutil -hashfile <file> SHA256
+                - Wolfram:         Hash[expr, "SHA256", "HexString"]
+                                   Hash[expr, {"SHA", 256}, "HexString"]
 \
             since:
                 Jacksum 1.3.0
@@ -5527,6 +5563,8 @@ ALGORITHMS
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=sha384
                 - Windows 7+:      certutil -hashfile <file> SHA384
+                - Wolfram:         Hash[expr, "SHA384", "HexString"]
+                                   Hash[expr, {"SHA", 384}, "HexString"]
 \
             since:
                 Jacksum 1.3.0
@@ -5614,6 +5652,8 @@ ALGORITHMS
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=sha512
                 - Windows 7+:      certutil -hashfile <file> SHA512
+                - Wolfram:         Hash[expr, "SHA512", "HexString"]
+                                   Hash[expr, {"SHA", 512}, "HexString"]
 \
             since:
                 Jacksum 1.3.0
@@ -5681,6 +5721,7 @@ ALGORITHMS
                 - Solaris 11.4+:   /usr/bin/digest -a 512_t -t 224   
                 - Ubuntu:          /usr/bin/shasum -a 512224
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -5744,6 +5785,7 @@ ALGORITHMS
                 - Solaris 11.4+:   /usr/bin/digest -a 512_t -t 256
                 - Ubuntu:          /usr/bin/shasum -a 512256
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -5813,6 +5855,8 @@ ALGORITHMS
                 - Python 3.6+:     hashlib.sha3_224()
                 - Solaris 11.4+:   /usr/bin/digest -a sha3_224
                 - Windows:         -
+                - Wolfram:         Hash[expr, "SHA3-224", "HexString"]
+                                   Hash[expr, {"SHA3", 224}, "HexString"]
 \
             since:
                 Jacksum 3.0.0
@@ -5884,6 +5928,8 @@ ALGORITHMS
                 - Python 3.6+:     hashlib.sha3_256()
                 - Solaris 11.4+:   /usr/bin/digest -a sha3_256
                 - Windows:         -
+                - Wolfram:         Hash[expr, "SHA3-256", "HexString"]
+                                   Hash[expr, {"SHA3", 256}, "HexString"]
 \
             since:
                 Jacksum 3.0.0
@@ -5956,6 +6002,8 @@ ALGORITHMS
                 - Python 3.6+:     hashlib.sha3_384()
                 - Solaris 11.4+:   /usr/bin/digest -a sha3_384
                 - Windows:         -
+                - Wolfram:         Hash[expr, "SHA3-384", "HexString"]
+                                   Hash[expr, {"SHA3", 384}, "HexString"]
 \
             since:
                 Jacksum 3.0.0
@@ -6027,6 +6075,8 @@ ALGORITHMS
                 - Python 3.6+:     hashlib.sha3_512()
                 - Solaris 11.4+:   /usr/bin/digest -a sha3_512
                 - Windows:         -
+                - Wolfram:         Hash[expr, "SHA3-512", "HexString"]
+                                   Hash[expr, {"SHA3", 512}, "HexString"]
 \
             since:
                 Jacksum 3.0.0
@@ -6114,6 +6164,7 @@ ALGORITHMS
                 - Solaris:         -
                 - Ubuntu:          -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -6198,6 +6249,7 @@ ALGORITHMS
                 - Solaris:         -
                 - Ubuntu:          -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -6269,6 +6321,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -6340,6 +6393,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -6411,6 +6465,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -6480,6 +6535,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -6547,6 +6603,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -6608,6 +6665,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -6697,6 +6755,7 @@ ALGORITHMS
                 - Ultrix:          /usr/bin/sum
                 - Windows:         -
                 - OpenSSL:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 1.0.0, alias "bsdsum" since 1.2.0, alias "sumbsd"
@@ -6742,6 +6801,7 @@ ALGORITHMS
                 - Solaris:         -
                 - Windows:         -
                 - OpenSSL:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -6794,6 +6854,7 @@ ALGORITHMS
                                    /usr/bin/sum --method=fddi
                 - Windows:         -
                 - OpenSSL:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -6862,6 +6923,7 @@ ALGORITHMS
                 - Tru64 Unix:      /usr/bin/sum -o
                 - Windows:         -
                 - OpenSSL:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 1.2.0, alias "sumsysv" since 1.6.0,
@@ -6918,6 +6980,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 1.6.0
@@ -6976,6 +7039,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.5.0
@@ -7031,6 +7095,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 1.6.0
@@ -7089,6 +7154,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.5.0
@@ -7150,6 +7216,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 1.4.0
@@ -7207,6 +7274,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.5.0
@@ -7462,6 +7530,7 @@ ALGORITHMS
                 - Python:          -
                 - Solaris:         -
                 - Windows:         -
+                - Wolfram:         -
 \
             since:
                  Jacksum 1.6.0

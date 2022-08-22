@@ -17,7 +17,9 @@ Jacksum 3.5.0, TBD
     - added polynomial representations and CRC parameters also for optimized CRC implementations
 
 - updates:
-  - improved documentation, including ISO-3309 notes on CRC-64
+  - improved documentation:
+    - added ISO-3309 notes on CRC-64
+    - added Wolfram's Hash function to the compatibility lists
   - updated Jacksum's crc-catalogue by Greg Cook's catalogue of parametrised CRC algorithms
     with CRC-8/HITAG, CRC-16/M17, and CRC-32/MEF. Also added CRC-64/JONES, and CRC-64/REDIS.
   - updated bundled bouncycastle version to 1.71 (digests only), but baked out the regression that was
