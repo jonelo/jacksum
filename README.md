@@ -140,7 +140,7 @@ Jacksum: elapsed time: 8 min, 38 s, 215 ms
 
 See also [CVE-2021-44832: Find vulnerable .jar files using Jacksum](https://loefflmann.blogspot.com/2022/06/CVE-2021-44832%20Find%20vulnerable%20.jar%20files%20using%20Jacksum%203.4.0%20or%20later.html)
 
-### Finding all duplicates by knowing a hash only
+### Find all duplicates of a file using a hash value
 
 Jacksum also helps you find all duplicates of a file.
 
@@ -148,7 +148,7 @@ Jacksum also helps you find all duplicates of a file.
     c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43 .\ubuntu-22.04-desktop-amd64.iso
     c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43 .\ubuntu-22.04-desktop-amd64 (1).iso
 
-### Finding the algorithm to a hash
+### Find the algorithm that had generated a hash value
 
 Since Jacksum supports so many algorithms, Jacksum also helps you to find the algorithm to a checksum/CRC/hash by calling a fast and smart brute force algorithm if the hash is unknown, but the data is known.
 
