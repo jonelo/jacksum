@@ -119,7 +119,7 @@ Jacksum also helps you to find all files that match any of the hashes in a given
 <summary>Result ...</summary>
 
 ```
-    MATCH  /opt/serverapp/okmijnuhbzgv.jar (log4j-core-2.12.0.jar)
+    MATCH  /opt/serverapp/log4j.jar (log4j-core-2.12.0.jar)
 
 Jacksum: total lines in check file: 42
 Jacksum: improperly formatted lines in check file: 0
