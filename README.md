@@ -30,7 +30,7 @@ Advanced users, sysadmins, computer scientists, cybersecurity engineers, penetra
 
 ## User Interfaces
 
-Jacksum provides a command line interface (CLI), an application programmeing interface (API), and a graphical user interface (GUI).
+Jacksum provides a command line interface (CLI), an application programming interface (API), and a graphical user interface (GUI).
 
 ### CLI
 
