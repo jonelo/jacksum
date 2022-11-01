@@ -24,15 +24,28 @@ Jacksum comes with a bunch of [features](https://github.com/jonelo/jacksum/wiki/
 
 Jacksum is also a library. It is written entirely in **Java** ☕.
 
-## Don't panic. It is a CLI, but there is also a GUI
+## Who uses it
 
-Jacksum provides a command line interface (CLI). And if you are a skilled command line user (advanced user, sysadmin, computer scientist, cybersecurity engineer, penetration tester, forensics engineer, reverse engineer, ...) you could benefit from the power on the command line.
+Advanced users, sysadmins, computer scientists, cybersecurity engineers, penetration testers, forensics engineers, reverse engineers. You too?
+
+## User Interfaces
+
+Jacksum provides a command line interface (CLI), an application programmeing interface (API), and a graphical user interface (GUI).
+
+### CLI
+
+If you are a skilled command line user you will benefit from the power on the command line and you can use Jacksum in scripts, cronjobs, etc. in order to automate file integration/verification tasks for example.
+
+<img width="100%" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/screenshot-jacksum_on_ubuntu-cli_examples.png" alt="Jacksum on Ubuntu, CLI examples" style="vertical-align:top;margin:10px 10px" />
+
+### GUI
 
 If you prefer a graphical user interface (GUI) and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration (FBI) installer which comes with [HashGarten](https://github.com/jonelo/HashGarten) that is a GUI for Jacksum. The installer is available for many different file managers on Windows, Linux, and macOS. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
 
-## Screenshot
+<img width="60%" src="https://raw.githubusercontent.com/jonelo/jacksum-fbi-windows/main/docs/images/sendto-de.png" alt="Jacksum on Windows, SendTo" style="vertical-align:top;margin:10px 10px" />
 
-<img width="100%" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/screenshot-jacksum_on_ubuntu-cli_examples.png" alt="Jacksum on Ubuntu, CLI examples" style="vertical-align:top;margin:10px 10px" />
+<img width="100%" src="https://raw.githubusercontent.com/jonelo/HashGarten/main/docs/images/HashGarten-0.9.0-select-algorithm.png" alt="HashGarten is powered by Jacksum" style="vertical-align:top;margin:10px 10px" />
+
 
 ## Core Features
 
@@ -44,22 +57,32 @@ A hash function maps a bit string m ∈ {0, 1}<sup>*</sup> of arbitrary length t
 
 m is often called the message or data. h is often called the checksum, hash, hash value, message digest, even (data's) finger- or thumbprint.
 
+Calculating hash values is usually the first step you take to be able to check data integrity at all later on.
+Jacksum supports not only hundreds of different algorithms for calculating hash values, it also supports a bunch of formatting features to get the format you need.
+
 Examples:
 
     $ jacksum -a sha3-256 ubuntu-22.04-desktop-amd64.iso
     c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43 ubuntu-22.04-desktop-amd64.iso
 
+    $ # BSD style output
+    $
     $ jacksum -a sha3-256 --style bsd ubuntu-22.04-desktop-amd64.iso
     SHA3-256 (ubuntu-22.04-desktop-amd64.iso) = c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43
 
+    $ # customized algorithm selection and customized output for all files in the current directory (and below)
+    $
     $ jacksum -a crc32c+sha-256+sha3-256 -E base64-nopadding --format "#ALGONAME{i} (#FILENAME) = #HASH{i}" .
     crc32c (./ubuntu-22.04-desktop-amd64.iso) = GBhNzg
     sha-256 (./ubuntu-22.04-desktop-amd64.iso) = uFKG2YVfVJ7ZiVdjUZ9qKVp2mPucXFNFgRs+7637bwc
     sha3-256 (./ubuntu-22.04-desktop-amd64.iso) = xeRkJqPKCuhI0pd0ftOEZFLMezPVtBivlh29Vd6N/0M
 
-Jacksum also supports the "Rocksoft (tm) Model CRC Algorithm" to customize CRCs, and en extended model of it to define CRCs that incorporate the length of the message.
 
-Example to simulate the sum command from [Plan 9](https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs):
+### Customize CRCs
+
+Jacksum also supports the "Rocksoft (tm) Model CRC Algorithm" to customize CRCs, and an extended model of it to define CRCs that incorporate the length of the message.
+
+Example to simulate the output of the sum command from [Plan 9](https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs):
 
     $ jacksum -a crc:32,04C11DB7,0,true,true,0,true,CC55CC55 -x -q txt:123456789
     afcbb09a 9
