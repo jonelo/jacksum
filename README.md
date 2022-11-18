@@ -58,30 +58,52 @@ A hash function maps a bit string m ∈ {0, 1}<sup>*</sup> of arbitrary length t
 m is often called the message or data. h is often called the checksum, hash, hash value, message digest, even (data's) finger- or thumbprint.
 
 Calculating hash values is usually the first step you take to be able to check data integrity at all later on.
-Jacksum supports not only hundreds of different algorithms for calculating hash values, it also supports a bunch of formatting features to get the format you need.
+Jacksum supports not only hundreds of different algorithms for calculating hash values, it also supports many predefined styles and comprehensive formatting features to get the format you need.
 
 Examples:
+
+Default style (dependent on the algorithm)
 
     $ jacksum -a sha3-256 ubuntu-22.04-desktop-amd64.iso
     c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43 ubuntu-22.04-desktop-amd64.iso
 
-    $ # BSD style output
-    $
+GNU/Linux style
+
+    $ jacksum -a sha3-256 --style linux ubuntu-22.04-desktop-amd64.iso
+    c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43 *ubuntu-22.04-desktop-amd64.iso
+
+BSD style
+
     $ jacksum -a sha3-256 --style bsd ubuntu-22.04-desktop-amd64.iso
     SHA3-256 (ubuntu-22.04-desktop-amd64.iso) = c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43
 
-    $ # customized algorithm selection and customized output for all files in the current directory (and below)
-    $
-    $ jacksum -a crc32c+sha-256+sha3-256 -E base64-nopadding --format "#ALGONAME{i} (#FILENAME) = #HASH{i}" .
-    crc32c (./ubuntu-22.04-desktop-amd64.iso) = GBhNzg
-    sha-256 (./ubuntu-22.04-desktop-amd64.iso) = uFKG2YVfVJ7ZiVdjUZ9qKVp2mPucXFNFgRs+7637bwc
-    sha3-256 (./ubuntu-22.04-desktop-amd64.iso) = xeRkJqPKCuhI0pd0ftOEZFLMezPVtBivlh29Vd6N/0M
+OpenSSL style
+
+    $ jacksum -a sha3-256 --style openssl ubuntu-22.04-desktop-amd64.iso
+    SHA3-256(ubuntu-22.04-desktop-amd64.iso)= c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43
+
+Solaris digest style
+
+    $ jacksum -a sha3-256 --style solaris-digest ubuntu-22.04-desktop-amd64.iso
+    (ubuntu-22.04-desktop-amd64.iso) = c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43
+
+Customized output, including customized algorithm selection (crc32c, sha-256, and sha3-256), customized hash value encoding (base64, nopadding), and algrigthm names in uppercase for all files in the current directory (and below)
+
+    $ jacksum -a crc32c+sha-256+sha3-256 -F "#ALGONAME{i,uppercase} (#FILENAME) = #HASH{i,base64-nopadding}" .
+    CRC32C (./ubuntu-22.04-desktop-amd64.iso) = GBhNzg
+    SHA-256 (./ubuntu-22.04-desktop-amd64.iso) = uFKG2YVfVJ7ZiVdjUZ9qKVp2mPucXFNFgRs+7637bwc
+    SHA3-256 (./ubuntu-22.04-desktop-amd64.iso) = xeRkJqPKCuhI0pd0ftOEZFLMezPVtBivlh29Vd6N/0M
 
 
 ### Customize CRCs
 
-Jacksum also supports the "Rocksoft (tm) Model CRC Algorithm" to customize CRCs, and an extended model of it to define CRCs that incorporate the length of the message.
+Jacksum also supports the "Rocksoft (tm) Model CRC Algorithm" to customize CRCs by setting 6 parameters.
+Example to get the Castagnoli CRC-32:
 
+    $ jacksum -a crc:32,1EDC6F41,FFFFFFFF,true,true,FFFFFFFF -x -q txt:123456789
+    e3069283 9
+
+An extended model with 8 CRC parameters is also supported in order to define CRCs that incorporate the length of the message.
 Example to simulate the output of the sum command from [Plan 9](https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs):
 
     $ jacksum -a crc:32,04C11DB7,0,true,true,0,true,CC55CC55 -x -q txt:123456789
