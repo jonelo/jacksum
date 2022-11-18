@@ -93,6 +93,11 @@ Customized output, including customized algorithm selection (crc32c, sha-256, an
     CRC32C (./ubuntu-22.04-desktop-amd64.iso) = GBhNzg
     SHA-256 (./ubuntu-22.04-desktop-amd64.iso) = uFKG2YVfVJ7ZiVdjUZ9qKVp2mPucXFNFgRs+7637bwc
     SHA3-256 (./ubuntu-22.04-desktop-amd64.iso) = xeRkJqPKCuhI0pd0ftOEZFLMezPVtBivlh29Vd6N/0M
+    
+Customized outputput like above, but encoded hash values separated by comma
+
+    $ jacksum -a crc32c+sha-256+sha3-256 -F "#ALGONAMES{uppercase} (#FILENAME) = #HASHES{base64-nopadding}" ubuntu-20.04.2.0-desktop-amd64.iso
+    CRC32C,SHA-256,SHA3-256 (ubuntu-20.04.2.0-desktop-amd64.iso) = GBhNzg,uFKG2YVfVJ7ZiVdjUZ9qKVp2mPucXFNFgRs+7637bwc,xeRkJqPKCuhI0pd0ftOEZFLMezPVtBivlh29Vd6N/0M
 
 
 ### Customize CRCs
