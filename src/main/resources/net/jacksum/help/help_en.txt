@@ -7639,7 +7639,7 @@ OUTPUT FORMAT
 
 EXIT STATUS
     If Jacksum exists, the exit code reflects the following:
-
+\
     0  - everything is OK
     1  - there was at least one mismatch during the verification process
     >1 - in case of a parameter-, .jacksum- or I/O-error
