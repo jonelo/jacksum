@@ -37,11 +37,14 @@ public class ParserStatistics extends Statistics {
     @Override
     public Map<String, Object> build() {
         Map<String, Object> map = new LinkedHashMap<>();
-        double percent = getProperlyFormattedLines() * 100.0 / (getProperlyFormattedLines()+getImproperlyFormattedLines());
+
+        // if there is not even one valid or invalid entry in the file (and maybe some ignored lines), it is still
+        // considered to be a correct file
+        double percent = (getProperlyFormattedLines()+getImproperlyFormattedLines() == 0) ?
+                100 : getProperlyFormattedLines() * 100.0 / (getProperlyFormattedLines()+getImproperlyFormattedLines());
         map.put("total lines in check file", getTotalLines());
         map.put("improperly formatted lines in check file", getImproperlyFormattedLines());
         map.put("properly formatted lines in check file", getProperlyFormattedLines());
-//        map.put("ignored duplicate filenames", getDuplicateFilenames());
         map.put("ignored lines (empty lines and comments)", getIgnoredLines());
         map.put("correctness of check file", String.format("%.2f %%", percent).replace(',', '.'));
         return map;
