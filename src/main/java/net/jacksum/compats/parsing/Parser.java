@@ -79,14 +79,26 @@ public class Parser {
     }
 
     public HashEntry parseOneLine(String line) {
+        HashEntry hashEntry = null;
+        int properlyFormattedLines = 0;
+        int improperlyFormattedLines = 0;
+        int ignoredLines = 0;
         try {
-            return parseLine(line);
+            hashEntry = parseLine(line);
+            properlyFormattedLines++;
         } catch (IgnoredLineException ile) {
             // we want to silently ignore particular lines
+            ignoredLines++;
         } catch (ImproperlyFormattedLineException ple) {
+            improperlyFormattedLines++;
             System.err.printf("Jacksum: Warning: Improperly formatted line: %s%n", line);
         }
-        return null;
+        getStatistics().setTotalLines(1);
+        getStatistics().setProperlyFormattedLines(properlyFormattedLines);
+        getStatistics().setImproperlyFormattedLines(improperlyFormattedLines);
+        getStatistics().setIgnoredLines(ignoredLines);
+
+        return hashEntry;
     }
 
     // fixes the file path if --path-relative-to <path> has been set
