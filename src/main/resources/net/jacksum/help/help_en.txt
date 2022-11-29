@@ -1148,6 +1148,19 @@ OPTIONS
                     Available since Jacksum 3.0.0.
 \
 \
+                list-files-only
+\
+                    Aliases: listfilesonly
+\
+                    GNU escaping is enabled by default, but it can be disabled,
+                    see also option --gnu-filename-escaping.
+                    This style can be used to gather paths before they are being
+                    hashed. You can pass those file lists by the option called
+                    --file-list to Jacksum.
+                    This style cannot be used to verify the integrity of the
+                    files, because the list won't contain any hash value.
+\
+\
                 openssl-dgst
 \
                     Aliases: openssl, openssl-tagged
@@ -1239,6 +1252,7 @@ OPTIONS
                 bsd-r              |  *  |  -  |  h  |  -  |  -  |  e  |
                 fciv               |  *  |  -  |  h  |  -  |  -  |  -  |
                 gnu-linux          |  *  |  -  |  h  |  -  |  -  |  e  |
+                list-files-only    |  -  |  -  |  -  |  -  |  -  |  e  |
                 openssl-dgst       |  *  |  E  |  h  |  -  |  -  |  e  |
                 openssl-dgst-r     |  *  |  -  |  h  |  -  |  -  |  e  |
                 sfv                |  *  |  -  |  H  |  -  |  -  |  -  |
@@ -1247,9 +1261,9 @@ OPTIONS
 \
                 Legend: * = any
                         - = not available
-                        d = disabled by default, can be enabled
-                        e = enabled by default, can be disabled
-                        E = enabled by default, cannot be disabled
+                        d = disabled by default, but can be enabled on demand
+                        e = enabled by default, but can be disabled on demand
+                        E = enabled by default, and cannot be disabled
                         h = hex
                         H = hex, uppercase
 

@@ -2245,12 +2245,33 @@ public class Parameters implements
                         throw new ParameterException(String.format("File list format \"%s\" is unsupported.", this.getFilelistFormat()));
                     }
                 }
+
+
+                int ndx = 0;
+                while (ndx < this.getFilenamesFromFilelist().size()) {
+
+                    String theString = this.getFilenamesFromFilelist().get(ndx);
+                    if (isGnuEscaping() && theString.startsWith("\\")) {
+                        this.getFilenamesFromFilelist().set(ndx, gnuUnescaping(theString.substring(1)));
+                    }
+                    ndx++ ;
+                }
+
             } catch (UnsupportedCharsetException uce) {
                 throw new ParameterException(String.format("Charset \"%s\" is unsupported. Check the supported character sets with jacksum --info.", this.getCharsetFileList()));
             } catch (IOException ex) {
                 throw new ParameterException(String.format("File %s not found or cannot be read.", this.getFilelistFilename()));
             }
         }
+    }
+
+
+    private static String gnuUnescaping(String filename) {
+        StringBuilder buffer = new StringBuilder(filename);
+        GeneralString.replaceAllStrings(buffer, "\\\\", "\\"); // backslash
+        GeneralString.replaceAllStrings(buffer, "\\n", "\n"); // new line
+        GeneralString.replaceAllStrings(buffer, "\\r", "\r"); // carriage return
+        return buffer.toString();
     }
 
 }

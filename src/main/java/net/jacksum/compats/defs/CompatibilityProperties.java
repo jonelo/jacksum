@@ -449,6 +449,7 @@ public class CompatibilityProperties implements Serializable {
             case "openssl-dgst-r":
             case "solaris-digest":
             case "solaris-digest-v":
+            case "list-files-only":
                 return true;
             default:
                 return false;
@@ -484,6 +485,9 @@ public class CompatibilityProperties implements Serializable {
 
             case "solaris-untagged":
                 return "solaris-digest";
+
+            case "listfilesonly":
+                return "list-files-only";
 
             default:
                 return parser;
