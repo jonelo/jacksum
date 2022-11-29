@@ -34,7 +34,7 @@ public class CompareAndFindAlgo extends CompareAction {
        this.parameters = parameters;
    }
 
-    @Override
+   @Override
    public void perform(boolean equals) {
        if (equals) {
            positives++;
