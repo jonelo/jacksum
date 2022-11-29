@@ -27,4 +27,5 @@ Jacksum 3.5.0, TBD
     in bouncy castle :-/)
 
 - bug fixes:
+  - github issue #22: Statistics are all zero if --check-line has been set
   - updated serialversionUID in the Parameters class, because members have changed in Jacksum 3.4.0
