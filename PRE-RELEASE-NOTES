@@ -13,6 +13,7 @@ Jacksum 3.5.0, TBD
   - make option --file-list recognizing GNU filename escaping
   - added "list-files-only" style with GNU filename escaping feature enabled in order to generate file lists
     that can be fed to Jacksum again
+  - added option alias called --match-filter for option --wanted-list-filter
   - improved --info for CRCs:
     - added the polynomial representations: normal, reversed, and Koopman
     - added the reciprocal polynomial for CRCs
@@ -34,3 +35,4 @@ Jacksum 3.5.0, TBD
   - correctness of check file shows "NaN %" in the statistics if there is no entry at all in the check file
   - updated serialversionUID in the Parameters class, because members have changed in Jacksum 3.4.0
   - `jacksum -h exit` does not print the entire exit status section
+  - option --match-filter match,nomatch doesn't work like --match-filter all
