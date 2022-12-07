@@ -20,12 +20,14 @@
 
 
  */
-package net.jacksum.parameters.base;
 
-import net.jacksum.actions.io.verify.ListFilter;
+package net.jacksum.actions.info.version;
 
-public interface CheckParameters {
+import net.jacksum.cli.Verbose;
 
-    ListFilter getListFilter();
-    boolean isList();
+/**
+ * The parameters for the Version Action.
+ */
+public interface VersionActionParameters {
+    Verbose getVerbose();
 }

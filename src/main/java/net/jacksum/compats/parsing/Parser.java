@@ -22,7 +22,7 @@
 package net.jacksum.compats.parsing;
 
 import net.jacksum.JacksumAPI;
-import net.jacksum.actions.check.*;
+import net.jacksum.actions.io.verify.NotEvenOneEntryFoundException;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.compats.defs.CompatibilityProperties;
 import net.loefflmann.sugar.io.BOM;

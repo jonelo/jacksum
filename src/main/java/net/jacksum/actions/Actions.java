@@ -23,21 +23,21 @@
 
 package net.jacksum.actions;
 
-import net.jacksum.actions.copyright.CopyrightAction;
-import net.jacksum.actions.license.LicenseAction;
-import net.jacksum.actions.wanted.HashFilesWantedAction;
+import net.jacksum.actions.info.copyright.CopyrightAction;
+import net.jacksum.actions.info.license.LicenseAction;
+import net.jacksum.actions.io.wanted.HashFilesWantedAction;
 import net.jacksum.statistics.Statistics;
 import java.security.NoSuchAlgorithmException;
 import net.jacksum.JacksumAPI;
-import net.jacksum.actions.infoalgo.AlgoInfoAction;
-import net.jacksum.actions.infoapp.AppInfoAction;
-import net.jacksum.actions.check.CheckAction;
-import net.jacksum.actions.findalgo.FindAlgoAction;
-import net.jacksum.actions.hashfiles.HashFilesAction;
-import net.jacksum.actions.help.HelpAction;
-import net.jacksum.actions.infocompat.CompatInfoAction;
-import net.jacksum.actions.quick.QuickAction;
-import net.jacksum.actions.version.VersionAction;
+import net.jacksum.actions.info.algo.AlgoInfoAction;
+import net.jacksum.actions.info.app.AppInfoAction;
+import net.jacksum.actions.io.verify.CheckAction;
+import net.jacksum.actions.io.findalgo.FindAlgoAction;
+import net.jacksum.actions.io.hash.HashFilesAction;
+import net.jacksum.actions.info.help.HelpAction;
+import net.jacksum.actions.info.compat.CompatInfoAction;
+import net.jacksum.actions.io.quick.QuickAction;
+import net.jacksum.actions.info.version.VersionAction;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.combined.StatisticsParameters;

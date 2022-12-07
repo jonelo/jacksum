@@ -20,12 +20,34 @@
 
 
  */
-package net.jacksum.parameters.base;
 
-import net.jacksum.actions.io.verify.ListFilter;
+package net.jacksum.actions.info.license;
 
-public interface CheckParameters {
+import net.jacksum.actions.Action;
+import net.jacksum.cli.ExitCode;
+import net.loefflmann.sugar.io.GeneralIO;
+import net.loefflmann.sugar.util.ExitException;
 
-    ListFilter getListFilter();
-    boolean isList();
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+public class LicenseAction implements Action {
+
+    public LicenseAction() {
+    }
+
+    @Override
+    public int perform() throws ExitException {
+        try {
+            List<String> lines = GeneralIO.readLinesFromJarFile("/net/jacksum/legal/license.txt", StandardCharsets.UTF_8);
+            for (String line : lines) {
+                System.out.println(line);
+            }
+        } catch (IOException ioe) {
+            return ExitCode.IO_ERROR;
+        }
+        return ExitCode.OK;
+    }
+
 }

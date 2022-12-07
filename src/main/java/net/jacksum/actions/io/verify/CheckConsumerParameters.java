@@ -1,6 +1,5 @@
 /*
 
-
   Jacksum 3.4.0 - a checksum utility in Java
   Copyright (c) 2001-2022 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
@@ -18,14 +17,14 @@
   You should have received a copy of the GNU General Public License along with
   this program. If not, see <https://www.gnu.org/licenses/>.
 
-
  */
-package net.jacksum.parameters.base;
+package net.jacksum.actions.io.verify;
 
-import net.jacksum.actions.io.verify.ListFilter;
+import net.jacksum.multicore.manyfiles.ConsumerParameters;
+import net.jacksum.parameters.base.CheckParameters;
+import net.jacksum.parameters.base.TimestampFormatParameters;
+import net.jacksum.parameters.base.VerboseParameters;
 
-public interface CheckParameters {
-
-    ListFilter getListFilter();
-    boolean isList();
+public interface CheckConsumerParameters extends ConsumerParameters, CheckParameters, VerboseParameters, TimestampFormatParameters {
+    
 }

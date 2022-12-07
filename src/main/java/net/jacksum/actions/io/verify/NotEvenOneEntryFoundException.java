@@ -20,12 +20,27 @@
 
 
  */
-package net.jacksum.parameters.base;
+package net.jacksum.actions.io.verify;
 
-import net.jacksum.actions.io.verify.ListFilter;
 
-public interface CheckParameters {
+public class NotEvenOneEntryFoundException extends Exception {
 
-    ListFilter getListFilter();
-    boolean isList();
+    /**
+     * Creates a new instance of
+     * <code>ParseErrorsAndNotEvenOneEntryFoundException</code> without detail
+     * message.
+     */
+    public NotEvenOneEntryFoundException() {
+    }
+
+    /**
+     * Constructs an instance of
+     * <code>ParseErrorsAndNotEvenOneEntryFoundException</code> with the
+     * specified detail message.
+     *
+     * @param msg the detail message.
+     */
+    public NotEvenOneEntryFoundException(String msg) {
+        super(msg);
+    }
 }

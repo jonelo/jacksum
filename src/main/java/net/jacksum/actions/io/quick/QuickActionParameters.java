@@ -20,12 +20,23 @@
 
 
  */
-package net.jacksum.parameters.base;
+package net.jacksum.actions.io.quick;
 
-import net.jacksum.actions.io.verify.ListFilter;
+import net.jacksum.actions.io.compare.CompareActionInterface;
+import net.jacksum.parameters.combined.ChecksumParameters;
+import net.jacksum.parameters.base.CustomizedFormatParameters;
+import net.jacksum.parameters.base.ExpectationParameters;
+import net.jacksum.parameters.base.SequenceParameters;
+import net.jacksum.parameters.combined.StatisticsParameters;
 
-public interface CheckParameters {
-
-    ListFilter getListFilter();
-    boolean isList();
+/**
+ * The parameters for the Quick Action.
+ */
+public interface QuickActionParameters extends
+        ChecksumParameters,
+        CompareActionInterface,
+        StatisticsParameters,
+        CustomizedFormatParameters,
+        ExpectationParameters,
+        SequenceParameters {
 }

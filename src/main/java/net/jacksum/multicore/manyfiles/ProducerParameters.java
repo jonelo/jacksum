@@ -22,7 +22,7 @@
  */
 package net.jacksum.multicore.manyfiles;
 
-import net.jacksum.actions.check.ListFilter;
+import net.jacksum.actions.io.verify.ListFilter;
 
 import java.nio.file.Path;
 import java.util.List;

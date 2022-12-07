@@ -20,12 +20,14 @@
 
 
  */
-package net.jacksum.parameters.base;
+package net.jacksum.actions.io.quick;
 
-import net.jacksum.actions.io.verify.ListFilter;
+import net.jacksum.statistics.StatisticsBytes;
 
-public interface CheckParameters {
-
-    ListFilter getListFilter();
-    boolean isList();
+/**
+ * The statistics for the Quick Action.
+ * @author Johann N. Löfflmann
+ */
+public class QuickActionStatistics extends StatisticsBytes {
+    
 }

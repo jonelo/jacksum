@@ -20,12 +20,15 @@
 
 
  */
-package net.jacksum.parameters.base;
 
-import net.jacksum.actions.io.verify.ListFilter;
+package net.jacksum.actions.info.compat;
 
-public interface CheckParameters {
+import net.jacksum.parameters.base.CompatibilityParameters;
+import net.jacksum.parameters.base.VerboseParameters;
 
-    ListFilter getListFilter();
-    boolean isList();
+/**
+ * The parameters for the AppInfo Action.
+ */
+public interface CompatInfoActionParameters extends VerboseParameters, CompatibilityParameters {
+
 }

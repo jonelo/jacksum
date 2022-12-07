@@ -1,6 +1,5 @@
 /*
 
-
   Jacksum 3.4.0 - a checksum utility in Java
   Copyright (c) 2001-2022 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
@@ -18,14 +17,29 @@
   You should have received a copy of the GNU General Public License along with
   this program. If not, see <https://www.gnu.org/licenses/>.
 
-
  */
-package net.jacksum.parameters.base;
 
-import net.jacksum.actions.io.verify.ListFilter;
+package net.jacksum.actions.io.verify;
 
-public interface CheckParameters {
+import java.util.List;
+import net.jacksum.cli.Verbose;
 
-    ListFilter getListFilter();
+/**
+ * The parameters for the CheckAction
+ */
+public interface CheckActionParameters {
+
+    String getCheckFile();
+
+    Verbose getVerbose();
+
     boolean isList();
+    
+    String getCharsetCheckFile();
+    
+    String getCompatibilityID();
+    
+    void setFilenamesFromCheckFile(List<String> filenamesFromCheckFile);
+    
+    List<String> getFilenamesFromCheckFile();
 }

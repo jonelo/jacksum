@@ -20,12 +20,29 @@
 
 
  */
-package net.jacksum.parameters.base;
 
-import net.jacksum.actions.io.verify.ListFilter;
+package net.jacksum.actions.io.compare;
 
-public interface CheckParameters {
+import net.jacksum.algorithms.AbstractChecksum;
 
-    ListFilter getListFilter();
-    boolean isList();
+public class CompareAndFindAlgo extends CompareAction {
+    // ExpectationActionMode.ALGONAME
+
+   public CompareAndFindAlgo
+           (AbstractChecksum checksum, CompareActionInterface parameters) {
+       this.checksum = checksum;
+       this.parameters = parameters;
+   }
+
+   @Override
+   public void perform(boolean equals) {
+       if (equals) {
+           positives++;
+           System.out.println(checksum.getName());
+       } else {
+           negatives++;
+       }        
+   }
+
+
 }

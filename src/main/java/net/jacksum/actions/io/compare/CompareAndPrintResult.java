@@ -20,12 +20,29 @@
 
 
  */
-package net.jacksum.parameters.base;
 
-import net.jacksum.actions.io.verify.ListFilter;
+package net.jacksum.actions.io.compare;
 
-public interface CheckParameters {
+import net.jacksum.algorithms.AbstractChecksum;
 
-    ListFilter getListFilter();
-    boolean isList();
+public class CompareAndPrintResult extends CompareAction {
+
+    // ExpectationActionMode.ONE_TIME_COMPARISON
+    public CompareAndPrintResult(AbstractChecksum checksum,
+            CompareActionInterface parameters) {
+        this.checksum = checksum;
+        this.parameters = parameters;
+    }
+
+    @Override
+    public void perform(boolean b) {
+        if (b) {
+            System.out.println("[OK]");
+            positives++;
+        } else {
+            System.out.println("[MISMATCH]");
+            negatives++;
+        }
+    }
+
 }

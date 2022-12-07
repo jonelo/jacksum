@@ -20,12 +20,19 @@
 
 
  */
-package net.jacksum.parameters.base;
 
-import net.jacksum.actions.io.verify.ListFilter;
+package net.jacksum.actions.info.help;
 
-public interface CheckParameters {
+/**
+ * The parameters for the Help Action.
+ */
+public interface HelpActionParameters {
+    boolean isHelpSearchString();
 
-    ListFilter getListFilter();
-    boolean isList();
+    String getHelpSearchString();
+
+    boolean isHelpLanguage();
+
+    String getHelpLanguage();
+
 }

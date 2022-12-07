@@ -20,12 +20,27 @@
 
 
  */
-package net.jacksum.parameters.base;
+package net.jacksum.actions.info.help;
 
-import net.jacksum.actions.io.verify.ListFilter;
 
-public interface CheckParameters {
+public class NothingFoundException extends Exception {
 
-    ListFilter getListFilter();
-    boolean isList();
+    /**
+     * Creates a new instance of
+     * <code>NothingFoundException</code> without detail
+     * message.
+     */
+    public NothingFoundException() {
+    }
+
+    /**
+     * Constructs an instance of
+     * <code>NothingFoundFoundException</code> with the
+     * specified detail message.
+     *
+     * @param msg the detail message.
+     */
+    public NothingFoundException(String msg) {
+        super(msg);
+    }
 }

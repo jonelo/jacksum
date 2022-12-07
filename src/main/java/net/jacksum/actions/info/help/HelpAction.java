@@ -20,12 +20,32 @@
 
 
  */
-package net.jacksum.parameters.base;
 
-import net.jacksum.actions.io.verify.ListFilter;
+package net.jacksum.actions.info.help;
 
-public interface CheckParameters {
+import net.loefflmann.sugar.util.ExitException;
+import net.jacksum.actions.Action;
+import net.jacksum.cli.ExitCode;
 
-    ListFilter getListFilter();
-    boolean isList();
+public class HelpAction implements Action {
+
+    private final HelpActionParameters parameters;
+
+    public HelpAction(HelpActionParameters parameters) {
+        this.parameters = parameters;
+    }
+
+    @Override
+    public int perform() throws ExitException {
+
+        if (parameters.isHelpLanguage() && parameters.isHelpSearchString()) {
+            Help.printHelp(parameters.getHelpLanguage(), parameters.getHelpSearchString());
+        } else if (parameters.isHelpLanguage()) {
+            Help.printHelp(parameters.getHelpLanguage());
+        } else {
+            Help.printShortHelp();
+        }
+        return ExitCode.OK;
+    }
+
 }

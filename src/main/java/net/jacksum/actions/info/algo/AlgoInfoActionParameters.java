@@ -20,12 +20,14 @@
 
 
  */
-package net.jacksum.parameters.base;
+package net.jacksum.actions.info.algo;
 
-import net.jacksum.actions.io.verify.ListFilter;
+import net.jacksum.parameters.base.AlgorithmParameters;
+import net.jacksum.parameters.base.VerboseParameters;
 
-public interface CheckParameters {
+public interface AlgoInfoActionParameters extends AlgorithmParameters, VerboseParameters {
 
-    ListFilter getListFilter();
     boolean isList();
+    boolean isInfoMode();
+    
 }

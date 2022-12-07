@@ -20,12 +20,14 @@
 
 
  */
-package net.jacksum.parameters.base;
 
-import net.jacksum.actions.io.verify.ListFilter;
+package net.jacksum.actions.io.compare;
 
-public interface CheckParameters {
+public interface CompareActionInterface {
 
-    ListFilter getListFilter();
-    boolean isList();
+    String getExpectedString();
+
+    byte[] getExpectedBytes();
+
+    String getFormat();
 }

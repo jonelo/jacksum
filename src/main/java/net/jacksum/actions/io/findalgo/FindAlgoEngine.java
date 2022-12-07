@@ -20,12 +20,25 @@
 
 
  */
-package net.jacksum.parameters.base;
+package net.jacksum.actions.io.findalgo;
 
-import net.jacksum.actions.io.verify.ListFilter;
+import java.math.BigInteger;
+import net.jacksum.parameters.ParameterException;
 
-public interface CheckParameters {
-
-    ListFilter getListFilter();
-    boolean isList();
+/**
+ *
+ * @author Johann N. Loefflmann
+ */
+public interface FindAlgoEngine {    
+    
+    /**
+     * Finds algorithms producing width bits
+     * @param width the width in bits that an algorithm produces
+     * @throws ParameterException if the parameter is invalid.
+     */
+    void find(int width) throws ParameterException;
+    
+    BigInteger getSearched();
+    
+    long getFound();
 }

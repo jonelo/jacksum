@@ -22,7 +22,7 @@
  */
 package net.jacksum.cli;
 
-import net.jacksum.actions.help.Help;
+import net.jacksum.actions.info.help.Help;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 import net.jacksum.multicore.ThreadControl;
