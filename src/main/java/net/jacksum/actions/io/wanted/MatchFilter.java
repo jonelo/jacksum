@@ -30,13 +30,13 @@ import java.util.List;
  *
  * @author Johann N. Loefflmann
  */
-public class WantedListFilter implements Serializable  {
+public class MatchFilter implements Serializable  {
 
     private static final long serialVersionUID = 8389892691520112065L;
     private boolean filterMatch;
     private boolean filterNoMatch;
 
-    public WantedListFilter() {
+    public MatchFilter() {
         filterMatch = true;
         filterNoMatch = false;
     }
@@ -93,14 +93,19 @@ public class WantedListFilter implements Serializable  {
                     enableAll(false);
                     break;
                 case "match":
+                    filterMatch = true;
+                    break;
+                case "default":
                 case "positive":
-                   filterMatch = true;
-                   filterNoMatch = false;
+                    filterMatch = true;
+                    filterNoMatch = false;
                     break;
                 case "nomatch":
+                    filterNoMatch = true;
+                    break;
                 case "negative":
-                   filterMatch = false;
-                   filterNoMatch = true;
+                    filterMatch = false;
+                    filterNoMatch = true;
                     break;
                 default:
                     throw new IllegalArgumentException(String.format("%s is an invalid parameter", token));

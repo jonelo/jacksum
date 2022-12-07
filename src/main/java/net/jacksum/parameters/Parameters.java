@@ -34,7 +34,7 @@ import net.jacksum.actions.io.quick.QuickActionParameters;
 import net.jacksum.actions.io.verify.CheckActionParameters;
 import net.jacksum.actions.io.verify.CheckConsumerParameters;
 import net.jacksum.actions.io.verify.ListFilter;
-import net.jacksum.actions.io.wanted.WantedListFilter;
+import net.jacksum.actions.io.wanted.MatchFilter;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Messenger;
@@ -165,7 +165,7 @@ public class Parameters implements
     // --list-filter
     private ListFilter listFilter;
     // --list-filter-wanted
-    private WantedListFilter wantedListFilter;
+    private MatchFilter wantedListFilter;
     // --legacy-stdin-name
     private String stdinName = "<stdin>";
     // -L <file>
@@ -274,7 +274,7 @@ public class Parameters implements
         verbose = new Verbose();
         messenger = new Messenger(verbose);
         listFilter = new ListFilter();
-        wantedListFilter = new WantedListFilter();
+        wantedListFilter = new MatchFilter();
     }
 
     /**

@@ -2383,7 +2383,7 @@ OPTIONS
                 nomatch         show NOt MATCHing files (with hash in brackets)
 \
                 all             <filter> is set to match,nomatch
-                default         <filter> is set to match
+                default         <filter> is set to positive
                 none            does not print anything (useful if you are
                                 interested in the summary only) or if you want
                                 to define your own filter

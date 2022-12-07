@@ -66,7 +66,7 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
     private Messenger messenger;
     private long found = 0;
     private long notfound = 0;
-    WantedListFilter filter = null;
+    MatchFilter filter = null;
 
     public MessageConsumerForWantedFiles() {
         statistics = new StatisticsForHashedFiles();
