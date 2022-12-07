@@ -87,6 +87,7 @@ public class CLIParameters {
     public static final String __LIST = "--list";
     public static final String __LIST_FILTER = "--list-filter";
     public static final String __WANTED_LIST_FILTER = "--wanted-list-filter";
+    public static final String __MATCH_FILTER = "--match-filter";
     public static final String __LEGACY_STDIN_NAME = "--legacy-stdin-name";
     public static final String _FILE_LIST = "-L";
     public static final String __FILE_LIST = "--file-list";
@@ -401,16 +402,16 @@ public class CLIParameters {
                         handleUserParamError(arg, __LIST_FILTER);
                     }
 
-                } else if (arg.equals(__WANTED_LIST_FILTER)) {
+                } else if (arg.equals(__MATCH_FILTER) || arg.equals(__WANTED_LIST_FILTER)) {
                     if (firstfile < args.length) {
                         try {
                             parameters.getWantedListFilter().setFilter(args[firstfile++]);
                         } catch (IllegalArgumentException e) {
-                            Help.printHelp(HELP_DEFAULT_LANGUAGE, __WANTED_LIST_FILTER);
+                            Help.printHelp(HELP_DEFAULT_LANGUAGE, __MATCH_FILTER);
                             throw new ParameterException(e.getMessage());
                         }
                     } else {
-                        handleUserParamError(arg, __WANTED_LIST_FILTER);
+                        handleUserParamError(arg, __MATCH_FILTER);
                     }
 
 

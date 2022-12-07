@@ -2374,6 +2374,7 @@ OPTIONS
 
 
     --wanted-list-filter <filter>
+    --match-filter <filter>
 \
             Filters the output that is being produced by -w.
             <filter> has to be one or more of the following keywords,
