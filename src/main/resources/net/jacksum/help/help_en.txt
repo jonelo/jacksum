@@ -87,7 +87,7 @@ DESCRIPTION
 \
         Jacksum supports the "Rocksoft (tm) Model CRC Algorithm" to customize
         CRCs. That feature allows you to construct any of the possible CRC
-        combinations with a [8..64] bit length. Jacksum also extends that
+        combinations with a [1..64] bit length. Jacksum also extends that
         well known model to include the length of the message optionally to
         the CRC. To learn more about that subject type `jacksum -h crc:`
 \
@@ -2853,7 +2853,7 @@ ALGORITHMS
                 CRC (Cyclic Redundancy Check), generic
 \
             length:
-                [8..64] bits
+                [1..64] bits
 \
             type:
                 CRC
@@ -2942,8 +2942,9 @@ ALGORITHMS
                         xorLen value.
 \
             since:
-                Available since Jacksum 1.7.0,
-                includeLen and xorLen since Jacksum 3.0.0
+                Available since Jacksum 1.7.0 (bit widths [8..64]),
+                includeLen and xorLen since Jacksum 3.0.0,
+                bit widths [1..7] since Jacksum 3.5.0
 
 
     crc8, crc-8
