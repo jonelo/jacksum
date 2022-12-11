@@ -36,7 +36,8 @@ import java.util.Properties;
 
 public class CompatibilityProperties implements Serializable {
 
-    private static final long serialVersionUID = 7076123016945520132L;
+    private static final long serialVersionUID = 4442560626737130256L;
+
     private final Properties props; // persistent Props
     private final static int CURRENT_COMPAT_SYNTAX_VERSION = 3;
 
@@ -224,6 +225,11 @@ public class CompatibilityProperties implements Serializable {
     public boolean isGnuEscapingSupported() {
         // formatter.format contains #ESCAPETAG and parser knows the position of the #ESCAPETAG
         return getFormat().contains("#ESCAPETAG") && getRegexpGnuEscapingPos() > 0;
+    }
+
+    public boolean isFilenameSupported() {
+        // formatter.format contains #FILENAME and parser knows the position of the #FILENAME
+        return getFormat().contains("#FILENAME") && getRegexpFilenamePos() > 0;
     }
 
     public boolean isFilesizeSupported() {
@@ -450,6 +456,7 @@ public class CompatibilityProperties implements Serializable {
             case "solaris-digest":
             case "solaris-digest-v":
             case "files-only":
+            case "hexhashes-only":
                 return true;
             default:
                 return false;
@@ -488,6 +495,9 @@ public class CompatibilityProperties implements Serializable {
 
             case "filesonly":
                 return "files-only";
+
+            case "hexhashesonly":
+                return "hexhashes-only";
 
             default:
                 return parser;

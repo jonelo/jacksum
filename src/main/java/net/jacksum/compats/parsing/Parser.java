@@ -263,7 +263,7 @@ public class Parser {
             getStatistics().setIgnoredLines(ignoredLines);
 
             if (list.isEmpty()) {
-                throw new NotEvenOneEntryFoundException(String.format("Jacksum: Error: not even one valid entry has been found in %s", filename));
+                throw new NotEvenOneEntryFoundException(String.format("Jacksum: Error: not even one valid entry has been found in %s. Are you sure that you have specified the correct style?", filename));
             }
 
         } finally {

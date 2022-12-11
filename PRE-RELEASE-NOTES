@@ -11,8 +11,9 @@ Jacksum 3.5.0, TBD
 
 - new features:
   - make option --file-list recognizing GNU filename escaping
-  - added "list-files-only" style with GNU filename escaping feature enabled in order to generate file lists
+  - added "files-only" style with GNU filename escaping feature enabled in order to generate file lists
     that can be fed to Jacksum again
+  - added "hexhashes-only" style to read and write files that contain hash values only (for -w)
   - added option alias called --match-filter for option --wanted-list-filter
   - improved --info for CRCs:
     - added the polynomial representations: normal, reversed, and Koopman

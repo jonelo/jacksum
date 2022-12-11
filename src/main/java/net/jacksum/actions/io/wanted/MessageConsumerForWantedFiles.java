@@ -153,7 +153,11 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
             if (parameters.isList()) {
                 System.out.printf("%s%s", filename, parameters.getLineSeparator());
             } else {
-                System.out.printf("%9s  %s (%s)%s", status, filename, comment, parameters.getLineSeparator());
+                if (comment != null) {
+                    System.out.printf("%9s  %s (%s)%s", status, filename, comment, parameters.getLineSeparator());
+                } else { // comment can be null if --style hexhashes-only has been selected
+                    System.out.printf("%9s  %s%s", status, filename, parameters.getLineSeparator());
+                }
             }
         }
     }

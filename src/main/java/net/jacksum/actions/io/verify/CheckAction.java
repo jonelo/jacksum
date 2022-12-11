@@ -60,6 +60,12 @@ public class CheckAction implements Action {
             parserProperties = DefaultCompatibilityProperties.getDefaultCompatibilityProperties(parameters);
         } else {
             parserProperties = parameters.getCompatibilityProperties();
+
+            // if a file has been produced by option --style hexhashes-only for example, it is not suitable to
+            // use that file for option -c
+            if (!parserProperties.isFilenameSupported()) {
+                throw new ParameterException("The specified style does not support file names, but file names are required for performing an integrity check by option -c. Did you mean option -w instead?");
+            }
         }
 
         if (parameters.getPathRelativeTo() != null) {
