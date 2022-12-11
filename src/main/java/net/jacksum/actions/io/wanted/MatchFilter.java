@@ -32,7 +32,8 @@ import java.util.List;
  */
 public class MatchFilter implements Serializable  {
 
-    private static final long serialVersionUID = 8389892691520112065L;
+    private static final long serialVersionUID = -8775542673951649406L;
+
     private boolean filterMatch;
     private boolean filterNoMatch;
 
