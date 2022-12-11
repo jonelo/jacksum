@@ -1148,9 +1148,9 @@ OPTIONS
                     Available since Jacksum 3.0.0.
 \
 \
-                list-files-only
+                files-only
 \
-                    Aliases: listfilesonly
+                    Aliases: filesonly
 \
                     GNU escaping is enabled by default, but it can be disabled,
                     see also option --gnu-filename-escaping.
@@ -1252,7 +1252,7 @@ OPTIONS
                 bsd-r              |  *  |  -  |  h  |  -  |  -  |  e  |
                 fciv               |  *  |  -  |  h  |  -  |  -  |  -  |
                 gnu-linux          |  *  |  -  |  h  |  -  |  -  |  e  |
-                list-files-only    |  -  |  -  |  -  |  -  |  -  |  e  |
+                files-only         |  -  |  -  |  -  |  -  |  -  |  e  |
                 openssl-dgst       |  *  |  E  |  h  |  -  |  -  |  e  |
                 openssl-dgst-r     |  *  |  -  |  h  |  -  |  -  |  e  |
                 sfv                |  *  |  -  |  H  |  -  |  -  |  -  |
