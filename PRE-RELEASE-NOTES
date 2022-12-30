@@ -33,6 +33,8 @@ Jacksum 3.5.0, TBD
 
 - bug fixes:
   - github issue #22: Statistics are all zero if --check-line has been set
+  - github issue #24: Regression: Jacksum 3.0.0 to 3.4.0 hangs while trying to read NTUSER.DAT on Microsoft Windows
+    if more than one algo has been selected
   - correctness of check file shows "NaN %" in the statistics if there is no entry at all in the check file
   - updated serialversionUID in the Parameters class, because members have changed in Jacksum 3.4.0
   - `jacksum -h exit` does not print the entire exit status section

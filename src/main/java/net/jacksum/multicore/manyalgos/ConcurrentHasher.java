@@ -44,6 +44,7 @@ package net.jacksum.multicore.manyalgos;
 import net.jacksum.multicore.ThreadControl;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,7 +78,7 @@ public class ConcurrentHasher {
         return answer;
     }
 
-    public void updateHashes(File src, List<HashAlgorithm> hashes) {
+    public void updateHashes(File src, List<HashAlgorithm> hashes) throws IOException {
         try {
 
             final int workingThreads = Math.max(1, Math.min(THREAD_COUNT, hashes.size()));
@@ -122,6 +123,9 @@ public class ConcurrentHasher {
                 f.get();
             }
             pool.shutdown();
+            if (dataReader.getTotal() == -1) {
+                throw new IOException(dataReader.getExceptionMessage());
+            }
             totalRead = dataReader.getTotal();
 
         } catch (InterruptedException | NoSuchAlgorithmException | ExecutionException ex) {

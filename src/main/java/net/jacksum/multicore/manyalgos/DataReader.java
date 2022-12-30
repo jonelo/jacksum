@@ -73,9 +73,7 @@ public class DataReader implements Runnable {
 
     @Override
     public void run() {
-        InputStream is = null;
-        try {
-            is = new BufferedInputStream(new FileInputStream(this.file));
+        try (InputStream is = new BufferedInputStream(new FileInputStream(this.file))) {
 
             DataUnit du = new DataUnit(AbstractChecksum.BUFFERSIZE);
             int read = du.readData(is);
@@ -91,24 +89,26 @@ public class DataReader implements Runnable {
                 du.setLength(0);
                 enqueue(du);
             }
-            /*do {
-            du = new DataUnit(AbstractChecksum.BUFFERSIZE);
-            read = du.readData(is);
-            enqueue(du);
-            } while (read > 0);*/
 
         } catch (IOException | InterruptedException ex) {
-            System.err.println(ex.getMessage());
-            ex.printStackTrace(System.err);
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException ex) {
-                    System.err.println(ex.getMessage());
-                    ex.printStackTrace(System.err);
-                }
+            // enqueue the "last one marker", otherwise the future.get() method will hang the entire process
+            // e.g. while trying to read the NTUSER.DAT on Microsoft Windows
+            // (Der Prozess kann nicht auf die Datei zugreifen, da sie von einem anderen Prozess verwendet wird)
+            DataUnit du = new DataUnit(1);
+            du.setLength(0);
+            try {
+                enqueue(du);
+                total = -1;
+                exceptionMessage = ex.getMessage();
+            } catch (InterruptedException e) {
+                System.err.println(e.getMessage());
+                e.printStackTrace(System.err);
             }
         }
+    }
+
+    private String exceptionMessage;
+    public String getExceptionMessage() {
+        return exceptionMessage;
     }
 }
