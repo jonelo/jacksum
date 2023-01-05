@@ -24,9 +24,9 @@ Jacksum comes with a bunch of [features](https://github.com/jonelo/jacksum/wiki/
 
 Jacksum is also a library. It is written entirely in **Java** ☕.
 
-## Who uses it
+## Audience
 
-Advanced users, sysadmins, computer scientists, cybersecurity engineers, penetration testers, forensics engineers, reverse engineers. You too?
+Jacksum is for users with security in mind, advanced users, sysadmins, computer scientists, cybersecurity engineers, penetration testers, forensics engineers, reverse engineers, etc.
 
 ## User Interfaces
 
@@ -62,7 +62,7 @@ Jacksum supports not only hundreds of different algorithms for calculating hash 
 
 Examples:
 
-Default style (dependent on the algorithm)
+Default style (is dependent on the algorithm)
 
     $ jacksum -a sha3-256 ubuntu-22.04-desktop-amd64.iso
     c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43 ubuntu-22.04-desktop-amd64.iso
@@ -87,14 +87,14 @@ Solaris digest style
     $ jacksum -a sha3-256 --style solaris-digest ubuntu-22.04-desktop-amd64.iso
     (ubuntu-22.04-desktop-amd64.iso) = c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43
 
-Customized output, including customized algorithm selection (crc32c, sha-256, and sha3-256), customized hash value encoding (base64, nopadding), and algrigthm names in uppercase for all files in the current directory (and below)
+Customized output, including customized algorithm selection (crc32c, sha-256, and sha3-256), customized hash value encoding (base64, nopadding), and algorithm names in uppercase for all files in the current directory (and below)
 
     $ jacksum -a crc32c+sha-256+sha3-256 -F "#ALGONAME{i,uppercase} (#FILENAME) = #HASH{i,base64-nopadding}" .
     CRC32C (./ubuntu-22.04-desktop-amd64.iso) = GBhNzg
     SHA-256 (./ubuntu-22.04-desktop-amd64.iso) = uFKG2YVfVJ7ZiVdjUZ9qKVp2mPucXFNFgRs+7637bwc
     SHA3-256 (./ubuntu-22.04-desktop-amd64.iso) = xeRkJqPKCuhI0pd0ftOEZFLMezPVtBivlh29Vd6N/0M
     
-Customized outputput like above, but encoded hash values separated by comma
+Customized output like above, but encoded hash values separated by comma
 
     $ jacksum -a crc32c+sha-256+sha3-256 -F "#ALGONAMES{uppercase} (#FILENAME) = #HASHES{base64-nopadding}" ubuntu-20.04.2.0-desktop-amd64.iso
     CRC32C,SHA-256,SHA3-256 (ubuntu-20.04.2.0-desktop-amd64.iso) = GBhNzg,uFKG2YVfVJ7ZiVdjUZ9qKVp2mPucXFNFgRs+7637bwc,xeRkJqPKCuhI0pd0ftOEZFLMezPVtBivlh29Vd6N/0M
@@ -102,11 +102,14 @@ Customized outputput like above, but encoded hash values separated by comma
 
 ### Customize CRCs
 
-Jacksum also supports the "Rocksoft (tm) Model CRC Algorithm" to customize CRCs by setting 6 parameters.
+#### 6 parameters 
+Jacksum supports the quasi standard called "Rocksoft (tm) Model CRC Algorithm" to customize CRCs by setting 6 parameters.
 Example to get the Castagnoli CRC-32:
 
     $ jacksum -a crc:32,1EDC6F41,FFFFFFFF,true,true,FFFFFFFF -x -q txt:123456789
     e3069283 9
+
+#### 7, and 8 parameters
 
 An extended model with 8 CRC parameters is also supported in order to define CRCs that incorporate the length of the message.
 Example to simulate the output of the sum command from [Plan 9](https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs):
