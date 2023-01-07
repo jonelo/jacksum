@@ -42,8 +42,13 @@ public abstract class CompareAction implements Action {
     protected boolean equalsTolerant(AbstractChecksum checksum, String expected) {
         String value = checksum.getValueFormatted();
         //String value = checksum.getformatter.getFingerprintFormatter().format(getByteArray());
-        if (checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64)) {
-            // strict checking required for BASE64
+        if (checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64) ||
+            checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64_NOPADDING) ||
+            checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64URL) ||
+            checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64URL_NOPADDING)
+           )
+        {
+            // strict checking required for any BASE64 encoding
             return value.equals(expected);
         } else {
             return value.equalsIgnoreCase(expected);
