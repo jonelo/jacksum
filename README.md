@@ -51,11 +51,11 @@ If you prefer a graphical user interface (GUI) and you just would like to calc a
 
 ### Calculate hash values
 
-A hash function maps a bit string m ∈ {0, 1}<sup>*</sup> of arbitrary length to a bit string h ∈ {0, 1}<sup>n</sup> of fixed length n ∈ ℕ:
+A hash function H maps a bit string m ∈ {0, 1}<sup>*</sup> of arbitrary length to a bit string h ∈ {0, 1}<sup>n</sup> of fixed length n ∈ ℕ:
 
-    h = f(m)
+    h = H(m)
 
-m is often called the message or data. h is often called the checksum, hash, hash value, message digest, even (data's) finger- or thumbprint.
+m is often called the message or data, and dependent on the design, and security strength of the hash function H, h is called the checksum, CRC, hash, hash value, message digest, data's fingerprint, or data's thumbprint.
 
 Calculating hash values is usually the first step you take to be able to check data integrity at all later on.
 Jacksum supports not only hundreds of different algorithms for calculating hash values, it also supports many predefined styles and comprehensive formatting features to get the format you need.
