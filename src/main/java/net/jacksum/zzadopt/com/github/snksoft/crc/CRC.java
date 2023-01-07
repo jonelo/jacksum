@@ -269,6 +269,10 @@ public class CRC
         return initValue;
     }
 
+    public long[] getTable() {
+        return crctable;
+    }
+
     /**
      * This method is used to feed data when performing iterative CRC calculation (using init, update
      * and finalCRC methods, possibly supplying data in chunks). It can be called multiple times per

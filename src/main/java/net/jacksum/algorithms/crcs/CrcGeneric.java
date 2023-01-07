@@ -127,6 +127,7 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
         //maskHelp = maskAllBits >>> 8;     // stores the value (2 ^ (width-8)) -1
         check();
         tableDriven = new CRC(model.getParameters());
+        table = tableDriven.getTable();
         reset();
     }
 
