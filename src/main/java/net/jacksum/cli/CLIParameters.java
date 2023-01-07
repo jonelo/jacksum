@@ -66,6 +66,7 @@ public class CLIParameters {
     public static final String __DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES = "--dont-follow-symlinks-to-directories";
     public static final String _EXPECT_HASH = "-e";
     public static final String __EXPECT_HASH = "--expect-hash";
+    public static final String __EXPECT = "--expect";
     public static final String _ENCODING = "-E";
     public static final String __ENCODING = "--encoding";
     public static final String _DONT_FOLLOW_SYMLINKS_TO_FILES = "-f";
@@ -278,7 +279,7 @@ public class CLIParameters {
                 } else if (arg.equals(_DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES) || arg.equals(__DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES)) {
                     parameters.setDontFollowSymlinksToDirectories(true);
 
-                } else if (arg.equals(_EXPECT_HASH) || (arg.equals(__EXPECT_HASH))) {
+                } else if (arg.equals(_EXPECT_HASH) || (arg.equals(__EXPECT_HASH)) || arg.equals(__EXPECT)) {
                     if (firstfile < args.length) {
                         parameters.setExpected(args[firstfile++]);
                     } else {

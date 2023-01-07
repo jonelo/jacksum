@@ -150,7 +150,7 @@ OPERATING MODES
             > jacksum -a crc32c+sha256+whirlpool --style bsd -c my.hashes .
 \
 \
-    jacksum [OPTION]... ((--wanted-list|-w) <list> | (--expect-hash|-e) <hash>))
+    jacksum [OPTION]... ((--wanted-list|-w) <list> | (--expect|-e) <hash>))
             [OPTION]... [FILES]
 \
         "Wanted list".
@@ -402,7 +402,7 @@ OPTION TYPES
         Those options control the behavior of the wanted list mode.
 \
         [(--wanted-list|-w) <list>
-        [(--expect-hash|-e) <hash value>]
+        [(--expect|-e) <hash value>]
         [(--charset-wanted-list|--wanted-list-charset) <charset>]
         [(--match-filter|--wanted-list-filter) <filter>]
 \
@@ -410,7 +410,7 @@ OPTION TYPES
         Those options control the behavior of the quick mode.
 \
         [(--quick|-q) [<type>:]<sequence>]
-        [(--expect-hash|-e) <hash value>]
+        [(--expect|-e) <hash value>]
         [(--algorithm|-a) <algorithm>]
 \
     Directory traversal options
@@ -1183,6 +1183,7 @@ OPTIONS
 
 
     -e <hash value>
+    --expect <hash value>
     --expect-hash <hash value>
 \
             We expect a particular hash value. Works with a file,
