@@ -117,6 +117,93 @@ Example to simulate the output of the sum command from [Plan 9](https://en.wikip
     $ jacksum -a crc:32,04C11DB7,0,true,true,0,true,CC55CC55 -x -q txt:123456789
     afcbb09a 9
 
+### Investigate CRC parameters
+
+CRC parameters can be investigated by the CRC algorithm, and setting the `--info` option. It returns the polynomial value as a polynomial in math expression, normal, reversed, and Koopman representation, and the reciprocal poly. Example for the Castagnoli CRC-32:
+
+    $ jacksum -a crc32c --info
+
+or
+
+    $ jacksum -a crc:32,1EDC6F41,FFFFFFFF,true,true,FFFFFFFF --info
+
+<details>
+<summary>Result ...</summary>
+
+```
+  algorithm:
+    name:                                 crc32c
+
+  hash length:
+    bits:                                 32
+    bytes:                                4
+    nibbles:                              8
+
+  CRC parameters:
+    width (in bits):                      32
+    polynomial [hex]:                     1edc6f41
+    init [hex]:                           ffffffff
+    refIn:                                true
+    refOut:                               true
+    xorOut [hex]:                         ffffffff
+
+  Polynomial representations:
+    mathematical:                         x^32 + x^28 + x^27 + x^26 + x^25 + x^23 + x^22 + x^20 + x^19 + x^18 + x^14 + x^13 + x^11 + x^10 + x^9 + x^8 + x^6 + 1
+    normal/MSB first [binary]:            00011110110111000110111101000001
+    normal/MSB first [hex]:               1edc6f41
+    reversed/LSB first [binary]:          10000010111101100011101101111000
+    reversed/LSB first [hex]:             82f63b78
+    Koopman [binary]:                     10001111011011100011011110100000
+    Koopman [hex]:                        8f6e37a0
+
+  Reciprocal poly (similar error detection strength):
+    mathematical:                         x^32 + x^26 + x^24 + x^23 + x^22 + x^21 + x^19 + x^18 + x^14 + x^13 + x^12 + x^10 + x^9 + x^7 + x^6 + x^5 + x^4 + 1
+    normal [binary]:                      00000101111011000111011011110001
+    normal [hex]:                         5ec76f1
+
+  speed:
+    relative rank:                        11/477
+
+  alternative/secondary implementation:
+    has been requested:                   false
+    is available and would be used:       false
+```
+</details>
+
+
+### Quick file integrity verification for one file only
+
+From the ubuntu website we know the SHA256 hash value for the file called ubuntu-22.04-desktop-amd64.iso. We expect that the file is the one that we have downloaded.
+
+#### by option -c/--check-file
+
+We can pass the known hash value of the file by using a pipe, and telling Jacksum to check from standard input (option -c or --check-file):
+
+    $ echo c396e956a9f52c418397867d1ea5c0cf1a99a49dcf648b086d2fb762330cc88d *ubuntu-22.04.1-desktop-amd64.iso | jacksum -a sha256 -c -
+       OK  ubuntu-22.04.1-desktop-amd64.iso
+
+#### by option --check-line
+
+Be aware that the echo command does not behave the same on all platforms. To go the platform independent way you can also pass the known hash value of the file by using the option --check-line. You do not need to specify option `--style linux`, because the default style understands the Linux hash value format.
+
+    $ jacksum -a sha256 --check-line "c396e956a9f52c418397867d1ea5c0cf1a99a49dcf648b086d2fb762330cc88d *ubuntu-22.04.1-desktop-amd64.iso"
+        OK  ubuntu-22.04.1-desktop-amd64.iso
+
+Here is an example of the hash/file record in the BSD style: 
+
+    jacksum -a sha256 --style bsd --check-line "SHA-256 (ubuntu-22.04.1-desktop-amd64.iso) = c396e956a9f52c418397867d1ea5c0cf1a99a49dcf648b086d2fb762330cc88d" --verbose noinfo,nosummary
+        OK  ubuntu-22.04.1-desktop-amd64.iso
+
+#### by option -e 
+
+You can also pass the known hash value of the file to option -e (expectation).
+
+    $ jacksum -a sha256 -e c396e956a9f52c418397867d1ea5c0cf1a99a49dcf648b086d2fb762330cc88d ubuntu-22.04.1-desktop-amd64.iso
+        MATCH  ubuntu-22.04.1-desktop-amd64.iso (c396e956a9f52c418397867d1ea5c0cf1a99a49dcf648b086d2fb762330cc88d)
+    Jacksum: Expectation met.
+
+If you pass multiple files/directories as program arguments, Jacksum will find all files that match the expected hash value.
+
 
 ### Verify data integrity
 
