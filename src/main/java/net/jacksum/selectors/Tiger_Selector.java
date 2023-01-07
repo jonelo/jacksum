@@ -2,7 +2,7 @@
 
 
   Jacksum 3.5.0 - a checksum utility in Java
-  Copyright (c) 2001-2022 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
   This program is free software: you can redistribute it and/or modify it under

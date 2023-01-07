@@ -7935,7 +7935,7 @@ REPORTING BUGS
 
 
 COPYRIGHT
-    Copyright (c) 2001-2022 Dipl.-Inf. (FH) Johann N. Löfflmann
+    Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann
     Type `jacksum --copyright` to see the entire copyright section.
 
 

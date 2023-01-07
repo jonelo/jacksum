@@ -1,7 +1,7 @@
 The software is licensed under the GPL-3.0
 
   Jacksum 3.4.0 - a checksum utility in Java
-  Copyright (c) 2001-2022 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
   This program is free software: you can redistribute it and/or modify it under
@@ -240,7 +240,7 @@ Portions of this software (BLAKE3, io.github.rctcwyvrn) are licensed under the M
 Portions of this software (sugar for Java) are licensed under the LGPL-2.0 or later version
 
   Sugar for Java 1.6.0
-  Copyright (C) 2001-2022  Dipl.-Inf. (FH) Johann N. Löfflmann,
+  Copyright (C) 2001-2023  Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, https://johann.loefflmann.net
 
   This library is free software; you can redistribute it and/or

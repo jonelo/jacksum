@@ -1,7 +1,7 @@
 /*
 
  Sugar for Java 3.0.0
- Copyright (C) 2001-2022  Dipl.-Inf. (FH) Johann N. Löfflmann,
+ Copyright (C) 2001-2023  Dipl.-Inf. (FH) Johann N. Löfflmann,
  All Rights Reserved, https://johann.loefflmann.net
 
  This library is free software; you can redistribute it and/or
