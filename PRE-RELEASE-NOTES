@@ -39,3 +39,4 @@ Jacksum 3.5.0, TBD
   - updated serialversionUID in the Parameters class, because members have changed in Jacksum 3.4.0
   - `jacksum -h exit` does not print the entire exit status section
   - option --match-filter match,nomatch doesn't work like --match-filter all
+  - be not equal-tolerant for any BASE64* encoding
