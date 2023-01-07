@@ -96,7 +96,8 @@ public class Parameters implements
 
 
     public static final String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
-    private static final long serialVersionUID = 2705696599336345354L;
+    private static final long serialVersionUID = -4396148871815058931L;
+
     private String algorithmIdentifier = ALGORITHM_IDENTIFIER_DEFAULT;
     private String[] cliParameters;
     public static final String UTF_8 = "UTF-8";
