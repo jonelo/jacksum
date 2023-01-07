@@ -82,8 +82,8 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
     }
     
     public static String encodeBytes(byte[] bytes, Encoding encoding, int grouping, Character groupChar) {
-        
-        switch (encoding) {               
+       // if (encoding==null) encoding=Encoding.HEX;
+        switch (encoding) {
             case HEX:
                 return ByteSequences.format(bytes, false, grouping, groupChar);
             case HEX_UPPERCASE:

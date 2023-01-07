@@ -27,7 +27,6 @@ import net.jacksum.algorithms.AbstractChecksum;
 
 public class CompareAndPrintResult extends CompareAction {
 
-    // ExpectationActionMode.ONE_TIME_COMPARISON
     public CompareAndPrintResult(AbstractChecksum checksum,
             CompareActionInterface parameters) {
         this.checksum = checksum;

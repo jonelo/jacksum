@@ -26,7 +26,6 @@ package net.jacksum.actions.io.compare;
 import net.jacksum.algorithms.AbstractChecksum;
 
 public class CompareAndFindAlgo extends CompareAction {
-    // ExpectationActionMode.ALGONAME
 
    public CompareAndFindAlgo
            (AbstractChecksum checksum, CompareActionInterface parameters) {
