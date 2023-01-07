@@ -42,7 +42,7 @@ DESCRIPTION
     functions available to you.
 \
     It covers many types of use cases where hash values are needed:
- \
+\
         - Calculation of hash values (of almost any input)
         - Find ok/failed/missing/new files (verify file/data integrity)
         - Find files by their fingerprints (positive matching)
@@ -61,13 +61,12 @@ DESCRIPTION
 OPERATING MODES
 \
     Jacksum selects the appropriate operating mode dependent on the options
-    and parameters that you set. See also the sections called SYNOPSIS, and
-    EXAMPLES.
-\
+    and parameters that you set. See also the sections called SYNOPSIS,
+    OPTION TYPES, OPTION SUPPORT MATRIX, and EXAMPLES.
 \
     jacksum [OPTION]... FILES
 \
-        "Calculate hash values and print them"
+        "Calculate hash values and print them"-mode
 \
         Calculation of hash values is usually the first step you take to be able
         to check data integrity at all later on.
@@ -106,7 +105,7 @@ OPERATING MODES
     jacksum [OPTION]... ((--check-file|-c) <file> | --check-line <line>)
             [OPTION]... [FILES]
 \
-        "Verify data/file integrity"
+        "Verify data/file integrity"-mode
 \
         The data/file integrity verification mode is enabled if you specify
         option -c (resp. --check-file) or option --check-line.
@@ -153,17 +152,17 @@ OPERATING MODES
     jacksum [OPTION]... ((--wanted-list|-w) <list> | (--expect|-e) <hash>))
             [OPTION]... [FILES]
 \
-        "Wanted list".
+        "Wanted list"-mode
 \
         In "Wanted list" mode, you can find all files that matches or not
         matches a set of known hashes. In other words, you can verify the
         integrity of a file, find files by their fingerprints, or find all
         duplicates of a file.
- \
+\
         This mode is enabled if you specify option -w (resp. --wanted-list) or
         -e (resp. --expect). The charset of <list> can be specified by
         --wanted-list-charset.
-
+\
         To enable positive matching set --match-filter positive, and
         to enable negative matching set --match-filter negative.
 \
@@ -194,7 +193,7 @@ OPERATING MODES
 \
     jacksum [OPTION]... (--quick|-q) <sequence>
 \
-        "Quick/calculate one hash"-mode.
+        "Quick/calculate one hash"-mode
 \
         In this mode you can specify the input data entirely on the command
         line, and calculate hash(es) of it.
@@ -202,7 +201,7 @@ OPERATING MODES
         The mode is enabled if you specify -q (resp. --quick).
 \
         For OPTION the following option types are supported:
-
+\
             - Common options
             - Security strength options
             - Hashing performance options
@@ -216,14 +215,14 @@ OPERATING MODES
 \
     jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
 \
-        "Quick/verify one file"-mode.
+        "Quick/verify one file"-mode
 \
         In this mode you can specify the input data on the command line,
         calculate the hash(es), and verify the integrity.
         This mode is enabled if you specify both -q and -e.
 \
         For OPTION the following option types are supported:
-
+\
             - Common options
             - Security strength options
             - Hashing performance options
@@ -237,7 +236,7 @@ OPERATING MODES
     jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
                         (--algorithm|-a) unknown:<bits>
 \
-        "Find hash functions"-mode.
+        "Find hash functions"-mode
 \
         In this mode you can find the hash function that was used to produce a
         hash. This mode is enabled if you specify -q, -e and -a unknown:<bits>
@@ -245,7 +244,7 @@ OPERATING MODES
         be an integer from 1 to 1024.
 \
         For OPTION the following option types are supported:
-
+\
             - Common options
             - Security strength options
             - Quick mode options
@@ -265,7 +264,7 @@ OPERATING MODES
               (--version|-v) [-V <vcontrol>]
             ]
 \
-        "Gather information"-modes.
+        "Gather information"-mode
 \
         In these modes some information will be gathered and the program exits.
         See the OPTIONS section for more details on each option.
@@ -278,6 +277,152 @@ OPERATING MODES
             > jacksum --style bsd --info
             > jacksum -v -V all
 
+
+OPTION TYPES
+\
+    Common options
+        Those options can be used almost by any operating mode.
+\
+        [(--verbose|-V) <vcontrol>]
+        [(--list|-l)]
+        [--]
+\
+    Security strength options
+        This option controls the strength of the hashing procedure.
+\
+        [(--algorithm|-a) <algorithm>]
+\
+    File list options
+        Those options specify the way file list are to be read.
+\
+        [(--filelist|-L) <filelist>]
+        [(--charset-file-list|--file-list-charset) <charset>]
+        [--file-list-format <format>]
+        [--ignore-lines-starting-with-string <string>]
+\
+    Check/integrity verification mode options
+        Those options control the data verification process.
+\
+        [--check-file <checkfile>]
+        [--check-line <line>]
+        [--check-strict]
+        [(--style|-C) <style>]
+        [(--charset-check-file|--check-file-charset <charset>]
+        [--ignore-lines-starting-with-string <string>]
+        [--list-filter <filter>]
+\
+    Wanted list mode options
+        Those options control the behavior of the wanted list mode.
+\
+        [(--wanted-list|-w) <list>
+        [(--expect|-e) <hash value>]
+        [(--charset-wanted-list|--wanted-list-charset) <charset>]
+        [(--match-filter|--wanted-list-filter) <filter>]
+\
+    Quick mode options
+        Those options control the behavior of the quick mode.
+\
+        [(--quick|-q) [<type>:]<sequence>]
+        [(--expect|-e) <hash value>]
+        [(--algorithm|-a) <algorithm>]
+\
+    Information gathering mode options
+        Those options print some specific information, and the app exits.
+\
+        (--algorithm|-a) <algorithm> (--list|-l)
+        --copyright
+        (--help|-h) [<language>] [<word>]
+        --info [(--algorithm|-a) <algorithm> [(--list|-l)]]
+        --info [(--style|-C) <style>]
+        --license
+        (--version|-v) [-V <vcontrol>]
+\
+    Directory traversal options
+        Those options control which files are read during directory traversal.
+        By default Jacksum traverses directory trees recursively. You can
+        control the walking depth by option -r. You can also set the
+        options -f and -d in order to disallow Jacksum to follow symlinks
+        to files and/or directories. In order to scan platform dependent files
+        you can use the options --scan-all-unix-file-types resp. --scan-ntfs-ads.
+\
+        [--dont-follow-symlinks-to-directories|-d]
+        [--dont-follow-symlinks-to-files|-f]
+        [--recursive|-r <depth>]
+        [--scan-all-unix-file-types]
+        [--scan-ntfs-ads]
+\
+    Hashing performance options
+        Those options control the performance of hashing.
+\
+        [(--algorithm|-a) <algorithm>]
+        [--alternative|-a]
+        [--threads-hashing <threads>]
+\
+    I/O performance options
+        This option controls the performance when reading files on SSDs.
+\
+        [--threads-reading <threads>]
+\
+    Output format options
+        Those options adjust the format of the output to meet your needs.
+\
+        [--header]
+        [
+          [(--style|-C) <style>] |
+          [
+            [(--format|-F) <format>]
+            [(--encoding|-E) <encoding>] | [[(--hex-lowercase|-x)|(--hex-uppercase|-X)] [-g COUNT [-G CHAR]]]
+            [--filesize <boolean>]
+            [(--timestamp|-t) <format>]
+            [--legacy-stdin-name]
+            [(--separator|-s) <string>]
+          ]
+          [--gnu-filename-escaping <boolean>]
+          [--no-path] |
+          [
+            (--path-absolute | --path-relative-to <path> | (--path-relative-to-entry <number> (--file-list|-L) <list>))
+            [--path-separator|-P <char>]
+          ]
+        ]
+\
+    Output options
+        Those options control the output.
+\
+        [--utf8|-8]
+        [--bom]
+        [--stdout-charset <charset> | [(--output-file|-o|-O) <file> [--output-file-charset <charset>]]]
+        [--stderr-charset <charset> | [(--error-file|-u|-U) <file> [--error-file-charset <charset>>]]]
+
+
+OPTION SUPPORT MATRIX
+\
+    The following table shows the option type in rows, and the operating modes
+    in columns. If a cell is marked with an x, it means that the operating mode
+    supports the option type.
+\
+                                                            Gather information |
+                                                       Find hash functions |   |
+                                                 Quick/verify one file |   |   |
+                                          Quick/calculate one hash |   |   |   |
+                                                   Wanted list |   |   |   |   |
+                                Verify data/file integrity |   |   |   |   |   |
+                  Calculate hash values and print them |   |   |   |   |   |   |
+                                                   |   |   |   |   |   |   |   |
+        | Option type                              |   |   |   |   |   |   |   |
+        -------------------------------------------|   |   |   |   |   |   |   |
+        | Common options                           | x | x | x | x | x | x | x |
+        | Security strength options                | x | x | x | x | x | x | x |
+        | File list options                        | x | x | x | - | - | - | - |
+        | Wanted list mode options                 | - | - | x | - | - | - | - |
+        | Check/Integrity verification mode options| - | x | - | - | - | - | - |
+        | Quick mode options                       | - | - | - | x | x | x | - |
+        | Information gathering mode options       | - | - | - | - | - | - | x |
+        | Directory traversal options              | x | x | x | - | - | - | - |
+        | Hashing performance options              | x | x | x | x | x | - | - |
+        | I/O performance options                  | x | x | x | - | - | - | - |
+        | Output format options                    | x | - | - | x | - | - | - |
+        | Output options                           | x | x | x | x | x | x | x |
+        ------------------------------------------------------------------------
 
 PARAMETERS
     The following parameters are supported:
@@ -363,124 +508,7 @@ PARAMETERS
           and/or partitions in update releases or in new versions of
           Microsoft Windows.
 
-
 #PARAMETERS-END
-
-
-OPTION TYPES
-\
-    Common options
-        Those options can be used almost by any operating mode.
-\
-        [(--verbose|-V) <vcontrol>]
-        [(--list|-l)]
-        [--]
-\
-    Security strength options
-        This option controls the strength of the hashing procedure.
-\
-        [(--algorithm|-a) <algorithm>]
-\
-    File list options
-        Those options specify the way file list are to be read.
-\
-        [(--filelist|-L) <filelist>]
-        [(--charset-file-list|--file-list-charset) <charset>]
-        [--file-list-format <format>]
-        [--ignore-lines-starting-with-string <string>]
-\
-    Check/integrity verification mode options
-        Those options control the data verification process.
-\
-        [--check-file <checkfile>]
-        [--check-line <line>]
-        [--check-strict]
-        [(--style|-C) <style>]
-        [(--charset-check-file|--check-file-charset <charset>]
-        [--ignore-lines-starting-with-string <string>]
-        [--list-filter <filter>]
-\
-    Wanted list mode options
-        Those options control the behavior of the wanted list mode.
-\
-        [(--wanted-list|-w) <list>
-        [(--expect|-e) <hash value>]
-        [(--charset-wanted-list|--wanted-list-charset) <charset>]
-        [(--match-filter|--wanted-list-filter) <filter>]
-\
-    Quick mode options
-        Those options control the behavior of the quick mode.
-\
-        [(--quick|-q) [<type>:]<sequence>]
-        [(--expect|-e) <hash value>]
-        [(--algorithm|-a) <algorithm>]
-\
-    Directory traversal options
-        Those options control which files are read during directory traversal.
-        By default Jacksum traverses directory trees recursively. You can
-        control the walking depth by option -r. You can also set the
-        options -f and -d in order to disallow Jacksum to follow symlinks
-        to files and/or directories. In order to scan platform dependent files
-        you can use the options --scan-all-unix-file-types resp. --scan-ntfs-ads.
-\
-        [--dont-follow-symlinks-to-directories|-d]
-        [--dont-follow-symlinks-to-files|-f]
-        [--recursive|-r <depth>]
-        [--scan-all-unix-file-types]
-        [--scan-ntfs-ads]
-\
-    Hashing performance options
-        Those options control the performance of hashing.
-\
-        [(--algorithm|-a) <algorithm>]
-        [--alternative|-a]
-        [--threads-hashing <threads>]
-\
-    I/O performance options
-        This option controls the performance when reading files on SSDs.
-\
-        [--threads-reading <threads>]
-\
-    Output format options
-        Those options adjust the format of the output to meet your needs.
-\
-        [--header]
-        [
-          [(--style|-C) <style>] |
-          [
-            [(--format|-F) <format>]
-            [(--encoding|-E) <encoding>] | [[(--hex-lowercase|-x)|(--hex-uppercase|-X)] [-g COUNT [-G CHAR]]]
-            [--filesize <boolean>]
-            [(--timestamp|-t) <format>]
-            [--legacy-stdin-name]
-            [(--separator|-s) <string>]
-          ]
-          [--gnu-filename-escaping <boolean>]
-          [--no-path] |
-          [
-            (--path-absolute | --path-relative-to <path> | (--path-relative-to-entry <number> (--file-list|-L) <list>))
-            [--path-separator|-P <char>]
-          ]
-        ]
-\
-    Output options
-        Those options control the output.
-\
-        [--utf8|-8]
-        [--bom]
-        [--stdout-charset <charset> | [(--output-file|-o|-O) <file> [--output-file-charset <charset>]]]
-        [--stderr-charset <charset> | [(--error-file|-u|-U) <file> [--error-file-charset <charset>>]]]
-\
-    Information options
-        Those options print some specific information, and the app exits.
-\
-        (--algorithm|-a) <algorithm> (--list|-l)
-        --copyright
-        (--help|-h) [<language>] [<word>]
-        --info [(--algorithm|-a) <algorithm> [(--list|-l)]]
-        --info [(--style|-C) <style>]
-        --license
-        (--version|-v) [-V <vcontrol>]
 
 
 OPTIONS
@@ -1043,7 +1071,7 @@ OPTIONS
 
     --charset-check-file <charset>
     --check-file-charset <charset>
- \
+\
             Specifies the charset for the file that you can specify with -c.
             If you don't specify this option, UTF-8 will be used for the check
             file. See also options --check-file, --check-line, and --compat.
@@ -7800,7 +7828,7 @@ EXAMPLES
 \
 \
     Gather Information
-
+\
         Get information about one algorithm:
 \
         > jacksum -h blake2b
@@ -7892,24 +7920,32 @@ EXAMPLES
 \
         Print entire help sections
 \
-        > jacksum -h license
-        > jacksum -h lic
-        prints the entire LICENSE section
-\
         > jacksum -h synopsis
         > jacksum -h syn
         prints the entire SYNOPSIS section
 \
         > jacksum -h exit
         > jacksum -h exi
-        prints the entire EXIT section
+        prints the entire EXIT STATUS section
+\
+        > jacksum -h options
+        > jacksum -h opt
+        prints the entire OPTIONS section
+\
+        > jacksum -h "operating modes"
+        prints the entire OPERATING MODES section
+\
+        > jacksum -h "option "
+        prints both sections OPTION TYPES and OPTION SUPPORT, because they
+        start with "option "
 \
         > jacksum -h examples
         > jacksum -h exa
         prints the entire EXAMPLES section
 \
         > jacksum -h ex
-        prints the sections exit and examples
+        prints both sections EXIT STATUS and EXAMPLES,
+        because both starts with "ex"
 \
 \
         Print information about algorithms
