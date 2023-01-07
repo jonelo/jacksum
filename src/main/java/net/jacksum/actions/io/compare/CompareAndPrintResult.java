@@ -36,10 +36,10 @@ public class CompareAndPrintResult extends CompareAction {
     @Override
     public void perform(boolean b) {
         if (b) {
-            System.out.println("[OK]");
+            System.out.println("[MATCH]");
             positives++;
         } else {
-            System.out.println("[MISMATCH]");
+            System.out.println("[NO MATCH]");
             negatives++;
         }
     }
