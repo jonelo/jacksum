@@ -29,11 +29,15 @@ public class ExitCode {
 
     public final static int
             OK = 0,
+            EXPECTATION_MET = 0,
+
             NO_ALGO_FOUND = 1,
             CHECK_MISMATCH = 1,
             PARAMETER_ERROR = 2,
             CHECKFILE_PARSE_ERROR = 3,
             IO_ERROR = 4,
             WANTED_NOTFOUND = 5,
-            INTERNAL_ERROR = 99;
+            INTERNAL_ERROR = 99,
+
+            EXPECTATION_NOT_MET = 6;
 }

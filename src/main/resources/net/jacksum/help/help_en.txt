@@ -161,11 +161,11 @@ OPERATING MODES
         duplicates of a file.
  \
         This mode is enabled if you specify option -w (resp. --wanted-list) or
-        -e (resp. --expect-hash). The charset of <list> can be specified by
+        -e (resp. --expect). The charset of <list> can be specified by
         --wanted-list-charset.
 
-        To enable positive matching set --wanted-list-filter positive, and
-        to enable negative matching set --wanted-list-filter negative.
+        To enable positive matching set --match-filter positive, and
+        to enable negative matching set --match-filter negative.
 \
         FILES can be provided by a list (-L) and by program parameters.
         If you specify the hyphen for FILES, Jacksum reads from standard input
@@ -183,8 +183,10 @@ OPERATING MODES
             - Output options
 \
         Examples:
-            > jacksum -w vulnerable-log4j.hashes .
-            > jacksum --wanted-list known.hashes --wanted-list-filter negative .
+            > jacksum -a sha256 ./all-official-log4j-libs/ > /tmp/log4j.hashes
+            > jacksum -a sha256 -V nonummary -w /tmp/log4j.hashes /
+                MATCH  /opt/serverapp/log.jar (log4j-core-2.12.0.jar)
+            > jacksum -w known.hashes --match-filter negative .
             > jacksum -a sha256 -e b85286d9855f549ed9895763519f6a295a7698fb9c5c5345811b3eefadfb6f07
               ubuntu-22.04-desktop-amd64.iso
             > jacksum -a blake2b-64 -e a47fc96f87b6fb5a .
@@ -1186,19 +1188,42 @@ OPTIONS
     --expect <hash value>
     --expect-hash <hash value>
 \
-            We expect a particular hash value. Works with a file,
-            standard input or option -q. Returns OK (exit code 0) or MISMATCH
+            A particular hash value is expected. Works with a file,
+            standard input or option -q.
+\
+            In "quick mode", it just returns MATCH (exit code 0) or NO MATCH
             (exit code 1).
-            Available since Jacksum 1.4.0
-            Works also with multiple files or directories in order to find
-            duplicates. In this case all findings are being printed out.
-            Note that hash collisions can occur, so select the algorithm wise
-            if you search for duplicates.
-            The sequence can be specified case sensitive or case insensitive,
+\
+            Example:
+                > jacksum -q txt:"Hello World" -a crc32c -X
+                691DAA2F 11
+                > jacksum -q txt:"Hello World" -a crc32c -X -e 691DAA2F
+                [MATCH]
+\
+            The hash value can be specified case sensitive or case insensitive,
             except if Base64 encoding (by -E) has been specified, because
             Base64 is case sensitive.
 \
-            Available since Jacksum 1.6.0, see also -a, -q, -E, -x and -X
+            Available since Jacksum 1.4.0, see also -a, -q, -E, -x, -X
+\
+            In "wanted list mode", all matches are printed out by default, so
+            you can find all duplicates of files that have the same hash. You
+            can adjust what is being printed out by the --match-filter option,
+            and use the --list option to just print out the paths.
+            If the expectation was met, that is
+            --match-filter option is set to match or all, and there is at least
+            one match OR --match-filter option is set to nomatch, and there is
+            at least one no match, the exit code is 0, otherwise exit code
+            is > 1.
+\
+            Example:
+                > jacksum -a sha256 -E base64
+                  -e ihw5Abza/dwTcGJywC+/f8qfwuKa45kp9rCI5RFPcN8= -l C:\
+                C:\Applications\jacksum-3.4.0\jacksum-3.4.0.jar
+                C:\Applications\jacksum\jacksum.jar
+\
+            Available since Jacksum 1.6.0
+            See also -a, -q, -E, -l, -x, -X, and --match-filter
 
 
     -E <encoding>

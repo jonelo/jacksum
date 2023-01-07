@@ -51,13 +51,27 @@ public class HashFilesWantedAction implements Action {
             new Header(parameters).print();
         }
 
+        List<HashEntry> hashEntries = null;
+
         WantedHashes wantedHashes = null;
         if (parameters.isWantedList()) {
             wantedHashes = new WantedHashes(parameters);
             wantedHashes.parse();
+            hashEntries = wantedHashes.getParsedHashEntries();
         }
 
-        consumer = new MessageConsumerForWantedFiles(parameters, wantedHashes.getParsedHashEntries());
+        // treat the -e parameter (expectation) as would it be an entry in the wanted hashes
+        if (parameters.isExpectation()) {
+            HashEntry hashEntry = new HashEntry();
+            hashEntry.setHash(parameters.getExpectedString());
+            hashEntry.setFilename(parameters.getExpectedString());
+            if (hashEntries == null) {
+                hashEntries = new ArrayList<>();
+            }
+            hashEntries.add(hashEntry);
+        }
+
+        consumer = new MessageConsumerForWantedFiles(parameters, hashEntries);
 
         try {
             Engine engine = new Engine(parameters, consumer);
@@ -68,7 +82,9 @@ public class HashFilesWantedAction implements Action {
 
         if (parameters.getVerbose().isSummary()) {
             // print statistics from the parsing results
-            wantedHashes.getParser().getStatistics().print();
+            if (wantedHashes != null) {
+                wantedHashes.getParser().getStatistics().print();
+            }
 
             // print statistics from the consumer
             consumer.getStatistics().print();

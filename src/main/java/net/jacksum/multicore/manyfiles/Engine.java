@@ -46,6 +46,8 @@ public class Engine {
         this.parameters = parameters;
 
         AlgorithmPool algoPool = new AlgorithmPool(parameters);
+        // pass the actual format preferences of the algorithm to the consumer
+        consumer.setFormatPreferences(algoPool.getAlgorithm(0).getFormatPreferences());
         inputQueue = new ArrayBlockingQueue<>(4096);
         outputQueue = new ArrayBlockingQueue<>(1024);
                 

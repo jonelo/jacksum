@@ -57,7 +57,7 @@ import java.util.Map;
 
 public class MessageConsumerForWantedFiles extends MessageConsumer {
 
-    long filesRead, bytesRead, files_matches_expectation, errors;
+    long filesRead, bytesRead, errors;
 
     private Parameters parameters;
     private Statistics statistics;
@@ -94,16 +94,19 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
         
         switch (message.getType()) {
             case FILE_HASHED:
+            case FILE_HASHED_AND_MATCHES_EXPECTATION:
                  filesRead++;
                  bytesRead += message.getPayload().getSize();
 
-                 String hash = FingerprintFormatter.encodeBytes(message.getPayload().getDigest(), parameters.getEncoding(), 0, ' ');
+                 String hash = FingerprintFormatter.encodeBytes(message.getPayload().getDigest(), formatPreferences.getEncoding(), 0, ' ');
+                 String filename = message.getPayload().getPath() == null ? "<stdin>" : message.getPayload().getPath().normalize().toString();
+
                  if (map.containsKey(hash)) {
                      found++;
-                     print(filter.isFilterMatch(), "MATCH", message.getPayload().getPath().normalize().toString(), map.get(hash).getFilename());
+                     print(filter.isFilterMatch(), "MATCH", filename, map.get(hash).getFilename());
                  } else {
                      notfound++;
-                     print(filter.isFilterNoMatch(), "NO MATCH", message.getPayload().getPath().normalize().toString(), hash);
+                     print(filter.isFilterNoMatch(), "NO MATCH", filename, hash);
                  }
                  break;
             case ERROR:
@@ -119,8 +122,30 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
         }
     }
 
+    private int exitCode = 0;
     @Override
     public void handleMessagesFinal() {
+
+        // expectation is met if it matches (or not matches) at least one file
+        if (parameters.isExpectation() && filesRead > 0) {
+            long checkAgainst = filter.isFilterMatch() ? found : notfound;
+
+            System.err.printf("%sJacksum: Expectation %s.%s",
+                    parameters.getLineSeparator(),
+                    checkAgainst > 0 ? "met" : "not met",
+                    parameters.getLineSeparator());
+            exitCode = checkAgainst > 0 ? ExitCode.EXPECTATION_MET : ExitCode.EXPECTATION_NOT_MET;
+
+            System.err.printf("Jacksum: %d of the successfully read files %s the expected hash value.%s",
+                    checkAgainst,
+                    filter.isFilterMatch() ?  (checkAgainst == 1 ? "matches": "match") : (checkAgainst == 1 ? "doesn't match" : "don't match"),
+                    parameters.getLineSeparator());
+        }
+
+        if (parameters.isWantedList() && filesRead > 0) {
+            long checkAgainst = filter.isFilterMatch() ? found : notfound;
+            exitCode = checkAgainst > 0 ? ExitCode.OK: ExitCode.WANTED_NOTFOUND;
+        }
 
     }
 
@@ -139,8 +164,8 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
 
     @Override
     public int getExitCode() {
-        if (parameters.isWantedList()) {
-            return found > 0 ? ExitCode.OK: ExitCode.WANTED_NOTFOUND;
+        if (parameters.isExpectation() || parameters.isWantedList()) {
+            return exitCode;
         }
         if (errors > 0) {
             return ExitCode.IO_ERROR;

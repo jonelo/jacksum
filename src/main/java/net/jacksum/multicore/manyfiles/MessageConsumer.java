@@ -23,6 +23,8 @@
 package net.jacksum.multicore.manyfiles;
 
 import java.util.concurrent.BlockingQueue;
+
+import net.jacksum.formats.FormatPreferences;
 import net.jacksum.statistics.Statistics;
 
 
@@ -30,6 +32,15 @@ public abstract class MessageConsumer implements Runnable {
     
     protected ConsumerParameters parameters;
     protected BlockingQueue<Message> queue;
+    protected FormatPreferences formatPreferences;
+
+    public void setFormatPreferences(FormatPreferences formatPreferences) {
+        this.formatPreferences = formatPreferences;
+    }
+
+    public FormatPreferences getFormatPreferences() {
+        return formatPreferences;
+    }
     
     public void setParameters(ConsumerParameters parameters) {
         this.parameters = parameters;        

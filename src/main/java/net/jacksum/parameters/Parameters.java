@@ -334,9 +334,6 @@ public class Parameters implements
         } else if (isSequence()) {
             return ActionType.QUICK;
 
-        } else if (isList() && algorithm != null) {
-            return ActionType.INFO_ALGO;
-
         // must be the first check if isInfoMode is involved, because
         // the --compat option sets the algorithm implicitly
         } else if (isInfoMode() && getCompatibilityID() != null) {
@@ -351,11 +348,15 @@ public class Parameters implements
         } else if (!getFilenamesFromArgs().isEmpty()
                 || !getFilenamesFromFilelist().isEmpty()
                 || stdin) {
-            if (isWantedList()) {
+            if (isWantedList() || isExpectation()) {
                 return ActionType.WANTED_LIST;
             } else {
                 return ActionType.HASH_FILES;
             }
+        // must be the last check, because isList() can be enabled
+        // by isWantedList() or by isExpectation()
+        } else if (isList() && algorithm != null) {
+            return ActionType.INFO_ALGO;
 
         } else { // default
             return ActionType.HELP;
@@ -967,11 +968,11 @@ public class Parameters implements
         this.charsetWantedList = charsetWantedList;
     }
 
-    public WantedListFilter getWantedListFilter() {
+    public MatchFilter getWantedListFilter() {
         return wantedListFilter;
     }
 
-    public void setWantedListFilter(WantedListFilter wantedListFilter) {
+    public void setWantedListFilter(MatchFilter wantedListFilter) {
         this.wantedListFilter = wantedListFilter;
     }
 
