@@ -1,3 +1,48 @@
+Jacksum 3.5.0, Jan 7, 2023
+
+- new algorithms:
+  - replaced own CRC engine by the BSD 3-clause licenced CRC engine java-crc 1.0.3 from S&K Software Development Ltd.,
+    New Zealand (https://github.com/snksoft/java-crc) in order to benefit from the extra [1..7] CRC bit widths.
+  - added CRC-82/DARC with aliases crc82, crc82_darc, crc-82, crc-82_darc
+    (translated to Java from C-code that was written by Mark Adler)
+  - added PHP's variants on Tiger called "tiger192,4", "tiger160,4", and "tiger128,4"
+    by adjusting Bouncy Castle's TigerDigest slightly.
+  - added legacy sum64
+
+- new features:
+  - make option --file-list recognizing GNU filename escaping
+  - added "files-only" style with GNU filename escaping feature enabled in order to generate file lists
+    that can be fed to Jacksum again
+  - added "hexhashes-only" style to read and write files that contain hash values only (for -w)
+  - added option alias called --match-filter for option --wanted-list-filter
+  - added option alias called --expect for option --expect-hash
+  - improved --info for CRCs:
+    - added the polynomial representations: normal, reversed, and Koopman
+    - added the reciprocal polynomial for CRCs
+    - added binary and hex for each poly representation
+    - added polynomial representations and CRC parameters also for optimized CRC implementations
+
+- updates:
+  - improved documentation:
+    - added ISO-3309 notes on CRC-64
+    - added Wolfram's Hash function to the compatibility lists
+  - updated Jacksum's crc-catalogue by Greg Cook's catalogue of parametrised CRC algorithms
+    with CRC-8/HITAG, CRC-16/M17, and CRC-32/MEF. Also added CRC-64/JONES, and CRC-64/REDIS.
+  - updated bundled bouncycastle version to 1.71 (digests only), but baked out the regression that was
+    introduced by issue # 1036 in the Kangaroo class (the constructor parameter is now ignored completely
+    in bouncy castle :-/)
+
+- bug fixes:
+  - github issue #22: Statistics are all zero if --check-line has been set
+  - github issue #24: Regression: Jacksum 3.0.0 to 3.4.0 hangs while trying to read NTUSER.DAT on Microsoft Windows
+    if more than one algo has been selected
+  - correctness of check file shows "NaN %" in the statistics if there is no entry at all in the check file
+  - updated serialversionUID in the Parameters class, because members have changed in Jacksum 3.4.0
+  - `jacksum -h exit` does not print the entire exit status section
+  - option --match-filter match,nomatch doesn't work like --match-filter all
+  - be not equal-tolerant for any BASE64* encoding
+
+
 Jacksum 3.4.0, June 19, 2022
 
 - new features:

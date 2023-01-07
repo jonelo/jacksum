@@ -3,16 +3,6 @@ Jacksum 3.6.0, TBD
 - new algorithms:
 
 - new features:
-  - make option --file-list recognizing GNU filename escaping
-  - added "files-only" style with GNU filename escaping feature enabled in order to generate file lists
-    that can be fed to Jacksum again
-  - added "hexhashes-only" style to read and write files that contain hash values only (for -w)
-  - added option alias called --match-filter for option --wanted-list-filter
-  - improved --info for CRCs:
-    - added the polynomial representations: normal, reversed, and Koopman
-    - added the reciprocal polynomial for CRCs
-    - added binary and hex for each poly representation
-    - added polynomial representations and CRC parameters also for optimized CRC implementations
 
 - updates:
 
