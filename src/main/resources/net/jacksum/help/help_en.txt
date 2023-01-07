@@ -3,7 +3,7 @@ NAME
 
 
 VERSION
-    3.5.0
+    3.6.0
 
 
 SYNOPSIS
@@ -2778,7 +2778,7 @@ ALGORITHMS
             since:
                 Available since Jacksum 1.7.0 (bit widths [8..64]),
                 includeLen and xorLen since Jacksum 3.0.0,
-                bit widths [1..7] since Jacksum 3.5.0
+                bit widths [1..7] since Jacksum 3.6.0
 
 
     crc8, crc-8
@@ -3418,7 +3418,7 @@ ALGORITHMS
                 - Wolfram:         -
 \
             since:
-                Jacksum 3.5.0
+                Jacksum 3.6.0
 \
             implementation:
                 net.jacksum.algorithms.crcs.CRC82_DARC (derived from
@@ -6542,7 +6542,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.3.0; 40, 48, and 56 bits are available since
-                Jacksum 3.0.0, 64 bits are available since Jacksum 3.5.0
+                Jacksum 3.0.0, 64 bits are available since Jacksum 3.6.0
 \
             implementation:
                 net.jacksum.algorithms.checksums.Sum*
@@ -6892,7 +6892,7 @@ ALGORITHMS
                 - Wolfram:         -
 \
             since:
-                Jacksum 3.5.0
+                Jacksum 3.6.0
 \
             implementation:
                 mini-modification on bouncycastle's TigerDigest
@@ -7007,7 +7007,7 @@ ALGORITHMS
                 - Wolfram:         -
 \
             since:
-                Jacksum 3.5.0
+                Jacksum 3.6.0
 \
             implementation:
                 mini-modification on bouncycastle's TigerDigest
@@ -7127,7 +7127,7 @@ ALGORITHMS
                 - Wolfram:         -
 \
             since:
-                Jacksum 3.5.0
+                Jacksum 3.6.0
 \
             implementation:
                 mini-modification on bouncycastle's TigerDigest
