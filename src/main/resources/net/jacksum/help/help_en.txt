@@ -46,16 +46,19 @@ DESCRIPTION
         - Calculation of hash values (of almost any input)
         - Find ok/failed/missing/new files (verify file/data integrity)
         - Find files by their fingerprints (positive matching)
-        - Find files that do not match fingerprints (negative matching)
+        - Find files that do not match certain fingerprints (negative matching)
         - Find all duplicates of a file by its hash value
         - Find the algorithm(s) that generated a certain hash value
 \
     In order to achieve those goals above Jacksum supports you with
 \
         - 477 standard hash functions
-        - Customize CRCs from 1 to 64 bit width
+        - Customizable CRCs from 1 to 64 bit width
+        - 60+ options to control Jacksum's behavior on the command line
         - 14 standard encodings for representing hash values
         - 10 predefined styles to read and write files that contain hash values
+        - 8000 lines of manpage with descriptions, examples, and compatibility
+          lists for the most common algorithms
 
 
 OPERATING MODES
@@ -193,7 +196,7 @@ OPERATING MODES
 \
     jacksum [OPTION]... (--quick|-q) <sequence>
 \
-        "Quick/calculate one hash"-mode
+        "Quickly hash a sequence"-mode
 \
         In this mode you can specify the input data entirely on the command
         line, and calculate hash(es) of it.
@@ -215,7 +218,7 @@ OPERATING MODES
 \
     jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
 \
-        "Quick/verify one file"-mode
+        "Quickly verify a sequence"-mode
 \
         In this mode you can specify the input data on the command line,
         calculate the hash(es), and verify the integrity.
@@ -2002,11 +2005,14 @@ OPTIONS
             The LPT-Algorithm (Longest Processing Time) is used which means
             that the slowest algorithm selected determines the minimum
             computation time.
+\
             By default, if this option is omitted, or if <threads> is set to
             the value "max", <threads> is set to the number of available
             processors. You can set <threads> above the value of max, but you
             won't get better performance, because you can only use the computing
             power that is physically available.
+            If the value for <threads> is set higher than the number of threads
+            actually needed, only the required number of threads will be started.
 \
             Available since Jacksum 3.3.0
 
