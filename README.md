@@ -60,41 +60,39 @@ m is often called the message or data, and dependent on the design, and security
 Calculating hash values is usually the first step you take to be able to check data integrity at all later on.
 Jacksum supports not only hundreds of different algorithms for calculating hash values, it also supports many predefined styles and comprehensive formatting features to get the format you need.
 
-Examples:
-
-Default style (is dependent on the algorithm)
+Example 1: Default style (is dependent on the algorithm)
 
     $ jacksum -a sha3-256 ubuntu-22.04-desktop-amd64.iso
     c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43 ubuntu-22.04-desktop-amd64.iso
 
-GNU/Linux style
+Example 2: GNU/Linux style
 
     $ jacksum -a sha3-256 --style linux ubuntu-22.04-desktop-amd64.iso
     c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43 *ubuntu-22.04-desktop-amd64.iso
 
-BSD style
+Example 3: BSD style
 
     $ jacksum -a sha3-256 --style bsd ubuntu-22.04-desktop-amd64.iso
     SHA3-256 (ubuntu-22.04-desktop-amd64.iso) = c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43
 
-OpenSSL style
+Example 4: OpenSSL style
 
     $ jacksum -a sha3-256 --style openssl ubuntu-22.04-desktop-amd64.iso
     SHA3-256(ubuntu-22.04-desktop-amd64.iso)= c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43
 
-Solaris digest style
+Example 5: Solaris digest style
 
     $ jacksum -a sha3-256 --style solaris-digest ubuntu-22.04-desktop-amd64.iso
     (ubuntu-22.04-desktop-amd64.iso) = c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43
 
-Customized output, including customized algorithm selection (crc32c, sha-256, and sha3-256), customized hash value encoding (base64, nopadding), and algorithm names in uppercase for all files in the current directory (and below)
+Example 6: Customized output, including customized algorithm selection (crc32c, sha-256, and sha3-256), customized hash value encoding (base64, nopadding), and algorithm names in uppercase for all files in the current directory (and below)
 
     $ jacksum -a crc32c+sha-256+sha3-256 -F "#ALGONAME{i,uppercase} (#FILENAME) = #HASH{i,base64-nopadding}" .
     CRC32C (./ubuntu-22.04-desktop-amd64.iso) = GBhNzg
     SHA-256 (./ubuntu-22.04-desktop-amd64.iso) = uFKG2YVfVJ7ZiVdjUZ9qKVp2mPucXFNFgRs+7637bwc
     SHA3-256 (./ubuntu-22.04-desktop-amd64.iso) = xeRkJqPKCuhI0pd0ftOEZFLMezPVtBivlh29Vd6N/0M
     
-Customized output like above, but encoded hash values separated by comma
+Example 7: Customized output like above, but encoded hash values separated by comma
 
     $ jacksum -a crc32c+sha-256+sha3-256 -F "#ALGONAMES{uppercase} (#FILENAME) = #HASHES{base64-nopadding}" ubuntu-20.04.2.0-desktop-amd64.iso
     CRC32C,SHA-256,SHA3-256 (ubuntu-20.04.2.0-desktop-amd64.iso) = GBhNzg,uFKG2YVfVJ7ZiVdjUZ9qKVp2mPucXFNFgRs+7637bwc,xeRkJqPKCuhI0pd0ftOEZFLMezPVtBivlh29Vd6N/0M
@@ -104,18 +102,47 @@ Customized output like above, but encoded hash values separated by comma
 
 #### 6 parameters 
 Jacksum supports the quasi standard called "Rocksoft (tm) Model CRC Algorithm" to customize CRCs by setting 6 parameters.
-Example to get the Castagnoli CRC-32:
+
+Example 1: get the Castagnoli CRC-32 in lower hex
 
     $ jacksum -a crc:32,1EDC6F41,FFFFFFFF,true,true,FFFFFFFF -x -q txt:123456789
     e3069283 9
 
-#### 7, and 8 parameters
+Example 2: as above by using an alias
 
-An extended model with 8 CRC parameters is also supported in order to define CRCs that incorporate the length of the message.
-Example to simulate the output of the sum command from [Plan 9](https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs):
+    $ jacksum -a crc32c -x -q txt:123456789
+    e3069283 9
+
+
+#### 7 parameters
+
+An extended model with 7 CRC parameters is also supported in order to define CRCs that incorporate the length of the message. If the 7th parameter is set to true, the most significant octet of the length will be processed first to the update method of the CRC. If it is set to false, the least significant octet of the length will be processed first to the update method of the CRC.
+
+Example 1: get the POSIX 1003.2 CRC algorithm
+
+   $ jacksum -a crc:32,04C11DB7,0,false,false,FFFFFFFF,false -x -q txt:123456789
+   377a6011 9
+   
+Example 2: as above by using an alias
+
+   $ jacksum -a cksum -x -q txt:123456789
+   377a6011 9
+
+
+#### 8 parameters
+
+An extended model with 8 CRC parameters is also supported in order to define CRCs that incorporate the length of the message, and to XOR the length of the value before it gets included to the CRC.
+
+Example 1: get the output of the sum command from [Plan 9](https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs):
 
     $ jacksum -a crc:32,04C11DB7,0,true,true,0,true,CC55CC55 -x -q txt:123456789
     afcbb09a 9
+    
+Example 2: as above by using an alias
+
+    $ jacksum -a sum_plan9 -x -q txt:123456789
+    afcbb09a 9
+
 
 ### Investigate CRC parameters
 
@@ -123,7 +150,7 @@ CRC parameters can be investigated by the CRC algorithm, and setting the `--info
 
     $ jacksum -a crc32c --info
 
-or
+or by specifying all of the CRC's parameters explicitly:
 
     $ jacksum -a crc:32,1EDC6F41,FFFFFFFF,true,true,FFFFFFFF --info
 
