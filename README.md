@@ -26,7 +26,7 @@ Jacksum is also a library. It is written entirely in **Java** ☕.
 
 ## Audience
 
-Jacksum is for users with security in mind, advanced users, sysadmins, computer scientists, cybersecurity engineers, penetration testers, forensics engineers, reverse engineers, etc.
+Jacksum is for users with a strong security in mind, advanced users, sysadmins, students of informatics, computer scientists, cybersecurity engineers, forensics engineers, penetration testers, white hat hackers, reverse engineers, CRC researchers, etc.
 
 ## User Interfaces
 
@@ -85,22 +85,40 @@ Example 5: Solaris digest style
     $ jacksum -a sha3-256 --style solaris-digest ubuntu-22.04-desktop-amd64.iso
     (ubuntu-22.04-desktop-amd64.iso) = c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43
 
-Example 6: Customized output, including customized algorithm selection (crc32c, sha-256, and sha3-256), customized hash value encoding (base64, nopadding), and algorithm names in uppercase for all files in the current directory (and below)
+Example 6: Customized output, including customized algorithm selection (crc32c, sha-256, and sha3-256), customized hash value encoding (base64, nopadding), and algorithm names in uppercase for all files in the current directory (and below), each hash on a separate line:
 
     $ jacksum -a crc32c+sha-256+sha3-256 -F "#ALGONAME{i,uppercase} (#FILENAME) = #HASH{i,base64-nopadding}" .
-    CRC32C (./ubuntu-22.04-desktop-amd64.iso) = GBhNzg
-    SHA-256 (./ubuntu-22.04-desktop-amd64.iso) = uFKG2YVfVJ7ZiVdjUZ9qKVp2mPucXFNFgRs+7637bwc
-    SHA3-256 (./ubuntu-22.04-desktop-amd64.iso) = xeRkJqPKCuhI0pd0ftOEZFLMezPVtBivlh29Vd6N/0M
+    CRC32C (./kali-linux-2023.1-installer-amd64.iso) = dUWxuQ
+    SHA-256 (./kali-linux-2023.1-installer-amd64.iso) = RuBXOaILKdtgyh//LpBoXqYyBxwxSpwkFtfEas7ye/A
+    SHA3-256 (./kali-linux-2023.1-installer-amd64.iso) = ffPkMr8uVPCO5GIHm8YpAbmaOVeBMaxvdLPI/N4NkbE
     
-Example 7: Customized output like above, but encoded hash values separated by comma
+    CRC32C (./ubuntu-22.04.2-desktop-amd64.iso) = hIXQsw
+    SHA-256 (./ubuntu-22.04.2-desktop-amd64.iso) = uY2slAqCsRDmJlynjRMg8fcQOGHpIqoaVOQgJobpu9M
+    SHA3-256 (./ubuntu-22.04.2-desktop-amd64.iso) = bvOhwtwckCQuzgm4LLEJoqPbjcbWSRSuNUOcyY4/1L0
+    
+Example 7: Customized output like above, but encoded hash values are separated by comma
 
-    $ jacksum -a crc32c+sha-256+sha3-256 -F "#ALGONAMES{uppercase} (#FILENAME) = #HASHES{base64-nopadding}" ubuntu-20.04.2.0-desktop-amd64.iso
-    CRC32C,SHA-256,SHA3-256 (ubuntu-20.04.2.0-desktop-amd64.iso) = GBhNzg,uFKG2YVfVJ7ZiVdjUZ9qKVp2mPucXFNFgRs+7637bwc,xeRkJqPKCuhI0pd0ftOEZFLMezPVtBivlh29Vd6N/0M
+    $ jacksum -a crc32c+sha-256+sha3-256 -F "#ALGONAMES{uppercase} (#FILENAME) = #HASHES{base64-nopadding}" .
+    CRC32C,SHA-256,SHA3-256 (./kali-linux-2023.1-installer-amd64.iso) = dUWxuQ,RuBXOaILKdtgyh//LpBoXqYyBxwxSpwkFtfEas7ye/A,ffPkMr8uVPCO5GIHm8YpAbmaOVeBMaxvdLPI/N4NkbE
+    CRC32C,SHA-256,SHA3-256 (./ubuntu-22.04.2-desktop-amd64.iso) = hIXQsw,uY2slAqCsRDmJlynjRMg8fcQOGHpIqoaVOQgJobpu9M,bvOhwtwckCQuzgm4LLEJoqPbjcbWSRSuNUOcyY4/1L0
+    
+Example 8: Customized output like above, but one hash only (encoded by base64-nopadding)
+
+    $ jacksum -a crc32c+sha-256+sha3-256 -F "#ALGONAMES{uppercase} (#FILENAME) = #HASH{base64-nopadding}" .
+    CRC32C,SHA-256,SHA3-256 (./kali-linux-2023.1-installer-amd64.iso) = dUWxuUbgVzmiCynbYMof/y6QaF6mMgccMUqcJBbXxGrO8nvwffPkMr8uVPCO5GIHm8YpAbmaOVeBMaxvdLPI/N4NkbE
+    CRC32C,SHA-256,SHA3-256 (./ubuntu-22.04.2-desktop-amd64.iso) = hIXQs7mNrJQKgrEQ5iZcp40TIPH3EDhh6SKqGlTkICaG6bvTbvOhwtwckCQuzgm4LLEJoqPbjcbWSRSuNUOcyY4/1L0
+    
+Example 9: Customized output in hashdeep format (filesize,hash1,...,hashN,filename) with modern algorithms
+
+    $ jacksum -a crc32c+sha-256+sha3-256 -F "#FILESIZE,#HASHES{hex},#FILENAME" .
+    3875536896,7545b1b9,46e05739a20b29db60ca1fff2e90685ea632071c314a9c2416d7c46acef27bf0,7df3e432bf2e54f08ee462079bc62901b99a39578131ac6f74b3c8fcde0d91b1,./kali-linux-2023.1-installer-amd64.iso
+    4927586304,8485d0b3,b98dac940a82b110e6265ca78d1320f1f7103861e922aa1a54e4202686e9bbd3,6ef3a1c2dc1c90242ece09b82cb109a2a3db8dc6d64914ae35439cc98e3fd4bd,./ubuntu-22.04.2-desktop-amd64.iso
 
 
 ### Customize CRCs
 
 #### 6 parameters 
+
 Jacksum supports the quasi standard called "Rocksoft (tm) Model CRC Algorithm" to customize CRCs by setting 6 parameters.
 
 Example 1: get the Castagnoli CRC-32 in lower hex
