@@ -138,13 +138,13 @@ An extended model with 7 CRC parameters is also supported in order to define CRC
 
 Example 1: get the POSIX 1003.2 CRC algorithm
 
-   $ jacksum -a crc:32,04C11DB7,0,false,false,FFFFFFFF,false -x -q txt:123456789
-   377a6011 9
+    $ jacksum -a crc:32,04C11DB7,0,false,false,FFFFFFFF,false -x -q txt:123456789
+    377a6011 9
    
 Example 2: as above by using an alias
 
-   $ jacksum -a cksum -x -q txt:123456789
-   377a6011 9
+    $ jacksum -a cksum -x -q txt:123456789
+    377a6011 9
 
 
 #### 8 parameters
