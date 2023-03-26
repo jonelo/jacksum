@@ -22,6 +22,8 @@
 package net.jacksum.algorithms.wrappers;
 
 import java.security.NoSuchAlgorithmException;
+
+import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.ExtendedDigest;
 import org.bouncycastle.crypto.digests.*;
 import org.bouncycastle.crypto.engines.GOST28147Engine;
@@ -37,7 +39,7 @@ import net.jacksum.formats.Encoding;
 public class MDbouncycastle extends AbstractChecksum {
    
     
-    protected ExtendedDigest md = null;
+    protected Digest md = null;
     protected boolean virgin = true;
     protected byte[] digest = null;
     private int newDigestWidthInBits = -1;
@@ -163,7 +165,13 @@ public class MDbouncycastle extends AbstractChecksum {
             md = new Blake3Digest(256);
         } else
 
+        if (arg.equalsIgnoreCase("ascon-hash")) {
+            md = new AsconDigest(AsconDigest.AsconParameters.AsconHash);
+        } else
 
+        if (arg.equalsIgnoreCase("ascon-hasha")) {
+            md = new AsconDigest(AsconDigest.AsconParameters.AsconHashA);
+        } else
 /*
         if (arg.equalsIgnoreCase("haraka-512")) {
             md = new Haraka512Digest();
@@ -208,7 +216,11 @@ public class MDbouncycastle extends AbstractChecksum {
     
     @Override
     public int getBlockSize() {
-       return md.getByteLength();
+        if (md instanceof ExtendedDigest) {
+            return ((ExtendedDigest)md).getByteLength();
+        } else {
+            return -1;
+        }
     }
 
     @Override
