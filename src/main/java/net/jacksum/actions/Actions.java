@@ -58,8 +58,10 @@ public class Actions {
             checksum.setParameters(parameters);
         } catch (NoSuchAlgorithmException e) {
             throw new ParameterException(e.getMessage()
-                    + "\nUse -a <code> to specify a valid one."
-                    + "\nFor both help and a list of all supported algorithms use -h.");
+                    + "\nUse -a <code> to specify a valid algorithm ID."
+                    + "\nType \"jacksum -a all -l\" to list all supported algorithm IDs."
+                    + "\nType \"jacksum -a all:<string> -l\" to list all algorithms that contain a particular string."
+                    + "\nType \"jacksum -a all:<length> -l\" to list all algorithms that produce output of a particular bit length.");
         }
         return checksum;
     }
