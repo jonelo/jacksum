@@ -188,6 +188,10 @@ public class MDbouncycastle extends AbstractChecksum {
             md = new SparkleDigest(SparkleDigest.SparkleParameters.ESCH384);
         } else
 
+        if (arg.equalsIgnoreCase("xoodyak")) {
+            md = new XoodyakDigest();
+        } else
+
         throw new NoSuchAlgorithmException(arg + " is an unknown algorithm.");
         if (newDigestWidthInBits > 0) {
             bitWidth = newDigestWidthInBits;

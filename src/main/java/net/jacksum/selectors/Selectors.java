@@ -26,6 +26,10 @@ public class Selectors {
 
     public final static Class<?>[] allSupportedSelectorClasses = {
         Adler32_Selector.class,
+        AsconHash_Selector.class,
+        AsconHasha_Selector.class,
+        AsconXof_Selector.class,
+        AsconXofA_Selector.class,
         Blake_224_Selector.class,
         Blake_256_Selector.class,
         Blake_384_Selector.class,
@@ -60,6 +64,7 @@ public class Selectors {
         ECHO512_Selector.class,
         Ed2k_Selector.class,
         Elf_Selector.class,
+        Esch_Selector.class,
         FCS16_Selector.class,
         Fletcher16_Selector.class,
         FNV0_Selector.class,
@@ -148,13 +153,9 @@ public class Selectors {
         Whirlpool0_Selector.class,
         Whirlpool1_Selector.class,
         Whirlpool2_Selector.class,
+        Xoodyak_Selector.class,
         Xor8_Selector.class,
-        xxHash32_Selector.class,
-        AsconHash_Selector.class,
-        AsconHasha_Selector.class,
-        AsconXof_Selector.class,
-        AsconXofA_Selector.class,
-        Esch_Selector.class
+        xxHash32_Selector.class
 
     };
 
@@ -215,6 +216,7 @@ public class Selectors {
         AsconXofA_Selector.class,
 
         Esch_Selector.class,
+        Xoodyak_Selector.class,
 
 
         // SHA-3 competition

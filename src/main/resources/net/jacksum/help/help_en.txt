@@ -52,7 +52,7 @@ DESCRIPTION
 \
     In order to achieve those goals above Jacksum supports you with
 \
-        - 485 standard hash functions
+        - 486 standard hash functions
         - Customizable CRCs from 1 to 64 bit width
         - 60+ options to control Jacksum's behavior on the command line
         - 14 standard encodings for representing hash values
@@ -7714,6 +7714,44 @@ ALGORITHMS
 \
             implementation:
                  gnu.crypto.hash.Whirlpool (by jonelo)
+
+
+    xoodyak
+            algorithm:
+                Xoodyak
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                05/2021
+\
+            broken:
+                no
+\
+            website:
+                https://keccak.team/xoodyak.html
+\
+            comment:
+                Xoodyak is a versatile cryptographic scheme that can be used for
+                hashing, encryption, MAC computation and authenticated encryption.
+                Jacksum supports the hashing part of Xoodyak.
+\
+                Xoodyak was one of the 10 finalists of the NIST Lightweight
+                Cryptography competition (2019–2023).
+\
+                Xoodyak was created by Joan Daemen, Seth Hoffert,
+                Michaël Peeters, Gilles Van Assche, Ronny Van Keer, and
+                Silvia Mella.
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.XoodyakDigest
 
 
     xor8, xor-8
