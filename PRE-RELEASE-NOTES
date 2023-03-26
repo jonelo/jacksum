@@ -4,7 +4,8 @@ Jacksum 3.6.0, TBD
   - blake2sp, and blake2bp - fixed width single threaded Java implementations by bouncy castle (pre-release) with
     a buffer fix by jonelo to avoid an ArrayIndexOutOfBoundsException at System.arraycopy for particular message
     lengths, e.g. 1007 bytes.
-  - ascon-hash, and ascon-hasha - winner of the NIST Lightweight Cryptography competition (2019–2023)
+  - added Ascon family hashes called ascon-hash, ascon-hasha, ascon-xof, and ascon-xofa - Ascon is the winner of the
+    NIST Lightweight Cryptography competition (2019–2023)
 
 - new features:
   - alternate implementation for blake3 provided by bouncy castle, the existing primary implementation still remains the

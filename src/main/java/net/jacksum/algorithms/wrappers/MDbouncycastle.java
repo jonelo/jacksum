@@ -172,6 +172,15 @@ public class MDbouncycastle extends AbstractChecksum {
         if (arg.equalsIgnoreCase("ascon-hasha")) {
             md = new AsconDigest(AsconDigest.AsconParameters.AsconHashA);
         } else
+
+        if (arg.equalsIgnoreCase("ascon-xof")) {
+            md = new AsconXof(AsconXof.AsconParameters.AsconXof);
+        } else
+
+        if (arg.equalsIgnoreCase("ascon-xofa")) {
+            md = new AsconXof(AsconXof.AsconParameters.AsconXofA);
+        } else
+
 /*
         if (arg.equalsIgnoreCase("haraka-512")) {
             md = new Haraka512Digest();

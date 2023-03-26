@@ -2414,35 +2414,73 @@ ALGORITHMS
                 https://ascon.iaik.tugraz.at
 \
             comment:
-                Ascon is a family of authenticated encryption and hashing
-                algorithms designed to be lightweight and easy to implement,
-                even with added countermeasures against side-channel attacks.
-                Ascon has been selected as new standard for lightweight
-                cryptography in the NIST Lightweight Cryptography competition
-                (2019–2023). See also
-                https://csrc.nist.gov/projects/lightweight-cryptography/finalists
-                Ascon has also been selected as the primary choice for
-                lightweight authenticated encryption in the final portfolio of
-                the CAESAR competition (2014–2019).
-\
-                Ascon is designed and maintained by a team of cryptographers
-                working for Graz University of Technology, Infineon Technologies,
-                Intel Labs, Lamarr Security Research, and Radboud University:
-                Christoph Dobraunig, Maria Eichlseder, Florian Mendel and Martin
-                Schläffer.
-\
-                The Ascon family includes the hash functions Ascon-Hash and
-                Ascon-Hasha as well as the extendable output functions
-                Ascon-Xof and Ascon-Xofa with sponge-based modes of operation.
-                Both provide 128-bit security with a hash size of at least
-                256 bits. The hashing modes use the same lightweight 320-bit
-                permutation as the authenticated encryption modes.
+                ascon-hasha is the secondary recommendation by the Ascon team.
+                See also ascon-hash.
 \
             since:
                 Jacksum 3.6.0
 \
             implementation:
                 org.bouncycastle.crypto.digests.AsconDigest
+
+
+    ascon-xof
+            algorithm:
+                Ascon-Xof (v1.2)
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                05/2021
+\
+            broken:
+                no
+\
+            website:
+                https://ascon.iaik.tugraz.at
+\
+            comment:
+                See also ascon-hash.
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.AsconXof
+
+
+    ascon-xofa
+            algorithm:
+                Ascon-XofA (v1.2)
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                05/2021
+\
+            broken:
+                no
+\
+            website:
+                https://ascon.iaik.tugraz.at
+\
+            comment:
+                Ascon-xofA is the secondary recommendation by the Ascon team.
+                See also ascon-xof.
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.AsconXofA
 
 
     blake<length>, blake-<length>
