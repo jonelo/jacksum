@@ -1,3 +1,18 @@
+Jacksum 3.6.0, TBD
+
+- new algorithms:
+  - added Ascon family hashes called ascon-hash, ascon-hasha, ascon-xof, and ascon-xofa - Ascon is the winner of the
+    NIST Lightweight Cryptography competition (2019–2023)
+  - added blake2sp, and blake2bp - fixed width single threaded Java implementations by bouncy castle (pre-release) with
+    a buffer fix by jonelo to avoid an ArrayIndexOutOfBoundsException at System.arraycopy for particular message
+    lengths, e.g. 1007 bytes.
+  - alternate implementation for blake3 provided by bouncy castle, the existing primary implementation still remains the
+    primary, because it is slightly faster.
+
+- bug fixes:
+  - CommonHashStatistics.java was not added to the repo which avoided the compilation
+
+
 Jacksum 3.5.0, Jan 7, 2023
 
 - new algorithms:
