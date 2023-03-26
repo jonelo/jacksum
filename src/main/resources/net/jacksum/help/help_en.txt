@@ -2444,6 +2444,74 @@ ALGORITHMS
                  Jacksum 3.0.0
 
 
+    blake2bp, blake2bp-512
+            algorithm:
+                BLAKE2bp
+\
+            length:
+                512 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                12/2012
+\
+            broken:
+                no
+\
+            website:
+                https://blake2.net
+\
+            comment:
+                BLAKE2bp is a different algorithm from BLAKE2b. Each algorithm
+                produces a different hash value.
+                BLAKE2bp is a 4-way parallel algorithm designed for increased
+                performance on multicore or SIMD CPUs. The BLAKE2bp allows to
+                produce digests of any size between 1 and 64 bytes
+                (8 and 512 bits).
+\
+                Jacksum implements an iterative, single-threaded 512 bit
+                variant only.
+\
+            compatibility:
+                - 7z:              -
+                - Angstrom:        -
+                - BeOS:            -
+                - BusyBox:         -
+                - CentOS:          -
+                - DragonFly BSD:   -
+                - FreeBSD:         -
+                - FreeDOS:         -
+                - GNU/Hurd:        -
+                - GNU/Linux:       -
+                - HP-UX:           -
+                - IBM AIX:         -
+                - JDK:             -
+                - Kali Linux:      -
+                - macOS:           -
+                - Minix:           -
+                - MS-DOS:          -
+                - NetBSD:          -
+                - NextStep:        -
+                - OpenSSL 1.1.0+:  -
+                - PHP:             -
+                - Plan 9:          -
+                - Python 3.6+:     -
+                - Solaris:         -
+                - Tru64:           -
+                - Ubuntu:          -
+                - Windows:         -
+                - Wolfram:         Hash[expr, {"BLAKE2bp", 512}, "HexString"]
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.Blake2bp
+                (pre-release, single-threaded with buffer fix by jonelo)
+
+
     blake2s, blake2s-<length>
             algorithm:
                 BLAKE2s
@@ -2503,6 +2571,74 @@ ALGORITHMS
 \
             implementation:
                 org.bouncycastle.crypto.digests.Blake2s
+
+
+    blake2sp, blake2sp-256
+            algorithm:
+                BLAKE2sp
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                12/2012
+\
+            broken:
+                no
+\
+            website:
+                https://blake2.net
+\
+            comment:
+                BLAKE2sp is a different algorithm from BLAKE2s. Each algorithm
+                produces a different hash value.
+                BLAKE2sp is a 8-way parallel algorithm designed for increased
+                performance on multicore or SIMD CPUs. The BLAKE2 allows to
+                produce digests of any size between 1 and 32 bytes
+                (8 and 256 bits).
+\
+                Jacksum implements an iterative, single-threaded 256 bit
+                variant only.
+\
+            compatibility:
+                - 7z:              7z h -scrcblake2sp
+                - Angstrom:        -
+                - BeOS:            -
+                - BusyBox:         -
+                - CentOS:          -
+                - DragonFly BSD:   -
+                - FreeBSD:         -
+                - FreeDOS:         -
+                - GNU/Hurd:        -
+                - GNU/Linux:       -
+                - HP-UX:           -
+                - IBM AIX:         -
+                - JDK:             -
+                - Kali Linux:      -
+                - macOS:           -
+                - Minix:           -
+                - MS-DOS:          -
+                - NetBSD:          -
+                - NextStep:        -
+                - OpenSSL 1.1.0+:  -
+                - PHP:             -
+                - Plan 9:          -
+                - Python 3.6+:     -
+                - Solaris:         -
+                - Tru64:           -
+                - Ubuntu:          -
+                - Windows:         -
+                - Wolfram:         Hash[expr, {"BLAKE2sp", 256}, "HexString"]
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.Blake2sp
+                (pre-release, single-threaded with buffer fix by jonelo)
 
 
     blake3, blake3-256

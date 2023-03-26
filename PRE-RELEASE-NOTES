@@ -1,6 +1,9 @@
 Jacksum 3.6.0, TBD
 
 - new algorithms:
+  - blake2sp, and blake2bp - fixed width single threaded Java implementations by bouncy castle (pre-release) with
+    a buffer fix by jonelo to avoid an ArrayIndexOutOfBoundsException at System.arraycopy for particular message
+    lengths, e.g. 1007 bytes.
 
 - new features:
 

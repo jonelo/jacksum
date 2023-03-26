@@ -32,6 +32,8 @@ public class Selectors {
         Blake_512_Selector.class,
         Blake2b_Selector.class,
         Blake2s_Selector.class,
+        Blake2sp_Selector.class,
+        Blake2bp_Selector.class,
         Blake3_Selector.class,
         CksumMinix_Selector.class,
         Cksum_Selector.class,
@@ -263,6 +265,8 @@ public class Selectors {
         Blake3_Selector.class,
         Blake2b_Selector.class,
         Blake2s_Selector.class,
+        Blake2sp_Selector.class,
+        Blake2bp_Selector.class,
        
         // Tiger
         Tiger2_Selector.class,
