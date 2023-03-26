@@ -7,4 +7,4 @@ Jacksum 3.6.0, TBD
 - updates:
 
 - bug fixes:
-  * CommonHashStatistics.java was not in the repo and avoided a compilation
+  - CommonHashStatistics.java was not added to the repo and avoided a compilation
