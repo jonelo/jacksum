@@ -153,7 +153,8 @@ public class Selectors {
         AsconHash_Selector.class,
         AsconHasha_Selector.class,
         AsconXof_Selector.class,
-        AsconXofA_Selector.class
+        AsconXofA_Selector.class,
+        Esch_Selector.class
 
     };
 
@@ -212,6 +213,8 @@ public class Selectors {
         AsconHasha_Selector.class,
         AsconXof_Selector.class,
         AsconXofA_Selector.class,
+
+        Esch_Selector.class,
 
 
         // SHA-3 competition

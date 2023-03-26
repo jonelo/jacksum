@@ -52,7 +52,7 @@ DESCRIPTION
 \
     In order to achieve those goals above Jacksum supports you with
 \
-        - 477 standard hash functions
+        - 485 standard hash functions
         - Customizable CRCs from 1 to 64 bit width
         - 60+ options to control Jacksum's behavior on the command line
         - 14 standard encodings for representing hash values
@@ -3833,6 +3833,47 @@ ALGORITHMS
                 net.jacksum.algorithms.md.Edonkey
 
 
+    esch<length>
+            algorithm:
+                Esch
+\
+            length:
+                256 or 384 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                05/2021 (v1.2)
+\
+            broken:
+                no
+\
+            website:
+                https://sparkle-lwc.github.io/esch
+\
+            comment:
+                Esch is a family of hash functions. Esch256 outputs digests of
+                256 bits, and Esch384 of 384 bits. They rely on the sponge
+                construction, like the current hash standard SHA-3.
+\
+                The Esch familiy is actually part of the Sparkle suite which is
+                a collection of lightweight symmetric cryptographic primitives.
+                The Sparkle suite was one of the 10 finalists of the NIST
+                Lightweight Cryptography competition (2019–2023).
+\
+                4/10 of the team members of the Sparkle team are from the
+                university of Luxembourg, and Esch is the name of a city in
+                Luxembourg that is very close to the campus of the university of
+                Luxembourg.
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.Sparkle
+
+
     fletcher16, fletcher-16
             algorithm:
                 Fletcher's checksum
@@ -5631,6 +5672,7 @@ ALGORITHMS
 \
             type:
                 cryptographic hash function
+\
             published:
                 2001
 \

@@ -181,15 +181,13 @@ public class MDbouncycastle extends AbstractChecksum {
             md = new AsconXof(AsconXof.AsconParameters.AsconXofA);
         } else
 
-/*
-        if (arg.equalsIgnoreCase("haraka-512")) {
-            md = new Haraka512Digest();
-        } else            
-        if (arg.equalsIgnoreCase("haraka-256")) {
-            md = new Haraka256Digest();
+        if (arg.equalsIgnoreCase("esch256")) {
+            md = new SparkleDigest(SparkleDigest.SparkleParameters.ESCH256);
         } else
-*/
-            
+        if (arg.equalsIgnoreCase("esch384")) {
+            md = new SparkleDigest(SparkleDigest.SparkleParameters.ESCH384);
+        } else
+
         throw new NoSuchAlgorithmException(arg + " is an unknown algorithm.");
         if (newDigestWidthInBits > 0) {
             bitWidth = newDigestWidthInBits;
