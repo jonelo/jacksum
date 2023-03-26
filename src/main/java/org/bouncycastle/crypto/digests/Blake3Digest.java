@@ -3,7 +3,10 @@ package org.bouncycastle.crypto.digests;
 import java.util.Iterator;
 import java.util.Stack;
 
+import org.bouncycastle.crypto.CryptoServicePurpose;
+//import org.bouncycastle.crypto.CryptoServicesRegistrar;
 import org.bouncycastle.crypto.ExtendedDigest;
+import org.bouncycastle.crypto.OutputLengthException;
 import org.bouncycastle.crypto.Xof;
 import org.bouncycastle.crypto.params.Blake3Parameters;
 import org.bouncycastle.util.Arrays;
@@ -15,7 +18,7 @@ import org.bouncycastle.util.Pack;
  * Blake3 implementation.
  */
 public class Blake3Digest
-    implements ExtendedDigest, Memoable, Xof
+        implements ExtendedDigest, Memoable, Xof
 {
     /**
      * Already outputting error.
@@ -163,15 +166,10 @@ public class Blake3Digest
     private static final byte[] SIGMA = {2, 6, 3, 10, 7, 0, 4, 13, 1, 11, 12, 5, 9, 14, 15, 8};
 
     /**
-     * Rotation constants.
-     */
-    private static final byte[] ROTATE = {16, 12, 8, 7};
-
-    /**
      * Blake3 Initialization Vector.
      */
     private static final int[] IV = {
-        0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
+            0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
     };
 
     /**
@@ -254,22 +252,43 @@ public class Blake3Digest
      */
     private int thePos;
 
+    // digest purpose
+    private final CryptoServicePurpose purpose;
+
     /**
      * Constructor.
      */
     public Blake3Digest()
     {
-        this(BLOCKLEN >> 1);
+        this((BLOCKLEN >> 1) * 8);
     }
 
     /**
      * Constructor.
      *
-     * @param pDigestLen the default digestLength
+     * @param pDigestSize the default digest size (in bits)
      */
-    public Blake3Digest(final int pDigestLen)
+    public Blake3Digest(final int pDigestSize)
     {
-        theDigestLen = pDigestLen;
+        // In aid of less confusion -this is to deal with the fact the
+        // original checkin for this has the digest length in bytes
+        // and every other digest we have doesn't....
+        this(pDigestSize > 100 ? pDigestSize : pDigestSize * 8, CryptoServicePurpose.ANY);
+    }
+
+    /**
+     * Base constructor with purpose.
+     *
+     * @param pDigestSize size of digest (in bits)
+     * @param purpose usage purpose.
+     */
+    public Blake3Digest(final int pDigestSize, CryptoServicePurpose purpose)
+    {
+        this.purpose = purpose;
+        theDigestLen = pDigestSize / 8;
+
+//        CryptoServicesRegistrar.checkConstraints(Utils.getDefaultProperties(this, getDigestSize() * 8, purpose));
+
         init(null);
     }
 
@@ -282,9 +301,10 @@ public class Blake3Digest
     {
         /* Copy default digest length */
         theDigestLen = pSource.theDigestLen;
+        purpose = pSource.purpose;
 
         /* Initialise from source */
-        reset((Memoable)pSource);
+        reset(pSource);
     }
 
     public int getByteLength()
@@ -398,7 +418,7 @@ public class Blake3Digest
             /* If there is sufficient space in the buffer */
             if (remainingLen >= pLen)
             {
-                /* Copy data into byffer and return */
+                /* Copy data into buffer and return */
                 System.arraycopy(pMessage, pOffset, theBuffer, thePos, pLen);
                 thePos += pLen;
                 return;
@@ -440,12 +460,6 @@ public class Blake3Digest
                        final int pOutOffset,
                        final int pOutLen)
     {
-        /* Reject if we are already outputting */
-        if (outputting)
-        {
-            throw new IllegalStateException(ERR_OUTPUTTING);
-        }
-
         /* Build the required output */
         final int length = doOutput(pOut, pOutOffset, pOutLen);
 
@@ -458,6 +472,11 @@ public class Blake3Digest
                         final int pOutOffset,
                         final int pOutLen)
     {
+        if (pOutOffset > (pOut.length - pOutLen))
+        {
+            throw new OutputLengthException("output buffer too short");
+        }
+
         /* If we have not started outputting yet */
         if (!outputting)
         {
@@ -467,7 +486,7 @@ public class Blake3Digest
 
         /* Reject if there is insufficient Xof remaining */
         if (pOutLen < 0
-            || (outputAvailable >= 0 && pOutLen > outputAvailable))
+                || (outputAvailable >= 0 && pOutLen > outputAvailable))
         {
             throw new IllegalArgumentException("Insufficient bytes remaining");
         }
@@ -673,17 +692,16 @@ public class Blake3Digest
     private void performRound()
     {
         /* Apply to columns of V */
-        int idx = 0;
-        mixG(idx++, CHAINING0, CHAINING4, IV0, COUNT0);
-        mixG(idx++, CHAINING1, CHAINING5, IV1, COUNT1);
-        mixG(idx++, CHAINING2, CHAINING6, IV2, DATALEN);
-        mixG(idx++, CHAINING3, CHAINING7, IV3, FLAGS);
+        mixG(0, CHAINING0, CHAINING4, IV0, COUNT0);
+        mixG(1, CHAINING1, CHAINING5, IV1, COUNT1);
+        mixG(2, CHAINING2, CHAINING6, IV2, DATALEN);
+        mixG(3, CHAINING3, CHAINING7, IV3, FLAGS);
 
         /* Apply to diagonals of V */
-        mixG(idx++, CHAINING0, CHAINING5, IV2, FLAGS);
-        mixG(idx++, CHAINING1, CHAINING6, IV3, COUNT0);
-        mixG(idx++, CHAINING2, CHAINING7, IV0, COUNT1);
-        mixG(idx, CHAINING3, CHAINING4, IV1, DATALEN);
+        mixG(4, CHAINING0, CHAINING5, IV2, FLAGS);
+        mixG(5, CHAINING1, CHAINING6, IV3, COUNT0);
+        mixG(6, CHAINING2, CHAINING7, IV0, COUNT1);
+        mixG(7, CHAINING3, CHAINING4, IV1, DATALEN);
     }
 
     /**
@@ -696,10 +714,7 @@ public class Blake3Digest
                        final int pMsgPos)
     {
         /* Copy message bytes into word array */
-        for (int i = 0; i < NUMWORDS << 1; i++)
-        {
-            theM[i] = Pack.littleEndianToInt(pMessage, pMsgPos + i * Integers.BYTES);
-        }
+        Pack.littleEndianToInt(pMessage, pMsgPos, theM);
     }
 
     /**
@@ -718,10 +733,7 @@ public class Blake3Digest
             }
 
             /* Output state to buffer */
-            for (int i = 0; i < NUMWORDS << 1; i++)
-            {
-                Pack.intToLittleEndian(theV[i], theBuffer, i * Integers.BYTES);
-            }
+            Pack.intToLittleEndian(theV, theBuffer, 0);
             thePos = 0;
 
             /* Else just build chain value */
@@ -753,17 +765,16 @@ public class Blake3Digest
     {
         /* Determine indices */
         int msg = msgIdx << 1;
-        int rot = 0;
 
         /* Perform the Round */
         theV[posA] += theV[posB] + theM[theIndices[msg++]];
-        theV[posD] = Integers.rotateRight(theV[posD] ^ theV[posA], ROTATE[rot++]);
+        theV[posD] = Integers.rotateRight(theV[posD] ^ theV[posA], 16);
         theV[posC] += theV[posD];
-        theV[posB] = Integers.rotateRight(theV[posB] ^ theV[posC], ROTATE[rot++]);
+        theV[posB] = Integers.rotateRight(theV[posB] ^ theV[posC], 12);
         theV[posA] += theV[posB] + theM[theIndices[msg]];
-        theV[posD] = Integers.rotateRight(theV[posD] ^ theV[posA], ROTATE[rot++]);
+        theV[posD] = Integers.rotateRight(theV[posD] ^ theV[posA], 8);
         theV[posC] += theV[posD];
-        theV[posB] = Integers.rotateRight(theV[posB] ^ theV[posC], ROTATE[rot]);
+        theV[posB] = Integers.rotateRight(theV[posB] ^ theV[posC], 7);
     }
 
     /**
@@ -804,10 +815,7 @@ public class Blake3Digest
     private void initKey(final byte[] pKey)
     {
         /* Copy message bytes into word array */
-        for (int i = 0; i < NUMWORDS; i++)
-        {
-            theK[i] = Pack.littleEndianToInt(pKey, i * Integers.BYTES);
-        }
+        Pack.littleEndianToInt(pKey, 0, theK);
         theMode = KEYEDHASH;
     }
 
@@ -836,8 +844,8 @@ public class Blake3Digest
         theV[COUNT1] = (int)(theCounter >> Integers.SIZE);
         theV[DATALEN] = pDataLen;
         theV[FLAGS] = theMode
-            + (theCurrBytes == 0 ? CHUNKSTART : 0)
-            + (pFinal ? CHUNKEND : 0);
+                + (theCurrBytes == 0 ? CHUNKSTART : 0)
+                + (pFinal ? CHUNKEND : 0);
 
         /* * Adjust block count */
         theCurrBytes += pDataLen;

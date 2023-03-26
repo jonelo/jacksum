@@ -31,7 +31,7 @@ import net.jacksum.formats.Encoding;
 //import org.bouncycastle.crypto.digests.Haraka512Digest;
 
 /**
- * A wrapper class that can be used to compute GOST, RIPEMD256 and RIPEMD320
+ * A wrapper class that can be used to compute GOST, RIPEMD256 and RIPEMD320, etc.
  * (provided by bouncycastle.org).
  */
 public class MDbouncycastle extends AbstractChecksum {
@@ -158,6 +158,11 @@ public class MDbouncycastle extends AbstractChecksum {
             md = new TigerDigest_192_4_PHP_version();
             newDigestWidthInBits = 128;
         } else
+
+        if (arg.equalsIgnoreCase("blake3")) {
+            md = new Blake3Digest(256);
+        } else
+
 
 /*
         if (arg.equalsIgnoreCase("haraka-512")) {

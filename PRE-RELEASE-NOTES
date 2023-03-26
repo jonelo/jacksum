@@ -6,6 +6,8 @@ Jacksum 3.6.0, TBD
     lengths, e.g. 1007 bytes.
 
 - new features:
+  - alternate implementation for blake3 provided by bouncy castle, the existing primary implementation still remains the
+    primary, because it is faster.
 
 - updates:
 

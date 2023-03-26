@@ -2534,6 +2534,7 @@ ALGORITHMS
 \
             comment:
                 BLAKE2s is the successor of BLAKE-256.
+                BLAKE3 is the successor of BLAKE2.
 \
             compatibility:
                 - 7z:              -
@@ -2656,6 +2657,7 @@ ALGORITHMS
 \
             broken:
                 no
+\
             website:
                 https://github.com/BLAKE3-team/BLAKE3
 \
@@ -2697,7 +2699,8 @@ ALGORITHMS
                 Jacksum 3.0.0
 \
             implementation:
-                io.github.rctcwyvrn.blake3
+                io.github.rctcwyvrn.blake3, alternate implementation provided by
+                org.bouncycastle.crypto.digests.Blake3Digest
 
 
     cksum

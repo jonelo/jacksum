@@ -149,7 +149,9 @@ public class Selectors {
         Whirlpool1_Selector.class,
         Whirlpool2_Selector.class,
         Xor8_Selector.class,
-        xxHash32_Selector.class
+        xxHash32_Selector.class,
+        AsconHash_Selector.class,
+        AsconHasha_Selector.class
 
     };
 
@@ -198,6 +200,14 @@ public class Selectors {
         
         // China        
         SM3_Selector.class,
+
+        // NIST Lightweight Cryptography competition (2019–2023)
+        // =====================================================
+
+        // final round
+        // -----------
+        AsconHash_Selector.class,
+        AsconHasha_Selector.class,
 
 
         // SHA-3 competition
