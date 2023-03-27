@@ -2368,11 +2368,11 @@ ALGORITHMS
                 even with added countermeasures against side-channel attacks.
                 Ascon has been selected as new standard for lightweight
                 cryptography in the NIST Lightweight Cryptography competition
-                (2019–2023). See also
+                (2019-2023). See also
                 https://csrc.nist.gov/projects/lightweight-cryptography/finalists
                 Ascon has also been selected as the primary choice for
                 lightweight authenticated encryption in the final portfolio of
-                the CAESAR competition (2014–2019).
+                the CAESAR competition (2014-2019).
 \
                 Ascon is designed and maintained by a team of cryptographers
                 working for Graz University of Technology, Infineon Technologies,
@@ -3860,7 +3860,7 @@ ALGORITHMS
                 The Esch familiy is actually part of the Sparkle suite which is
                 a collection of lightweight symmetric cryptographic primitives.
                 The Sparkle suite was one of the 10 finalists of the NIST
-                Lightweight Cryptography competition (2019–2023).
+                Lightweight Cryptography competition (2019-2023).
 \
                 4/10 of the team members of the Sparkle team are from the
                 university of Luxembourg, and Esch is the name of a city in
@@ -5057,7 +5057,7 @@ ALGORITHMS
 \
             comment:
                 PHOTON-Beetle was one of the ten finalists at the NIST
-                Lightweight Cryptography competition (2019–2023). See also
+                Lightweight Cryptography competition (2019-2023). See also
                 https://csrc.nist.gov/projects/lightweight-cryptography/finalists
 \
                 PHOTON-Beetle was invented by Zhenzhen Bao, Avik Chakraborti,
@@ -7776,7 +7776,7 @@ ALGORITHMS
                 Jacksum supports the hashing part of Xoodyak.
 \
                 Xoodyak was one of the 10 finalists of the NIST Lightweight
-                Cryptography competition (2019–2023).
+                Cryptography competition (2019-2023).
 \
                 Xoodyak was created by Joan Daemen, Seth Hoffert,
                 Michaël Peeters, Gilles Van Assche, Ronny Van Keer, and
