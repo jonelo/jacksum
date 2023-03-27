@@ -2,13 +2,13 @@ Jacksum 3.6.0, TBD
 
 - new algorithms:
   - added some of the finalists of the NIST Lightweight Cryptography competition (2019–2023)
-    from a bouncy castle pre-release:
+    from a bouncy castle pre-release that support hashing:
     - ascon-hash, ascon-hasha, ascon-xof, and ascon-xofa
     - esch256, and esch384
     - xoodyak
-  - added blake2sp, and blake2bp - which are fixed width single threaded Java implementations
-    by bouncy castle (pre-release) with a buffer fix by jonelo to avoid an
-    ArrayIndexOutOfBoundsException at System.arraycopy for particular message lengths, e.g. 1007 bytes.
+  - added blake2sp, and blake2bp (issue #4) - the Java implementation (fixed width single threaded)
+    is done by pre-release bouncy castle code with a buffer fix for blake2sp by
+    jonelo (https://github.com/bcgit/bc-java/issues/1363)
   - alternate implementation for blake3 provided by bouncy castle, the existing primary implementation still remains the
     primary, because it is slightly faster.
 
