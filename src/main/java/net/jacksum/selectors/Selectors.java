@@ -108,6 +108,7 @@ public class Selectors {
         MD5_Selector.class,
         MDC2_Selector.class,
         Panama_Selector.class,
+        PhotonBeetle_Selector.class,
         Radiogatun32_Selector.class,
         Radiogatun64_Selector.class,
         Ripemd128_Selector.class,
@@ -216,6 +217,7 @@ public class Selectors {
         AsconXofA_Selector.class,
 
         Esch_Selector.class,
+        PhotonBeetle_Selector.class,
         Xoodyak_Selector.class,
 
 

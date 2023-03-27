@@ -188,6 +188,10 @@ public class MDbouncycastle extends AbstractChecksum {
             md = new SparkleDigest(SparkleDigest.SparkleParameters.ESCH384);
         } else
 
+        if (arg.equalsIgnoreCase("photon-beetle")) {
+            md = new PhotonBeetleDigest();
+        } else
+
         if (arg.equalsIgnoreCase("xoodyak")) {
             md = new XoodyakDigest();
         } else

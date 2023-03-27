@@ -52,7 +52,7 @@ DESCRIPTION
 \
     In order to achieve those goals above Jacksum supports you with
 \
-        - 486 standard hash functions
+        - 487 standard hash functions
         - Customizable CRCs from 1 to 64 bit width
         - 60+ options to control Jacksum's behavior on the command line
         - 14 standard encodings for representing hash values
@@ -5034,6 +5034,41 @@ ALGORITHMS
 \
             implementation:
                 fr.cryptohash.PANAMA
+
+
+    photon-beetle
+            algorithm:
+                PHOTON-Beetle Hash
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                05/2021
+\
+            broken:
+                no
+\
+            website:
+                https://www.isical.ac.in/~lightweight/beetle/
+\
+            comment:
+                PHOTON-Beetle was one of the ten finalists at the NIST
+                Lightweight Cryptography competition (2019–2023). See also
+                https://csrc.nist.gov/projects/lightweight-cryptography/finalists
+\
+                PHOTON-Beetle was invented by Zhenzhen Bao, Avik Chakraborti,
+                Nilanjan Datta, Jian Guo, Mridul Nandi, Thomas Peyrin, and
+                Kan Yasuda.
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.PhotonBeetleDigest
 
 
     radiogatun, radiogatun:<wordlen>, rg<wordlen>, rg-<wordlen>
