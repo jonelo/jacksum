@@ -15,6 +15,7 @@ Jacksum 3.6.0, TBD
 
 - bug fixes:
   - CommonHashStatistics.java was not added to the repo which avoided the compilation
+  - fixed the grammar in the manpage by using OpenAI's grammar correction
 
 
 Jacksum 3.5.0, Jan 7, 2023
