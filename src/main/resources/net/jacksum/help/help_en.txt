@@ -2345,6 +2345,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - openSUSE:        -
                 - OpenSSL:         -
                 - PHP:             hash("adler32", $input);
@@ -2590,6 +2591,8 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     /usr/bin/b2sum [-l <length>]
+                                   /usr/gnu/bin/cksum -a blake2b [-l <length>]
                 - openSUSE:        /usr/bin/b2sum [-l <length>]
                 - OpenSSL 1.1.0+:  openssl dgst -blake2b512
                 - PHP:             -
@@ -2656,6 +2659,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.0+:  -
                 - PHP:             -
                 - Plan 9:          -
@@ -2718,6 +2722,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.0+:  openssl dgst -blake2s256
                 - PHP:             -
                 - Plan 9:          -
@@ -2786,6 +2791,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.0+:  -
                 - PHP:             -
                 - Plan 9:          -
@@ -2847,6 +2853,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.0+:  -
                 - PHP:             -
                 - Plan 9:          -
@@ -2917,6 +2924,7 @@ ALGORITHMS
                 - NetBSD 9.2+:     /usr/bin/sum -a crc
                                    /usr/bin/cksum -a crc
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum [-a crc]
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -2975,6 +2983,8 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
+                - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
                 - Python:          -
@@ -3195,6 +3205,8 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
+                - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
                 - PowerShell:      -
@@ -3231,6 +3243,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
+\
             implementation:
                 crc:24,864CFB,B704CE,false,false,0
 
@@ -3272,6 +3285,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("crc32b", $input);
                 - Plan 9:          -
@@ -3332,6 +3346,7 @@ ALGORITHMS
                 - MS-DOS:           -
                 - NetBSD:           -
                 - NextStep:         -
+                - OpenIndiana:     -
                 - OpenSSL:          -
                 - PHP 7.4.0+:       hash("crc32c", $input);
                 - Plan 9:           -
@@ -3428,6 +3443,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("crc32", $input);
                 - Plan 9:          -
@@ -3484,6 +3500,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -3651,6 +3668,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -3714,6 +3732,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -3994,6 +4013,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.4.0+:      hash("fnv132", $input);
                                    hash("fnv164", $input);
@@ -4050,6 +4070,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("fnv1a32", $input);
                                    hash("fnv1a64", $input);
@@ -4199,6 +4220,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("gost", $input);
                 - PHP 5.6.0+:      hash("gost-crypto", $input);
@@ -4322,6 +4344,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - Plan 9:          -
                 - PowerShell:      -
@@ -4409,6 +4432,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - Plan 9:          -
                 - PowerShell:      -
@@ -4480,6 +4504,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  -
                 - PHP 7.1+:        -
                 - Plan 9:          -
@@ -4547,6 +4572,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  -
                 - PHP 7.1+:        -
                 - Plan 9:          -
@@ -4559,6 +4585,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crypto.digests.Kangaroo
 
@@ -4611,6 +4638,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  -
                 - PHP 7.1+:        -
                 - Plan 9:          -
@@ -4624,6 +4652,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 fr.cryptohash.Keccak<length>
 
@@ -4778,6 +4807,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          /usr/bin/md2
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -md2
                 - Plan 9:          -
                 - PowerShell:      -
@@ -4843,6 +4873,7 @@ ALGORITHMS
                                    /usr/bin/sum -a md4
                                    /usr/bin/cksum -a md4
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -md4
                 - PHP:             hash("md4", $input);
                 - Plan 9:          -
@@ -4921,6 +4952,8 @@ ALGORITHMS
                                    /usr/bin/sum -a md5
                                    /usr/bin/cksum -a md5
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum -a md5
+                                   /usr/bin/md5sum
                 - OpenSSL:         openssl dgst -md5
                 - PHP:             hash("md5", $input);
                 - Plan 9:          /bin/md5sum
@@ -4992,6 +5025,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -mdc2
                 - PHP:             -
                 - Plan 9:          -
@@ -5024,6 +5058,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
+\
             implementation:
                 net.jacksum.algorithms.primitive.None
 
@@ -5193,6 +5228,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("ripemd128", $input);
                 - Plan 9:          -
@@ -5258,6 +5294,7 @@ ALGORITHMS
                                    /usr/bin/sum -a rmd160
                                    /usr/bin/cksum -a rmd160
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -rmd160
                                    openssl dgst -ripemd
                                    openssl dgst -ripemd160
@@ -5316,6 +5353,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.3.0+:      hash("ripemd256", $input);
                 - Plan 9:          -
@@ -5372,6 +5410,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.3.0+:      hash("ripemd320", $input);
                 - Plan 9:          -
@@ -5435,6 +5474,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -sha
                 - PHP:             -
                 - Plan 9:          -
@@ -5525,6 +5565,9 @@ ALGORITHMS
                                    /usr/bin/sum -a sha1
                                    /usr/bin/cksum -a sha1
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum -a sha1
+                                   /usr/bin/sha1sum
+                                   /usr/bin/shasum [-a 1]
                 - OpenSSL:         openssl dgst -sha1
                 - PHP:             hash("sha1", $input);
                 - Plan 9:          /bin/sha1sum
@@ -5611,6 +5654,9 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum -a sha224
+                                   /usr/bin/sha224sum
+                                   /usr/bin/shasum -a 224
                 - OpenSSL:         openssl dgst -sha224
                 - PHP:             hash("sha224", $input);
                 - Plan 9:          -
@@ -5698,6 +5744,9 @@ ALGORITHMS
                 - NetBSD 9.2+:     /usr/bin/sum -a sha256
                                    /usr/bin/cksum -a sha256
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum -a sha256
+                                   /usr/bin/sha256sum
+                                   /usr/bin/shasum -a 256
                 - OpenSSL:         openssl dgst -sha256
                 - PHP:             hash("sha256", $input);
                 - Plan 9:          -
@@ -5787,6 +5836,9 @@ ALGORITHMS
                 - NetBSD 9.2+:     /usr/bin/sum -a sha384
                                    /usr/bin/cksum -a sha384
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum -a sha384
+                                   /usr/bin/sha384sum
+                                   /usr/bin/shasum -a 384
                 - OpenSSL:         openssl dgst -sha384
                 - PHP:             hash("sha384", $input);
                 - Plan 9:          -
@@ -5876,6 +5928,9 @@ ALGORITHMS
                 - NetBSD 9.2+:     /usr/bin/sum -a sha512
                                    /usr/bin/cksum -a sha512
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum -a sha512
+                                   /usr/bin/sha512sum
+                                   /usr/bin/shasum -a 512
                 - OpenSSL:         openssl dgst -sha512
                 - PHP:             hash("sha512", $input);
                 - Plan 9:          -
@@ -5947,6 +6002,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     /usr/bin/shasum -a 512224
                 - OpenSSL 1.1.1+:  openssl dgst -sha512-224
                 - PHP 7.1+:        hash("sha512/224", $input);
                 - Plan 9:          -
@@ -5959,6 +6015,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crytpo.digests.SHA512tDigest
 
@@ -6011,6 +6068,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     /usr/bin/shasum -a 512256
                 - OpenSSL 1.1.1+:  openssl dgst -sha512-256
                 - PHP 7.1+:        hash("sha512/256", $input);
                 - Plan 9:          -
@@ -6082,6 +6140,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  openssl dgst -sha3-224
                 - PHP 7.1+:        hash("sha3-224", $input);
                 - Plan 9:          -
@@ -6155,6 +6214,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  openssl dgst -sha3-256
                 - PHP 7.1+:        hash("sha3-256", $input);
                 - Plan 9:          -
@@ -6229,6 +6289,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NextStep:        -
                 - NetBSD:          -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  openssl dgst -sha3-384
                 - PHP 7.1+:        hash("sha3-384", $input);
                 - Plan 9:          -
@@ -6302,6 +6363,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  openssl dgst -sha3-512
                 - PHP 7.1+:        hash("sha3-512", $input);
                 - Plan 9:          -
@@ -6390,6 +6452,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+ (128 bits only): openssl dgst -shake128
                 - PHP 7.1+:        -
                 - Plan 9:          -
@@ -6475,6 +6538,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+ (256 bits):  openssl dgst -shake256
                 - PHP 7.1+:        -
                 - Plan 9:          -
@@ -6548,6 +6612,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -6620,6 +6685,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -6692,6 +6758,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -6762,6 +6829,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -6830,6 +6898,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -6841,6 +6910,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crypto.digests.GOST3411_2012_512Digest
 
@@ -6892,6 +6962,8 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sm3
                 - OpenSSL:         openssl dgst -sm3
                 - PHP:             -
                 - Plan 9:          -
@@ -6926,7 +6998,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.3.0; 40, 48, and 56 bits are available since
-                Jacksum 3.0.0, 64 bits are available since Jacksum 3.6.0
+                Jacksum 3.0.0; 64 bits are available since Jacksum 3.6.0
 \
             implementation:
                 net.jacksum.algorithms.checksums.Sum*
@@ -6978,6 +7050,8 @@ ALGORITHMS
                                    /usr/bin/cksum -o 1
                                    /usr/bin/cksum -a old1
                 - NextStep:        /usr/bin/sum
+                - OpenIndiana:     /usr/bin/cksum -a bsd|--algorithm=bsd
+                                   /usr/gnu/bin/sum [-r]
                 - PHP:             -
                 - Plan 9:          /bin/sum -r
                 - SCO UnixWare:    /bin/sum -r
@@ -7030,6 +7104,8 @@ ALGORITHMS
                 - macOS:           -
                 - Minix:           /usr/bin/sum
                 - MS-DOS:          -
+                - OpenIndiana:     -
+                - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
                 - Solaris:         -
@@ -7082,6 +7158,8 @@ ALGORITHMS
                 - macOS:           -
                 - Minix:           -
                 - MS-DOS:          -
+                - OpenIndiana:     -
+                - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          /bin/sum
                 - Solaris 11 Express:
@@ -7146,6 +7224,9 @@ ALGORITHMS
                                    /usr/bin/cksum -a old2
                                    /usr/bin/sum -a old2
                 - NextStep:        -
+                - OpenIndiana:     /usr/bin/cksum -a sysv|--algorithm=sysv
+                                   /usr/gnu/bin/sum -s|--sysv
+                - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          /bin/sum -5
                 - SCO UnixWare:    /bin/sum
@@ -7207,6 +7288,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("tiger128,3", $input);
                 - Plan 9:          -
@@ -7266,6 +7348,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.1+:        hash("tiger128,4", $input);
                 - Plan 9:          -
@@ -7322,6 +7405,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("tiger160,3", $input);
                 - Plan 9:          -
@@ -7381,6 +7465,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.1+:        hash("tiger160,4", $input);
                 - Plan 9:          -
@@ -7443,6 +7528,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.4+:        hash("tiger192,3", $input);
                 - Plan 9:          -
@@ -7501,6 +7587,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.1+:        hash("tiger192,4", $input);
                 - Plan 9:          -
@@ -7757,6 +7844,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -whirlpool
                 - PHP:             hash("whirlpool", $input);
                 - Plan 9:          -

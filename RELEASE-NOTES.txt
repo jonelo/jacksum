@@ -13,6 +13,9 @@ Jacksum 3.6.0, TBD
   - alternate implementation for blake3 provided by bouncy castle, the existing primary implementation still remains the
     primary, because it is slightly faster.
 
+- updates:
+  - documentation: added OpenIndiana to the compatibility lists.
+
 - bug fixes:
   - CommonHashStatistics.java was not added to the repo which avoided the compilation
   - fixed the grammar in the manpage by using OpenAI's grammar correction
