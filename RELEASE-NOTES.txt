@@ -10,7 +10,7 @@ Jacksum 3.6.0, TBD
   - added blake2sp, and blake2bp (issue #4) - the Java implementation (fixed width single threaded)
     is done by pre-release bouncy castle code with a buffer fix for blake2sp by
     jonelo (https://github.com/bcgit/bc-java/issues/1363)
-  - added the 32 bit PRNG hash which is known from Solaris 11 Express, SmartOS, and others
+  - added the 32 bit PRNG hash, and the AST strsum which are known from Solaris 11 Express, SmartOS, and others
   - alternate implementation for blake3 provided by bouncy castle, the existing primary implementation still remains the
     primary, because it is slightly faster.
 

@@ -30,6 +30,7 @@ public class Selectors {
         AsconHasha_Selector.class,
         AsconXof_Selector.class,
         AsconXofA_Selector.class,
+        AstStrsum_Selector.class,
         Blake_224_Selector.class,
         Blake_256_Selector.class,
         Blake_384_Selector.class,
@@ -372,7 +373,7 @@ public class Selectors {
         xxHash32_Selector.class,
         PrngHash_Selector.class,
         PrngHashGeneric_Selector.class,
-        //AstStrsum_Selector.class,
+        AstStrsum_Selector.class,
 
         // CRCs
         // ----   

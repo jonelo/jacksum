@@ -2506,6 +2506,38 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.AsconXofA
 
 
+    aststrsum, ast, strsum
+            algorithm:
+                The AST (AT&T Software Technology) strsum PRNG (pseudo random
+                number generator) hash.
+\
+            length:
+                32 bits
+\
+            type:
+                non-cryptographic hash function, checksum
+\
+            published:
+                11/2010
+\
+            comment:
+                The AST strsum is a 32-bit PRNG hash with different parameter
+                values than the default PRNG hash. See also prng. The algorithm
+                can be expressed as
+\
+                    prng:init=0,mpy=0x63c63cd9,add=0x9c39c33d
+\
+            compatibility:
+                See the compatibility list of prng; the method is called "ast"
+                rather than "prng".
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                net.jacksum.algorithms.checksums.PrngHash
+
+
     blake<length>, blake-<length>
             algorithm:
                 BLAKE-<length>
