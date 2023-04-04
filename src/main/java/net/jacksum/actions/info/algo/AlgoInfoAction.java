@@ -26,6 +26,8 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import net.jacksum.algorithms.checksums.PrngHash;
+import net.jacksum.algorithms.checksums.PrngHashInfo;
 import net.jacksum.algorithms.crcs.CrcInfo;
 import net.jacksum.algorithms.crcs.CrcUtils;
 import net.loefflmann.sugar.util.ByteSequences;
@@ -77,6 +79,15 @@ public class AlgoInfoAction implements Action {
             System.out.printf("%n%sblocksize:%n", indent);
             System.out.printf(FORMAT, indent, "bits:", Integer.toString(blockSize * 8));
             System.out.printf(FORMAT, indent, "bytes:", Integer.toString(blockSize));
+        }
+
+        if (checksum instanceof PrngHashInfo) {
+            PrngHashInfo prngHashinfo = (PrngHashInfo) checksum;
+            System.out.printf("%n%sPRNG Hash parameters:%n", indent);
+            System.out.printf(FORMAT, indent, "Jacksum PRNG Hash algo def:", checksum.getName());
+            System.out.printf(FORMAT, indent, "init [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getInitValue(), 8));
+            System.out.printf(FORMAT, indent, "multiplier [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getMultiplier(), 8));
+            System.out.printf(FORMAT, indent, "add [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getAdd(), 8));
         }
 
         if (checksum instanceof CrcInfo) {

@@ -52,7 +52,7 @@ DESCRIPTION
 \
     In order to achieve the goals above, Jacksum supports you with
 \
-        - 487 standard hash functions
+        - 489 standard hash functions
         - Customizable CRCs from 1 to 64 bit width
         - 60+ options to control Jacksum's behavior on the command line
         - 14 standard encodings for representing hash values
@@ -5126,6 +5126,79 @@ ALGORITHMS
 \
             implementation:
                 org.bouncycastle.crypto.digests.PhotonBeetleDigest
+
+
+    prng:[[init=<init>],[mpy=<multiplier>],[add=<addend>]]
+            algorithm:
+                PRNG (pseudo random number generator) hash
+\
+            length:
+                32 bits
+\
+            type:
+                non-cryptographic hash function, checksum
+\
+            published:
+                11/2010
+\
+            comment:
+                The 32-bit PRNG hash can be found in Solaris 11 Express 2010.11
+                (but not in later releases) as well as in operating systems
+                derived from OpenSolaris resp. illumos such as SmartOS, OmniOS,
+                and Tribblix. The algorithm is simple and obvious, and default
+                values are known from the manpages.
+\
+                The PRNG hash calculates the hash using the formula:
+\
+                    hash = <init>
+                    for i in message {
+                        hash = hash * <multiplier> + <addend> + message[i]
+                    }
+                    return hash
+\
+                The PRNG hash supports the following optional properties:
+\
+                    init=<init>       A 32 bit initial value.
+                                      The default value is 0x811c9dc5.
+\
+                    mpy=<multiplier>  A 32 bit multiplier.
+                                      The default value is 0x01000193.
+\
+                    add=<addend>      A 32 bit addend.
+                                      The default value is 0.
+\
+                If a property is not given, it becomes the default value as
+                described above. The values can be specified decimal or
+                hexadecimal by prepending with the marker "0x". If one of the
+                values exceeds the value 0xFFFFFFFF, the algorithm will be
+                rejected from being created. Values can be separated by any character
+                as long as it is clear where the next property begins; it is
+                recommend to use commas. Values can be given in any order.
+\
+                The default PRNG Hash can be expressed as
+\
+                    prng:init=0x811c9dc5,mpy=0x01000193,add=0
+\
+                or just "prng".
+\
+            compatibility:
+                - OmniOS:          /usr/bin/sum -x prng
+                                   /usr/bin/cksum -x prng
+                - OpenIndiana:     -
+                - OpenSSL:         -
+                - SmartOS:         /usr/bin/sum -x prng
+                                   /usr/bin/cksum -x prng
+                - Solaris 11 Express:
+                                   /usr/bin/sum -x prng
+                                   /usr/bin/cksum -x prng
+                - Tribblix:        /usr/bin/sum -x prng
+                                   /usr/bin/cksum -x prng
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                net.jacksum.algorithms.checksums.PrngHash
 
 
     radiogatun, radiogatun:<wordlen>, rg<wordlen>, rg-<wordlen>

@@ -108,6 +108,7 @@ public class Selectors {
         MD5_Selector.class,
         MDC2_Selector.class,
         Panama_Selector.class,
+        PrngHash_Selector.class,
         PhotonBeetle_Selector.class,
         Radiogatun32_Selector.class,
         Radiogatun64_Selector.class,
@@ -369,7 +370,10 @@ public class Selectors {
         Xor8_Selector.class,
         Joaat32_Selector.class,
         xxHash32_Selector.class,
-        
+        PrngHash_Selector.class,
+        PrngHashGeneric_Selector.class,
+        //AstStrsum_Selector.class,
+
         // CRCs
         // ----   
         CRCGeneric_Selector.class,
