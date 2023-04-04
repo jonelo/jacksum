@@ -57,7 +57,7 @@ DESCRIPTION
         - 60+ options to control Jacksum's behavior on the command line
         - 14 standard encodings for representing hash values
         - 10 predefined styles for reading and writing files that contain hash values
-        - 8000 lines of manpage with descriptions, examples, and compatibility
+        - 8500+ lines of manpage with descriptions, examples, and compatibility
           lists for the most common algorithms
 
 
@@ -4986,6 +4986,7 @@ ALGORITHMS
                 - NextStep:        -
                 - OpenIndiana:     /usr/gnu/bin/cksum -a md5
                                    /usr/bin/md5sum
+                                   /usr/bin/digest -a md5
                 - OpenSSL:         openssl dgst -md5
                 - PHP:             hash("md5", $input);
                 - Plan 9:          /bin/md5sum
@@ -5203,9 +5204,10 @@ ALGORITHMS
                 described above. The values can be specified decimal or
                 hexadecimal by prepending with the marker "0x". If one of the
                 values exceeds the value 0xFFFFFFFF, the algorithm will be
-                rejected from being created. Values can be separated by any character
-                as long as it is clear where the next property begins; it is
-                recommend to use commas. Values can be given in any order.
+                rejected from being created. Values can be separated by any
+                character as long as it is clear where the next property begins;
+                it is recommend to use commas. Properties can be given in any
+                order.
 \
                 The default PRNG Hash can be expressed as
 \
@@ -5673,6 +5675,7 @@ ALGORITHMS
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha1
                                    /usr/bin/sha1sum
                                    /usr/bin/shasum [-a 1]
+                                   /usr/bin/digest -a sha1
                 - OpenSSL:         openssl dgst -sha1
                 - PHP:             hash("sha1", $input);
                 - Plan 9:          /bin/sha1sum
@@ -5852,6 +5855,7 @@ ALGORITHMS
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha256
                                    /usr/bin/sha256sum
                                    /usr/bin/shasum -a 256
+                                   /usr/bin/digest -a sha256
                 - OpenSSL:         openssl dgst -sha256
                 - PHP:             hash("sha256", $input);
                 - Plan 9:          -
@@ -5944,6 +5948,7 @@ ALGORITHMS
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha384
                                    /usr/bin/sha384sum
                                    /usr/bin/shasum -a 384
+                                   /usr/bin/digest -a sha384
                 - OpenSSL:         openssl dgst -sha384
                 - PHP:             hash("sha384", $input);
                 - Plan 9:          -
@@ -6036,6 +6041,7 @@ ALGORITHMS
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha512
                                    /usr/bin/sha512sum
                                    /usr/bin/shasum -a 512
+                                   /usr/bin/digest -a sha512
                 - OpenSSL:         openssl dgst -sha512
                 - PHP:             hash("sha512", $input);
                 - Plan 9:          -
