@@ -566,9 +566,6 @@ Spread the word, or give a star here on GitHub.
 
 Jacksum implements a lot of algorithms, but it doesn't reinvent the wheel if an algorithm is available already in another mature crypto library. So Jacksum relies on [Bouncy Castle](https://www.bouncycastle.org), [java-crc](https://github.com/snksoft/java-crc), [GNU Crypto](https://www.gnu.org/software/gnu-crypto/) (abandoned), Flexiprovider (abandoned), and Projet RNRT SAPHIR (abandoned). Libraries that have been abandoned are now supported by Jacksum (the hash part only). The Jacksum manpage clearly points out the origin for each algorithm. Any algorithm that is accepted by the Jacksum project will benefit from the framework that applies to all algorithms. For more information on that subject please type `jacksum --copyright`or go to the [copyright page](https://jacksum.net/en/legal/copyright.html).
 
-## Credits
-
-Jacksum implements a lot of algorithms, but it doesn't reinvent the wheel if an algorithm is available already in another mature crypto library. So Jacksum relies on [Bouncy Castle](https://www.bouncycastle.org), [java-crc](https://github.com/snksoft/java-crc), [GNU Crypto](https://www.gnu.org/software/gnu-crypto/) (abandoned), Flexiprovider (abandoned), and Projet RNRT SAPHIR (abandoned). Libraries that have been abandoned are now supported by Jacksum (the hash part only). The Jacksum manpage clearly points out the origin for each algorithm. Any algorithm that is accepted by the Jacksum project will benefit from the framework that applies to all algorithms. For more information on that subject please type `jacksum --copyright`or go to the [copyright page](https://jacksum.net/en/legal/copyright.html).
 
 ## License
 
