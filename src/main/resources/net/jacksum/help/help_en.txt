@@ -3029,7 +3029,7 @@ ALGORITHMS
                 Jacksum 3.0.0
 
 
-    crc:<width,poly,init,refIn,refOut,xorOut[,includeLen[,xorLen]]>
+    crc:<width>,<poly>,<init>,<refIn>,<refOut>,<xorOut>[,<includeLen>[,<xorLen>]]
             algorithm:
                 CRC (Cyclic Redundancy Check), generic
 \
@@ -3050,11 +3050,11 @@ ALGORITHMS
                 parameters are: width,poly,init,refIn,refOut,xorOut. The
                 optional parameters are includeLen, and xorLen.
 \
-                    width
+                    <width>
                         width of the crc, expressed in bits. This is one less
                         than the width of the poly.
 \
-                    poly
+                    <poly>
                         the polynomial, specify as hex. The top bit of the poly
                         should be omitted. For example, if the poly is 10110,
                         you should specify 6. An important aspect of this
@@ -3072,24 +3072,24 @@ ALGORITHMS
                         (reversed and Koopman), and to view the corresponding
                         reciprocal poly, just add the option --info.
 \
-                    init
+                    <init>
                         this parameter specifies the initial value of the
                         register when the algorithm starts. Specify as hex.
 \
-                    refIn
+                    <refIn>
                         this is a boolean parameter. If it is false, input
                         bytes are processed with bit 7 being treated as the
                         most significant bit (MSB) and bit 0 being treated as
                         the least significant bit. If this parameter is false,
                         each byte is reflected before being processed.
 \
-                    refOut
+                    <refOut>
                         this is a boolean parameter. If it is set to false, the
                         final value in the register is fed into the xorOut
                         stage directly, otherwise, if this parameter is true,
                         the final register value is reflected first.
 \
-                    xorOut
+                    <xorOut>
                         this value is XORed to the final register value (after
                         the refOut) stage before the value is returned as the
                         official checksum, specify as hex. Obviously a xorOut
@@ -3103,7 +3103,7 @@ ALGORITHMS
                 sum) include the length of the file/data to the checksum value.
                 Those are the parameters which can be separated by a comma:
 \
-                    includeLen
+                    <includeLen>
                         this is a boolean parameter. It is optional. If it is
                         omitted, no length is included to the CRC. If it is
                         set, one or more octets representing the length of the
@@ -3115,7 +3115,7 @@ ALGORITHMS
                         least significant octet of the length will be processed
                         first to the update method of the CRC.
 \
-                    xorLen
+                    <xorLen>
                         this value is XORed to the length value before it gets
                         included to the CRC. Specify xorLen as hex. If xorLen
                         is omitted, the smallest number of octets capable of
@@ -5161,7 +5161,7 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.PhotonBeetleDigest
 
 
-    prng:[[init=<init>],[mpy=<multiplier>],[add=<addend>]]
+    prng[:[init=<init>][<separator>][mpy=<multiplier>][<separator>][add=<addend>]]
             algorithm:
                 PRNG (pseudo random number generator) hash
 \
@@ -5179,7 +5179,8 @@ ALGORITHMS
                 (but not in later releases) as well as in operating systems
                 derived from OpenSolaris resp. illumos such as SmartOS, OmniOS,
                 and Tribblix. The algorithm is simple and obvious, and default
-                values are known from the manpages.
+                values are known from the manpages. The encoding of the hash
+                value is decimal.
 \
                 The PRNG hash calculates the hash using the formula:
 \
@@ -5189,7 +5190,9 @@ ALGORITHMS
                     }
                     return hash
 \
-                The PRNG hash supports the following optional properties:
+                The PRNG hash supports properties that control the algorithm.
+                These properties are optional key-value pairs, and the following
+                properties are supported:
 \
                     init=<init>       A 32 bit initial value.
                                       The default value is 0x811c9dc5.
@@ -5200,14 +5203,19 @@ ALGORITHMS
                     add=<addend>      A 32 bit addend.
                                       The default value is 0.
 \
-                If a property is not given, it becomes the default value as
-                described above. The values can be specified decimal or
+                If at least one property is given, prng must be appended by a
+                colon. If a property is not given, it becomes the default value
+                as described above. The values can be specified decimal or
                 hexadecimal by prepending with the marker "0x". If one of the
-                values exceeds the value 0xFFFFFFFF, the algorithm will be
-                rejected from being created. Values can be separated by any
-                character as long as it is clear where the next property begins;
-                it is recommend to use commas. Properties can be given in any
-                order.
+                values exceeds 0xFFFFFFFF, the algorithm will be rejected from
+                being created. Negative values are not supported, and will be
+                ignored. Properties can be separated by any character as long as
+                it is clear where the next property begins; the <separator> must
+                not be one of the characters in [0-9a-fA-F] if the preceding
+                value is in hexadecimal respresentation, and the <separator>
+                must not be one of the characters in [0-9] if the preceding
+                value is in decimal representation; it is recommend to use a
+                comma for the <separator>. Properties can be given in any order.
 \
                 The default PRNG Hash can be expressed as
 \

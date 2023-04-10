@@ -217,12 +217,18 @@ public class Help {
 
                                 String[] tokens = line.trim().split(",");
                                 for (String token : tokens) {
-                                    String trimmedToken = token.trim();
+                                    String trimmedToken = token.trim()
+                                            .replaceAll("\\[", "")
+                                            .replaceAll("\\]", "");
+
+
                                     // if "<" is part of the token, it is a candidate for a regex,
-                                    // e.g. haval_128,3 for "haval, haval_<width>_<rounds>"
+                                    // e.g. haval_128_3 for "haval, haval_<width>_<rounds>"
                                     if (trimmedToken.contains("<")) {
                                         // convert the trimmedToken to a regex
-                                        String pattern = trimmedToken.replaceAll("<.+?>", "(\\\\d+)"); // becomes (\d+) in regex
+                                        String pattern = trimmedToken
+                                                .replaceAll("<.+?>", "([0-9]+)");
+
                                         if (search.matches(pattern)) {
                                             found = true;
                                             break;
@@ -241,8 +247,9 @@ public class Help {
 
                         } else
 
-                            // we are out of a searchable section, but the user want to search for
-                            // a header or a fraction of a header, e. g. "jacksum -h examples", "jacksum -h ex"
+                            // we are out of a searchable section, but the user could search for
+                            // a header or a fraction of a header, e.g. "jacksum -h examples",
+                            // "jacksum -h example", or "jacksum -h ex"
                             if (line.toLowerCase(Locale.US).startsWith(search.toLowerCase(Locale.US))) {
                                 found = true;
                             }
