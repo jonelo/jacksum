@@ -1,6 +1,6 @@
 /*
  *
- * Jacksum 3.5.0 - a checksum utility in Java
+ * Jacksum 3.6.0 - a checksum utility in Java
  * Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
  * All Rights Reserved, <https://jacksum.net>.
  *
@@ -22,6 +22,8 @@
 package net.jacksum.algorithms.wrappers;
 
 import java.security.NoSuchAlgorithmException;
+
+import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.ExtendedDigest;
 import org.bouncycastle.crypto.digests.*;
 import org.bouncycastle.crypto.engines.GOST28147Engine;
@@ -31,13 +33,13 @@ import net.jacksum.formats.Encoding;
 //import org.bouncycastle.crypto.digests.Haraka512Digest;
 
 /**
- * A wrapper class that can be used to compute GOST, RIPEMD256 and RIPEMD320
+ * A wrapper class that can be used to compute GOST, RIPEMD256 and RIPEMD320, etc.
  * (provided by bouncycastle.org).
  */
 public class MDbouncycastle extends AbstractChecksum {
    
     
-    protected ExtendedDigest md = null;
+    protected Digest md = null;
     protected boolean virgin = true;
     protected byte[] digest = null;
     private int newDigestWidthInBits = -1;
@@ -159,15 +161,41 @@ public class MDbouncycastle extends AbstractChecksum {
             newDigestWidthInBits = 128;
         } else
 
-/*
-        if (arg.equalsIgnoreCase("haraka-512")) {
-            md = new Haraka512Digest();
-        } else            
-        if (arg.equalsIgnoreCase("haraka-256")) {
-            md = new Haraka256Digest();
+        if (arg.equalsIgnoreCase("blake3")) {
+            md = new Blake3Digest(256);
         } else
-*/
-            
+
+        if (arg.equalsIgnoreCase("ascon-hash")) {
+            md = new AsconDigest(AsconDigest.AsconParameters.AsconHash);
+        } else
+
+        if (arg.equalsIgnoreCase("ascon-hasha")) {
+            md = new AsconDigest(AsconDigest.AsconParameters.AsconHashA);
+        } else
+
+        if (arg.equalsIgnoreCase("ascon-xof")) {
+            md = new AsconXof(AsconXof.AsconParameters.AsconXof);
+        } else
+
+        if (arg.equalsIgnoreCase("ascon-xofa")) {
+            md = new AsconXof(AsconXof.AsconParameters.AsconXofA);
+        } else
+
+        if (arg.equalsIgnoreCase("esch256")) {
+            md = new SparkleDigest(SparkleDigest.SparkleParameters.ESCH256);
+        } else
+        if (arg.equalsIgnoreCase("esch384")) {
+            md = new SparkleDigest(SparkleDigest.SparkleParameters.ESCH384);
+        } else
+
+        if (arg.equalsIgnoreCase("photon-beetle")) {
+            md = new PhotonBeetleDigest();
+        } else
+
+        if (arg.equalsIgnoreCase("xoodyak")) {
+            md = new XoodyakDigest();
+        } else
+
         throw new NoSuchAlgorithmException(arg + " is an unknown algorithm.");
         if (newDigestWidthInBits > 0) {
             bitWidth = newDigestWidthInBits;
@@ -203,7 +231,11 @@ public class MDbouncycastle extends AbstractChecksum {
     
     @Override
     public int getBlockSize() {
-       return md.getByteLength();
+        if (md instanceof ExtendedDigest) {
+            return ((ExtendedDigest)md).getByteLength();
+        } else {
+            return -1;
+        }
     }
 
     @Override

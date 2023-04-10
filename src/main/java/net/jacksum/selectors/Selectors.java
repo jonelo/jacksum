@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.5.0 - a checksum utility in Java
+  Jacksum 3.6.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -26,12 +26,19 @@ public class Selectors {
 
     public final static Class<?>[] allSupportedSelectorClasses = {
         Adler32_Selector.class,
+        AsconHash_Selector.class,
+        AsconHasha_Selector.class,
+        AsconXof_Selector.class,
+        AsconXofA_Selector.class,
+        AstStrsum_Selector.class,
         Blake_224_Selector.class,
         Blake_256_Selector.class,
         Blake_384_Selector.class,
         Blake_512_Selector.class,
         Blake2b_Selector.class,
         Blake2s_Selector.class,
+        Blake2sp_Selector.class,
+        Blake2bp_Selector.class,
         Blake3_Selector.class,
         CksumMinix_Selector.class,
         Cksum_Selector.class,
@@ -58,6 +65,7 @@ public class Selectors {
         ECHO512_Selector.class,
         Ed2k_Selector.class,
         Elf_Selector.class,
+        Esch_Selector.class,
         FCS16_Selector.class,
         Fletcher16_Selector.class,
         FNV0_Selector.class,
@@ -101,6 +109,8 @@ public class Selectors {
         MD5_Selector.class,
         MDC2_Selector.class,
         Panama_Selector.class,
+        PrngHash_Selector.class,
+        PhotonBeetle_Selector.class,
         Radiogatun32_Selector.class,
         Radiogatun64_Selector.class,
         Ripemd128_Selector.class,
@@ -146,6 +156,7 @@ public class Selectors {
         Whirlpool0_Selector.class,
         Whirlpool1_Selector.class,
         Whirlpool2_Selector.class,
+        Xoodyak_Selector.class,
         Xor8_Selector.class,
         xxHash32_Selector.class
 
@@ -196,6 +207,20 @@ public class Selectors {
         
         // China        
         SM3_Selector.class,
+
+        // NIST Lightweight Cryptography competition (2019–2023)
+        // =====================================================
+
+        // final round
+        // -----------
+        AsconHash_Selector.class,
+        AsconHasha_Selector.class,
+        AsconXof_Selector.class,
+        AsconXofA_Selector.class,
+
+        Esch_Selector.class,
+        PhotonBeetle_Selector.class,
+        Xoodyak_Selector.class,
 
 
         // SHA-3 competition
@@ -263,6 +288,8 @@ public class Selectors {
         Blake3_Selector.class,
         Blake2b_Selector.class,
         Blake2s_Selector.class,
+        Blake2sp_Selector.class,
+        Blake2bp_Selector.class,
        
         // Tiger
         Tiger2_Selector.class,
@@ -344,7 +371,10 @@ public class Selectors {
         Xor8_Selector.class,
         Joaat32_Selector.class,
         xxHash32_Selector.class,
-        
+        PrngHash_Selector.class,
+        PrngHashGeneric_Selector.class,
+        AstStrsum_Selector.class,
+
         // CRCs
         // ----   
         CRCGeneric_Selector.class,

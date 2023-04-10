@@ -1,7 +1,7 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/jonelo/jacksum?color=blue)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/jonelo/jacksum?color=blue)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/jonelo/jacksum?color=green)
-![GitHub downloads latest](https://img.shields.io/github/downloads/jonelo/jacksum/v3.4.0/total?color=green)
+![GitHub downloads latest](https://img.shields.io/github/downloads/jonelo/jacksum/v3.5.0/total?color=green)
 ![GitHub](https://img.shields.io/github/license/jonelo/jacksum?color=green)
 ![GitHub top language](https://img.shields.io/github/languages/top/jonelo/jacksum?color=green)
 ![GitHub downloads](https://img.shields.io/github/downloads/jonelo/jacksum/total?color=green)
@@ -16,19 +16,21 @@
 
 It covers many types of use cases where hash values are needed:
 
-   - Calculation of hash values (of almost any input)
-   - Find ok/failed/missing/new files (verify file/data integrity)
-   - Find files by their fingerprints (positive matching)
-   - Find files that do not match fingerprints (negative matching)
-   - Find all duplicates of a file by its hash value
-   - Find the algorithm(s) that generated a certain hash value
+- Calculating of hash values of almost any input
+- Finding OK/failed/missing/new files (verify file/data integrity)
+- Finding files by their fingerprints for positive matching
+- Finding files that do not match certain fingerprints for negative matching
+- Finding all duplicates of a file by its hash value
+- Finding the algorithm(s) that generated a certain hash value
 
-In order to achieve those goals above Jacksum supports you with
+In order to achieve the goals above Jacksum supports you with
 
-   - 477 standard hash functions
-   - Customize CRCs from 1 to 64 bit width
-   - 14 standard encodings for representing hash values
-   - 10 predefined styles to read and write files that contain hash values        
+- 489 standard hash functions
+- Customizable CRCs from 1 to 64 bit width
+- 60+ options to control Jacksum's behavior on the command line
+- 14 standard encodings for representing hash values
+- 10 predefined styles for reading and writing files that contain hash values
+- 8600+ lines of manpage with descriptions, examples, and compatibility lists for the most common algorithms
 
 Jacksum is also a library. You can use it for your projects. It is written entirely in **Java** ☕.
 
@@ -74,9 +76,9 @@ Go to [Features of Jacksum](https://github.com/jonelo/jacksum/wiki/Features).
 
 ## Algorithm Support
 
-Jacksum supports **477 hash functions**, both cryptographic and non-cryptographic hash function sets, including CRCs and classic checksums.
+Jacksum supports **489 hash functions**, both cryptographic and non-cryptographic hash function sets, including CRCs and classic checksums.
 
-Adler-32, BLAKE-[224,256,348,512], BLAKE2b-[8..512], BLAKE2s-[8..256], BLAKE3, cksum (Minix), cksum (Unix), CRC-8 (FLAC), CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16, CRC-24 (OpenPGP), CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32 (UBICRC32), CRC-32 (PHP's crc32), CRC-64 (ISO 3309), CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO), CRC-64 (.xz and prog lang GO, const ECMA), CRC-82/DARC, DHA-256, ECHO-[224,256,348,512], ed2k, ELF (Unix), Fletcher's Checksum, FNV-0_[32,64,128,256,512,1024], FNV-1_[32,64,128,256,512,1024], FNV-1a_[32,64,128,256,512,1024], FORK-256, Fugue-[224,256,348,512], GOST Crypto-Pro (GOST R 34.11-94), GOST R 34.11-94, Groestl-[224,256,384,512], HAS-160 (KISA), HAVAL-128-[3,4,5], HAVAL-[160,192,224,256]-[3,4,5], JH[224,256,284,512], joaat, KangarooTwelve, Keccak[224,256,384,512], Kupyna[256,384,512] (DSTU 7564:2014), LSH-256-[224,256], LSH-512-[224,256,384,512] (KS X 3262), Luffa-[224,256,348,512], MD2, MD4, MD5, MDC2, MarsupilamiFourteen, PANAMA, RIPEMD-128, RIPEMD[160,256,320], RadioGatun[32,64], SHA-0, SHA-1, SHA-[224,256,384,512], SHA-512/[224,256]  (NIST FIPS 180-4), SHA3-[224,256,384,512], SHAKE[128,256] (NIST FIPS 202), SM3, Skein-1024-[8..1024], Skein-256-[8..256], Skein-512-[8..512], Streebog-[256,512] (GOST R 34.11-2012), sum (BSD Unix), sum (Minix), sum (System V Unix), sum [8,16,24,32,40,48,56,64], Tiger, Tiger/128, Tiger/160, Tiger2, PHP Tiger variants (tiger192,4, tiger160,4, and tiger128,4), VSH-1024, Whirpool-0, Whirlpool-T, Whirlpool, xor8, and XXH32.
+Adler-32, ascon-hash, ascon-hasha, ascon-xof, ascon-xofa, AST strsum PRNG hash, BLAKE-[224,256,348,512], BLAKE2b-[8..512], BLAKE2s-[8..256], BLAKE2bp, BLAKE2sp, BLAKE3, cksum (Minix), cksum (Unix), CRC-8 (FLAC), CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16, CRC-24 (OpenPGP), CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32 (UBICRC32), CRC-32 (PHP's crc32), CRC-64 (ISO 3309), CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO), CRC-64 (.xz and prog lang GO, const ECMA), CRC-82/DARC, DHA-256, ECHO-[224,256,348,512], ed2k, ELF (Unix), esch256, esch384, Fletcher's Checksum, FNV-0_[32,64,128,256,512,1024], FNV-1_[32,64,128,256,512,1024], FNV-1a_[32,64,128,256,512,1024], FORK-256, Fugue-[224,256,348,512], GOST Crypto-Pro (GOST R 34.11-94), GOST R 34.11-94, Groestl-[224,256,384,512], HAS-160 (KISA), HAVAL-128-[3,4,5], HAVAL-[160,192,224,256]-[3,4,5], JH[224,256,284,512], joaat, KangarooTwelve, Keccak[224,256,384,512], Kupyna[256,384,512] (DSTU 7564:2014), LSH-256-[224,256], LSH-512-[224,256,384,512] (KS X 3262), Luffa-[224,256,348,512], MD2, MD4, MD5, MDC2, MarsupilamiFourteen, PANAMA, PRNG hash, RIPEMD-128, RIPEMD[160,256,320], RadioGatun[32,64], SHA-0, SHA-1, SHA-[224,256,384,512], SHA-512/[224,256]  (NIST FIPS 180-4), SHA3-[224,256,384,512], SHAKE[128,256] (NIST FIPS 202), SM3, Skein-1024-[8..1024], Skein-256-[8..256], Skein-512-[8..512], Streebog-[256,512] (GOST R 34.11-2012), sum (BSD Unix), sum (Minix), sum (System V Unix), sum [8,16,24,32,40,48,56,64], Tiger, Tiger/128, Tiger/160, Tiger2, photon-beetle, PHP Tiger variants (tiger192,4, tiger160,4, and tiger128,4), VSH-1024, Whirpool-0, Whirlpool-T, Whirlpool, Xoodyak, xor8, and XXH32.
 
 See also [Algorithms of Jacksum](https://github.com/jonelo/jacksum/wiki/Algorithms)
 
@@ -146,23 +148,24 @@ Example 6: Customized output, including customized algorithm selection (crc32c, 
     CRC32C (./kali-linux-2023.1-installer-amd64.iso) = dUWxuQ
     SHA-256 (./kali-linux-2023.1-installer-amd64.iso) = RuBXOaILKdtgyh//LpBoXqYyBxwxSpwkFtfEas7ye/A
     SHA3-256 (./kali-linux-2023.1-installer-amd64.iso) = ffPkMr8uVPCO5GIHm8YpAbmaOVeBMaxvdLPI/N4NkbE
-    
+
     CRC32C (./ubuntu-22.04.2-desktop-amd64.iso) = hIXQsw
     SHA-256 (./ubuntu-22.04.2-desktop-amd64.iso) = uY2slAqCsRDmJlynjRMg8fcQOGHpIqoaVOQgJobpu9M
     SHA3-256 (./ubuntu-22.04.2-desktop-amd64.iso) = bvOhwtwckCQuzgm4LLEJoqPbjcbWSRSuNUOcyY4/1L0
-    
+
 Example 7: Customized output like above, but encoded hash values are separated by comma
 
     $ jacksum -a crc32c+sha-256+sha3-256 -F "#ALGONAMES{uppercase} (#FILENAME) = #HASHES{base64-nopadding}" .
     CRC32C,SHA-256,SHA3-256 (./kali-linux-2023.1-installer-amd64.iso) = dUWxuQ,RuBXOaILKdtgyh//LpBoXqYyBxwxSpwkFtfEas7ye/A,ffPkMr8uVPCO5GIHm8YpAbmaOVeBMaxvdLPI/N4NkbE
     CRC32C,SHA-256,SHA3-256 (./ubuntu-22.04.2-desktop-amd64.iso) = hIXQsw,uY2slAqCsRDmJlynjRMg8fcQOGHpIqoaVOQgJobpu9M,bvOhwtwckCQuzgm4LLEJoqPbjcbWSRSuNUOcyY4/1L0
-    
+
 Example 8: Customized output like above, but one hash only (encoded by base64-nopadding)
 
     $ jacksum -a crc32c+sha-256+sha3-256 -F "#ALGONAMES{uppercase} (#FILENAME) = #HASH{base64-nopadding}" .
     CRC32C,SHA-256,SHA3-256 (./kali-linux-2023.1-installer-amd64.iso) = dUWxuUbgVzmiCynbYMof/y6QaF6mMgccMUqcJBbXxGrO8nvwffPkMr8uVPCO5GIHm8YpAbmaOVeBMaxvdLPI/N4NkbE
     CRC32C,SHA-256,SHA3-256 (./ubuntu-22.04.2-desktop-amd64.iso) = hIXQs7mNrJQKgrEQ5iZcp40TIPH3EDhh6SKqGlTkICaG6bvTbvOhwtwckCQuzgm4LLEJoqPbjcbWSRSuNUOcyY4/1L0
-    
+
+
 Example 9: Customized output in hashdeep format (filesize,hash1,...,hashN,filename) with modern algorithms
 
     $ jacksum -a crc32c+sha-256+sha3-256 -F "#FILESIZE,#HASHES{hex},#FILENAME" .
@@ -172,7 +175,7 @@ Example 9: Customized output in hashdeep format (filesize,hash1,...,hashN,filena
 
 ### Customize CRCs
 
-#### 6 parameters 
+#### 6 parameters
 
 Jacksum supports the quasi standard called "Rocksoft (tm) Model CRC Algorithm" to customize CRCs by setting 6 parameters.
 
@@ -186,7 +189,6 @@ Example 2: as above by using an alias
     $ jacksum -a crc32c -x -q txt:123456789
     e3069283 9
 
-
 #### 7 parameters
 
 An extended model with 7 CRC parameters is also supported in order to define CRCs that incorporate the length of the message. If the 7th parameter is set to true, the most significant octet of the length will be processed first to the update method of the CRC. If it is set to false, the least significant octet of the length will be processed first to the update method of the CRC.
@@ -195,7 +197,7 @@ Example 1: get the POSIX 1003.2 CRC algorithm
 
     $ jacksum -a crc:32,04C11DB7,0,false,false,FFFFFFFF,false -x -q txt:123456789
     377a6011 9
-   
+
 Example 2: as above by using an alias
 
     $ jacksum -a cksum -x -q txt:123456789
@@ -211,6 +213,12 @@ Example 1: get the output of the sum command from [Plan 9](https://en.wikipedia.
     $ jacksum -a crc:32,04C11DB7,0,true,true,0,true,CC55CC55 -x -q txt:123456789
     afcbb09a 9
     
+Example 2: as above by using an alias
+
+    $ jacksum -a sum_plan9 -x -q txt:123456789
+    afcbb09a 9
+
+
 Example 2: as above by using an alias
 
     $ jacksum -a sum_plan9 -x -q txt:123456789
@@ -289,12 +297,12 @@ Be aware that the echo command does not behave the same on all platforms. To go 
     $ jacksum -a sha256 --check-line "c396e956a9f52c418397867d1ea5c0cf1a99a49dcf648b086d2fb762330cc88d *ubuntu-22.04.1-desktop-amd64.iso"
         OK  ubuntu-22.04.1-desktop-amd64.iso
 
-Here is an example of the hash/file record in the BSD style: 
+Here is an example of the hash/file record in the BSD style:
 
     jacksum -a sha256 --style bsd --check-line "SHA-256 (ubuntu-22.04.1-desktop-amd64.iso) = c396e956a9f52c418397867d1ea5c0cf1a99a49dcf648b086d2fb762330cc88d" --verbose noinfo,nosummary
         OK  ubuntu-22.04.1-desktop-amd64.iso
 
-#### by option -e 
+#### by option -e
 
 You can also pass the known hash value of the file to option -e (expectation).
 
@@ -393,7 +401,7 @@ Jacksum also helps you find all duplicates of a file.
 Since Jacksum supports so many algorithms, Jacksum also helps you to find the algorithm to a checksum/CRC/hash by calling a fast and smart brute force algorithm if the hash is unknown, but the data is known.
 
     $ jacksum -a unknown:16 -q hex:050000 -E hex -e d893
-    
+
 <details>
 <summary>Result ...</summary>
 
@@ -440,7 +448,7 @@ Once you have identified the correct algorithm, you can calculate your own input
 jacksum -a crc:16,1021,FFFF,false,false,FFFF -E hex -q txt:"Hello World"
 ```
 </details>
-    
+
 ### More examples
 
     $ jacksum -h examples
@@ -507,7 +515,7 @@ jacksum
 <details>
 <summary>Details ...</summary>
 
-The following snippet could help you to setup Jacksum on GNU/Linux. In the example below, the launch script will be stored in `$HOME/bin/` which will also be added to your PATH. The jar file will be stored to `/opt/java/apps/jacksum/` so other users on the computer have access to it as well. 
+The following snippet could help you to setup Jacksum on GNU/Linux. In the example below, the launch script will be stored in `$HOME/bin/` which will also be added to your PATH. The jar file will be stored to `/opt/java/apps/jacksum/` so other users on the computer have access to it as well.
 
 ```
 $ echo 'export PATH="$PATH=$HOME/bin"' >> $HOME/.profile
@@ -552,7 +560,11 @@ $ rm -R jacksum-$VERSION/
 
 I appreciate feedback from users, bug hunters, and fresh ideas from open minded people. Feel free and file [support requests, change requests, bug reports and feature requests on GitHub](https://github.com/jonelo/jacksum/issues)
 
-Spread the word, or give a star here on GitHub. 
+Spread the word, or give a star here on GitHub.
+
+## Credits
+
+Jacksum implements a lot of algorithms, but it doesn't reinvent the wheel if an algorithm is available already in another mature crypto library. So Jacksum relies on [Bouncy Castle](https://www.bouncycastle.org), [java-crc](https://github.com/snksoft/java-crc), [GNU Crypto](https://www.gnu.org/software/gnu-crypto/) (abandoned), Flexiprovider (abandoned), and Projet RNRT SAPHIR (abandoned). Libraries that have been abandoned are now supported by Jacksum (the hash part only). The Jacksum manpage clearly points out the origin for each algorithm. Any algorithm that is accepted by the Jacksum project will benefit from the framework that applies to all algorithms. For more information on that subject please type `jacksum --copyright`or go to the [copyright page](https://jacksum.net/en/legal/copyright.html).
 
 ## Credits
 

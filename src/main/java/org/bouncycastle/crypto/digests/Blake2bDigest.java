@@ -23,7 +23,10 @@ package org.bouncycastle.crypto.digests;
         ---------------+--------+-----------+------+------------+
  */
 
+import org.bouncycastle.crypto.CryptoServicePurpose;
+//import org.bouncycastle.crypto.CryptoServicesRegistrar;
 import org.bouncycastle.crypto.ExtendedDigest;
+import org.bouncycastle.crypto.OutputLengthException;
 import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.Longs;
 import org.bouncycastle.util.Pack;
@@ -42,34 +45,34 @@ import org.bouncycastle.util.Pack;
  * between 1 and 64 bytes.
  */
 public class Blake2bDigest
-    implements ExtendedDigest
+        implements ExtendedDigest
 {
     // Blake2b Initialization Vector:
     private final static long[] blake2b_IV =
-        // Produced from the square root of primes 2, 3, 5, 7, 11, 13, 17, 19.
-        // The same as SHA-512 IV.
-        {
-            0x6a09e667f3bcc908L, 0xbb67ae8584caa73bL, 0x3c6ef372fe94f82bL,
-            0xa54ff53a5f1d36f1L, 0x510e527fade682d1L, 0x9b05688c2b3e6c1fL,
-            0x1f83d9abfb41bd6bL, 0x5be0cd19137e2179L
-        };
+            // Produced from the square root of primes 2, 3, 5, 7, 11, 13, 17, 19.
+            // The same as SHA-512 IV.
+            {
+                    0x6a09e667f3bcc908L, 0xbb67ae8584caa73bL, 0x3c6ef372fe94f82bL,
+                    0xa54ff53a5f1d36f1L, 0x510e527fade682d1L, 0x9b05688c2b3e6c1fL,
+                    0x1f83d9abfb41bd6bL, 0x5be0cd19137e2179L
+            };
 
     // Message word permutations:
     private final static byte[][] blake2b_sigma =
-        {
-            {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
-            {14, 10, 4, 8, 9, 15, 13, 6, 1, 12, 0, 2, 11, 7, 5, 3},
-            {11, 8, 12, 0, 5, 2, 15, 13, 10, 14, 3, 6, 7, 1, 9, 4},
-            {7, 9, 3, 1, 13, 12, 11, 14, 2, 6, 5, 10, 4, 0, 15, 8},
-            {9, 0, 5, 7, 2, 4, 10, 15, 14, 1, 11, 12, 6, 8, 3, 13},
-            {2, 12, 6, 10, 0, 11, 8, 3, 4, 13, 7, 5, 15, 14, 1, 9},
-            {12, 5, 1, 15, 14, 13, 4, 10, 0, 7, 6, 3, 9, 2, 8, 11},
-            {13, 11, 7, 14, 12, 1, 3, 9, 5, 0, 15, 4, 8, 6, 2, 10},
-            {6, 15, 14, 9, 11, 3, 0, 8, 12, 2, 13, 7, 1, 4, 10, 5},
-            {10, 2, 8, 4, 7, 6, 1, 5, 15, 11, 9, 14, 3, 12, 13, 0},
-            {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
-            {14, 10, 4, 8, 9, 15, 13, 6, 1, 12, 0, 2, 11, 7, 5, 3}
-        };
+            {
+                    {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
+                    {14, 10, 4, 8, 9, 15, 13, 6, 1, 12, 0, 2, 11, 7, 5, 3},
+                    {11, 8, 12, 0, 5, 2, 15, 13, 10, 14, 3, 6, 7, 1, 9, 4},
+                    {7, 9, 3, 1, 13, 12, 11, 14, 2, 6, 5, 10, 4, 0, 15, 8},
+                    {9, 0, 5, 7, 2, 4, 10, 15, 14, 1, 11, 12, 6, 8, 3, 13},
+                    {2, 12, 6, 10, 0, 11, 8, 3, 4, 13, 7, 5, 15, 14, 1, 9},
+                    {12, 5, 1, 15, 14, 13, 4, 10, 0, 7, 6, 3, 9, 2, 8, 11},
+                    {13, 11, 7, 14, 12, 1, 3, 9, 5, 0, 15, 4, 8, 6, 2, 10},
+                    {6, 15, 14, 9, 11, 3, 0, 8, 12, 2, 13, 7, 1, 4, 10, 5},
+                    {10, 2, 8, 4, 7, 6, 1, 5, 15, 11, 9, 14, 3, 12, 13, 0},
+                    {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
+                    {14, 10, 4, 8, 9, 15, 13, 6, 1, 12, 0, 2, 11, 7, 5, 3}
+            };
 
     private static int ROUNDS = 12; // to use for Catenas H'
     private final static int BLOCK_LENGTH_BYTES = 128;// bytes
@@ -86,11 +89,15 @@ public class Blake2bDigest
     // Tree hashing parameters:
     // Because this class does not implement the Tree Hashing Mode,
     // these parameters can be treated as constants (see init() function)
-    /*
-     * private int fanout = 1; // 0-255 private int depth = 1; // 1 - 255
-     * private int leafLength= 0; private long nodeOffset = 0L; private int
-     * nodeDepth = 0; private int innerHashLength = 0;
-     */
+
+    private int fanout = 1; // 0-255
+    private int depth = 1; // 1 - 255
+    private int leafLength= 0;
+    private long nodeOffset = 0L;
+    private int nodeDepth = 0;
+    private int innerHashLength = 0;
+
+    private boolean isLastNode = false;
 
     // whenever this buffer overflows, it will be processed
     // in the compress() function.
@@ -109,12 +116,27 @@ public class Blake2bDigest
     private long f0 = 0L; // finalization flag, for last block: ~0L
 
     // For Tree Hashing Mode, not used here:
-    // private long f1 = 0L; // finalization flag, for last node: ~0L
+    private long f1 = 0L; // finalization flag, for last node: ~0L
+
+    // digest purpose
+    private final CryptoServicePurpose purpose;
 
     public Blake2bDigest()
     {
-        this(512);
+        this(512, CryptoServicePurpose.ANY);
     }
+
+
+    /**
+     * Basic sized constructor - size in bits.
+     *
+     * @param digestSize size of digest (in bits)
+     */
+    public Blake2bDigest(int digestSize)
+    {
+        this(digestSize, CryptoServicePurpose.ANY);
+    }
+
 
     public Blake2bDigest(Blake2bDigest digest)
     {
@@ -129,24 +151,28 @@ public class Blake2bDigest
         this.t0 = digest.t0;
         this.t1 = digest.t1;
         this.f0 = digest.f0;
+        this.purpose = digest.purpose;
+
     }
 
     /**
-     * Basic sized constructor - size in bits.
-     *
+     * Basic sized constructor with purpose.
      * @param digestSize size of the digest in bits
+     * @param purpose usage purpose.
      */
-    public Blake2bDigest(int digestSize)
+    public Blake2bDigest(int digestSize, CryptoServicePurpose purpose)
     {
+        this.purpose = purpose;
         if (digestSize < 8 || digestSize > 512 || digestSize % 8 != 0)
         {
             throw new IllegalArgumentException(
-                "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512");
+                    "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512");
         }
 
         buffer = new byte[BLOCK_LENGTH_BYTES];
         keyLength = 0;
         this.digestLength = digestSize / 8;
+//        CryptoServicesRegistrar.checkConstraints(Utils.getDefaultProperties(this, digestSize, purpose));
         init();
     }
 
@@ -159,7 +185,12 @@ public class Blake2bDigest
      *
      * @param key A key up to 64 bytes or null
      */
+
     public Blake2bDigest(byte[] key)
+    {
+        this(key, CryptoServicePurpose.ANY);
+    }
+    public Blake2bDigest(byte[] key, CryptoServicePurpose purpose)
     {
         buffer = new byte[BLOCK_LENGTH_BYTES];
         if (key != null)
@@ -170,13 +201,16 @@ public class Blake2bDigest
             if (key.length > 64)
             {
                 throw new IllegalArgumentException(
-                    "Keys > 64 are not supported");
+                        "Keys > 64 are not supported");
             }
             keyLength = key.length;
             System.arraycopy(key, 0, buffer, 0, key.length);
             bufferPos = BLOCK_LENGTH_BYTES; // zero padding
         }
+        this.purpose = purpose;
         digestLength = 64;
+
+//        CryptoServicesRegistrar.checkConstraints(Utils.getDefaultProperties(this, digestLength*8, purpose));
         init();
     }
 
@@ -194,12 +228,17 @@ public class Blake2bDigest
      */
     public Blake2bDigest(byte[] key, int digestLength, byte[] salt, byte[] personalization)
     {
+        this(key, digestLength, salt, personalization, CryptoServicePurpose.ANY);
+    }
 
+    public Blake2bDigest(byte[] key, int digestLength, byte[] salt, byte[] personalization, CryptoServicePurpose purpose)
+    {
+        this.purpose = purpose;
         buffer = new byte[BLOCK_LENGTH_BYTES];
         if (digestLength < 1 || digestLength > 64)
         {
             throw new IllegalArgumentException(
-                "Invalid digest length (required: 1 - 64)");
+                    "Invalid digest length (required: 1 - 64)");
         }
         this.digestLength = digestLength;
         if (salt != null)
@@ -207,7 +246,7 @@ public class Blake2bDigest
             if (salt.length != 16)
             {
                 throw new IllegalArgumentException(
-                    "salt length must be exactly 16 bytes");
+                        "salt length must be exactly 16 bytes");
             }
             this.salt = new byte[16];
             System.arraycopy(salt, 0, this.salt, 0, salt.length);
@@ -217,11 +256,11 @@ public class Blake2bDigest
             if (personalization.length != 16)
             {
                 throw new IllegalArgumentException(
-                    "personalization length must be exactly 16 bytes");
+                        "personalization length must be exactly 16 bytes");
             }
             this.personalization = new byte[16];
             System.arraycopy(personalization, 0, this.personalization, 0,
-                personalization.length);
+                    personalization.length);
         }
         if (key != null)
         {
@@ -231,12 +270,49 @@ public class Blake2bDigest
             if (key.length > 64)
             {
                 throw new IllegalArgumentException(
-                    "Keys > 64 are not supported");
+                        "Keys > 64 are not supported");
             }
             keyLength = key.length;
             System.arraycopy(key, 0, buffer, 0, key.length);
             bufferPos = BLOCK_LENGTH_BYTES; // zero padding
         }
+
+//        CryptoServicesRegistrar.checkConstraints(Utils.getDefaultProperties(this, digestLength*8, purpose));
+        init();
+    }
+
+    public Blake2bDigest (byte[] key, byte[] param)
+    {
+        buffer = new byte[BLOCK_LENGTH_BYTES];
+//        if (key != null)
+//        {
+//            this.key = new byte[key.length];
+//            System.arraycopy(key, 0, this.key, 0, key.length);
+//
+//            if (key.length > 64)
+//            {
+//                throw new IllegalArgumentException(
+//                        "Keys > 64 are not supported");
+//            }
+//            keyLength = key.length;
+//            System.arraycopy(key, 0, buffer, 0, key.length);
+//            bufferPos = BLOCK_LENGTH_BYTES; // zero padding
+//        }
+
+        this.purpose = CryptoServicePurpose.ANY;
+        digestLength = param[0];
+        keyLength = param[1];
+        fanout = param[2];
+        depth = param[3];
+        leafLength = Pack.littleEndianToInt(param, 4);
+        nodeOffset |= Pack.littleEndianToInt(param, 8);
+        //xoflength
+        nodeDepth = param[16];
+        innerHashLength = param[17];
+//        byte[] salt = new byte[16];
+//        byte[] personalization = new byte[16];
+//        System.arraycopy(param, 16, salt, 0, 8);
+//        System.arraycopy(param, 24, personalization, 0, 8);
         init();
     }
 
@@ -248,14 +324,9 @@ public class Blake2bDigest
             chainValue = new long[8];
 
             chainValue[0] = blake2b_IV[0]
-                ^ (digestLength | (keyLength << 8) | 0x1010000);
-            // 0x1010000 = ((fanout << 16) | (depth << 24) | (leafLength <<
-            // 32));
-            // with fanout = 1; depth = 0; leafLength = 0;
-            chainValue[1] = blake2b_IV[1];// ^ nodeOffset; with nodeOffset = 0;
-            chainValue[2] = blake2b_IV[2];// ^ ( nodeDepth | (innerHashLength <<
-            // 8) );
-            // with nodeDepth = 0; innerHashLength = 0;
+                    ^ (digestLength | (keyLength << 8) | ((fanout << 16) | (depth << 24) | (leafLength << 32)));
+            chainValue[1] = blake2b_IV[1] ^ nodeOffset;
+            chainValue[2] = blake2b_IV[2] ^ ( nodeDepth | (innerHashLength << 8) );
 
             chainValue[3] = blake2b_IV[3];
 
@@ -285,7 +356,7 @@ public class Blake2bDigest
         internalState[12] = t0 ^ blake2b_IV[4];
         internalState[13] = t1 ^ blake2b_IV[5];
         internalState[14] = f0 ^ blake2b_IV[6];
-        internalState[15] = blake2b_IV[7];// ^ f1 with f1 = 0
+        internalState[15] = f1 ^ blake2b_IV[7];
     }
 
     /**
@@ -344,7 +415,7 @@ public class Blake2bDigest
             if (remainingLength < len)
             { // full buffer + at least 1 byte
                 System.arraycopy(message, offset, buffer, bufferPos,
-                    remainingLength);
+                        remainingLength);
                 t0 += BLOCK_LENGTH_BYTES;
                 if (t0 == 0)
                 { // if message > 2^64
@@ -378,7 +449,7 @@ public class Blake2bDigest
 
         // fill the buffer with left bytes, this might be a full block
         System.arraycopy(message, messagePos, buffer, 0, offset + len
-            - messagePos);
+                - messagePos);
         bufferPos += offset + len - messagePos;
     }
 
@@ -392,8 +463,16 @@ public class Blake2bDigest
      */
     public int doFinal(byte[] out, int outOffset)
     {
+        if (outOffset > (out.length - digestLength))
+        {
+            throw new OutputLengthException("output buffer too short");
+        }
 
         f0 = 0xFFFFFFFFFFFFFFFFL;
+        if(isLastNode)
+        {
+            f1 = 0xFFFFFFFF;
+        }
         t0 += bufferPos;
         if (bufferPos > 0 && t0 == 0)
         {
@@ -403,18 +482,13 @@ public class Blake2bDigest
         Arrays.fill(buffer, (byte)0);// Holds eventually the key if input is null
         Arrays.fill(internalState, 0L);
 
-        for (int i = 0; i < chainValue.length && (i * 8 < digestLength); i++)
+        int full = digestLength >>> 3, partial = digestLength & 7;
+        Pack.longToLittleEndian(chainValue, 0, full, out, outOffset);
+        if (partial > 0)
         {
-            byte[] bytes = Pack.longToLittleEndian(chainValue[i]);
-
-            if (i * 8 < digestLength - 8)
-            {
-                System.arraycopy(bytes, 0, out, outOffset + i * 8, 8);
-            }
-            else
-            {
-                System.arraycopy(bytes, 0, out, outOffset + i * 8, digestLength - (i * 8));
-            }
+            byte[] bytes = new byte[8];
+            Pack.longToLittleEndian(chainValue[full], bytes, 0);
+            System.arraycopy(bytes, 0, out, outOffset + digestLength - partial, partial);
         }
 
         Arrays.fill(chainValue, 0L);
@@ -433,8 +507,10 @@ public class Blake2bDigest
     {
         bufferPos = 0;
         f0 = 0L;
+        f1 = 0;
         t0 = 0L;
         t1 = 0L;
+        isLastNode = false;
         chainValue = null;
         Arrays.fill(buffer, (byte)0);
         if (key != null)
@@ -447,14 +523,10 @@ public class Blake2bDigest
 
     private void compress(byte[] message, int messagePos)
     {
-
         initializeInternalState();
 
         long[] m = new long[16];
-        for (int j = 0; j < 16; j++)
-        {
-            m[j] = Pack.littleEndianToLong(message, messagePos + j * 8);
-        }
+        Pack.littleEndianToLong(message, messagePos, m);
 
         for (int round = 0; round < ROUNDS; round++)
         {
@@ -490,6 +562,11 @@ public class Blake2bDigest
         internalState[posD] = Longs.rotateRight(internalState[posD] ^ internalState[posA], 16);
         internalState[posC] = internalState[posC] + internalState[posD];
         internalState[posB] = Longs.rotateRight(internalState[posB] ^ internalState[posC], 63); // replaces 11 of BLAKE
+    }
+
+    protected void setAsLastNode()
+    {
+        isLastNode = true;
     }
 
     /**

@@ -1,3 +1,29 @@
+Jacksum 3.6.0, April, 10, 2023
+
+- new algorithms:
+  - added all finalists that support hashing of the NIST Lightweight Cryptography competition (2019–2023)
+    from a bouncy castle pre-release:
+    - ascon-hash, ascon-hasha, ascon-xof, and ascon-xofa
+    - esch256, and esch384
+    - photon-beetle
+    - xoodyak - with a contribution fix by jonelo (https://github.com/bcgit/bc-java/pull/1362)
+  - added blake2sp, and blake2bp (issue #4) - the Java implementation (fixed width single threaded) is done by
+    pre-release bouncy castle code with a contribution fix for blake2sp by jonelo
+    (https://github.com/bcgit/bc-java/issues/1363 and 1364)
+  - added 32 bit PRNG based checksums which are known from Solaris 11 Express, OmniOS, SmartOS, and Tribblix:
+    - PRNG hash
+    - AST strsum PRNG hash
+  - alternate implementation for blake3 provided by bouncy castle, the existing primary implementation still remains the
+    primary, because it is slightly faster.
+
+- updates:
+  - documentation: added OpenIndiana to the compatibility lists.
+
+- bug fixes:
+  - CommonHashStatistics.java was not added to the repo which avoided the compilation
+  - fixed the grammar in the manpage by using OpenAI's grammar correction
+
+
 Jacksum 3.5.0, Jan 7, 2023
 
 - new algorithms:

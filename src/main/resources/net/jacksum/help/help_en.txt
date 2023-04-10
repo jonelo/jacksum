@@ -3,7 +3,7 @@ NAME
 
 
 VERSION
-    3.5.0
+    3.6.0
 
 
 SYNOPSIS
@@ -31,9 +31,9 @@ SYNOPSIS
 \
     Notes:
         - FILES means ((--filelist|-L) <filelist> | FILE) [FILE]...
-        - FILE can be a regular file, a directory, any platform dependent file,
-          or the hyphen - which represents standard input. For more information
-          see section PARAMETERS.
+        - FILE can be a regular file, a directory, any platform-dependent file,
+          or the hyphen (-) which represents standard input. For more
+          information, see section PARAMETERS.
 
 
 DESCRIPTION
@@ -41,55 +41,58 @@ DESCRIPTION
     feature-rich, multi-threaded, command line utility that makes hash
     functions available to you.
 \
-    It covers many types of use cases where hash values are needed:
+    It covers many types of use cases in which hash values are needed:
 \
-        - Calculation of hash values (of almost any input)
-        - Find ok/failed/missing/new files (verify file/data integrity)
-        - Find files by their fingerprints (positive matching)
-        - Find files that do not match fingerprints (negative matching)
-        - Find all duplicates of a file by its hash value
-        - Find the algorithm(s) that generated a certain hash value
+        - Calculating of hash values of almost any input
+        - Finding OK/failed/missing/new files (verify file/data integrity)
+        - Finding files by their fingerprints for positive matching
+        - Finding files that do not match certain fingerprints for negative matching
+        - Finding all duplicates of a file by its hash value
+        - Finding the algorithm(s) that generated a certain hash value
 \
-    In order to achieve those goals above Jacksum supports you with
+    In order to achieve the goals above, Jacksum supports you with
 \
-        - 477 standard hash functions
-        - Customize CRCs from 1 to 64 bit width
+        - 489 standard hash functions
+        - Customizable CRCs from 1 to 64 bit width
+        - 60+ options to control Jacksum's behavior on the command line
         - 14 standard encodings for representing hash values
-        - 10 predefined styles to read and write files that contain hash values
+        - 10 predefined styles for reading and writing files that contain hash values
+        - 8600+ lines of manpage with descriptions, examples, and compatibility
+          lists for the most common algorithms
 
 
 OPERATING MODES
 \
     Jacksum selects the appropriate operating mode dependent on the options
-    and parameters that you set. See also the sections called SYNOPSIS,
-    OPTION TYPES, OPTION SUPPORT MATRIX, and EXAMPLES.
+    and parameters that you set. See also the sections entitled "SYNOPSIS",
+    "OPTION TYPES", "OPTION SUPPORT MATRIX", and "EXAMPLES".
 \
     jacksum [OPTION]... FILES
 \
-        "Calculate hash values and print them"-mode
+        "Calculate and print the hash values"
 \
-        Calculation of hash values is usually the first step you take to be able
-        to check data integrity at all later on.
+        Calculating hash values is usually the first step you take to be able to
+        check data integrity later on.
 \
         The hash calculation mode is enabled if you specify at least one file to
         hash. FILES can be provided by a list (-L) and by program parameters.
         If you specify the hyphen for FILES, Jacksum reads from standard input
         channel.
 \
-        The major features for this mode are the selection of a huge set of
-        algorithms, and comprehensive format options to get the output to
+        The major features of this mode are the selection of a vast array of
+        algorithms and comprehensive format options to get the output to
         meet your needs.
 \
         For OPTION the following option types are supported:
 \
-            - Common options
-            - Security strength options
-            - File list options
-            - Directory traversal options
-            - Hashing performance options
-            - I/O performance options
-            - Output format options
-            - Output options
+            - Common Options
+            - Security Strength Options
+            - File List Options
+            - Directory Traversal Options
+            - Hashing Performance Options
+            - I/O Performance Options
+            - Output Format Options
+            - Output Options
 \
         Examples:
             > jacksum myfile.iso
@@ -108,39 +111,39 @@ OPERATING MODES
         "Verify data/file integrity"-mode
 \
         The data/file integrity verification mode is enabled if you specify
-        option -c (resp. --check-file) or option --check-line.
+        the option -c (or --check-file) or the option --check-line.
 \
         You can specify the style of the check-file by setting the option
         --style. If one or more input lines are invalid, use --check-strict to
-        exit nonzero after all warnings have been issued. Specify the charset
-        of the check-file by the option --check-file-charset. To ignore
-        particular lines from the check file use the option
-        --ignore-lines-starting-with-string
+        exit with a nonzero value after all warnings have been issued. Specify
+        the character set of the check-file using the option
+        --check-file-charset. To ignore particular lines from the check file,
+        use the option --ignore-lines-starting-with-string.
 \
         Data integrity ensures that data items have not been changed, destroyed,
         or lost in an unauthorized or accidental manner since they were created,
         transmitted, or stored. In other words, you can detect ok, failed and
         missing files, and if you specify FILES you can detect new files as
-        well. For detecting missing or new files, hashing is not required.
+        well. For detecting missing or new files, hashing is not necessary.
 \
-        You can control what you are searching for (e.g. failed, and
-        new files only) by setting the option called --list-filter to an
+        You can control what you are searching for (e.g. failed and
+        new files only) by setting the option called "--list-filter" to an
         appropriate value.
 \
         FILES can be provided by a list (-L) and by program parameters.
-        If you specify the hyphen for FILES, Jacksum reads from standard input
-        channel.
+        If you specify the hyphen for FILES, Jacksum will read from the standard
+        input channel.
 \
-        For OPTION the following option types are supported:
+        For OPTION, the following option types are supported:
 \
-            - Common options
-            - Security strength options
-            - File list options
-            - Check/integrity verification mode options
-            - Directory traversal options
-            - Hashing performance options
-            - I/O performance options
-            - Output options
+            - Common Options
+            - Security Strength Options
+            - File List Options
+            - Check/Integrity Verification Mode Options
+            - Directory Traversal Options
+            - Hashing Performance Options
+            - I/O Performance Options
+            - Output Options
 \
         Examples:
             > jacksum -c my.hashes
@@ -152,38 +155,38 @@ OPERATING MODES
     jacksum [OPTION]... ((--wanted-list|-w) <list> | (--expect|-e) <hash>))
             [OPTION]... [FILES]
 \
-        "Wanted list"-mode
+        "Wanted list"
 \
-        In "Wanted list" mode, you can find all files that matches or not
-        matches a set of known hashes. In other words, you can verify the
+        In "Wanted list" mode, you can find all files that match or do not
+        match a set of known hashes. In other words, you can verify the
         integrity of a file, find files by their fingerprints, or find all
         duplicates of a file.
 \
-        This mode is enabled if you specify option -w (resp. --wanted-list) or
-        -e (resp. --expect). The charset of <list> can be specified by
+        This mode is enabled if you specify the option -w (or --wanted-list) or
+        -e (or --expect). The character set of <list> can be specified by
         --wanted-list-charset.
 \
-        To enable positive matching set --match-filter positive, and
-        to enable negative matching set --match-filter negative.
+        To enable positive matching, set --match-filter to "positive", and
+        to enable negative matching, set --match-filter to "negative".
 \
         FILES can be provided by a list (-L) and by program parameters.
-        If you specify the hyphen for FILES, Jacksum reads from standard input
-        channel.
+        If you specify the hyphen for FILES, Jacksum will read from the standard
+        input channel.
 \
         For OPTION the following option types are supported:
 \
-            - Common options
-            - Security strength options
-            - File list options
-            - Wanted list mode options
-            - Directory traversal options
-            - Hashing performance options
-            - I/O performance options
-            - Output options
+            - Common Options
+            - Security Strength Options
+            - File List Options
+            - Wanted List Mode Options
+            - Directory Traversal Options
+            - Hashing Performance Options
+            - I/O Performance Options
+            - Output Options
 \
         Examples:
             > jacksum -a sha256 ./all-official-log4j-libs/ > /tmp/log4j.hashes
-            > jacksum -a sha256 -V nonummary -w /tmp/log4j.hashes /
+            > jacksum -a sha256 -V nosummary -w /tmp/log4j.hashes /
                 MATCH  /opt/serverapp/log.jar (log4j-core-2.12.0.jar)
             > jacksum -w known.hashes --match-filter negative .
             > jacksum -a sha256 -e b85286d9855f549ed9895763519f6a295a7698fb9c5c5345811b3eefadfb6f07
@@ -193,21 +196,21 @@ OPERATING MODES
 \
     jacksum [OPTION]... (--quick|-q) <sequence>
 \
-        "Quick/calculate one hash"-mode
+        "Hash a sequence quickly"
 \
-        In this mode you can specify the input data entirely on the command
-        line, and calculate hash(es) of it.
+        In this mode, you can specify the input data entirely on the command
+        line and calculate the hash(es) of it.
 \
-        The mode is enabled if you specify -q (resp. --quick).
+        The mode is enabled if you specify -q (or --quick).
 \
         For OPTION the following option types are supported:
 \
-            - Common options
-            - Security strength options
-            - Hashing performance options
-            - Quick mode options
-            - Output format options
-            - Output options
+            - Common Options
+            - Security Strength Options
+            - Hashing Performance Options
+            - Quick Mode Options
+            - Output Format Options
+            - Output Options
 \
         Example:
             > jacksum -q txt:"Hello World"
@@ -215,19 +218,19 @@ OPERATING MODES
 \
     jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
 \
-        "Quick/verify one file"-mode
+        "Verify a sequence quickly"
 \
-        In this mode you can specify the input data on the command line,
+        In this mode, you can specify the input data on the command line,
         calculate the hash(es), and verify the integrity.
         This mode is enabled if you specify both -q and -e.
 \
         For OPTION the following option types are supported:
 \
-            - Common options
-            - Security strength options
-            - Hashing performance options
-            - Quick mode options
-            - Output options
+            - Common Options
+            - Security Strength Options
+            - Hashing Performance Options
+            - Quick Mode Options
+            - Output Options
 \
         Example:
             > jacksum -a md5 -e 5d41402abc4b2a76b9719d911017c592 -q txt:hello
@@ -236,19 +239,19 @@ OPERATING MODES
     jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
                         (--algorithm|-a) unknown:<bits>
 \
-        "Find hash functions"-mode
+        "Find hash functions"
 \
-        In this mode you can find the hash function that was used to produce a
+        In this mode, you can find the hash function that was used to produce a
         hash. This mode is enabled if you specify -q, -e and -a unknown:<bits>
-        where <bits> specify the width of the algorithm in question. <bits> can
-        be an integer from 1 to 1024.
+        where <bits> specifies the width of the algorithm in question. <bits>
+        can be an integer from 1 to 1024.
 \
         For OPTION the following option types are supported:
 \
-            - Common options
-            - Security strength options
-            - Quick mode options
-            - Output options
+            - Common Options
+            - Security Strength Options
+            - Quick Mode Options
+            - Output Options
 \
         Example:
             > jacksum -a unknown:16 -q hex:050000 -E hex -e d893
@@ -264,10 +267,10 @@ OPERATING MODES
               (--version|-v) [-V <vcontrol>]
             ]
 \
-        "Gather information"-mode
+        "Gather information"
 \
-        In these modes some information will be gathered and the program exits.
-        See the OPTIONS section for more details on each option.
+        In these modes, some information will be gathered, and the program will
+        exit. See the OPTIONS section for more details on each option.
 \
         Examples:
             > jacksum -a all:256 -l
@@ -280,19 +283,19 @@ OPERATING MODES
 
 OPTION TYPES
 \
-    Common options
+    Common Options
         Those options can be used almost by any operating mode.
 \
         [(--verbose|-V) <vcontrol>]
         [(--list|-l)]
         [--]
 \
-    Security strength options
+    Security Strength Options
         This option controls the strength of the hashing procedure.
 \
         [(--algorithm|-a) <algorithm>]
 \
-    File list options
+    File List Options
         Those options specify the way file list are to be read.
 \
         [(--filelist|-L) <filelist>]
@@ -300,7 +303,7 @@ OPTION TYPES
         [--file-list-format <format>]
         [--ignore-lines-starting-with-string <string>]
 \
-    Check/integrity verification mode options
+    Check/Integrity Verification Mode Options
         Those options control the data verification process.
 \
         [--check-file <checkfile>]
@@ -311,23 +314,24 @@ OPTION TYPES
         [--ignore-lines-starting-with-string <string>]
         [--list-filter <filter>]
 \
-    Wanted list mode options
-        Those options control the behavior of the wanted list mode.
+    Wanted List Mode Options
+        Those options control the behavior of the "wanted list" mode.
 \
         [(--wanted-list|-w) <list>
         [(--expect|-e) <hash value>]
         [(--charset-wanted-list|--wanted-list-charset) <charset>]
         [(--match-filter|--wanted-list-filter) <filter>]
 \
-    Quick mode options
+    Quick Mode Options
         Those options control the behavior of the quick mode.
 \
         [(--quick|-q) [<type>:]<sequence>]
         [(--expect|-e) <hash value>]
         [(--algorithm|-a) <algorithm>]
 \
-    Information gathering mode options
-        Those options print some specific information, and the app exits.
+    Information Gathering Mode Options
+        Those options print some specific information, and the app exits
+        afterwards.
 \
         (--algorithm|-a) <algorithm> (--list|-l)
         --copyright
@@ -337,13 +341,14 @@ OPTION TYPES
         --license
         (--version|-v) [-V <vcontrol>]
 \
-    Directory traversal options
+    Directory Traversal Options
         Those options control which files are read during directory traversal.
-        By default Jacksum traverses directory trees recursively. You can
+        By default, Jacksum traverses directory trees recursively. You can
         control the walking depth by option -r. You can also set the
-        options -f and -d in order to disallow Jacksum to follow symlinks
-        to files and/or directories. In order to scan platform dependent files
-        you can use the options --scan-all-unix-file-types resp. --scan-ntfs-ads.
+        options -f and -d to disallow Jacksum from following symlinks
+        to files and/or directories. To scan platform dependent files,
+        you can use the options --scan-all-unix-file-types and --scan-ntfs-ads,
+        respectively.
 \
         [--dont-follow-symlinks-to-directories|-d]
         [--dont-follow-symlinks-to-files|-f]
@@ -351,27 +356,30 @@ OPTION TYPES
         [--scan-all-unix-file-types]
         [--scan-ntfs-ads]
 \
-    Hashing performance options
+    Hashing Performance Options
         Those options control the performance of hashing.
 \
         [(--algorithm|-a) <algorithm>]
         [--alternative|-a]
         [--threads-hashing <threads>]
 \
-    I/O performance options
+    I/O Performance Options
         This option controls the performance when reading files on SSDs.
 \
         [--threads-reading <threads>]
 \
-    Output format options
-        Those options adjust the format of the output to meet your needs.
+    Output Format Options
+        Those options adjust the format of the output to meet your requirements.
 \
         [--header]
         [
           [(--style|-C) <style>] |
           [
             [(--format|-F) <format>]
-            [(--encoding|-E) <encoding>] | [[(--hex-lowercase|-x)|(--hex-uppercase|-X)] [-g COUNT [-G CHAR]]]
+            [
+              [(--encoding|-E) <encoding>] |
+              [[(--hex-lowercase|-x)|(--hex-uppercase|-X)] [-g <count> [-G <char>]]]
+            ]
             [--filesize <boolean>]
             [(--timestamp|-t) <format>]
             [--legacy-stdin-name]
@@ -380,25 +388,35 @@ OPTION TYPES
           [--gnu-filename-escaping <boolean>]
           [--no-path] |
           [
-            (--path-absolute | --path-relative-to <path> | (--path-relative-to-entry <number> (--file-list|-L) <list>))
+            (
+              --path-absolute |
+              --path-relative-to <path> |
+              (--path-relative-to-entry <number> (--file-list|-L) <list>)
+            )
             [--path-separator|-P <char>]
           ]
         ]
 \
-    Output options
+    Output Options
         Those options control the output.
 \
         [--utf8|-8]
         [--bom]
-        [--stdout-charset <charset> | [(--output-file|-o|-O) <file> [--output-file-charset <charset>]]]
-        [--stderr-charset <charset> | [(--error-file|-u|-U) <file> [--error-file-charset <charset>>]]]
+        [
+            --stdout-charset <charset> |
+            [(--output-file|-o|-O) <file> [--output-file-charset <charset>]]
+        ]
+        [
+            --stderr-charset <charset> |
+            [(--error-file|-u|-U) <file> [--error-file-charset <charset>>]]
+        ]
 
 
 OPTION SUPPORT MATRIX
 \
-    The following table shows the option type in rows, and the operating modes
-    in columns. If a cell is marked with an x, it means that the operating mode
-    supports the option type.
+    The following table shows the option type in rows and the operating modes
+    in columns. If a cell is marked with an "x", it means that the operating
+    mode supports the option type.
 \
                                                             Gather information |
                                                        Find hash functions |   |
@@ -408,20 +426,20 @@ OPTION SUPPORT MATRIX
                                 Verify data/file integrity |   |   |   |   |   |
                   Calculate hash values and print them |   |   |   |   |   |   |
                                                    |   |   |   |   |   |   |   |
-        | Option type                              |   |   |   |   |   |   |   |
+        | Option Type                              |   |   |   |   |   |   |   |
         -------------------------------------------|   |   |   |   |   |   |   |
-        | Common options                           | x | x | x | x | x | x | x |
-        | Security strength options                | x | x | x | x | x | x | x |
-        | File list options                        | x | x | x | - | - | - | - |
-        | Wanted list mode options                 | - | - | x | - | - | - | - |
-        | Check/Integrity verification mode options| - | x | - | - | - | - | - |
-        | Quick mode options                       | - | - | - | x | x | x | - |
-        | Information gathering mode options       | - | - | - | - | - | - | x |
-        | Directory traversal options              | x | x | x | - | - | - | - |
-        | Hashing performance options              | x | x | x | x | x | - | - |
-        | I/O performance options                  | x | x | x | - | - | - | - |
-        | Output format options                    | x | - | - | x | - | - | - |
-        | Output options                           | x | x | x | x | x | x | x |
+        | Common Options                           | x | x | x | x | x | x | x |
+        | Security Strength Options                | x | x | x | x | x | x | x |
+        | File List Options                        | x | x | x | - | - | - | - |
+        | Wanted List Mode Options                 | - | - | x | - | - | - | - |
+        | Check/Integrity Verification Mode Options| - | x | - | - | - | - | - |
+        | Quick Mode Options                       | - | - | - | x | x | x | - |
+        | Information Gathering Mode Options       | - | - | - | - | - | - | x |
+        | Directory Traversal Options              | x | x | x | - | - | - | - |
+        | Hashing Performance Options              | x | x | x | x | x | - | - |
+        | I/O Performance Options                  | x | x | x | - | - | - | - |
+        | Output Format Options                    | x | - | - | x | - | - | - |
+        | Output Options                           | x | x | x | x | x | x | x |
         ------------------------------------------------------------------------
 
 PARAMETERS
@@ -429,22 +447,20 @@ PARAMETERS
 #PARAMETERS-BEGIN
     FILES on any platform:
 \
-        Names of files and directories. You can specify as many files and
-        directories as you like. Wildcards are supported, but they depend on the
-        shell that you are using.
+        Names of files and directories can be specified as many as desired.
+        Wildcards are supported, depending on the shell being used.
 \
-        In hash calculation mode if no parameters are given, or if FILES is
-        the hyphen, Jacksum reads from the standard input channel. Bytes are
-        read from standard input in binary mode.
+        In hash calculation mode, if no parameters are given or if FILES is the
+        hyphen, Jacksum reads from the standard input channel in binary mode.
 \
-        Starting with Jacksum 3.0.0 the recursive mode is enabled by default
+        Starting with Jacksum 3.0.0, the recursive mode is enabled by default
         for directories, and you can control the depth with the -r option.
 \
 \
     FILES on Unix, and GNU/Linux:
 \
-        On Unix (including macOS), and GNU/Linux there are additional file
-        types available from which Jacksum can read:
+        On Unix (including macOS) and GNU/Linux, there are additional file types
+        available from which Jacksum can read:
 
         - block devices (i. e. disks and partitions, e. g. /dev/sda,
           /dev/sdb, /dev/sr0, etc. and /dev/sda1, /dev/sda2, etc. on
@@ -457,17 +473,16 @@ PARAMETERS
 \
         Notes:
 \
-        - Reading entire disks, partitions or special unix file types may
-          require sudo resp. root privileges!
-        - Use the option --scan-all-unix-file-types to scan the Unix
+        - Reading entire disks, partitions or special Unix file types may
+          require sudo or root privileges!
+        - Use the option --scan-all-unix-file-types to scan the Unix-
           specific file types during recursively directory traversal.
         - Reading copyright protected DVDs may lead to I/O errors.
-        - The OS may permit or prohibit reading (and hashing) of
-          particular disks or partitions if those are in use (mounted).
-        - You should unmount block devices first before reading from
-          them, because if you don't unmount those, the device driver of
-          the block device may flag the disk as defect, and even that
-          single bit may lead to an entirely different hash value.
+        - The operating system may permit or prohibit reading (and hashing) of
+          particular disks or partitions if they are in use (mounted).
+        - You should unmount block devices before reading from them, as failing
+          to do so may cause the device driver to flag the disk as defective,
+          and even a single bit difference could lead to a different hash value.
         - To unmount disks use "umount" on GNU/Linux and
           "diskutil umount" on macOS.
         - To find disk identifiers enter "lsblk" on GNU/Linux and
@@ -476,20 +491,20 @@ PARAMETERS
 \
     FILES on Microsoft Windows:
 \
-        On Microsoft Windows there are additional file types available from
+        On Microsoft Windows, there are additional file types available from
         which Jacksum can read:
 \
-        - partitions (e. g. \\.\c:)
-        - hidden partitions which are not mounted by default,
-          e.g. the recovery partition or EFI partition
+        - Partitions (e. g. \\.\c:)
+        - Hidden partitions which are not mounted by default,
+          such as the recovery partition or EFI partition
           (e. g. \\?\Volume{4a343c6b-3576-5e5e-2072-303c6b352131}\)
-        - disks, CD-ROMs, DVDs, etc. (e. g. \\.\PhysicalDrive0)
+        - Disks, CD-ROMs, DVDs, etc. (e. g. \\.\PhysicalDrive0)
         - RAM disks
         - NTFS Alternate Data Streams on files
           (e. g. my-file.txt:secret:$DATA)
         - NTFS Alternate Data Streams on directories
-          (e. g. .\:secret:$DATA)
-        - the null-device (called nul on Microsoft Windows).
+          (e. g., .\:secret:$DATA)
+        - The null-device (called "nul" on Microsoft Windows).
 \
         Notes:
 \
@@ -504,7 +519,7 @@ PARAMETERS
           Get-Volume and Get-Partition or use the "mountvol" command on
           the Windows Command Prompt.
         - Microsoft could change the syntax of the access paths without
-          any notice or even prohibit to access particular raw disks
+          any notice, or even prohibit access to particular raw disks
           and/or partitions in update releases or in new versions of
           Microsoft Windows.
 
@@ -517,51 +532,51 @@ OPTIONS
     -a <algo>[+<algo>]... | all[:<length|string>] | crc:<crc> | unknown:<length>
     --algorithm <algo>[+<algo>]... | all[:<length|string>] | crc:<crc> | unknown:<length>
 \
-            Specifies the algorithm. Many algorithms support aliases in order
-            to memorize their id more easily. Since Jacksum 1.0.0, see also -A.
-            Starting with Jacksum 3, the default is sha3-256.
+            Specifies the algorithm. Many algorithms support aliases to make
+            their identification easier to remember. Since Jacksum 1.0.0,
+            see also -A. Starting with Jacksum 3, the default is sha3-256.
 \
 \
             One algorithm (-a <algorithm>)
 \
                 Replace <algorithm> with one of the IDs that Jacksum
                 understands. To see all supported algorithm IDs and their
-                descriptions type `jacksum -a all -l`
+                descriptions, type `jacksum -a all -l`.
 \
 \
             CRC algorithm (-a crc:<crc>)
 \
                 The option -a crc:<crc> allows you to define a customized
-                CRC by using a parameterized model. Those customized IDs aren't
-                listed by `jacksum -a all -l`, but you can select and use those.
+                CRC by using a parameterized model. These customized IDs aren't
+                listed by `jacksum -a all -l`, but you can select and use them.
                 Learn more on this topic by typing `jacksum --help crc:`
 \
 \
             Several algorithms, handpicked (-a <algo>+...):
 \
-                Multiple algorithms can be selected by concatenating the
-                algorithms by the plus character.
+                Multiple algorithms can be selected by concatenating them with
+                the plus character.
                 Examples: "sha1+crc32", "sha512+sha3-512+blake2b-512", etc.
                 The new algorithm resulting from all concatenated algorithms
-                returns by default only one composite value consisting of all
+                returns, by default, only one composite value consisting of all
                 chained hash values. This feature allows you to use any
                 combination of algorithms for any predefined standard style,
                 even if the style was designed to support only one algorithm.
-                Each file is read only once even if you select multiple
-                algorithms in order to minimize I/O calls which improves the
-                performance. Also each algorithm can run in parallel if you use
-                a computer which supports multi threading.
-                You can control the performance behaviour by setting the option
-                called --threads-hashing.
+                Each file is read only once, even if multiple algorithms are
+                selected, in order to minimize I/O calls and improve
+                performance. Additionally, each algorithm can run in parallel if
+                the computer supports multi-threading.
+                You can control the performance behavior by setting the option
+                called "--threads-hashing".
 \
-                If at least one plus character is found in <algorithms>, the
-                output is normalized by a hex lowercase checksum and a decimal
-                file size is inserted.
+                If at least one "+" character is found in <algorithms>, the
+                output is normalized by a hexadecimal lowercase checksum and a
+                decimal file size is inserted.
                 Example: "md5+", "sha256+", "sha3-256+"
                 You can disable adding the filesize by setting --filesize off.
 \
-                You can customize the output behaviour by using the options -E,
-                -F, -g, -G. Especially have a look at the various tokens for
+                You can customize the output behavior by using the options -E,
+                -F, -g, -G. Especially, take a look at the various tokens for
                 --format which allows you to highly customize the output to
                 meet your actual needs.
                 Available since Jacksum 1.7.0
@@ -569,8 +584,8 @@ OPTIONS
 \
             Several algorithms, filtered by bit length (-a all:<length>)
 \
-                In order to use all algorithms that have a particular bit-length
-                you can use "-a all:<length>" where <length> has to be a
+                In order to use all algorithms that have a particular bit
+                length, you can use "-a all:<length>" where <length> must be a
                 multiple of 8.
                 Examples: "all:224", "all:256", "all:888", "all:1024"
                 Available since Jacksum 3.0.0
@@ -578,57 +593,59 @@ OPTIONS
 \
             Several algorithms, filtered by a string (-a all:<string>)
 \
-                In order to use all algorithms that matches a particular string,
+                In order to use all algorithms that match a particular string,
                 you can use "-a all:<string>" where <string> can be any string.
-                Algorithm IDs and Algorithm alias IDs are being searched.
+                Both algorithm IDs and algorithm alias IDs will be searched.
                 Examples: "all:skein", "all:sha3-", "all:fnv", "all:whirlpool"
                 Available since Jacksum 3.0.0
 \
 \
             All algorithms (-a all):
 \
-                If you set <algorithm> to "all", all supported algorithms are
-                used which means that you can calculate hashes with hundreds
+                If you set <algorithm> to "all", all supported algorithms will
+                be used, meaning you can calculate hashes with hundreds
                 of algorithms by reading the input only once.
-                If "all" is used, the output is normalized by a hex checksum
-                and a decimal file size.
+                If "all" is used, the output is normalized by a hexadecimal
+                checksum and a decimal file size.
 \
 \
             Find an unknown algorithm (-a unknown:<length>):
 \
-                If you only know both the input and the output, and if you want
+                If you only know the input and the output, and you want
                 to know the algorithm that has been used to produce the output,
-                you can set <algorithm> to unknown:<length>. Replace <length>
+                you can set <algorithm> to unknown:<length>, replacing <length>
                 with the length of the digest in bits. In that case, all
-                supported algorithms will be tested whether there is one which
-                can produce the expected output. Also a list of well known CRCs
-                will be checked, and finally all CRC-algorithms will be tested
-                by brute force (init and xorOut are set to either all bits zero
-                or all bits one while refIn and refOut are set to either true or
-                false for all potential polynomials of the given length). Please
-                be patient! Both options -q and -e are required in this case.
-                Available since Jacksum 3.0.0, see also -V, -e, -E, -q
+                supported algorithms will be tested to see if there is one that
+                can produce the expected output. Additionally, a list of
+                well-known CRCs will be checked, and finally, all CRC algorithms
+                will be tested by brute force (init and xorOut are set to either
+                all bits zero or all bits one while refIn and refOut are set to
+                either true or false for all potential polynomials of the given
+                length). Please be patient! Both options, -q and -e, are
+                required in this case.
+                Available since version 3.0.0 of Jacksum, see also -V, -e, -E,
+                and -q.
 
 
     -A
     --alternative
 \
-            By default Jacksum uses algorithms provided by the Java API if
-            available, because those are optimized by your JVM vendor and
-            usually they provide a very good performance.
+            By default, Jacksum uses algorithms provided by the Java API if
+            available, as these are optimized by your JVM vendor and usually
+            provide a very good performance.
             If -A is set, Jacksum uses an alternate, pure Java implementation of
-            an algorithm (if available). Actually Jacksum supports alternate
+            an algorithm, if available. Actually, Jacksum supports alternate
             implementations for the following algorithms:
             adler32, crc32, md2, md5, sha-1, sha-256, sha-384, sha-512
 \
-            Available since Jacksum 1.5.0, see also -a
+            Available since version 1.5.0 of Jacksum, see also -a.
 
 
     --bom
 \
-            adds a Byte-Order Mark (BOM) to the output if option --charset-stdout
-            or option --charset-output-file has been set to one of the following
-            charsets:
+            Adds a Byte-Order Mark (BOM) to the output if either the
+            --charset-stdout or --charset-output-file option has been set to
+            one of the following charsets:
 \
                 - GB18030
                 - UTF-8
@@ -637,34 +654,33 @@ OPTIONS
                 - UTF-32BE
                 - UTF-32LE
 \
-            If --bom is omitted, a BOM won't be written for the charsets above,
-            because a BOM isn't required and it is optional in those cases.
+            If --bom is omitted, a BOM will not be written for the charsets
+            above, because a BOM is not required and is optional in those cases.
             Note that if you set charsets UTF-16 or UTF-32 (no little endian LE
             or big endian BE indicator), a BOM will be written in any case,
             even if you don't set --bom, because it is required for those
             charsets to have a BOM in the output. See also --utf8
 \
-            Available since Jacksum 3.1.0
+            Available since version 3.1.0 of Jacksum.
 
 
     -c <file>
     --check-file <file>
 \
-            Verify (check) files against a list of hashes. The list can either
-            be a former output of Jacksum or an output of a different hash
-            application.
+            Verify files against a list of hashes, either from a former output
+            of Jacksum or from an output of a different hash application.
             You need to set all non-default options that could generate <list>
-            again. The options -a, -E, -g, -G, -t, -d, -f may become necessary.
-            The option -F is ignored.
+            again. The options -a, -E, -g, -G, -t, -d, -f may become necessary;
+            the option -F is ignored.
 \
-            If you have used option -F or if the output of <list> is not in the
+            If you have used option -F, or if the output of <list> is not in the
             quasi-standard output format like
 \
                 <encoded/formatted hash><blank>[<blank or star>]<filename>
 \
             you can specify a parser file by using the --compat option.
-            The parser file must have all the definitions that are necessary
-            to parse <file> properly. For more information see also option -C.
+            The parser file must have all the necessary definitions to properly
+            parse <file>. For more information, see the -C option.
 \
             If <file> is set to a single dash (-) Jacksum reads from stdin.
             Use option --charset-check-file to specify the character set for
@@ -674,109 +690,108 @@ OPTIONS
             with a particular string in <file>.
 \
             To exclude files from being checked, just remove the lines from the
-            list. This can be done with findstr /V (on Windows) and with grep -v
-            (on both Linux and Unix). Example: check all files in md5.check, but
-            exclude any .iso files:
+            list. This can be done with "findstr /V" on Windows, and with
+            "grep -v" on both Linux and Unix. Example: check all files in
+            md5.check, but exclude any .iso files:
             findstr /V .iso$ hashes.md5 | jacksum -E hex -a md5 -c -
 \
 \
-            For each file in <list> Jacksum shows the status of the file's
+            For each file in <list>, Jacksum shows the status of the file's
             integrity and the filename. The status can be one of the following:
 \
                 OK
 \
-                   the file's fingerprint hasn't changed, the checksum that has
-                   been calculated is still the same checksum as the one that is
-                   in stored in the <list>. If <list> also contains filesizes
-                   and/or timestamps, filesizes and/or timestamps are being
-                   compared as well and must match in order to return an OK.
-\
+                   the file's fingerprint has no changed; the checksum that has
+                   been calculated is still the same checksum as the one stored
+                   in the <list>. If <list> also contains filesizes and/or
+                   timestamps, these are being compared as well and must match
+                   in order to return an OK.
 \
                 FAILED
 \
-                   a mismatch between the calculated checksum and the checksum
-                   in the <list>. Usually it means that the file's content has
-                   been changed. If <list> contains also filesizes and/or
-                   timestamps, filesizes and/or timestamps are being compared
-                   as well. If one of those don't match, FAILED is being
-                   returned. In that case additional information is printed to
+                   There is a mismatch between the calculated checksum and the
+                   checksum in the <list>. Usually, this means that the file's
+                   content has been changed. If <list> contains filesizes and/or
+                   timestamps, these are compared as well.
+                   If at least one of those does not match, FAILED is returned.
+                   In that case, additional information is printed to
                    stderr. You can disable that additional information by
                    setting the option "--verbose noinfo"
 \
 \
                 MISSING
 \
-                   a file that is stored in <list>, but cannot be found on the
-                   file system anymore. Usually those files have been renamed,
-                   moved to a different location or even removed.
+                   A file that is stored in <list> cannot be found on the file
+                   system anymore. Usually, these files have been renamed, moved
+                   to a different location, or even removed.
                    If you see only MISSING lines, it could mean that your
-                   current working directory differs from the one that was
+                   current working directory is different from the one that was
                    used when <list> was created. Make sure that your working
                    directory is set correctly.
 \
 \
                 NEW
 \
-                   a new file that cannot be found in the <list> but on the file
-                   system. Usually those are the files that have been created
-                   after the <list> was created. In order to find NEW files you
+                   A new file that cannot be found in the <list>, but on the
+                   file system, usually are those that have been created
+                   after the <list> was created. In order to find NEW files, you
                    have to specify all locations that were used to generate the
                    <list>. This can be done by adding locations as program
-                   arguments or with the option called --file-list.
+                   arguments or with the option called "--file-list".
 \
 \
             If you want to filter the output by one or more statuses, you can
             set the option --list-filter <filter>
             If you don't want the status at all in the output, you can you can
-            set the option --list and just only the filenames are printed.
+            set the option --list and only the filenames will be printed.
 \
-            After the filenames (and by default the status for each file) have
-            been printed out as a separate line, a short summary with statistics
-            is printed out, because usually you don't want to miss that info
+            After the filenames (and, by default, the status for each file) have
+            been printed out on separate lines, a short summary with statistics
+            is printed out, as usually you don't want to miss that information
             during a verification check. This is because the verbose control
-            is set to "info,warnings,summary" if option -c is set. 
+            is set to "info,warnings,summary" if the option -c is set.
             Set --verbose nosummary if you want to disable the summary.
 \
             If at least one mismatch is found during checksum verification, 
             the program returns an error code of 1.
             If at least one error is found during the process, the program
             returns an error code greater than 1.
-            Improperly formatted lines are ignored with respect to the exit code
+            Improperly formatted lines are ignored with regards to the exit code
             unless you set --check-strict.
 \
-            Available with the features above since Jacksum 3.0.0,
-            see also the options -C, -I, --list-filter
+            Available with the features above since version 3.0.0 of Jacksum,
+            see also the options -C, -I, and --list-filter
 
 
     --check-line <string>
 \
-            take a <string> from the command line and treat it as the line would
-            come from a check file.
+            Take a <string> from the command line and treat it as if it were
+            coming from a check file.
 \
-            Available since Jacksum 3.0.0
+            Available since version 3.0.0 of Jacksum.
 
 
     --check-strict
 \
-            When verifying integrity, if one or more input lines are invalid,
-            exit nonzero after all warnings have been issued.
+            If one or more input lines are invalid, exit with a non-zero status
+            after all warnings have been issued when verifying integrity.
 \
-            Available since Jacksum 3.0.0
+            Available since version 3.0.0 of Jacksum.
 
 
     -C <compatibility style>
     --compat <compatibility style>
     --style <compatibility style>
 \
-            Specifies the compatibility behaviour of Jacksum for both input
-            format and output format. Replace <compatibility> with one of the
-            predefined keywords ad described below in order to get a predefined
-            behaviour or replace it with a file that contains the properties
-            that are required for a compatibility file.
+            Specify the compatibility behavior of Jacksum for both input format
+            and output format. Replace <compatibility> with one of the
+            predefined keywords as described below in order to get a predefined
+            behavior or replace it with a file that contains the properties that
+            are required for a compatibility file.
             To get the properties of one of the predefined compatibility files,
-            add the option --info. Example: `jacksum -C bsd --info`
-            <compatibility> can be used for the hashing mode, the check mode
-            and the info mode.
+            add the option --info. For example: `jacksum -C bsd --info`
+            The <compatibility> option can be used for the hashing mode, the
+            check mode and the info mode.
 \
 \
             calculating hash values mode:
@@ -787,13 +802,13 @@ OPTIONS
                 value (--encoding), and the format (--format) are used as
                 defined in <compatibility style>.
 \
-                If <compatibility style> supports the algorithm to be specified
-                by the user you can set option -a to get the expected output
-                format defined in <compatibility style> but with the algorithm
-                you want. For example, that allows you to print sha3-256 hashes
-                in the legacy sfv format.
+                If the <compatibility style> supports the user-specified
+                algorithm, you can set option -a to get the expected output
+                format defined in <compatibility style>, but with the algorithm
+                you want. For example, this allows you to print SHA3-256 hashes
+                in the legacy SFV format.
 \
-                if <compatibility style> supports the GNU file name escaping
+                if the <compatibility style> supports the GNU file name escaping
                 formatter to be enabled by the user, you can set option
                 --gnu-filename-escaping to tag all lines that contain file names
                 that have been escaped by that feature.
@@ -802,20 +817,20 @@ OPTIONS
             verify hash values mode:
 \
                 Jacksum can not only read output that has been produced by
-                itself, it is also able to read output produced by other tools.
-                For being compatible with both well and not so well known
+                itself, but it is also able to read output produced by other
+                tools. To be compatible with both well-known and lesser-known
                 tools, you can specify one of the predefined build-in parsers
                 or define your own parser by providing a short property file.
 \
-                In check mode (if option -c resp. --check-file has been set),
+                In check mode (if option -c or --check-file has been set),
                 the <compatibility style> determines the parser that is used to
-                read the file content properly. With -C you can check against a
-                list that was created by a different application or if you have
-                generated a list with Jacksum and the -F option was in use.
+                read the file content properly. With -C, you can check against a
+                list that was created by a different application, or if you have
+                generated a list with Jacksum and used the -F option.
 \
-                To specify the character set of the actual input file use the
+                To specify the character set of the input file, use the
                 option --charset-check-file if the input file was not saved in
-                the character set UTF-8.
+                the UTF-8 character set.
 \
                 You can also write you own parser definition, save it to a text
                 file and specify the location of the file with -C.
@@ -823,22 +838,22 @@ OPTIONS
 \
             info mode:
 \
-                In info mode (if option --info has been set), all properties
-                in the compatibility file are printed out.
+                In info mode (if the option --info has been set), all properties
+                in the compatibility file are printed.
 \
 \
-            For <compatibility style> the following predefined compatibility
+            For <compatibility style>, the following predefined compatibility
             files are supported:
 \
                 bsd
 \
-                    Aliases: bsd-tagged, linux-tagged, gnu-linux-tagged
+                    Aliases: bsd-tagged, linux-tagged, gnu-linux-tagged.
                     A common lightweight plain text file format on BSD systems
-                    and GNU/Linux. The algorithm info is stored in the file
-                    (therefore it is called "tagged").
+                    and GNU/Linux. The algorithm information is stored in the
+                    file (therefore it is called "tagged").
 \
-                    This compatibility file can print and parse the output like
-                    that of the programs
+                    This compatibility file can print and parse the output
+                    similar to that of the programs
 \
                         - md5, sha1, sha224, sha256, sha384, sha512,
                           sha512t256, rmd16, skein256, skein512, skein1024
@@ -849,77 +864,79 @@ OPTIONS
                         - cksum on GNU/Linux with GNU Core Utilities 9.0
                           and later
 \
-                    The compat file works with any algorithm that is supported
-                    by Jacksum, it also works with concatenated hash values.
-                    GNU escaping can be disabled, see also option
-                    --gnu-filename-escaping.
-                    If you don't specify -a, the algo defaults to sha3-256.
-                    Available since Jacksum 3.0.0.
+                    The compat file works with any algorithm supported
+                    by Jacksum, as well as concatenated hash values.
+                    GNU escaping can be disabled; see the option
+                    "--gnu-filename-escaping".
+                    If you don't specify -a, the algorithm defaults to sha3-256.
+                    Available since version 3.0.0 of Jacksum.
 \
 \
                 bsd-r
 \
-                    Alias: bsd-untagged, bsd-reversed
-                    A common lightweight plain text file format on BSD systems.
-                    The algorithm info is not stored in the file
-                    (therefore it is called "untagged"). The BSD reversed mode
-                    format is similar to the GNU untagged format, but doesn't
-                    use a character to distinguish binary and text modes.
+                    Aliases: bsd-untagged, bsd-reversed.
+                    A common lightweight plain text file format on BSD systems
+                    does not store the algorithm information, thus it is
+                    referred to as "untagged". The BSD reversed mode
+                    format is similar to the GNU untagged format, but does not
+                    use a character to differentiate between binary and text
+                    modes.
 \
-                    This compatibility file can print and parse the output like
-                    that of the programs
+                    This compatibility file can print and parse the output
+                    similar to that of the programs
 \
                         - md5, sha1, sha224, sha256, sha384, sha512,
                           sha512t256, rmd16, skein256, skein512, skein1024
                           with the -r option on BSD systems
 \
-                    The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated hash values.
-                    GNU escaping can be disabled, see also option
-                    --gnu-filename-escaping.
-                    If you don't specify -a, the algo defaults to sha3-256.
-                    Available since Jacksum 3.0.0.
+                    The compat file works with any algorithm supported
+                    by Jacksum, and it even works with concatenated hash values.
+                    GNU escaping can be disabled; see the option
+                    "--gnu-filename-escaping" for more information. If you do
+                    not specify -a, the algorithm defaults to sha3-256.
+                    Available since version 3.0.0 of Jacksum.
 \
 \
                 fciv
 \
-                    File Checksum Integrity Verifier. It is a lightweight plain
+                    "File Checksum Integrity Verifier" is a lightweight plain
                     text file format from Microsoft.
 \
-                    This compatibility file can print and parse the output like
-                    that of the calls "FCIV -sha1" or "FCIV -md5" on Microsoft
-                    Windows.
+                    This compatibility file can print and parse the output
+                    similar to that of the calls "FCIV -sha1" or "FCIV -md5"
+                    on Microsoft Windows.
 \
-                    The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated algorithms. If
-                    you don't specify -a, the algorithm defaults to sha1,
-                    because that is the strongest algorithm that FCIV supports.
-                    Available since Jacksum 3.0.0.
+                    The compat file works with any algorithm supported by
+                    Jacksum; it even works with concatenated algorithms. If
+                    you do not specify -a, the algorithm defaults to sha1,
+                    as is the strongest algorithm that FCIV supports.
+                    Available since version 3.0.0 of Jacksum.
 \
 \
                 files-only
 \
-                    Aliases: filesonly
+                    Alias: filesonly
 \
-                    GNU escaping is enabled by default, but it can be disabled,
-                    see also option --gnu-filename-escaping.
+                    GNU escaping is enabled by default, but it can be disabled;
+                    see also the option --gnu-filename-escaping.
                     This style can be used to gather paths before they are being
-                    hashed. You can pass those file lists by the option called
+                    hashed. You can pass those file lists through the option
                     --file-list to Jacksum.
-                    Lists that have been generated by this style won't contain
-                    hash values, and therefore cannot be used to check the
+                    Lists generated by this style will not contain
+                    hash values, and thus cannot be used to check the
                     integrity of files (option -c), nor can they be used as
                     "wanted lists" (option -w).
 \
 \
                 gnu-linux
 \
-                    Aliases: linux, linux-untagged, gnu-linux-untagged
+                    Aliases: linux, linux-untagged, gnu-linux-untagged.
                     A common lightweight plain text file format on GNU/Linux
-                    and macOS, without algorithm info in the file (untagged).
+                    and macOS without algorithm information in the file
+                    (untagged).
 \
-                    This compatibility file can print and parse the output like
-                    that of the programs
+                    This compatibility file can print and parse the output
+                    similar to that of the programs
 \
                         - md5sum, sha1sum, sha224sum, sha256sum, sha384sum,
                           sha512sum, shasum, sha3sum, b2sum, etc. on Unix and
@@ -928,51 +945,54 @@ OPTIONS
                           with the GNU Core Utilities 9.0 and later
                         - shasum on macOS
 \
-                    The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated algorithms.
-                    GNU escaping can be disabled, see also option
-                    --gnu-filename-escaping.
-                    The binary mode tag is set to '*' on Windows, and ' ' on
-                    non-Windows systems.
-                    If you don't specify -a, the algorithm defaults to sha3-256.
-                    Available since Jacksum 3.0.0.
+                    The compat file works with any algorithm supported by
+                    Jacksum, and it even works with concatenated algorithms.
+                    GNU escaping can be disabled; see the option
+                    --gnu-filename-escaping for more information.
+                    The binary mode tag is set to '*' on Microsoft Windows,
+                    and ' ' on non-Windows systems. If you do not specify -a,
+                    the algorithm defaults to sha3-256.
+\
+                    Available since version 3.0.0 of Jacksum.
 \
 \
                 hexhashes-only
 \
-                    Aliases: hexhashesonly
+                    Alias: hexhashesonly
 \
-                    This style can be used to read and write hash values only,
-                    without any file information. Hash values are represented
-                    in hex. Since filenames are not part of those files, the
-                    style can be used for "wanted lists" (by option -w), but
-                    not for "check lists" (by option -c).
+                    This style can only be used to read and write hash values,
+                    without any accompanying file information. Hash values are
+                    represented in hexadecimal. Since filenames are not part of
+                    these files, the style can be used for "wanted lists" (by
+                    option -w), but not for "check lists" (by option -c).
 \
-                    The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated algorithms.
-                    Available since Jacksum 3.0.0.
+                    The compat file works with any algorithm supported by
+                    Jacksum, it even works with concatenated algorithms.
+\
+                    Available since version 3.0.0 of Jacksum.
 \
 \
                 openssl-dgst
 \
                     Aliases: openssl, openssl-tagged
-                    A lightweight plain text file format used by openssl.
+                    A lightweight plain text file format used by OpenSSL.
 \
-                    This compatibility file can print and parse the output
+                    This compatibility file can print and parse the output,
                     like that of the openssl program with dgst parameter.
 \
-                    The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated algorithms.
-                    GNU escaping can be disabled, see also option
-                    --gnu-filename-escaping.
-                    If you don't specify -a, the algorithm defaults to sha3-256.
-                    Available since Jacksum 3.0.0.
+                    The compat file works with any algorithm supported by
+                    Jacksum, it even works with concatenated algorithms.
+                    GNU escaping can be disabled; see the option
+                    --gnu-filename-escaping for more information. If you do not
+                    specify -a, the algorithm defaults to sha3-256.
+\
+                    Available since version 3.0.0 of Jacksum.
 \
 \
                 openssl-dgst-r
 \
                     Aliases: openssl-r, openssl-untagged
-                    A lightweight plain text file format used by openssl.
+                    A lightweight plain text file format used by OpenSSL.
 \
                     This compatibility file can print and parse the output
                     like that of the openssl program with program arguments
@@ -980,59 +1000,62 @@ OPTIONS
                     The binary mode flag is set always to "*", even on
                     GNU/Linux.
 \
-                    The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated algorithms.
-                    GNU escaping can be disabled, see also option
-                    --gnu-filename-escaping.
-                    If you don't specify -a, the algorithm defaults to sha3-256.
-                    Available since Jacksum 3.0.0.
+                    The compat file works with any algorithm supported by
+                    Jacksum, it even works with concatenated algorithms.
+                    GNU escaping can be disabled; see also the option
+                    --gnu-filename-escaping for mor information. If you do not
+                    specify -a, the algorithm defaults to sha3-256.
+\
+                    Available since version 3.0.0 fo Jacksum.
 \
 \
                 sfv
 \
-                    Simple File Verification. It is a legacy, lightweight plain
-                    text file format, without algorithm info in the file. It was
-                    initially designed for crc32 only.
+                    "Simple File Verification" is a legacy, lightweight plain
+                    text file format, without algorithm information in the file.
+                    It was initially designed for crc32 only.
 \
-                    The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated algorithms.
-                    If you don't specify -a, the algorithm defaults to crc32,
-                    because it is the algorithm that was used during the
+                    The compat file works with any algorithm supported by
+                    Jacksum, it even works with concatenated algorithms.
+                    If you do not specify -a, the algorithm defaults to crc32,
+                    because that is the algorithm that was used during the
                     original design of the SFV format.
-                    Available since Jacksum 3.0.0.
+\
+                    Available since version 3.0.0 of Jacksum.
 \
 \
                 solaris-digest
 \
                     Alias: solaris-untagged
                     A lightweight plain text file format on Solaris with
-                    algorithm info in the file.
+                    algorithm information in the file.
 \
                     This compatibility file can print and parse the output like
                     that of the tagged call "digest -a <algo>" on Solaris.
 \
-                    The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated algorithms.
-                    If you don't specify -a, the algorithm defaults to sha3-256.
-                    Available since Jacksum 3.0.0.
+                    The compat file works with any algorithm supported by
+                    Jacksum, it even works with concatenated algorithms. If you
+                    do not specify -a, the algorithm defaults to sha3-256.
+\
+                    Available since version 3.0.0 of Jacksum.
 \
 \
                 solaris-digest-v
 \
                     Alias: solaris-tagged
                     A lightweight plain text file format on Solaris without
-                    algorithm info in the file.
+                    algorithm information in the file.
 \
                     This compatibility file can print and parse the output like
                     that of the untagged call "digest -v -a <algo>" on Solaris.
 \
-                    The compat file works with any algorithm that is supported
-                    by Jacksum, it works even with concatenated algorithms. If
-                    you don't specify -a, the algorithm defaults to sha3-256.
-                    Available since Jacksum 3.0.0.
+                    The compat file works with any algorithm supported by
+                    Jacksum, it even works with concatenated algorithms. If
+                    you do not specify -a, the algorithm defaults to sha3-256.
+                    Available since version 3.0.0 of Jacksum.
 \
 \
-            A dragon view about the features of the <compatibility styles>:
+            A dragon's view about the features of the <compatibility styles>:
 \
                 <compatibility>  |works|algo |algo |hash |file |file |file |
                                  |as   |selec|name |value|size |time |name |
@@ -1063,7 +1086,7 @@ OPTIONS
 \
                     d = disabled by default, but can be enabled on demand
                     e = enabled by default, but can be disabled on demand
-                    E = enabled by default, and cannot be disabled
+                    E = enabled by default and cannot be disabled
 \
                     h = hex
                     H = hex, uppercase
@@ -1072,35 +1095,36 @@ OPTIONS
     --charset-check-file <charset>
     --check-file-charset <charset>
 \
-            Specifies the charset for the file that you can specify with -c.
-            If you don't specify this option, UTF-8 will be used for the check
-            file. See also options --check-file, --check-line, and --compat.
-            If you have a file that was created by a redirection on Microsoft
-            10, Windows PowerShell 5.1, you should set <charset> to UTF-16le for
-            example. An ordinary OpenJDK 11 implementation usually provides more
-            than 170 different charsets. The available charsets can be printed
-            out by `jacksum --info`.
+            Specify the character set for the file that can be specified with
+            -c. If this option is not specified, UTF-8 will be used for the
+            check file. See also the options --check-file, --check-line, and
+            --compat. If you have a file that was created by a redirection on
+            Microsoft 10, Windows PowerShell 5.1, you should set <charset> to
+            UTF-16le for example. An ordinary OpenJDK 11 implementation usually
+            provides more than 170 different charsets. The available charsets
+            can be printed out by `jacksum --info`.
 \
-            The Unicode aware charsets are
+            The Unicode aware character sets are
 \
                 GB18030
 \
-                    is a Chinese government standard. If a Byte-Order Mark (BOM)
-                    is found it will be ignored, because a BOM in GB18030 is not
+                    is a Chinese government standard, if a Byte-Order Mark (BOM)
+                    is found it will be ignored, as a BOM in GB18030 is not
                     required.
 \
 \
                 UTF-8
 \
-                    8-bit UCS Transformation Format. If a Byte-Order Mark (BOM)
-                    is found, it will be ignored, because a BOM in UTF-8 is
+                    8-bit UCS Transformation Format, if a Byte-Order Mark (BOM)
+                    is found it will be ignored, as a BOM in UTF-8 is
                     not required.
 \
 \
                 UTF-16
-                    16-bit UCS Transformation Format, byte order identified
-                    by an optional byte-order mark, it defaults to big-endian
-                    if there is no byte-order mark.
+
+                    The 16-bit UCS Transformation Format, with an optional
+                    byte-order mark to identify the byte order, defaults to
+                    big-endian if there is no byte-order mark.
 \
 \
                 UTF-16BE
@@ -1116,7 +1140,7 @@ OPTIONS
                 UTF-32
 \
                     32-bit UCS Transformation Format, byte order identified
-                    by an optional byte-order mark, it defaults to big-endian
+                    by an optional byte-order mark; it defaults to big-endian
                     if there is no byte-order mark.
 \
 \
@@ -1130,65 +1154,67 @@ OPTIONS
                     32-bit UCS Transformation Format, little-endian byte order.
 \
 \
-            Available since Jacksum 3.0.0.
+            Available since version 3.0.0 of Jacksum.
 
 
     --charset-wanted-list <charset>
     --wanted-list-charset <charset>
 \
-            Specifies the charset for the file that you can specify with -w.
-            If you don't specify this option, UTF-8 will be used.
-            See also -w resp. --wanted-list.
+            Specify the character set for the file using the -w option.
+            If this option is not specified, UTF-8 will be used. See also -w
+            or --wanted-list.
 \
-            Available since Jacksum 3.4.0.
+            Available since version 3.4.0 of Jacksum.
 
 
     --charset-file-list <charset>
     --file-list-charset <charset>
 \
-            Specifies the charset for the file that you can specify with -L.
-            If you don't specify this option, UTF-8 will be used for the file
-            list. See also --file-list or -L
+            Specify the character set for the file that can be specified with
+            -L. If this option is not specified, UTF-8 will be used for the file
+            list. See also --file-list or -L.
 \
-            Available since Jacksum 3.0.0.
+            Available since version 3.0.0 of Jacksum.
 
 
     --charset-error-file <charset>
     --error-file-charset <charset>
 \
-            Specifies the charset for the error file. If you don't specify this
-            option, UTF-8 will be used for the error file. See also --error-file
+            Specify the character set for the error file. If this option is not
+            specified, UTF-8 will be used for the error file. See also
+            --error-file.
 \
-            Available since Jacksum 3.0.0.
+            Available since version 3.0.0 of Jacksum.
 
 
     --charset-output-file <charset>
     --output-file-charset <charset>
 \
-            Specifies the charset for the output file. If you don't specify this
-            option, UTF-8 will be used for the output file. See also --output-file
+            Specify the character set for the output file. If this option is not
+            specified, UTF-8 will be used for the output file. See also
+            --output-file.
 \
-            Available since Jacksum 3.0.0.
+            Available since version 3.0.0 of Jacksum.
 
 
     --charset-stderr <charset>
     --stderr-charset <charset>
 \
-            Specifies the charset for the standard error stream (stderr). If you
-            don't specify this option, the default charset will be used that is
-            dependent on your shell settings. See also --utf8
+            Specify the character set set for the standard error stream
+            (stderr). If this option is not specified, the default charset will
+            be used that is dependent on your shell settings. See also --utf8.
 \
-            Available since Jacksum 3.0.0.
+            Available since version 3.0.0 of Jacksum.
 
 
     --charset-stdout <charset>
     --stdout-charset <charset>
 \
-            Specifies the charset for the standard output stream (stdout). If
-            you don't specify this option, the default charset will be used
+            Specify the character set for the standard output stream (stdout).
+            If this option is not specified, the default charset will be used
             that is dependent on your shell settings. See also --utf8.
 \
-            Available since Jacksum 3.0.0.
+            Available since version 3.0.0 of Jacksum.
 
 
     --copyright
@@ -1196,20 +1222,21 @@ OPTIONS
             prints out the copyrights and license information for all portions
             of the software that Jacksum licensed. See also --license.
 \
-            Available since Jacksum 3.0.0
+            Available since version 3.0.0 of Jacksum.
 
     -d      
     --dont-follow-symlinks-to-directories
 \
-            Don't follow symbolic links on directories, that means regular
-            directories only. Starting with version 3, Jacksum detects file
+            Do not follow symbolic links on directories; that means only regular
+            directories. Starting with version 3, Jacksum detects file
             system cycles (a symbolic link from a sub folder to a parent folder)
-            and skips folders that could cause an endless loop while a
-            recursively traversal. If you set -d, Jacksum doesn't follow any
-            symbolic links on directories.
+            and skips folders that could cause an endless loop while recursively
+            traversing. If you set -d, Jacksum will not follow any symbolic
+            links on directories.
 \
-            Available since Jacksum 1.5.0, see also -r, -f
-            File system cycle detection available since Jacksum 3.0.0
+            Available since version 1.5.0 of Jacksum, see also the options "-r"
+            and "-f". File system cycle detection has been available since
+            version 3.0.0 of Jacksum.
 
 
     -e <hash value>
@@ -1217,22 +1244,23 @@ OPTIONS
     --expect-hash <hash value>
 \
             A particular hash value is expected. Works with a file,
-            standard input or option -q.
+            standard input, or the option -q.
 \
             In "quick mode", it just returns MATCH (exit code 0) or NO MATCH
             (exit code 1).
 \
-            Example:
+            Examples:
                 > jacksum -q txt:"Hello World" -a crc32c -X
                 691DAA2F 11
                 > jacksum -q txt:"Hello World" -a crc32c -X -e 691DAA2F
                 [MATCH]
 \
-            The hash value can be specified case sensitive or case insensitive,
-            except if Base64 encoding (by -E) has been specified, because
-            Base64 is case sensitive.
+            The hash value can be specified as case sensitive or case
+            insensitive, except if Base64 encoding (by -E) has been specified,
+            because Base64 is case sensitive.
 \
-            Available since Jacksum 1.4.0, see also -a, -q, -E, -x, -X
+            Available since version 1.4.0 of Jacksum,
+            see also the options -a, -q, -E, -x, and -X.
 \
             In "wanted list mode", all matches are printed out by default, so
             you can find all duplicates of files that have the same hash. You
@@ -1241,7 +1269,7 @@ OPTIONS
             If the expectation was met, that is
             --match-filter option is set to match or all, and there is at least
             one match OR --match-filter option is set to nomatch, and there is
-            at least one no match, the exit code is 0, otherwise exit code
+            at least one no match, the exit code is 0, otherwise the exit code
             is > 1.
 \
             Example:
@@ -1250,8 +1278,8 @@ OPTIONS
                 C:\Applications\jacksum-3.4.0\jacksum-3.4.0.jar
                 C:\Applications\jacksum\jacksum.jar
 \
-            Available since Jacksum 1.6.0
-            See also -a, -q, -E, -l, -x, -X, and --match-filter
+            Available since version 1.6.0 of Jacksum.
+            See also the options -a, -q, -E, -l, -x, -X, and --match-filter.
 
 
     -E <encoding>
@@ -1304,42 +1332,42 @@ OPTIONS
                 z-base-32            z-base-32 (3.1)
 \
 \
-            Available since Jacksum 1.6.0 if not stated otherwise,
-            see also -F, -g, -G, -q, -x, -X
+            Available since version 1.6.0 of Jacksum if not stated otherwise,
+            see also the options -F, -g, -G, -q, -x, and -X.
 
 
     -f
     --dont-follow-symlinks-to-files
 \
-            process regular files only. Don't follow symbolic links to
+            process regular files only. Do not follow symbolic links to
             files (any OS), to block devices, character devices, named pipes,
             sockets (Unix-like OS only), nor to doors (Solaris only).
             See also option -d
 \
-            Available since Jacksum 3.0.0
+            Available since version 3.0.0 of Jacksum.
 
 
     --filesize <boolean>
 \
-            by default or if this option is omitted, the file size is added to
-            the output if you select an algorithm that also adds the file size
+            By default, or if this option is omitted, the file size is added to
+            the output when selecting an algorithm that also adds the file size
             to the output in order to be more reliable for integrity checks
-            (usually that applies to simple checksums and CRCs). Also if you
-            select multiple algorithms the file size will be added by default.
-            If you like to control whether the file size should be added or not,
-            you could use this option with the following values for <boolean>:
+            (usually this applies to simple checksums and CRCs). If you
+            select multiple algorithms, the file size will be added by default.
+            If you wish to control whether the file size should be added or not,
+            you can use this option with the following values for <boolean>:
 \
                 yes|on|true|1|enabled    enables the file size
 \
                 no|off|false|0|disabled  disables the file size
 \
-            Available since Jacksum 3.3.0
+            Available since version 3.3.0 of Jacksum.
 
 
     -F <format>
     --format <format>
 \
-            With this option you can set a customizable output format if the
+            With this option, you can set a customizable output format if the
             default output format does not meet your needs.
 \
             <format> can be any text. If the text contains particular tokens,
@@ -1462,17 +1490,18 @@ OPTIONS
 \
             Aliases for #HASH are #CHECKSUM, #DIGEST, and #FINGERPRINT.
 \
-            Available since Jacksum 1.5.0, if not other specified,
-            see also -a, -E, -g, -G, --gnu-filename-escaping, -P, -s, -t, -x, -X
+            Available since version 1.5.0 of Jacksum, unless otherwise
+            specified, see also the options -a, -E, -g, -G,
+            --gnu-filename-escaping, -P, -s, -t, -x, and -X.
 
 
     -g <count>
     --group-bytes <count>
 \
-            group the hex output for the checksum in "count" bytes for
-            better readability. Only valid if encoding is hex or hexup.
+            Group the hex output for the checksum in <count> bytes for
+            better readability, only valid if encoding is hex or hexup.
             Groups are separated by a blank or by the character
-            specified by -G. The value for count must be greater than 0.
+            specified by -G; the value for <count> must be greater than 0.
 \
             Available since Jacksum 1.6.0, see also -E, -G, -x and -X
 
@@ -1480,128 +1509,132 @@ OPTIONS
     -G <char>
     --group-bytes-separator <char>
 \
-            Sets the separator for byte groups. Only valid if encoding is
-            hexadecimal and -g has been set.
+            Sets the separator for byte groups, only valid if encoding is
+            hexadecimal and option -g has been set.
 \
-            Available since Jacksum 1.6.0, see also -E, -g, -x and -X
+            Available since version 1.6.0 of Jacksum, see also -E, -g, -x and
+            -X.
 
 
     --gnu-filename-escaping <boolean>
 \
-            On GNU/Linux and Unix operating systems, file names could contain
-            problematic characters such as newlines, and carriage returns.
-            The GNU Coreutils suggests to escape problematic characters in file
-            names with a backslash which ensures a single line per file on
+            On GNU/Linux and Unix operating systems, file names can contain
+            problematic characters such as newlines and carriage returns.
+            The GNU Coreutils suggests escaping these problematic characters in
+            file names with a backslash, which ensures a single line per file on
             standard output. The backslash itself also needs to be escaped.
-            That feature was introduced in the GNU Coreutils release 8.25 from
+            The feature was introduced in the GNU Coreutils release 8.25 from
             January 2016.
 \
             Jacksum supports file name escaping as suggested by GNU for the
-            default output, the custom formatter (see option --format), and for
-            the style formatters (see option --style).
+            default output, the custom formatter (see the --format option), and
+            for the style formatters (see the --style option).
 \
-            By default or if the option is omitted, the style that has been
-            selected determines whether file name escaping is enabled or not.
-            Most styles allow to toggle the feature, and you can use this option
+            By default, or if the option is omitted, the selected style
+            determines whether file name escaping is enabled or not.
+            Most styles allow toggling the feature, and you can use this option
             with the following values for <boolean> to control the actual
-            behaviour explicitly:
+            behavior explicitly:
 \
                 yes|on|true|1|enabled    enables the GNU file name escaping
 \
                 no|off|false|0|disabled  disables the GNU file name escaping
 \
             The default style enables the feature on GNU/Linux and Unix systems
-            only. On Microsoft Windows it is disabled, because on Windows
-            it is not allowed to use newlines or carriage returns in filenames,
-            and it makes no sense to enable it on Windows.
+            only. On Microsoft Windows, it is disabled, as it is not allowed to
+            use newlines or carriage returns in filenames, and thus it makes no
+            sense to enable it on Windows.
 \
-            If file name escaping is enabled (implicitly or explicitly) and if a
+            If file name escaping is enabled (implicitly or explicitly), and a
             file contains a backslash, newline, or carriage return, the line
             starts with a backslash, and the problematic characters in the file
             name are escaped with a backslash.
 \
-            Available since Jacksum 3.3.0, see also -F, token #ESCAPETAG
+            Available since version 3.3.0 of Jacksum, see also the option
+            -F, token #ESCAPETAG.
 
 
     --header
 \
-            prints a header as a comment. The string that is used to mark a
-            line as a comment is read from the compatibility file if -C has
-            been specified, or if it has been specified with option -I.
-            If -C and -I are omitted, the hash sign is used.
+            Prints a header as a comment. The string used to mark a line as a
+            comment is read from the compatibility file if -C has been
+            specified, or if it has been specified with the -I option. If -C
+            and -I are omitted, the hash sign is used.
+\
             The header contains the following information:
 \
-                - Jacksum version, and homepage
+                - Jacksum version and homepage
                 - JMV name, vendor, and version
-                - OS name, arch, and version
+                - OS name, architecture, and version
                 - ISO 8601 timestamp of invocation
-                - working directory of invocation
-                - invocation args
+                - Working directory of invocation
+                - Invocation arguments
 \
-            Available since Jacksum 3.3.0.
+            Available since version 3.3.0 of Jacksum.
 
 
     -h [language] [word]
     --help [language] [word]
 \
-            prints the help, valid code for language is en; valid values for
-            word are strings like section headers, options or algorithms.
-            See section EXAMPLES for more information or simply type
+            Prints the help; valid code for language is "en"; valid values for
+            word are strings such as section headers, options or algorithms.
+            See the section "EXAMPLES" for more information, or simply type
             'jacksum -h examples'
 \
-            Available since Jacksum 1.0.0,
-            parameter word since Jacksum 1.6.0
+            Available since version 1.0.0 of Jacksum,
+            parameter word since version 1.6.0 of Jacksum.
 
 
     --info
 \
             Returns information and exits the program.
-            If -a hasn't been set it prints out
+            If option -a has not been set, it will print out
 \
-                - the program name and version
-                - the Primary IDs and descriptions of all supported algorithms
-                - the number of all supported algorithms
-                - the default algorithm
-                - the number of the supported CRC combinations
-                - the supported character sets
-                - the default character set
-                - available processors
+                - The program name and version
+                - The Primary IDs and descriptions of all supported algorithms
+                - The number of all supported algorithms
+                - The default algorithm
+                - The number of the supported CRC combinations
+                - The supported character sets
+                - The default character set
+                - Available processors
                 - and all Java system properties
 \
             If -a has been set it prints out additional information about the
             selected algorithm(s):
 \
-                - algorithm id
-                - hash length in bits and bytes
-                - blocksize in bits and bytes (if applicable)
+                - Algorithm id
+                - Hash length in bits and bytes
+                - Blocksize in bits and bytes (if applicable)
                 - CRC implementation details including different representations
                   of the polynomial (normal, reversed, and Koopman repr.)
-                - the corresponding reciprocal polynomial of a CRC
-                - whether an alternate implementation has been requested,
+                - The corresponding reciprocal polynomial of a CRC
+                - Whether an alternate implementation has been requested,
                   whether it is available and would be used
 \
-            If -a has been set to return multiple or even all algorithms,
+            If -a has been set to return multiple or all algorithms,
             and --list has been set, it prints out:
 \
-                - details for each algorithm
+                - Details for each algorithm
 \
-            Available since Jacksum 3.0.0
+            Available since version 3.0.0 of Jacksum.
 
 
     -I <string>
     --ignore-lines-starting-with-string <string>
 \
-            While reading a list by -L, or -c, lines are ignored if they start
+            While reading a list by -L or -c, lines are ignored if they start
             with the string <string>.
 \
-            Available since Jacksum 1.6.0, see also -c
+            Available since version 1.6.0 of Jacksum, see also option -c.
 
 
     --license
 \
-            prints out the license that the project is offered under.
+            Prints out the license under which the project is offered.
 \
-            Available since Jacksum 3.0.0, see also --copyright
+            Available since version 3.0.0 of Jacksum, see also the option
+            --copyright.
 
     -l
     --list
@@ -1609,23 +1642,24 @@ OPTIONS
             Enables the list view.
 \
             If option -a is set, it lists the IDs of the algorithms only.
+\
             Examples:
                 jacksum -a all:sha -l
                 jacksum -a all:32 -l
 \
-            If option -c and --list-filter is set, it lists the filenames only
-            without the status OK, FAILED, MISSING or NEW.
+            If the option -c and --list-filter is set, it will list the
+            filenames only without the statuses OK, FAILED, MISSING or NEW.
 \
             If options --wanted-list and --wanted-list-filter are set, it lists
-            the filenames only without the status MATCH or NO MATCH.
+            the filenames only without the statuses MATCH or NO MATCH.
 \
-            Available since Jacksum 3.0.0
+            Available since version 3.0.0 of Jacksum.
 
 
     --list-filter <filter>
 \
-            Filters the output that is being produced by -c mode.
-            <filter> has to bee one or more of the following keywords,
+            Filters the output produced by -c mode.
+            <filter> must be one or more of the following keywords,
             separated by a comma:
 \
                 ok              show OK files
@@ -1641,89 +1675,89 @@ OPTIONS
                 good            <filter> is set to none,ok,new
                 bad             <filter> ist set to none,failed,missing
 \
-            If this option is omitted, <filter> is set to all.
-            Only if the filter is set to ok or failed or both, the hashing
+            If this option is omitted, the <filter> is set to all.
+            Only if the filter is set to ok, failed or both, hashing
             occurs. For detecting missing or new files, hashing is not required.
 \
-            Available since Jacksum 3.0.0, see also -c, and --list
+            Available since version 3.0.0 of Jacksum, see also the options
+            -c, and --list.
 
 
     -L <textfile>
     --file-list <textfile>
 \
-            Process <textfile> as a filelist. By default each line in the file
+            Process <textfile> as a filelist. By default, each line in the file
             will be treated as a filename or foldername to be processed.
             GNU filename escaping is supported, but can be disabled on demand.
             If the option --file-list-format is set to ssv, each line in the
-            file will be treated as multiple filenames, separated by spaces
-            or tabs.
+            file will be treated as multiple filenames, separated by spaces or
+            tabs.
             If <textfile> is set to "-", standard input stream is used.
             The charset UTF-8 is used to read the file unless you specify
             the charset by the option --charset-file-list.
             The option -L <textfile> can go in addition to file parameters.
             Wildcards are not supported in the <textfile>.
 \
-            Available since Jacksum 3.0.0
+            Available since version 3.0.0 of Jacksum.
 
 
     --file-list-format <format>
 \
-            Specifies the format of the file list file. If this option is
-            omitted, <format> is set to list. The supported formats are:
+                If this option is omitted, the format of the file list file is
+                set to "list". The supported formats are:
 \
                 list    default. Each filename is stored in a separate line.
 \
-                ssv     space separated values. Each filename is separated by
+                ssv     space-separated values. Each filename is separated by
                         one or more common space characters (a space or a
                         horizontal tab). A file name that contains space
                         characters has to be enclosed in double quotes. This is
-                        useful if Jacksum operates in Windows' shells where 
-                        Jacksum isn't able to accept program arguments resp.
+                        useful if Jacksum operates in Windows shells, where
+                        Jacksum isn't able to accept program arguments or
                         file names that contain Unicode characters.
+\
+            Available since version 3.0.0 of Jacksum.
 
 
     --legacy-stdin-name
 \
             Starting with Jacksum 3 the standard input stream is named
-            <stdin> at the output, because the single dash could also be the
+            "<stdin>" for the output, as the single dash could also be the
             name of a file or a directory. Since the characters < and > cannot
             be used for filenames or directory names on most file systems,
             <stdin> is a great choice for naming stdin for the output.
             If you set the --legacy-stdin-name, Jacksum uses the "-" again for
             naming the standard input stream.
 \
-            Available since Jacksum 3.0.0
+            Available since version 3.0.0 of Jacksum.
 
 
     --no-path
 \
-            Prints regular filenames without path information. The option is
+            Prints regular filenames without path information, which is
             useful if you want to create a simple database for file
             identification purposes.
 \
-            This option has an effect during hash calculation mode only.
-            This option has no effect on NTFS ADS objects.
-            This option has no effect if you use a non-default output format
-            already by setting options -F or -C.
+            This option has an effect only during hash calculation mode.
+            It has no effect on NTFS ADS objects, nor if a non-default output
+            format is already set by using the options -F or -C.
 \
             If you want to store the default output in order to perform an
-            integrity check later, you shall not set this option, because
+            integrity check later, you should not set this option, because
             without path information it is impossible to find the files again.
-            Available since Jacksum 3.3.0, see also, -P, --path-relative-to,
-            and --path-absolute
 \
-            Available since Jacksum 3.2.0
+            Available since version 3.2.0 of Jacksum, see also -P,
+            --path-relative-to, and --path-absolute.
 
 
     -o <file>
     --output-file <file>
 \
             The output of the program goes to a file rather than the standard
-            output. The program exits with a warning if the file exists. The
-            file which is specified by -o is excluded from the calculation
-            process.
+            output; the program exits with a warning if the file exists, and the
+            file specified by -o is excluded from the calculation process.
 \
-            Available since Jacksum 1.6.0, see also -O, -u and -U
+            Available since version 1.6.0 of Jacksum, see also -O, -u and -U.
 
 
     -O <file>
@@ -1732,78 +1766,79 @@ OPTIONS
             Same as -o, however an existing file will be overwritten without any
             warning. See also -U.
 \
-            Available since Jacksum 1.6.0, see also -o, -u and -U
+            Available since version 1.6.0 of Jacksum 1.6.0, see also -o, -u,
+            and -U.
 
 
     --path-absolute
     --absolute
 \
-            By default paths are printed relatively if you pass relative paths
-            as the program arguments, and paths are printed absolutely if you
-            pass absolute paths as the program arguments. If this option is set,
-            paths are printed absolutely in all cases.
+            By default, paths are printed relatively if relative paths are
+            passed as program arguments, and paths are printed absolutely if
+            absolute paths are passed as program arguments. If this option is
+            set, paths are printed absolutely in all cases.
 \
-            Available since Jacksum 3.3.0, see also -P, --path-relative-to,
-            and --no-path
+            Available since version 3.3.0 of Jacksum, see also -P,
+            --path-relative-to, and --no-path.
 
 
     --path-relative-to <path>
     --relative-to <path>
 \
-            By default paths are printed relatively if you pass relative paths
-            as the program arguments, and paths are printed absolutely if you
-            pass absolute paths as the program arguments.
+            By default, paths are printed relatively if relative paths are
+            passed as program arguments, and paths are printed absolutely if
+            absolute paths are passed as program arguments.
 \
             If this option is set during calculation mode, the paths of the
             file objects are printed relative to the <path>. If <path> points
             to a file rather than to a folder, the folder name of the file is
             used for <path>. If a path cannot be relativized to <path>,
-            (e.g. if both paths have a different root on Microsoft Windows),
-            the path is returned non-relativized.
+            (e.g., if both paths have a different root on Microsoft Windows),
+            the path is returned without being relativized.
 \
             If this option is set during check mode, the path for each file
             object in the check file is simply prepended by <path>.
-            Available since Jacksum 3.3.0, see also -P, --path-absolute,
-            and --no-path
 \
-            Available since Jacksum 3.2.0
+            Available since version 3.2.0 of Jacksum, see also -P,
+            --path-absolute, and --no-path.
 
 
     --path-relative-to-entry <number>
     --relative-to-entry <number>
 \
-            Sets the option --path-relative-to <number>, where <number> is
-            the line number that is stored in the file list, specified by
-            --file-list. <number> starts at 1, and <number> has to be greater
-            than 0. This option requires the option --file-list. If file list is
-            empty, this option is ignored.
+            If this option is set, the option --path-relative-to <path> is
+            set, where <number> is the line number that is stored in the file
+            list, specified by --file-list. <number> starts at 1 and must be
+            greater than 0. This option requires the option --file-list. If
+            file list is empty, this option is ignored.
 \
-            Available since Jacksum 3.3.0, see also --path-relative-to
+            Available since version 3.3.0 of Jacksum, see also
+            --path-relative-to.
 
 
     -P <char>
     --path-separator <char>
 \
-            By default the system-dependent default name separator character is
-            used. On Unix and GNU/Linux systems the character is the slash (/),
-            on Microsoft Windows systems it is the back slash (\). You can
+            By default, the system-dependent default name separator character is
+            used. On Unix and GNU/Linux systems, the character is the slash (/),
+            and on Microsoft Windows systems, it is the back slash (\). You can
             change the default if a special output format for file names is
             required, for example to produce relative links for HTML pages on
             Microsoft Windows.
 \
-            Available since Jacksum 1.5.0, see also -F, --path-absolute,
-            and --path-relative
+            Available since version 1.5.0 of Jacksum, see also -F,
+            --path-absolute, and --path-relative.
 
 
     -q [<type>:]<sequence>
     --quick [<type>:]<sequence>
 \
-            process a sequence quickly and quit the program. The <type> can be
-            used to specify the type of the sequence (text, formatted text,
-            binary, hexadecimal, decimal, or file). If type is not set, the
+            Process a sequence quickly and quit the program. The <type> can be
+            used to specify the type of the sequence as text, formatted text,
+            binary, hexadecimal, decimal, or file. If <type> is not set, the
             sequence is expected to be in hex form.
             Any of following examples (except text, unformatted) return the
-            same digest of a input of 7 bytes.
+            same digest of a input of seven bytes.
 \
                 Decimal
 \
@@ -1811,7 +1846,7 @@ OPTIONS
                     dec:"101, 103, 103, 32, 52, 50, 10"
                     dec:"101 103 103 32 52 50 10"
 \
-                    Decimal values have to be separated from each other by
+                    Decimal values must be separated from each other by
                     comma or spaces.
 \
 \
@@ -1878,38 +1913,37 @@ OPTIONS
 \
                      If <type> is specified as "file", all bytes from the
                      <file> will be read and kept in memory.
-                     The -q option is also used to feed data to the
-                     algorithm finder module which tries to find the algorithm
-                     to a checksum/CRC/hash value. It does that by processing
-                     data using a brute force algorithm, and I/O operations
-                     must be avoided where possible in that case. Therefore
-                     the size of <file> is limited to 128 MiB, because the
-                     entire content of the file will be stored in memory for
-                     fast access. This option is not intended for reading in
-                     large files. If you want to read large files up to
-                     8 Exbibytes (= 8,000,000,000 Gibibytes) pass <file> as
-                     a parameter to Jacksum.
+                     The -q option is also used to feed data to the algorithm
+                     finder module which tries to find the algorithm to a
+                     checksum/CRC/hash value. It does that by processing data
+                     using a brute force algorithm, and I/O operations must be
+                     avoided where possible in that case. Therefore the size of
+                     <file> is limited to 128 MiB, because the entire content of
+                     the file will be stored in memory for fast access. This
+                     option is not intended for reading in large files. If you
+                     want to read large files up to 8 Exbibytes
+                     (= 8,000,000,000 Gibibytes) pass <file> as a parameter to
+                     Jacksum.
 \
 \
-            Available since Jacksum 1.3.0 (hex only), "type" since 1.5.0,
-            type "bin" and "txtf" since Jacksum 3.0.0, type "file" since
-            Jacksum 3.1.0
+            Available since version 1.3.0 of Jacksum (hex only), "type" since
+            version 1.5.0, type "bin" and "txtf" since version 3.0.0, and type
+            "file" since version 3.1.0 of Jacksum.
 
 
     --scan-all-unix-file-types
 \
-            This option has an effect on Unix-like operating systems only.
-            By default Jacksum reads from regular files, directories, and
-            symbolic links during recursively directory on all supported
-            platforms.
-            You can change the behaviour of following symbolic links by
-            setting the options -f and/or -d.
+            This option has an effect on Unix-like operating systems only. By
+            default, Jacksum reads from regular files, directories, and symbolic
+            links during recursively directory traversal on all supported
+            platforms. You can change the behavior of following symbolic links
+            by setting the options -f and/or -d.
 \
             In Unix-like operating systems there are additional file types
             available. "Everything is a file" describes one of the defining
-            features of Unix, and its derivatives. And since everything is
-            a file and if you set this option, Jacksum will also calculate
-            message digests from
+            features of Unix, and its derivatives. Since everything is a file,
+            if you set this option, Jacksum will also calculate message digests
+            from these files:
 \
                 - block devices (i.e. disks, and partitions)
                 - character devices (e.g. /dev/null)
@@ -1917,139 +1951,140 @@ OPTIONS
                 - sockets
                 - doors (Solaris only)
 \
-            if those are found during recursively directory traversal.
-            Jacksum doesn't read from those file types during recursively
-            directory traversal by default, because it could make the process
-            waiting on data forever (e.g. a named pipe without a producer),
-            reading data forever (e.g. /dev/random which generates an infinite
-            number of random numbers) or hashing entire disks or partitions
-            which you didn't want to hash by default. Note that setting this
-            option makes the output platform-dependent.
-            Use this option with care and wisdom.
+            If these file types are found during recursively directory
+            traversal, Jacksum does not read from them by default, as this could
+            cause the process waiting on data forever (e.g. a named pipe without
+            a producer), read data forever (e.g. /dev/random which generates an
+            infinite number of random numbers) or hash entire disks or
+            partitions which you did not want to hash by default. Note that
+            setting this option makes the output platform-dependent. Use this
+            option with care and wisdom.
 \
-            Available since Jacksum 3.1.0
+            Available since version 3.1.0 of Jacksum.
 
 
     --scan-ntfs-ads
 \
-            This option has an effect on Microsoft Windows only.
-            NTFS Alternate Data Streams (ADS) can be attached to both files and
-            directories. By default Jacksum doesn't look for ADS.
-            If you set this option, Jacksum scans for ADS and calculates
-            hashes for those. The option -r <depth> is being respected.
-            Note that setting this option makes the output platform-
-            dependent if ADS can be found.
+            This option has an effect on Microsoft Windows only. NTFS Alternate
+            Data Streams (ADS) can be attached to both files and directories. By
+            default, Jacksum does not look for ADS. If you set this option,
+            Jacksum scans for ADS and calculates hashes for those. The option
+            -r <depth> is respected.
 \
-            Available since Jacksum 3.1.0
+            Note: setting this option makes the output platform-dependent if ADS
+            can be found.
+\
+            Available since version 3.1.0 of Jacksum.
 
 
     -r <depth>
     --recursive <depth>
 \
-            process subdirectory recursively with a specific depth. The <depth>
-            can be "max" or a number > 0. If -r is not set at all, <depth> is
-            set to "max" implicitly. If -r is explicitly set, the current
-            working directory is used if you don't specify a file parameter.
+            Process subdirectory recursively with a specific depth. The <depth>
+            can be "max" or a number greater than 0. If -r is not set at all,
+            <depth> is set to "max" implicitly. If -r is explicitly set, the
+            current working directory is used if no file parameter is specified.
 \
-            Available since Jacksum 1.0.0.
-            The <depth> is available since Jacksum 3.0.0
+            Available since version 1.0.0 of Jacksum.
+            The <depth> is available since version 3.0.0 of Jacksum.
 
 
     -s <string>
     --separator <string>
 \
-            a custom separator string (\t, \n, \r, \", \' and \\ will be
-            translated). The default value depends on the checksum algorithm,
-            usually it is a single blank.
+            A custom separator string (\t, \n, \r, \", \' and \\)  will be
+            translated. The default value depends on the checksum algorithm;
+            usually, it is a single blank.
 \
             You can set <string> to any string that you like, but if you want
-            Jacksum to parse the output again using the -c option, you shall
+            Jacksum to parse the output again using the -c option, you should
             set the separator to a string which allows Jacksum to parse the
             output properly again. Jacksum won't tell you that your choice is
             suboptimal if you choose a suboptimal separator sequence.
 \
-            Therefore here are some recommendations:
-            You shall avoid \n, and \r, because that will prevent a successful
-            line by line read. Also avoid the /, and the \\, because Jacksum
-            won't be able to detect where the path begins. Also you shall
-            avoid a character sequence that could be part of a the encoding
-            character set for hashes, such as a-z, 0-9 for hex, and the char
-            that you specified with -G if you also set -g. The same applies
-            to A-Z, 0-9 for hex-uppercase, = for base64, - for bb, etc.
-            Also you shall avoid a character sequence that could be part of
-            the file size (0-9) or the timestamp (depends on the -t setting)
-            for the same reasons.
+            Therefore, here are some recommendations:
+            You should avoid \n, and \r, as this will prevent a successful
+            line-by-line read. Additionally, avoid the /, and \\, as Jacksum
+            won't be able to detect where the path begins. Furthermore, you
+            should a character sequence that could be part of the encoding
+            character set for hashes, such as a-z, 0-9 for hex, and the
+            character that you specified with -G if you also set -g. The same
+            applies to A-Z, 0-9 for hex-uppercase, = for base64, - for bb, etc.
+            Additionally, you should avoid a character sequence that could be
+            part of the file size (0-9) or the timestamp (depends on the -t
+            setting) for the same reasons.
 \
-            Examples that are perfectly fine to use in most cases are
-            " ", "\t", ",", ";", ":", "~", "@", "_" or any other sequence
-            that makes the separator unique such as "  ", ", ", "; ", "\t\t",
-            "---", "...", etc.
+            Examples that are suitable for most cases include " ", "\t", ",",
+            ";", ":", "~", "@", "_", or any other sequence that makes the
+            separator unique such as "  ", ", ", "; ", "\t\t", "---", "...",
+            etc.
 \
-            If the default parser isn't able to parse the output you still
-            could write your own compatibility file, see also -C.
+            If the default parser is unable to parse the output, you can still
+            write your own compatibility file; see also -C.
 \
-            Available since Jacksum 1.0.0, see also -F
+            Available since version 1.0.0 of Jacksum, see also -F.
 
 
     --threads-hashing <threads>
 \
-            if multiple algorithms have been selected for calculation or
-            verification, the value of <threads> sets the maximum number
-            of parallel hashing threads. Each working thread can calculate
-            one hash value using a particular algorithm.
-            You can select more algorithms for parallelism than <threads> are
-            available.
-            The LPT-Algorithm (Longest Processing Time) is used which means
+            If multiple algorithms have been selected for calculation or
+            verification, the value of <threads> sets the maximum number of
+            parallel hashing threads. Each working thread can calculate one hash
+            value using a particular algorithm. You can select more algorithms
+            for parallelism than <threads> are available.
+            The LPT (Longest Processing Time) algorithm is used, which means
             that the slowest algorithm selected determines the minimum
             computation time.
-            By default, if this option is omitted, or if <threads> is set to
-            the value "max", <threads> is set to the number of available
-            processors. You can set <threads> above the value of max, but you
-            won't get better performance, because you can only use the computing
-            power that is physically available.
 \
-            Available since Jacksum 3.3.0
+            By default, if this option is omitted or if <threads> is set to
+            the value "max", <threads> is set to the number of available
+            processors. You cannot get better performance by setting <threads>
+            above the value of max, as you can only use the computing power that
+            is physically available. If the value for <threads> is set higher
+            than the number of threads actually needed, only the required number
+            of threads will be started.
+\
+            Available since version 3.3.0 of Jacksum.
 
 
     --threads-reading <threads>
 \
-            sets the number of parallel working reading threads. That means how
-            many threads are allowed to read files from the file system at the
-            same time.
+            Sets the number of parallel working threads for reading. That means
+            how many threads are allowed to read files from the file system
+            simultaneously.
 \
             By default, if this option is omitted, <threads> is set to 1. If
             <threads> is set to 1, the output is produced in a predictable
             order. If <threads> is set to a value greater than 1, the output is
-            produced in an unpredictable order, because the actual load on the
+            produced in an unpredictable order, as the actual load on the
             system can affect the speed of each thread. If <threads> is set to
-            the value "max", <threads> is set to the number of available
-            processors.
+            the value "max", it is set to the number of available processors.
 \
 \
             Recommendations:
 \
-                - Set <threads> to a large value or even to max if you want to
-                  read/hash files from solid-state drives (SSD), because those
-                  drives have no physical moving parts, they are fast, and they
-                  benefit from multiple readers. You could set <threads> greater
-                  than "max", but usually you won't get better reading
+                - Set <threads> to a large value, or even to "max" if you want
+                  to read/hash files from solid-state drives (SSD), as these
+                  drives have no physical moving parts and are therefore fast,
+                  benefiting from multiple readers. You could set <threads>
+                  greater than "max", but usually you won't get better reading
                   performance in this case.
 \
                 - Set <threads> to 1 if you want to read/hash files from HDDs,
-                  CD-ROMs, DVDs, or external connected drives, because those
-                  drives don't benefit from multiple readers. Actually the
-                  opposite is the the case. A larger value for <threads> can
-                  decrease the read performance dramatically in those cases.
+                  CD-ROMs, DVDs, or external connected drives, as these
+                  drives do not benefit from multiple readers. In fact, a larger
+                  value for <threads> can significantly reduce read performance
+                  in these cases.
                   Set <threads> to 1 if if you want the output in a predictable
                   order.
 \
-            Available since Jacksum 3.3.0
+            Available since version 3.3.0 of Jacksum.
 
 
     -t <format>
     --timestamp <format>
 \
-            a timestamp format. Java's formatter class
+            A timestamp format. Java's formatter class
             SimpleDateFormat will be used. Valid characters are
 \
                 G   Era designator
@@ -2076,92 +2111,93 @@ OPTIONS
                 Z   Time zone, RFC 822
                 X   Time zone, ISO 8601
 \
-            If form has been set to the word "default", timestamps are
+            If <format> has been set to the word "default", timestamps are
             formatted as "yyyyMMddHHmmssSSS".
-            Available since Jacksum 1.3.0, including milliseconds since
-            Jacksum 3.0.0
+            Available since version 1.3.0 of Jacksum, including milliseconds
+            since version 3.0.0 of Jacksum.
 \
-            If form has been set to the word "unixtime", timestamps are
-            being formatted by the POSIX time (the number of seconds that
-            have elapsed since midnight (UTC), 1 January 1970).
-            Available since Jacksum 3.0.0
+            If <format> has been set to the word "unixtime", timestamps are
+            formatted by the POSIX time (the number of seconds that
+            have elapsed since midnight UTC on 1 January 1970).
+            Available since version 3.0.0 of Jacksum.
 \
-            If form has been set to the word "unixtime-ms", timestamps are
-            being formatted by the POSIX time (the number of milliseconds that
-            have elapsed since midnight (UTC), 1 January 1970).
-            Available since Jacksum 3.0.0
+            If <format> has been set to the word "unixtime-ms", timestamps are
+            formatted by the POSIX time (the number of milliseconds that
+            have elapsed since midnight UTC on 1 January 1970).
+            Available since version 3.0.0 of Jacksum.
 \
-            If form has been set to "iso8601", timestamps are being formatted
-            by "yyyy-MM-dd'T'HH:mm:ss.SSSXXX" in order to be compatible with
+            If <format> has been set to "iso8601", timestamps are formatted
+            using "yyyy-MM-dd'T'HH:mm:ss.SSSXXX" to be compatible with
             ISO 8601.
 \
                 #SEPARATOR         will be replaced by the separator which you
                                    can specify with -s
                 #QUOTE             will be replaced by one quote char (")
 \
-            Available since Jacksum 1.6.0, see also -F
+            Available since version 1.6.0 of Jacksum, see also -F.
 
 
     -8
     --utf8
 \
-            sets the UTF-8 charset for both stdout stream and stderr stream.
-            It is actually a shortcut for
+            Sets the UTF-8 charset for both stdout stream and stderr stream. It
+            is actually a shortcut for:
 \
-            --charset-stdout UTF-8
-            --charset-stderr UTF-8
+                --charset-stdout UTF-8 --charset-stderr UTF-8
 \
             Note that you have to change the shell's default charset as well if
             your shell's default charset is not UTF-8 and you want to be
-            compatible with this setting. On Microsoft Windows you can change
-            that by changing the code page by entering: CHCP 65001
+            compatible with this setting. On Microsoft Windows, you can change
+            that by changing the code page by entering: "CHCP 65001"
 \
-            Available since Jacksum 3.0.0
+            Available since version 3.0.0 of Jacksum.
 
 
     -u <file>
     --error-file <file>
 \
-            ugly, undesirable, unforeseen, uninvited. Any error messages of the
-            program go to a file rather than to standard error.
-            The <file> is excluded from the calculation process.
-            The program exits if the file exists.
-            You can set <file> to /dev/null (on Unix and GNU/Linux) or to
-            nul (on Microsoft Windows) in order to ignore the output.
+            Ugly, undesirable, unforeseen, and uninvited error messages of the
+            program go to a file rather than to standard error. The <file> is
+            excluded from the calculation process, and the program exits if the
+            file exists. You can set <file> to "/dev/null" (on Unix and
+            GNU/Linux) or to "nul" (on Microsoft Windows) in order to ignore the
+            output.
 \
-            Available since Jacksum 1.6.0, see also -U, -o and -O
-            Starting with Jacksum 3.0.0 the file encoding is UTF-8
+            Available since version 1.6.0 of Jacksum, see also -U, -o and -O.
+            Starting with version 3.0.0 of Jacksum, the file encoding has been
+            set to UTF-8.
 
 
     -U <file>
     --error-file-overwrite <file>
 \
-            ugly, undesirable, unforeseen, uninvited. Any error messages of the
-            program go to a file rather than to standard error.
-            An existing file will be overwritten without any warning.
-            You can set <file> to /dev/null (on Unix and GNU/Linux) or to
-            nul (on Microsoft Windows) in order to ignore the output.
+            Ugly, undesirable, unforeseen, and uninvited error messages of the
+            program go to a file rather than to standard error. An existing file
+            will be overwritten without any warning. You can set <file> to
+            "/dev/null" (on Unix and GNU/Linux) or to "nul" (on Microsoft
+            Windows) in order to ignore the output.
 \
-            Available since Jacksum 1.6.0, see also -u, -o and -O
-            Starting with Jacksum 3.0.0 the file encoding is UTF-8
+            Available since version 1.6.0 of Jacksum, see also -u, -o and -O.
+            Starting with version 3.0.0 of Jacksum, the file encoding has been
+            set to UTF-8.
 
 
     -v      
     --version    
 \
-            Prints the product name and version and exits the program.
-            Option is available since Jacksum 1.2.0
+            Prints the product name and version, and exits the program.
+            This option has been available since Jacksum 1.2.0.
+\
             Additional information about the copyright and license will be 
             printed out if verbose info output is requested.
             Examples: "jacksum -v --verbose info" or "jacksum --info"
-\
-            Available since Jacksum 3.0.0
+            Available since version 3.0.0 of Jacksum.
 
 
     -V <control set>
     --verbose <control set>
 \
-            <control> has to be at least one and can be more than one of the
+            The <control> must be at least one, and can be more than one, of the
             following keywords separated by a comma:
 \
                 info               enable info
@@ -2178,39 +2214,40 @@ OPTIONS
                 default            means noinfo,warnings,errors,nosummary
                 none               means noinfo,nowarnings,noerrors,nosummary
 \
-            If you don't set --verbose, Jacksum selects a suitable <control set>
-            dependent on the operation if performs. By default the <control set>
-            is set to default.
+            If you do not set --verbose, Jacksum selects a suitable
+            <control set> dependent on the operation it performs. By default
+            the <control set> is set to "default".
             If you set one of the following options, <control set> is set to
-            all, because usually you don't want to miss any information for
-            those operations:
+            "all", because usually you do not want to miss any information for
+            these operations:
             --check-file, --check-line, or -a unknown:<length>
-            If you set option --version, <control set> ist set to none.
-            If you set option --info, <control set> is set to default again.
+            If you set option --version, <control set> ist set to "none".
+            If you set option --info, <control set> is set to "default" again.
 \
-            Available since Jacksum 1.6.0
-            The keywords all and none are available since Jacksum 3.0.0
+            Available since version 1.6.0 of Jacksum.
+            The keywords "all" and "none" are available since version 3.0.0 of
+            Jacksum.
 
 
     -w <hash-file>
     --wanted-list <hash-file>
 \
             This option puts Jacksum in wanted-list mode. In wanted-list mode,
-            Jacksum only prints files that matches or not matches files in the
-            <hash-file>, dependent on --wanted-list-filter.
+            Jacksum only prints files that match or do not match files in the
+            <hash-file>, depending on --wanted-list-filter.
             The format of the <hash-file> is expected to be the default output,
-            but it can be specified by --style if it is not the default.
+            but it can be specified by the --style option if it is not the
+            default.
 \
-            Available since Jacksum 3.4.0, see also --wanted-list-charset, and
-            --style
+            Available since version 3.4.0 of Jacksum, see also
+            --wanted-list-charset, and --style
 
 
     --wanted-list-filter <filter>
     --match-filter <filter>
 \
-            Filters the output that is being produced by option -w resp. -e.
-            <filter> has to be one or more of the following keywords,
-            separated by a comma:
+            Filters the output produced by options -w and -e. <filter> must be
+            one or more of the following keywords, separated by a comma:
 \
                 match           show MATCHing files (with real name in brackets)
                 nomatch         show NOt MATCHing files (with hash in brackets)
@@ -2227,47 +2264,51 @@ OPTIONS
             that is given in the wanted hash list.
             Non-matching file names are being printed with the hash in brackets,
             because the hash was not found in the wanted hash list.
-            If this option is omitted, the <filter> is set to positive.
-            Hashing occurs in any case, independent on the filter set.
+            If this option is omitted, the <filter> is set to "positive".
+            Hashing occurs in any case regardless of the filter set.
 \
-            Available since Jacksum 3.4.0, see also -w, and --list
+            Available since version 3.4.0 of Jacksum, see also -w, and --list.
 
 
     -x
     --hex-lowercase
 \
-            lowercase hex output for the checksum, it is an alias for -E hex
+            Lowercase hex output for the checksum is an alias for "-E hex".
 \
-            Available since Jacksum 1.1.0, see also -E
+            Available since version 1.1.0 of Jacksum, see also option -E.
 
 
     -X            
     --hex-uppercase
 \
-            uppercase hex output for the checksum, it is an alias for -E hexup
+            Uppercase hex output for the checksum is an alias for "-E hexup".
 \
-            Available since Jacksum 1.1.0, see also -E
+            Available since version 1.1.0 of Jacksum, see also the option -E.
 
 
     -
 \
-            a single dash is used to signify that Jacksum should read from
+            A single dash is used to signify that Jacksum should read from
             standard input (stdin). Bytes are read from the standard input in
-            binary mode. The filename is set to "<stdin>". Example:
-            jacksum - < your.iso
+            binary mode, and the filename is set to "<stdin>".
+\
+            Example:
+            > jacksum - < your.iso
 
 
     --
 \
-            a double dash is used to signify the end of command options, after
+            A double dash is used to signify the end of command options, after
             which only positional arguments are accepted.
-            Example use: Let's say you want to get all checksums for files in
-            the folder called '-'. For the string '-' normally '-' will be
-            considered the option to read from stdin, but with '--' you can calc
-            checksums in that folder like this:
-            jacksum -- -
+            For example, if you want to get all checksums for files in the
+            folder called '-', normally '-' would be considered the option to
+            read from stdin, but with '--' you can calculate checksums in that
+            folder.
 \
-            Available since Jacksum 3.0.0
+            Example:
+            > jacksum -- -
+\
+            Available since version 3.0.0 of Jacksum.
 
 #OPTIONS-END
 ALGORITHMS
@@ -2317,6 +2358,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - openSUSE:        -
                 - OpenSSL:         -
                 - PHP:             hash("adler32", $input);
@@ -2335,6 +2377,178 @@ ALGORITHMS
                 java.util.zip.Adler32 as provided by the JDK.
                 The alternate implementation from net.jacksum.algorithms is used
                 if option -A has been specified.
+
+
+    ascon-hash
+            algorithm:
+                Ascon-Hash (v1.2)
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                05/2021
+\
+            broken:
+                no
+\
+            website:
+                https://ascon.iaik.tugraz.at
+\
+            comment:
+                Ascon is a family of authenticated encryption and hashing
+                algorithms designed to be lightweight and easy to implement,
+                even with added countermeasures against side-channel attacks.
+                Ascon has been selected as new standard for lightweight
+                cryptography in the NIST Lightweight Cryptography competition
+                (2019-2023). See also
+                https://csrc.nist.gov/projects/lightweight-cryptography/finalists
+                Ascon has also been selected as the primary choice for
+                lightweight authenticated encryption in the final portfolio of
+                the CAESAR competition (2014-2019).
+\
+                Ascon is designed and maintained by a team of cryptographers
+                working for Graz University of Technology, Infineon Technologies,
+                Intel Labs, Lamarr Security Research, and Radboud University:
+                Christoph Dobraunig, Maria Eichlseder, Florian Mendel and Martin
+                Schläffer.
+\
+                The Ascon family includes the hash functions Ascon-Hash and
+                Ascon-Hasha as well as the extendable output functions
+                Ascon-Xof and Ascon-Xofa with sponge-based modes of operation.
+                Both provide 128-bit security with a hash size of at least
+                256 bits. The hashing modes use the same lightweight 320-bit
+                permutation as the authenticated encryption modes.
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.AsconDigest
+
+
+    ascon-hasha
+            algorithm:
+                Ascon-Hasha (v1.2)
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                05/2021
+\
+            broken:
+                no
+\
+            website:
+                https://ascon.iaik.tugraz.at
+\
+            comment:
+                ascon-hasha is the secondary recommendation by the Ascon team.
+                See also ascon-hash.
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.AsconDigest
+
+
+    ascon-xof
+            algorithm:
+                Ascon-Xof (v1.2)
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                05/2021
+\
+            broken:
+                no
+\
+            website:
+                https://ascon.iaik.tugraz.at
+\
+            comment:
+                See also ascon-hash.
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.AsconXof
+
+
+    ascon-xofa
+            algorithm:
+                Ascon-XofA (v1.2)
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                05/2021
+\
+            broken:
+                no
+\
+            website:
+                https://ascon.iaik.tugraz.at
+\
+            comment:
+                Ascon-xofA is the secondary recommendation by the Ascon team.
+                See also ascon-xof.
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.AsconXofA
+
+
+    aststrsum, ast, strsum
+            algorithm:
+                The AST (AT&T Software Technology) strsum PRNG (pseudo random
+                number generator) hash.
+\
+            length:
+                32 bits
+\
+            type:
+                non-cryptographic hash function, checksum
+\
+            published:
+                11/2010
+\
+            comment:
+                The AST strsum is a 32-bit PRNG hash with different parameter
+                values than the default PRNG hash. See also prng. The algorithm
+                can be expressed as
+\
+                    prng:init=0,mpy=0x63c63cd9,add=0x9c39c33d
+\
+            compatibility:
+                See the compatibility list of prng; the method is called "ast"
+                rather than "prng".
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                net.jacksum.algorithms.checksums.PrngHash
 
 
     blake<length>, blake-<length>
@@ -2422,6 +2636,8 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     /usr/bin/b2sum [-l <length>]
+                                   /usr/gnu/bin/cksum -a blake2b [-l <length>]
                 - openSUSE:        /usr/bin/b2sum [-l <length>]
                 - OpenSSL 1.1.0+:  openssl dgst -blake2b512
                 - PHP:             -
@@ -2436,6 +2652,75 @@ ALGORITHMS
 \
             since:
                  Jacksum 3.0.0
+
+
+    blake2bp, blake2bp-512
+            algorithm:
+                BLAKE2bp
+\
+            length:
+                512 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                12/2012
+\
+            broken:
+                no
+\
+            website:
+                https://blake2.net
+\
+            comment:
+                BLAKE2bp is a different algorithm from BLAKE2b. Each algorithm
+                produces a different hash value.
+                BLAKE2bp is a 4-way parallel algorithm designed for increased
+                performance on multicore or SIMD CPUs. The BLAKE2bp allows to
+                produce digests of any size between 1 and 64 bytes
+                (8 and 512 bits).
+\
+                Jacksum implements an iterative, single-threaded 512 bit
+                variant only.
+\
+            compatibility:
+                - 7z:              -
+                - Angstrom:        -
+                - BeOS:            -
+                - BusyBox:         -
+                - CentOS:          -
+                - DragonFly BSD:   -
+                - FreeBSD:         -
+                - FreeDOS:         -
+                - GNU/Hurd:        -
+                - GNU/Linux:       -
+                - HP-UX:           -
+                - IBM AIX:         -
+                - JDK:             -
+                - Kali Linux:      -
+                - macOS:           -
+                - Minix:           -
+                - MS-DOS:          -
+                - NetBSD:          -
+                - NextStep:        -
+                - OpenIndiana:     -
+                - OpenSSL 1.1.0+:  -
+                - PHP:             -
+                - Plan 9:          -
+                - Python 3.6+:     -
+                - Solaris:         -
+                - Tru64:           -
+                - Ubuntu:          -
+                - Windows:         -
+                - Wolfram:         Hash[expr, {"BLAKE2bp", 512}, "HexString"]
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.Blake2bp
+                (pre-release, single-threaded with buffer fix by jonelo)
 
 
     blake2s, blake2s-<length>
@@ -2460,6 +2745,7 @@ ALGORITHMS
 \
             comment:
                 BLAKE2s is the successor of BLAKE-256.
+                BLAKE3 is the successor of BLAKE2.
 \
             compatibility:
                 - 7z:              -
@@ -2481,6 +2767,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.0+:  openssl dgst -blake2s256
                 - PHP:             -
                 - Plan 9:          -
@@ -2499,6 +2786,75 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.Blake2s
 
 
+    blake2sp, blake2sp-256
+            algorithm:
+                BLAKE2sp
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                12/2012
+\
+            broken:
+                no
+\
+            website:
+                https://blake2.net
+\
+            comment:
+                BLAKE2sp is a different algorithm from BLAKE2s. Each algorithm
+                produces a different hash value.
+                BLAKE2sp is a 8-way parallel algorithm designed for increased
+                performance on multicore or SIMD CPUs. The BLAKE2 allows to
+                produce digests of any size between 1 and 32 bytes
+                (8 and 256 bits).
+\
+                Jacksum implements an iterative, single-threaded 256 bit
+                variant only.
+\
+            compatibility:
+                - 7z:              7z h -scrcblake2sp
+                - Angstrom:        -
+                - BeOS:            -
+                - BusyBox:         -
+                - CentOS:          -
+                - DragonFly BSD:   -
+                - FreeBSD:         -
+                - FreeDOS:         -
+                - GNU/Hurd:        -
+                - GNU/Linux:       -
+                - HP-UX:           -
+                - IBM AIX:         -
+                - JDK:             -
+                - Kali Linux:      -
+                - macOS:           -
+                - Minix:           -
+                - MS-DOS:          -
+                - NetBSD:          -
+                - NextStep:        -
+                - OpenIndiana:     -
+                - OpenSSL 1.1.0+:  -
+                - PHP:             -
+                - Plan 9:          -
+                - Python 3.6+:     -
+                - Solaris:         -
+                - Tru64:           -
+                - Ubuntu:          -
+                - Windows:         -
+                - Wolfram:         Hash[expr, {"BLAKE2sp", 256}, "HexString"]
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.Blake2sp
+                (pre-release, single-threaded with buffer fix by jonelo)
+
+
     blake3, blake3-256
             algorithm:
                 BLAKE3
@@ -2514,6 +2870,7 @@ ALGORITHMS
 \
             broken:
                 no
+\
             website:
                 https://github.com/BLAKE3-team/BLAKE3
 \
@@ -2541,6 +2898,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.0+:  -
                 - PHP:             -
                 - Plan 9:          -
@@ -2555,7 +2913,8 @@ ALGORITHMS
                 Jacksum 3.0.0
 \
             implementation:
-                io.github.rctcwyvrn.blake3
+                io.github.rctcwyvrn.blake3, alternate implementation provided by
+                org.bouncycastle.crypto.digests.Blake3Digest
 
 
     cksum
@@ -2610,6 +2969,7 @@ ALGORITHMS
                 - NetBSD 9.2+:     /usr/bin/sum -a crc
                                    /usr/bin/cksum -a crc
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum [-a crc]
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -2668,6 +3028,8 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
+                - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
                 - Python:          -
@@ -2680,7 +3042,7 @@ ALGORITHMS
                 Jacksum 3.0.0
 
 
-    crc:<width,poly,init,refIn,refOut,xorOut[,includeLen[,xorLen]]>
+    crc:<width>,<poly>,<init>,<refIn>,<refOut>,<xorOut>[,<includeLen>[,<xorLen>]]
             algorithm:
                 CRC (Cyclic Redundancy Check), generic
 \
@@ -2701,11 +3063,11 @@ ALGORITHMS
                 parameters are: width,poly,init,refIn,refOut,xorOut. The
                 optional parameters are includeLen, and xorLen.
 \
-                    width
+                    <width>
                         width of the crc, expressed in bits. This is one less
                         than the width of the poly.
 \
-                    poly
+                    <poly>
                         the polynomial, specify as hex. The top bit of the poly
                         should be omitted. For example, if the poly is 10110,
                         you should specify 6. An important aspect of this
@@ -2723,24 +3085,24 @@ ALGORITHMS
                         (reversed and Koopman), and to view the corresponding
                         reciprocal poly, just add the option --info.
 \
-                    init
+                    <init>
                         this parameter specifies the initial value of the
                         register when the algorithm starts. Specify as hex.
 \
-                    refIn
+                    <refIn>
                         this is a boolean parameter. If it is false, input
                         bytes are processed with bit 7 being treated as the
                         most significant bit (MSB) and bit 0 being treated as
                         the least significant bit. If this parameter is false,
                         each byte is reflected before being processed.
 \
-                    refOut
+                    <refOut>
                         this is a boolean parameter. If it is set to false, the
                         final value in the register is fed into the xorOut
                         stage directly, otherwise, if this parameter is true,
                         the final register value is reflected first.
 \
-                    xorOut
+                    <xorOut>
                         this value is XORed to the final register value (after
                         the refOut) stage before the value is returned as the
                         official checksum, specify as hex. Obviously a xorOut
@@ -2754,7 +3116,7 @@ ALGORITHMS
                 sum) include the length of the file/data to the checksum value.
                 Those are the parameters which can be separated by a comma:
 \
-                    includeLen
+                    <includeLen>
                         this is a boolean parameter. It is optional. If it is
                         omitted, no length is included to the CRC. If it is
                         set, one or more octets representing the length of the
@@ -2766,7 +3128,7 @@ ALGORITHMS
                         least significant octet of the length will be processed
                         first to the update method of the CRC.
 \
-                    xorLen
+                    <xorLen>
                         this value is XORed to the length value before it gets
                         included to the CRC. Specify xorLen as hex. If xorLen
                         is omitted, the smallest number of octets capable of
@@ -2778,7 +3140,7 @@ ALGORITHMS
             since:
                 Available since Jacksum 1.7.0 (bit widths [8..64]),
                 includeLen and xorLen since Jacksum 3.0.0,
-                bit widths [1..7] since Jacksum 3.5.0
+                bit widths [1..7] since Jacksum 3.6.0
 
 
     crc8, crc-8
@@ -2888,6 +3250,8 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
+                - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
                 - PowerShell:      -
@@ -2924,6 +3288,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
+\
             implementation:
                 crc:24,864CFB,B704CE,false,false,0
 
@@ -2965,6 +3330,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("crc32b", $input);
                 - Plan 9:          -
@@ -3025,6 +3391,7 @@ ALGORITHMS
                 - MS-DOS:           -
                 - NetBSD:           -
                 - NextStep:         -
+                - OpenIndiana:     -
                 - OpenSSL:          -
                 - PHP 7.4.0+:       hash("crc32c", $input);
                 - Plan 9:           -
@@ -3121,6 +3488,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("crc32", $input);
                 - Plan 9:          -
@@ -3177,6 +3545,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -3344,6 +3713,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -3407,6 +3777,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -3418,7 +3789,7 @@ ALGORITHMS
                 - Wolfram:         -
 \
             since:
-                Jacksum 3.5.0
+                Jacksum 3.6.0
 \
             implementation:
                 net.jacksum.algorithms.crcs.CRC82_DARC (derived from
@@ -3548,6 +3919,47 @@ ALGORITHMS
                 net.jacksum.algorithms.md.Edonkey
 
 
+    esch<length>
+            algorithm:
+                Esch
+\
+            length:
+                256 or 384 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                05/2021 (v1.2)
+\
+            broken:
+                no
+\
+            website:
+                https://sparkle-lwc.github.io/esch
+\
+            comment:
+                Esch is a family of hash functions. Esch256 outputs digests of
+                256 bits, and Esch384 of 384 bits. They rely on the sponge
+                construction, like the current hash standard SHA-3.
+\
+                The Esch familiy is actually part of the Sparkle suite which is
+                a collection of lightweight symmetric cryptographic primitives.
+                The Sparkle suite was one of the 10 finalists of the NIST
+                Lightweight Cryptography competition (2019-2023).
+\
+                4/10 of the team members of the Sparkle team are from the
+                university of Luxembourg, and Esch is the name of a city in
+                Luxembourg that is very close to the campus of the university of
+                Luxembourg.
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.Sparkle
+
+
     fletcher16, fletcher-16
             algorithm:
                 Fletcher's checksum
@@ -3646,6 +4058,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.4.0+:      hash("fnv132", $input);
                                    hash("fnv164", $input);
@@ -3702,6 +4115,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("fnv1a32", $input);
                                    hash("fnv1a64", $input);
@@ -3851,6 +4265,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("gost", $input);
                 - PHP 5.6.0+:      hash("gost-crypto", $input);
@@ -3974,6 +4389,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - Plan 9:          -
                 - PowerShell:      -
@@ -4061,6 +4477,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - Plan 9:          -
                 - PowerShell:      -
@@ -4132,6 +4549,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  -
                 - PHP 7.1+:        -
                 - Plan 9:          -
@@ -4199,6 +4617,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  -
                 - PHP 7.1+:        -
                 - Plan 9:          -
@@ -4211,6 +4630,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crypto.digests.Kangaroo
 
@@ -4263,6 +4683,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  -
                 - PHP 7.1+:        -
                 - Plan 9:          -
@@ -4276,6 +4697,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 fr.cryptohash.Keccak<length>
 
@@ -4295,7 +4717,7 @@ ALGORITHMS
             broken:
                 no, see also https://eprint.iacr.org/2015/959.pdf
 \
-            standard: 
+            standard:
                 DSTU 7564:2014
 \
             comment:
@@ -4430,6 +4852,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          /usr/bin/md2
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -md2
                 - Plan 9:          -
                 - PowerShell:      -
@@ -4495,6 +4918,7 @@ ALGORITHMS
                                    /usr/bin/sum -a md4
                                    /usr/bin/cksum -a md4
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -md4
                 - PHP:             hash("md4", $input);
                 - Plan 9:          -
@@ -4573,6 +4997,9 @@ ALGORITHMS
                                    /usr/bin/sum -a md5
                                    /usr/bin/cksum -a md5
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum -a md5
+                                   /usr/bin/md5sum
+                                   /usr/bin/digest -a md5
                 - OpenSSL:         openssl dgst -md5
                 - PHP:             hash("md5", $input);
                 - Plan 9:          /bin/md5sum
@@ -4644,6 +5071,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -mdc2
                 - PHP:             -
                 - Plan 9:          -
@@ -4676,6 +5104,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.6.0
+\
             implementation:
                 net.jacksum.algorithms.primitive.None
 
@@ -4708,6 +5137,123 @@ ALGORITHMS
 \
             implementation:
                 fr.cryptohash.PANAMA
+
+
+    photon-beetle
+            algorithm:
+                PHOTON-Beetle Hash
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                05/2021
+\
+            broken:
+                no
+\
+            website:
+                https://www.isical.ac.in/~lightweight/beetle/
+\
+            comment:
+                PHOTON-Beetle was one of the ten finalists at the NIST
+                Lightweight Cryptography competition (2019-2023). See also
+                https://csrc.nist.gov/projects/lightweight-cryptography/finalists
+\
+                PHOTON-Beetle was invented by Zhenzhen Bao, Avik Chakraborti,
+                Nilanjan Datta, Jian Guo, Mridul Nandi, Thomas Peyrin, and
+                Kan Yasuda.
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.PhotonBeetleDigest
+
+
+    prng[:[init=<init>][<separator>][mpy=<multiplier>][<separator>][add=<addend>]]
+            algorithm:
+                PRNG (pseudo random number generator) hash
+\
+            length:
+                32 bits
+\
+            type:
+                non-cryptographic hash function, checksum
+\
+            published:
+                11/2010
+\
+            comment:
+                The 32-bit PRNG hash can be found in Solaris 11 Express 2010.11
+                (but not in later releases) as well as in operating systems
+                derived from OpenSolaris resp. illumos such as SmartOS, OmniOS,
+                and Tribblix. The algorithm is simple and obvious, and default
+                values are known from the manpages. The encoding of the hash
+                value is decimal.
+\
+                The PRNG hash calculates the hash using the formula:
+\
+                    hash = <init>
+                    for i in message {
+                        hash = hash * <multiplier> + <addend> + message[i]
+                    }
+                    return hash
+\
+                The PRNG hash supports properties that control the algorithm.
+                These properties are optional key-value pairs, and the following
+                properties are supported:
+\
+                    init=<init>       A 32 bit initial value.
+                                      The default value is 0x811c9dc5.
+\
+                    mpy=<multiplier>  A 32 bit multiplier.
+                                      The default value is 0x01000193.
+\
+                    add=<addend>      A 32 bit addend.
+                                      The default value is 0.
+\
+                If at least one property is given, prng must be appended by a
+                colon. If a property is not given, it becomes the default value
+                as described above. The values can be specified decimal or
+                hexadecimal by prepending with the marker "0x". If one of the
+                values exceeds 0xFFFFFFFF, the algorithm will be rejected from
+                being created. Negative values are not supported, and will be
+                ignored. Properties can be separated by any character as long as
+                it is clear where the next property begins; the <separator> must
+                not be one of the characters in [0-9a-fA-F] if the preceding
+                value is in hexadecimal respresentation, and the <separator>
+                must not be one of the characters in [0-9] if the preceding
+                value is in decimal representation; it is recommend to use a
+                comma for the <separator>. Properties can be given in any order.
+\
+                The default PRNG Hash can be expressed as
+\
+                    prng:init=0x811c9dc5,mpy=0x01000193,add=0
+\
+                or just "prng".
+\
+            compatibility:
+                - OmniOS:          /usr/bin/sum -x prng
+                                   /usr/bin/cksum -x prng
+                - OpenIndiana:     -
+                - OpenSSL:         -
+                - SmartOS:         /usr/bin/sum -x prng
+                                   /usr/bin/cksum -x prng
+                - Solaris 11 Express:
+                                   /usr/bin/sum -x prng
+                                   /usr/bin/cksum -x prng
+                - Tribblix:        /usr/bin/sum -x prng
+                                   /usr/bin/cksum -x prng
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                net.jacksum.algorithms.checksums.PrngHash
 
 
     radiogatun, radiogatun:<wordlen>, rg<wordlen>, rg-<wordlen>
@@ -4810,6 +5356,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("ripemd128", $input);
                 - Plan 9:          -
@@ -4875,6 +5422,7 @@ ALGORITHMS
                                    /usr/bin/sum -a rmd160
                                    /usr/bin/cksum -a rmd160
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -rmd160
                                    openssl dgst -ripemd
                                    openssl dgst -ripemd160
@@ -4933,6 +5481,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.3.0+:      hash("ripemd256", $input);
                 - Plan 9:          -
@@ -4989,6 +5538,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.3.0+:      hash("ripemd320", $input);
                 - Plan 9:          -
@@ -5052,6 +5602,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -sha
                 - PHP:             -
                 - Plan 9:          -
@@ -5142,6 +5693,10 @@ ALGORITHMS
                                    /usr/bin/sum -a sha1
                                    /usr/bin/cksum -a sha1
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum -a sha1
+                                   /usr/bin/sha1sum
+                                   /usr/bin/shasum [-a 1]
+                                   /usr/bin/digest -a sha1
                 - OpenSSL:         openssl dgst -sha1
                 - PHP:             hash("sha1", $input);
                 - Plan 9:          /bin/sha1sum
@@ -5228,6 +5783,9 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum -a sha224
+                                   /usr/bin/sha224sum
+                                   /usr/bin/shasum -a 224
                 - OpenSSL:         openssl dgst -sha224
                 - PHP:             hash("sha224", $input);
                 - Plan 9:          -
@@ -5315,6 +5873,10 @@ ALGORITHMS
                 - NetBSD 9.2+:     /usr/bin/sum -a sha256
                                    /usr/bin/cksum -a sha256
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum -a sha256
+                                   /usr/bin/sha256sum
+                                   /usr/bin/shasum -a 256
+                                   /usr/bin/digest -a sha256
                 - OpenSSL:         openssl dgst -sha256
                 - PHP:             hash("sha256", $input);
                 - Plan 9:          -
@@ -5346,6 +5908,7 @@ ALGORITHMS
 \
             type:
                 cryptographic hash function
+\
             published:
                 2001
 \
@@ -5403,6 +5966,10 @@ ALGORITHMS
                 - NetBSD 9.2+:     /usr/bin/sum -a sha384
                                    /usr/bin/cksum -a sha384
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum -a sha384
+                                   /usr/bin/sha384sum
+                                   /usr/bin/shasum -a 384
+                                   /usr/bin/digest -a sha384
                 - OpenSSL:         openssl dgst -sha384
                 - PHP:             hash("sha384", $input);
                 - Plan 9:          -
@@ -5492,6 +6059,10 @@ ALGORITHMS
                 - NetBSD 9.2+:     /usr/bin/sum -a sha512
                                    /usr/bin/cksum -a sha512
                 - NextStep:        -
+                - OpenIndiana:     /usr/gnu/bin/cksum -a sha512
+                                   /usr/bin/sha512sum
+                                   /usr/bin/shasum -a 512
+                                   /usr/bin/digest -a sha512
                 - OpenSSL:         openssl dgst -sha512
                 - PHP:             hash("sha512", $input);
                 - Plan 9:          -
@@ -5563,6 +6134,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     /usr/bin/shasum -a 512224
                 - OpenSSL 1.1.1+:  openssl dgst -sha512-224
                 - PHP 7.1+:        hash("sha512/224", $input);
                 - Plan 9:          -
@@ -5575,6 +6147,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crytpo.digests.SHA512tDigest
 
@@ -5627,6 +6200,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     /usr/bin/shasum -a 512256
                 - OpenSSL 1.1.1+:  openssl dgst -sha512-256
                 - PHP 7.1+:        hash("sha512/256", $input);
                 - Plan 9:          -
@@ -5698,6 +6272,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  openssl dgst -sha3-224
                 - PHP 7.1+:        hash("sha3-224", $input);
                 - Plan 9:          -
@@ -5771,6 +6346,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  openssl dgst -sha3-256
                 - PHP 7.1+:        hash("sha3-256", $input);
                 - Plan 9:          -
@@ -5845,6 +6421,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NextStep:        -
                 - NetBSD:          -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  openssl dgst -sha3-384
                 - PHP 7.1+:        hash("sha3-384", $input);
                 - Plan 9:          -
@@ -5918,6 +6495,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  openssl dgst -sha3-512
                 - PHP 7.1+:        hash("sha3-512", $input);
                 - Plan 9:          -
@@ -6006,6 +6584,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+ (128 bits only): openssl dgst -shake128
                 - PHP 7.1+:        -
                 - Plan 9:          -
@@ -6091,6 +6670,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL 1.1.1+ (256 bits):  openssl dgst -shake256
                 - PHP 7.1+:        -
                 - Plan 9:          -
@@ -6164,6 +6744,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -6236,6 +6817,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -6308,6 +6890,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -6378,6 +6961,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -6446,6 +7030,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -6457,6 +7042,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 org.bouncycastle.crypto.digests.GOST3411_2012_512Digest
 
@@ -6508,6 +7094,8 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana (with GNU Core Utilities 9.0):
+                                   /usr/bin/cksum -a sm3
                 - OpenSSL:         openssl dgst -sm3
                 - PHP:             -
                 - Plan 9:          -
@@ -6542,7 +7130,7 @@ ALGORITHMS
 \
             since:
                 Jacksum 1.3.0; 40, 48, and 56 bits are available since
-                Jacksum 3.0.0, 64 bits are available since Jacksum 3.5.0
+                Jacksum 3.0.0; 64 bits are available since Jacksum 3.6.0
 \
             implementation:
                 net.jacksum.algorithms.checksums.Sum*
@@ -6594,6 +7182,8 @@ ALGORITHMS
                                    /usr/bin/cksum -o 1
                                    /usr/bin/cksum -a old1
                 - NextStep:        /usr/bin/sum
+                - OpenIndiana:     /usr/bin/cksum -a bsd|--algorithm=bsd
+                                   /usr/gnu/bin/sum [-r]
                 - PHP:             -
                 - Plan 9:          /bin/sum -r
                 - SCO UnixWare:    /bin/sum -r
@@ -6646,6 +7236,8 @@ ALGORITHMS
                 - macOS:           -
                 - Minix:           /usr/bin/sum
                 - MS-DOS:          -
+                - OpenIndiana:     -
+                - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
                 - Solaris:         -
@@ -6698,6 +7290,8 @@ ALGORITHMS
                 - macOS:           -
                 - Minix:           -
                 - MS-DOS:          -
+                - OpenIndiana:     -
+                - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          /bin/sum
                 - Solaris 11 Express:
@@ -6762,6 +7356,9 @@ ALGORITHMS
                                    /usr/bin/cksum -a old2
                                    /usr/bin/sum -a old2
                 - NextStep:        -
+                - OpenIndiana:     /usr/bin/cksum -a sysv|--algorithm=sysv
+                                   /usr/gnu/bin/sum -s|--sysv
+                - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          /bin/sum -5
                 - SCO UnixWare:    /bin/sum
@@ -6823,6 +7420,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("tiger128,3", $input);
                 - Plan 9:          -
@@ -6882,6 +7480,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.1+:        hash("tiger128,4", $input);
                 - Plan 9:          -
@@ -6892,7 +7491,7 @@ ALGORITHMS
                 - Wolfram:         -
 \
             since:
-                Jacksum 3.5.0
+                Jacksum 3.6.0
 \
             implementation:
                 mini-modification on bouncycastle's TigerDigest
@@ -6938,6 +7537,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("tiger160,3", $input);
                 - Plan 9:          -
@@ -6997,6 +7597,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.1+:        hash("tiger160,4", $input);
                 - Plan 9:          -
@@ -7007,7 +7608,7 @@ ALGORITHMS
                 - Wolfram:         -
 \
             since:
-                Jacksum 3.5.0
+                Jacksum 3.6.0
 \
             implementation:
                 mini-modification on bouncycastle's TigerDigest
@@ -7059,6 +7660,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.4+:        hash("tiger192,3", $input);
                 - Plan 9:          -
@@ -7117,6 +7719,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP 5.1+:        hash("tiger192,4", $input);
                 - Plan 9:          -
@@ -7127,7 +7730,7 @@ ALGORITHMS
                 - Wolfram:         -
 \
             since:
-                Jacksum 3.5.0
+                Jacksum 3.6.0
 \
             implementation:
                 mini-modification on bouncycastle's TigerDigest
@@ -7373,6 +7976,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -whirlpool
                 - PHP:             hash("whirlpool", $input);
                 - Plan 9:          -
@@ -7387,6 +7991,44 @@ ALGORITHMS
 \
             implementation:
                  gnu.crypto.hash.Whirlpool (by jonelo)
+
+
+    xoodyak
+            algorithm:
+                Xoodyak
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                05/2021
+\
+            broken:
+                no
+\
+            website:
+                https://keccak.team/xoodyak.html
+\
+            comment:
+                Xoodyak is a versatile cryptographic scheme that can be used for
+                hashing, encryption, MAC computation and authenticated encryption.
+                Jacksum supports the hashing part of Xoodyak.
+\
+                Xoodyak was one of the 10 finalists of the NIST Lightweight
+                Cryptography competition (2019-2023).
+\
+                Xoodyak was created by Joan Daemen, Seth Hoffert,
+                Michaël Peeters, Gilles Van Assche, Ronny Van Keer, and
+                Silvia Mella.
+\
+            since:
+                Jacksum 3.6.0
+\
+            implementation:
+                org.bouncycastle.crypto.digests.XoodyakDigest
 
 
     xor8, xor-8
@@ -7971,7 +8613,7 @@ REPORTING BUGS
 
 
 COPYRIGHT
-    Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann
+    Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Loefflmann
     Type `jacksum --copyright` to see the entire copyright section.
 
 

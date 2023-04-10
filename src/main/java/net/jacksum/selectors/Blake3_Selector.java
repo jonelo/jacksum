@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.5.0 - a checksum utility in Java
+  Jacksum 3.6.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -27,6 +27,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.Blake3Wrapper;
+import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
  *
@@ -61,6 +62,11 @@ public class Blake3_Selector extends Selector {
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
         return new Blake3Wrapper(name);
+    }
+
+    @Override
+    public AbstractChecksum getAlternateImplementation() throws NoSuchAlgorithmException {
+        return new MDbouncycastle(name);
     }
 
 }
