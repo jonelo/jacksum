@@ -36,7 +36,7 @@ public class Blake2spDigest
     public Blake2spDigest(byte[] key)
     {
         param = new byte[32];
-        buffer = new byte[256*2]; // fix by jonelo on March 24, 2023: double the buffer in order to avoid a java.lang.ArrayIndexOutOfBoundsException
+        buffer = new byte[8 * BLAKE2S_BLOCKBYTES];
         init(key);
     }
 
