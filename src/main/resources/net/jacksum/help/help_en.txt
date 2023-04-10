@@ -57,7 +57,7 @@ DESCRIPTION
         - 60+ options to control Jacksum's behavior on the command line
         - 14 standard encodings for representing hash values
         - 10 predefined styles for reading and writing files that contain hash values
-        - 8500+ lines of manpage with descriptions, examples, and compatibility
+        - 8600+ lines of manpage with descriptions, examples, and compatibility
           lists for the most common algorithms
 
 
@@ -376,7 +376,10 @@ OPTION TYPES
           [(--style|-C) <style>] |
           [
             [(--format|-F) <format>]
-            [(--encoding|-E) <encoding>] | [[(--hex-lowercase|-x)|(--hex-uppercase|-X)] [-g COUNT [-G CHAR]]]
+            [
+              [(--encoding|-E) <encoding>] |
+              [[(--hex-lowercase|-x)|(--hex-uppercase|-X)] [-g <count> [-G <char>]]]
+            ]
             [--filesize <boolean>]
             [(--timestamp|-t) <format>]
             [--legacy-stdin-name]
@@ -385,7 +388,11 @@ OPTION TYPES
           [--gnu-filename-escaping <boolean>]
           [--no-path] |
           [
-            (--path-absolute | --path-relative-to <path> | (--path-relative-to-entry <number> (--file-list|-L) <list>))
+            (
+              --path-absolute |
+              --path-relative-to <path> |
+              (--path-relative-to-entry <number> (--file-list|-L) <list>)
+            )
             [--path-separator|-P <char>]
           ]
         ]
@@ -395,8 +402,14 @@ OPTION TYPES
 \
         [--utf8|-8]
         [--bom]
-        [--stdout-charset <charset> | [(--output-file|-o|-O) <file> [--output-file-charset <charset>]]]
-        [--stderr-charset <charset> | [(--error-file|-u|-U) <file> [--error-file-charset <charset>>]]]
+        [
+            --stdout-charset <charset> |
+            [(--output-file|-o|-O) <file> [--output-file-charset <charset>]]
+        ]
+        [
+            --stderr-charset <charset> |
+            [(--error-file|-u|-U) <file> [--error-file-charset <charset>>]]
+        ]
 
 
 OPTION SUPPORT MATRIX
@@ -8600,7 +8613,7 @@ REPORTING BUGS
 
 
 COPYRIGHT
-    Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann
+    Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Loefflmann
     Type `jacksum --copyright` to see the entire copyright section.
 
 
