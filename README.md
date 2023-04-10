@@ -148,7 +148,7 @@ Example 6: Customized output, including customized algorithm selection (crc32c, 
     CRC32C (./kali-linux-2023.1-installer-amd64.iso) = dUWxuQ
     SHA-256 (./kali-linux-2023.1-installer-amd64.iso) = RuBXOaILKdtgyh//LpBoXqYyBxwxSpwkFtfEas7ye/A
     SHA3-256 (./kali-linux-2023.1-installer-amd64.iso) = ffPkMr8uVPCO5GIHm8YpAbmaOVeBMaxvdLPI/N4NkbE
-    
+
     CRC32C (./ubuntu-22.04.2-desktop-amd64.iso) = hIXQsw
     SHA-256 (./ubuntu-22.04.2-desktop-amd64.iso) = uY2slAqCsRDmJlynjRMg8fcQOGHpIqoaVOQgJobpu9M
     SHA3-256 (./ubuntu-22.04.2-desktop-amd64.iso) = bvOhwtwckCQuzgm4LLEJoqPbjcbWSRSuNUOcyY4/1L0
@@ -164,6 +164,7 @@ Example 8: Customized output like above, but one hash only (encoded by base64-no
     $ jacksum -a crc32c+sha-256+sha3-256 -F "#ALGONAMES{uppercase} (#FILENAME) = #HASH{base64-nopadding}" .
     CRC32C,SHA-256,SHA3-256 (./kali-linux-2023.1-installer-amd64.iso) = dUWxuUbgVzmiCynbYMof/y6QaF6mMgccMUqcJBbXxGrO8nvwffPkMr8uVPCO5GIHm8YpAbmaOVeBMaxvdLPI/N4NkbE
     CRC32C,SHA-256,SHA3-256 (./ubuntu-22.04.2-desktop-amd64.iso) = hIXQs7mNrJQKgrEQ5iZcp40TIPH3EDhh6SKqGlTkICaG6bvTbvOhwtwckCQuzgm4LLEJoqPbjcbWSRSuNUOcyY4/1L0
+
 
 Example 9: Customized output in hashdeep format (filesize,hash1,...,hashN,filename) with modern algorithms
 
@@ -188,7 +189,6 @@ Example 2: as above by using an alias
     $ jacksum -a crc32c -x -q txt:123456789
     e3069283 9
 
-
 #### 7 parameters
 
 An extended model with 7 CRC parameters is also supported in order to define CRCs that incorporate the length of the message. If the 7th parameter is set to true, the most significant octet of the length will be processed first to the update method of the CRC. If it is set to false, the least significant octet of the length will be processed first to the update method of the CRC.
@@ -212,6 +212,12 @@ Example 1: get the output of the sum command from [Plan 9](https://en.wikipedia.
 
     $ jacksum -a crc:32,04C11DB7,0,true,true,0,true,CC55CC55 -x -q txt:123456789
     afcbb09a 9
+    
+Example 2: as above by using an alias
+
+    $ jacksum -a sum_plan9 -x -q txt:123456789
+    afcbb09a 9
+
 
 Example 2: as above by using an alias
 
@@ -555,6 +561,10 @@ $ rm -R jacksum-$VERSION/
 I appreciate feedback from users, bug hunters, and fresh ideas from open minded people. Feel free and file [support requests, change requests, bug reports and feature requests on GitHub](https://github.com/jonelo/jacksum/issues)
 
 Spread the word, or give a star here on GitHub.
+
+## Credits
+
+Jacksum implements a lot of algorithms, but it doesn't reinvent the wheel if an algorithm is available already in another mature crypto library. So Jacksum relies on [Bouncy Castle](https://www.bouncycastle.org), [java-crc](https://github.com/snksoft/java-crc), [GNU Crypto](https://www.gnu.org/software/gnu-crypto/) (abandoned), Flexiprovider (abandoned), and Projet RNRT SAPHIR (abandoned). Libraries that have been abandoned are now supported by Jacksum (the hash part only). The Jacksum manpage clearly points out the origin for each algorithm. Any algorithm that is accepted by the Jacksum project will benefit from the framework that applies to all algorithms. For more information on that subject please type `jacksum --copyright`or go to the [copyright page](https://jacksum.net/en/legal/copyright.html).
 
 ## Credits
 
