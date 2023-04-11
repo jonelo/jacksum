@@ -36,7 +36,7 @@ public class Fnv1a_n extends Fnv1_n {
         for (int i = offset; i < length + offset; i++) {
             value = value.xor(BIG[bytes[i] & 0xFF]);
             value = value.multiply(prime);
-            value = value.mod(modulo);
+            value = value.and(mask); // in Java: x % 2^n == x & (2^n - 1)
         }
         this.length += length;
     }

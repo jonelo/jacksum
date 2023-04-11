@@ -51,7 +51,7 @@ public class FNV0_Selector extends Selector {
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
         String bits = name.substring(6);
         if (bits.equals("32")) {
-            // use this specific implementation if possible since it is optimzed
+            // use this specific implementation if possible since it is optimized
             return new Fnv0_32();
         } else {
             // Fnv0_n is much slower than the specific Fnv0_32

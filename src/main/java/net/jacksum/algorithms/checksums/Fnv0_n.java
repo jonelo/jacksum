@@ -33,8 +33,8 @@ public class Fnv0_n extends AbstractChecksum {
     BigInteger[] BIG;
     protected BigInteger prime;
     protected BigInteger value = BigInteger.ZERO;
-    protected BigInteger modulo;
-    //protected int width = 0;
+    protected BigInteger mask;
+
     int targetsize = 0; // in bytes
 
     public Fnv0_n(int width) throws NoSuchAlgorithmException {
@@ -61,7 +61,7 @@ public class Fnv0_n extends AbstractChecksum {
             formatPreferences.setHashEncoding(Encoding.HEX);
         }
         BigInteger TWO = BIG[2]; // BigInteger.valueOf(2);
-        modulo = TWO.pow(width);
+        mask = TWO.pow(width).subtract(BigInteger.ONE);
         switch (width) {
             case 32:
                 targetsize = 4;
@@ -130,7 +130,7 @@ public class Fnv0_n extends AbstractChecksum {
     public void update(byte[] bytes, int offset, int length) {
         for (int i = offset; i < length + offset; i++) {
             value = value.multiply(prime);
-            value = value.mod(modulo);
+            value = value.and(mask);
             value = value.xor(BIG[bytes[i] & 0xFF]);
         }
         this.length += length;
@@ -140,7 +140,7 @@ public class Fnv0_n extends AbstractChecksum {
     @Override
     public byte[] getByteArray() {
         byte[] target = new byte[targetsize];
-        byte[] source = value.and(modulo.subtract(BigInteger.ONE)).toByteArray();
+        byte[] source = value.and(mask).toByteArray();
 
         if (source.length > target.length) {
             int offset = 0;

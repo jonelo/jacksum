@@ -61,7 +61,7 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
      * This weight information is used to balance the load among different
      * worker threads.
      * To regenerate this information use the main method in this class.
-     * java -classpath jacksum.jar net.jacksum.multicore.manyalgos.HashAlgorithm <20 MB+ file> [algoname]
+     * java -classpath jacksum.jar net.jacksum.multicore.manyalgos.HashAlgorithm <20 MB+ file> [algoname]...
      */
     static {
 
@@ -205,23 +205,23 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS.put("fcs16", 63);
         WEIGHTS.put("fletcher16", 87);
         WEIGHTS.put("fnv-0_32", 31);
-        WEIGHTS.put("fnv-0_64", 4359);
-        WEIGHTS.put("fnv-0_128", 6003);
-        WEIGHTS.put("fnv-0_256", 10225);
-        WEIGHTS.put("fnv-0_512", 20959);
-        WEIGHTS.put("fnv-0_1024", 59382);
+        WEIGHTS.put("fnv-0_64", 1849);
+        WEIGHTS.put("fnv-0_128", 2282);
+        WEIGHTS.put("fnv-0_256", 3179);
+        WEIGHTS.put("fnv-0_512", 5352);
+        WEIGHTS.put("fnv-0_1024", 11795);
         WEIGHTS.put("fnv-1_32", 31);
-        WEIGHTS.put("fnv-1_64", 4329);
-        WEIGHTS.put("fnv-1_128", 6194);
-        WEIGHTS.put("fnv-1_256", 10435);
-        WEIGHTS.put("fnv-1_512", 21127);
-        WEIGHTS.put("fnv-1_1024", 58562);
+        WEIGHTS.put("fnv-1_64", 1871);
+        WEIGHTS.put("fnv-1_128", 2266);
+        WEIGHTS.put("fnv-1_256", 3195);
+        WEIGHTS.put("fnv-1_512", 5382);
+        WEIGHTS.put("fnv-1_1024", 11401);
         WEIGHTS.put("fnv-1a_32", 31);
-        WEIGHTS.put("fnv-1a_64", 4441);
-        WEIGHTS.put("fnv-1a_128", 6045);
-        WEIGHTS.put("fnv-1a_256", 10647);
-        WEIGHTS.put("fnv-1a_512", 21221);
-        WEIGHTS.put("fnv-1a_1024", 58140);
+        WEIGHTS.put("fnv-1a_64", 1954);
+        WEIGHTS.put("fnv-1a_128", 2343);
+        WEIGHTS.put("fnv-1a_256", 3485);
+        WEIGHTS.put("fnv-1a_512", 5552);
+        WEIGHTS.put("fnv-1a_1024", 11605);
         WEIGHTS.put("fork256", 85);
         WEIGHTS.put("fugue224", 236);
         WEIGHTS.put("fugue256", 236);
