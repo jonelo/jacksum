@@ -5204,10 +5204,9 @@ ALGORITHMS
 \
                 The PRNG hash calculates the hash using the formula:
 \
-                    hash = <init>
-                    for i in message {
-                        hash = hash * <multiplier> + <addend> + message[i]
-                    }
+                    hash := <init>
+                    for each byte in the message to be hashed do
+                        hash := hash * <multiplier> + <addend> + byte
                     return hash
 \
                 The PRNG hash supports properties that control the algorithm.
