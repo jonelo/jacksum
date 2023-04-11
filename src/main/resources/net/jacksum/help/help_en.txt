@@ -50,13 +50,20 @@ DESCRIPTION
         - Finding all duplicates of a file by its hash value
         - Finding the algorithm(s) that generated a certain hash value
 \
-    In order to achieve the goals above, Jacksum supports you with
+    In order to achieve the goals above, Jacksum supports
 \
         - 489 standard hash functions
-        - Customizable CRCs from 1 to 64 bit width
+        - customizable CRCs from 1 to 64 bit width
         - 60+ options to control Jacksum's behavior on the command line
+        - multithreading for calculations in order to take advantage of multiple
+          CPUs and CPU cores if multiple algorithms have been selected
+        - multithreading for data reads in order to benefit from fast SSDs if
+          multiple files are read simultaneously
+        - the detection of file system cycles if files are traversed recursively
+        - a fully customizable output format
         - 14 standard encodings for representing hash values
         - 10 predefined styles for reading and writing files that contain hash values
+        - 170 different character sets to be able to read and write hash files correctly
         - 8600+ lines of manpage with descriptions, examples, and compatibility
           lists for the most common algorithms
 
