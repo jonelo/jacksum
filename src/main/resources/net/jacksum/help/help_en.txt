@@ -4017,11 +4017,17 @@ ALGORITHMS
                 The FNV-0 is the historic FNV algorithm that is deprecated.
                 The FNV-0 hashes all buffers that contain only 0 octets to a
                 hash value of 0. The FNV-1 and FNV-1a hash do not suffer from
-                this minor problem. The output <length> can vary from 32
-                bits to 1024 bits.
+                this minor problem.
+\
+                The output <length> can vary from 32 bits to 1024 bits. By
+                default, the file size is printed if <length> is set to 32 bit,
+                otherwise it is omitted. By default, hash value encoding is
+                decimal if <length> is set to 32 bit, otherwise it is
+                hexadecimal.
 \
             since:
                 Jacksum 3.0.0
+\
             implementation:
                 net.jacksum.algorithms.checksums.Fnv0_32 and Fnv0_n
 

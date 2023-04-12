@@ -39,28 +39,47 @@ public class Fnv0_n extends AbstractChecksum {
 
     public Fnv0_n(int width) throws NoSuchAlgorithmException {
         super();
-        formatPreferences.setHashEncoding(Encoding.DEC);
-        formatPreferences.setFilesizeWanted(true);
-        formatPreferences.setSeparator(" ");
         init(width);
     }
 
+    public Fnv0_n(String width) throws NoSuchAlgorithmException {
+        super();
+        try {
+            bitWidth = Integer.parseInt(width);
+        } catch (NumberFormatException e) {
+            throw new NoSuchAlgorithmException(String.format("Unknown algorithm: not a number. %s", e));
+        }
+        init(bitWidth);
+    }
+
     private void init(int width) throws NoSuchAlgorithmException {
-        if ((width < 32) || (width > 1024)) {
-            throw new NoSuchAlgorithmException("Unknown algorithm: width "
-                + width + " is not supported.");
+        // check validity of the width
+        if (width < 32 || width > 1024) {
+            throw new NoSuchAlgorithmException(String.format("Unknown algorithm: width %s is not supported.",  width));
         }
         this.bitWidth = width;
+
+        // initialize formatPreferences
+        formatPreferences.setSeparator(" ");
+        if (width <= 32) {
+            formatPreferences.setHashEncoding(Encoding.DEC);
+            formatPreferences.setFilesizeWanted(true);
+        } else {
+            formatPreferences.setHashEncoding(Encoding.HEX);
+            formatPreferences.setFilesizeWanted(false);
+        }
+
+        // initialize BigInteger array for faster access to the first
+        // 255 BigInteger values
         BIG = new BigInteger[256];
         for (int i=0; i < BIG.length; i++) {
             BIG[i] = BigInteger.valueOf(i);
         }
-        if (width <= 32) {
-            formatPreferences.setHashEncoding(Encoding.DEC);
-        } else {
-            formatPreferences.setHashEncoding(Encoding.HEX);
-        }
-        BigInteger TWO = BIG[2]; // BigInteger.valueOf(2);
+
+        // initialize BigInteger with the value of 2
+        BigInteger TWO = BIG[2];
+
+        // initialize members dependent on the width
         mask = TWO.pow(width).subtract(BigInteger.ONE);
         switch (width) {
             case 32:
@@ -108,16 +127,6 @@ public class Fnv0_n extends AbstractChecksum {
         }
     }
 
-    public Fnv0_n(String strwidth) throws NoSuchAlgorithmException {
-        super();
-        try {
-            bitWidth = Integer.parseInt(strwidth);
-        } catch (NumberFormatException e) {
-            throw new NoSuchAlgorithmException(
-                    "Unknown algorithm: not a number. " + e);
-        }
-        init(bitWidth);
-    }
 
 
     @Override
