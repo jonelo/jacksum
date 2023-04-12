@@ -4029,7 +4029,7 @@ ALGORITHMS
                 Jacksum 3.0.0
 \
             implementation:
-                net.jacksum.algorithms.checksums.Fnv0_32 and Fnv0_n
+                net.jacksum.algorithms.checksums.Fnv0_32, Fnv0_64, and Fnv0_n
 
 
     fnv-1_<length>
@@ -4089,7 +4089,7 @@ ALGORITHMS
                 Jacksum 3.0.0
 \
            implementation:
-                net.jacksum.algorithms.checksums.Fnv1_32 and Fnv1_n
+                net.jacksum.algorithms.checksums.Fnv1_32, Fnv1_64, and Fnv1_n
 
 
     fnv-1a_<length>
@@ -4151,7 +4151,7 @@ ALGORITHMS
                 Jacksum 3.0.0
 \
             implementation:
-                net.jacksum.algorithms.checksums.Fnv1a_32 and Fnv1a_n
+                net.jacksum.algorithms.checksums.Fnv1a_32, Fnv1a_64, and Fnv1a_n
 
 
     fork256, fork-256

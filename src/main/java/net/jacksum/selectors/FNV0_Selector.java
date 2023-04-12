@@ -27,6 +27,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Fnv0_32;
+import net.jacksum.algorithms.checksums.Fnv0_64;
 import net.jacksum.algorithms.checksums.Fnv0_n;
 
 /**
@@ -53,6 +54,9 @@ public class FNV0_Selector extends Selector {
         if (bits.equals("32")) {
             // use this specific implementation if possible since it is optimized
             return new Fnv0_32();
+        } else
+        if (bits.equals("64")) {
+            return new Fnv0_64();
         } else {
             // Fnv0_n is much slower than the specific Fnv0_32
             return new Fnv0_n(bits);
@@ -62,7 +66,7 @@ public class FNV0_Selector extends Selector {
     @Override
     public AbstractChecksum getAlternateImplementation() throws NoSuchAlgorithmException {
         String bits = name.substring(6);
-        if (bits.equals("32")) {
+        if (bits.equals("32") || bits.equals("64")) {
             // no primitive optimization, standard BigInteger implementation
             return new Fnv0_n(bits);
         } else {

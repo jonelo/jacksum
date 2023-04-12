@@ -17,7 +17,8 @@ Jacksum 3.6.0, April, 10, 2023
     primary, because it is slightly faster.
 
 - updates:
-  - minor performance improvement for FNV-0/FNV-1/FNV-1a width > 32 bits
+  - minor performance improvement for all FNV-0/FNV-1/FNV-1a with a bit width > 32 bits
+  - significant performance improvement for all FNV-0/FNV-1/FNV-1a with a width of 64 bits
   - documentation: added OpenIndiana to the compatibility lists.
 
 - bug fixes:
