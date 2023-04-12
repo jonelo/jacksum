@@ -4048,7 +4048,12 @@ ALGORITHMS
             comment:
                 Fowler-Noll-Vo is a non-cryptographic hash function created by
                 Glenn Fowler, Landon Curt Noll, and Phong Vo.
-                The output <length> can vary from 32 bits to 1024 bits.
+\
+                The output <length> can vary from 32 bits to 1024 bits. By
+                default, the file size is printed if <length> is set to 32 bit,
+                otherwise it is omitted. By default, hash value encoding is
+                decimal if <length> is set to 32 bit, otherwise it is
+                hexadecimal.
 \
             compatibility:
                 - 7z:              -
@@ -4105,7 +4110,12 @@ ALGORITHMS
                 created by Glenn Fowler, Landon Curt Noll, and Phong Vo.
                 The only difference between the FNV-1a hash and the FNV-1 hash
                 is the order of the xor and multiply in the update method.
-                The output <length> can vary from 32 bits to 1024 bits.
+\
+                The output <length> can vary from 32 bits to 1024 bits. By
+                default, the file size is printed if <length> is set to 32 bit,
+                otherwise it is omitted. By default, hash value encoding is
+                decimal if <length> is set to 32 bit, otherwise it is
+                hexadecimal.
 \
             compatibility:
                 - 7z:              -
