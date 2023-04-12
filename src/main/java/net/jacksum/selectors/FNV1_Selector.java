@@ -59,4 +59,15 @@ public class FNV1_Selector extends Selector {
         }
     }
 
+    @Override
+    public AbstractChecksum getAlternateImplementation() throws NoSuchAlgorithmException {
+        String bits = name.substring(6);
+        if (bits.equals("32")) {
+            // no primitive optimization, standard BigInteger implementation
+            return new Fnv1_n(bits);
+        } else {
+            throw new NoSuchAlgorithmException("There is no alternate implementation available.");
+        }
+    }
+
 }
