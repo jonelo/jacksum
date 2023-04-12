@@ -27,8 +27,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class Fnv1a_n extends Fnv1_n {
 
-    public Fnv1a_n(String strBitWidth) throws NoSuchAlgorithmException {
-        super(strBitWidth);
+    public Fnv1a_n(String width) throws NoSuchAlgorithmException {
+        super(width);
     }
 
     @Override

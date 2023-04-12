@@ -25,6 +25,7 @@ package net.jacksum.algorithms.checksums;
 
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
+
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
@@ -55,7 +56,7 @@ public class Fnv0_n extends AbstractChecksum {
     private void init(int width) throws NoSuchAlgorithmException {
         // check validity of the width
         if (width < 32 || width > 1024) {
-            throw new NoSuchAlgorithmException(String.format("Unknown algorithm: width %s is not supported.",  width));
+            throw new NoSuchAlgorithmException(String.format("Unknown algorithm: width %s is not supported.", width));
         }
         this.bitWidth = width;
 
@@ -72,7 +73,7 @@ public class Fnv0_n extends AbstractChecksum {
         // initialize BigInteger array for faster access to the first
         // 255 BigInteger values
         BIG = new BigInteger[256];
-        for (int i=0; i < BIG.length; i++) {
+        for (int i = 0; i < BIG.length; i++) {
             BIG[i] = BigInteger.valueOf(i);
         }
 
@@ -83,50 +84,47 @@ public class Fnv0_n extends AbstractChecksum {
         mask = TWO.pow(width).subtract(BigInteger.ONE);
         switch (width) {
             case 32:
-                targetsize = 4;
                 prime = TWO.pow(24);
                 prime = prime.add(TWO.pow(8));
                 prime = prime.add(BIG[0x93]);
                 // prime = 16777619
+                // prime (bin) = 1000000000000000110010011
+                // prime = new BigInteger("1000000000000000110010011", 2);
                 break;
             case 64:
-                targetsize = 8;
                 prime = TWO.pow(40);
                 prime = prime.add(TWO.pow(8));
                 prime = prime.add(BIG[0xb3]);
                 // prime = 1099511628211
+                // prime (bin) = 10000000000000000000000000000000110110011
+                // prime = new BigInteger("10000000000000000000000000000000110110011", 2);
                 break;
             case 128:
-                targetsize = 16;
                 prime = TWO.pow(88);
                 prime = prime.add(TWO.pow(8));
                 prime = prime.add(BIG[0x3b]);
                 // prime = 309485009821345068724781371
                 break;
             case 256:
-                targetsize = 32;
                 prime = TWO.pow(168);
                 prime = prime.add(TWO.pow(8));
                 prime = prime.add(BIG[0x63]);
                 break;
             case 512:
-                targetsize = 64;
                 prime = TWO.pow(344);
                 prime = prime.add(TWO.pow(8));
                 prime = prime.add(BIG[0x57]);
                 break;
             case 1024:
-                targetsize = 128;
                 prime = TWO.pow(680);
                 prime = prime.add(TWO.pow(8));
                 prime = prime.add(BIG[0x8d]);
                 break;
             default:
-                throw new NoSuchAlgorithmException(
-                        "Unknown algorithm: width " + width + " is not supported.");
+                throw new NoSuchAlgorithmException(String.format("Unknown algorithm: width %s is not supported.", width));
         }
+        targetsize = width / 8;
     }
-
 
 
     @Override
@@ -161,8 +159,7 @@ public class Fnv0_n extends AbstractChecksum {
                 }
             }
             System.arraycopy(source, offset, target, 0, target.length);
-        } else
-        if (source.length <= target.length) {
+        } else if (source.length <= target.length) {
             System.arraycopy(source, 0, target, target.length - source.length, source.length);
         }
         return target;

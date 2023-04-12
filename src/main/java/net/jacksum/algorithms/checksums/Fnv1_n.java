@@ -30,9 +30,9 @@ public class Fnv1_n extends Fnv0_n {
 
     private final BigInteger INIT;
 
-    public Fnv1_n(String strBitWidth) throws NoSuchAlgorithmException {
-        super(strBitWidth);
-        switch (bitWidth) {
+    public Fnv1_n(String width) throws NoSuchAlgorithmException {
+        super(width);
+        switch (this.bitWidth) {
             case 32:   INIT = new BigInteger("2166136261");
                        break;
             case 64:   INIT = new BigInteger("14695981039346656037");
@@ -45,8 +45,7 @@ public class Fnv1_n extends Fnv0_n {
                        break;
             case 1024: INIT = new BigInteger("14197795064947621068722070641403218320880622795441933960878474914617582723252296732303717722150864096521202355549365628174669108571814760471015076148029755969804077320157692458563003215304957150157403644460363550505412711285966361610267868082893823963790439336411086884584107735010676915");
                        break;
-            default:   throw new NoSuchAlgorithmException("Unknown algorithm: width " + bitWidth
-                           + " is not supported.");
+            default:   throw new NoSuchAlgorithmException(String.format("Unknown algorithm: width %s is not supported.", this.bitWidth));
         }
         value = INIT;
     }
