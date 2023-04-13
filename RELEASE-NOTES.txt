@@ -1,4 +1,4 @@
-Jacksum 3.6.0, April, 10, 2023
+Jacksum 3.6.0, April, 15, 2023
 
 - new algorithms:
   - added all finalists that support hashing of the NIST Lightweight Cryptography competition (2019–2023)
@@ -17,13 +17,13 @@ Jacksum 3.6.0, April, 10, 2023
     primary, because it is slightly faster.
 
 - updates:
-  - minor performance improvement for all FNV-0/FNV-1/FNV-1a with a bit width > 32 bits
   - significant performance improvement for all FNV-0/FNV-1/FNV-1a with a width of 64 bits
+  - minor performance improvements for all FNV-0/FNV-1/FNV-1a with a bit width > 64 bits
   - documentation: added OpenIndiana to the compatibility lists.
 
 - bug fixes:
   - CommonHashStatistics.java was not added to the repo which avoided the compilation
-  - fixed the grammar in the manpage by using OpenAI's grammar correction
+  - fixed the grammar bugs in the manpage by using OpenAI's grammar correction
 
 
 Jacksum 3.5.0, Jan 7, 2023
