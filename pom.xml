@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.jacksum</groupId>
     <artifactId>jacksum</artifactId>
-    <version>3.6.0-SNAPSHOT</version>
+    <version>3.6.0</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,7 +14,7 @@
     <name>Jacksum</name>
     <description>Jacksum (JAva ChecKSUM) is a free, open source, cross-platform,
         feature-rich, multi-threaded, command line utility/lib that makes hash
-        functions available to you. Jacksum supports 477 algorithms.
+        functions available to you. Jacksum supports 489 algorithms.
     </description>
     <url>https://jacksum.net</url>
 
