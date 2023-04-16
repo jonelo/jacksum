@@ -1,4 +1,4 @@
-Jacksum 3.6.0, April, 15, 2023
+Jacksum 3.6.0, April 16, 2023
 
 - new algorithms:
   - added all finalists that support hashing of the NIST Lightweight Cryptography competition (2019–2023)
