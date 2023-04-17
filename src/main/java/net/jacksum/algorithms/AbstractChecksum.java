@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.zip.Checksum;
 import net.jacksum.formats.Encoding;
 import net.jacksum.formats.Formatter;
+import net.jacksum.parameters.Parameters;
 import net.jacksum.parameters.combined.ChecksumParameters;
 
 /**
@@ -79,6 +80,10 @@ abstract public class AbstractChecksum implements Checksum {
         formatPreferences.overwritePreferences(parameters);
         formatter = new Formatter(formatPreferences);
         this.sequence = parameters.getSequenceAsBytes();
+        if (parameters.getSequenceType().equals(Parameters.SequenceType.FILE)) {
+            filename = parameters.getSequenceFilename();
+        }
+
     }
 
     public FormatPreferences getFormatPreferences() {

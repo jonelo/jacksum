@@ -6,3 +6,4 @@ Jacksum 3.7.0, TBD, 2023
 
 - bug fixes:
   - NPE if filename is null and -F is set (e.g. jacksum -a none -F "#SEQUENCE" -q txt:)
+  - #FILENAME is not replaced in <format> if both "-F <format>" and "-q file:<file>" have been used

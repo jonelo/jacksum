@@ -533,24 +533,38 @@ public class Parameters implements
         return getSequenceAsBytes();
     }
 
+
+    private SequenceType sequenceType = null;
+    public SequenceType getSequenceType() { return sequenceType; }
+
+    private String sequenceFilename;
+    public String getSequenceFilename() { return sequenceFilename; }
+
     // -q
     public void setSequence(String sequence) throws IllegalArgumentException {
         this.sequenceAsString = sequence;
         String indicator = sequence.toLowerCase();
 
         if (indicator.startsWith("txt:")) {
+            sequenceType = SequenceType.TXT;
             this.sequenceAsBytes = sequence2bytes(SequenceType.TXT, sequence.substring(4));
         } else if (indicator.startsWith("txtf:")) {
+            this.sequenceType = SequenceType.TXTF;
             this.sequenceAsBytes = sequence2bytes(SequenceType.TXTF, sequence.substring(5));
         } else if (indicator.startsWith("dec:")) {
+            this.sequenceType = SequenceType.DEC;
             this.sequenceAsBytes = sequence2bytes(SequenceType.DEC, sequence.substring(4));
         } else if (indicator.startsWith("hex:")) {
+            this.sequenceType = SequenceType.HEX;
             this.sequenceAsBytes = sequence2bytes(SequenceType.HEX, sequence.substring(4));
         } else if (indicator.startsWith("bin:")) {
+            this.sequenceType = SequenceType.BIN;
             this.sequenceAsBytes = sequence2bytes(SequenceType.BIN, sequence.substring(4));
         } else if (indicator.startsWith("file:")) {
+            this.sequenceType = SequenceType.FILE;
             this.sequenceAsBytes = sequence2bytes(SequenceType.FILE, sequence.substring(5));
         } else {
+            this.sequenceType = SequenceType.HEX;
             this.sequenceAsBytes = sequence2bytes(SequenceType.HEX, sequence);
         }
     }
@@ -977,7 +991,7 @@ public class Parameters implements
         this.wantedListFilter = wantedListFilter;
     }
 
-    enum SequenceType {
+    public enum SequenceType {
         TXT, TXTF, DEC, HEX, BIN, FILE
     }
 
@@ -1840,6 +1854,7 @@ public class Parameters implements
                             throw new IllegalArgumentException(String.format("File %s is greater than 128 MiB which exceeds the limit for option -q file:<file>", sequence));
                         }
                         bytes = Files.readAllBytes(p);
+                        sequenceFilename = sequence;
                     } else {
                         throw new IllegalArgumentException(String.format("File %s does not exist.", p));
                     }
