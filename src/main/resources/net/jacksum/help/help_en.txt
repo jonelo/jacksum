@@ -49,23 +49,27 @@ DESCRIPTION
         - Finding files that do not match certain fingerprints for negative matching
         - Finding all duplicates of a file by its hash value
         - Finding the algorithm(s) that generated a certain hash value
+        - Investigate polynomials of CRCs
 \
-    In order to achieve the goals above, Jacksum supports
+    In order to achieve the goals above, Jacksum supports:
 \
         - 489 standard hash functions
-        - customizable CRCs from 1 to 64 bit width
-        - 60+ options to control Jacksum's behavior on the command line
-        - multithreading for calculations in order to take advantage of multiple
-          CPUs and CPU cores if multiple algorithms have been selected
-        - multithreading for data reads in order to benefit from fast SSDs if
-          multiple files are read simultaneously
-        - the detection of file system cycles if files are traversed recursively
-        - a fully customizable output format
-        - 14 standard encodings for representing hash values
-        - 10 predefined styles for reading and writing files that contain hash values
-        - 170 different character sets to be able to read and write hash files correctly
+        - 60+ command line options to control Jacksum's behavior
+        - 10 predefined standard styles for reading and writing files that
+          contain hash values
+        - Recursive traversal with depth control, policies to follow symbolic
+          links on files and folders, and file system cycle detection
+        - Multi-threading for parallel hash calculations and data reads in
+          order to take advantage of multi-core processors and SSDs
         - 8600+ lines of manpage with descriptions, examples, and compatibility
           lists for the most common algorithms
+\
+    To get the most out of it, customization is the key, Jacksum also supports:
+\
+        - Fully customizable output format
+        - 14 different encodings for representing hash values
+        - 170 different character sets to be able to read and write hash files correctly
+        - Customizable CRCs from 1 to 64 bit width
 
 
 OPERATING MODES
