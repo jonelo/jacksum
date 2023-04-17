@@ -50,6 +50,7 @@ public class FilenameFormatter implements FilenameFormatParameters {
 
 
     private String fixPathChar(String filename) {
+        if (filename == null) return "";
         if (parameters.isPathCharSet()) {
             return filename.replace(File.separatorChar, parameters.getPathChar());
         } else {
@@ -61,6 +62,7 @@ public class FilenameFormatter implements FilenameFormatParameters {
     // and each problematic character in the file name is escaped with a backslash, making the output unambiguous
     // even in the presence of arbitrary file names.
     public static String gnuEscapeProblematicCharsInFilename(String filename) {
+        if (filename == null) return "";
         StringBuilder buffer = new StringBuilder(filename);
         GeneralString.replaceAllStrings(buffer, "\\", "\\\\"); // backslash
         GeneralString.replaceAllStrings(buffer, "\n", "\\n"); // new line
@@ -75,6 +77,7 @@ public class FilenameFormatter implements FilenameFormatParameters {
     }
 
     public String gnuEscapeProblematicCharsInFilenameWithResult(String filename) {
+        if (filename == null) return "";
         String newFilename = gnuEscapeProblematicCharsInFilename(filename);
         // if there was a problematic character being replaced the length of the string will be larger
         filenameContainedProblematicChars = newFilename.length() != filename.length();
@@ -83,6 +86,7 @@ public class FilenameFormatter implements FilenameFormatParameters {
 
 
     public String format(String filename) {
+        if (filename == null) return "";
         filenameContainedProblematicChars = false;
         boolean escape = parameters.isGnuEscaping() && !OSControl.isWindows();
 

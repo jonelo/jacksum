@@ -140,6 +140,7 @@ public class Formatter {
     
     private static void _replaceFilenameTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
 
+        if (abstractChecksum.getFilename() == null) return;
         FilenameFormatter filenameFormatter = new FilenameFormatter(abstractChecksum.getFormatPreferences());
         String formattedFilename = filenameFormatter.format(abstractChecksum.getFilename());
 

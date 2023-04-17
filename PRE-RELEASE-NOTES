@@ -5,3 +5,4 @@ Jacksum 3.7.0, TBD, 2023
 - updates:
 
 - bug fixes:
+  - NPE if filename is null and -F is set (e.g. jacksum -a none -F "#SEQUENCE" -q txt:)
