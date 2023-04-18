@@ -80,7 +80,7 @@ abstract public class AbstractChecksum implements Checksum {
         formatPreferences.overwritePreferences(parameters);
         formatter = new Formatter(formatPreferences);
         this.sequence = parameters.getSequenceAsBytes();
-        if (parameters.getSequenceType().equals(Parameters.SequenceType.FILE)) {
+        if (parameters.getSequenceType() != null && parameters.getSequenceType().equals(Parameters.SequenceType.FILE)) {
             filename = parameters.getSequenceFilename();
         }
 
