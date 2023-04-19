@@ -196,14 +196,14 @@ public class AlgoInfoAction implements Action {
 //                    algorithms++;
                     if (parameters.isInfoMode()) {
                         if (first) {
-                            System.out.printf("%s:\n", cs.getName());
+                            System.out.printf("%s:%n", cs.getName());
                             first = false;
                         } else {
-                            System.out.printf("\n%s:\n", cs.getName());
+                            System.out.printf("%n%s:%n", cs.getName());
                         }
                         printAlgoInfo(4, cs);
                     } else {
-                        System.out.printf("%s\n", cs.getName());
+                        System.out.printf("%s%n", cs.getName());
                     }
                 }
             } else {
