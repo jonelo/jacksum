@@ -3,6 +3,8 @@ Jacksum 3.7.0, TBD, 2023
 - new algorithms:
 
 - updates:
+  - updated documentation:
+    - added description and encoding tables for the most common encodings (see "jacksum -h -E")
 
 - bug fixes:
   - NPE if filename is null and -F is set (e.g. jacksum -a none -F "#SEQUENCE" -q txt:)

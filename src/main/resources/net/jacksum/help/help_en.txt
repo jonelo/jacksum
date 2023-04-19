@@ -1296,7 +1296,7 @@ OPTIONS
     -E <encoding>
     --encoding <encoding>
 \
-            Both the hash value and the sequence (see also option -q) can
+            Both the hash value and the sequence (see also the option -q) can
             be encoded with the following encodings:
 \
                 <encoding>           description
@@ -1308,39 +1308,118 @@ OPTIONS
 \
                 oct                  octal
 \
-                hex                  hexadecimal in lowercase chars (same as -x)
-                                     Options -g and -G are taken into account
+                hex                  hexadecimal in lowercase chars, same as -x.
+                                     Options -g and -G are taken into account.
+                                     Each byte of the input is broken into two
+                                     4-bit values and represented by two
+                                     hexadecimal digits.
+                                     The encoding use this representation for
+                                     each 4-bit value from zero to 15:
+\
+                                          0 -  9:  0 1 2 3 4 5 6 7 8 9
+                                         10 - 15:  a b c d e f
 \
                 hex-lowercase        alias for hex (3.0)
 \
                 hexup                deprecated in 3.0, alias for hex-uppercase
 \
-                hex-uppercase        hexadecimal in uppercase chars (same as -X)
-                                     Options -g and -G are considered (3.0)
+                hex-uppercase        hexadecimal in uppercase chars, same as -X.
+                                     Options -g and -G are taken into account
+                                     (3.0). The encoding use this representation
+                                     for each 4-bit value from zero to 15:
+\
+                                          0 -  9:  0 1 2 3 4 5 6 7 8 9
+                                         10 - 15:  A B C D E F
 \
                 bb                   alias for bubblebabble
 \
-                bubblebabble         BubbleBabble (used by OpenSSH and SSH2)
+                bubblebabble         BubbleBabble is used by OpenSSH and SSH2.
+                                     The encoding was defined as a mechanism to
+                                     encode any binary data in a human-readable
+                                     format.
 \
                 base16               Base16 (RFC 4648)
 \
                 base32               Base32 (RFC 4648)
+                                     It encodes 5 bytes to 8 characters. The
+                                     digits 0, 1 and 8 are skipped due to their
+                                     similarity with the letters O, I and B.
+                                     The encoding use this representation for
+                                     each 5-bit value from zero to 31:
+\
+                                          0 -  9:  A B C D E F G H I J
+                                         10 - 19:  K L M N O P Q R S T
+                                         20 - 29:  U V W X Y Z 2 3 4 5
+                                         30 - 39:  6 7
+\
+                                         Padding:  =
 \
                 base32-nopadding     Base32, no padding (RFC 4648) (3.0)
 \
                 base32hex            Base32hex (RFC 4648) (3.0)
+                                     It encodes 5 bytes to 8 characters. It
+                                     extends hexadecimal in a more natural way.
+                                     The encoding use this representation for
+                                     each 5-bit value from zero to 31:
+\
+                                          0 -  9:  0 1 2 3 4 5 6 7 8 9
+                                         10 - 19:  A B C D E F G H I J
+                                         20 - 29:  K L M N O P Q R S T
+                                         30 - 39:  U V
+\
+                                         Padding:  =
 \
                 base32hex-nopadding  Base32hex, no padding (RFC 4648) (3.0)
 \
                 base64               Base64 (RFC 4648)
+                                     It encodes 3 bytes to 4 characters.
+                                     The encoding use this representation for
+                                     each 6-bit value from zero to 63:
+\
+                                          0 -  9:  A B C D E F G H I J
+                                         10 - 19:  K L M N O P Q R S T
+                                         20 - 29:  U V W X Y Z a b c d
+                                         30 - 39:  e f g h i j k l m n
+                                         40 - 49:  o p q r s t u v w x
+                                         50 - 59:  y z 0 1 2 3 4 5 6 7
+                                         60 - 63:  8 9 + /
+\
+                                         Padding:  =
 \
                 base64-nopadding     Base64, no padding (RFC 4648) (3.2)
 \
                 base64url            Base64 for URL (RFC 4648) (3.0)
+                                     The '+' and '/' characters of standard
+                                     Base64 are replaced by '-' and '_', so that
+                                     using URL encoders/decoders are no longer
+                                     necessary.
+                                     It encodes 3 bytes to 4 characters.
+                                     The encoding use this representation for
+                                     each 6-bit value from zero to 63:
+\
+                                          0 -  9:  A B C D E F G H I J
+                                         10 - 19:  K L M N O P Q R S T
+                                         20 - 29:  U V W X Y Z a b c d
+                                         30 - 39:  e f g h i j k l m n
+                                         40 - 49:  o p q r s t u v w x
+                                         50 - 59:  y z 0 1 2 3 4 5 6 7
+                                         60 - 63:  8 9 - _
+\
+                                         Padding:  =
 \
                 base64url-nopadding  Base64 for URL, no padding (RFC4648) (3.2)
 \
                 z-base-32            z-base-32 (3.1)
+                                     It encodes 5 bytes to 8 characters.
+                                     The encoding use this representation for
+                                     each 5-bit value from zero to 31:
+\
+                                          0 -  9:  y b n d r f g 8 e j
+                                         10 - 19:  k m c p q x o t 1 u
+                                         20 - 29:  w i s z a 3 4 5 h 7
+                                         30 - 39:  6 7
+\
+                                         Padding:  none
 \
 \
             Available since version 1.6.0 of Jacksum if not stated otherwise,
