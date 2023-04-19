@@ -7,3 +7,5 @@ Jacksum 3.7.0, TBD, 2023
 - bug fixes:
   - NPE if filename is null and -F is set (e.g. jacksum -a none -F "#SEQUENCE" -q txt:)
   - #FILENAME is not replaced in <format> if both "-F <format>" and "-q file:<file>" have been used
+  - aliases blake2sp-256 and blake2bp-512 are not accessible
+  - regression: "jacksum -a all:blake -l" returns "blake2sp-256 is an unknown algorithm" due to missing alias
