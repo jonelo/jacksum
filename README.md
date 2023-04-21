@@ -449,6 +449,60 @@ jacksum -a crc:16,1021,FFFF,false,false,FFFF -E hex -q txt:"Hello World"
 ```
 </details>
 
+### Jacksum hacks (unexpected free gifts)
+
+Jacksum's primary purpose is to deal with hashes. However, since Jacksum supports both many encodings and customized formatting you get additional features which can be quite useful sometimes. For all examples below we set "-a none", because we are not interested in hashing at all.
+
+#### File hex dump
+
+    $ jacksum -a none -q file:myfile.dat -F "#SEQUENCE" -E hex -g 1
+    4a 61 63 6b 73 75 6d
+
+#### String to hex
+
+    $ jacksum -a none -q txtf:"hello world\n" -F "#SEQUENCE{hex}"
+    68656c6c6f20776f726c640a
+
+#### base64("myfile.dat")
+
+    $ jacksum -a none -q file:myfile.dat -F "#SEQUENCE{base64}
+    SmFja3N1bQ==
+
+#### Hex string to base64 encoded string
+
+    $ jacksum -a none -q hex:68656c6c6f20776f726c64 -F "#SEQUENCE{base64}"
+    aGVsbG8gd29ybGQ=
+
+#### Translate an integer to a 0/1 sequence
+
+    $ jacksum -a none -q dec:42 -F "#SEQUENCE{bin}"
+    00101010
+
+#### Hex string to octal
+
+    $ jacksum -a none -q hex:7A -F "#SEQUENCE{oct}"
+    172
+
+#### Hex string to 0/1, octal, decimal, and hexadecimal
+
+    $ jacksum -a none -q hex:CAFE -F "bin: #SEQUENCE{bin}, dec: #SEQUENCE{dec}, oct: 0#SEQUENCE{oct}, hex:#SEQUENCE{hexup}"
+    bin: 1100101011111110, dec: 51966, oct: 0145376, hex:CAFE
+
+#### Hex string to 0/1, octal, decimal, and hexadecimal in JSON
+
+    $ jacksum -a none -q hex:CAFE -F '{ "bin": "#SEQUENCE{bin}", "dec": "#SEQUENCE{dec}", "oct": "0#SEQUENCE{oct}", "hex": "0x#SEQUENCE{hexup}" }'
+    { "bin": "1100101011111110", "dec": "51966", "oct": "0145376", "hex": "CAFE" }
+
+#### Count characters 
+
+    $ jacksum -a none -q txt:"Hello World" -F "#FILESIZE"
+    11
+
+#### etc.
+
+You get the idea ;-)
+
+
 ### More examples
 
     $ jacksum -h examples
