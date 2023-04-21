@@ -219,12 +219,6 @@ Example 2: as above by using an alias
     afcbb09a 9
 
 
-Example 2: as above by using an alias
-
-    $ jacksum -a sum_plan9 -x -q txt:123456789
-    afcbb09a 9
-
-
 ### Investigate CRC parameters
 
 CRC parameters can be investigated by the CRC algorithm, and setting the `--info` option. It returns the polynomial value as a polynomial in math expression, normal, reversed, and Koopman representation, and the reciprocal poly. Example for the Castagnoli CRC-32:
@@ -359,9 +353,28 @@ Jacksum: elapsed time: 151 ms
 
 ### Find files by their hashes
 
-Jacksum also helps you to find all files that match any of the hashes in a given set of known hash values. Both positive and negative matching is supported.
+#### by a single hash value
 
-    $ jacksum --wanted-list log4j.hashes --style linux --threads-reading 16 /
+If you know the hash value of a file, you can search for the file even if you don't know the file name. Let's search for the Satoshi Nakamoto's Bitcoin whitepaper on macOS by specifying the expected (-e) 9sha256 hash (-a sha256) in hex encoding (-x), and traversing the folder tree recursively (default) starting from the current working directory (.):
+
+    $ jacksum -a sha256 -x -e b1674191a88ec5cdd733e4240a81803105dc412d6c6708d53ab94fc248f4f553 --threads-reading max .
+
+<details>
+<summary>Result ...</summary>
+
+```
+    MATCH  /System/Library/Image Capture/Devices/VirtualScanner.app/Contents/Resources/simpledoc.pdf (b1674191a88ec5cdd733e4240a81803105dc412d6c6708d53ab94fc248f4f553)
+
+Jacksum: Expectation met.
+Jacksum: 1 of the successfully read files matches the expected hash value.
+```
+</details>
+
+#### by a precalculated hash list
+
+Jacksum also helps you to find all files that match any of the hashes in a given set of known hash values. Both positive and negative matching is supported. Let's search for all vulnerable log4j libs:
+
+    $ jacksum --wanted-list log4j.hashes --style linux --threads-reading max --verbose summary /
 
 <details>
 <summary>Result ...</summary>
@@ -387,6 +400,8 @@ Jacksum: elapsed time: 8 min, 38 s, 215 ms
 </details>
 
 See also [CVE-2021-44832: Find vulnerable .jar files using Jacksum](https://loefflmann.blogspot.com/2022/06/CVE-2021-44832%20Find%20vulnerable%20.jar%20files%20using%20Jacksum%203.4.0%20or%20later.html)
+
+
 
 ### Find all duplicates of a file using a hash value
 
