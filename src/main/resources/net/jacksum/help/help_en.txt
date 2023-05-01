@@ -1796,14 +1796,21 @@ OPTIONS
                 If this option is omitted, the format of the file list file is
                 set to "list". The supported formats are:
 \
-                list    default. Each filename is stored in a separate line.
+                list    default. Each filename is stored on a separate line.
+                        Those lists can be generated, for example, by the "find"
+                        command on GNU/Linux and Unix systems, the "dir /b"
+                        command in cmd-shells on Microsoft Windows, or the
+                        "dir -n" command in Windows PowerShells on Microsoft
+                        Windows.
+                        Alternatively, use Jacksum to generate those lists:
+                        > jacksum --style filesonly
 \
                 ssv     space-separated values. Each filename is separated by
                         one or more common space characters (a space or a
                         horizontal tab). A file name that contains space
                         characters has to be enclosed in double quotes. This is
                         useful if Jacksum operates in Windows shells, where
-                        Jacksum isn't able to accept program arguments or
+                        Jacksum is not able to accept program arguments or
                         file names that contain Unicode characters.
 \
             Available since version 3.0.0 of Jacksum.
