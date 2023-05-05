@@ -1,5 +1,5 @@
 NAME
-    Jacksum - a utility that makes hash functions available to you.
+    Jacksum - a tool that makes hash functions available to you.
 
 
 VERSION
@@ -17,6 +17,9 @@ SYNOPSIS
 \
     jacksum [OPTION]... (--quick|-q) <sequence>
             [OPTION]... [(--expect|-e) <hash> [(--algorithm|-a) unknown:<bits>]]
+            [OPTION]...
+\
+    jacksum [OPTION]... --string-list <file>
             [OPTION]...
 \
     jacksum [
@@ -43,7 +46,8 @@ DESCRIPTION
 \
     It covers many types of use cases in which hash values are needed:
 \
-        - Calculating of hash values of almost any input
+        - Calculating of hash values/fingerprints of almost any input
+          (strings, files, partitions, disks, ADS, pipes, sockets, doors, ...)
         - Finding OK/failed/missing/new files (verify file/data integrity)
         - Finding files by their fingerprints for positive matching
         - Finding files that do not match certain fingerprints for negative matching
@@ -53,6 +57,7 @@ DESCRIPTION
 \
     In order to achieve the goals above, Jacksum supports:
 \
+        - cross-platform executability
         - 489 standard hash functions
         - 60+ command line options to control Jacksum's behavior
         - 10 predefined standard styles for reading and writing files that
@@ -68,7 +73,7 @@ DESCRIPTION
 \
         - Fully customizable output format
         - 14 different encodings for representing hash values
-        - 170 different character sets to be able to read and write hash files correctly
+        - 170+ different character sets to be able to read and write hash files correctly
         - Customizable CRCs from 1 to 64 bit width
 
 
@@ -102,6 +107,7 @@ OPERATING MODES
             - Directory Traversal Options
             - Hashing Performance Options
             - I/O Performance Options
+            - File/Path Format Options
             - Output Format Options
             - Output Options
 \
@@ -119,7 +125,7 @@ OPERATING MODES
     jacksum [OPTION]... ((--check-file|-c) <file> | --check-line <line>)
             [OPTION]... [FILES]
 \
-        "Verify data/file integrity"-mode
+        "Verify data/file integrity"
 \
         The data/file integrity verification mode is enabled if you specify
         the option -c (or --check-file) or the option --check-line.
@@ -220,6 +226,7 @@ OPERATING MODES
             - Security Strength Options
             - Hashing Performance Options
             - Quick Mode Options
+            - File/Path Format Options
             - Output Format Options
             - Output Options
 \
@@ -268,6 +275,26 @@ OPERATING MODES
             > jacksum -a unknown:16 -q hex:050000 -E hex -e d893
 \
 \
+    jacksum [OPTION]... --string-list <file>
+            [OPTION]...
+\
+        "Hash strings"
+\
+        In this mode, hash values are calculated from strings.
+\
+        For OPTION the following option types are supported:
+\
+            - Common Options
+            - Hash Strings Mode Options
+            - Security Strength Options
+            - Hashing Performance Options
+            - Output Format Options
+            - Output Options
+\
+        Example:
+            > jacksum --string-list words.txt --charset-string-list utf-8
+\
+\
     jacksum [
               (--algorithm|-a) <algorithm> (--list|-l) |
               --copyright |
@@ -301,10 +328,12 @@ OPTION TYPES
         [(--list|-l)]
         [--]
 \
+\
     Security Strength Options
         This option controls the strength of the hashing procedure.
 \
         [(--algorithm|-a) <algorithm>]
+\
 \
     File List Options
         Those options specify the way file list are to be read.
@@ -312,33 +341,45 @@ OPTION TYPES
         [(--filelist|-L) <filelist>]
         [(--charset-file-list|--file-list-charset) <charset>]
         [--file-list-format <format>]
-        [--ignore-lines-starting-with-string <string>]
+        [(--ignore-lines-starting-with-string|-I) <string>]
+\
 \
     Check/Integrity Verification Mode Options
         Those options control the data verification process.
 \
-        [--check-file <checkfile>]
-        [--check-line <line>]
+        ((--check-file|-c) <checkfile> | --check-line <line>)
         [--check-strict]
         [(--style|-C) <style>]
-        [(--charset-check-file|--check-file-charset <charset>]
-        [--ignore-lines-starting-with-string <string>]
+        [(--charset-check-file|--check-file-charset) <charset>]
+        [(--ignore-lines-starting-with-string|-I) <string>]
         [--list-filter <filter>]
+\
 \
     Wanted List Mode Options
         Those options control the behavior of the "wanted list" mode.
 \
-        [(--wanted-list|-w) <list>
+        (--wanted-list|-w) <list>
         [(--expect|-e) <hash value>]
         [(--charset-wanted-list|--wanted-list-charset) <charset>]
         [(--match-filter|--wanted-list-filter) <filter>]
 \
+\
     Quick Mode Options
         Those options control the behavior of the quick mode.
 \
-        [(--quick|-q) [<type>:]<sequence>]
+        (--quick|-q) [<type>:]<sequence>
         [(--expect|-e) <hash value>]
         [(--algorithm|-a) <algorithm>]
+\
+\
+    Hash Strings Mode Options
+        Those options adjust the behavior in the "hash strings"-mode.
+\
+        --string-list <file>
+        [(--charset-string-list|--string-list-charset) <charset>]
+        [(--ignore-lines-starting-with-string|-I) <string>]
+        [--ignore-empty-lines]
+\
 \
     Information Gathering Mode Options
         Those options print some specific information, and the app exits
@@ -352,6 +393,7 @@ OPTION TYPES
         --license
         (--version|-v) [-V <vcontrol>]
 \
+\
     Directory Traversal Options
         Those options control which files are read during directory traversal.
         By default, Jacksum traverses directory trees recursively. You can
@@ -361,11 +403,12 @@ OPTION TYPES
         you can use the options --scan-all-unix-file-types and --scan-ntfs-ads,
         respectively.
 \
+        [--recursive|-r <depth>]
         [--dont-follow-symlinks-to-directories|-d]
         [--dont-follow-symlinks-to-files|-f]
-        [--recursive|-r <depth>]
         [--scan-all-unix-file-types]
         [--scan-ntfs-ads]
+\
 \
     Hashing Performance Options
         Those options control the performance of hashing.
@@ -374,10 +417,29 @@ OPTION TYPES
         [--alternative|-a]
         [--threads-hashing <threads>]
 \
+\
     I/O Performance Options
         This option controls the performance when reading files on SSDs.
 \
         [--threads-reading <threads>]
+\
+\
+    File/Path Format Options
+        Those options adjust the format of file/path objects.
+\
+        [--gnu-filename-escaping <boolean>]
+        [
+          [--no-path] |
+          [
+            (
+              --path-absolute |
+              --path-relative-to <path> |
+              (--path-relative-to-entry <number> (--file-list|-L) <list>)
+            )
+            [--path-separator|-P <char>]
+          ]
+        ]
+\
 \
     Output Format Options
         Those options adjust the format of the output to meet your requirements.
@@ -396,17 +458,8 @@ OPTION TYPES
             [--legacy-stdin-name]
             [(--separator|-s) <string>]
           ]
-          [--gnu-filename-escaping <boolean>]
-          [--no-path] |
-          [
-            (
-              --path-absolute |
-              --path-relative-to <path> |
-              (--path-relative-to-entry <number> (--file-list|-L) <list>)
-            )
-            [--path-separator|-P <char>]
-          ]
         ]
+\
 \
     Output Options
         Those options control the output.
@@ -429,29 +482,32 @@ OPTION SUPPORT MATRIX
     in columns. If a cell is marked with an "x", it means that the operating
     mode supports the option type.
 \
-                                                            Gather information |
-                                                       Find hash functions |   |
-                                                 Quick/verify one file |   |   |
-                                          Quick/calculate one hash |   |   |   |
-                                                   Wanted list |   |   |   |   |
-                                Verify data/file integrity |   |   |   |   |   |
-                  Calculate hash values and print them |   |   |   |   |   |   |
-                                                   |   |   |   |   |   |   |   |
-        | Option Type                              |   |   |   |   |   |   |   |
-        -------------------------------------------|   |   |   |   |   |   |   |
-        | Common Options                           | x | x | x | x | x | x | x |
-        | Security Strength Options                | x | x | x | x | x | x | x |
-        | File List Options                        | x | x | x | - | - | - | - |
-        | Wanted List Mode Options                 | - | - | x | - | - | - | - |
-        | Check/Integrity Verification Mode Options| - | x | - | - | - | - | - |
-        | Quick Mode Options                       | - | - | - | x | x | x | - |
-        | Information Gathering Mode Options       | - | - | - | - | - | - | x |
-        | Directory Traversal Options              | x | x | x | - | - | - | - |
-        | Hashing Performance Options              | x | x | x | x | x | - | - |
-        | I/O Performance Options                  | x | x | x | - | - | - | - |
-        | Output Format Options                    | x | - | - | x | - | - | - |
-        | Output Options                           | x | x | x | x | x | x | x |
-        ------------------------------------------------------------------------
+                                                                Gather information |
+                                                           Find hash functions |   |
+                                                              Hash strings |   |   |
+                                                 Quick/verify one file |   |   |   |
+                                    Quick/calculate one hash value |   |   |   |   |
+                                                   Wanted list |   |   |   |   |   |
+                                Verify data/file integrity |   |   |   |   |   |   |
+                  Calculate hash values and print them |   |   |   |   |   |   |   |
+                                                   |   |   |   |   |   |   |   |   |
+        | Option Type                              |   |   |   |   |   |   |   |   |
+        -------------------------------------------|---|---|---|---|---|---|---|---|
+        | Common Options                           | x | x | x | x | x | x | x | x |
+        | Security Strength Options                | x | x | x | x | x | x | x | x |
+        | File List Options                        | x | x | x | - | - | - | - | - |
+        | Wanted List Mode Options                 | - | - | x | - | - | - | - | - |
+        | Check/Integrity Verification Mode Options| - | x | - | - | - | - | - | - |
+        | Quick Mode Options                       | - | - | - | x | x | - | x | - |
+        | Hash Strings Mode Options                | - | - | - | - | - | x | - | - |
+        | Information Gathering Mode Options       | - | - | - | - | - | - | - | x |
+        | Directory Traversal Options              | x | x | x | - | - | - | - | - |
+        | Hashing Performance Options              | x | x | x | x | x | x | - | - |
+        | I/O Performance Options                  | x | x | x | - | - | - | - | - |
+        | File/Path Format Options                 | x | - | - | x | - | - | - | - |
+        | Output Format Options                    | x | - | - | x | - | x | - | - |
+        | Output Options                           | x | x | x | x | x | x | x | x |
+        ----------------------------------------------------------------------------
 
 PARAMETERS
     The following parameters are supported:
@@ -681,8 +737,8 @@ OPTIONS
             Verify files against a list of hashes, either from a former output
             of Jacksum or from an output of a different hash application.
             You need to set all non-default options that could generate <list>
-            again. The options -a, -E, -g, -G, -t, -d, -f may become necessary;
-            the option -F is ignored.
+            again. The options -a, -E, -g, -G, -t, -d, -f, -x, -X may become
+            necessary; the option -F is ignored.
 \
             If you have used option -F, or if the output of <list> is not in the
             quasi-standard output format like
@@ -1132,7 +1188,7 @@ OPTIONS
 \
 \
                 UTF-16
-
+\
                     The 16-bit UCS Transformation Format, with an optional
                     byte-order mark to identify the byte order, defaults to
                     big-endian if there is no byte-order mark.
@@ -1226,6 +1282,16 @@ OPTIONS
             that is dependent on your shell settings. See also --utf8.
 \
             Available since version 3.0.0 of Jacksum.
+
+
+    --charset-string-list <charset>
+    --string-list-charset <charset>
+\
+            Specify the character set for the string list. If this option is
+            not specified, UTF-8 will be used for the string list file. See also
+            option --string-list.
+\
+            Available since version 3.7.0 of Jacksum.
 
 
     --copyright
@@ -1713,10 +1779,26 @@ OPTIONS
     -I <string>
     --ignore-lines-starting-with-string <string>
 \
-            While reading a list by -L or -c, lines are ignored if they start
-            with the string <string>.
+            While reading a list by -L or -c or --string-list, lines are ignored
+            if they start with the string <string>.
+\
+            See also the option --ignore-empty-lines.
 \
             Available since version 1.6.0 of Jacksum, see also option -c.
+
+
+    --ignore-empty-lines
+\
+            While reading a string list by --string-list, lines are ignored
+            if they are empty. Lines are not trimmed to determine the emptiness.
+\
+            By default, or if the option is omitted, empty lines are hashed,
+            which in fact is treated as an empty message for the algorithm.
+\
+            See also the options --string-list and
+            --ignore-lines-starting-with-string.
+\
+            Available since version 1.7.0 of Jacksum.
 
 
     --license
@@ -2072,6 +2154,40 @@ OPTIONS
             can be found.
 \
             Available since version 3.1.0 of Jacksum.
+
+
+    --string-list <list>
+\
+            Activates the "string list"-mode. For each message in <list> a hash
+            value will be calculated. The order of the lines in the file will be
+            maintained.
+\
+            A line is considered to be terminated by any one of a line feed
+            ('\n'), a carriage return ('\r'), a carriage return followed
+            immediately by a line feed ('\r\n').
+            A message is a string containing the contents of the line, not
+            including any line-termination characters.
+            Empty lines are considered empty messages and are hashed. If you
+            do not want to hash empty messages, set the option
+            --ignore-empty-lines.
+\
+            If <list> is set to a single dash (-) Jacksum reads from stdin.
+            Use option --charset-string-list to specify the character set for
+            <list> so that it can be read properly. If <list> is headed by an
+            optional Byte Order Mark (BOM), it will be removed if present before
+            reading.
+            You can use the option -I in order to ignore all lines that start
+            with a particular string in <list>.
+            You can use the option --ignore-empty-lines to ignore all lines
+            that are empty.
+\
+            All available format options also apply to this mode. See also the
+            options -E, -g, -G, -F, -x, -X.
+            Use option --charset-output-file (if -o or -O has been set), or
+            option --charset-stdout to specify the character set for the output.
+            Use option --bom to force a Byte Order Mark (BOM).
+\
+            Available since version 3.7.0 of Jacksum.
 
 
     -r <depth>

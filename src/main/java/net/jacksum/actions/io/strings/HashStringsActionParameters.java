@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -20,23 +20,24 @@
 
 
  */
-package net.jacksum.parameters.base;
+package net.jacksum.actions.io.strings;
 
+import net.jacksum.actions.io.compare.CompareActionInterface;
+import net.jacksum.parameters.base.*;
+import net.jacksum.parameters.combined.ChecksumParameters;
+import net.jacksum.parameters.combined.StatisticsParameters;
 
-import net.jacksum.parameters.Parameters;
-
-public interface SequenceParameters {
-
-    boolean isSequence();
-
-    byte[] getSequenceAsBytes();
-
-    Parameters.SequenceType getSequenceType();
-
-    String getSequenceFilename();
-
-    void setSequence(String sequence);
-
-    void setSequence(Parameters.SequenceType sequenceType, String sequence);
-
+/**
+ * The parameters for the Quick Action.
+ */
+public interface HashStringsActionParameters extends
+        ChecksumParameters,
+        CompareActionInterface,
+        StatisticsParameters,
+        CustomizedFormatParameters,
+        ExpectationParameters,
+        StringListParameters,
+        SequenceParameters,
+        HeaderParameters
+{
 }

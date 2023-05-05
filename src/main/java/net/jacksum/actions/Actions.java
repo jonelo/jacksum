@@ -25,6 +25,7 @@ package net.jacksum.actions;
 
 import net.jacksum.actions.info.copyright.CopyrightAction;
 import net.jacksum.actions.info.license.LicenseAction;
+import net.jacksum.actions.io.strings.HashStringsAction;
 import net.jacksum.actions.io.wanted.HashFilesWantedAction;
 import net.jacksum.statistics.Statistics;
 import java.security.NoSuchAlgorithmException;
@@ -90,6 +91,8 @@ public class Actions {
                 return new HashFilesWantedAction(parameters);
             case CHECK:
                 return new CheckAction(parameters);
+            case STRING_LIST:
+                return new HashStringsAction(parameters);
             case FIND_ALGO:
                 return new FindAlgoAction(parameters);
             case INFO_ALGO:

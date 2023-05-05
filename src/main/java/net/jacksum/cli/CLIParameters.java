@@ -84,6 +84,7 @@ public class CLIParameters {
     public static final String __INFO = "--info";
     public static final String _IGNORE_LINES_STARTING_WITH_STRING = "-I";
     public static final String __IGNORE_LINES_STARTING_WITH_STRING = "--ignore-lines-starting-with-string";
+    public static final String __IGNORE_EMPTY_LINES = "--ignore-empty-lines";
     public static final String _LIST = "-l";
     public static final String __LIST = "--list";
     public static final String __LIST_FILTER = "--list-filter";
@@ -108,6 +109,7 @@ public class CLIParameters {
     public static final String __SCAN_NTFS_ADS = "--scan-ntfs-ads";
     public static final String _SEPARATOR = "-s";
     public static final String __SEPARATOR = "--separator";
+    public static final String __STRING_LIST = "--string-list";
     public static final String __THREADS_HASHING = "--threads-hashing";
     public static final String __THREADS_READING =  "--threads-reading";
     public static final String _TIMESTAMP = "-t";
@@ -136,6 +138,9 @@ public class CLIParameters {
     public static final String __OUTPUT_FILE_CHARSET = "--output-file-charset";
     public static final String __CHARSET_WANTED_LIST = "--charset-wanted-list";
     public static final String __WANTED_LIST_CHARSET = "--wanted-list-charset";
+
+    public static final String __CHARSET_STRING_LIST = "--charset-string-list";
+    public static final String __STRING_LIST_CHARSET = "--string-list-charset";
 
     public static final String __CHARSET_STDOUT = "--charset-stdout";
     public static final String __STDOUT_CHARSET = "--stdout-charset";
@@ -388,6 +393,9 @@ public class CLIParameters {
                         handleUserParamError(arg, __IGNORE_LINES_STARTING_WITH_STRING);
                     }
 
+                } else if (arg.equals(__IGNORE_EMPTY_LINES)) {
+                    parameters.setIgnoreEmptyLines(true);
+
                 } else if (arg.equals(_LIST) || arg.equals(__LIST)) {
                     parameters.setList(true);
 
@@ -513,6 +521,13 @@ public class CLIParameters {
                         parameters.setSeparator(args[firstfile++]);
                     } else {
                         handleUserParamError(arg, __SEPARATOR);
+                    }
+
+                } else if (arg.equals(__STRING_LIST)) {
+                    if (firstfile < args.length) {
+                        parameters.setStringList(args[firstfile++]);
+                    } else {
+                        handleUserParamError(arg, __STRING_LIST);
                     }
 
                 } else if (arg.equals(__THREADS_HASHING)) {
@@ -643,6 +658,13 @@ public class CLIParameters {
                         parameters.setCharsetOutputFile(args[firstfile++]);
                     } else {
                         handleUserParamError(arg, __CHARSET_OUTPUT_FILE);
+                    }
+
+                } else if (arg.equals(__CHARSET_STRING_LIST) || arg.equals(__STRING_LIST_CHARSET)) {
+                    if (firstfile < args.length) {
+                        parameters.setCharsetStringList(args[firstfile++]);
+                    } else {
+                        handleUserParamError(arg, __CHARSET_STRING_LIST);
                     }
 
                 } else if (arg.equals(__CHARSET_STDOUT) || arg.equals(__STDOUT_CHARSET)) {

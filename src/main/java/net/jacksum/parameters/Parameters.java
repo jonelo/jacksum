@@ -31,6 +31,7 @@ import net.jacksum.actions.info.help.HelpActionParameters;
 import net.jacksum.actions.info.version.VersionActionParameters;
 import net.jacksum.actions.io.compare.CompareActionInterface;
 import net.jacksum.actions.io.quick.QuickActionParameters;
+import net.jacksum.actions.io.strings.HashStringsActionParameters;
 import net.jacksum.actions.io.verify.CheckActionParameters;
 import net.jacksum.actions.io.verify.CheckConsumerParameters;
 import net.jacksum.actions.io.verify.ListFilter;
@@ -86,13 +87,14 @@ public class Parameters implements
         // all action parameter interfaces
         ExpectationActionParameters, CheckActionParameters,
         AlgoInfoActionParameters, AppInfoActionParameters, CompatInfoActionParameters,
+        VersionActionParameters, CompareActionInterface, HelpActionParameters, QuickActionParameters,
+        HashStringsActionParameters,
 
         // all other parameter interfaces
-        VersionActionParameters, CompareActionInterface, HelpActionParameters, QuickActionParameters,
         FormatParameters, AlgorithmParameters, CustomizedFormatParameters, StatisticsParameters,
         FileWalkerParameters, ProducerConsumerParameters, PathParameters,
         GatheringParameters, SequenceParameters, ProducerParameters, CheckConsumerParameters,
-        VerboseParameters, CompatibilityParameters, HeaderParameters {
+        VerboseParameters, CompatibilityParameters, HeaderParameters, StringListParameters {
 
 
     public static final String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
@@ -132,6 +134,8 @@ public class Parameters implements
     private String charsetOutputFile = UTF_8;
     // --charset-wanted-list <charset>
     private String charsetWantedList = UTF_8;
+    // --charset-string-list <list>
+    private String charsetStringList = UTF_8;
     // --charset-stdout <charset>
     private String charsetStdout = null;
     // --charset-stderr <charset>
@@ -264,6 +268,9 @@ public class Parameters implements
 
     private boolean parameterModifiedByAPI = false;
 
+    private String stringList = null;
+
+    private boolean ignoreEmptyLines = false;
 
     // ************************************** constructors *********************************************************
 
@@ -326,14 +333,18 @@ public class Parameters implements
         } else if (isCopyrightWanted()) {
             return ActionType.COPYRIGHT;
 
+        } else if (isSequence()) {
+            return ActionType.QUICK;
+
         } else if (getCheckFile() != null || getCheckLine() != null) {
             return ActionType.CHECK;
 
         } else if (findAlgorithm) {
             return ActionType.FIND_ALGO;
 
-        } else if (isSequence()) {
-            return ActionType.QUICK;
+
+        } else if (isStringList()) {
+            return ActionType.STRING_LIST;
 
         // must be the first check if isInfoMode is involved, because
         // the --compat option sets the algorithm implicitly
@@ -540,32 +551,57 @@ public class Parameters implements
     private String sequenceFilename;
     public String getSequenceFilename() { return sequenceFilename; }
 
+
+    public void setSequence(SequenceType sequenceType, String sequence) throws IllegalArgumentException {
+        switch (sequenceType) {
+            case PASSWD:
+                         this.sequenceType = SequenceType.PASSWD;
+                         this.sequenceAsString = "password";
+                         this.sequenceAsBytes = new byte[]{};
+                         break;
+            case TXT:
+            case TXTF:
+            case DEC:
+            case BIN:
+            case FILE:
+                this.sequenceType = sequenceType;
+                break;
+            case HEX:
+            default:
+                this.sequenceType = SequenceType.HEX;
+        }
+        if (!sequenceType.equals(SequenceType.PASSWD)) {
+            this.sequenceAsString = String.format("%s:%s", this.sequenceType.toString().toLowerCase(), sequence);
+            this.sequenceAsBytes = sequence2bytes(sequenceType, sequence);
+        }
+    }
+
+    public void setSequenceAsBytes(byte[] sequence) {
+        this.sequenceAsBytes = sequence;
+    }
     // -q
     public void setSequence(String sequence) throws IllegalArgumentException {
-        this.sequenceAsString = sequence;
+//        this.sequenceAsString = sequence;
         String indicator = sequence.toLowerCase();
 
+        if (indicator.equals("password")) {
+            setSequence(SequenceType.PASSWD, null);
+        } else
+
         if (indicator.startsWith("txt:")) {
-            sequenceType = SequenceType.TXT;
-            this.sequenceAsBytes = sequence2bytes(SequenceType.TXT, sequence.substring(4));
+            setSequence(SequenceType.TXT, sequence.substring(4));
         } else if (indicator.startsWith("txtf:")) {
-            this.sequenceType = SequenceType.TXTF;
-            this.sequenceAsBytes = sequence2bytes(SequenceType.TXTF, sequence.substring(5));
+            setSequence(SequenceType.TXTF, sequence.substring(5));
         } else if (indicator.startsWith("dec:")) {
-            this.sequenceType = SequenceType.DEC;
-            this.sequenceAsBytes = sequence2bytes(SequenceType.DEC, sequence.substring(4));
+            setSequence(SequenceType.DEC, sequence.substring(4));
         } else if (indicator.startsWith("hex:")) {
-            this.sequenceType = SequenceType.HEX;
-            this.sequenceAsBytes = sequence2bytes(SequenceType.HEX, sequence.substring(4));
+            setSequence(SequenceType.HEX, sequence.substring(4));
         } else if (indicator.startsWith("bin:")) {
-            this.sequenceType = SequenceType.BIN;
-            this.sequenceAsBytes = sequence2bytes(SequenceType.BIN, sequence.substring(4));
+            setSequence(SequenceType.BIN, sequence.substring(4));
         } else if (indicator.startsWith("file:")) {
-            this.sequenceType = SequenceType.FILE;
-            this.sequenceAsBytes = sequence2bytes(SequenceType.FILE, sequence.substring(5));
+            setSequence(SequenceType.FILE, sequence.substring(5));
         } else {
-            this.sequenceType = SequenceType.HEX;
-            this.sequenceAsBytes = sequence2bytes(SequenceType.HEX, sequence);
+            setSequence(SequenceType.HEX, sequence);
         }
     }
 
@@ -991,6 +1027,34 @@ public class Parameters implements
         this.wantedListFilter = wantedListFilter;
     }
 
+    public String getStringList() {
+        return stringList;
+    }
+
+    public void setStringList(String stringList) {
+        this.stringList = stringList;
+    }
+
+    public boolean isStringList() {
+        return stringList != null;
+    }
+
+    public String getCharsetStringList() {
+        return charsetStringList;
+    }
+
+    public void setCharsetStringList(String charsetStringList) {
+        this.charsetStringList = charsetStringList;
+    }
+
+    public boolean isIgnoreEmptyLines() {
+        return ignoreEmptyLines;
+    }
+
+    public void setIgnoreEmptyLines(boolean ignoreEmptyLines) {
+        this.ignoreEmptyLines = ignoreEmptyLines;
+    }
+
     public enum SequenceType {
         TXT, TXTF, DEC, HEX, BIN, FILE
     }
@@ -1367,6 +1431,18 @@ public class Parameters implements
         if (newParameters.isCheckStrict()) {
             this.setCheckStrict(true);
         }
+        if (newParameters.isStringList()) {
+            this.setStringList(newParameters.getStringList());
+            if (!newParameters.getCharsetStringList().equalsIgnoreCase(UTF_8)) {
+                this.setCharsetStringList(newParameters.getCharsetStringList());
+            }
+            if (newParameters.getCommentChars() != null) {
+                this.setCommentChars(newParameters.getCommentChars());
+            }
+            if (newParameters.isIgnoreEmptyLines()) {
+                this.setIgnoreEmptyLines(newParameters.isIgnoreEmptyLines());
+            }
+        }
         if (newParameters.getCompatibilityID() != null) {
             this.setCompatibilityID(newParameters.getCompatibilityID());
         } else {
@@ -1572,6 +1648,23 @@ public class Parameters implements
         if (checkStrict) {
             list.add(__CHECK_STRICT);
         }
+        if (stringList != null) {
+            list.add(__STRING_LIST);
+            list.add(stringList);
+
+            if (!charsetStringList.equalsIgnoreCase(UTF_8)) {
+                list.add(__CHARSET_STRING_LIST);
+                list.add(charsetStringList);
+            }
+            if (getCommentChars() != null) {
+                list.add(_IGNORE_LINES_STARTING_WITH_STRING);
+                list.add(getCommentChars());
+            }
+            if (ignoreEmptyLines) {
+                list.add(__IGNORE_EMPTY_LINES);
+            }
+        }
+
         if (compatibilityID != null) {
             list.add(__STYLE);
             list.add(compatibilityID);
@@ -2131,6 +2224,7 @@ public class Parameters implements
                 && !isRecursive()
                 && !stdin
                 && !infoMode
+                && stringList == null
                 && !list
                 && !versionWanted) {
             messenger.print(WARNING, "No files have been specified, reading from standard input stream (stdin) ...");

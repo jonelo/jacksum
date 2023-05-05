@@ -2,6 +2,11 @@ Jacksum 3.7.0, TBD, 2023
 
 - new algorithms:
 
+- new features:
+  - added option --string-list to calculate hash values from strings stored in text files
+    - added also options --string-list-charset, and alias --charset-string-list
+    - added also options --ignore-empty-lines
+
 - updates:
   - updated documentation:
     - added description and encoding tables for the most common encodings (see "jacksum -h -E")

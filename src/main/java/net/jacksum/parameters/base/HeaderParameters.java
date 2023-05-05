@@ -27,4 +27,5 @@ public interface HeaderParameters {
     String getCommentChars();
     String[] getCLIParameters();
     String[] getCLIParametersWithQuotes();
+    boolean isHeaderWanted();
 }
