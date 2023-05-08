@@ -23,6 +23,7 @@
 
 package net.jacksum.actions.io.quick;
 
+import net.jacksum.parameters.Parameters;
 import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.actions.Action;
 import net.jacksum.actions.Actions;
@@ -30,6 +31,8 @@ import net.jacksum.actions.io.compare.CompareAndPrintResult;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.parameters.ParameterException;
+
+import java.io.Console;
 
 // quick sequence and quit (no file parameter)
 public class QuickAction implements Action {
@@ -42,6 +45,20 @@ public class QuickAction implements Action {
         statisticsQuick = new QuickActionStatistics();
     }
 
+    private char[] readPassword() throws ExitException {
+        Console console = System.console();
+        if (console == null) {
+            throw new ExitException("Console not present.");
+        }
+
+        char[] passwd;
+        passwd = console.readPassword("Password: ");
+        if (passwd != null) {
+            return passwd;
+        }
+        return null;
+    }
+
     @Override
     public int perform() throws
             ParameterException, ExitException {
@@ -52,7 +69,18 @@ public class QuickAction implements Action {
         }
 
         AbstractChecksum checksum = Actions.getChecksumInstance(parameters);
-        checksum.update(parameters.getSequenceAsBytes());
+        if (parameters.getSequenceType().equals(Parameters.SequenceType.PASSWD)) {
+            char[] passwd = readPassword();
+            if (passwd != null) {
+                checksum.update(new String(passwd).getBytes());
+                java.util.Arrays.fill(passwd, ' ');
+            }
+            checksum.setFilename("");
+        } else {
+            checksum.setFilename(new String(parameters.getSequenceAsBytes()));
+            checksum.update(parameters.getSequenceAsBytes());
+        }
+
         statisticsQuick.addBytes(checksum.getLength());
 
         int exitCode;

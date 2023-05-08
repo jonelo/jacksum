@@ -2090,6 +2090,63 @@ OPTIONS
                      \xHH  Hexadecimal Number (HH can become 00 to 7F)
 \
 \
+                Password (code "password"):
+\
+                    Reads a password or passphrase from the console, not
+                    including any line-termination characters. You can use that
+                    mode to generate both unique and strong passwords for
+                    websites. The returned hash values will be stronger
+                    than anything a normal human brain could remember, and
+                    nothing needs to be stored on disk. If the password is
+                    compromised, the master password will still remain secret.
+                    In other words, you can treat Jacksum as a password
+                    generator that generates the actual password for a website
+                    on demand.
+\
+                    Some notes and recommendations:
+\
+                    - Combine a master password with website-specific
+                      information, such as the domain name, to get unique
+                      passwords.
+                    - For the master password you should use a strong password
+                      that is at least 8 characters long; the longer, the
+                      better, and you should be able to remember it easily.
+                    - Set the character set explicitly if you use multiple
+                      different operating systems or environments, and make
+                      sure to remember the character set as well.
+                    - You should use a non-broken, strong cryptographic hash
+                      algorithm for the task.
+                    - You can use all of the available characters for the
+                      password.
+                    - You can copy and paste the password to the prompt, but it
+                      is better if you remember it and type it, as this trains
+                      your brain to remember the password, and your brain will
+                      be the only place where the password resides.
+\
+                    Due to security reasons the following limits apply:
+
+                    - You won't see the password that you enter; in other words,
+                      echoing is disabled to prevent shoulder-surfing attacks
+                    - Only the hash is printed by default; it is not possible to
+                      print the password in clear text, even if particular
+                      format options such as -F or --style are set.
+                    - Operating system piping is not possible, because we want
+                      to make sure that the password is coming from a keyboard
+                      and not transferred unencrypted between processes via
+                      piping.
+                    - Operating system redirection is not possible, because a
+                      console is required to enter the password. Use the
+                      options -o/-O to save the hash to a file if you do no wish
+                      to see the hash value in the console.
+                    - To minimize the lifetime of sensitive data in memory, the
+                      password is cleared from memory after processing. Java's
+                      String interning is not used for the password.
+\
+                    Example:
+                        > jacksum -q password -a sha256 -E base64
+                        Password: facebook.com <a strong master password>
+\
+\
                 File:
 \
                      file:<file>

@@ -1056,7 +1056,7 @@ public class Parameters implements
     }
 
     public enum SequenceType {
-        TXT, TXTF, DEC, HEX, BIN, FILE
+        TXT, TXTF, DEC, HEX, BIN, FILE, PASSWD
     }
 
     public boolean isOutputFile() {
