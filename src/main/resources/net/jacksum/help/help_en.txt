@@ -33,7 +33,7 @@ SYNOPSIS
             ]
 \
     Notes:
-        - FILES means ((--filelist|-L) <filelist> | FILE) [FILE]...
+        - FILES means ((--file-list|-L) <file-list> | FILE) [FILE]...
         - FILE can be a regular file, a directory, any platform-dependent file,
           or the hyphen (-) which represents standard input. For more
           information, see section PARAMETERS.
@@ -321,6 +321,68 @@ OPERATING MODES
 
 OPTION TYPES
 \
+    Security Strength Options
+        This option controls the strength of the hashing procedure.
+\
+        [(--algorithm|-a) <algorithm>]
+\
+\
+    Check/Integrity Verification Mode Options
+        Those options control the data verification process.
+\
+        ((--check-file|-c) <checkfile> | --check-line <line>) [
+            [(--charset-check-file|--check-file-charset) <charset>]
+            [--check-strict]
+            [(--style|-C) <style>]
+            [(--ignore-lines-starting-with-string|-I) <string>]
+            [--list-filter <filter>]
+        ]
+\
+\
+    Wanted List Mode Options
+        Those options control the behavior of the "wanted list" mode.
+\
+        (--wanted-list|-w) <list> [
+            [(--expect|-e) <hash value>]
+            [(--charset-wanted-list|--wanted-list-charset) <charset>]
+            [(--match-filter|--wanted-list-filter) <filter>]
+        ]
+\
+\
+    Quick Mode Options
+        Those options control the behavior of the quick mode.
+\
+        (--quick|-q) [<type>:]<sequence> [
+            [(--algorithm|-a) <algorithm>]
+            [(--expect|-e) <hash value>]
+        ]
+\
+\
+    Hash Strings Mode Options
+        Those options adjust the behavior in the "hash strings"-mode.
+\
+        --string-list <file> [
+            [(--charset-string-list|--string-list-charset) <charset>]
+            [(--ignore-lines-starting-with-string|-I) <string>]
+            [--ignore-empty-lines]
+        ]
+\
+\
+    Information Gathering Mode Options
+        Those options print some specific information, and the app exits
+        afterwards.
+\
+        [
+            [(--algorithm|-a) <algorithm> (--list|-l)] |
+            [--copyright] |
+            [(--help|-h) [<language>] [<word>]] |
+            [--info [(--algorithm|-a) <algorithm> [(--list|-l)]]] |
+            [--info [(--style|-C) <style>]] |
+            [--license] |
+            [(--version|-v) [-V <vcontrol>]]
+        ]
+\
+\
     Common Options
         Those options can be used almost by any operating mode.
 \
@@ -329,69 +391,14 @@ OPTION TYPES
         [--]
 \
 \
-    Security Strength Options
-        This option controls the strength of the hashing procedure.
-\
-        [(--algorithm|-a) <algorithm>]
-\
-\
     File List Options
         Those options specify the way file list are to be read.
 \
-        [(--filelist|-L) <filelist>]
-        [(--charset-file-list|--file-list-charset) <charset>]
-        [--file-list-format <format>]
-        [(--ignore-lines-starting-with-string|-I) <string>]
-\
-\
-    Check/Integrity Verification Mode Options
-        Those options control the data verification process.
-\
-        ((--check-file|-c) <checkfile> | --check-line <line>)
-        [--check-strict]
-        [(--style|-C) <style>]
-        [(--charset-check-file|--check-file-charset) <charset>]
-        [(--ignore-lines-starting-with-string|-I) <string>]
-        [--list-filter <filter>]
-\
-\
-    Wanted List Mode Options
-        Those options control the behavior of the "wanted list" mode.
-\
-        (--wanted-list|-w) <list>
-        [(--expect|-e) <hash value>]
-        [(--charset-wanted-list|--wanted-list-charset) <charset>]
-        [(--match-filter|--wanted-list-filter) <filter>]
-\
-\
-    Quick Mode Options
-        Those options control the behavior of the quick mode.
-\
-        (--quick|-q) [<type>:]<sequence>
-        [(--expect|-e) <hash value>]
-        [(--algorithm|-a) <algorithm>]
-\
-\
-    Hash Strings Mode Options
-        Those options adjust the behavior in the "hash strings"-mode.
-\
-        --string-list <file>
-        [(--charset-string-list|--string-list-charset) <charset>]
-        [(--ignore-lines-starting-with-string|-I) <string>]
-        [--ignore-empty-lines]
-\
-\
-    Information Gathering Mode Options
-        Those options print some specific information, and the app exits
-        afterwards.
-\
-        (--algorithm|-a) <algorithm> (--list|-l)
-        --copyright
-        (--help|-h) [<language>] [<word>]
-        --info [(--algorithm|-a) <algorithm> [(--list|-l)]]
-        --info [(--style|-C) <style>]
-        --license
-        (--version|-v) [-V <vcontrol>]
+        [(--file-list|-L) <file-list>] [
+            [(--charset-file-list|--file-list-charset) <charset>]
+            [--file-list-format <format>]
+            [(--ignore-lines-starting-with-string|-I) <string>]
+        ]
 \
 \
     Directory Traversal Options
@@ -413,8 +420,7 @@ OPTION TYPES
     Hashing Performance Options
         Those options control the performance of hashing.
 \
-        [(--algorithm|-a) <algorithm>]
-        [--alternative|-a]
+        [(--algorithm|-a) <algorithm> [--alternative|-A]]
         [--threads-hashing <threads>]
 \
 \
@@ -429,15 +435,15 @@ OPTION TYPES
 \
         [--gnu-filename-escaping <boolean>]
         [
-          [--no-path] |
-          [
-            (
-              --path-absolute |
-              --path-relative-to <path> |
-              (--path-relative-to-entry <number> (--file-list|-L) <list>)
-            )
-            [--path-separator|-P <char>]
-          ]
+            [--no-path] |
+            [
+                (
+                    --path-absolute |
+                    --path-relative-to <path> |
+                    (--path-relative-to-entry <number> (--file-list|-L) <list>)
+                )
+                [--path-separator|-P <char>]
+            ]
         ]
 \
 \
@@ -446,18 +452,18 @@ OPTION TYPES
 \
         [--header]
         [
-          [(--style|-C) <style>] |
-          [
-            [(--format|-F) <format>]
+            [(--style|-C) <style>] |
             [
-              [(--encoding|-E) <encoding>] |
-              [[(--hex-lowercase|-x)|(--hex-uppercase|-X)] [-g <count> [-G <char>]]]
+                [(--format|-F) <format>]
+                [
+                    [(--encoding|-E) <encoding>] |
+                    [[(--hex-lowercase|-x)|(--hex-uppercase|-X)] [-g <count> [-G <char>]]]
+                ]
+                [--filesize <boolean>]
+                [(--timestamp|-t) <format>]
+                [--legacy-stdin-name]
+                [(--separator|-s) <string>]
             ]
-            [--filesize <boolean>]
-            [(--timestamp|-t) <format>]
-            [--legacy-stdin-name]
-            [(--separator|-s) <string>]
-          ]
         ]
 \
 \
@@ -1416,7 +1422,7 @@ OPTIONS
                                           0 -  9:  A B C D E F G H I J
                                          10 - 19:  K L M N O P Q R S T
                                          20 - 29:  U V W X Y Z 2 3 4 5
-                                         30 - 39:  6 7
+                                         30 - 31:  6 7
 \
                                          Padding:  =
 \
@@ -1431,7 +1437,7 @@ OPTIONS
                                           0 -  9:  0 1 2 3 4 5 6 7 8 9
                                          10 - 19:  A B C D E F G H I J
                                          20 - 29:  K L M N O P Q R S T
-                                         30 - 39:  U V
+                                         30 - 31:  U V
 \
                                          Padding:  =
 \
@@ -1483,7 +1489,7 @@ OPTIONS
                                           0 -  9:  y b n d r f g 8 e j
                                          10 - 19:  k m c p q x o t 1 u
                                          20 - 29:  w i s z a 3 4 5 h 7
-                                         30 - 39:  6 7
+                                         30 - 31:  6 7
 \
                                          Padding:  none
 \
@@ -1580,6 +1586,15 @@ OPTIONS
                                          empty string.
                                          See also --gnu-filename-escaping  (3.3)
 \
+                #FILENAME                will be replaced by the file name and
+                                         path (depends on -P)
+\
+                #FILENAME{name}          will be replaced by the file name (1.6)
+\
+                #FILENAME{path}          will be replaced by the file path (1.6)
+\
+                #FILESIZE                will be replaced by the file size
+\
                 #HASH                    will be replaced by the hash, CRC or
                                          checksum value (depends on the
                                          options -a, -E, -g, -G, -x, -X) (3.3)
@@ -1617,16 +1632,7 @@ OPTIONS
                 #HASHES{<encoding>}      like #HASHES, but with an explicit
                                          encoding (3.3)
 \
-                #FILENAME                will be replaced by the file name and
-                                         path (depends on -P)
-\
-                #FILENAME{name}          will be replaced by the file name (1.6)
-\
-                #FILENAME{path}          will be replaced by the file path (1.6)
-\
-                #FILESIZE                will be replaced by the file size
-\
-                #LENGTH                  is an alis for #FILESIZE (3.0)
+                #LENGTH                  is an alias for #FILESIZE (3.0)
 \
                 #MESSAGE                 is an alias for #FILENAME (3.7) for a
                                          more convenient name for the message if
@@ -2013,8 +2019,8 @@ OPTIONS
             --path-absolute, and --path-relative.
 
 
-    -q [<type>:]<sequence>
-    --quick [<type>:]<sequence>
+    -q ([<type>:]<sequence>|password)
+    --quick ([<type>:]<sequence>|password)
 \
             Process a sequence quickly and quit the program. The <type> can be
             used to specify the type of the sequence as text, formatted text,
@@ -2023,7 +2029,7 @@ OPTIONS
             Any of following examples (except text, unformatted) return the
             same digest of a input of seven bytes.
 \
-                Decimal
+                Decimal (type "dec")
 \
                     dec:101,103,103,32,52,50,10
                     dec:"101, 103, 103, 32, 52, 50, 10"
@@ -2033,7 +2039,7 @@ OPTIONS
                     comma or spaces.
 \
 \
-                Binary
+                Binary (type "bin")
 \
                     bin:1100101,1100111,1100111,100000,110100,110010,1010
                     bin:"1100101, 1100111, 1100111, 100000, 110100, 110010,1010"
@@ -2046,7 +2052,7 @@ OPTIONS
                     fill up with leading zeros as the last example illustrates.
 \
 \
-                Hexadecimal
+                Hexadecimal (type "hex")
 \
                     6567672034320A
                     hex:6567672034320A
@@ -2060,7 +2066,7 @@ OPTIONS
                     leading zeros as the last two examples illustrates.
 \
 \
-                Text, unformatted:
+                Text, unformatted (type "txt"):
 \
                     txt:"egg 42\n"
 \
@@ -2072,22 +2078,22 @@ OPTIONS
                     represents an input of 8 bytes and not 7 bytes.
 \
 \
-                Text, formatted:
+                Text, formatted (type "txtf"):
 \
-                     txtf:"egg 42\n"
-                     txtf:"egg 42\x0A"
+                    txtf:"egg 42\n"
+                    txtf:"egg 42\x0A"
 \
-                     If type is specified as "txtf", UTF-8 will be used to
-                     interpret the sequence seq as formatted text.
-                     The following escape sequences are interpreted accordingly:
+                    If type is specified as "txtf", UTF-8 will be used to
+                    interpret the sequence seq as formatted text.
+                    The following escape sequences are interpreted accordingly:
 \
-                     \n    New Line (0x0A)
-                     \r    Carriage Return (0x0D)
-                     \t    Horizontal Tab (0x09)
-                     \"    Double Quote (0x22)
-                     \'    Single Quote (0x27)
-                     \\    Backslash (0x5C)
-                     \xHH  Hexadecimal Number (HH can become 00 to 7F)
+                    \n    New Line (0x0A)
+                    \r    Carriage Return (0x0D)
+                    \t    Horizontal Tab (0x09)
+                    \"    Double Quote (0x22)
+                    \'    Single Quote (0x27)
+                    \\    Backslash (0x5C)
+                    \xHH  Hexadecimal Number (HH can become 00 to 7F)
 \
 \
                 Password (code "password"):
@@ -2149,21 +2155,21 @@ OPTIONS
 \
                 File:
 \
-                     file:<file>
+                    file:<file>
 \
-                     If <type> is specified as "file", all bytes from the
-                     <file> will be read and kept in memory.
-                     The -q option is also used to feed data to the algorithm
-                     finder module which tries to find the algorithm to a
-                     checksum/CRC/hash value. It does that by processing data
-                     using a brute force algorithm, and I/O operations must be
-                     avoided where possible in that case. Therefore the size of
-                     <file> is limited to 128 MiB, because the entire content of
-                     the file will be stored in memory for fast access. This
-                     option is not intended for reading in large files. If you
-                     want to read large files up to 8 Exbibytes
-                     (= 8,000,000,000 Gibibytes) pass <file> as a parameter to
-                     Jacksum.
+                    If <type> is specified as "file", all bytes from the
+                    <file> will be read and kept in memory.
+                    The -q option is also used to feed data to the algorithm
+                    finder module which tries to find the algorithm to a
+                    checksum/CRC/hash value. It does that by processing data
+                    using a brute force algorithm, and I/O operations must be
+                    avoided where possible in that case. Therefore the size of
+                    <file> is limited to 128 MiB, because the entire content of
+                    the file will be stored in memory for fast access. This
+                    option is not intended for reading in large files. If you
+                    want to read large files up to 8 Exbibytes
+                    (= 8,000,000,000 Gibibytes) pass <file> as a parameter to
+                    Jacksum.
 \
 \
             Available since version 1.3.0 of Jacksum (hex only), "type" since
