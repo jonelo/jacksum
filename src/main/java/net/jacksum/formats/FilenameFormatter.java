@@ -84,6 +84,9 @@ public class FilenameFormatter implements FilenameFormatParameters {
         return newFilename;
     }
 
+    public static void replaceAliases(StringBuilder format) {
+        GeneralString.replaceAllStrings(format, "#MESSAGE", "#FILENAME");
+    }
 
     public String format(String filename) {
         if (filename == null) return "";

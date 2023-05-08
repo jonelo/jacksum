@@ -1628,6 +1628,10 @@ OPTIONS
 \
                 #LENGTH                  is an alis for #FILESIZE (3.0)
 \
+                #MESSAGE                 is an alias for #FILENAME (3.7) for a
+                                         more convenient name for the message if
+                                         using --string-list
+\
                 #SEPARATOR               will be replaced by the separator which
                                          you can specify with -s
 \

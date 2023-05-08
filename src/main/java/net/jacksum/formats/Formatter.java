@@ -235,6 +235,7 @@ public class Formatter {
     public static void replaceAliases(StringBuilder format) {
         FingerprintFormatter.replaceAliases(format);
         SizeFormatter.replaceAliases(format);
+        FilenameFormatter.replaceAliases(format);
     }
 
     public FingerprintFormatter getFingerprintFormatter() {
