@@ -94,7 +94,7 @@ public class Parameters implements
         FormatParameters, AlgorithmParameters, CustomizedFormatParameters, StatisticsParameters,
         FileWalkerParameters, ProducerConsumerParameters, PathParameters,
         GatheringParameters, SequenceParameters, ProducerParameters, CheckConsumerParameters,
-        VerboseParameters, CompatibilityParameters, HeaderParameters, StringListParameters {
+        VerboseParameters, CompatibilityParameters, HeaderParameters, StringListParameters, ConsoleParameters {
 
 
     public static final String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
@@ -104,8 +104,8 @@ public class Parameters implements
     private String[] cliParameters;
     public static final String UTF_8 = "UTF-8";
 
-    transient private PrintStream stdOutBackup = System.out;
-    transient private PrintStream stdErrBackup = System.err;
+    final transient private PrintStream stdOutBackup = System.out;
+    final transient private PrintStream stdErrBackup = System.err;
 
 
     // -a
@@ -136,6 +136,8 @@ public class Parameters implements
     private String charsetWantedList = UTF_8;
     // --charset-string-list <list>
     private String charsetStringList = UTF_8;
+    // --charset-console <charset>
+    private String charsetConsole = UTF_8;
     // --charset-stdout <charset>
     private String charsetStdout = null;
     // --charset-stderr <charset>
@@ -559,6 +561,11 @@ public class Parameters implements
                          this.sequenceAsString = "password";
                          this.sequenceAsBytes = new byte[]{};
                          break;
+            case READLINE:
+                         this.sequenceType = SequenceType.READLINE;
+                         this.sequenceAsString = "readline";
+                         this.sequenceAsBytes = new byte[]{};
+                         break;
             case TXT:
             case TXTF:
             case DEC:
@@ -570,7 +577,7 @@ public class Parameters implements
             default:
                 this.sequenceType = SequenceType.HEX;
         }
-        if (!sequenceType.equals(SequenceType.PASSWD)) {
+        if (!sequenceType.equals(SequenceType.PASSWD) && !sequenceType.equals(SequenceType.READLINE)) {
             this.sequenceAsString = String.format("%s:%s", this.sequenceType.toString().toLowerCase(), sequence);
             this.sequenceAsBytes = sequence2bytes(sequenceType, sequence);
         }
@@ -586,6 +593,9 @@ public class Parameters implements
 
         if (indicator.equals("password")) {
             setSequence(SequenceType.PASSWD, null);
+        } else
+        if (indicator.equals("readline")) {
+            setSequence(SequenceType.READLINE, null);
         } else
 
         if (indicator.startsWith("txt:")) {
@@ -1055,8 +1065,16 @@ public class Parameters implements
         this.ignoreEmptyLines = ignoreEmptyLines;
     }
 
+    public String getCharsetConsole() {
+        return charsetConsole;
+    }
+
+    public void setCharsetConsole(String charsetConsole) {
+        this.charsetConsole = charsetConsole;
+    }
+
     public enum SequenceType {
-        TXT, TXTF, DEC, HEX, BIN, FILE, PASSWD
+        TXT, TXTF, DEC, HEX, BIN, FILE, PASSWD, READLINE
     }
 
     public boolean isOutputFile() {

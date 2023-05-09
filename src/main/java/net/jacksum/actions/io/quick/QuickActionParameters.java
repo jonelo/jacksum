@@ -23,6 +23,7 @@
 package net.jacksum.actions.io.quick;
 
 import net.jacksum.actions.io.compare.CompareActionInterface;
+import net.jacksum.parameters.base.ConsoleParameters;
 import net.jacksum.parameters.combined.ChecksumParameters;
 import net.jacksum.parameters.base.CustomizedFormatParameters;
 import net.jacksum.parameters.base.ExpectationParameters;
@@ -38,5 +39,6 @@ public interface QuickActionParameters extends
         StatisticsParameters,
         CustomizedFormatParameters,
         ExpectationParameters,
-        SequenceParameters {
+        SequenceParameters,
+        ConsoleParameters {
 }

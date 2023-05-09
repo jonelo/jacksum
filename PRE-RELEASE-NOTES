@@ -8,7 +8,8 @@ Jacksum 3.7.0, TBD, 2023
     - added options --string-list-charset, and alias --charset-string-list
     - added options --ignore-empty-lines
     - added formatter alias #MESSAGE
-  - added password mode for -q
+  - added password mode, and readline mode for -q
+    - added charset-console, and alias --console-charset
 
 - updates:
   - updated documentation:

@@ -24,6 +24,7 @@
 package net.jacksum.actions.io.quick;
 
 import net.jacksum.parameters.Parameters;
+import net.loefflmann.sugar.util.ByteSequences;
 import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.actions.Action;
 import net.jacksum.actions.Actions;
@@ -33,6 +34,7 @@ import net.jacksum.cli.ExitCode;
 import net.jacksum.parameters.ParameterException;
 
 import java.io.Console;
+import java.io.UnsupportedEncodingException;
 
 // quick sequence and quit (no file parameter)
 public class QuickAction implements Action {
@@ -50,13 +52,15 @@ public class QuickAction implements Action {
         if (console == null) {
             throw new ExitException("Console not present.");
         }
+        return console.readPassword("Password: ");
+    }
 
-        char[] passwd;
-        passwd = console.readPassword("Password: ");
-        if (passwd != null) {
-            return passwd;
+    public String readLineFromConsole() throws ExitException {
+        Console console = System.console();
+        if (console == null) {
+            throw new ExitException("Console not present.");
         }
-        return null;
+        return console.readLine("Enter a string: ");
     }
 
     @Override
@@ -72,11 +76,31 @@ public class QuickAction implements Action {
         if (parameters.getSequenceType().equals(Parameters.SequenceType.PASSWD)) {
             char[] passwd = readPassword();
             if (passwd != null) {
-                checksum.update(new String(passwd).getBytes());
-                java.util.Arrays.fill(passwd, ' ');
+                try {
+                    checksum.update(new String(passwd).getBytes(parameters.getCharsetConsole()));
+                } catch (UnsupportedEncodingException e) {
+                    throw new ParameterException(e.getMessage());
+                } finally {
+                    java.util.Arrays.fill(passwd, ' ');
+                }
             }
             checksum.setFilename("");
-        } else {
+        } else
+        if (parameters.getSequenceType().equals(Parameters.SequenceType.READLINE)) {
+            String line = readLineFromConsole();
+            if (line != null) {
+                try {
+                    checksum.update(line.getBytes(parameters.getCharsetConsole()));
+                    parameters.setSequence(Parameters.SequenceType.HEX,
+                            ByteSequences.format(line.getBytes(parameters.getCharsetConsole())));
+                } catch (UnsupportedEncodingException e) {
+                    throw new ParameterException(e.getMessage());
+                }
+                checksum.setParameters(parameters);
+                checksum.setFilename(line);
+            }
+        } else
+        {
             checksum.setFilename(new String(parameters.getSequenceAsBytes()));
             checksum.update(parameters.getSequenceAsBytes());
         }

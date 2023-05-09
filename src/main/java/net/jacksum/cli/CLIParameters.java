@@ -141,6 +141,8 @@ public class CLIParameters {
 
     public static final String __CHARSET_STRING_LIST = "--charset-string-list";
     public static final String __STRING_LIST_CHARSET = "--string-list-charset";
+    public static final String __CHARSET_CONSOLE = "--charset-console";
+    public static final String __CONSOLE_CHARSET = "--console-charset";
 
     public static final String __CHARSET_STDOUT = "--charset-stdout";
     public static final String __STDOUT_CHARSET = "--stdout-charset";
@@ -665,6 +667,13 @@ public class CLIParameters {
                         parameters.setCharsetStringList(args[firstfile++]);
                     } else {
                         handleUserParamError(arg, __CHARSET_STRING_LIST);
+                    }
+
+                } else if (arg.equals(__CHARSET_CONSOLE) || arg.equals(__CONSOLE_CHARSET)) {
+                    if (firstfile < args.length) {
+                        parameters.setCharsetConsole(args[firstfile++]);
+                    } else {
+                        handleUserParamError(arg, __CHARSET_CONSOLE);
                     }
 
                 } else if (arg.equals(__CHARSET_STDOUT) || arg.equals(__STDOUT_CHARSET)) {

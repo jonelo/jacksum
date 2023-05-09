@@ -292,7 +292,7 @@ OPERATING MODES
             - Output Options
 \
         Example:
-            > jacksum --string-list words.txt --charset-string-list utf-8
+            > jacksum --string-list words.txt
 \
 \
     jacksum [
@@ -1300,6 +1300,16 @@ OPTIONS
             Available since version 3.7.0 of Jacksum.
 
 
+    --charset-console <charset>
+    --console-charset <charset>
+\
+            Specify the character set for the console which is used by the
+            options "-q readline" and "-q password".
+            If this option is not specified, UTF-8 will be used.
+\
+            Available since version 3.7.0 of Jacksum.
+
+
     --copyright
 \
             prints out the copyrights and license information for all portions
@@ -1578,6 +1588,10 @@ OPTIONS
                                          platforms it is replaced by a ' '.
                                          (3.3)
 \
+                #CHECKSUM                alias for #HASH.
+\
+                #DIGEST                  alias for #HASH.
+\
                 #ESCAPETAG               if the option called
                                          --gnu-filename-escaping is enabled, the
                                          <token> will be replaced by a single
@@ -1594,6 +1608,8 @@ OPTIONS
                 #FILENAME{path}          will be replaced by the file path (1.6)
 \
                 #FILESIZE                will be replaced by the file size
+\
+                #FINGERPRINT             alias for #HASH.
 \
                 #HASH                    will be replaced by the hash, CRC or
                                          checksum value (depends on the
@@ -1653,8 +1669,6 @@ OPTIONS
 \
                 #QUOTE                   will be replaced by one quote char (")
 \
-\
-            Aliases for #HASH are #CHECKSUM, #DIGEST, and #FINGERPRINT.
 \
             Available since version 1.5.0 of Jacksum, unless otherwise
             specified, see also the options -a, -E, -g, -G,
@@ -2019,8 +2033,8 @@ OPTIONS
             --path-absolute, and --path-relative.
 
 
-    -q ([<type>:]<sequence>|password)
-    --quick ([<type>:]<sequence>|password)
+    -q ([<type>:]<sequence>|<console mode>)
+    --quick ([<type>:]<sequence>|<console mode>)
 \
             Process a sequence quickly and quit the program. The <type> can be
             used to specify the type of the sequence as text, formatted text,
@@ -2096,7 +2110,40 @@ OPTIONS
                     \xHH  Hexadecimal Number (HH can become 00 to 7F)
 \
 \
-                Password (code "password"):
+                File (type "file"):
+\
+                    file:<file>
+\
+                    If <type> is specified as "file", all bytes from the
+                    <file> will be read and kept in memory.
+                    The -q option is also used to feed data to the algorithm
+                    finder module which tries to find the algorithm to a
+                    checksum/CRC/hash value. It does that by processing data
+                    using a brute force algorithm, and I/O operations must be
+                    avoided where possible in that case. Therefore the size of
+                    <file> is limited to 128 MiB, because the entire content of
+                    the file will be stored in memory for fast access. This
+                    option is not intended for reading in large files. If you
+                    want to read large files up to 8 Exbibytes
+                    (= 8,000,000,000 Gibibytes) pass <file> as a parameter to
+                    Jacksum.
+\
+\
+                Read line (console mode "readline"):
+\
+                    Reads a string from the console, not including any
+                    line-termination characters. It works similar to the
+                    "password" mode, but it shows the string that you type,
+                    and you can print it out again by specifying format options
+                    which is useful for investigating particular strings and
+                    encodings.
+                    See also --charset-console.
+\
+                    Example:
+                    > jacksum -q readline --charset-console utf-8
+                      -F "#HASH msg=#MESSAGE msglen=#LENGTH hex=#SEQUENCE{hex}"
+\
+                Password (console mode "password"):
 \
                     Reads a password or passphrase from the console, not
                     including any line-termination characters. You can use that
@@ -2151,25 +2198,6 @@ OPTIONS
                     Example:
                         > jacksum -q password -a sha256 -E base64
                         Password: facebook.com <a strong master password>
-\
-\
-                File:
-\
-                    file:<file>
-\
-                    If <type> is specified as "file", all bytes from the
-                    <file> will be read and kept in memory.
-                    The -q option is also used to feed data to the algorithm
-                    finder module which tries to find the algorithm to a
-                    checksum/CRC/hash value. It does that by processing data
-                    using a brute force algorithm, and I/O operations must be
-                    avoided where possible in that case. Therefore the size of
-                    <file> is limited to 128 MiB, because the entire content of
-                    the file will be stored in memory for fast access. This
-                    option is not intended for reading in large files. If you
-                    want to read large files up to 8 Exbibytes
-                    (= 8,000,000,000 Gibibytes) pass <file> as a parameter to
-                    Jacksum.
 \
 \
             Available since version 1.3.0 of Jacksum (hex only), "type" since
