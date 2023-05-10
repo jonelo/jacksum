@@ -394,7 +394,7 @@ OPTION TYPES
     File List Options
         Those options specify the way file list are to be read.
 \
-        [(--file-list|-L) <file-list>] [
+        (--file-list|-L) <file-list> [
             [(--charset-file-list|--file-list-charset) <charset>]
             [--file-list-format <format>]
             [(--ignore-lines-starting-with-string|-I) <string>]
@@ -435,7 +435,7 @@ OPTION TYPES
 \
         [--gnu-filename-escaping <boolean>]
         [
-            [--no-path] |
+            --no-path |
             [
                 (
                     --path-absolute |
@@ -452,7 +452,7 @@ OPTION TYPES
 \
         [--header]
         [
-            [(--style|-C) <style>] |
+            (--style|-C) <style> |
             [
                 [(--format|-F) <format>]
                 [
@@ -2033,8 +2033,8 @@ OPTIONS
             --path-absolute, and --path-relative.
 
 
-    -q ([<type>:]<sequence>|<console mode>)
-    --quick ([<type>:]<sequence>|<console mode>)
+    -q (([<type>:]<sequence>)|<console mode>)
+    --quick (([<type>:]<sequence>)|<console mode>)
 \
             Process a sequence quickly and quit the program. The <type> can be
             used to specify the type of the sequence as text, formatted text,
@@ -2101,9 +2101,9 @@ OPTIONS
                     interpret the sequence seq as formatted text.
                     The following escape sequences are interpreted accordingly:
 \
+                    \t    Horizontal Tab (0x09)
                     \n    New Line (0x0A)
                     \r    Carriage Return (0x0D)
-                    \t    Horizontal Tab (0x09)
                     \"    Double Quote (0x22)
                     \'    Single Quote (0x27)
                     \\    Backslash (0x5C)
@@ -2137,10 +2137,11 @@ OPTIONS
                     and you can print it out again by specifying format options
                     which is useful for investigating particular strings and
                     encodings.
-                    See also --charset-console.
+                    By default UTF-8 is used for the character encoding in the
+                    console. See also --charset-console.
 \
                     Example:
-                    > jacksum -q readline --charset-console utf-8
+                    > jacksum -q readline
                       -F "#HASH msg=#MESSAGE msglen=#LENGTH hex=#SEQUENCE{hex}"
 \
                 Password (console mode "password"):
@@ -2164,29 +2165,31 @@ OPTIONS
                     - For the master password you should use a strong password
                       that is at least 8 characters long; the longer, the
                       better, and you should be able to remember it easily.
-                    - Set the character set explicitly if you use multiple
-                      different operating systems or environments, and make
-                      sure to remember the character set as well.
                     - You should use a non-broken, strong cryptographic hash
                       algorithm for the task.
+                    - Set the character set explicitly if you use multiple
+                      different operating systems or environments that do not
+                      use UTF-8 for the console by default, and make sure to
+                      remember the character set as well.
                     - You can use all of the available characters for the
                       password.
                     - You can copy and paste the password to the prompt, but it
                       is better if you remember it and type it, as this trains
                       your brain to remember the password, and your brain will
-                      be the only place where the password resides.
+                      be the only place where the master password resides.
 \
                     Due to security reasons the following limits apply:
 
                     - You won't see the password that you enter; in other words,
-                      echoing is disabled to prevent shoulder-surfing attacks
+                      echoing is disabled to prevent shoulder-surfing attacks.
                     - Only the hash is printed by default; it is not possible to
                       print the password in clear text, even if particular
-                      format options such as -F or --style are set.
+                      format options such as -F or --style are set. Use
+                      option "-q readline" if you prefer echoing.
                     - Operating system piping is not possible, because we want
                       to make sure that the password is coming from a keyboard
-                      and not transferred unencrypted between processes via
-                      piping.
+                      and not transfer passwords in clear text between processes
+                      via piping.
                     - Operating system redirection is not possible, because a
                       console is required to enter the password. Use the
                       options -o/-O to save the hash to a file if you do no wish
@@ -2201,8 +2204,9 @@ OPTIONS
 \
 \
             Available since version 1.3.0 of Jacksum (hex only), "type" since
-            version 1.5.0, type "bin" and "txtf" since version 3.0.0, and type
-            "file" since version 3.1.0 of Jacksum.
+            version 1.5.0, type "bin" and "txtf" since version 3.0.0, type
+            "file" since version 3.1.0 of Jacksum, console mode since version
+            3.7.0 of Jacksum.
 
 
     --scan-all-unix-file-types

@@ -7,7 +7,7 @@ Jacksum 3.7.0, TBD, 2023
   - added option --string-list to calculate hash values from strings stored in text files
     - added options --string-list-charset, and alias --charset-string-list
     - added options --ignore-empty-lines
-    - added formatter alias #MESSAGE
+    - added formatter alias #MESSAGE for #FILENAME
   - added password mode, and readline mode for -q
     - added charset-console, and alias --console-charset
 
