@@ -11,9 +11,11 @@ Jacksum 3.7.0, TBD, 2023
   - added password mode, and readline mode for -q
     - added charset-console, and alias --console-charset
 
-- updates:
-  - updated documentation:
-    - added description and encoding tables for the most common encodings (see "jacksum -h -E")
+- improved performance:
+  - performance for algorithm info output (-a <algos> [--list] --info)
+
+- updated documentation:
+  - added description and encoding tables for the most common encodings (see "jacksum -h -E")
 
 - bug fixes:
   - NPE if filename is null and -F is set (e.g. jacksum -a none -F "#SEQUENCE" -q txt:)

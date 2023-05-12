@@ -56,7 +56,7 @@ public class AlgoInfoAction implements Action {
 
     private static final String FORMAT = "%s  %-38s%s%n";
 
-    private void printAlgoInfo(int indentation, AbstractChecksum checksum) {
+    private void printAlgoInfo(StringBuilder buffer, int indentation, AbstractChecksum checksum) {
         String indent = "  ";
         /*            if (indentation == 0) {
                 indent = "";
@@ -64,30 +64,30 @@ public class AlgoInfoAction implements Action {
                 indent = String.format("%"+indentation+"s", "");
             }*/
 
-        System.out.printf("%shash length:%n", indent);
-        System.out.printf(FORMAT, indent, "bits:", checksum.getSize());
+        buffer.append(String.format("%shash length:%n", indent));
+        buffer.append(String.format(FORMAT, indent, "bits:", checksum.getSize()));
         int padOneByte = checksum.getSize() % 8 > 0 ? 1 : 0;
         int bytes = checksum.getSize() / 8 + padOneByte;
         if (padOneByte > 0) {
-            System.out.printf(FORMAT, indent, "bits (zero padded to 8-bit bytes):", bytes * 8);
+            buffer.append(String.format(FORMAT, indent, "bits (zero padded to 8-bit bytes):", bytes * 8));
         }
-        System.out.printf(FORMAT, indent, "bytes:", bytes);
-        System.out.printf(FORMAT, indent, "nibbles:", bytes * 2);
+        buffer.append(String.format(FORMAT, indent, "bytes:", bytes));
+        buffer.append(String.format(FORMAT, indent, "nibbles:", bytes * 2));
 
         int blockSize = checksum.getBlockSize();
         if (blockSize > 0) {
-            System.out.printf("%n%sblocksize:%n", indent);
-            System.out.printf(FORMAT, indent, "bits:", Integer.toString(blockSize * 8));
-            System.out.printf(FORMAT, indent, "bytes:", Integer.toString(blockSize));
+            buffer.append(String.format("%n%sblocksize:%n", indent));
+            buffer.append(String.format(FORMAT, indent, "bits:", Integer.toString(blockSize * 8)));
+            buffer.append(String.format(FORMAT, indent, "bytes:", Integer.toString(blockSize)));
         }
 
         if (checksum instanceof PrngHashInfo) {
             PrngHashInfo prngHashinfo = (PrngHashInfo) checksum;
-            System.out.printf("%n%sPRNG Hash parameters:%n", indent);
-            System.out.printf(FORMAT, indent, "Jacksum PRNG Hash algo def:", checksum.getName());
-            System.out.printf(FORMAT, indent, "init [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getInitValue(), 8));
-            System.out.printf(FORMAT, indent, "multiplier [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getMultiplier(), 8));
-            System.out.printf(FORMAT, indent, "add [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getAdd(), 8));
+            buffer.append(String.format("%n%sPRNG Hash parameters:%n", indent));
+            buffer.append(String.format(FORMAT, indent, "Jacksum PRNG Hash algo def:", checksum.getName()));
+            buffer.append(String.format(FORMAT, indent, "init [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getInitValue(), 8)));
+            buffer.append(String.format(FORMAT, indent, "multiplier [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getMultiplier(), 8)));
+            buffer.append(String.format(FORMAT, indent, "add [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getAdd(), 8)));
         }
 
         if (checksum instanceof CrcInfo) {
@@ -98,13 +98,13 @@ public class AlgoInfoAction implements Action {
             String koopmanPolyAsBits = "1"+polyAsBits.substring(0, polyAsBits.length()-1);
             String reciprocalPolyAsBits = new StringBuilder(koopmanPolyAsBits).reverse().toString();
 
-            System.out.printf("%n%sCRC parameters:%n", indent);
-            System.out.printf(FORMAT, indent, "width (in bits):", crc.getWidth());
-            System.out.printf(FORMAT, indent, "polynomial [hex]:", new BigInteger(polyAsBits, 2).toString(16));
-            System.out.printf(FORMAT, indent, "init [hex]:", ByteSequences.hexformat(crc.getInitialValue(), crc.getWidth() / 4));
-            System.out.printf(FORMAT, indent, "refIn:", crc.isRefIn());
-            System.out.printf(FORMAT, indent, "refOut:", crc.isRefOut());
-            System.out.printf(FORMAT, indent, "xorOut [hex]:", ByteSequences.hexformat(crc.getXorOut(), crc.getWidth() / 4));
+            buffer.append(String.format("%n%sCRC parameters:%n", indent));
+            buffer.append(String.format(FORMAT, indent, "width (in bits):", crc.getWidth()));
+            buffer.append(String.format(FORMAT, indent, "polynomial [hex]:", new BigInteger(polyAsBits, 2).toString(16)));
+            buffer.append(String.format(FORMAT, indent, "init [hex]:", ByteSequences.hexformat(crc.getInitialValue(), crc.getWidth() / 4)));
+            buffer.append(String.format(FORMAT, indent, "refIn:", crc.isRefIn()));
+            buffer.append(String.format(FORMAT, indent, "refOut:", crc.isRefOut()));
+            buffer.append(String.format(FORMAT, indent, "xorOut [hex]:", ByteSequences.hexformat(crc.getXorOut(), crc.getWidth() / 4)));
 
             if (checksum instanceof CrcGeneric) {
                 CrcGeneric crcGen = (CrcGeneric) checksum;
@@ -113,67 +113,66 @@ public class AlgoInfoAction implements Action {
                 // by the value for "Jacksum CRC algo def"
                 if (!crcGen.isTainted()) {
                     if (crcGen.getModel().isIncludeLength()) {
-                        System.out.printf(FORMAT, indent, "incLenMSO:", crcGen.getModel().isIncludeLengthMSOfirst());
+                        buffer.append(String.format(FORMAT, indent, "incLenMSO:", crcGen.getModel().isIncludeLengthMSOfirst()));
                         if (crcGen.getModel().isXorLength()) {
                             byte[] xorLengthArray = crcGen.getModel().getXorLengthArray();
                             if (xorLengthArray != null) {
-                                System.out.printf(FORMAT, indent, "xorLen [hex]:", ByteSequences.format(xorLengthArray));
+                                buffer.append(String.format(FORMAT, indent, "xorLen [hex]:", ByteSequences.format(xorLengthArray)));
                             }
                         }
                     }
-                    System.out.printf(FORMAT, indent, "Jacksum CRC algo def:", crcGen.getString());
+                    buffer.append(String.format(FORMAT, indent, "Jacksum CRC algo def:", crcGen.getString()));
                 }
             }
 
-            System.out.printf("%n%sPolynomial representations:%n", indent);
-            System.out.printf(FORMAT, indent, "mathematical:", CrcUtils.polyAsMathExpression(crc.getWidth(), polyAsBytes));
-            System.out.printf(FORMAT, indent, "normal/MSB first [binary]:", polyAsBits);
-            System.out.printf(FORMAT, indent, "normal/MSB first [hex]:", new BigInteger(polyAsBits, 2).toString(16));
-            System.out.printf(FORMAT, indent, "reversed/LSB first [binary]:", reversedPolyAsBits);
-            System.out.printf(FORMAT, indent, "reversed/LSB first [hex]:", new BigInteger(reversedPolyAsBits, 2).toString(16));
-            System.out.printf(FORMAT, indent, "Koopman [binary]:", koopmanPolyAsBits);
-            System.out.printf(FORMAT, indent, "Koopman [hex]:", new BigInteger(koopmanPolyAsBits, 2).toString(16));
+            buffer.append(String.format("%n%sPolynomial representations:%n", indent));
+            buffer.append(String.format(FORMAT, indent, "mathematical:", CrcUtils.polyAsMathExpression(crc.getWidth(), polyAsBytes)));
+            buffer.append(String.format(FORMAT, indent, "normal/MSB first [binary]:", polyAsBits));
+            buffer.append(String.format(FORMAT, indent, "normal/MSB first [hex]:", new BigInteger(polyAsBits, 2).toString(16)));
+            buffer.append(String.format(FORMAT, indent, "reversed/LSB first [binary]:", reversedPolyAsBits));
+            buffer.append(String.format(FORMAT, indent, "reversed/LSB first [hex]:", new BigInteger(reversedPolyAsBits, 2).toString(16)));
+            buffer.append(String.format(FORMAT, indent, "Koopman [binary]:", koopmanPolyAsBits));
+            buffer.append(String.format(FORMAT, indent, "Koopman [hex]:", new BigInteger(koopmanPolyAsBits, 2).toString(16)));
 
-            System.out.printf("%n%sReciprocal poly (similar error detection strength):%n", indent);
-            System.out.printf(FORMAT, indent, "mathematical:", CrcUtils.polyAsMathExpression(crc.getWidth(), reciprocalPolyAsBits));
-            System.out.printf(FORMAT, indent, "normal [binary]:", reciprocalPolyAsBits);
-            System.out.printf(FORMAT, indent, "normal [hex]:", new BigInteger(reciprocalPolyAsBits, 2).toString(16));
+            buffer.append(String.format("%n%sReciprocal poly (similar error detection strength):%n", indent));
+            buffer.append(String.format(FORMAT, indent, "mathematical:", CrcUtils.polyAsMathExpression(crc.getWidth(), reciprocalPolyAsBits)));
+            buffer.append(String.format(FORMAT, indent, "normal [binary]:", reciprocalPolyAsBits));
+            buffer.append(String.format(FORMAT, indent, "normal [hex]:", new BigInteger(reciprocalPolyAsBits, 2).toString(16)));
         }
 
 
         if (checksum.isActualAlternateImplementationUsed()) {
-            System.out.printf("%n%sspeed:%n", indent);
-            System.out.printf(FORMAT, indent, "relative rank:", "unknown, speed is calculated for primary algorithms only");
+            buffer.append(String.format("%n%sspeed:%n", indent));
+            buffer.append(String.format(FORMAT, indent, "relative rank:", "unknown, speed is calculated for primary algorithms only"));
         } else {
             int weight = HashAlgorithm.getWeight(checksum.getName());
             if (weight > 1) {
                 int rank = HashAlgorithm.getRank(checksum.getName());
-                System.out.printf("%n%sspeed:%n", indent);
-                System.out.printf(FORMAT, indent, "relative rank:", rank + "/" + allSupportedAlgorithms);
+                buffer.append(String.format("%n%sspeed:%n", indent));
+                buffer.append(String.format(FORMAT, indent, "relative rank:", rank + "/" + allSupportedAlgorithms));
                 // long speedpoints = 100-Math.round((double)(100.0*weight/(double)maxWeight));
-                // System.out.printf("%s  %-32s%s\n\n", indent, "speed points (100 max):", speedpoints); // "*".repeat((int)stars)
+                // buffer.append(String.format("%s  %-32s%s\n\n", indent, "speed points (100 max):", speedpoints)); // "*".repeat((int)stars)
             }
         }
 
-        System.out.printf("%n%salternative/secondary implementation:%n", indent);
-        System.out.printf(FORMAT, indent, "has been requested:", parameters.isAlternateImplementationWanted());
-        System.out.printf(FORMAT, indent, "is available and would be used:", checksum.isActualAlternateImplementationUsed());
-
+        buffer.append(String.format("%n%salternative/secondary implementation:%n", indent));
+        buffer.append(String.format(FORMAT, indent, "has been requested:", parameters.isAlternateImplementationWanted()));
+        buffer.append(String.format(FORMAT, indent, "is available and would be used:", checksum.isActualAlternateImplementationUsed()));
     }
 
-    private int singleView() throws ExitException {
+    private int singleView(StringBuilder buffer) throws ExitException {
         try {
             AbstractChecksum checksum = JacksumAPI.getInstance(parameters);
-            System.out.printf("  algorithm:%n");
+            buffer.append(String.format("  algorithm:%n"));
 
             if (checksum instanceof CombinedChecksum) {
-                System.out.printf("    %-38s%s%n", "name:", checksum.getName());
-                System.out.printf("    %-38s%d%n%n", "actual combined algorithms:", ((CombinedChecksum) checksum).getAlgorithms().size());
+                buffer.append(String.format("    %-38s%s%n", "name:", checksum.getName()));
+                buffer.append(String.format("    %-38s%d%n%n", "actual combined algorithms:", ((CombinedChecksum) checksum).getAlgorithms().size()));
             } else {
-                System.out.printf("    %-38s%s%n", "name:", checksum.getName());
-                System.out.println();
+                buffer.append(String.format("    %-38s%s%n", "name:", checksum.getName()));
+                buffer.append(String.format("%n"));
             }
-            printAlgoInfo(4, checksum);
+            printAlgoInfo(buffer,4, checksum);
 
             // Help.printHelp("en", checksum.getName());
             algorithms++;
@@ -183,7 +182,7 @@ public class AlgoInfoAction implements Action {
         }
     }
 
-    private int listView() throws ExitException {
+    private int listView(StringBuilder buffer) throws ExitException {
         AbstractChecksum checksum;
         try {
             checksum = JacksumAPI.getInstance(parameters);
@@ -196,18 +195,18 @@ public class AlgoInfoAction implements Action {
 //                    algorithms++;
                     if (parameters.isInfoMode()) {
                         if (first) {
-                            System.out.printf("%s:%n", cs.getName());
+                            buffer.append(String.format("%s:%n", cs.getName()));
                             first = false;
                         } else {
-                            System.out.printf("%n%s:%n", cs.getName());
+                            buffer.append(String.format("%n%s:%n", cs.getName()));
                         }
-                        printAlgoInfo(4, cs);
+                        printAlgoInfo(buffer, 4, cs);
                     } else {
-                        System.out.printf("%s%n", cs.getName());
+                        buffer.append(String.format("%s%n", cs.getName()));
                     }
                 }
             } else {
-                return singleView();
+                return singleView(buffer);
             }
         } catch (NoSuchAlgorithmException ex) {
             throw new ExitException(ex.getMessage(), ExitCode.PARAMETER_ERROR);
@@ -223,11 +222,9 @@ public class AlgoInfoAction implements Action {
 //            maxWeight = HashAlgorithm.getMaxWeight();
 //        }
         int exitCode;
-        if (parameters.isList()) {
-            exitCode = listView();
-        } else {
-            exitCode = singleView();
-        }
+        StringBuilder buffer = new StringBuilder();
+        exitCode = parameters.isList() ? listView(buffer) : singleView(buffer);
+        System.out.print(buffer);
 
         if (parameters.getVerbose().isSummary()) {
             statistics.setAlgorithmCount(algorithms);
