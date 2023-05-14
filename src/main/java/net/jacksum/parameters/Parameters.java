@@ -335,15 +335,14 @@ public class Parameters implements
         } else if (isCopyrightWanted()) {
             return ActionType.COPYRIGHT;
 
-        } else if (isSequence()) {
-            return ActionType.QUICK;
-
         } else if (getCheckFile() != null || getCheckLine() != null) {
             return ActionType.CHECK;
 
         } else if (findAlgorithm) {
             return ActionType.FIND_ALGO;
 
+        } else if (isSequence()) {
+            return ActionType.QUICK;
 
         } else if (isStringList()) {
             return ActionType.STRING_LIST;

@@ -99,9 +99,8 @@ public class QuickAction implements Action {
                 checksum.setParameters(parameters);
                 checksum.setFilename(line);
             }
-        } else
-        {
-            checksum.setFilename(new String(parameters.getSequenceAsBytes()));
+        } else {
+            checksum.setFilename(""); //checksum.setFilename(new String(parameters.getSequenceAsBytes()));
             checksum.update(parameters.getSequenceAsBytes());
         }
 
