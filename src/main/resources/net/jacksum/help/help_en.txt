@@ -2049,9 +2049,10 @@ OPTIONS
                     dec:"101, 103, 103, 32, 52, 50, 10"
                     dec:"101 103 103 32 52 50 10"
 \
-                    Decimal values must be separated from each other by
-                    comma or spaces.
-\
+                    Decimal values must be separated from each other by a comma
+                    or one or more spaces. If you use spaces, you must enclose
+                    the string in quotation marks to indicate to the shell that
+                    it is one string.
 \
                 Binary (type "bin")
 \
@@ -2077,8 +2078,18 @@ OPTIONS
                     Hex values can be separated by commas or spaces, but you do
                     not have to, as long as it is clear, where the 8 bit
                     boundaries are. If necessary you have to fill up with
-                    leading zeros as the last two examples illustrates.
+                    leading zeros as the first two examples illustrates.
 \
+                Octal (type "oct"):
+\
+                    oct:145,147,147,40,64,62,12
+                    oct:"145, 147, 147, 40, 64, 62, 12"
+                    oct:"145 147 147 40 64 62 12"
+\
+                    Octal values must be separated from each other by a comma
+                    or one or more spaces. If you use spaces, you must enclose
+                    the string in quotation marks to indicate to the shell that
+                    it is one string.
 \
                 Text, unformatted (type "txt"):
 \

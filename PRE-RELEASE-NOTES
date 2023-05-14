@@ -10,6 +10,7 @@ Jacksum 3.7.0, TBD, 2023
     - added formatter alias #MESSAGE for #FILENAME
   - added password mode, and readline mode for -q
     - added charset-console, and alias --console-charset
+  - added type oct for -q
 
 - improved performance:
   - performance for algorithm info output (-a <algos> [--list] --info)

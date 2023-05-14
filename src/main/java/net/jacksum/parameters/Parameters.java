@@ -569,6 +569,7 @@ public class Parameters implements
             case TXTF:
             case DEC:
             case BIN:
+            case OCT:
             case FILE:
                 this.sequenceType = sequenceType;
                 break;
@@ -607,6 +608,8 @@ public class Parameters implements
             setSequence(SequenceType.HEX, sequence.substring(4));
         } else if (indicator.startsWith("bin:")) {
             setSequence(SequenceType.BIN, sequence.substring(4));
+        } else if (indicator.startsWith("oct:")) {
+            setSequence(SequenceType.OCT, sequence.substring(4));
         } else if (indicator.startsWith("file:")) {
             setSequence(SequenceType.FILE, sequence.substring(5));
         } else {
@@ -1073,7 +1076,7 @@ public class Parameters implements
     }
 
     public enum SequenceType {
-        TXT, TXTF, DEC, HEX, BIN, FILE, PASSWD, READLINE
+        TXT, TXTF, DEC, HEX, BIN, OCT, READLINE, PASSWD, FILE
     }
 
     public boolean isOutputFile() {
@@ -1955,6 +1958,9 @@ public class Parameters implements
                 break;
             case BIN:
                 bytes = ByteSequences.binText2Bytes(sequence);
+                break;
+            case OCT:
+                bytes = ByteSequences.octText2Bytes(sequence);
                 break;
             case FILE:
                 try {

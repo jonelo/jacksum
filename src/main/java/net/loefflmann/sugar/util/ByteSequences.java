@@ -61,6 +61,38 @@ public class ByteSequences {
         return toByteArray(byteArrayList);
     }
 
+    public static byte[] octText2Bytes(String text) throws IllegalArgumentException {
+        if (text.length() == 0) {
+            return new byte[0]; // empty byte array with 0 members
+        }
+        text = text.replaceAll("\\s*,\\s*", ",").replaceAll("\\s+", ",");
+        byte[] bytes;
+        if (text.length() == 0) {
+            bytes = text.getBytes();
+        } else {
+            int count = GeneralString.countChar(text, ',');
+            bytes = new byte[count + 1];
+            StringTokenizer st = new StringTokenizer(text, ",");
+            int x = 0;
+            while (st.hasMoreTokens()) {
+                int temp;
+                String stemp = null;
+                try {
+                    stemp = st.nextToken();
+                    temp = Integer.parseInt(stemp,8);
+                } catch (NumberFormatException nfe) {
+                    throw new IllegalArgumentException(stemp + " is not an octal number.");
+                }
+                if (temp < 0 || temp > 255) {
+                    throw new IllegalArgumentException("The number " + temp + " is out of range.");
+                }
+                bytes[x++] = (byte) temp;
+            }
+        }
+        return bytes;
+    }
+
+
     public static byte[] binText2Bytes(String text) throws IllegalArgumentException {
         if (text.length() == 0) {
             return new byte[0]; // empty byte array with 0 members        
