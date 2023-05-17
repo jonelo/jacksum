@@ -2101,8 +2101,25 @@ public class Parameters implements
 
     private void checkForNonsenseParameterCombinations() throws ParameterException, ExitException {
         // exit if selected parameters make no sense
-        if ((expected != null) && getAlgorithmIdentifier().equals("none")) {
-            throw new ParameterException("-a none and -e cannot go together.");
+        if (getAlgorithmIdentifier().equals("none")) {
+            // there is no hash value for algorithm "none"
+            // we cannot encode a non-existing hash value
+            if (isEncodingSet()) {
+                throw new ParameterException("-a none and -E cannot go together.");
+            }
+            // we should not expect a hash value from the algorithm
+            if (expected != null) {
+                throw new ParameterException("-a none and -e cannot go together.");
+            }
+        }
+
+        if (getAlgorithmIdentifier().equals("read")) {
+            if (isEncodingSet()) {
+                throw new ParameterException("-a read and -E cannot go together.");
+            }
+            if (expected != null) {
+                throw new ParameterException("-a read and -e cannot go together.");
+            }
         }
 
         if (stdin && isSequence()) {
