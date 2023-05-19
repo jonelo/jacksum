@@ -11,6 +11,7 @@ Jacksum 3.7.0, TBD, 2023
   - added password mode, and readline mode for -q
     - added charset-console, and alias --console-charset
   - added type oct for -q
+  - added encoding Z85 (without a limit on the length of the input)
 
 - improved performance:
   - performance for algorithm info output (-a <algos> [--list] --info)

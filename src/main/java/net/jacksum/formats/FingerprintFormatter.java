@@ -26,6 +26,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.parameters.base.FingerprintFormatParameters;
 import net.loefflmann.sugar.encodings.Base32;
 import net.loefflmann.sugar.encodings.BubbleBabble;
+import net.loefflmann.sugar.encodings.Z85;
 import net.loefflmann.sugar.encodings.ZBase32;
 import net.loefflmann.sugar.util.ByteSequences;
 import net.loefflmann.sugar.util.GeneralString;
@@ -126,6 +127,9 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
             }
             case ZBASE32: {
                 return ZBase32.encodeToString(bytes);
+            }
+            case Z85: {
+                return Z85.getInstance(Z85.Type.PADDING_IF_REQUIRED).encode(bytes);
             }
             default:
                 return ByteSequences.format(bytes, false, 0, ' ');

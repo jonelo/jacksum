@@ -1454,7 +1454,8 @@ OPTIONS
                 base32hex-nopadding  Base32hex, no padding (RFC 4648) (3.0)
 \
                 base64               Base64 (RFC 4648)
-                                     It encodes 3 bytes to 4 characters.
+                                     It encodes 3 bytes to 4 characters, meaning
+                                     a space efficiency of 75 %.
                                      The encoding use this representation for
                                      each 6-bit value from zero to 63:
 \
@@ -1490,6 +1491,70 @@ OPTIONS
                                          Padding:  =
 \
                 base64url-nopadding  Base64 for URL, no padding (RFC4648) (3.2)
+\
+                z85                  Z85 (3.7)
+                                     Z85 was invented by  Pieter Hintjens
+                                     (1962 – 2016) for the ZeroMQ messaging lib.
+                                     See also https://rfc.zeromq.org/spec/32/
+\
+                                     Z85 encodes 4 bytes to 5 characters,
+                                     meaning a space-efficiency of 80 %.
+                                     It is a string-safe encoding, it can be
+                                     used cleanly in source code, XML, JSON,
+                                     and so on.
+
+                                     The encoding use this representation for
+                                     each base-85 value from zero to 84:
+\
+                                         0 -  9:  0 1 2 3 4 5 6 7 8 9
+                                        10 - 19:  a b c d e f g h i j
+                                        20 - 29:  k l m n o p q r s t
+                                        30 - 39:  u v w x y z A B C D
+                                        40 - 49:  E F G H I J K L M N
+                                        50 - 59:  O P Q R S T U V W X
+                                        60 - 69:  Y Z . - : + = ^ ! /
+                                        70 - 79:  * ? & < > ( ) [ ] {
+                                        80 - 84:  } @ % $ #
+\
+                                     Note: 85^5 is bigger than 2^32, therefore a
+                                     five-byte Z85 data chunk cannot start
+                                     with '#', therefore even if the '#'
+                                     character is part of the alphabet of Z85,
+                                     it is save to use it for option
+                                     --ignore-lines-starting-with-string.
+\
+                                     Z85 is a good binary-to-text encoding for
+                                     hash values. However according to the spec
+                                     it is up to the application to ensure that
+                                     frames and strings are padded if necessary.
+                                     The spec does not mention how to do padding.
+                                     The length constraint is not a problem for
+                                     many of the hash functions, because the
+                                     length of the hash values are usually a
+                                     multiple of 4 bytes. However it is a
+                                     problem for blake2s-240, or skein-1024-1000
+                                     for example.
+\
+                                     In order to use Z85 for all algorithms that
+                                     are supported by Jacksum, the following
+                                     implementation is used:
+\
+                                     For messages that are a multiple of 4
+                                     bytes, it behaves exactly like the original
+                                     Z85 encoding, and no padding is required.
+
+                                     For messages that are not a multiple of 4
+                                     bytes, it behaves like Ascii85 with respect
+                                     to padding behavior. For decoding, we just
+                                     need to fill up with '#' characters instead
+                                     of 'u' before decoding, and ignore
+                                     the appropriate number of characters in the
+                                     decoded string. This is very space-
+                                     efficient, because for decoding, padding
+                                     can be calculated from the length of the
+                                     encoded string, and for encoding, only
+                                     characters that are really required need to
+                                     be stored.
 \
                 z-base-32            z-base-32 (3.1)
                                      It encodes 5 bytes to 8 characters.
@@ -2043,6 +2108,7 @@ OPTIONS
             Any of following examples (except text, unformatted) return the
             same digest of a input of seven bytes.
 \
+\
                 Decimal (type "dec")
 \
                     dec:101,103,103,32,52,50,10
@@ -2053,6 +2119,7 @@ OPTIONS
                     or one or more spaces. If you use spaces, you must enclose
                     the string in quotation marks to indicate to the shell that
                     it is one string.
+\
 \
                 Binary (type "bin")
 \
@@ -2080,6 +2147,7 @@ OPTIONS
                     boundaries are. If necessary you have to fill up with
                     leading zeros as the first two examples illustrates.
 \
+\
                 Octal (type "oct"):
 \
                     oct:145,147,147,40,64,62,12
@@ -2090,6 +2158,7 @@ OPTIONS
                     or one or more spaces. If you use spaces, you must enclose
                     the string in quotation marks to indicate to the shell that
                     it is one string.
+\
 \
                 Text, unformatted (type "txt"):
 \

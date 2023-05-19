@@ -45,10 +45,11 @@ public abstract class CompareAction implements Action {
         if (checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64) ||
             checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64_NOPADDING) ||
             checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64URL) ||
-            checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64URL_NOPADDING)
+            checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64URL_NOPADDING) ||
+            checksum.getFormatPreferences().getEncoding().equals(Encoding.Z85)
            )
         {
-            // strict checking required for any BASE64 encoding
+            // strict checking required for any BASE64+Z85 encoding
             return value.equals(expected);
         } else {
             return value.equalsIgnoreCase(expected);

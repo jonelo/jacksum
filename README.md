@@ -498,19 +498,19 @@ Jacksum's primary purpose is to deal with hashes. However, since Jacksum support
     $ jacksum -a none -q hex:7A -F "#SEQUENCE{oct}"
     172
 
-#### Hex string to 0/1, octal, decimal, and hexadecimal
+#### Hex string to bin, octal, decimal, and hexadecimal
 
     $ jacksum -a none -q hex:CAFE -F "bin: #SEQUENCE{bin}, dec: #SEQUENCE{dec}, oct: 0#SEQUENCE{oct}, hex:#SEQUENCE{hexup}"
     bin: 1100101011111110, dec: 51966, oct: 0145376, hex:CAFE
 
-#### Hex string to 0/1, octal, decimal, and hexadecimal in JSON
+#### Hex string to bin, octal, decimal, and hexadecimal in JSON
 
     $ jacksum -a none -q hex:CAFE -F '{ "bin": "#SEQUENCE{bin}", "dec": "#SEQUENCE{dec}", "oct": "0#SEQUENCE{oct}", "hex": "0x#SEQUENCE{hexup}" }'
     { "bin": "1100101011111110", "dec": "51966", "oct": "0145376", "hex": "CAFE" }
 
 #### Count characters 
 
-    $ jacksum -a none -q txt:"Hello World" -F "#FILESIZE"
+    $ jacksum -a none -q txt:"Hello World" -F "#LENGTH"
     11
 
 #### etc.
