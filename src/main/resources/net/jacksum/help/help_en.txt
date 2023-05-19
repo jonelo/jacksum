@@ -2111,58 +2111,78 @@ OPTIONS
 \
                 Decimal (type "dec")
 \
-                    dec:101,103,103,32,52,50,10
-                    dec:"101, 103, 103, 32, 52, 50, 10"
-                    dec:"101 103 103 32 52 50 10"
-\
                     Decimal values must be separated from each other by a comma
                     or one or more spaces. If you use spaces, you must enclose
                     the string in quotation marks to indicate to the shell that
                     it is one string.
 \
+                    Examples:
+                    > jacksum -q dec:101,103,103,32,52,50,10
+                    > jacksum -q dec:"101, 103, 103, 32, 52, 50, 10"
+                    > jacksum -q dec:"101 103 103 32 52 50 10"
+\
 \
                 Binary (type "bin")
-\
-                    bin:1100101,1100111,1100111,100000,110100,110010,1010
-                    bin:"1100101, 1100111, 1100111, 100000, 110100, 110010,1010"
-                    bin:"1100101 1100111 1100111 100000 110100 110010 1010"
-                    bin:1100101011001110110011100100000001101000011001000001010
 \
                     Binary values can be separated by commas or spaces,
                     but you do not have to, as long as it is clear,
                     where the 8 bit boundaries are. If necessary you have to
                     fill up with leading zeros as the last example illustrates.
 \
+                    Examples:
+                    > jacksum -q bin:1100101,1100111,1100111,100000,110100,110010,1010
+                    > jacksum -q bin:"1100101, 1100111, 1100111, 100000, 110100, 110010,1010"
+                    > jacksum -q bin:"1100101 1100111 1100111 100000 110100 110010 1010"
+                    > jacksum -q bin:1100101011001110110011100100000001101000011001000001010
+\
 \
                 Hexadecimal (type "hex")
-\
-                    6567672034320A
-                    hex:6567672034320A
-                    hex:65,67,67,20,34,32,A
-                    hex:"65, 67, 67, 20, 34, 32, A"
-                    hex:"65 67 67 20 34 32 A"
 \
                     Hex values can be separated by commas or spaces, but you do
                     not have to, as long as it is clear, where the 8 bit
                     boundaries are. If necessary you have to fill up with
                     leading zeros as the first two examples illustrates.
 \
+                    Examples:
+                    > jacksum -q 6567672034320A
+                    > jacksum -q hex:6567672034320A
+                    > jacksum -q hex:65,67,67,20,34,32,A
+                    > jacksum -q hex:"65, 67, 67, 20, 34, 32, A"
+                    > jacksum -q hex:"65 67 67 20 34 32 A"
+\
 \
                 Octal (type "oct"):
-\
-                    oct:145,147,147,40,64,62,12
-                    oct:"145, 147, 147, 40, 64, 62, 12"
-                    oct:"145 147 147 40 64 62 12"
 \
                     Octal values must be separated from each other by a comma
                     or one or more spaces. If you use spaces, you must enclose
                     the string in quotation marks to indicate to the shell that
                     it is one string.
 \
+                    Examples:
+                    > jacksum -q oct:145,147,147,40,64,62,12
+                    > jacksum -q oct:"145, 147, 147, 40, 64, 62, 12"
+                    > jacksum -q oct:"145 147 147 40 64 62 12"
+\
+\
+                Base64 (type "base64"):
+\
+                    A Base64 encoded string. For more information see also
+                    option -E.
+\
+                    Example:
+                    > jacksum -q base64:ZWdnIDQyCg==
+\
+\
+                Z85 (type "z85"):
+\
+                    A Z85 encoded string. For more information see also
+                    option -E.
+\
+                    Example:
+                    > jacksum -q z85:wOkS#g+]y
+\
 \
                 Text, unformatted (type "txt"):
-\
-                    txt:"egg 42\n"
 \
                     If <type> is only specified as "txt", the default character
                     set of the platform used to represent the sequence seq.
@@ -2171,11 +2191,11 @@ OPTIONS
                     (backslash and "n"). Accordingly, the sequence above 
                     represents an input of 8 bytes and not 7 bytes.
 \
+                    Example:
+                    > jacksum -q txt:"egg 42\n"
+\
 \
                 Text, formatted (type "txtf"):
-\
-                    txtf:"egg 42\n"
-                    txtf:"egg 42\x0A"
 \
                     If type is specified as "txtf", UTF-8 will be used to
                     interpret the sequence seq as formatted text.
@@ -2188,6 +2208,10 @@ OPTIONS
                     \'    Single Quote (0x27)
                     \\    Backslash (0x5C)
                     \xHH  Hexadecimal Number (HH can become 00 to 7F)
+\
+                    Examples:
+                    > jacksum -q txtf:"egg 42\n"
+                    > jacksum -q txtf:"egg 42\x0A"
 \
 \
                 File (type "file"):
@@ -2279,7 +2303,7 @@ OPTIONS
                       String interning is not used for the password.
 \
                     Example:
-                        > jacksum -q password -a sha256 -E base64
+                        > jacksum -q password -a sha256 -E z85
                         Password: facebook.com <a strong master password>
 \
 \

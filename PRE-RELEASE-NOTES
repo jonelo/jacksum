@@ -11,7 +11,8 @@ Jacksum 3.7.0, TBD, 2023
   - added password mode, and readline mode for -q
     - added charset-console, and alias --console-charset
   - added type oct for -q
-  - added encoding Z85 (without a limit on the length of the input)
+  - added encoding Z85 for option -E (without a limit on the length of the input)
+  - added support for BASE64, and Z85 to option -q
 
 - improved performance:
   - performance for algorithm info output (-a <algos> [--list] --info)
@@ -21,7 +22,7 @@ Jacksum 3.7.0, TBD, 2023
 
 - bug fixes:
   - NPE if filename is null and -F is set (e.g. 'jacksum -a none -F "#SEQUENCE" -q txt:')
-  - NPE can occur if both -a none and -E has been set
+  - NPE can occur if both -a none and -E without -F have been set
   - #FILENAME is not replaced in <format> if both "-F <format>" and "-q file:<file>" have been used
   - aliases blake2sp-256 and blake2bp-512 are not accessible
   - regression: "jacksum -a all:blake -l" returns "blake2sp-256 is an unknown algorithm" due to missing alias

@@ -51,6 +51,7 @@ import net.jacksum.parameters.combined.FormatParameters;
 import net.jacksum.parameters.combined.GatheringParameters;
 import net.jacksum.parameters.combined.ProducerConsumerParameters;
 import net.jacksum.parameters.combined.StatisticsParameters;
+import net.loefflmann.sugar.encodings.Z85;
 import net.loefflmann.sugar.io.BOM;
 import net.loefflmann.sugar.io.GeneralIO;
 import net.loefflmann.sugar.util.ByteSequences;
@@ -66,10 +67,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -570,6 +568,8 @@ public class Parameters implements
             case DEC:
             case BIN:
             case OCT:
+            case BASE64:
+            case Z85:
             case FILE:
                 this.sequenceType = sequenceType;
                 break;
@@ -610,6 +610,11 @@ public class Parameters implements
             setSequence(SequenceType.BIN, sequence.substring(4));
         } else if (indicator.startsWith("oct:")) {
             setSequence(SequenceType.OCT, sequence.substring(4));
+        } else if (indicator.startsWith("base64:")) {
+            setSequence(SequenceType.BASE64, sequence.substring(7));
+        } else if (indicator.startsWith("z85:")) {
+            setSequence(SequenceType.Z85, sequence.substring(4));
+
         } else if (indicator.startsWith("file:")) {
             setSequence(SequenceType.FILE, sequence.substring(5));
         } else {
@@ -1076,7 +1081,7 @@ public class Parameters implements
     }
 
     public enum SequenceType {
-        TXT, TXTF, DEC, HEX, BIN, OCT, READLINE, PASSWD, FILE
+        TXT, TXTF, DEC, HEX, BIN, OCT, BASE64, Z85, READLINE, PASSWD, FILE
     }
 
     public boolean isOutputFile() {
@@ -1962,6 +1967,12 @@ public class Parameters implements
             case OCT:
                 bytes = ByteSequences.octText2Bytes(sequence);
                 break;
+            case BASE64:
+                bytes = Base64.getDecoder().decode(sequence);
+                break;
+            case Z85:
+                bytes = Z85.getInstance(Z85.Type.PADDING_IF_REQUIRED).decode(sequence);
+                break;
             case FILE:
                 try {
                     Path p = Path.of(sequence);
@@ -2104,8 +2115,8 @@ public class Parameters implements
         if (getAlgorithmIdentifier().equals("none")) {
             // there is no hash value for algorithm "none"
             // we cannot encode a non-existing hash value
-            if (isEncodingSet()) {
-                throw new ParameterException("-a none and -E cannot go together.");
+            if (isEncodingSet() && !isFormatWanted()) {
+                throw new ParameterException("-a none and -E without -F cannot go together.");
             }
             // we should not expect a hash value from the algorithm
             if (expected != null) {
@@ -2114,8 +2125,8 @@ public class Parameters implements
         }
 
         if (getAlgorithmIdentifier().equals("read")) {
-            if (isEncodingSet()) {
-                throw new ParameterException("-a read and -E cannot go together.");
+            if (isEncodingSet() && !isFormatWanted()) {
+                throw new ParameterException("-a read and -E without -F cannot go together.");
             }
             if (expected != null) {
                 throw new ParameterException("-a read and -e cannot go together.");
