@@ -47,8 +47,8 @@ public class Main {
         try {
             parameters = new CLIParameters(args).parse().checked();
             exitCode = Actions.getAction(parameters).perform();
-        } catch (ParameterException e) {
-            throw new ExitException(e.getMessage() + "\nExit.",
+        } catch (ParameterException | IllegalArgumentException e) {
+            throw new ExitException(String.format("%s%nExit.", e.getMessage()),
                     ExitCode.PARAMETER_ERROR);
         }
         Actions.printStatistics(statistics, parameters);
