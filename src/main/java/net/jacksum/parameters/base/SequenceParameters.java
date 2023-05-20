@@ -22,21 +22,13 @@
  */
 package net.jacksum.parameters.base;
 
-
-import net.jacksum.parameters.Parameters;
+import net.jacksum.parameters.Sequence;
 
 public interface SequenceParameters {
 
     boolean isSequence();
 
-    byte[] getSequenceAsBytes();
+    Sequence getSequence();
 
-    Parameters.SequenceType getSequenceType();
-
-    String getSequenceFilename();
-
-    void setSequence(String sequence);
-
-    void setSequence(Parameters.SequenceType sequenceType, String sequence);
-
+    void setSequence(Sequence sequence);
 }

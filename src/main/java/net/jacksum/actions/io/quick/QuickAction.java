@@ -23,7 +23,7 @@
 
 package net.jacksum.actions.io.quick;
 
-import net.jacksum.parameters.Parameters;
+import net.jacksum.parameters.Sequence;
 import net.loefflmann.sugar.util.ByteSequences;
 import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.actions.Action;
@@ -69,11 +69,11 @@ public class QuickAction implements Action {
 
         // the sequence parameter is required
         if (!parameters.isSequence()) {
-            throw new ParameterException("A sequence has to be set (-q).");
+            throw new ParameterException("A sequence has to be set by option -q.");
         }
 
         AbstractChecksum checksum = Actions.getChecksumInstance(parameters);
-        if (parameters.getSequenceType().equals(Parameters.SequenceType.PASSWD)) {
+        if (parameters.getSequence().getType().equals(Sequence.Type.PASSWORD)) {
             char[] passwd = readPassword();
             if (passwd != null) {
                 try {
@@ -86,13 +86,13 @@ public class QuickAction implements Action {
             }
             checksum.setFilename("");
         } else
-        if (parameters.getSequenceType().equals(Parameters.SequenceType.READLINE)) {
+        if (parameters.getSequence().getType().equals(Sequence.Type.READLINE)) {
             String line = readLineFromConsole();
             if (line != null) {
                 try {
                     checksum.update(line.getBytes(parameters.getCharsetConsole()));
-                    parameters.setSequence(Parameters.SequenceType.HEX,
-                            ByteSequences.format(line.getBytes(parameters.getCharsetConsole())));
+                    parameters.setSequence(new Sequence(Sequence.Type.HEX,
+                            ByteSequences.format(line.getBytes(parameters.getCharsetConsole()))));
                 } catch (UnsupportedEncodingException e) {
                     throw new ParameterException(e.getMessage());
                 }
@@ -101,7 +101,7 @@ public class QuickAction implements Action {
             }
         } else {
             checksum.setFilename(""); //checksum.setFilename(new String(parameters.getSequenceAsBytes()));
-            checksum.update(parameters.getSequenceAsBytes());
+            checksum.update(parameters.getSequence().asBytes());
         }
 
         statisticsQuick.addBytes(checksum.getLength());

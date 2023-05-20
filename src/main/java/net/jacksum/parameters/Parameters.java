@@ -43,6 +43,7 @@ import net.jacksum.cli.Verbose;
 import net.jacksum.compats.defs.CompatibilityProperties;
 import net.jacksum.compats.defs.InvalidCompatibilityPropertiesException;
 import net.jacksum.formats.Encoding;
+import net.jacksum.formats.EncodingDecoding;
 import net.jacksum.multicore.OSControl;
 import net.jacksum.multicore.ThreadControl;
 import net.jacksum.multicore.manyfiles.ProducerParameters;
@@ -51,10 +52,8 @@ import net.jacksum.parameters.combined.FormatParameters;
 import net.jacksum.parameters.combined.GatheringParameters;
 import net.jacksum.parameters.combined.ProducerConsumerParameters;
 import net.jacksum.parameters.combined.StatisticsParameters;
-import net.loefflmann.sugar.encodings.Z85;
 import net.loefflmann.sugar.io.BOM;
 import net.loefflmann.sugar.io.GeneralIO;
-import net.loefflmann.sugar.util.ByteSequences;
 import net.loefflmann.sugar.util.ExitException;
 import net.loefflmann.sugar.util.GeneralString;
 
@@ -190,8 +189,7 @@ public class Parameters implements
     // -P
     private Character pathChar = File.separatorChar;
     // -q
-    private String sequenceAsString = null;
-    private byte[] sequenceAsBytes = null;
+    private Sequence sequence = null;
     // -r
     private boolean recursive = false;
     // -r <depth>
@@ -525,101 +523,20 @@ public class Parameters implements
     }
 
     // -q
-    @Override
-    public byte[] getSequenceAsBytes() {
-        return sequenceAsBytes;
+    public Sequence getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(String string) {
+        sequence = new Sequence(string);
+    }
+
+    public void setSequence(Sequence sequence) {
+        this.sequence = sequence;
     }
 
     public boolean isSequence() {
-        return sequenceAsBytes != null;
-    }
-
-    public String getSequenceAsString() {
-        return sequenceAsString;
-    }
-
-    // deprecated, use getSequenceAsBytes()
-    public byte[] getSequence() {
-        return getSequenceAsBytes();
-    }
-
-
-    private SequenceType sequenceType = null;
-    public SequenceType getSequenceType() { return sequenceType; }
-
-    private String sequenceFilename;
-    public String getSequenceFilename() { return sequenceFilename; }
-
-
-    public void setSequence(SequenceType sequenceType, String sequence) throws IllegalArgumentException {
-        switch (sequenceType) {
-            case PASSWD:
-                         this.sequenceType = SequenceType.PASSWD;
-                         this.sequenceAsString = "password";
-                         this.sequenceAsBytes = new byte[]{};
-                         break;
-            case READLINE:
-                         this.sequenceType = SequenceType.READLINE;
-                         this.sequenceAsString = "readline";
-                         this.sequenceAsBytes = new byte[]{};
-                         break;
-            case TXT:
-            case TXTF:
-            case DEC:
-            case BIN:
-            case OCT:
-            case BASE64:
-            case Z85:
-            case FILE:
-                this.sequenceType = sequenceType;
-                break;
-            case HEX:
-            default:
-                this.sequenceType = SequenceType.HEX;
-        }
-        if (!sequenceType.equals(SequenceType.PASSWD) && !sequenceType.equals(SequenceType.READLINE)) {
-            this.sequenceAsString = String.format("%s:%s", this.sequenceType.toString().toLowerCase(), sequence);
-            this.sequenceAsBytes = sequence2bytes(sequenceType, sequence);
-        }
-    }
-
-    public void setSequenceAsBytes(byte[] sequence) {
-        this.sequenceAsBytes = sequence;
-    }
-    // -q
-    public void setSequence(String sequence) throws IllegalArgumentException {
-//        this.sequenceAsString = sequence;
-        String indicator = sequence.toLowerCase();
-
-        if (indicator.equals("password")) {
-            setSequence(SequenceType.PASSWD, null);
-        } else
-        if (indicator.equals("readline")) {
-            setSequence(SequenceType.READLINE, null);
-        } else
-
-        if (indicator.startsWith("txt:")) {
-            setSequence(SequenceType.TXT, sequence.substring(4));
-        } else if (indicator.startsWith("txtf:")) {
-            setSequence(SequenceType.TXTF, sequence.substring(5));
-        } else if (indicator.startsWith("dec:")) {
-            setSequence(SequenceType.DEC, sequence.substring(4));
-        } else if (indicator.startsWith("hex:")) {
-            setSequence(SequenceType.HEX, sequence.substring(4));
-        } else if (indicator.startsWith("bin:")) {
-            setSequence(SequenceType.BIN, sequence.substring(4));
-        } else if (indicator.startsWith("oct:")) {
-            setSequence(SequenceType.OCT, sequence.substring(4));
-        } else if (indicator.startsWith("base64:")) {
-            setSequence(SequenceType.BASE64, sequence.substring(7));
-        } else if (indicator.startsWith("z85:")) {
-            setSequence(SequenceType.Z85, sequence.substring(4));
-
-        } else if (indicator.startsWith("file:")) {
-            setSequence(SequenceType.FILE, sequence.substring(5));
-        } else {
-            setSequence(SequenceType.HEX, sequence);
-        }
+        return sequence != null;
     }
 
     // -g
@@ -734,7 +651,7 @@ public class Parameters implements
     public byte[] getExpectedBytes() throws UnsupportedOperationException {
         if (expectedAsBytes == null && isEncodingSet() && getEncoding().equals(Encoding.HEX)
                 && !isGroupingSet()) {
-            expectedAsBytes = sequence2bytes(SequenceType.HEX, expected);
+            expectedAsBytes = EncodingDecoding.sequence2bytes(Sequence.Type.HEX, expected);
         } else {
             throw new UnsupportedOperationException();
             // TODO: transform BubbleBabble to bytes
@@ -1080,9 +997,6 @@ public class Parameters implements
         this.charsetConsole = charsetConsole;
     }
 
-    public enum SequenceType {
-        TXT, TXTF, DEC, HEX, BIN, OCT, BASE64, Z85, READLINE, PASSWD, FILE
-    }
 
     public boolean isOutputFile() {
         return outputFile != null;
@@ -1579,7 +1493,7 @@ public class Parameters implements
             this.setPathChar(newParameters.getPathChar());
         }
         if (newParameters.isSequence()) {
-            this.setSequence(newParameters.getSequenceAsString());
+            this.setSequence(newParameters.getSequence());
         }
         if (newParameters.isRecursive()) {
             this.setRecursive(true);
@@ -1807,7 +1721,7 @@ public class Parameters implements
         }
         if (isSequence()) {
             list.add(_QUICK);
-            list.add(getSequenceAsString());
+            list.add(getSequence().asString());
         }
         if (isRecursive()) {
             list.add(_RECURSIVE);
@@ -1942,57 +1856,6 @@ public class Parameters implements
             format = GeneralString.replaceAllStrings(format, "#SEPARATOR", separator);
         }
         return format;
-    }
-
-    private byte[] sequence2bytes(SequenceType sequenceType, String sequence)
-            throws IllegalArgumentException {
-        byte[] bytes;
-        switch (sequenceType) {
-            case TXT:
-                bytes = ByteSequences.text2Bytes(sequence);
-                break;
-            case TXTF:
-                bytes = ByteSequences.textf2Bytes(sequence);
-                break;
-            case DEC:
-                bytes = ByteSequences.decText2Bytes(sequence);
-                break;
-            case HEX:
-                bytes = ByteSequences.hexText2Bytes(sequence);
-                //System.out.println(Service.format(bytes));
-                break;
-            case BIN:
-                bytes = ByteSequences.binText2Bytes(sequence);
-                break;
-            case OCT:
-                bytes = ByteSequences.octText2Bytes(sequence);
-                break;
-            case BASE64:
-                bytes = Base64.getDecoder().decode(sequence);
-                break;
-            case Z85:
-                bytes = Z85.getInstance(Z85.Type.PADDING_IF_REQUIRED).decode(sequence);
-                break;
-            case FILE:
-                try {
-                    Path p = Path.of(sequence);
-                    if (Files.exists(p)) {
-                        if (Files.size(p) > 128 * 1024 * 1024) {
-                            throw new IllegalArgumentException(String.format("File %s is greater than 128 MiB which exceeds the limit for option -q file:<file>", sequence));
-                        }
-                        bytes = Files.readAllBytes(p);
-                        sequenceFilename = sequence;
-                    } else {
-                        throw new IllegalArgumentException(String.format("File %s does not exist.", p));
-                    }
-                } catch (IOException ioe) {
-                    throw new IllegalArgumentException(ioe.getMessage());
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("unknown sequence type: " + sequenceType);
-        }
-        return bytes;
     }
 
     public void restoreStdOut() {
@@ -2138,7 +2001,7 @@ public class Parameters implements
         }
 
         if (findAlgorithm) {
-            if (sequenceAsBytes == null) {
+            if (sequence == null) {
                 throw new ParameterException("Option -a unknown:<width> requires option -q");
             }
             if (expected == null) {
@@ -2231,7 +2094,7 @@ public class Parameters implements
         }
 
         // both timestamp and sequence have been specified
-        if (timestampFormat != null && sequenceAsBytes != null) {
+        if (timestampFormat != null && sequence != null) {
             messenger.print(WARNING, "A sequence (-q) has been specified, timestamp (-t) will be ignored.");
         }
 
@@ -2267,7 +2130,7 @@ public class Parameters implements
         if (!isHelp()
                 && !isLicenseWanted()
                 && !isCopyrightWanted()
-                && sequenceAsBytes == null
+                && sequence == null
                 && getFilenamesFromArgs().isEmpty()
                 && getFilenamesFromFilelist().isEmpty()
                 && checkFile == null

@@ -311,10 +311,9 @@ public class Base32 {
         for (Base32 base32 : array) {
             System.out.println(base32);
             String encoded = base32.encode(args[0].getBytes());
-            System.out.printf("BASE32(\"%s\") = %s\n", args[0], encoded);
+            System.out.printf("BASE32(\"%s\") = %s%n", args[0], encoded);
             byte[] decoded = base32.decode(encoded);
-            System.out.println("Decoded: " + new String(decoded));
+            System.out.printf("Decoded: %s%n", new String(decoded));
         }
     }
-
 }

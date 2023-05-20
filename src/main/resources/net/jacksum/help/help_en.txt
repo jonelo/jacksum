@@ -47,7 +47,8 @@ DESCRIPTION
     It covers many types of use cases in which hash values are needed:
 \
         - Calculating of hash values/fingerprints of almost any input
-          (strings, files, partitions, disks, ADS, pipes, sockets, doors, ...)
+          (command line arg, console, standard input, encoded strings,
+          files, partitions, disks, NTFS ADS, pipes, sockets, doors, ...)
         - Finding OK/failed/missing/new files (verify file/data integrity)
         - Finding files by their fingerprints for positive matching
         - Finding files that do not match certain fingerprints for negative matching
@@ -58,23 +59,22 @@ DESCRIPTION
     In order to achieve the goals above, Jacksum supports:
 \
         - cross-platform executability
+        - Recursive traversal with depth control, policies to follow symbolic
+          links on files and/or folders, and file system cycle detection
+        - Multi-threading across platforms for parallel hash calculations and
+          data reads in order to take advantage of multi-core processors and
+          fast SSD storage
         - 489 standard hash functions
+        - Customizable CRCs from 1 to 64 bit width
         - 60+ command line options to control Jacksum's behavior
+        - 15 different encodings for representing hash values
         - 10 predefined standard styles for reading and writing files that
           contain hash values
-        - Recursive traversal with depth control, policies to follow symbolic
-          links on files and folders, and file system cycle detection
-        - Multi-threading for parallel hash calculations and data reads in
-          order to take advantage of multi-core processors and SSDs
-        - 8600+ lines of manpage with descriptions, examples, and compatibility
-          lists for the most common algorithms
-\
-    To get the most out of it, customization is the key, Jacksum also supports:
-\
         - Fully customizable output format
-        - 14 different encodings for representing hash values
-        - 170+ different character sets to be able to read and write hash files correctly
-        - Customizable CRCs from 1 to 64 bit width
+        - 170+ different character sets to be able to read and write hash files
+          correctly
+        - 9000+ lines of manpage with descriptions, examples, and compatibility
+          lists for the most common algorithms
 
 
 OPERATING MODES
@@ -2099,31 +2099,67 @@ OPTIONS
             --path-absolute, and --path-relative.
 
 
-    -q (([<type>:]<sequence>)|<console mode>)
-    --quick (([<type>:]<sequence>)|<console mode>)
+    -q (([<type>:]<sequence>)|(readline|password))
+    --quick (([<type>:]<sequence>)|(readline|password))
 \
             Process a sequence quickly and quit the program. The <type> can be
-            used to specify the type of the sequence as text, formatted text,
-            binary, hexadecimal, decimal, or file. If <type> is not set, the
-            sequence is expected to be in hex form.
-            Any of following examples (except text, unformatted) return the
-            same digest of a input of seven bytes.
+            used to specify the type of the input:
+\
+                - text or formatted text
+                - binary, decimal, octal, or hexadecimal sequence
+                - Base32, Base32hex, Base64, Base64url, or z85 encoded string
+                - one file (max. 128 MiB)
+                - input from the console visible or hidden
+\
+            If <type> is not set, the sequence is expected to be in hex form.
+            The following values for <type> are supported:
 \
 \
-                Decimal (type "dec")
+                base32
 \
-                    Decimal values must be separated from each other by a comma
-                    or one or more spaces. If you use spaces, you must enclose
-                    the string in quotation marks to indicate to the shell that
-                    it is one string.
+                    A Base32 encoded string. The string can be encoded using
+                    base32 or base32-nopadding. For more information see also
+                    option -E.
 \
                     Examples:
-                    > jacksum -q dec:101,103,103,32,52,50,10
-                    > jacksum -q dec:"101, 103, 103, 32, 52, 50, 10"
-                    > jacksum -q dec:"101 103 103 32 52 50 10"
+                    jacksum -q base32:MFXHG53FOIQGS4ZAGQZA====
+                    jacksum -q base32:MFXHG53FOIQGS4ZAGQZA
 \
 \
-                Binary (type "bin")
+                base32hex
+\
+                    A Base32hex encoded string. The string can be encoded using
+                    base32hex or base32hex-nopadding. For more information see also
+                    option -E.
+\
+                    Examples:
+                    jacksum -q base32hex:C5N76TR5E8G6ISP06GP0====
+                    jacksum -q base32hex:C5N76TR5E8G6ISP06GP0
+\
+\
+                base64
+\
+                    A Base64 encoded string. The string can be encoded using
+                    base64 or base64-nopadding. For more information see also
+                    option -E.
+\
+                    Examples:
+                    > jacksum -q base64:dGhlIGFuc3dlciBpcyA0Mg==
+                    > jacksum -q base64:dGhlIGFuc3dlciBpcyA0Mg
+\
+\
+                base64url
+\
+                    A Base64url encoded string. The string can be encoded using
+                    base64url or base64url-nopadding. For more information see
+                    also option -E.
+\
+                    Examples:
+                    > jacksum -q base64url:wN7K_g==
+                    > jacksum -q base64url:wN7K_g
+\
+\
+                bin
 \
                     Binary values can be separated by commas or spaces,
                     but you do not have to, as long as it is clear,
@@ -2131,93 +2167,26 @@ OPTIONS
                     fill up with leading zeros as the last example illustrates.
 \
                     Examples:
-                    > jacksum -q bin:1100101,1100111,1100111,100000,110100,110010,1010
-                    > jacksum -q bin:"1100101, 1100111, 1100111, 100000, 110100, 110010,1010"
-                    > jacksum -q bin:"1100101 1100111 1100111 100000 110100 110010 1010"
-                    > jacksum -q bin:1100101011001110110011100100000001101000011001000001010
+                    > jacksum -q bin:1100101,1100111,100000,110100,110010,1010
+                    > jacksum -q bin:"1100101, 1100111, 100000, 110100, 110010,1010"
+                    > jacksum -q bin:"1100101 1100111 100000 110100 110010 1010"
+                    > jacksum -q bin:11001010110011100100000001101000011001000001010
 \
 \
-                Hexadecimal (type "hex")
+                dec
 \
-                    Hex values can be separated by commas or spaces, but you do
-                    not have to, as long as it is clear, where the 8 bit
-                    boundaries are. If necessary you have to fill up with
-                    leading zeros as the first two examples illustrates.
-\
-                    Examples:
-                    > jacksum -q 6567672034320A
-                    > jacksum -q hex:6567672034320A
-                    > jacksum -q hex:65,67,67,20,34,32,A
-                    > jacksum -q hex:"65, 67, 67, 20, 34, 32, A"
-                    > jacksum -q hex:"65 67 67 20 34 32 A"
-\
-\
-                Octal (type "oct"):
-\
-                    Octal values must be separated from each other by a comma
+                    Decimal values must be separated from each other by a comma
                     or one or more spaces. If you use spaces, you must enclose
                     the string in quotation marks to indicate to the shell that
                     it is one string.
 \
                     Examples:
-                    > jacksum -q oct:145,147,147,40,64,62,12
-                    > jacksum -q oct:"145, 147, 147, 40, 64, 62, 12"
-                    > jacksum -q oct:"145 147 147 40 64 62 12"
+                    > jacksum -q dec:101,103,32,52,50,10
+                    > jacksum -q dec:"101, 103, 32, 52, 50, 10"
+                    > jacksum -q dec:"101 103 32 52 50 10"
 \
 \
-                Base64 (type "base64"):
-\
-                    A Base64 encoded string. For more information see also
-                    option -E.
-\
-                    Example:
-                    > jacksum -q base64:ZWdnIDQyCg==
-\
-\
-                Z85 (type "z85"):
-\
-                    A Z85 encoded string. For more information see also
-                    option -E.
-\
-                    Example:
-                    > jacksum -q z85:wOkS#g+]y
-\
-\
-                Text, unformatted (type "txt"):
-\
-                    If <type> is only specified as "txt", the default character
-                    set of the platform used to represent the sequence seq.
-                    For unformatted text, the \n is not interpreted as one
-                    character (Newline), but rather as two separate characters
-                    (backslash and "n"). Accordingly, the sequence above 
-                    represents an input of 8 bytes and not 7 bytes.
-\
-                    Example:
-                    > jacksum -q txt:"egg 42\n"
-\
-\
-                Text, formatted (type "txtf"):
-\
-                    If type is specified as "txtf", UTF-8 will be used to
-                    interpret the sequence seq as formatted text.
-                    The following escape sequences are interpreted accordingly:
-\
-                    \t    Horizontal Tab (0x09)
-                    \n    New Line (0x0A)
-                    \r    Carriage Return (0x0D)
-                    \"    Double Quote (0x22)
-                    \'    Single Quote (0x27)
-                    \\    Backslash (0x5C)
-                    \xHH  Hexadecimal Number (HH can become 00 to 7F)
-\
-                    Examples:
-                    > jacksum -q txtf:"egg 42\n"
-                    > jacksum -q txtf:"egg 42\x0A"
-\
-\
-                File (type "file"):
-\
-                    file:<file>
+                file
 \
                     If <type> is specified as "file", all bytes from the
                     <file> will be read and kept in memory.
@@ -2233,23 +2202,39 @@ OPTIONS
                     (= 8,000,000,000 Gibibytes) pass <file> as a parameter to
                     Jacksum.
 \
-\
-                Read line (console mode "readline"):
-\
-                    Reads a string from the console, not including any
-                    line-termination characters. It works similar to the
-                    "password" mode, but it shows the string that you type,
-                    and you can print it out again by specifying format options
-                    which is useful for investigating particular strings and
-                    encodings.
-                    By default UTF-8 is used for the character encoding in the
-                    console. See also --charset-console.
-\
                     Example:
-                    > jacksum -q readline
-                      -F "#HASH msg=#MESSAGE msglen=#LENGTH hex=#SEQUENCE{hex}"
+                    > jacksum -q file:myfile.img
 \
-                Password (console mode "password"):
+\
+                hex
+\
+                    Hexadecimal values can be separated by commas or spaces, but
+                    you do not have to, as long as it is clear, where the 8 bit
+                    boundaries are. If necessary you have to fill up with
+                    leading zeros as the first two examples illustrates.
+\
+                    Examples:
+                    > jacksum -q 65672034320A
+                    > jacksum -q hex:65672034320A
+                    > jacksum -q hex:65,67,20,34,32,A
+                    > jacksum -q hex:"65, 67, 20, 34, 32, A"
+                    > jacksum -q hex:"65 67 20 34 32 A"
+\
+\
+                oct
+\
+                    Octal values must be separated from each other by a comma
+                    or one or more spaces. If you use spaces, you must enclose
+                    the string in quotation marks to indicate to the shell that
+                    it is one string.
+\
+                    Examples:
+                    > jacksum -q oct:145,147,40,64,62,12
+                    > jacksum -q oct:"145, 147, 40, 64, 62, 12"
+                    > jacksum -q oct:"145 147 40 64 62 12"
+\
+\
+                password
 \
                     Reads a password or passphrase from the console, not
                     including any line-termination characters. You can use that
@@ -2306,6 +2291,64 @@ OPTIONS
                     Example:
                         > jacksum -q password -a sha256 -E z85
                         Password: facebook.com <a strong master password>
+\
+\
+                readline
+\
+                    Reads one string from the console, not including any
+                    line-termination characters. It works similar to the
+                    "password" mode, but it shows the string that you type,
+                    and you can print it out again by specifying format options
+                    which is useful for investigating particular strings and
+                    encodings.
+                    By default UTF-8 is used for the character encoding in the
+                    console. See also --charset-console.
+\
+                    Example:
+                    > jacksum -q readline
+                      -F "#HASH msg=#MESSAGE msglen=#LENGTH hex=#SEQUENCE{hex}"
+\
+\
+                txt
+\
+                    Text, unformatted.  If <type> is only specified as "txt",
+                    the default character set of the platform used to represent
+                    the <sequence>.
+                    For unformatted text, the \n is NOT interpreted as one
+                    character (new line), but rather as two separate characters
+                    (backslash and "n"). Accordingly, the sequence above
+                    represents an input of 8 bytes and not 7 bytes.
+\
+                    Example:
+                    > jacksum -q txt:"the answer is 42\n"
+\
+\
+                txtf
+\
+                    Text, formatted. If type is specified as "txtf", UTF-8 will
+                    be used to interpret the <sequence> as formatted text.
+                    The following escape sequences are interpreted accordingly:
+\
+                        \t    Horizontal Tab (0x09)
+                        \n    New Line (0x0A)
+                        \r    Carriage Return (0x0D)
+                        \"    Double Quote (0x22)
+                        \'    Single Quote (0x27)
+                        \\    Backslash (0x5C)
+                        \xHH  Hexadecimal Number (HH can become 00 to 7F)
+\
+                    Examples:
+                    > jacksum -q txtf:"answer is 42\n"
+                    > jacksum -q txtf:"answer is 42\x0A"
+\
+\
+                z85
+\
+                    A Z85 encoded string. For more information see also
+                    option -E.
+\
+                    Example:
+                    > jacksum -q z85:vqZdgwPw]cB09p{
 \
 \
             Available since version 1.3.0 of Jacksum (hex only), "type" since

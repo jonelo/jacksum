@@ -63,15 +63,17 @@ public class Z85 {
                     instancePaddingIfRequired = new Z85(Type.PADDING_IF_REQUIRED);
                 }
                 return instancePaddingIfRequired;
-            default: throw new IllegalArgumentException(String.format("Type %s is not supported.", type));
+            default: throw new IllegalArgumentException(String.format("Z85: Type %s is not supported.", type));
         }
     }
 
     public byte[] decode(String s) throws IllegalArgumentException {
-        int remainder = s.length() % 5;
-        if (type == Type.STRICT && remainder > 0) {
-            throw new IllegalArgumentException("Z85 decoding error: the length of the encoded string must be a multiple of 5 characters.");
+        try {
+            checkZ85(s);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(String.format("Z85 decoding error: %s", e.getMessage()));
         }
+        int remainder = s.length() % 5;
         int padding = 5 - (remainder == 0 ? 5 : remainder);
         for (int p = 0; p < padding; p++) {
             s += encoders[encoders.length - 1];
@@ -127,11 +129,32 @@ public class Z85 {
         return ret.toString();
     }
 
+    /**
+     * Checks whether a string is valid Z85 encoded.
+     * @param s the string to check
+     * @return true if the string is valid Z85 encoded.
+     */
     public boolean isZ85(String s) {
         if (type == Type.STRICT) {
             return s.length() % 5 == 0 && s.matches(Z85_REGEX);
         } else {
             return s.matches(Z85_REGEX);
+        }
+    }
+
+    /**
+     * Checks whether a string is valid Z85 encoded.
+     * @param s the string to check
+     * @throws IllegalArgumentException if s contains a character that is not part of the Z85 alphabet or
+     * (dependent on the instance type) if the length of s is not a multiple of five characters.
+     */
+    public void checkZ85(String s) throws IllegalArgumentException {
+        if (!s.matches(Z85_REGEX)) {
+            throw new IllegalArgumentException("The encoded string contains a character that is not part of the Z85 alphabet.");
+        }
+
+        if (type == Type.STRICT && s.length() % 5 > 0) {
+            throw new IllegalArgumentException("The length of the encoded string must be a multiple of five characters.");
         }
     }
 

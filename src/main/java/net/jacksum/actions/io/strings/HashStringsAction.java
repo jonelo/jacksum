@@ -25,7 +25,7 @@ package net.jacksum.actions.io.strings;
 
 import net.jacksum.actions.io.hash.Header;
 import net.jacksum.cli.CLIParameters;
-import net.jacksum.parameters.Parameters;
+import net.jacksum.parameters.Sequence;
 import net.loefflmann.sugar.io.BOM;
 import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.actions.Action;
@@ -108,7 +108,7 @@ public class HashStringsAction implements Action {
                     // calc checksum from the line
                     checksum.update(line.getBytes());
                     statistics.addBytes(checksum.getLength());
-                    parameters.setSequence(Parameters.SequenceType.TXT, line);
+                    parameters.setSequence(new Sequence(Sequence.Type.TXT, line));
                     checksum.setParameters(parameters);
                     // set the line as the filename
                     checksum.setFilename(line);

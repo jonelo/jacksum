@@ -86,7 +86,7 @@ public class FindKnownCRC implements FindAlgoEngine {
             try {
                 checksum = new CrcGeneric(entry.getId());
                 checksum.setParameters(parameters);
-                checksum.update(parameters.getSequenceAsBytes());
+                checksum.update(parameters.getSequence().asBytes());
 
                 CompareAndFindAlgo action = new CompareAndFindAlgo(checksum, parameters);
                 action.perform();

@@ -22,11 +22,11 @@
  */
 package net.jacksum.actions.io.wanted;
 
+import net.jacksum.formats.EncodingDecoding;
 import net.jacksum.statistics.StatisticsForHashedFiles;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Messenger;
 import net.jacksum.compats.parsing.HashEntry;
-import net.jacksum.formats.FingerprintFormatter;
 import net.jacksum.multicore.manyfiles.Message;
 import net.jacksum.multicore.manyfiles.MessageConsumer;
 import net.jacksum.parameters.Parameters;
@@ -79,7 +79,7 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
                  filesRead++;
                  bytesRead += message.getPayload().getSize();
 
-                 String hash = FingerprintFormatter.encodeBytes(message.getPayload().getDigest(), formatPreferences.getEncoding(), 0, ' ');
+                 String hash = EncodingDecoding.encodeBytes(message.getPayload().getDigest(), formatPreferences.getEncoding(), 0, ' ');
                  String filename = message.getPayload().getPath() == null ? "<stdin>" : message.getPayload().getPath().normalize().toString();
 
                  if (map.containsKey(hash)) {

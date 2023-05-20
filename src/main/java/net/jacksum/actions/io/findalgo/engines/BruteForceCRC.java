@@ -85,7 +85,7 @@ public class BruteForceCRC implements FindAlgoEngine {
                                             boolarray[refout],
                                             xortab[xor]);
                                     checksum.setParameters(parameters);
-                                    checksum.update(parameters.getSequenceAsBytes());
+                                    checksum.update(parameters.getSequence().asBytes());
 
                                     CompareAndFindAlgo action = new CompareAndFindAlgo(checksum, parameters);
                                     action.perform();
