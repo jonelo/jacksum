@@ -1493,7 +1493,7 @@ OPTIONS
                 base64url-nopadding  Base64 for URL, no padding (RFC4648) (3.2)
 \
                 z85                  Z85 (3.7)
-                                     Z85 was invented by  Pieter Hintjens
+                                     Z85 was suggested by Pieter Hintjens
                                      (1962 – 2016) for the ZeroMQ messaging lib.
                                      See also https://rfc.zeromq.org/spec/32/
 \
@@ -1502,7 +1502,7 @@ OPTIONS
                                      It is a string-safe encoding, it can be
                                      used cleanly in source code, XML, JSON,
                                      and so on.
-
+\
                                      The encoding use this representation for
                                      each base-85 value from zero to 84:
 \
@@ -1531,18 +1531,19 @@ OPTIONS
                                      The length constraint is not a problem for
                                      many of the hash functions, because the
                                      length of the hash values are usually a
-                                     multiple of 4 bytes. However it is a
-                                     problem for blake2s-240, or skein-1024-1000
-                                     for example.
+                                     multiple of 4 bytes. However, it is a
+                                     problem for a few, not so common,
+                                     algorithms like blake2s-240, or
+                                     skein-1024-1000 for example.
 \
-                                     In order to use Z85 for all algorithms that
-                                     are supported by Jacksum, the following
+                                     In order to use Z85 for all algorithms
+                                     supported by Jacksum, the following
                                      implementation is used:
 \
                                      For messages that are a multiple of 4
                                      bytes, it behaves exactly like the original
                                      Z85 encoding, and no padding is required.
-
+\
                                      For messages that are not a multiple of 4
                                      bytes, it behaves like Ascii85 with respect
                                      to padding behavior. For decoding, we just
