@@ -33,7 +33,6 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.parameters.ParameterException;
 
-import java.io.Console;
 import java.io.UnsupportedEncodingException;
 
 // quick sequence and quit (no file parameter)
@@ -47,22 +46,6 @@ public class QuickAction implements Action {
         statisticsQuick = new QuickActionStatistics();
     }
 
-    private char[] readPassword() throws ExitException {
-        Console console = System.console();
-        if (console == null) {
-            throw new ExitException("Console not present.");
-        }
-        return console.readPassword("Password: ");
-    }
-
-    public String readLineFromConsole() throws ExitException {
-        Console console = System.console();
-        if (console == null) {
-            throw new ExitException("Console not present.");
-        }
-        return console.readLine("Enter a string: ");
-    }
-
     @Override
     public int perform() throws
             ParameterException, ExitException {
@@ -74,7 +57,7 @@ public class QuickAction implements Action {
 
         AbstractChecksum checksum = Actions.getChecksumInstance(parameters);
         if (parameters.getSequence().getType().equals(Sequence.Type.PASSWORD)) {
-            char[] passwd = readPassword();
+            char[] passwd = net.loefflmann.sugar.io.Console.readPassword();
             if (passwd != null) {
                 try {
                     checksum.update(new String(passwd).getBytes(parameters.getCharsetConsole()));
@@ -87,7 +70,7 @@ public class QuickAction implements Action {
             checksum.setFilename("");
         } else
         if (parameters.getSequence().getType().equals(Sequence.Type.READLINE)) {
-            String line = readLineFromConsole();
+            String line = net.loefflmann.sugar.io.Console.readLine();
             if (line != null) {
                 try {
                     checksum.update(line.getBytes(parameters.getCharsetConsole()));

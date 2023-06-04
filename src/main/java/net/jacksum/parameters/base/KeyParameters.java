@@ -24,11 +24,11 @@ package net.jacksum.parameters.base;
 
 import net.jacksum.parameters.Sequence;
 
-public interface SequenceParameters {
+public interface KeyParameters {
 
-    boolean isSequence();
+    boolean isKey();
 
-    Sequence getSequence();
+    Sequence getKey();
 
-    void setSequence(Sequence sequence);
+    void setKey(Sequence key);
 }

@@ -1,17 +1,21 @@
 Jacksum 3.7.0, TBD, 2023
 
-- new algorithms:
-  - n/a
-
 - new features:
-  - added option --string-list to calculate hash values from strings stored in text files
+  - added HMAC support
+    - added option --hmacs to print all hash functions that work with HMAC
+    - allowed option --info for hmac to print additional columns
+    - added option -k and alias --key to specify the secret for HMAC
+  - added string hashing support
+    - added option --string-list to calculate hash values from strings stored in text files
     - added options --string-list-charset, and alias --charset-string-list
     - added option --ignore-empty-lines
     - added formatter alias #MESSAGE for #FILENAME
-  - added password mode, and readline mode for -q
+  - added console input mode
+    - added password mode, and readline mode for -q
     - added charset-console, and alias --console-charset
-  - added encoding Z85 for option -E (without a limit on the length of the input)
-  - added support for oct, Base32, Base32hex, Base64, Base64url, and Z85 to option -q
+  - added encodings
+    - added encoding Z85 for option -E (without a limit on the length of the input)
+    - added support for oct, Base32, Base32hex, Base64, Base64url, and Z85 to option -q
 
 - bug fixes:
   - NPE if filename is null and -F is set (e.g. 'jacksum -a none -F "#SEQUENCE" -q txt:')

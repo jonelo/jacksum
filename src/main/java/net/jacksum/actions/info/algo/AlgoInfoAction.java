@@ -26,7 +26,7 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import net.jacksum.algorithms.checksums.PrngHash;
+import net.jacksum.algorithms.HMAC;
 import net.jacksum.algorithms.checksums.PrngHashInfo;
 import net.jacksum.algorithms.crcs.CrcInfo;
 import net.jacksum.algorithms.crcs.CrcUtils;
@@ -88,6 +88,17 @@ public class AlgoInfoAction implements Action {
             buffer.append(String.format(FORMAT, indent, "init [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getInitValue(), 8)));
             buffer.append(String.format(FORMAT, indent, "multiplier [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getMultiplier(), 8)));
             buffer.append(String.format(FORMAT, indent, "add [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getAdd(), 8)));
+        }
+
+        if (checksum instanceof HMAC) {
+            HMAC hmac = (HMAC) checksum;
+            buffer.append(String.format("%n%sHMAC parameters:%n", indent));
+            buffer.append(String.format(FORMAT, indent, "underlying cryptographic hash:", hmac.getAlgorithm().getName()));
+            buffer.append(String.format(FORMAT, indent, "truncate to bits:", hmac.getOutputLengthInBits() > 0 ? hmac.getOutputLengthInBits() : "no truncation"));
+            buffer.append(String.format(FORMAT, indent, "truncate to bytes:", hmac.getOutputLengthInBits() > 0 ? hmac.getOutputLengthInBits()/8 + (hmac.getOutputLengthInBits() % 8 > 0 ? 1 : 0): "no truncation"));
+            buffer.append(String.format(FORMAT, indent, "key length should have min. bytes:", hmac.getAlgorithm().getSize()/8));
+            buffer.append(String.format(FORMAT, indent, "key length follows above recom.:", hmac.isKeyLengthMatchedRecommendedMinimum()));
+            buffer.append(String.format(FORMAT, indent, "key will be hashed:", hmac.isKeyWasHashed()));
         }
 
         if (checksum instanceof CrcInfo) {

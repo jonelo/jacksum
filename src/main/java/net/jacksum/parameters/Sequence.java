@@ -44,6 +44,10 @@ public class Sequence implements Serializable {
         setSequence(type, payload);
     }
 
+    public Sequence(Type type, byte[] payload) {
+        setSequence(type, payload);
+    }
+
     public Type getType() { return type; }
 
     public String getPayload() {
@@ -52,7 +56,8 @@ public class Sequence implements Serializable {
 
     public byte[] asBytes() {
         if (type.equals(Type.PASSWORD) || type.equals(Type.READLINE)) {
-            return new byte[]{};
+            //return new byte[]{};
+            return enteredFromConsole;
         } else {
             return EncodingDecoding.sequence2bytes(type, payload);
         }
@@ -64,6 +69,13 @@ public class Sequence implements Serializable {
         } else {
             return String.format("%s:%s", this.type.toString().toLowerCase(), payload);
         }
+    }
+
+    private byte[] enteredFromConsole;
+    private void setSequence(Type type, byte[] payload) throws IllegalArgumentException {
+        if (!type.equals(Type.PASSWORD) && !type.equals(Type.READLINE)) throw new IllegalArgumentException("Internal error: only type password or readline are allowed.");
+        this.type = type;
+        enteredFromConsole = payload;
     }
 
     private void setSequence(Type type, String payload) throws IllegalArgumentException {
@@ -82,10 +94,10 @@ public class Sequence implements Serializable {
         String indicator = sequence.toLowerCase();
 
         if (indicator.equals("password")) {
-            setSequence(Type.PASSWORD, null);
+            setSequence(Type.PASSWORD, enteredFromConsole);
         } else
         if (indicator.equals("readline")) {
-            setSequence(Type.READLINE, null);
+            setSequence(Type.READLINE, enteredFromConsole);
         } else {
             for (Type t : Type.values()) {
                 String code = t.toString().toLowerCase(Locale.US);

@@ -24,6 +24,7 @@ SYNOPSIS
 \
     jacksum [
               (--algorithm|-a) <algorithm> (--list|-l) |
+              --hmacs [--info] |
               --copyright |
               (--help|-h) [<language>] [<word>] |
               --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
@@ -65,6 +66,7 @@ DESCRIPTION
           data reads in order to take advantage of multi-core processors and
           fast SSD storage
         - 489 standard hash functions
+        - HMAC support for 414 hash functions
         - Customizable CRCs from 1 to 64 bit width
         - 60+ command line options to control Jacksum's behavior
         - 15 different encodings for representing hash values
@@ -312,6 +314,7 @@ OPERATING MODES
 \
         Examples:
             > jacksum -a all:256 -l
+            > jacksum --hmacs
             > jacksum -h -h
             > jacksum --info
             > jacksum --info -a all:crc -l
@@ -373,13 +376,14 @@ OPTION TYPES
         afterwards.
 \
         [
-            [(--algorithm|-a) <algorithm> (--list|-l)] |
-            [--copyright] |
-            [(--help|-h) [<language>] [<word>]] |
-            [--info [(--algorithm|-a) <algorithm> [(--list|-l)]]] |
-            [--info [(--style|-C) <style>]] |
-            [--license] |
-            [(--version|-v) [-V <vcontrol>]]
+            (--algorithm|-a) <algorithm> (--list|-l) |
+            --hmacs [--info] |
+            --copyright |
+            (--help|-h) [<language>] [<word>] |
+            --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
+            --info [(--style|-C) <style>] |
+            --license |
+            (--version|-v) [-V <vcontrol>]
         ]
 \
 \
@@ -602,34 +606,90 @@ PARAMETERS
 OPTIONS
     The following options are supported:
 #OPTIONS-BEGIN
-    -a <algo>[+<algo>]... | all[:<length|string>] | crc:<crc> | unknown:<length>
-    --algorithm <algo>[+<algo>]... | all[:<length|string>] | crc:<crc> | unknown:<length>
+    -a <algo>[+<algo>]... | all[:<length|string>] | unknown:<length>
+    --algorithm <algo>[+<algo>]... | all[:<length|string>] unknown:<length>
 \
-            Specifies the algorithm. Many algorithms support aliases to make
-            their identification easier to remember. Since Jacksum 1.0.0,
-            see also -A. Starting with Jacksum 3, the default is sha3-256.
+            <algo>
+                Specifies the algorithm(s) to be used. Starting with version 3
+                of Jacksum, the default is sha3-256 if <algo> is omitted.
+                <algo> can be one of the following:
 \
-\
-            One algorithm (-a <algorithm>)
-\
-                Replace <algorithm> with one of the IDs that Jacksum
-                understands. To see all supported algorithm IDs and their
-                descriptions, type `jacksum -a all -l`.
+                - A supported algorithm ID
+                - A customized CRC
+                - A keyed-Hash Message Authentication Code (HMAC)
 \
 \
-            CRC algorithm (-a crc:<crc>)
+                A supported algorithm ID
 \
-                The option -a crc:<crc> allows you to define a customized
-                CRC by using a parameterized model. These customized IDs aren't
-                listed by `jacksum -a all -l`, but you can select and use them.
-                Learn more on this topic by typing `jacksum --help crc:`
+                    Replace <algo> with one of the IDs that Jacksum understands.
+                    Many algorithms support aliases to make their identification
+                    easier to remember. To see a list of all supported algorithm
+                    IDs, type
+\
+                    > jacksum -a all -l
+\
+                    To see a comprehensive description for each algorithm type
+\
+                    > jacksum -h algorithms
 \
 \
-            Several algorithms, handpicked (-a <algo>+...):
+                A customized CRC algorithm (crc:<crc>)
+\
+                    The pattern crc:<crc> allows you to define a customized
+                    CRC by using a parameterized model. These customized IDs
+                    aren't listed by `jacksum -a all -l`, but you can select and
+                    use them. Learn more on this topic by typing
+\
+                    > jacksum -h crc:
+\
+\
+                A HMAC (hmac:<algo>[:<bits>])
+\
+                    The pattern hmac:<algo>[:bits] allows to calculate a HMAC,
+                    a mechanism for message authentication using any iterated
+                    cryptographic hash function in combination with a secret
+                    shared key. Learn more on this topic by typing:
+\
+                    > jacksum -h hmac:
+\
+\
+            all[:<length|string>]
+\
+                All or a particular group of algorithms can be filtered by a
+                length in bits or by a string.
+\
+                All algorithms (all):
+\
+                   If you set <algo> to "all", all supported algorithms will
+                   be used, meaning you can calculate hashes with hundreds
+                   of algorithms by reading the input only once.
+                   If "all" is used, the output is normalized by a hexadecimal
+                   checksum and a decimal file size.
+\
+\
+                Several algorithms, filtered by bit length (all:<length>)
+\
+                    In order to use all algorithms that have a particular bit
+                    length, you can use "all:<length>" where <length> must be a
+                    multiple of 8.
+                    Examples: "all:224", "all:256", "all:888", "all:1024"
+\
+\
+                Several algorithms, filtered by a string (all:<string>)
+\
+                   In order to use all algorithms that match a particular string,
+                   you can use "-a all:<string>" where <string> can be any
+                   string. Both algorithm IDs and algorithm alias IDs will be
+                   searched.
+                   Examples: "all:skein", "all:sha3-", "all:fnv", "all:whirlpool"
+\
+\
+            <algo>[+<algo>]...
 \
                 Multiple algorithms can be selected by concatenating them with
                 the plus character.
-                Examples: "sha1+crc32", "sha512+sha3-512+blake2b-512", etc.
+                Examples: "sha1+crc32", "sha512+sha3-512+blake2b-512",
+                "all:32+all:64", etc.
                 The new algorithm resulting from all concatenated algorithms
                 returns, by default, only one composite value consisting of all
                 chained hash values. This feature allows you to use any
@@ -642,51 +702,23 @@ OPTIONS
                 You can control the performance behavior by setting the option
                 called "--threads-hashing".
 \
-                If at least one "+" character is found in <algorithms>, the
+                If at least one "+" character is found after the option -a, the
                 output is normalized by a hexadecimal lowercase checksum and a
                 decimal file size is inserted.
-                Example: "md5+", "sha256+", "sha3-256+"
+                Examples: "md5+", "sha256+", "sha3-256+"
                 You can disable adding the filesize by setting --filesize off.
 \
                 You can customize the output behavior by using the options -E,
                 -F, -g, -G. Especially, take a look at the various tokens for
                 --format which allows you to highly customize the output to
                 meet your actual needs.
-                Available since Jacksum 1.7.0
-\
-\
-            Several algorithms, filtered by bit length (-a all:<length>)
-\
-                In order to use all algorithms that have a particular bit
-                length, you can use "-a all:<length>" where <length> must be a
-                multiple of 8.
-                Examples: "all:224", "all:256", "all:888", "all:1024"
-                Available since Jacksum 3.0.0
-\
-\
-            Several algorithms, filtered by a string (-a all:<string>)
-\
-                In order to use all algorithms that match a particular string,
-                you can use "-a all:<string>" where <string> can be any string.
-                Both algorithm IDs and algorithm alias IDs will be searched.
-                Examples: "all:skein", "all:sha3-", "all:fnv", "all:whirlpool"
-                Available since Jacksum 3.0.0
-\
-\
-            All algorithms (-a all):
-\
-                If you set <algorithm> to "all", all supported algorithms will
-                be used, meaning you can calculate hashes with hundreds
-                of algorithms by reading the input only once.
-                If "all" is used, the output is normalized by a hexadecimal
-                checksum and a decimal file size.
 \
 \
             Find an unknown algorithm (-a unknown:<length>):
 \
-                If you only know the input and the output, and you want
-                to know the algorithm that has been used to produce the output,
-                you can set <algorithm> to unknown:<length>, replacing <length>
+                If you only know the input and the output, and you want to know
+                the algorithm that has been used to produce the output,
+                you can set <algo> to unknown:<length>, replacing <length>
                 with the length of the digest in bits. In that case, all
                 supported algorithms will be tested to see if there is one that
                 can produce the expected output. Additionally, a list of
@@ -695,9 +727,13 @@ OPTIONS
                 all bits zero or all bits one while refIn and refOut are set to
                 either true or false for all potential polynomials of the given
                 length). Please be patient! Both options, -q and -e, are
-                required in this case.
-                Available since version 3.0.0 of Jacksum, see also -V, -e, -E,
-                and -q.
+                required in this case. See also -V, -e, -E, and -q.
+\
+        The option -a is available since version 1.0.0 of Jacksum.
+        <algo>[+<algo>]... is supported since version 1.7.0 of Jacksum.
+        all:<length>, all:<string>, and unknown:<length> are supported since
+        version 3.0.0 of Jacksum.
+        See also -A.
 
 
     -A
@@ -1831,6 +1867,25 @@ OPTIONS
             parameter word since version 1.6.0 of Jacksum.
 
 
+    --hmacs
+\
+            Prints all algorithms that support HMAC.
+            If --info has been set, it also prints the following columns:
+\
+            l - the bit-length of the hash output
+            B - the block size in bytes
+            L - the byte-length of the hash output which is also
+                the recommended minimum length in bytes of the key
+            T - the recommended minimum length in bytes of the hmac output
+                in case of truncation
+\
+            If --verbose summary has been set, it also prints the number of
+            supported HMACs.
+\
+            See also -a hmac:, -k.
+            Available since version 3.7.0 of Jacksum.
+
+
     --info
 \
             Returns information and exits the program.
@@ -1889,6 +1944,22 @@ OPTIONS
             --ignore-lines-starting-with-string.
 \
             Available since version 1.7.0 of Jacksum.
+
+
+    -k  (([<type>:]<sequence>)|(readline|password))
+    --key (([<type>:]<sequence>)|(readline|password))
+\
+            Sets a secret key for the Keyed-Hash Message Authentication Code
+            (HMAC). The settings supported for option -k are the same as for
+            option -q which is ok for testing purposes.
+            However, in multi user environments, only file:<file> or password
+            are recommended settings, because all other settings will make the
+            secret key appear either in process lists which could be gathered
+            by other users as well or in history files which are stored on disk
+            usually.
+\
+            See also -a hmac: and --hmacs
+            Available since version 3.7.0 of Jacksum.
 
 
     --license
@@ -4879,6 +4950,108 @@ ALGORITHMS
 \
             implementation:
                 gnu.crypto.hash.Haval
+
+
+    hmac:<algo>[:<bits>]
+\
+            algorithm:
+                HMAC, the keyed-hash message authentication code. It is a
+                mechanism for message authentication using any iterated
+                cryptographic hash function in combination with a secret
+                shared key. See also RFC 2104.
+\
+            length:
+                same length as the the underlying hash function.
+\
+            type:
+                keyed-hash message authentication code.
+\
+            published:
+                02/1997
+\
+            broken:
+                It depends on the underlying hash function. Note that even if
+                the underlying hash function has been broken it does not
+                necessarily mean that the corresponding HMAC is broken as well.
+\
+            comment:
+                The prefix "hmac:" or "hmac-" can be used to specify a HMAC.
+\
+                Compatible algorithms:
+                    The cryptographic strength of HMAC depends on the
+                    properties of the underlying hash function.
+                    To see a list of suitable hash functions enter
+\
+                    > jacksum --hmacs
+\
+                The Key:
+                    The HMAC requires a key which can be set by option -k.
+                    The key can be of any length (keys longer than B bytes
+                    are first hashed using H).  However, less than L bytes
+                    is strongly discouraged as it would decrease the
+                    security strength of the function.  Keys longer than L
+                    bytes are acceptable but the extra length would not
+                    significantly increase the function strength. See also
+\
+                    > jacksum -h -k
+\
+                Truncated output:
+                    A well-known practice with message authentication codes
+                    is to truncate the output of the MAC and output only part of
+                    the bits. This can be achieved by setting a value for
+                    <bits>. <bits> must be a positive integer that describes the
+                    new output size of the algorithm in bits. The <bits>
+                    leftmost bits of the HMAC computation will be used for the
+                    output.
+                    If <bits> is not a multiple of 8, the output will be rounded
+                    to the next multiple of 8, and the remaining bits will be
+                    padded to zero.
+                    If <bits> is zero or greater than the output of the
+                    underlying algorithm, <bits> is set to the width of the hash
+                    function.
+\
+                    RFC 2104 from February 1997 proposes denoting a realization
+                    of HMAC that uses a hash function H with t bits of output as
+                    HMAC-H-t. However, since there are algorithms that mark a
+                    truncated version of a hash function already with a hyphen,
+                    it would be not clear whether the hyphen truncates the hash
+                    function or the HMAC. Therefore Jacksum requires the colon
+                    to mark a truncated HMAC.
+\
+            compatibility:
+                - Angstrom:        -
+                - BeOS:            -
+                - BusyBox:         -
+                - CentOS:          -
+                - DragonFly BSD:   -
+                - FreeBSD:         -
+                - FreeDOS:         -
+                - GNU/Hurd:        -
+                - GNU/Linux:       -
+                - gpg:             -
+                - HP-UX:           -
+                - JDK:             Mac mac = Mac.getInstance("Hmac"+<algo>); mac.init(<key>); mac.doFinal(<message>);
+                - Kali Linux:      -
+                - macOS:           -
+                - Minix:           -
+                - PHP:             hash_hmac('<algo>', '<message>', '<key>');
+                - MS-DOS:          -
+                - NetBSD:          -
+                - NextStep:        -
+                - OpenIndiana:     -
+                - OpenSSL:         openssl dgst -<algo> -mac hmac -macopt hexkey:<key> <message>
+                - Plan 9:          -
+                - PowerShell:      -
+                - Python:          hmac.new(<key>, <message>, hashlib.<algo>).hexdigest()
+                - Solaris:         -
+                - Windows:         -
+                - Wolfram:         ResourceFunction["HMAC"][<message>, <key>, "<algo>"]
+\
+            since:
+                Jacksum 3.7.0
+\
+            implementation:
+                net.jacksum.algorithms.HMAC
 
 
     jh<length>, jh-<length>

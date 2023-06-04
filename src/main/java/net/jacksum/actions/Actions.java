@@ -24,6 +24,7 @@
 package net.jacksum.actions;
 
 import net.jacksum.actions.info.copyright.CopyrightAction;
+import net.jacksum.actions.info.hmacs.HMACsAction;
 import net.jacksum.actions.info.license.LicenseAction;
 import net.jacksum.actions.io.strings.HashStringsAction;
 import net.jacksum.actions.io.wanted.HashFilesWantedAction;
@@ -107,6 +108,8 @@ public class Actions {
                 return new LicenseAction();
             case COPYRIGHT:
                 return new CopyrightAction();
+            case HMACS:
+                return new HMACsAction(parameters);
             case HELP: // fall through
             default:
                 return new HelpAction(parameters);

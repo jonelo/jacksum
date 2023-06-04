@@ -70,7 +70,7 @@ abstract public class Selector implements SelectorInterface {
     }
 
     /**
-     * Each selector is repsonsible for obtaining one or more algorithms.
+     * Each selector is responsible for obtaining one or more algorithms.
      * This method controls whether a Selector can be used to obtain an
      * implementation by providing an algorithm name.
      * @param name the name of the algorithm
@@ -103,7 +103,7 @@ abstract public class Selector implements SelectorInterface {
      */
     /**
      * Returns the implementation, dependent on the wish to select an alternate
-     * implementation and the actual availablity of an alternate implementation.
+     * implementation and the actual availability of an alternate implementation.
      *
      * @param alternate should an alternate implementation be used?
      * @return the implementation dependent on the preference

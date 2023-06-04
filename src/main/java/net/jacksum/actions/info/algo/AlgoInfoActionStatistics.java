@@ -49,7 +49,8 @@ public class AlgoInfoActionStatistics extends Statistics {
     public Map<String, Object> build() {
         Map<String, Object> map = new LinkedHashMap<>();        
         map.put("number of algorithms filtered", getAlgorithmCount());
-        return map;    }
+        return map;
+    }
 
     @Override
     public void reset() {

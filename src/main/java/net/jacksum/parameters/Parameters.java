@@ -22,12 +22,14 @@
  */
 package net.jacksum.parameters;
 
+import net.jacksum.HashFunctionFactory;
 import net.jacksum.actions.ActionType;
 import net.jacksum.actions.info.algo.AlgoInfoActionParameters;
 import net.jacksum.actions.info.app.AppInfoActionParameters;
 import net.jacksum.actions.info.compat.CompatInfoActionParameters;
 import net.jacksum.actions.info.help.Help;
 import net.jacksum.actions.info.help.HelpActionParameters;
+import net.jacksum.actions.info.hmacs.HMACsActionParameters;
 import net.jacksum.actions.info.version.VersionActionParameters;
 import net.jacksum.actions.io.compare.CompareActionInterface;
 import net.jacksum.actions.io.quick.QuickActionParameters;
@@ -37,6 +39,7 @@ import net.jacksum.actions.io.verify.CheckConsumerParameters;
 import net.jacksum.actions.io.verify.ListFilter;
 import net.jacksum.actions.io.wanted.MatchFilter;
 import net.jacksum.algorithms.AbstractChecksum;
+import net.jacksum.algorithms.HMAC;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Messenger;
 import net.jacksum.cli.Verbose;
@@ -85,12 +88,12 @@ public class Parameters implements
         ExpectationActionParameters, CheckActionParameters,
         AlgoInfoActionParameters, AppInfoActionParameters, CompatInfoActionParameters,
         VersionActionParameters, CompareActionInterface, HelpActionParameters, QuickActionParameters,
-        HashStringsActionParameters,
+        HashStringsActionParameters, HMACsActionParameters,
 
         // all other parameter interfaces
         FormatParameters, AlgorithmParameters, CustomizedFormatParameters, StatisticsParameters,
         FileWalkerParameters, ProducerConsumerParameters, PathParameters,
-        GatheringParameters, SequenceParameters, ProducerParameters, CheckConsumerParameters,
+        GatheringParameters, SequenceParameters, KeyParameters, ProducerParameters, CheckConsumerParameters,
         VerboseParameters, CompatibilityParameters, HeaderParameters, StringListParameters, ConsoleParameters {
 
 
@@ -160,6 +163,8 @@ public class Parameters implements
     private String helpLanguage = null;
     // -h [lang] search
     private String helpSearchString = null;
+    // --hmacs
+    private boolean HMACsWanted = false;
     // --info
     private boolean infoMode = false;
     // -I
@@ -190,6 +195,8 @@ public class Parameters implements
     private Character pathChar = File.separatorChar;
     // -q
     private Sequence sequence = null;
+    // -k
+    private Sequence key = null;
     // -r
     private boolean recursive = false;
     // -r <depth>
@@ -200,6 +207,7 @@ public class Parameters implements
     private String timestampFormat = null;
     // -v
     private boolean versionWanted = false;
+
     // -V
     private Verbose verbose;
     // -w
@@ -330,6 +338,9 @@ public class Parameters implements
 
         } else if (isCopyrightWanted()) {
             return ActionType.COPYRIGHT;
+
+        } else if (isHMACsWanted()) {
+            return ActionType.HMACS;
 
         } else if (getCheckFile() != null || getCheckLine() != null) {
             return ActionType.CHECK;
@@ -534,6 +545,16 @@ public class Parameters implements
     public void setSequence(Sequence sequence) {
         this.sequence = sequence;
     }
+
+    public void setKey(String key) {
+        this.key = new Sequence(key);
+    }
+
+    public void setKey(Sequence key) { this.key = key; }
+
+    public boolean isKey() { return key != null; }
+
+    public Sequence getKey() { return key; }
 
     public boolean isSequence() {
         return sequence != null;
@@ -1174,6 +1195,14 @@ public class Parameters implements
         this.versionWanted = versionWanted;
     }
 
+    public boolean isHMACsWanted() {
+        return HMACsWanted;
+    }
+
+    public void setHMACsWanted(boolean HMACsWanted) {
+        this.HMACsWanted = HMACsWanted;
+    }
+
     /**
      * @param errorFileOverwrite the errorFileOverwrite to set
      */
@@ -1495,6 +1524,9 @@ public class Parameters implements
         if (newParameters.isSequence()) {
             this.setSequence(newParameters.getSequence());
         }
+        if (newParameters.isKey()) {
+            this.setKey(newParameters.getKey());
+        }
         if (newParameters.isRecursive()) {
             this.setRecursive(true);
             this.setDepth(newParameters.getDepth());
@@ -1723,6 +1755,10 @@ public class Parameters implements
             list.add(_QUICK);
             list.add(getSequence().asString());
         }
+        if (isKey()) {
+            list.add(_KEY);
+            list.add(getKey().asString());
+        }
         if (isRecursive()) {
             list.add(_RECURSIVE);
             if (getDepth() == Integer.MAX_VALUE) {
@@ -1805,6 +1841,7 @@ public class Parameters implements
         expandFileList();
         handleCharsets();
         checkForNonsenseParameterCombinations();
+        handleKey();
         handleCompatibility();
 
         // validity check for --algorithm
@@ -1841,12 +1878,38 @@ public class Parameters implements
         }
 
         handleWarningsAndImplicitSettings();
-
     }
 
 
     // ************************************** private methods *********************************************************
 
+    private void handleKey() throws ParameterException, ExitException {
+        if (isKey()) {
+            if (getKey().getType().equals(Sequence.Type.PASSWORD)) {
+                char[] passwd = net.loefflmann.sugar.io.Console.readPassword();
+                if (passwd != null) {
+                    try {
+                        setKey(new Sequence(Sequence.Type.PASSWORD, new String(passwd).getBytes(getCharsetConsole())));
+                    } catch (UnsupportedEncodingException e) {
+                        throw new ParameterException(e.getMessage());
+                    } finally {
+                        java.util.Arrays.fill(passwd, ' ');
+                    }
+                }
+            } else
+            if (getKey().getType().equals(Sequence.Type.READLINE)) {
+                String line = net.loefflmann.sugar.io.Console.readLine();
+                if (line != null) {
+                    try {
+                        setKey(new Sequence(Sequence.Type.READLINE, line.getBytes(getCharsetConsole())));
+                    } catch (UnsupportedEncodingException e) {
+                        throw new ParameterException(e.getMessage());
+                    }
+                }
+            }
+            HashFunctionFactory.setKey(getKey().asBytes());
+        }
+    }
     private static String decodeQuote(String format) {
         return GeneralString.replaceAllStrings(format, "#QUOTE", "\"");
     }
@@ -2130,6 +2193,7 @@ public class Parameters implements
         if (!isHelp()
                 && !isLicenseWanted()
                 && !isCopyrightWanted()
+                && !isHMACsWanted()
                 && sequence == null
                 && getFilenamesFromArgs().isEmpty()
                 && getFilenamesFromFilelist().isEmpty()

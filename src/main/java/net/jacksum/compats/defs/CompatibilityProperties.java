@@ -308,7 +308,6 @@ public class CompatibilityProperties implements Serializable {
         props.setProperty(LINE_SEPARATOR, lineSeparator);
     }
 
-
     public String getAlgonameDefaultReplacement() {
         return props.getProperty(ALGONAME_DEFAULT_REPLACEMENT, "#ALGONAME");
     }
@@ -383,6 +382,8 @@ public class CompatibilityProperties implements Serializable {
                     }
                 }
             }
+
+            // fallback if #ALGONAME is not already replaced
             return format.replace("#ALGONAME", getAlgonameDefaultReplacement());
         }
 

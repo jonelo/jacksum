@@ -81,10 +81,13 @@ public class CLIParameters {
     public static final String __GROUP_BYTES_SEPARATOR = "--group-bytes-separator";
     public static final String _HELP = "-h";
     public static final String __HELP = "--help";
+    public static final String __HMACS = "--hmacs";
     public static final String __INFO = "--info";
     public static final String _IGNORE_LINES_STARTING_WITH_STRING = "-I";
     public static final String __IGNORE_LINES_STARTING_WITH_STRING = "--ignore-lines-starting-with-string";
     public static final String __IGNORE_EMPTY_LINES = "--ignore-empty-lines";
+    public static final String _KEY = "-k";
+    public static final String __KEY = "--key";
     public static final String _LIST = "-l";
     public static final String __LIST = "--list";
     public static final String __LIST_FILTER = "--list-filter";
@@ -385,6 +388,9 @@ public class CLIParameters {
                         }
                     }
 
+                } else if (arg.equals(__HMACS)) {
+                    parameters.setHMACsWanted(true);
+
                 } else if (arg.equals(__INFO)) {
                     parameters.setInfoMode(true);
 
@@ -397,6 +403,18 @@ public class CLIParameters {
 
                 } else if (arg.equals(__IGNORE_EMPTY_LINES)) {
                     parameters.setIgnoreEmptyLines(true);
+
+                } else if (arg.equals(_KEY) || arg.equals(__KEY)) {
+                    if (firstfile < args.length) {
+                        arg = args[firstfile++];
+                        try {
+                            parameters.setKey(arg);
+                        } catch (IllegalArgumentException e) {
+                            throw new ParameterException(e.getMessage());
+                        }
+                    } else {
+                        handleUserParamError(arg, __KEY);
+                    }
 
                 } else if (arg.equals(_LIST) || arg.equals(__LIST)) {
                     parameters.setList(true);
@@ -424,7 +442,6 @@ public class CLIParameters {
                     } else {
                         handleUserParamError(arg, __MATCH_FILTER);
                     }
-
 
                 } else if (arg.equals(__LEGACY_STDIN_NAME)) {
                     parameters.setStdinName("-");

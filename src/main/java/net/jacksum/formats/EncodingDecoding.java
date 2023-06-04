@@ -34,7 +34,6 @@ import java.util.Base64;
 
 public class EncodingDecoding {
     public static String encodeBytes(byte[] bytes, Encoding encoding, int grouping, Character groupChar) {
-       // if (encoding==null) encoding=Encoding.HEX;
         switch (encoding) {
             case HEX:
                 return ByteSequences.format(bytes, false, grouping, groupChar);
