@@ -716,6 +716,7 @@ public class CLIParameters {
             // if --info has been set, enable a potentially disabled verbose object again
             if (parameters.isInfoMode()) {
                 parameters.getVerbose().setDefault();
+                parameters.getVerbose().setInfo(true);
             }
 
             // parsing the verboseControl at the end of the while loop,

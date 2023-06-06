@@ -46,7 +46,7 @@ public class HMACsAction implements Action {
         int hmacs = 0;
         StringBuilder buffer = new StringBuilder();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
-        if (parameters.isInfoMode()) {
+        if (parameters.getVerbose().isInfo()) {
             buffer.append(String.format("# %-20s     %4s  %3s  %3s  %3s%n", "HMAC id", "l", "B", "L", "T"));
         }
         while (iterator.hasNext()) {
@@ -55,7 +55,7 @@ public class HMACsAction implements Action {
             try {
                 checksum = JacksumAPI.getChecksumInstance(entry.getKey());
                 if (checksum != null && checksum.getBlockSize() > 0) {
-                    if (parameters.isInfoMode()) {
+                    if (parameters.getVerbose().isInfo()) {
                         int T = checksum.getSize() / 16;
                         int r = checksum.getSize() % 16;
                         if (r > 0) T++;

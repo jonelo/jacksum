@@ -24,9 +24,9 @@ SYNOPSIS
 \
     jacksum [
               (--algorithm|-a) <algorithm> (--list|-l) |
-              --hmacs [--info] |
               --copyright |
               (--help|-h) [<language>] [<word>] |
+              --hmacs [-V <vcontrol>] |
               --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
               --info [(--style|-C) <style>] |
               --license |
@@ -300,7 +300,8 @@ OPERATING MODES
     jacksum [
               (--algorithm|-a) <algorithm> (--list|-l) |
               --copyright |
-              -h [<language>] [<word>] |
+              (--help|-h) [<language>] [<word>] |
+              --hmacs [-V <vcontrol>] |
               --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
               --info [(--style|-C) <style>] |
               --license |
@@ -377,9 +378,9 @@ OPTION TYPES
 \
         [
             (--algorithm|-a) <algorithm> (--list|-l) |
-            --hmacs [--info] |
             --copyright |
             (--help|-h) [<language>] [<word>] |
+            --hmacs [-V <vcontrol>] |
             --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
             --info [(--style|-C) <style>] |
             --license |
@@ -1870,7 +1871,7 @@ OPTIONS
     --hmacs
 \
             Prints all algorithms that support HMAC.
-            If --info has been set, it also prints the following columns:
+            If "-V info" has been set, it also prints the following columns:
 \
             l - the bit-length of the hash output
             B - the block size in bytes
@@ -1888,7 +1889,9 @@ OPTIONS
 
     --info
 \
-            Returns information and exits the program.
+            Forces the information mode, and sets the verbose control to info.
+            It returns information and exits the program.
+\
             If option -a has not been set, it will print out
 \
                 - The program name and version
@@ -1906,7 +1909,7 @@ OPTIONS
 \
                 - Algorithm id
                 - Hash length in bits and bytes
-                - Blocksize in bits and bytes (if applicable)
+                - Block size in bits and bytes (if applicable)
                 - CRC implementation details including different representations
                   of the polynomial (normal, reversed, and Koopman repr.)
                 - The corresponding reciprocal polynomial of a CRC
@@ -1917,6 +1920,8 @@ OPTIONS
             and --list has been set, it prints out:
 \
                 - Details for each algorithm
+\
+            If --style has been set, it prints details about the style.
 \
             Available since version 3.0.0 of Jacksum.
 
@@ -2717,12 +2722,14 @@ OPTIONS
     --version    
 \
             Prints the product name and version, and exits the program.
-            This option has been available since Jacksum 1.2.0.
+            This option has been available since version 1.2.0 of Jacksum.
 \
             Additional information about the copyright and license will be 
-            printed out if verbose info output is requested.
-            Examples: "jacksum -v --verbose info" or "jacksum --info"
-            Available since version 3.0.0 of Jacksum.
+            printed out if verbose info output has been requested:
+\
+            > jacksum -v --info
+\
+            Available since version 3.7.0 of Jacksum.
 
 
     -V <control set>
@@ -2753,7 +2760,7 @@ OPTIONS
             these operations:
             --check-file, --check-line, or -a unknown:<length>
             If you set option --version, <control set> ist set to "none".
-            If you set option --info, <control set> is set to "default" again.
+            If you set option --info, <control set> is set to "info".
 \
             Available since version 1.6.0 of Jacksum.
             The keywords "all" and "none" are available since version 3.0.0 of
