@@ -4962,10 +4962,7 @@ ALGORITHMS
     hmac:<algo>[:<bits>]
 \
             algorithm:
-                HMAC, the keyed-hash message authentication code. It is a
-                mechanism for message authentication using any iterated
-                cryptographic hash function in combination with a secret
-                shared key. See also RFC 2104.
+                HMAC, the keyed-hash message authentication code.
 \
             length:
                 same length as the the underlying hash function.
@@ -4982,6 +4979,10 @@ ALGORITHMS
                 necessarily mean that the corresponding HMAC is broken as well.
 \
             comment:
+                HMAC is a mechanism for message authentication using any
+                iterated cryptographic hash function in combination with a
+                secret shared key. See also RFC 2104.
+\
                 The prefix "hmac:" or "hmac-" can be used to specify a HMAC.
 \
                 Compatible algorithms:
@@ -4998,9 +4999,18 @@ ALGORITHMS
                     is strongly discouraged as it would decrease the
                     security strength of the function.  Keys longer than L
                     bytes are acceptable but the extra length would not
-                    significantly increase the function strength. See also
+                    significantly increase the function strength. The
+                    recommended key length, whether a key follows the RFC
+                    recommendation, and whether the key will be hashed, can be
+                    seen for a HMAC by specifying the option --info.
 \
-                    > jacksum -h -k
+                    Example:
+                        > jacksum -a hmac:sha3-256 -k txt:test --info
+                        ...
+                        key length should have min. bytes:    32
+                        key length follows above recom.:      false
+                        key will be hashed:                   false
+                        ...
 \
                 Truncated output:
                     A well-known practice with message authentication codes
@@ -5016,6 +5026,18 @@ ALGORITHMS
                     If <bits> is zero or greater than the output of the
                     underlying algorithm, <bits> is set to the width of the hash
                     function.
+                    It is possible to see whether a truncation specified by the
+                    user follows the recommendation from RFC 2104 by specifying
+                    the option --info.
+\
+                    Example:
+                        > jacksum -a hmac:sha3-256:160 -k txt:test --info
+                        ...
+                        truncate to bits:                     160
+                        truncate to bytes:                    20
+                        trunc. length should have min. bits:  128
+                        trunc. length follows above recom.:   true
+                        ...
 \
                     RFC 2104 from February 1997 proposes denoting a realization
                     of HMAC that uses a hash function H with t bits of output as

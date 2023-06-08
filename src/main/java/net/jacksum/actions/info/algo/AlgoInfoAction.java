@@ -94,8 +94,17 @@ public class AlgoInfoAction implements Action {
             HMAC hmac = (HMAC) checksum;
             buffer.append(String.format("%n%sHMAC parameters:%n", indent));
             buffer.append(String.format(FORMAT, indent, "underlying cryptographic hash:", hmac.getAlgorithm().getName()));
+
+            // RFC 2104:
+            // We recommend that the output length t be not less than half the length of the hash
+            // output (to match the birthday attack bound) and not less than 80 bits
+            // (a suitable lower bound on the number of bits that need to be
+            // predicted by an attacker).
+            int minRecomTruncLength = Math.max(hmac.getSize() / 2, 80);
             buffer.append(String.format(FORMAT, indent, "truncate to bits:", hmac.getOutputLengthInBits() > 0 ? hmac.getOutputLengthInBits() : "no truncation"));
             buffer.append(String.format(FORMAT, indent, "truncate to bytes:", hmac.getOutputLengthInBits() > 0 ? hmac.getOutputLengthInBits()/8 + (hmac.getOutputLengthInBits() % 8 > 0 ? 1 : 0): "no truncation"));
+            buffer.append(String.format(FORMAT, indent, "trunc. length should have min. bits:", minRecomTruncLength));
+            buffer.append(String.format(FORMAT, indent, "trunc. length follows above recom.:", hmac.getOutputLengthInBits() > 0 ? Boolean.valueOf(hmac.getOutputLengthInBits() >= minRecomTruncLength).toString() : "no truncation"));
             buffer.append(String.format(FORMAT, indent, "key length should have min. bytes:", hmac.getAlgorithm().getSize()/8));
             buffer.append(String.format(FORMAT, indent, "key length follows above recom.:", hmac.isKeyLengthMatchedRecommendedMinimum()));
             buffer.append(String.format(FORMAT, indent, "key will be hashed:", hmac.isKeyWasHashed()));

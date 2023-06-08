@@ -2,10 +2,17 @@ Jacksum 3.7.0, TBD, 2023
 
 - new features:
   - added HMAC support
-    - extended option -a to understand HMAC definitions
-    - added option -k and alias --key to specify the secret for HMACs
+    - extended option -a to understand HMAC definitions, including optional truncations
+    - added option -k, and alias --key to specify the secret for HMACs
     - added option --hmacs to print all hash functions that work with HMAC
-    - allowed option --info for hmac to print HMAC parameters
+    - allowed option --info for gathering HMAC info to print HMAC parameters such as
+      - the underlying cryptographic hash
+      - a specified truncation in both bits and bytes
+      - how many bits a truncated length should have at least
+      - whether a specified truncated length follows the RFC recommendation
+      - how many bytes a specified key should have at least
+      - whether the specified key follows the RFC recommendation wrt key length
+      - whether the specified key will be hashed
   - added string hashing support
     - added option --string-list to calculate hash values from strings stored in text files
     - added options --string-list-charset, and alias --charset-string-list
