@@ -67,16 +67,16 @@ DESCRIPTION
           fast SSD storage
         - 489 standard hash functions
         - HMAC support for 414 hash functions
-        - Customizable CRCs from 1 to 64 bit width
         - 60+ command line options to control Jacksum's behavior
+        - Customizable CRCs from 1 to 64 bit width
         - 15 different encodings for representing hash values
         - 10 predefined standard styles for reading and writing files that
           contain hash values
         - Fully customizable output format
         - 170+ different character sets to be able to read and write hash files
           correctly
-        - 9000+ lines of manpage with descriptions, examples, and compatibility
-          lists for the most common algorithms
+        - 9200+ lines of manpage with descriptions, examples, and compatibility
+          lists for all supported algorithms
 
 
 OPERATING MODES
@@ -329,6 +329,7 @@ OPTION TYPES
         This option controls the strength of the hashing procedure.
 \
         [(--algorithm|-a) <algorithm>]
+        [(--key|-k) <key>]
 \
 \
     Check/Integrity Verification Mode Options
@@ -678,10 +679,10 @@ OPTIONS
 \
                 Several algorithms, filtered by a string (all:<string>)
 \
-                   In order to use all algorithms that match a particular string,
-                   you can use "-a all:<string>" where <string> can be any
-                   string. Both algorithm IDs and algorithm alias IDs will be
-                   searched.
+                   In order to use all algorithms that match a particular
+                   string, you can use "-a all:<string>" where <string> can be
+                   any string. Both algorithm IDs and algorithm alias IDs will
+                   be searched.
                    Examples: "all:skein", "all:sha3-", "all:fnv", "all:whirlpool"
 \
 \
@@ -1755,7 +1756,7 @@ OPTIONS
 \
                 #MESSAGE                 is an alias for #FILENAME (3.7) for a
                                          more convenient name for the message if
-                                         using --string-list
+                                         using the option --string-list
 \
                 #SEPARATOR               will be replaced by the separator which
                                          you can specify with -s
@@ -1957,13 +1958,16 @@ OPTIONS
             Sets a secret key for the Keyed-Hash Message Authentication Code
             (HMAC). The settings supported for option -k are the same as for
             option -q which is ok for testing purposes.
-            However, in multi user environments, only file:<file> or password
-            are recommended settings, because all other settings will make the
-            secret key appear either in process lists which could be gathered
-            by other users as well or in history files which are stored on disk
-            usually.
+            However, in multi user environments, only file:<file>, readline,
+            and password are recommended settings, because all other settings
+            will make the secret key appear either in process lists which could
+            be gathered by other users as well or in history files which are
+            stored on disk usually.
 \
-            See also -a hmac: and --hmacs
+            Example:
+                > jacksum -a hmac:256 -k file:my-secret.txt my-message.txt
+\
+            See also -a hmac:, --hmacs, charset-console
             Available since version 3.7.0 of Jacksum.
 
 
@@ -2178,8 +2182,9 @@ OPTIONS
     -q (([<type>:]<sequence>)|(readline|password))
     --quick (([<type>:]<sequence>)|(readline|password))
 \
-            Process a sequence quickly and quit the program. The <type> can be
-            used to specify the type of the input:
+            Process a sequence quickly and quit the program. The settings
+            supported for option -q are the same as for option -k.
+            The <type> can be used to specify the type of the input:
 \
                 - text or formatted text
                 - binary, decimal, octal, or hexadecimal sequence
@@ -2205,8 +2210,8 @@ OPTIONS
                 base32hex
 \
                     A Base32hex encoded string. The string can be encoded using
-                    base32hex or base32hex-nopadding. For more information see also
-                    option -E.
+                    base32hex or base32hex-nopadding. For more information see
+                    also the option -E.
 \
                     Examples:
                     jacksum -q base32hex:C5N76TR5E8G6ISP06GP0====
@@ -2217,7 +2222,7 @@ OPTIONS
 \
                     A Base64 encoded string. The string can be encoded using
                     base64 or base64-nopadding. For more information see also
-                    option -E.
+                    the option -E.
 \
                     Examples:
                     > jacksum -q base64:dGhlIGFuc3dlciBpcyA0Mg==
@@ -2228,7 +2233,7 @@ OPTIONS
 \
                     A Base64url encoded string. The string can be encoded using
                     base64url or base64url-nopadding. For more information see
-                    also option -E.
+                    also the option -E.
 \
                     Examples:
                     > jacksum -q base64url:wN7K_g==
@@ -2279,7 +2284,7 @@ OPTIONS
                     Jacksum.
 \
                     Example:
-                    > jacksum -q file:myfile.img
+                        > jacksum -q file:myfile.img
 \
 \
                 hex
@@ -2345,7 +2350,7 @@ OPTIONS
                       be the only place where the master password resides.
 \
                     Due to security reasons the following limits apply:
-
+\
                     - You won't see the password that you enter; in other words,
                       echoing is disabled to prevent shoulder-surfing attacks.
                     - Only the hash is printed by default; it is not possible to
@@ -2364,7 +2369,7 @@ OPTIONS
                       password is cleared from memory after processing. Java's
                       String interning is not used for the password.
 \
-                    Example:
+                    Examples:
                         > jacksum -q password -a sha256 -E z85
                         Password: facebook.com <a strong master password>
 \
@@ -2381,8 +2386,8 @@ OPTIONS
                     console. See also --charset-console.
 \
                     Example:
-                    > jacksum -q readline
-                      -F "#HASH msg=#MESSAGE msglen=#LENGTH hex=#SEQUENCE{hex}"
+                        > jacksum -q readline
+                          -F "#HASH msg=#MESSAGE msglen=#LENGTH hex=#SEQUENCE{hex}"
 \
 \
                 txt
@@ -2396,7 +2401,7 @@ OPTIONS
                     represents an input of 8 bytes and not 7 bytes.
 \
                     Example:
-                    > jacksum -q txt:"the answer is 42\n"
+                        > jacksum -q txt:"the answer is 42\n"
 \
 \
                 txtf
@@ -2424,7 +2429,7 @@ OPTIONS
                     option -E.
 \
                     Example:
-                    > jacksum -q z85:vqZdgwPw]cB09p{
+                        > jacksum -q z85:vqZdgwPw]cB09p{
 \
 \
             Available since version 1.3.0 of Jacksum (hex only), "type" since
@@ -2831,7 +2836,7 @@ OPTIONS
             binary mode, and the filename is set to "<stdin>".
 \
             Example:
-            > jacksum - < your.iso
+                > jacksum - < your.iso
 
 
     --
@@ -2844,7 +2849,7 @@ OPTIONS
             folder.
 \
             Example:
-            > jacksum -- -
+                > jacksum -- -
 \
             Available since version 3.0.0 of Jacksum.
 
@@ -3144,7 +3149,8 @@ ALGORITHMS
                 BLAKE2b is the successor of BLAKE-512.
 \
                 Use -C tagged or -F "BLAKE2b (#FILENAME) = #DIGEST" to get the
-                "cksum -a blake2b" output format from the GNU Core Utilities 9.0.
+                "cksum -a blake2b" output format from the GNU Core
+                Utilities 9.0.
 \
             compatibility:
                 - 7z:              -
