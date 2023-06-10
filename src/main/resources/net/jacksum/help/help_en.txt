@@ -45,10 +45,10 @@ DESCRIPTION
     feature-rich, multi-threaded, command line utility that makes hash
     functions available to you.
 \
-    It covers many types of use cases in which hash values are needed:
+    It covers many types of use cases in which hash values are useful:
 \
         - Calculating of hash values/fingerprints of almost any input
-          (command line arg, console, standard input, encoded strings,
+          (command line arg, console, standard input, plain or encoded strings,
           files, partitions, disks, NTFS ADS, pipes, sockets, doors, ...)
         - Finding OK/failed/missing/new files (verify file/data integrity)
         - Finding files by their fingerprints for positive matching
@@ -85,9 +85,9 @@ OPERATING MODES
     and parameters that you set. See also the sections entitled "SYNOPSIS",
     "OPTION TYPES", "OPTION SUPPORT MATRIX", and "EXAMPLES".
 \
-    jacksum [OPTION]... FILES
+    1. Calculate and print the hash values
 \
-        "Calculate and print the hash values"
+        jacksum [OPTION]... FILES
 \
         Calculating hash values is usually the first step you take to be able to
         check data integrity later on.
@@ -124,10 +124,10 @@ OPERATING MODES
               --threads-hashing max --header -F "#HASHES #FILENAME" .
 \
 \
-    jacksum [OPTION]... ((--check-file|-c) <file> | --check-line <line>)
-            [OPTION]... [FILES]
+    2. Verify data/file integrity
 \
-        "Verify data/file integrity"
+        jacksum [OPTION]... ((--check-file|-c) <file> | --check-line <line>)
+                [OPTION]... [FILES]
 \
         The data/file integrity verification mode is enabled if you specify
         the option -c (or --check-file) or the option --check-line.
@@ -171,10 +171,10 @@ OPERATING MODES
             > jacksum -a crc32c+sha256+whirlpool --style bsd -c my.hashes .
 \
 \
-    jacksum [OPTION]... ((--wanted-list|-w) <list> | (--expect|-e) <hash>))
-            [OPTION]... [FILES]
+    3. Wanted list
 \
-        "Wanted list"
+        jacksum [OPTION]... ((--wanted-list|-w) <list> | (--expect|-e) <hash>))
+                [OPTION]... [FILES]
 \
         In "Wanted list" mode, you can find all files that match or do not
         match a set of known hashes. In other words, you can verify the
@@ -213,9 +213,9 @@ OPERATING MODES
             > jacksum -a blake2b-64 -e a47fc96f87b6fb5a .
 \
 \
-    jacksum [OPTION]... (--quick|-q) <sequence>
+    4. Hash a sequence quickly
 \
-        "Hash a sequence quickly"
+        jacksum [OPTION]... (--quick|-q) <sequence>
 \
         In this mode, you can specify the input data entirely on the command
         line and calculate the hash(es) of it.
@@ -236,12 +236,13 @@ OPERATING MODES
             > jacksum -q txt:"Hello World"
 \
 \
-    jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
+    5. Verify a sequence quickly
 \
-        "Verify a sequence quickly"
+        jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
 \
         In this mode, you can specify the input data on the command line,
-        calculate the hash(es), and verify the integrity.
+        calculate the hash(es), and verify the integrity. You can also read
+        secret data from the console, and hash the secret.
         This mode is enabled if you specify both -q and -e.
 \
         For OPTION the following option types are supported:
@@ -252,14 +253,16 @@ OPERATING MODES
             - Quick Mode Options
             - Output Options
 \
-        Example:
+        Examples:
             > jacksum -a md5 -e 5d41402abc4b2a76b9719d911017c592 -q txt:hello
+            > jacksum -q password -a sha256 -E z85
+            Password: facebook.com <a strong master password>
 \
 \
-    jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
-                        (--algorithm|-a) unknown:<bits>
+    6. Find hash functions
 \
-        "Find hash functions"
+        jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
+                            (--algorithm|-a) unknown:<bits>
 \
         In this mode, you can find the hash function that was used to produce a
         hash. This mode is enabled if you specify -q, -e and -a unknown:<bits>
@@ -277,10 +280,10 @@ OPERATING MODES
             > jacksum -a unknown:16 -q hex:050000 -E hex -e d893
 \
 \
-    jacksum [OPTION]... --string-list <file>
-            [OPTION]...
+    7. Hash strings in a list
 \
-        "Hash strings"
+        jacksum [OPTION]... --string-list <file>
+                [OPTION]...
 \
         In this mode, hash values are calculated from strings.
 \
@@ -297,18 +300,18 @@ OPERATING MODES
             > jacksum --string-list words.txt
 \
 \
-    jacksum [
-              (--algorithm|-a) <algorithm> (--list|-l) |
-              --copyright |
-              (--help|-h) [<language>] [<word>] |
-              --hmacs [-V <vcontrol>] |
-              --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
-              --info [(--style|-C) <style>] |
-              --license |
-              (--version|-v) [-V <vcontrol>]
-            ]
+    8. Gather information
 \
-        "Gather information"
+        jacksum [
+            (--algorithm|-a) <algorithm> (--list|-l) |
+            --copyright |
+            (--help|-h) [<language>] [<word>] |
+            --hmacs [-V <vcontrol>] |
+            --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
+            --info [(--style|-C) <style>] |
+            --license |
+            (--version|-v) [-V <vcontrol>]
+        ]
 \
         In these modes, some information will be gathered, and the program will
         exit. See the OPTIONS section for more details on each option.
@@ -647,10 +650,12 @@ OPTIONS
 \
                 A HMAC (hmac:<algo>[:<bits>])
 \
-                    The pattern hmac:<algo>[:bits] allows to calculate a HMAC,
+                    The pattern hmac:<algo>[:<bits>] allows to calculate a HMAC,
                     a mechanism for message authentication using any iterated
                     cryptographic hash function in combination with a secret
-                    shared key. Learn more on this topic by typing:
+                    shared key. Optionally, you can also truncate the HMAC by
+                    specifying a value for <bits>.
+                    Learn more on this topic by typing:
 \
                     > jacksum -h hmac:
 \
@@ -665,16 +670,31 @@ OPTIONS
                    If you set <algo> to "all", all supported algorithms will
                    be used, meaning you can calculate hashes with hundreds
                    of algorithms by reading the input only once.
-                   If "all" is used, the output is normalized by a hexadecimal
-                   checksum and a decimal file size.
+                   If "all" is used in calculation mode, the output is
+                   normalized (if not customized) by a hexadecimal checksum and
+                   a decimal file size.
+\
+                   Example:
+                   > jacksum -a all -l
+                   > jacksum -a all --info
+                   > jacksum -a all --info -l
+                   > jacksum -a all -q txt:0123456789
+                   > jacksum -a all -q txt:0123456789 -F "#ALGONAME{i}(#SEQUENCE) = #HASH{i}"
 \
 \
                 Several algorithms, filtered by bit length (all:<length>)
 \
-                    In order to use all algorithms that have a particular bit
-                    length, you can use "all:<length>" where <length> must be a
-                    multiple of 8.
-                    Examples: "all:224", "all:256", "all:888", "all:1024"
+                   In order to use all algorithms that have a particular bit
+                   length, you can use "all:<length>" where <length> must be a
+                   multiple of 8.
+\
+                   Examples:
+                   > jacksum -a all:224 -l
+                   > jacksum -a all:1024 -l
+                   > jacksum -a all:888 -l --info
+                   > jacksum -a all:256 *.txt
+                   > jacksum -a all:256 --style bsd *.txt
+                   > jacksum -a all:256 -F "#ALGONAME{i}(#FILENAME) = #HASH{i}" *.txt
 \
 \
                 Several algorithms, filtered by a string (all:<string>)
@@ -683,7 +703,12 @@ OPTIONS
                    string, you can use "-a all:<string>" where <string> can be
                    any string. Both algorithm IDs and algorithm alias IDs will
                    be searched.
-                   Examples: "all:skein", "all:sha3-", "all:fnv", "all:whirlpool"
+\
+                   Examples:
+                   > jacksum -a all:fnv -l
+                   > jacksum -a all:skein -l
+                   > jacksum -a all:sha3- -l --info
+                   > jacksum -a all:whirlpool -F "#ALGONAME{i}(#FILENAME) = #HASH{i}" *.txt
 \
 \
             <algo>[+<algo>]...
@@ -735,7 +760,7 @@ OPTIONS
         <algo>[+<algo>]... is supported since version 1.7.0 of Jacksum.
         all:<length>, all:<string>, and unknown:<length> are supported since
         version 3.0.0 of Jacksum.
-        See also -A.
+        See also option -A.
 
 
     -A
@@ -749,7 +774,8 @@ OPTIONS
             implementations for the following algorithms:
             adler32, crc32, md2, md5, sha-1, sha-256, sha-384, sha-512
 \
-            Available since version 1.5.0 of Jacksum, see also -a.
+            Available since version 1.5.0 of Jacksum.
+            See also option -a.
 
 
     --bom
@@ -870,8 +896,8 @@ OPTIONS
             Improperly formatted lines are ignored with regards to the exit code
             unless you set --check-strict.
 \
-            Available with the features above since version 3.0.0 of Jacksum,
-            see also the options -C, -I, and --list-filter
+            Available with the features above since version 3.0.0 of Jacksum.
+            See also the options -C, -I, and --list-filter.
 
 
     --check-line <string>
@@ -1385,6 +1411,8 @@ OPTIONS
                 691DAA2F 11
                 > jacksum -q txt:"Hello World" -a crc32c -X -e 691DAA2F
                 [MATCH]
+                > jacksum -q txt:"Hello World" -a crc32c -X -e 691DAAFF
+                [NO MATCH]
 \
             The hash value can be specified as case sensitive or case
             insensitive, except if Base64 encoding (by -E) has been specified,
@@ -1608,8 +1636,8 @@ OPTIONS
                                          Padding:  none
 \
 \
-            Available since version 1.6.0 of Jacksum if not stated otherwise,
-            see also the options -F, -g, -G, -q, -x, and -X.
+            Available since version 1.6.0 of Jacksum if not stated otherwise.
+            See also the options -F, -g, -G, -q, -x, and -X.
 
 
     -f
@@ -1775,8 +1803,9 @@ OPTIONS
 \
 \
             Available since version 1.5.0 of Jacksum, unless otherwise
-            specified, see also the options -a, -E, -g, -G,
-            --gnu-filename-escaping, -P, -s, -t, -x, and -X.
+            specified.
+            See also the options -a, -E, -g, -G, --gnu-filename-escaping, -P,
+            -s, -t, -x, and -X.
 
 
     -g <count>
@@ -1787,7 +1816,8 @@ OPTIONS
             Groups are separated by a blank or by the character
             specified by -G; the value for <count> must be greater than 0.
 \
-            Available since Jacksum 1.6.0, see also -E, -G, -x and -X
+            Available since Jacksum 1.6.0.
+            See also options -E, -G, -x, and -X.
 
 
     -G <char>
@@ -1796,8 +1826,8 @@ OPTIONS
             Sets the separator for byte groups, only valid if encoding is
             hexadecimal and option -g has been set.
 \
-            Available since version 1.6.0 of Jacksum, see also -E, -g, -x and
-            -X.
+            Available since version 1.6.0 of Jacksum.
+            See also options -E, -g, -x, and -X.
 
 
     --gnu-filename-escaping <boolean>
@@ -1834,8 +1864,8 @@ OPTIONS
             starts with a backslash, and the problematic characters in the file
             name are escaped with a backslash.
 \
-            Available since version 3.3.0 of Jacksum, see also the option
-            -F, token #ESCAPETAG.
+            Available since version 3.3.0 of Jacksum.
+            See also the option -F, token #ESCAPETAG.
 
 
     --header
@@ -1863,7 +1893,8 @@ OPTIONS
             Prints the help; valid code for language is "en"; valid values for
             word are strings such as section headers, options or algorithms.
             See the section "EXAMPLES" for more information, or simply type
-            'jacksum -h examples'
+\
+            > jacksum -h examples
 \
             Available since version 1.0.0 of Jacksum,
             parameter word since version 1.6.0 of Jacksum.
@@ -1878,14 +1909,14 @@ OPTIONS
             B - the block size in bytes
             L - the byte-length of the hash output which is also
                 the recommended minimum length in bytes of the key
-            T - the recommended minimum length in bytes of the hmac output
+            T - the recommended minimum length in bytes of the HMAC output
                 in case of truncation
 \
             If --verbose summary has been set, it also prints the number of
             supported HMACs.
 \
-            See also -a hmac:, -k.
             Available since version 3.7.0 of Jacksum.
+            See also the options "-a hmac:", "-k".
 
 
     --info
@@ -1925,6 +1956,7 @@ OPTIONS
             If --style has been set, it prints details about the style.
 \
             Available since version 3.0.0 of Jacksum.
+            See also the options -a, --style, --list
 
 
     -I <string>
@@ -1933,9 +1965,8 @@ OPTIONS
             While reading a list by -L or -c or --string-list, lines are ignored
             if they start with the string <string>.
 \
-            See also the option --ignore-empty-lines.
-\
             Available since version 1.6.0 of Jacksum, see also option -c.
+            See also the option --ignore-empty-lines.
 
 
     --ignore-empty-lines
@@ -1946,10 +1977,8 @@ OPTIONS
             By default, or if the option is omitted, empty lines are hashed,
             which in fact is treated as an empty message for the algorithm.
 \
-            See also the options --string-list and
-            --ignore-lines-starting-with-string.
-\
             Available since version 1.7.0 of Jacksum.
+            See also the options --string-list and --ignore-lines-starting-with-string.
 
 
     -k  (([<type>:]<sequence>)|(readline|password))
@@ -1964,19 +1993,21 @@ OPTIONS
             be gathered by other users as well or in history files which are
             stored on disk usually.
 \
-            Example:
-                > jacksum -a hmac:256 -k file:my-secret.txt my-message.txt
+            Examples:
+                > jacksum -a hmac:sha256 -k file:my-secret.txt my-message.txt
+                > jacksum -a hmac:sha256 -k password my-message.txt
+                Password:
 \
-            See also -a hmac:, --hmacs, charset-console
             Available since version 3.7.0 of Jacksum.
+            See also the options "-a hmac:", --hmacs, --charset-console
 
 
     --license
 \
             Prints out the license under which the project is offered.
 \
-            Available since version 3.0.0 of Jacksum, see also the option
-            --copyright.
+            Available since version 3.0.0 of Jacksum.
+            See also the option --copyright.
 
     -l
     --list
@@ -1986,8 +2017,8 @@ OPTIONS
             If option -a is set, it lists the IDs of the algorithms only.
 \
             Examples:
-                jacksum -a all:sha -l
-                jacksum -a all:32 -l
+                > jacksum -a all:sha -l
+                > jacksum -a all:32 -l
 \
             If the option -c and --list-filter is set, it will list the
             filenames only without the statuses OK, FAILED, MISSING or NEW.
@@ -2021,8 +2052,8 @@ OPTIONS
             Only if the filter is set to ok, failed or both, hashing
             occurs. For detecting missing or new files, hashing is not required.
 \
-            Available since version 3.0.0 of Jacksum, see also the options
-            -c, and --list.
+            Available since version 3.0.0 of Jacksum.
+            See also the options -c, and --list.
 
 
     -L <textfile>
@@ -2041,6 +2072,7 @@ OPTIONS
             Wildcards are not supported in the <textfile>.
 \
             Available since version 3.0.0 of Jacksum.
+            See also the options --file-list-format, --file-list-charset.
 
 
     --file-list-format <format>
@@ -2066,6 +2098,7 @@ OPTIONS
                         file names that contain Unicode characters.
 \
             Available since version 3.0.0 of Jacksum.
+            See also the options --file-list, --file-list-charset.
 
 
     --legacy-stdin-name
@@ -2095,8 +2128,8 @@ OPTIONS
             integrity check later, you should not set this option, because
             without path information it is impossible to find the files again.
 \
-            Available since version 3.2.0 of Jacksum, see also -P,
-            --path-relative-to, and --path-absolute.
+            Available since version 3.2.0 of Jacksum.
+            See also the options -P, --path-relative-to, and --path-absolute.
 
 
     -o <file>
@@ -2106,7 +2139,8 @@ OPTIONS
             output; the program exits with a warning if the file exists, and the
             file specified by -o is excluded from the calculation process.
 \
-            Available since version 1.6.0 of Jacksum, see also -O, -u and -U.
+            Available since version 1.6.0 of Jacksum.
+            See also the options -O, -u and -U.
 
 
     -O <file>
@@ -2115,8 +2149,8 @@ OPTIONS
             Same as -o, however an existing file will be overwritten without any
             warning. See also -U.
 \
-            Available since version 1.6.0 of Jacksum 1.6.0, see also -o, -u,
-            and -U.
+            Available since version 1.6.0 of Jacksum.
+            See also -o, -u, and -U.
 
 
     --path-absolute
@@ -2127,8 +2161,8 @@ OPTIONS
             absolute paths are passed as program arguments. If this option is
             set, paths are printed absolutely in all cases.
 \
-            Available since version 3.3.0 of Jacksum, see also -P,
-            --path-relative-to, and --no-path.
+            Available since version 3.3.0 of Jacksum.
+            See also the options -P, --path-relative-to, and --no-path.
 
 
     --path-relative-to <path>
@@ -2148,8 +2182,8 @@ OPTIONS
             If this option is set during check mode, the path for each file
             object in the check file is simply prepended by <path>.
 \
-            Available since version 3.2.0 of Jacksum, see also -P,
-            --path-absolute, and --no-path.
+            Available since version 3.2.0 of Jacksum.
+            See also the options -P, --path-absolute, and --no-path.
 
 
     --path-relative-to-entry <number>
@@ -2161,8 +2195,8 @@ OPTIONS
             greater than 0. This option requires the option --file-list. If
             file list is empty, this option is ignored.
 \
-            Available since version 3.3.0 of Jacksum, see also
-            --path-relative-to.
+            Available since version 3.3.0 of Jacksum.
+            See also option --path-relative-to.
 
 
     -P <char>
@@ -2175,8 +2209,8 @@ OPTIONS
             required, for example to produce relative links for HTML pages on
             Microsoft Windows.
 \
-            Available since version 1.5.0 of Jacksum, see also -F,
-            --path-absolute, and --path-relative.
+            Available since version 1.5.0 of Jacksum.
+            See also the options -F, --path-absolute, and --path-relative.
 
 
     -q (([<type>:]<sequence>)|(readline|password))
@@ -2203,8 +2237,8 @@ OPTIONS
                     option -E.
 \
                     Examples:
-                    jacksum -q base32:MFXHG53FOIQGS4ZAGQZA====
-                    jacksum -q base32:MFXHG53FOIQGS4ZAGQZA
+                        > jacksum -q base32:MFXHG53FOIQGS4ZAGQZA====
+                        > jacksum -q base32:MFXHG53FOIQGS4ZAGQZA
 \
 \
                 base32hex
@@ -2214,8 +2248,8 @@ OPTIONS
                     also the option -E.
 \
                     Examples:
-                    jacksum -q base32hex:C5N76TR5E8G6ISP06GP0====
-                    jacksum -q base32hex:C5N76TR5E8G6ISP06GP0
+                        > jacksum -q base32hex:C5N76TR5E8G6ISP06GP0====
+                        > jacksum -q base32hex:C5N76TR5E8G6ISP06GP0
 \
 \
                 base64
@@ -2225,8 +2259,8 @@ OPTIONS
                     the option -E.
 \
                     Examples:
-                    > jacksum -q base64:dGhlIGFuc3dlciBpcyA0Mg==
-                    > jacksum -q base64:dGhlIGFuc3dlciBpcyA0Mg
+                        > jacksum -q base64:dGhlIGFuc3dlciBpcyA0Mg==
+                        > jacksum -q base64:dGhlIGFuc3dlciBpcyA0Mg
 \
 \
                 base64url
@@ -2236,8 +2270,8 @@ OPTIONS
                     also the option -E.
 \
                     Examples:
-                    > jacksum -q base64url:wN7K_g==
-                    > jacksum -q base64url:wN7K_g
+                        > jacksum -q base64url:wN7K_g==
+                        > jacksum -q base64url:wN7K_g
 \
 \
                 bin
@@ -2248,10 +2282,10 @@ OPTIONS
                     fill up with leading zeros as the last example illustrates.
 \
                     Examples:
-                    > jacksum -q bin:1100101,1100111,100000,110100,110010,1010
-                    > jacksum -q bin:"1100101, 1100111, 100000, 110100, 110010,1010"
-                    > jacksum -q bin:"1100101 1100111 100000 110100 110010 1010"
-                    > jacksum -q bin:11001010110011100100000001101000011001000001010
+                        > jacksum -q bin:1100101,1100111,100000,110100,110010,1010
+                        > jacksum -q bin:"1100101, 1100111, 100000, 110100, 110010,1010"
+                        > jacksum -q bin:"1100101 1100111 100000 110100 110010 1010"
+                        > jacksum -q bin:11001010110011100100000001101000011001000001010
 \
 \
                 dec
@@ -2262,9 +2296,9 @@ OPTIONS
                     it is one string.
 \
                     Examples:
-                    > jacksum -q dec:101,103,32,52,50,10
-                    > jacksum -q dec:"101, 103, 32, 52, 50, 10"
-                    > jacksum -q dec:"101 103 32 52 50 10"
+                        > jacksum -q dec:101,103,32,52,50,10
+                        > jacksum -q dec:"101, 103, 32, 52, 50, 10"
+                        > jacksum -q dec:"101 103 32 52 50 10"
 \
 \
                 file
@@ -2295,11 +2329,11 @@ OPTIONS
                     leading zeros as the first two examples illustrates.
 \
                     Examples:
-                    > jacksum -q 65672034320A
-                    > jacksum -q hex:65672034320A
-                    > jacksum -q hex:65,67,20,34,32,A
-                    > jacksum -q hex:"65, 67, 20, 34, 32, A"
-                    > jacksum -q hex:"65 67 20 34 32 A"
+                        > jacksum -q 65672034320A
+                        > jacksum -q hex:65672034320A
+                        > jacksum -q hex:65,67,20,34,32,A
+                        > jacksum -q hex:"65, 67, 20, 34, 32, A"
+                        > jacksum -q hex:"65 67 20 34 32 A"
 \
 \
                 oct
@@ -2310,9 +2344,9 @@ OPTIONS
                     it is one string.
 \
                     Examples:
-                    > jacksum -q oct:145,147,40,64,62,12
-                    > jacksum -q oct:"145, 147, 40, 64, 62, 12"
-                    > jacksum -q oct:"145 147 40 64 62 12"
+                        > jacksum -q oct:145,147,40,64,62,12
+                        > jacksum -q oct:"145, 147, 40, 64, 62, 12"
+                        > jacksum -q oct:"145 147 40 64 62 12"
 \
 \
                 password
@@ -2419,8 +2453,8 @@ OPTIONS
                         \xHH  Hexadecimal Number (HH can become 00 to 7F)
 \
                     Examples:
-                    > jacksum -q txtf:"answer is 42\n"
-                    > jacksum -q txtf:"answer is 42\x0A"
+                        > jacksum -q txtf:"answer is 42\n"
+                        > jacksum -q txtf:"answer is 42\x0A"
 \
 \
                 z85
@@ -2563,7 +2597,8 @@ OPTIONS
             If the default parser is unable to parse the output, you can still
             write your own compatibility file; see also -C.
 \
-            Available since version 1.0.0 of Jacksum, see also -F.
+            Available since version 1.0.0 of Jacksum.
+            See also option -F.
 
 
     --threads-hashing <threads>
@@ -2586,6 +2621,7 @@ OPTIONS
             of threads will be started.
 \
             Available since version 3.3.0 of Jacksum.
+            See also option --threads-reading.
 
 
     --threads-reading <threads>
@@ -2620,7 +2656,7 @@ OPTIONS
                   order.
 \
             Available since version 3.3.0 of Jacksum.
-
+            See also option --threads-hashing.
 
     -t <format>
     --timestamp <format>
@@ -2675,7 +2711,8 @@ OPTIONS
                                    can specify with -s
                 #QUOTE             will be replaced by one quote char (")
 \
-            Available since version 1.6.0 of Jacksum, see also -F.
+            Available since version 1.6.0 of Jacksum.
+            See also option -F.
 
 
     -8
@@ -2704,9 +2741,10 @@ OPTIONS
             GNU/Linux) or to "nul" (on Microsoft Windows) in order to ignore the
             output.
 \
-            Available since version 1.6.0 of Jacksum, see also -U, -o and -O.
+            Available since version 1.6.0 of Jacksum.
             Starting with version 3.0.0 of Jacksum, the file encoding has been
             set to UTF-8.
+            See also options -U, -o and -O.
 
 
     -U <file>
@@ -2718,13 +2756,14 @@ OPTIONS
             "/dev/null" (on Unix and GNU/Linux) or to "nul" (on Microsoft
             Windows) in order to ignore the output.
 \
-            Available since version 1.6.0 of Jacksum, see also -u, -o and -O.
+            Available since version 1.6.0 of Jacksum.
             Starting with version 3.0.0 of Jacksum, the file encoding has been
             set to UTF-8.
+            See also options -u, -o and -O.
 
 
-    -v      
-    --version    
+    -v
+    --version
 \
             Prints the product name and version, and exits the program.
             This option has been available since version 1.2.0 of Jacksum.
@@ -2782,8 +2821,8 @@ OPTIONS
             but it can be specified by the --style option if it is not the
             default.
 \
-            Available since version 3.4.0 of Jacksum, see also
-            --wanted-list-charset, and --style
+            Available since version 3.4.0 of Jacksum.
+            See also the options --wanted-list-charset, and --style.
 
 
     --wanted-list-filter <filter>
@@ -2810,7 +2849,8 @@ OPTIONS
             If this option is omitted, the <filter> is set to "positive".
             Hashing occurs in any case regardless of the filter set.
 \
-            Available since version 3.4.0 of Jacksum, see also -w, and --list.
+            Available since version 3.4.0 of Jacksum.
+            See also the options -w, and --list.
 
 
     -x
@@ -2818,7 +2858,8 @@ OPTIONS
 \
             Lowercase hex output for the checksum is an alias for "-E hex".
 \
-            Available since version 1.1.0 of Jacksum, see also option -E.
+            Available since version 1.1.0 of Jacksum.
+            See also option -E.
 
 
     -X            
@@ -2826,7 +2867,8 @@ OPTIONS
 \
             Uppercase hex output for the checksum is an alias for "-E hexup".
 \
-            Available since version 1.1.0 of Jacksum, see also the option -E.
+            Available since version 1.1.0 of Jacksum.
+            See also the option -E.
 
 
     -
@@ -2839,7 +2881,7 @@ OPTIONS
                 > jacksum - < your.iso
 
 
-    --
+    -
 \
             A double dash is used to signify the end of command options, after
             which only positional arguments are accepted.
@@ -5858,7 +5900,7 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.PhotonBeetleDigest
 
 
-    prng[:[init=<init>][<separator>][mpy=<multiplier>][<separator>][add=<addend>]]
+    prng, prng:[init=<init>][<separator>][mpy=<multiplier>][<separator>][add=<addend>]
             algorithm:
                 PRNG (pseudo random number generator) hash
 \
@@ -5910,7 +5952,7 @@ ALGORITHMS
                 not be one of the characters in [0-9a-fA-F] if the preceding
                 value is in hexadecimal respresentation, and the <separator>
                 must not be one of the characters in [0-9] if the preceding
-                value is in decimal representation; it is recommend to use a
+                value is in decimal representation; it is recommended to use a
                 comma for the <separator>. Properties can be given in any order.
 \
                 The default PRNG Hash can be expressed as
@@ -6076,7 +6118,7 @@ ALGORITHMS
                 RIPEMD was developed in the framework of the EU project RIPE
                 (RACE Integrity Primitives Evaluation), used by GnuPG.
                 The default encoding is hexadecimal.
-                Use option "--compat openssl" to get the openssl output format.
+                Use option "--style openssl" to get the openssl output format.
                 format.
 \
             compatibility:
@@ -6262,7 +6304,7 @@ ALGORITHMS
                 version, published in 1995 in FIPS PUB 180-1 and commonly
                 referred to as "SHA-1".
                 The default encoding is hexadecimal.
-                Use option "--compat openssl" to get the openssl output format.
+                Use option "--style openssl" to get the openssl output format.
 \
             compatibility:
                 - 7z:              -
