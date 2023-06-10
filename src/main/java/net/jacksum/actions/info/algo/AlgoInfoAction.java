@@ -45,7 +45,7 @@ public class AlgoInfoAction implements Action {
     private final AlgoInfoActionParameters parameters;
     private AlgoInfoActionStatistics statistics;
     private int algorithms;
-    private int allSupportedAlgorithms;
+    private int allSupportedAlgorithmsCount;
 
     int maxWeight = 0;
 
@@ -169,7 +169,7 @@ public class AlgoInfoAction implements Action {
             if (weight > 1) {
                 int rank = HashAlgorithm.getRank(checksum.getName());
                 buffer.append(String.format("%n%sspeed:%n", indent));
-                buffer.append(String.format(FORMAT, indent, "relative rank:", rank + "/" + allSupportedAlgorithms));
+                buffer.append(String.format(FORMAT, indent, "relative rank:", rank + "/" + allSupportedAlgorithmsCount));
                 // long speedpoints = 100-Math.round((double)(100.0*weight/(double)maxWeight));
                 // buffer.append(String.format("%s  %-32s%s\n\n", indent, "speed points (100 max):", speedpoints)); // "*".repeat((int)stars)
             }
@@ -236,22 +236,22 @@ public class AlgoInfoAction implements Action {
 
     @Override
     public int perform() throws ExitException {
-
-        allSupportedAlgorithms = JacksumAPI.getAvailableAlgorithms().size();
-//        if (parameters.getVerbose().isInfo()) {
-//            maxWeight = HashAlgorithm.getMaxWeight();
-//        }
-        int exitCode;
         StringBuilder buffer = new StringBuilder();
-        exitCode = parameters.isList() ? listView(buffer) : singleView(buffer);
+        int exitCode = perform(buffer);
         System.out.print(buffer);
+        return exitCode;
+    }
+
+    public int perform(StringBuilder buffer) throws ExitException {
+
+        allSupportedAlgorithmsCount = JacksumAPI.getAvailableAlgorithms().size();
+        int exitCode = parameters.isList() ? listView(buffer) : singleView(buffer);
 
         if (parameters.getVerbose().isSummary()) {
             statistics.setAlgorithmCount(algorithms);
-            statistics.print();
+            statistics.print(buffer);
         }
         return exitCode;
-
     }
 
 }
