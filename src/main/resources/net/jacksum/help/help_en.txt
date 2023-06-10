@@ -34,7 +34,7 @@ SYNOPSIS
             ]
 \
     Notes:
-        - FILES means ((--file-list|-L) <file-list> | FILE) [FILE]...
+        - FILES means "((--file-list|-L) <file-list> | FILE) [FILE]..."
         - FILE can be a regular file, a directory, any platform-dependent file,
           or the hyphen (-) which represents standard input. For more
           information, see section PARAMETERS.
