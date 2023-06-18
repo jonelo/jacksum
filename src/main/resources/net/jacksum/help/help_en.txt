@@ -5871,7 +5871,7 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.PhotonBeetleDigest
 
 
-    prng[:[init=<init>][<separator>][mpy=<multiplier>][<separator>][add=<addend>]]
+    prng, prng:[init=<init>][<separator>][mpy=<multiplier>][<separator>][add=<addend>]
             algorithm:
                 PRNG (pseudo random number generator) hash
 \
@@ -5923,7 +5923,7 @@ ALGORITHMS
                 not be one of the characters in [0-9a-fA-F] if the preceding
                 value is in hexadecimal respresentation, and the <separator>
                 must not be one of the characters in [0-9] if the preceding
-                value is in decimal representation; it is recommend to use a
+                value is in decimal representation; it is recommended to use a
                 comma for the <separator>. Properties can be given in any order.
 \
                 The default PRNG Hash can be expressed as
@@ -6089,7 +6089,7 @@ ALGORITHMS
                 RIPEMD was developed in the framework of the EU project RIPE
                 (RACE Integrity Primitives Evaluation), used by GnuPG.
                 The default encoding is hexadecimal.
-                Use option "--compat openssl" to get the openssl output format.
+                Use option "--style openssl" to get the openssl output format.
                 format.
 \
             compatibility:
@@ -6275,7 +6275,7 @@ ALGORITHMS
                 version, published in 1995 in FIPS PUB 180-1 and commonly
                 referred to as "SHA-1".
                 The default encoding is hexadecimal.
-                Use option "--compat openssl" to get the openssl output format.
+                Use option "--style openssl" to get the openssl output format.
 \
             compatibility:
                 - 7z:              -
