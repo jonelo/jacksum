@@ -1,5 +1,5 @@
 NAME
-    Jacksum - a tool that makes hash functions available to you.
+    Jacksum - a command-line tool that lets you use hashes to solve tasks.
 
 
 VERSION
@@ -43,9 +43,9 @@ SYNOPSIS
 DESCRIPTION
     Jacksum (JAva ChecKSUM) is a free, open source, cross-platform,
     feature-rich, multi-threaded, command line utility that makes hash
-    functions available to you.
+    functions available to you to solve particular tasks the smart way.
 \
-    It covers many types of use cases in which hash values are useful:
+    Jacksum covers many types of use cases in which hash values make sense:
 \
         - Calculating of hash values/fingerprints of almost any input
           (command line arg, console, standard input, plain or encoded strings,
@@ -56,6 +56,7 @@ DESCRIPTION
         - Finding all duplicates of a file by its hash value
         - Finding the algorithm(s) that generated a certain hash value
         - Investigate polynomials of CRCs
+        - Investigate parameters of HMACs
 \
     In order to achieve the goals above, Jacksum supports:
 \
