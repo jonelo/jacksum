@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -22,10 +22,13 @@
  */
 package net.jacksum.parameters.base;
 
+import net.jacksum.parameters.Sequence;
 
 public interface SequenceParameters {
 
     boolean isSequence();
 
-    byte[] getSequenceAsBytes();
+    Sequence getSequence();
+
+    void setSequence(Sequence sequence);
 }

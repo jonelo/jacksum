@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -27,5 +27,8 @@ package net.jacksum.actions;
  * All action types that are supported by Jacksum.
  */
 public enum ActionType {
-    VERSION, QUICK, HASH_FILES, WANTED_LIST, CHECK, HELP, INFO_APP, INFO_ALGO, INFO_COMPAT, FIND_ALGO, COPYRIGHT, LICENSE
+    // info actions
+    HMACS, HELP, INFO_APP, INFO_ALGO, INFO_COMPAT, COPYRIGHT,  LICENSE, VERSION, QUICK,
+    // io actions
+    HASH_FILES, WANTED_LIST,  CHECK,  FIND_ALGO,  STRING_LIST,
 }

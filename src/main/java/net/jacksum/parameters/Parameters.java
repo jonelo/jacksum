@@ -22,26 +22,31 @@
  */
 package net.jacksum.parameters;
 
+import net.jacksum.HashFunctionFactory;
 import net.jacksum.actions.ActionType;
 import net.jacksum.actions.info.algo.AlgoInfoActionParameters;
 import net.jacksum.actions.info.app.AppInfoActionParameters;
 import net.jacksum.actions.info.compat.CompatInfoActionParameters;
 import net.jacksum.actions.info.help.Help;
 import net.jacksum.actions.info.help.HelpActionParameters;
+import net.jacksum.actions.info.hmacs.HMACsActionParameters;
 import net.jacksum.actions.info.version.VersionActionParameters;
 import net.jacksum.actions.io.compare.CompareActionInterface;
 import net.jacksum.actions.io.quick.QuickActionParameters;
+import net.jacksum.actions.io.strings.HashStringsActionParameters;
 import net.jacksum.actions.io.verify.CheckActionParameters;
 import net.jacksum.actions.io.verify.CheckConsumerParameters;
 import net.jacksum.actions.io.verify.ListFilter;
 import net.jacksum.actions.io.wanted.MatchFilter;
 import net.jacksum.algorithms.AbstractChecksum;
+import net.jacksum.algorithms.HMAC;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Messenger;
 import net.jacksum.cli.Verbose;
 import net.jacksum.compats.defs.CompatibilityProperties;
 import net.jacksum.compats.defs.InvalidCompatibilityPropertiesException;
 import net.jacksum.formats.Encoding;
+import net.jacksum.formats.EncodingDecoding;
 import net.jacksum.multicore.OSControl;
 import net.jacksum.multicore.ThreadControl;
 import net.jacksum.multicore.manyfiles.ProducerParameters;
@@ -52,7 +57,6 @@ import net.jacksum.parameters.combined.ProducerConsumerParameters;
 import net.jacksum.parameters.combined.StatisticsParameters;
 import net.loefflmann.sugar.io.BOM;
 import net.loefflmann.sugar.io.GeneralIO;
-import net.loefflmann.sugar.util.ByteSequences;
 import net.loefflmann.sugar.util.ExitException;
 import net.loefflmann.sugar.util.GeneralString;
 
@@ -65,10 +69,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -86,13 +87,14 @@ public class Parameters implements
         // all action parameter interfaces
         ExpectationActionParameters, CheckActionParameters,
         AlgoInfoActionParameters, AppInfoActionParameters, CompatInfoActionParameters,
+        VersionActionParameters, CompareActionInterface, HelpActionParameters, QuickActionParameters,
+        HashStringsActionParameters, HMACsActionParameters,
 
         // all other parameter interfaces
-        VersionActionParameters, CompareActionInterface, HelpActionParameters, QuickActionParameters,
         FormatParameters, AlgorithmParameters, CustomizedFormatParameters, StatisticsParameters,
         FileWalkerParameters, ProducerConsumerParameters, PathParameters,
-        GatheringParameters, SequenceParameters, ProducerParameters, CheckConsumerParameters,
-        VerboseParameters, CompatibilityParameters, HeaderParameters {
+        GatheringParameters, SequenceParameters, KeyParameters, ProducerParameters, CheckConsumerParameters,
+        VerboseParameters, CompatibilityParameters, HeaderParameters, StringListParameters, ConsoleParameters {
 
 
     public static final String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
@@ -102,8 +104,8 @@ public class Parameters implements
     private String[] cliParameters;
     public static final String UTF_8 = "UTF-8";
 
-    transient private PrintStream stdOutBackup = System.out;
-    transient private PrintStream stdErrBackup = System.err;
+    final transient private PrintStream stdOutBackup = System.out;
+    final transient private PrintStream stdErrBackup = System.err;
 
 
     // -a
@@ -132,6 +134,10 @@ public class Parameters implements
     private String charsetOutputFile = UTF_8;
     // --charset-wanted-list <charset>
     private String charsetWantedList = UTF_8;
+    // --charset-string-list <list>
+    private String charsetStringList = UTF_8;
+    // --charset-console <charset>
+    private String charsetConsole = UTF_8;
     // --charset-stdout <charset>
     private String charsetStdout = null;
     // --charset-stderr <charset>
@@ -157,6 +163,8 @@ public class Parameters implements
     private String helpLanguage = null;
     // -h [lang] search
     private String helpSearchString = null;
+    // --hmacs
+    private boolean HMACsWanted = false;
     // --info
     private boolean infoMode = false;
     // -I
@@ -177,6 +185,9 @@ public class Parameters implements
     private String filelistFormat = null;
     // -O/-o
     private String outputFile = null;
+    // --output-file-replace-tokens
+    private boolean outputFileReplaceTokens = false;
+    private String outputFileRaw = null;
     // -U/-u
     private String errorFile = null;
     // -O
@@ -186,8 +197,9 @@ public class Parameters implements
     // -P
     private Character pathChar = File.separatorChar;
     // -q
-    private String sequenceAsString = null;
-    private byte[] sequenceAsBytes = null;
+    private Sequence sequence = null;
+    // -k
+    private Sequence key = null;
     // -r
     private boolean recursive = false;
     // -r <depth>
@@ -198,6 +210,7 @@ public class Parameters implements
     private String timestampFormat = null;
     // -v
     private boolean versionWanted = false;
+
     // -V
     private Verbose verbose;
     // -w
@@ -264,6 +277,9 @@ public class Parameters implements
 
     private boolean parameterModifiedByAPI = false;
 
+    private String stringList = null;
+
+    private boolean ignoreEmptyLines = false;
 
     // ************************************** constructors *********************************************************
 
@@ -326,6 +342,9 @@ public class Parameters implements
         } else if (isCopyrightWanted()) {
             return ActionType.COPYRIGHT;
 
+        } else if (isHMACsWanted()) {
+            return ActionType.HMACS;
+
         } else if (getCheckFile() != null || getCheckLine() != null) {
             return ActionType.CHECK;
 
@@ -334,6 +353,9 @@ public class Parameters implements
 
         } else if (isSequence()) {
             return ActionType.QUICK;
+
+        } else if (isStringList()) {
+            return ActionType.STRING_LIST;
 
         // must be the first check if isInfoMode is involved, because
         // the --compat option sets the algorithm implicitly
@@ -515,44 +537,30 @@ public class Parameters implements
     }
 
     // -q
-    @Override
-    public byte[] getSequenceAsBytes() {
-        return sequenceAsBytes;
+    public Sequence getSequence() {
+        return sequence;
     }
+
+    public void setSequence(String string) {
+        sequence = new Sequence(string);
+    }
+
+    public void setSequence(Sequence sequence) {
+        this.sequence = sequence;
+    }
+
+    public void setKey(String key) {
+        this.key = new Sequence(key);
+    }
+
+    public void setKey(Sequence key) { this.key = key; }
+
+    public boolean isKey() { return key != null; }
+
+    public Sequence getKey() { return key; }
 
     public boolean isSequence() {
-        return sequenceAsBytes != null;
-    }
-
-    public String getSequenceAsString() {
-        return sequenceAsString;
-    }
-
-    // deprecated, use getSequenceAsBytes()
-    public byte[] getSequence() {
-        return getSequenceAsBytes();
-    }
-
-    // -q
-    public void setSequence(String sequence) throws IllegalArgumentException {
-        this.sequenceAsString = sequence;
-        String indicator = sequence.toLowerCase();
-
-        if (indicator.startsWith("txt:")) {
-            this.sequenceAsBytes = sequence2bytes(SequenceType.TXT, sequence.substring(4));
-        } else if (indicator.startsWith("txtf:")) {
-            this.sequenceAsBytes = sequence2bytes(SequenceType.TXTF, sequence.substring(5));
-        } else if (indicator.startsWith("dec:")) {
-            this.sequenceAsBytes = sequence2bytes(SequenceType.DEC, sequence.substring(4));
-        } else if (indicator.startsWith("hex:")) {
-            this.sequenceAsBytes = sequence2bytes(SequenceType.HEX, sequence.substring(4));
-        } else if (indicator.startsWith("bin:")) {
-            this.sequenceAsBytes = sequence2bytes(SequenceType.BIN, sequence.substring(4));
-        } else if (indicator.startsWith("file:")) {
-            this.sequenceAsBytes = sequence2bytes(SequenceType.FILE, sequence.substring(5));
-        } else {
-            this.sequenceAsBytes = sequence2bytes(SequenceType.HEX, sequence);
-        }
+        return sequence != null;
     }
 
     // -g
@@ -667,7 +675,7 @@ public class Parameters implements
     public byte[] getExpectedBytes() throws UnsupportedOperationException {
         if (expectedAsBytes == null && isEncodingSet() && getEncoding().equals(Encoding.HEX)
                 && !isGroupingSet()) {
-            expectedAsBytes = sequence2bytes(SequenceType.HEX, expected);
+            expectedAsBytes = EncodingDecoding.sequence2bytes(Sequence.Type.HEX, expected);
         } else {
             throw new UnsupportedOperationException();
             // TODO: transform BubbleBabble to bytes
@@ -977,9 +985,42 @@ public class Parameters implements
         this.wantedListFilter = wantedListFilter;
     }
 
-    enum SequenceType {
-        TXT, TXTF, DEC, HEX, BIN, FILE
+    public String getStringList() {
+        return stringList;
     }
+
+    public void setStringList(String stringList) {
+        this.stringList = stringList;
+    }
+
+    public boolean isStringList() {
+        return stringList != null;
+    }
+
+    public String getCharsetStringList() {
+        return charsetStringList;
+    }
+
+    public void setCharsetStringList(String charsetStringList) {
+        this.charsetStringList = charsetStringList;
+    }
+
+    public boolean isIgnoreEmptyLines() {
+        return ignoreEmptyLines;
+    }
+
+    public void setIgnoreEmptyLines(boolean ignoreEmptyLines) {
+        this.ignoreEmptyLines = ignoreEmptyLines;
+    }
+
+    public String getCharsetConsole() {
+        return charsetConsole;
+    }
+
+    public void setCharsetConsole(String charsetConsole) {
+        this.charsetConsole = charsetConsole;
+    }
+
 
     public boolean isOutputFile() {
         return outputFile != null;
@@ -1155,6 +1196,14 @@ public class Parameters implements
      */
     public void setVersionWanted(boolean versionWanted) {
         this.versionWanted = versionWanted;
+    }
+
+    public boolean isHMACsWanted() {
+        return HMACsWanted;
+    }
+
+    public void setHMACsWanted(boolean HMACsWanted) {
+        this.HMACsWanted = HMACsWanted;
     }
 
     /**
@@ -1353,6 +1402,18 @@ public class Parameters implements
         if (newParameters.isCheckStrict()) {
             this.setCheckStrict(true);
         }
+        if (newParameters.isStringList()) {
+            this.setStringList(newParameters.getStringList());
+            if (!newParameters.getCharsetStringList().equalsIgnoreCase(UTF_8)) {
+                this.setCharsetStringList(newParameters.getCharsetStringList());
+            }
+            if (newParameters.getCommentChars() != null) {
+                this.setCommentChars(newParameters.getCommentChars());
+            }
+            if (newParameters.isIgnoreEmptyLines()) {
+                this.setIgnoreEmptyLines(newParameters.isIgnoreEmptyLines());
+            }
+        }
         if (newParameters.getCompatibilityID() != null) {
             this.setCompatibilityID(newParameters.getCompatibilityID());
         } else {
@@ -1464,7 +1525,10 @@ public class Parameters implements
             this.setPathChar(newParameters.getPathChar());
         }
         if (newParameters.isSequence()) {
-            this.setSequence(newParameters.getSequenceAsString());
+            this.setSequence(newParameters.getSequence());
+        }
+        if (newParameters.isKey()) {
+            this.setKey(newParameters.getKey());
         }
         if (newParameters.isRecursive()) {
             this.setRecursive(true);
@@ -1558,6 +1622,23 @@ public class Parameters implements
         if (checkStrict) {
             list.add(__CHECK_STRICT);
         }
+        if (stringList != null) {
+            list.add(__STRING_LIST);
+            list.add(stringList);
+
+            if (!charsetStringList.equalsIgnoreCase(UTF_8)) {
+                list.add(__CHARSET_STRING_LIST);
+                list.add(charsetStringList);
+            }
+            if (getCommentChars() != null) {
+                list.add(_IGNORE_LINES_STARTING_WITH_STRING);
+                list.add(getCommentChars());
+            }
+            if (ignoreEmptyLines) {
+                list.add(__IGNORE_EMPTY_LINES);
+            }
+        }
+
         if (compatibilityID != null) {
             list.add(__STYLE);
             list.add(compatibilityID);
@@ -1675,7 +1756,11 @@ public class Parameters implements
         }
         if (isSequence()) {
             list.add(_QUICK);
-            list.add(getSequenceAsString());
+            list.add(getSequence().asString());
+        }
+        if (isKey()) {
+            list.add(_KEY);
+            list.add(getKey().asString());
         }
         if (isRecursive()) {
             list.add(_RECURSIVE);
@@ -1754,23 +1839,7 @@ public class Parameters implements
         return list;
     }
 
-    // ignore/disable unsupported/unsuitable/incompatible parameters
-    public void checkParameters() throws ParameterException, ExitException {
-        expandFileList();
-        handleCharsets();
-        checkForNonsenseParameterCombinations();
-        handleCompatibility();
-
-        // validity check for --algorithm
-        if (algorithm != null) {
-            if (algorithm.startsWith("+")) {
-                throw new ParameterException(String.format("The algorithm %s must not start with a + sign, but it can end with one.", algorithm));
-            }
-            if (algorithm.contains("++")) {
-                throw new ParameterException(String.format("The algorithm %s must not contain ++.", algorithm));
-            }
-        }
-
+    private void resolvePathRelativeTo() throws ParameterException {
         // validity check for --path-relative-to-entry
         if (isPathRelativeToEntry() && getFilenamesFromFilelist().size() > 0) {
             setPathRelativeToAsString(getFilenamesFromFilelist().get(getPathRelativeToEntry()-1));
@@ -1787,20 +1856,69 @@ public class Parameters implements
                         pathRelativeTo = path.toAbsolutePath().normalize().getParent();
                     }
                 } else {
-                    throw new ParameterException(String.format("%s does not exist.\n", pathRelativeToAsString));
+                    throw new ParameterException(String.format("%s does not exist.%n", pathRelativeToAsString));
                 }
             } catch (InvalidPathException ipe) {
-                throw new ParameterException(String.format("%s is an invalid path.\n", pathRelativeToAsString));
+                throw new ParameterException(String.format("%s is an invalid path.%n", pathRelativeToAsString));
             }
         }
+    }
 
+    private void validateAlgorithm() throws ParameterException {
+        // validity check for --algorithm
+        if (algorithm != null) {
+            if (algorithm.startsWith("+")) {
+                throw new ParameterException(String.format("The algorithm %s must not start with a + sign, but it can end with one.", algorithm));
+            }
+            if (algorithm.contains("++")) {
+                throw new ParameterException(String.format("The algorithm %s must not contain ++.", algorithm));
+            }
+        }
+    }
+
+    // ignore/disable unsupported/unsuitable/incompatible parameters
+    public void checkParameters() throws ParameterException, ExitException {
+        expandFileList();
+
+        handleCharsets();
+        checkForNonsenseParameterCombinations();
+        handleKey();
+        handleCompatibility();
+        validateAlgorithm();
+        resolvePathRelativeTo();
         handleWarningsAndImplicitSettings();
-
     }
 
 
     // ************************************** private methods *********************************************************
 
+    private void handleKey() throws ParameterException, ExitException {
+        if (isKey()) {
+            if (getKey().getType().equals(Sequence.Type.PASSWORD)) {
+                char[] passwd = net.loefflmann.sugar.io.Console.readPassword();
+                if (passwd != null) {
+                    try {
+                        setKey(new Sequence(Sequence.Type.PASSWORD, new String(passwd).getBytes(getCharsetConsole())));
+                    } catch (UnsupportedEncodingException e) {
+                        throw new ParameterException(e.getMessage());
+                    } finally {
+                        java.util.Arrays.fill(passwd, ' ');
+                    }
+                }
+            } else
+            if (getKey().getType().equals(Sequence.Type.READLINE)) {
+                String line = net.loefflmann.sugar.io.Console.readLine();
+                if (line != null) {
+                    try {
+                        setKey(new Sequence(Sequence.Type.READLINE, line.getBytes(getCharsetConsole())));
+                    } catch (UnsupportedEncodingException e) {
+                        throw new ParameterException(e.getMessage());
+                    }
+                }
+            }
+            HashFunctionFactory.setKey(getKey().asBytes());
+        }
+    }
     private static String decodeQuote(String format) {
         return GeneralString.replaceAllStrings(format, "#QUOTE", "\"");
     }
@@ -1810,47 +1928,6 @@ public class Parameters implements
             format = GeneralString.replaceAllStrings(format, "#SEPARATOR", separator);
         }
         return format;
-    }
-
-    private byte[] sequence2bytes(SequenceType sequenceType, String sequence)
-            throws IllegalArgumentException {
-        byte[] bytes;
-        switch (sequenceType) {
-            case TXT:
-                bytes = ByteSequences.text2Bytes(sequence);
-                break;
-            case TXTF:
-                bytes = ByteSequences.textf2Bytes(sequence);
-                break;
-            case DEC:
-                bytes = ByteSequences.decText2Bytes(sequence);
-                break;
-            case HEX:
-                bytes = ByteSequences.hexText2Bytes(sequence);
-                //System.out.println(Service.format(bytes));
-                break;
-            case BIN:
-                bytes = ByteSequences.binText2Bytes(sequence);
-                break;
-            case FILE:
-                try {
-                    Path p = Path.of(sequence);
-                    if (Files.exists(p)) {
-                        if (Files.size(p) > 128 * 1024 * 1024) {
-                            throw new IllegalArgumentException(String.format("File %s is greater than 128 MiB which exceeds the limit for option -q file:<file>", sequence));
-                        }
-                        bytes = Files.readAllBytes(p);
-                    } else {
-                        throw new IllegalArgumentException(String.format("File %s does not exist.", p));
-                    }
-                } catch (IOException ioe) {
-                    throw new IllegalArgumentException(ioe.getMessage());
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("unknown sequence type: " + sequenceType);
-        }
-        return bytes;
     }
 
     public void restoreStdOut() {
@@ -1968,18 +2045,42 @@ public class Parameters implements
     }
 
 
-    private void checkForNonsenseParameterCombinations() throws ParameterException, ExitException {
+    private void checkAlgorithmIsNone() throws ParameterException {
         // exit if selected parameters make no sense
-        if ((expected != null) && getAlgorithmIdentifier().equals("none")) {
-            throw new ParameterException("-a none and -e cannot go together.");
+        if (getAlgorithmIdentifier().equals("none")) {
+            // there is no hash value for algorithm "none"
+            // we cannot encode a non-existing hash value
+            if (isEncodingSet() && !isFormatWanted()) {
+                throw new ParameterException("-a none and -E without -F cannot go together.");
+            }
+            // we should not expect a hash value from the algorithm
+            if (expected != null) {
+                throw new ParameterException("-a none and -e cannot go together.");
+            }
         }
+    }
+
+    private void checkAlgorithmIsRead() throws ParameterException {
+        if (getAlgorithmIdentifier().equals("read")) {
+            if (isEncodingSet() && !isFormatWanted()) {
+                throw new ParameterException("-a read and -E without -F cannot go together.");
+            }
+            if (expected != null) {
+                throw new ParameterException("-a read and -e cannot go together.");
+            }
+        }
+    }
+
+    private void checkForNonsenseParameterCombinations() throws ParameterException, ExitException {
+        checkAlgorithmIsNone();
+        checkAlgorithmIsRead();
 
         if (stdin && isSequence()) {
             throw new ParameterException("Cannot read from both standard input and -q.");
         }
 
         if (findAlgorithm) {
-            if (sequenceAsBytes == null) {
+            if (sequence == null) {
                 throw new ParameterException("Option -a unknown:<width> requires option -q");
             }
             if (expected == null) {
@@ -2072,7 +2173,7 @@ public class Parameters implements
         }
 
         // both timestamp and sequence have been specified
-        if (timestampFormat != null && sequenceAsBytes != null) {
+        if (timestampFormat != null && sequence != null) {
             messenger.print(WARNING, "A sequence (-q) has been specified, timestamp (-t) will be ignored.");
         }
 
@@ -2108,7 +2209,8 @@ public class Parameters implements
         if (!isHelp()
                 && !isLicenseWanted()
                 && !isCopyrightWanted()
-                && sequenceAsBytes == null
+                && !isHMACsWanted()
+                && sequence == null
                 && getFilenamesFromArgs().isEmpty()
                 && getFilenamesFromFilelist().isEmpty()
                 && checkFile == null
@@ -2116,6 +2218,7 @@ public class Parameters implements
                 && !isRecursive()
                 && !stdin
                 && !infoMode
+                && stringList == null
                 && !list
                 && !versionWanted) {
             messenger.print(WARNING, "No files have been specified, reading from standard input stream (stdin) ...");
@@ -2202,9 +2305,12 @@ public class Parameters implements
         }
     }
 
-
+    /**
+     * Process list that has been specified by -L resp. --file-list
+     * @throws ParameterException if file list does not exist, if it is not readable or if file list format or file list charset is unsupported
+     */
     public void expandFileList() throws ParameterException {
-        // processing list that has been specified with -L
+
         if (this.getFilelistFilename() != null) {
             this.getFilenamesFromFilelist().clear();
             try {
@@ -2278,4 +2384,19 @@ public class Parameters implements
         return buffer.toString();
     }
 
+    public boolean isOutputFileReplaceTokens() {
+        return outputFileReplaceTokens;
+    }
+
+    public void setOutputFileReplaceTokens(boolean outputFileReplaceTokens) {
+        this.outputFileReplaceTokens = outputFileReplaceTokens;
+    }
+
+    public String getOutputFileRaw() {
+        return outputFileRaw;
+    }
+
+    public void setOutputFileRaw(String outputFileRaw) {
+        this.outputFileRaw = outputFileRaw;
+    }
 }

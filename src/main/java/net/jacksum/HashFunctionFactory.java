@@ -1,6 +1,6 @@
 /*
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -36,6 +36,16 @@ import static net.jacksum.selectors.Selectors.allSupportedSelectorClasses;
  * HashFunctionFactory
  */
 public class HashFunctionFactory {
+
+    private static byte[] key;
+
+    public static void setKey(byte[] key) {
+        HashFunctionFactory.key = key;
+    }
+
+    public static byte[] getKey() {
+        return key;
+    }
 
     private static final Map<String, Class> cacheOfSelectorClasses = new HashMap<>();
 
@@ -151,7 +161,28 @@ public class HashFunctionFactory {
             }
         }
         return mapFiltered;
+    }
 
+    public static Map<String, String> getAvailableHMACs() {
+        Map<String, String> map = getAvailableAlgorithms();
+        Map<String, String> mapFiltered = new LinkedHashMap<>(171); // ceil(128/0,75)
+
+        Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, String> entry = iterator.next();
+            AbstractChecksum checksum;
+            try {
+                checksum = JacksumAPI.getChecksumInstance(entry.getKey());
+            } catch (NoSuchAlgorithmException e) {
+                // should not happen
+                e.printStackTrace();
+                throw new RuntimeException("INTERNAL ERROR in JacksumAPI.getAvailableAlgorithms(int width)");
+            }
+            if (checksum != null && checksum.getBlockSize() > 0) {
+                mapFiltered.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return mapFiltered;
     }
 
     /**

@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -47,8 +47,8 @@ public class Main {
         try {
             parameters = new CLIParameters(args).parse().checked();
             exitCode = Actions.getAction(parameters).perform();
-        } catch (ParameterException e) {
-            throw new ExitException(e.getMessage() + "\nExit.",
+        } catch (ParameterException | IllegalArgumentException e) {
+            throw new ExitException(String.format("%s%nExit.", e.getMessage()),
                     ExitCode.PARAMETER_ERROR);
         }
         Actions.printStatistics(statistics, parameters);

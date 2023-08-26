@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -24,14 +24,8 @@ package net.jacksum.formats;
 
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.parameters.base.FingerprintFormatParameters;
-import net.loefflmann.sugar.encodings.Base32;
-import net.loefflmann.sugar.encodings.BubbleBabble;
-import net.loefflmann.sugar.encodings.ZBase32;
-import net.loefflmann.sugar.util.ByteSequences;
 import net.loefflmann.sugar.util.GeneralString;
 
-import java.math.BigInteger;
-import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,11 +42,11 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
     }
     
     public String format(byte[] fingerprint) {
-        return encodeBytes(fingerprint, parameters.getEncoding(), parameters.getGrouping(), parameters.getGroupChar());
+        return EncodingDecoding.encodeBytes(fingerprint, parameters.getEncoding(), parameters.getGrouping(), parameters.getGroupChar());
     }
 
     public String format(byte[] fingerprint, Encoding encoding) {
-        return encodeBytes(fingerprint, encoding, parameters.getGrouping(), parameters.getGroupChar());
+        return EncodingDecoding.encodeBytes(fingerprint, encoding, parameters.getGrouping(), parameters.getGroupChar());
     }
     
     /**
@@ -79,57 +73,6 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
         GeneralString.replaceAllStrings(format, "#HASH", "#CHECKSUM");
         GeneralString.replaceAllStrings(format, "#FINGERPRINT", "#CHECKSUM");
         GeneralString.replaceAllStrings(format, "#DIGEST", "#CHECKSUM");
-    }
-    
-    public static String encodeBytes(byte[] bytes, Encoding encoding, int grouping, Character groupChar) {
-       // if (encoding==null) encoding=Encoding.HEX;
-        switch (encoding) {
-            case HEX:
-                return ByteSequences.format(bytes, false, grouping, groupChar);
-            case HEX_UPPERCASE:
-                return ByteSequences.format(bytes, true, grouping, groupChar);
-            case BASE16:
-                return ByteSequences.format(bytes, true, 0, groupChar);
-            case BASE32:
-                return new Base32(Base32.Alphabet.BASE32, Base32.Padding.PADDING, Base32.UpperLower.UPPERCASE).encode(bytes);
-            case BASE32_NOPADDING:
-                return new Base32(Base32.Alphabet.BASE32, Base32.Padding.NO_PADDING, Base32.UpperLower.UPPERCASE).encode(bytes);
-            case BASE32HEX:
-                return new Base32(Base32.Alphabet.BASE32HEX, Base32.Padding.PADDING, Base32.UpperLower.UPPERCASE).encode(bytes);
-            case BASE32HEX_NOPADDING:
-                return new Base32(Base32.Alphabet.BASE32HEX, Base32.Padding.NO_PADDING, Base32.UpperLower.UPPERCASE).encode(bytes);
-            case BASE64:
-                return Base64.getEncoder().encodeToString(bytes);
-            case BASE64_NOPADDING:
-                return Base64.getEncoder().withoutPadding().encodeToString(bytes);
-            case BASE64URL:
-                return Base64.getUrlEncoder().encodeToString(bytes);
-            case BASE64URL_NOPADDING:
-                return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
-            case BUBBLEBABBLE:
-                return BubbleBabble.encode(bytes);
-            case DEC:
-                return new BigInteger(1, bytes).toString();
-            case DEC_FIXED_SIZE_WITH_LEADING_ZEROS:
-                if (bytes.length == 2) { // only supported for 2 bytes (e.g. BSD sum)
-                    // put back the byte array to a long
-                    int value = ByteSequences.twoByteArrayToInt(bytes);
-                    return String.format("%05d", value);  // five, because 2^(2*8) = 65535 which are 5 digits max.
-                    //ByteBuffer wrapped = ByteBuffer.wrap(bytes); // big-endian by default
-                    //short num = wrapped.getShort(); // 1
-                } else throw new UnsupportedOperationException("Encoding not supported for byte arrays of size " + bytes.length);
-            case BIN:
-                return ByteSequences.formatAsBits(bytes);
-            case OCT: {
-                BigInteger big = new BigInteger(1, bytes);
-                return big.toString(8);
-            }
-            case ZBASE32: {
-                return ZBase32.encodeToString(bytes);
-            }
-            default:
-                return ByteSequences.format(bytes, false, 0, ' ');
-        }
     }
 
     @Override

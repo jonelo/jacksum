@@ -26,7 +26,7 @@ package net.jacksum.algorithms.crcs;
 import net.jacksum.algorithms.checksums.Cksum;
 import net.jacksum.formats.Encoding;
 
-public class CRC32_MPEG2 extends Cksum {
+public class CRC32_MPEG2 extends Cksum implements CrcInfo {
 
     public CRC32_MPEG2() {
         super();
@@ -49,4 +49,33 @@ public class CRC32_MPEG2 extends Cksum {
        return (value & 0xFFFFFFFFL);
     }
 
+    @Override
+    public byte[] getPolyAsBytes() {
+        return new byte[] {(byte)0x04, (byte)0xC1, (byte)0x1D, (byte)0xB7};
+    }
+
+    @Override
+    public int getWidth() {
+        return 32;
+    }
+
+    @Override
+    public long getInitialValue() {
+        return 0xFFFFFFFFL;
+    }
+
+    @Override
+    public boolean isRefIn() {
+        return false;
+    }
+
+    @Override
+    public boolean isRefOut() {
+        return false;
+    }
+
+    @Override
+    public long getXorOut() {
+        return 0;
+    }
 }

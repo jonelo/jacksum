@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -45,10 +45,11 @@ public abstract class CompareAction implements Action {
         if (checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64) ||
             checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64_NOPADDING) ||
             checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64URL) ||
-            checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64URL_NOPADDING)
+            checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64URL_NOPADDING) ||
+            checksum.getFormatPreferences().getEncoding().equals(Encoding.Z85)
            )
         {
-            // strict checking required for any BASE64 encoding
+            // strict checking required for any BASE64+Z85 encoding
             return value.equals(expected);
         } else {
             return value.equalsIgnoreCase(expected);

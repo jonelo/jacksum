@@ -32,16 +32,22 @@ public abstract class Statistics {
     public abstract void reset();
     
     public void print() {
+        StringBuilder buffer = new StringBuilder();
+        print(buffer);
+        System.err.print(buffer);
+    }
+
+    public void print(StringBuilder buffer) {
         Map<String,Object> map = build();
-        
-        System.err.println();
+
+        buffer.append(String.format("%n"));
         map.entrySet().forEach(entry -> {
             if (entry.getKey().length() > 0) {
-                System.err.printf("Jacksum: %s: %s\n", entry.getKey(), entry.getValue().toString());
+                buffer.append(String.format("Jacksum: %s: %s%n", entry.getKey(), entry.getValue().toString()));
             } else {
-                System.err.println();
+                buffer.append(String.format("%n"));
             }
         });
-        
+
     }
 }

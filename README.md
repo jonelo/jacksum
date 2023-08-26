@@ -219,12 +219,6 @@ Example 2: as above by using an alias
     afcbb09a 9
 
 
-Example 2: as above by using an alias
-
-    $ jacksum -a sum_plan9 -x -q txt:123456789
-    afcbb09a 9
-
-
 ### Investigate CRC parameters
 
 CRC parameters can be investigated by the CRC algorithm, and setting the `--info` option. It returns the polynomial value as a polynomial in math expression, normal, reversed, and Koopman representation, and the reciprocal poly. Example for the Castagnoli CRC-32:
@@ -359,9 +353,28 @@ Jacksum: elapsed time: 151 ms
 
 ### Find files by their hashes
 
-Jacksum also helps you to find all files that match any of the hashes in a given set of known hash values. Both positive and negative matching is supported.
+#### by a single hash value
 
-    $ jacksum --wanted-list log4j.hashes --style linux --threads-reading 16 /
+If you know the hash value of a file, you can search for the file even if you don't know the file name. Let's search for the Satoshi Nakamoto's Bitcoin whitepaper on macOS by specifying the expected (-e) 9sha256 hash (-a sha256) in hex encoding (-x), and traversing the folder tree recursively (default) starting from the current working directory (.):
+
+    $ jacksum -a sha256 -x -e b1674191a88ec5cdd733e4240a81803105dc412d6c6708d53ab94fc248f4f553 --threads-reading max .
+
+<details>
+<summary>Result ...</summary>
+
+```
+    MATCH  /System/Library/Image Capture/Devices/VirtualScanner.app/Contents/Resources/simpledoc.pdf (b1674191a88ec5cdd733e4240a81803105dc412d6c6708d53ab94fc248f4f553)
+
+Jacksum: Expectation met.
+Jacksum: 1 of the successfully read files matches the expected hash value.
+```
+</details>
+
+#### by a precalculated hash list
+
+Jacksum also helps you to find all files that match any of the hashes in a given set of known hash values. Both positive and negative matching is supported. Let's search for all vulnerable log4j libs:
+
+    $ jacksum --wanted-list log4j.hashes --style linux --threads-reading max --verbose summary /
 
 <details>
 <summary>Result ...</summary>
@@ -387,6 +400,8 @@ Jacksum: elapsed time: 8 min, 38 s, 215 ms
 </details>
 
 See also [CVE-2021-44832: Find vulnerable .jar files using Jacksum](https://loefflmann.blogspot.com/2022/06/CVE-2021-44832%20Find%20vulnerable%20.jar%20files%20using%20Jacksum%203.4.0%20or%20later.html)
+
+
 
 ### Find all duplicates of a file using a hash value
 
@@ -448,6 +463,80 @@ Once you have identified the correct algorithm, you can calculate your own input
 jacksum -a crc:16,1021,FFFF,false,false,FFFF -E hex -q txt:"Hello World"
 ```
 </details>
+
+### Jacksum hacks (unexpected free gifts)
+
+Jacksum's primary purpose is to deal with hashes. However, since Jacksum supports both many encodings and customized formatting you get additional features which can be quite useful sometimes. For all examples below we set "-a none", because we are not interested in hashing at all.
+
+#### Hex dump of a file
+
+    $ jacksum -a none -q file:myfile.dat -F "#SEQUENCE" -E hex -g 1
+    4a 61 63 6b 73 75 6d
+
+#### String to hex
+
+    $ jacksum -a none -q txtf:"hello world\n" -F "#SEQUENCE{hex}"
+    68656c6c6f20776f726c640a
+
+#### Hex string to base64
+
+    $ jacksum -a none -q hex:68656c6c6f20776f726c64 -F "#SEQUENCE{base64}"
+    aGVsbG8gd29ybGQ=
+
+#### Integer to a binary sequence
+
+    $ jacksum -a none -q dec:42 -F "#SEQUENCE{bin}"
+    00101010
+
+#### Hex string to octal
+
+    $ jacksum -a none -q hex:7A -F "#SEQUENCE{oct}"
+    172
+
+#### Hex string to bin, octal, decimal, and hexadecimal
+
+    $ jacksum -a none -q hex:CAFE -F "bin: #SEQUENCE{bin}, dec: #SEQUENCE{dec}, oct: 0#SEQUENCE{oct}, hex:#SEQUENCE{hexup}"
+    bin: 1100101011111110, dec: 51966, oct: 0145376, hex:CAFE
+
+#### Hex string to bin, octal, decimal, and hexadecimal in JSON
+
+    $ jacksum -a none -q hex:CAFE -F '{ "bin": "#SEQUENCE{bin}", "dec": "#SEQUENCE{dec}", "oct": "0#SEQUENCE{oct}", "hex": "0x#SEQUENCE{hexup}" }'
+    { "bin": "1100101011111110", "dec": "51966", "oct": "0145376", "hex": "CAFE" }
+
+#### encode hex string to base64
+
+    $ jacksum -a none -q hex:C0DECAFE -F "#SEQUENCE{base64}"
+    wN7K/g==
+
+#### encode file content to base64
+
+    $ jacksum -a none -q file:myfile.dat -F "#SEQUENCE{base64}
+    SmFja3N1bQ==
+
+#### decode base64
+
+    $ jacksum -a none -q base64:wN7K/g== -F "#SEQUENCE{hex-uppercase}"
+    C0DECAFE
+
+#### encode Z85
+
+    $ jacksum -a none -q hex:C0DECAFE -F "#SEQUENCE{z85}"
+    Z#0lk
+
+#### decode Z85
+
+    $ jacksum -a none -q "z85:Z#0lk" -F "#SEQUENCE{hex}"
+    c0decafe
+
+#### Count characters 
+
+    $ jacksum -a none -q txt:"Hello World" -F "#LENGTH"
+    11
+
+#### etc.
+
+You get the idea ;-)
+
 
 ### More examples
 

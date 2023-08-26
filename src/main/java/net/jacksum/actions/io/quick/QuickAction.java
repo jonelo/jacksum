@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -23,6 +23,8 @@
 
 package net.jacksum.actions.io.quick;
 
+import net.jacksum.parameters.Sequence;
+import net.loefflmann.sugar.util.ByteSequences;
 import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.actions.Action;
 import net.jacksum.actions.Actions;
@@ -30,6 +32,8 @@ import net.jacksum.actions.io.compare.CompareAndPrintResult;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.parameters.ParameterException;
+
+import java.io.UnsupportedEncodingException;
 
 // quick sequence and quit (no file parameter)
 public class QuickAction implements Action {
@@ -48,11 +52,41 @@ public class QuickAction implements Action {
 
         // the sequence parameter is required
         if (!parameters.isSequence()) {
-            throw new ParameterException("A sequence has to be set (-q).");
+            throw new ParameterException("A sequence has to be set by option -q.");
         }
 
         AbstractChecksum checksum = Actions.getChecksumInstance(parameters);
-        checksum.update(parameters.getSequenceAsBytes());
+        if (parameters.getSequence().getType().equals(Sequence.Type.PASSWORD)) {
+            char[] passwd = net.loefflmann.sugar.io.Console.readPassword();
+            if (passwd != null) {
+                try {
+                    checksum.update(new String(passwd).getBytes(parameters.getCharsetConsole()));
+                } catch (UnsupportedEncodingException e) {
+                    throw new ParameterException(e.getMessage());
+                } finally {
+                    java.util.Arrays.fill(passwd, ' ');
+                }
+            }
+            checksum.setFilename("");
+        } else
+        if (parameters.getSequence().getType().equals(Sequence.Type.READLINE)) {
+            String line = net.loefflmann.sugar.io.Console.readLine();
+            if (line != null) {
+                try {
+                    checksum.update(line.getBytes(parameters.getCharsetConsole()));
+                    parameters.setSequence(new Sequence(Sequence.Type.HEX,
+                            ByteSequences.format(line.getBytes(parameters.getCharsetConsole()))));
+                } catch (UnsupportedEncodingException e) {
+                    throw new ParameterException(e.getMessage());
+                }
+                checksum.setParameters(parameters);
+                checksum.setFilename(line);
+            }
+        } else {
+            checksum.setFilename(""); //checksum.setFilename(new String(parameters.getSequenceAsBytes()));
+            checksum.update(parameters.getSequence().asBytes());
+        }
+
         statisticsQuick.addBytes(checksum.getLength());
 
         int exitCode;

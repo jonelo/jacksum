@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -48,7 +48,8 @@ public enum Encoding {
     BASE64URL_NOPADDING("Base 64 for URL (no padding)"),
     BUBBLEBABBLE("BubbleBabble"),
     ZBASE32("z-base-32"),
-    
+    Z85("Z85"),
+
     DEC_FIXED_SIZE_WITH_LEADING_ZEROS("Decimal, fixed size with leading zeros");
 
     private final String description;
@@ -109,6 +110,7 @@ public enum Encoding {
         map.put("base64url", BASE64URL);
         map.put("base64url-nopadding", BASE64URL_NOPADDING);
         map.put("z-base-32", ZBASE32);
+        map.put("z85", Z85);
         return map;
     }
 

@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -29,6 +29,8 @@ import net.jacksum.multicore.ThreadControl;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
 import net.loefflmann.sugar.util.GeneralString;
+
+import java.util.Locale;
 
 /**
  * All parameters for the Command Line Interface (CLI)
@@ -81,9 +83,13 @@ public class CLIParameters {
     public static final String __GROUP_BYTES_SEPARATOR = "--group-bytes-separator";
     public static final String _HELP = "-h";
     public static final String __HELP = "--help";
+    public static final String __HMACS = "--hmacs";
     public static final String __INFO = "--info";
     public static final String _IGNORE_LINES_STARTING_WITH_STRING = "-I";
     public static final String __IGNORE_LINES_STARTING_WITH_STRING = "--ignore-lines-starting-with-string";
+    public static final String __IGNORE_EMPTY_LINES = "--ignore-empty-lines";
+    public static final String _KEY = "-k";
+    public static final String __KEY = "--key";
     public static final String _LIST = "-l";
     public static final String __LIST = "--list";
     public static final String __LIST_FILTER = "--list-filter";
@@ -98,6 +104,7 @@ public class CLIParameters {
     public static final String __OUTPUT_FILE = "--output-file";
     public static final String _OUTPUT_FILE_OVERWRITE = "-O";
     public static final String __OUTPUT_FILE_OVERWRITE = "--output-file-overwrite";
+    public static final String __OUTPUT_FILE_REPLACE_TOKENS = "--output-file-replace-tokens";
     public static final String _PATH_SEPARATOR = "-P";
     public static final String __PATH_SEPARATOR = "--path-separator";
     public static final String _QUICK = "-q";
@@ -108,6 +115,7 @@ public class CLIParameters {
     public static final String __SCAN_NTFS_ADS = "--scan-ntfs-ads";
     public static final String _SEPARATOR = "-s";
     public static final String __SEPARATOR = "--separator";
+    public static final String __STRING_LIST = "--string-list";
     public static final String __THREADS_HASHING = "--threads-hashing";
     public static final String __THREADS_READING =  "--threads-reading";
     public static final String _TIMESTAMP = "-t";
@@ -136,6 +144,11 @@ public class CLIParameters {
     public static final String __OUTPUT_FILE_CHARSET = "--output-file-charset";
     public static final String __CHARSET_WANTED_LIST = "--charset-wanted-list";
     public static final String __WANTED_LIST_CHARSET = "--wanted-list-charset";
+
+    public static final String __CHARSET_STRING_LIST = "--charset-string-list";
+    public static final String __STRING_LIST_CHARSET = "--string-list-charset";
+    public static final String __CHARSET_CONSOLE = "--charset-console";
+    public static final String __CONSOLE_CHARSET = "--console-charset";
 
     public static final String __CHARSET_STDOUT = "--charset-stdout";
     public static final String __STDOUT_CHARSET = "--stdout-charset";
@@ -378,6 +391,9 @@ public class CLIParameters {
                         }
                     }
 
+                } else if (arg.equals(__HMACS)) {
+                    parameters.setHMACsWanted(true);
+
                 } else if (arg.equals(__INFO)) {
                     parameters.setInfoMode(true);
 
@@ -386,6 +402,21 @@ public class CLIParameters {
                         parameters.setCommentChars(args[firstfile++]);
                     } else {
                         handleUserParamError(arg, __IGNORE_LINES_STARTING_WITH_STRING);
+                    }
+
+                } else if (arg.equals(__IGNORE_EMPTY_LINES)) {
+                    parameters.setIgnoreEmptyLines(true);
+
+                } else if (arg.equals(_KEY) || arg.equals(__KEY)) {
+                    if (firstfile < args.length) {
+                        arg = args[firstfile++];
+                        try {
+                            parameters.setKey(arg);
+                        } catch (IllegalArgumentException e) {
+                            throw new ParameterException(e.getMessage());
+                        }
+                    } else {
+                        handleUserParamError(arg, __KEY);
                     }
 
                 } else if (arg.equals(_LIST) || arg.equals(__LIST)) {
@@ -414,7 +445,6 @@ public class CLIParameters {
                     } else {
                         handleUserParamError(arg, __MATCH_FILTER);
                     }
-
 
                 } else if (arg.equals(__LEGACY_STDIN_NAME)) {
                     parameters.setStdinName("-");
@@ -456,6 +486,9 @@ public class CLIParameters {
                     } else {
                         handleUserParamError(arg, __OUTPUT_FILE_OVERWRITE);
                     }
+
+                } else if (arg.equals(__OUTPUT_FILE_REPLACE_TOKENS)) {
+                    parameters.setOutputFileReplaceTokens(true);
 
                 } else if (arg.equals(_PATH_SEPARATOR) || arg.equals(__PATH_SEPARATOR)) {
                     if (firstfile < args.length) {
@@ -513,6 +546,13 @@ public class CLIParameters {
                         parameters.setSeparator(args[firstfile++]);
                     } else {
                         handleUserParamError(arg, __SEPARATOR);
+                    }
+
+                } else if (arg.equals(__STRING_LIST)) {
+                    if (firstfile < args.length) {
+                        parameters.setStringList(args[firstfile++]);
+                    } else {
+                        handleUserParamError(arg, __STRING_LIST);
                     }
 
                 } else if (arg.equals(__THREADS_HASHING)) {
@@ -645,6 +685,20 @@ public class CLIParameters {
                         handleUserParamError(arg, __CHARSET_OUTPUT_FILE);
                     }
 
+                } else if (arg.equals(__CHARSET_STRING_LIST) || arg.equals(__STRING_LIST_CHARSET)) {
+                    if (firstfile < args.length) {
+                        parameters.setCharsetStringList(args[firstfile++]);
+                    } else {
+                        handleUserParamError(arg, __CHARSET_STRING_LIST);
+                    }
+
+                } else if (arg.equals(__CHARSET_CONSOLE) || arg.equals(__CONSOLE_CHARSET)) {
+                    if (firstfile < args.length) {
+                        parameters.setCharsetConsole(args[firstfile++]);
+                    } else {
+                        handleUserParamError(arg, __CHARSET_CONSOLE);
+                    }
+
                 } else if (arg.equals(__CHARSET_STDOUT) || arg.equals(__STDOUT_CHARSET)) {
                     if (firstfile < args.length) {
                         parameters.setCharsetStdout(args[firstfile++]);
@@ -668,6 +722,7 @@ public class CLIParameters {
             // if --info has been set, enable a potentially disabled verbose object again
             if (parameters.isInfoMode()) {
                 parameters.getVerbose().setDefault();
+                parameters.getVerbose().setInfo(true);
             }
 
             // parsing the verboseControl at the end of the while loop,
@@ -687,6 +742,22 @@ public class CLIParameters {
                     parameters.setStdinForFilenamesFromArgs(true);
                 } else {
                     parameters.getFilenamesFromArgs().add(args[i]);
+                }
+            }
+
+            // replace #ALGONAME, #ALGONAME{lowercase}, #ALGONAME{uppercase}
+            if (parameters.getOutputFile() != null && parameters.isOutputFileReplaceTokens()) {
+                parameters.setOutputFileRaw(parameters.getOutputFile());
+                if (parameters.getAlgorithm() != null) {
+                    parameters.setOutputFile(
+                            parameters.getOutputFile().replaceAll(
+                                    "#ALGONAME\\{uppercase\\}", parameters.getAlgorithm().toUpperCase(Locale.US).replace(':', '=')));
+                    parameters.setOutputFile(
+                            parameters.getOutputFile().replaceAll(
+                                    "#ALGONAME\\{lowercase\\}", "#ALGONAME"));
+                    parameters.setOutputFile(
+                            parameters.getOutputFile().replaceAll(
+                                    "#ALGONAME", parameters.getAlgorithm().toLowerCase(Locale.US).replace(':', '=')));
                 }
             }
 

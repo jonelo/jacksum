@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -86,7 +86,7 @@ public class FindKnownCRC implements FindAlgoEngine {
             try {
                 checksum = new CrcGeneric(entry.getId());
                 checksum.setParameters(parameters);
-                checksum.update(parameters.getSequenceAsBytes());
+                checksum.update(parameters.getSequence().asBytes());
 
                 CompareAndFindAlgo action = new CompareAndFindAlgo(checksum, parameters);
                 action.perform();

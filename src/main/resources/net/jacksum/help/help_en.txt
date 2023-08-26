@@ -1,9 +1,9 @@
 NAME
-    Jacksum - a utility that makes hash functions available to you.
+    Jacksum - a command-line tool that lets you use hashes to solve tasks.
 
 
 VERSION
-    3.6.0
+    3.7.0
 
 
 SYNOPSIS
@@ -19,10 +19,14 @@ SYNOPSIS
             [OPTION]... [(--expect|-e) <hash> [(--algorithm|-a) unknown:<bits>]]
             [OPTION]...
 \
+    jacksum [OPTION]... --string-list <file>
+            [OPTION]...
+\
     jacksum [
               (--algorithm|-a) <algorithm> (--list|-l) |
               --copyright |
               (--help|-h) [<language>] [<word>] |
+              --hmacs [-V <vcontrol>] |
               --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
               --info [(--style|-C) <style>] |
               --license |
@@ -30,7 +34,7 @@ SYNOPSIS
             ]
 \
     Notes:
-        - FILES means ((--filelist|-L) <filelist> | FILE) [FILE]...
+        - FILES means "((--file-list|-L) <file-list> | FILE) [FILE]..."
         - FILE can be a regular file, a directory, any platform-dependent file,
           or the hyphen (-) which represents standard input. For more
           information, see section PARAMETERS.
@@ -39,33 +43,41 @@ SYNOPSIS
 DESCRIPTION
     Jacksum (JAva ChecKSUM) is a free, open source, cross-platform,
     feature-rich, multi-threaded, command line utility that makes hash
-    functions available to you.
+    functions available to you to solve particular tasks the smart way.
 \
-    It covers many types of use cases in which hash values are needed:
+    Jacksum covers many types of use cases in which hash values make sense:
 \
-        - Calculating of hash values of almost any input
+        - Calculating of hash values/fingerprints of almost any input
+          (command line arg, console, standard input, plain or encoded strings,
+          files, partitions, disks, NTFS ADS, pipes, sockets, doors, ...)
         - Finding OK/failed/missing/new files (verify file/data integrity)
         - Finding files by their fingerprints for positive matching
         - Finding files that do not match certain fingerprints for negative matching
         - Finding all duplicates of a file by its hash value
         - Finding the algorithm(s) that generated a certain hash value
+        - Investigate polynomials of CRCs
+        - Investigate parameters of HMACs
 \
-    In order to achieve the goals above, Jacksum supports
+    In order to achieve the goals above, Jacksum supports:
 \
+        - cross-platform executability
+        - Recursive traversal with depth control, policies to follow symbolic
+          links on files and/or folders, and file system cycle detection
+        - Multi-threading across platforms for parallel hash calculations and
+          data reads in order to take advantage of multi-core processors and
+          fast SSD storage
         - 489 standard hash functions
-        - customizable CRCs from 1 to 64 bit width
-        - 60+ options to control Jacksum's behavior on the command line
-        - multithreading for calculations in order to take advantage of multiple
-          CPUs and CPU cores if multiple algorithms have been selected
-        - multithreading for data reads in order to benefit from fast SSDs if
-          multiple files are read simultaneously
-        - the detection of file system cycles if files are traversed recursively
-        - a fully customizable output format
-        - 14 standard encodings for representing hash values
-        - 10 predefined styles for reading and writing files that contain hash values
-        - 170 different character sets to be able to read and write hash files correctly
-        - 8600+ lines of manpage with descriptions, examples, and compatibility
-          lists for the most common algorithms
+        - HMAC support for 414 hash functions
+        - 60+ command line options to control Jacksum's behavior
+        - Customizable CRCs from 1 to 64 bit width
+        - 15 different encodings for representing hash values
+        - 10 predefined standard styles for reading and writing files that
+          contain hash values
+        - Fully customizable output format
+        - 170+ different character sets to be able to read and write hash files
+          correctly
+        - 9200+ lines of manpage with descriptions, examples, and compatibility
+          lists for all supported algorithms
 
 
 OPERATING MODES
@@ -74,9 +86,9 @@ OPERATING MODES
     and parameters that you set. See also the sections entitled "SYNOPSIS",
     "OPTION TYPES", "OPTION SUPPORT MATRIX", and "EXAMPLES".
 \
-    jacksum [OPTION]... FILES
+    1. Calculate and print the hash values
 \
-        "Calculate and print the hash values"
+        jacksum [OPTION]... FILES
 \
         Calculating hash values is usually the first step you take to be able to
         check data integrity later on.
@@ -98,6 +110,7 @@ OPERATING MODES
             - Directory Traversal Options
             - Hashing Performance Options
             - I/O Performance Options
+            - File/Path Format Options
             - Output Format Options
             - Output Options
 \
@@ -112,10 +125,10 @@ OPERATING MODES
               --threads-hashing max --header -F "#HASHES #FILENAME" .
 \
 \
-    jacksum [OPTION]... ((--check-file|-c) <file> | --check-line <line>)
-            [OPTION]... [FILES]
+    2. Verify data/file integrity
 \
-        "Verify data/file integrity"-mode
+        jacksum [OPTION]... ((--check-file|-c) <file> | --check-line <line>)
+                [OPTION]... [FILES]
 \
         The data/file integrity verification mode is enabled if you specify
         the option -c (or --check-file) or the option --check-line.
@@ -159,10 +172,10 @@ OPERATING MODES
             > jacksum -a crc32c+sha256+whirlpool --style bsd -c my.hashes .
 \
 \
-    jacksum [OPTION]... ((--wanted-list|-w) <list> | (--expect|-e) <hash>))
-            [OPTION]... [FILES]
+    3. Wanted list
 \
-        "Wanted list"
+        jacksum [OPTION]... ((--wanted-list|-w) <list> | (--expect|-e) <hash>))
+                [OPTION]... [FILES]
 \
         In "Wanted list" mode, you can find all files that match or do not
         match a set of known hashes. In other words, you can verify the
@@ -201,9 +214,9 @@ OPERATING MODES
             > jacksum -a blake2b-64 -e a47fc96f87b6fb5a .
 \
 \
-    jacksum [OPTION]... (--quick|-q) <sequence>
+    4. Hash a sequence quickly
 \
-        "Hash a sequence quickly"
+        jacksum [OPTION]... (--quick|-q) <sequence>
 \
         In this mode, you can specify the input data entirely on the command
         line and calculate the hash(es) of it.
@@ -216,6 +229,7 @@ OPERATING MODES
             - Security Strength Options
             - Hashing Performance Options
             - Quick Mode Options
+            - File/Path Format Options
             - Output Format Options
             - Output Options
 \
@@ -223,12 +237,13 @@ OPERATING MODES
             > jacksum -q txt:"Hello World"
 \
 \
-    jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
+    5. Verify a sequence quickly
 \
-        "Verify a sequence quickly"
+        jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
 \
         In this mode, you can specify the input data on the command line,
-        calculate the hash(es), and verify the integrity.
+        calculate the hash(es), and verify the integrity. You can also read
+        secret data from the console, and hash the secret.
         This mode is enabled if you specify both -q and -e.
 \
         For OPTION the following option types are supported:
@@ -239,14 +254,16 @@ OPERATING MODES
             - Quick Mode Options
             - Output Options
 \
-        Example:
+        Examples:
             > jacksum -a md5 -e 5d41402abc4b2a76b9719d911017c592 -q txt:hello
+            > jacksum -q password -a sha256 -E z85
+            Password: facebook.com <a strong master password>
 \
 \
-    jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
-                        (--algorithm|-a) unknown:<bits>
+    6. Find hash functions
 \
-        "Find hash functions"
+        jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
+                            (--algorithm|-a) unknown:<bits>
 \
         In this mode, you can find the hash function that was used to produce a
         hash. This mode is enabled if you specify -q, -e and -a unknown:<bits>
@@ -264,23 +281,45 @@ OPERATING MODES
             > jacksum -a unknown:16 -q hex:050000 -E hex -e d893
 \
 \
-    jacksum [
-              (--algorithm|-a) <algorithm> (--list|-l) |
-              --copyright |
-              -h [<language>] [<word>] |
-              --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
-              --info [(--style|-C) <style>] |
-              --license |
-              (--version|-v) [-V <vcontrol>]
-            ]
+    7. Hash strings in a list
 \
-        "Gather information"
+        jacksum [OPTION]... --string-list <file>
+                [OPTION]...
+\
+        In this mode, hash values are calculated from strings.
+\
+        For OPTION the following option types are supported:
+\
+            - Common Options
+            - Hash Strings Mode Options
+            - Security Strength Options
+            - Hashing Performance Options
+            - Output Format Options
+            - Output Options
+\
+        Example:
+            > jacksum --string-list words.txt
+\
+\
+    8. Gather information
+\
+        jacksum [
+            (--algorithm|-a) <algorithm> (--list|-l) |
+            --copyright |
+            (--help|-h) [<language>] [<word>] |
+            --hmacs [-V <vcontrol>] |
+            --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
+            --info [(--style|-C) <style>] |
+            --license |
+            (--version|-v) [-V <vcontrol>]
+        ]
 \
         In these modes, some information will be gathered, and the program will
         exit. See the OPTIONS section for more details on each option.
 \
         Examples:
             > jacksum -a all:256 -l
+            > jacksum --hmacs
             > jacksum -h -h
             > jacksum --info
             > jacksum --info -a all:crc -l
@@ -290,6 +329,70 @@ OPERATING MODES
 
 OPTION TYPES
 \
+    Security Strength Options
+        This option controls the strength of the hashing procedure.
+\
+        [(--algorithm|-a) <algorithm>]
+        [(--key|-k) <key>]
+\
+\
+    Check/Integrity Verification Mode Options
+        Those options control the data verification process.
+\
+        ((--check-file|-c) <checkfile> | --check-line <line>) [
+            [(--charset-check-file|--check-file-charset) <charset>]
+            [--check-strict]
+            [(--style|-C) <style>]
+            [(--ignore-lines-starting-with-string|-I) <string>]
+            [--list-filter <filter>]
+        ]
+\
+\
+    Wanted List Mode Options
+        Those options control the behavior of the "wanted list" mode.
+\
+        (--wanted-list|-w) <list> [
+            [(--expect|-e) <hash value>]
+            [(--charset-wanted-list|--wanted-list-charset) <charset>]
+            [(--match-filter|--wanted-list-filter) <filter>]
+        ]
+\
+\
+    Quick Mode Options
+        Those options control the behavior of the quick mode.
+\
+        (--quick|-q) [<type>:]<sequence> [
+            [(--algorithm|-a) <algorithm>]
+            [(--expect|-e) <hash value>]
+        ]
+\
+\
+    Hash Strings Mode Options
+        Those options adjust the behavior in the "hash strings"-mode.
+\
+        --string-list <file> [
+            [(--charset-string-list|--string-list-charset) <charset>]
+            [(--ignore-lines-starting-with-string|-I) <string>]
+            [--ignore-empty-lines]
+        ]
+\
+\
+    Information Gathering Mode Options
+        Those options print some specific information, and the app exits
+        afterwards.
+\
+        [
+            (--algorithm|-a) <algorithm> (--list|-l) |
+            --copyright |
+            (--help|-h) [<language>] [<word>] |
+            --hmacs [-V <vcontrol>] |
+            --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
+            --info [(--style|-C) <style>] |
+            --license |
+            (--version|-v) [-V <vcontrol>]
+        ]
+\
+\
     Common Options
         Those options can be used almost by any operating mode.
 \
@@ -297,56 +400,16 @@ OPTION TYPES
         [(--list|-l)]
         [--]
 \
-    Security Strength Options
-        This option controls the strength of the hashing procedure.
-\
-        [(--algorithm|-a) <algorithm>]
 \
     File List Options
         Those options specify the way file list are to be read.
 \
-        [(--filelist|-L) <filelist>]
-        [(--charset-file-list|--file-list-charset) <charset>]
-        [--file-list-format <format>]
-        [--ignore-lines-starting-with-string <string>]
+        (--file-list|-L) <file-list> [
+            [(--charset-file-list|--file-list-charset) <charset>]
+            [--file-list-format <format>]
+            [(--ignore-lines-starting-with-string|-I) <string>]
+        ]
 \
-    Check/Integrity Verification Mode Options
-        Those options control the data verification process.
-\
-        [--check-file <checkfile>]
-        [--check-line <line>]
-        [--check-strict]
-        [(--style|-C) <style>]
-        [(--charset-check-file|--check-file-charset <charset>]
-        [--ignore-lines-starting-with-string <string>]
-        [--list-filter <filter>]
-\
-    Wanted List Mode Options
-        Those options control the behavior of the "wanted list" mode.
-\
-        [(--wanted-list|-w) <list>
-        [(--expect|-e) <hash value>]
-        [(--charset-wanted-list|--wanted-list-charset) <charset>]
-        [(--match-filter|--wanted-list-filter) <filter>]
-\
-    Quick Mode Options
-        Those options control the behavior of the quick mode.
-\
-        [(--quick|-q) [<type>:]<sequence>]
-        [(--expect|-e) <hash value>]
-        [(--algorithm|-a) <algorithm>]
-\
-    Information Gathering Mode Options
-        Those options print some specific information, and the app exits
-        afterwards.
-\
-        (--algorithm|-a) <algorithm> (--list|-l)
-        --copyright
-        (--help|-h) [<language>] [<word>]
-        --info [(--algorithm|-a) <algorithm> [(--list|-l)]]
-        --info [(--style|-C) <style>]
-        --license
-        (--version|-v) [-V <vcontrol>]
 \
     Directory Traversal Options
         Those options control which files are read during directory traversal.
@@ -357,52 +420,62 @@ OPTION TYPES
         you can use the options --scan-all-unix-file-types and --scan-ntfs-ads,
         respectively.
 \
+        [--recursive|-r <depth>]
         [--dont-follow-symlinks-to-directories|-d]
         [--dont-follow-symlinks-to-files|-f]
-        [--recursive|-r <depth>]
         [--scan-all-unix-file-types]
         [--scan-ntfs-ads]
+\
 \
     Hashing Performance Options
         Those options control the performance of hashing.
 \
-        [(--algorithm|-a) <algorithm>]
-        [--alternative|-a]
+        [(--algorithm|-a) <algorithm> [--alternative|-A]]
         [--threads-hashing <threads>]
+\
 \
     I/O Performance Options
         This option controls the performance when reading files on SSDs.
 \
         [--threads-reading <threads>]
 \
+\
+    File/Path Format Options
+        Those options adjust the format of file/path objects.
+\
+        [--gnu-filename-escaping <boolean>]
+        [
+            --no-path |
+            [
+                (
+                    --path-absolute |
+                    --path-relative-to <path> |
+                    (--path-relative-to-entry <number> (--file-list|-L) <list>)
+                )
+                [--path-separator|-P <char>]
+            ]
+        ]
+\
+\
     Output Format Options
         Those options adjust the format of the output to meet your requirements.
 \
         [--header]
         [
-          [(--style|-C) <style>] |
-          [
-            [(--format|-F) <format>]
+            (--style|-C) <style> |
             [
-              [(--encoding|-E) <encoding>] |
-              [[(--hex-lowercase|-x)|(--hex-uppercase|-X)] [-g <count> [-G <char>]]]
+                [(--format|-F) <format>]
+                [
+                    [(--encoding|-E) <encoding>] |
+                    [[(--hex-lowercase|-x)|(--hex-uppercase|-X)] [-g <count> [-G <char>]]]
+                ]
+                [--filesize <boolean>]
+                [(--timestamp|-t) <format>]
+                [--legacy-stdin-name]
+                [(--separator|-s) <string>]
             ]
-            [--filesize <boolean>]
-            [(--timestamp|-t) <format>]
-            [--legacy-stdin-name]
-            [(--separator|-s) <string>]
-          ]
-          [--gnu-filename-escaping <boolean>]
-          [--no-path] |
-          [
-            (
-              --path-absolute |
-              --path-relative-to <path> |
-              (--path-relative-to-entry <number> (--file-list|-L) <list>)
-            )
-            [--path-separator|-P <char>]
-          ]
         ]
+\
 \
     Output Options
         Those options control the output.
@@ -425,29 +498,32 @@ OPTION SUPPORT MATRIX
     in columns. If a cell is marked with an "x", it means that the operating
     mode supports the option type.
 \
-                                                            Gather information |
-                                                       Find hash functions |   |
-                                                 Quick/verify one file |   |   |
-                                          Quick/calculate one hash |   |   |   |
-                                                   Wanted list |   |   |   |   |
-                                Verify data/file integrity |   |   |   |   |   |
-                  Calculate hash values and print them |   |   |   |   |   |   |
-                                                   |   |   |   |   |   |   |   |
-        | Option Type                              |   |   |   |   |   |   |   |
-        -------------------------------------------|   |   |   |   |   |   |   |
-        | Common Options                           | x | x | x | x | x | x | x |
-        | Security Strength Options                | x | x | x | x | x | x | x |
-        | File List Options                        | x | x | x | - | - | - | - |
-        | Wanted List Mode Options                 | - | - | x | - | - | - | - |
-        | Check/Integrity Verification Mode Options| - | x | - | - | - | - | - |
-        | Quick Mode Options                       | - | - | - | x | x | x | - |
-        | Information Gathering Mode Options       | - | - | - | - | - | - | x |
-        | Directory Traversal Options              | x | x | x | - | - | - | - |
-        | Hashing Performance Options              | x | x | x | x | x | - | - |
-        | I/O Performance Options                  | x | x | x | - | - | - | - |
-        | Output Format Options                    | x | - | - | x | - | - | - |
-        | Output Options                           | x | x | x | x | x | x | x |
-        ------------------------------------------------------------------------
+                                                                Gather information |
+                                                           Find hash functions |   |
+                                                              Hash strings |   |   |
+                                                 Quick/verify one file |   |   |   |
+                                    Quick/calculate one hash value |   |   |   |   |
+                                                   Wanted list |   |   |   |   |   |
+                                Verify data/file integrity |   |   |   |   |   |   |
+                  Calculate hash values and print them |   |   |   |   |   |   |   |
+                                                   |   |   |   |   |   |   |   |   |
+        | Option Type                              |   |   |   |   |   |   |   |   |
+        -------------------------------------------|---|---|---|---|---|---|---|---|
+        | Common Options                           | x | x | x | x | x | x | x | x |
+        | Security Strength Options                | x | x | x | x | x | x | x | x |
+        | File List Options                        | x | x | x | - | - | - | - | - |
+        | Wanted List Mode Options                 | - | - | x | - | - | - | - | - |
+        | Check/Integrity Verification Mode Options| - | x | - | - | - | - | - | - |
+        | Quick Mode Options                       | - | - | - | x | x | - | x | - |
+        | Hash Strings Mode Options                | - | - | - | - | - | x | - | - |
+        | Information Gathering Mode Options       | - | - | - | - | - | - | - | x |
+        | Directory Traversal Options              | x | x | x | - | - | - | - | - |
+        | Hashing Performance Options              | x | x | x | x | x | x | - | - |
+        | I/O Performance Options                  | x | x | x | - | - | - | - | - |
+        | File/Path Format Options                 | x | - | - | x | - | - | - | - |
+        | Output Format Options                    | x | - | - | x | - | x | - | - |
+        | Output Options                           | x | x | x | x | x | x | x | x |
+        ----------------------------------------------------------------------------
 
 PARAMETERS
     The following parameters are supported:
@@ -536,34 +612,112 @@ PARAMETERS
 OPTIONS
     The following options are supported:
 #OPTIONS-BEGIN
-    -a <algo>[+<algo>]... | all[:<length|string>] | crc:<crc> | unknown:<length>
-    --algorithm <algo>[+<algo>]... | all[:<length|string>] | crc:<crc> | unknown:<length>
+    -a <algo>[+<algo>]... | all[:<length|string>] | unknown:<length>
+    --algorithm <algo>[+<algo>]... | all[:<length|string>] unknown:<length>
 \
-            Specifies the algorithm. Many algorithms support aliases to make
-            their identification easier to remember. Since Jacksum 1.0.0,
-            see also -A. Starting with Jacksum 3, the default is sha3-256.
+            <algo>
+                Specifies the algorithm(s) to be used. Starting with version 3
+                of Jacksum, the default is sha3-256 if <algo> is omitted.
+                <algo> can be one of the following:
 \
-\
-            One algorithm (-a <algorithm>)
-\
-                Replace <algorithm> with one of the IDs that Jacksum
-                understands. To see all supported algorithm IDs and their
-                descriptions, type `jacksum -a all -l`.
+                - A supported algorithm ID
+                - A customized CRC
+                - A keyed-Hash Message Authentication Code (HMAC)
 \
 \
-            CRC algorithm (-a crc:<crc>)
+                A supported algorithm ID
 \
-                The option -a crc:<crc> allows you to define a customized
-                CRC by using a parameterized model. These customized IDs aren't
-                listed by `jacksum -a all -l`, but you can select and use them.
-                Learn more on this topic by typing `jacksum --help crc:`
+                    Replace <algo> with one of the IDs that Jacksum understands.
+                    Many algorithms support aliases to make their identification
+                    easier to remember. To see a list of all supported algorithm
+                    IDs, type
+\
+                    > jacksum -a all -l
+\
+                    To see a comprehensive description for each algorithm type
+\
+                    > jacksum -h algorithms
 \
 \
-            Several algorithms, handpicked (-a <algo>+...):
+                A customized CRC algorithm (crc:<crc>)
+\
+                    The pattern crc:<crc> allows you to define a customized
+                    CRC by using a parameterized model. These customized IDs
+                    aren't listed by `jacksum -a all -l`, but you can select and
+                    use them. Learn more on this topic by typing
+\
+                    > jacksum -h crc:
+\
+\
+                A HMAC (hmac:<algo>[:<bits>])
+\
+                    The pattern hmac:<algo>[:<bits>] allows to calculate a HMAC,
+                    a mechanism for message authentication using any iterated
+                    cryptographic hash function in combination with a secret
+                    shared key. Optionally, you can also truncate the HMAC by
+                    specifying a value for <bits>.
+                    Learn more on this topic by typing:
+\
+                    > jacksum -h hmac:
+\
+\
+            all[:<length|string>]
+\
+                All or a particular group of algorithms can be filtered by a
+                length in bits or by a string.
+\
+                All algorithms (all):
+\
+                   If you set <algo> to "all", all supported algorithms will
+                   be used, meaning you can calculate hashes with hundreds
+                   of algorithms by reading the input only once.
+                   If "all" is used in calculation mode, the output is
+                   normalized (if not customized) by a hexadecimal checksum and
+                   a decimal file size.
+\
+                   Example:
+                   > jacksum -a all -l
+                   > jacksum -a all --info
+                   > jacksum -a all --info -l
+                   > jacksum -a all -q txt:0123456789
+                   > jacksum -a all -q txt:0123456789 -F "#ALGONAME{i}(#SEQUENCE) = #HASH{i}"
+\
+\
+                Several algorithms, filtered by bit length (all:<length>)
+\
+                   In order to use all algorithms that have a particular bit
+                   length, you can use "all:<length>" where <length> must be a
+                   multiple of 8.
+\
+                   Examples:
+                   > jacksum -a all:224 -l
+                   > jacksum -a all:1024 -l
+                   > jacksum -a all:888 -l --info
+                   > jacksum -a all:256 *.txt
+                   > jacksum -a all:256 --style bsd *.txt
+                   > jacksum -a all:256 -F "#ALGONAME{i}(#FILENAME) = #HASH{i}" *.txt
+\
+\
+                Several algorithms, filtered by a string (all:<string>)
+\
+                   In order to use all algorithms that match a particular
+                   string, you can use "-a all:<string>" where <string> can be
+                   any string. Both algorithm IDs and algorithm alias IDs will
+                   be searched.
+\
+                   Examples:
+                   > jacksum -a all:fnv -l
+                   > jacksum -a all:skein -l
+                   > jacksum -a all:sha3- -l --info
+                   > jacksum -a all:whirlpool -F "#ALGONAME{i}(#FILENAME) = #HASH{i}" *.txt
+\
+\
+            <algo>[+<algo>]...
 \
                 Multiple algorithms can be selected by concatenating them with
                 the plus character.
-                Examples: "sha1+crc32", "sha512+sha3-512+blake2b-512", etc.
+                Examples: "sha1+crc32", "sha512+sha3-512+blake2b-512",
+                "all:32+all:64", etc.
                 The new algorithm resulting from all concatenated algorithms
                 returns, by default, only one composite value consisting of all
                 chained hash values. This feature allows you to use any
@@ -576,51 +730,23 @@ OPTIONS
                 You can control the performance behavior by setting the option
                 called "--threads-hashing".
 \
-                If at least one "+" character is found in <algorithms>, the
+                If at least one "+" character is found after the option -a, the
                 output is normalized by a hexadecimal lowercase checksum and a
                 decimal file size is inserted.
-                Example: "md5+", "sha256+", "sha3-256+"
+                Examples: "md5+", "sha256+", "sha3-256+"
                 You can disable adding the filesize by setting --filesize off.
 \
                 You can customize the output behavior by using the options -E,
                 -F, -g, -G. Especially, take a look at the various tokens for
                 --format which allows you to highly customize the output to
                 meet your actual needs.
-                Available since Jacksum 1.7.0
-\
-\
-            Several algorithms, filtered by bit length (-a all:<length>)
-\
-                In order to use all algorithms that have a particular bit
-                length, you can use "-a all:<length>" where <length> must be a
-                multiple of 8.
-                Examples: "all:224", "all:256", "all:888", "all:1024"
-                Available since Jacksum 3.0.0
-\
-\
-            Several algorithms, filtered by a string (-a all:<string>)
-\
-                In order to use all algorithms that match a particular string,
-                you can use "-a all:<string>" where <string> can be any string.
-                Both algorithm IDs and algorithm alias IDs will be searched.
-                Examples: "all:skein", "all:sha3-", "all:fnv", "all:whirlpool"
-                Available since Jacksum 3.0.0
-\
-\
-            All algorithms (-a all):
-\
-                If you set <algorithm> to "all", all supported algorithms will
-                be used, meaning you can calculate hashes with hundreds
-                of algorithms by reading the input only once.
-                If "all" is used, the output is normalized by a hexadecimal
-                checksum and a decimal file size.
 \
 \
             Find an unknown algorithm (-a unknown:<length>):
 \
-                If you only know the input and the output, and you want
-                to know the algorithm that has been used to produce the output,
-                you can set <algorithm> to unknown:<length>, replacing <length>
+                If you only know the input and the output, and you want to know
+                the algorithm that has been used to produce the output,
+                you can set <algo> to unknown:<length>, replacing <length>
                 with the length of the digest in bits. In that case, all
                 supported algorithms will be tested to see if there is one that
                 can produce the expected output. Additionally, a list of
@@ -629,9 +755,13 @@ OPTIONS
                 all bits zero or all bits one while refIn and refOut are set to
                 either true or false for all potential polynomials of the given
                 length). Please be patient! Both options, -q and -e, are
-                required in this case.
-                Available since version 3.0.0 of Jacksum, see also -V, -e, -E,
-                and -q.
+                required in this case. See also -V, -e, -E, and -q.
+\
+        The option -a is available since version 1.0.0 of Jacksum.
+        <algo>[+<algo>]... is supported since version 1.7.0 of Jacksum.
+        all:<length>, all:<string>, and unknown:<length> are supported since
+        version 3.0.0 of Jacksum.
+        See also option -A.
 
 
     -A
@@ -645,7 +775,8 @@ OPTIONS
             implementations for the following algorithms:
             adler32, crc32, md2, md5, sha-1, sha-256, sha-384, sha-512
 \
-            Available since version 1.5.0 of Jacksum, see also -a.
+            Available since version 1.5.0 of Jacksum.
+            See also option -a.
 
 
     --bom
@@ -677,8 +808,8 @@ OPTIONS
             Verify files against a list of hashes, either from a former output
             of Jacksum or from an output of a different hash application.
             You need to set all non-default options that could generate <list>
-            again. The options -a, -E, -g, -G, -t, -d, -f may become necessary;
-            the option -F is ignored.
+            again. The options -a, -E, -g, -G, -t, -d, -f, -x, -X may become
+            necessary; the option -F is ignored.
 \
             If you have used option -F, or if the output of <list> is not in the
             quasi-standard output format like
@@ -766,8 +897,8 @@ OPTIONS
             Improperly formatted lines are ignored with regards to the exit code
             unless you set --check-strict.
 \
-            Available with the features above since version 3.0.0 of Jacksum,
-            see also the options -C, -I, and --list-filter
+            Available with the features above since version 3.0.0 of Jacksum.
+            See also the options -C, -I, and --list-filter.
 
 
     --check-line <string>
@@ -1128,7 +1259,7 @@ OPTIONS
 \
 \
                 UTF-16
-
+\
                     The 16-bit UCS Transformation Format, with an optional
                     byte-order mark to identify the byte order, defaults to
                     big-endian if there is no byte-order mark.
@@ -1224,6 +1355,26 @@ OPTIONS
             Available since version 3.0.0 of Jacksum.
 
 
+    --charset-string-list <charset>
+    --string-list-charset <charset>
+\
+            Specify the character set for the string list. If this option is
+            not specified, UTF-8 will be used for the string list file. See also
+            option --string-list.
+\
+            Available since version 3.7.0 of Jacksum.
+
+
+    --charset-console <charset>
+    --console-charset <charset>
+\
+            Specify the character set for the console which is used by the
+            options "-q readline" and "-q password".
+            If this option is not specified, UTF-8 will be used.
+\
+            Available since version 3.7.0 of Jacksum.
+
+
     --copyright
 \
             prints out the copyrights and license information for all portions
@@ -1261,6 +1412,8 @@ OPTIONS
                 691DAA2F 11
                 > jacksum -q txt:"Hello World" -a crc32c -X -e 691DAA2F
                 [MATCH]
+                > jacksum -q txt:"Hello World" -a crc32c -X -e 691DAAFF
+                [NO MATCH]
 \
             The hash value can be specified as case sensitive or case
             insensitive, except if Base64 encoding (by -E) has been specified,
@@ -1292,7 +1445,7 @@ OPTIONS
     -E <encoding>
     --encoding <encoding>
 \
-            Both the hash value and the sequence (see also option -q) can
+            Both the hash value and the sequence (see also the option -q) can
             be encoded with the following encodings:
 \
                 <encoding>           description
@@ -1304,43 +1457,188 @@ OPTIONS
 \
                 oct                  octal
 \
-                hex                  hexadecimal in lowercase chars (same as -x)
-                                     Options -g and -G are taken into account
+                hex                  hexadecimal in lowercase chars, same as -x.
+                                     Options -g and -G are taken into account.
+                                     Each byte of the input is broken into two
+                                     4-bit values and represented by two
+                                     hexadecimal digits.
+                                     The encoding use this representation for
+                                     each 4-bit value from zero to 15:
+\
+                                          0 -  9:  0 1 2 3 4 5 6 7 8 9
+                                         10 - 15:  a b c d e f
 \
                 hex-lowercase        alias for hex (3.0)
 \
                 hexup                deprecated in 3.0, alias for hex-uppercase
 \
-                hex-uppercase        hexadecimal in uppercase chars (same as -X)
-                                     Options -g and -G are considered (3.0)
+                hex-uppercase        hexadecimal in uppercase chars, same as -X.
+                                     Options -g and -G are taken into account
+                                     (3.0). The encoding use this representation
+                                     for each 4-bit value from zero to 15:
+\
+                                          0 -  9:  0 1 2 3 4 5 6 7 8 9
+                                         10 - 15:  A B C D E F
 \
                 bb                   alias for bubblebabble
 \
-                bubblebabble         BubbleBabble (used by OpenSSH and SSH2)
+                bubblebabble         BubbleBabble is used by OpenSSH and SSH2.
+                                     The encoding was defined as a mechanism to
+                                     encode any binary data in a human-readable
+                                     format.
 \
                 base16               Base16 (RFC 4648)
 \
                 base32               Base32 (RFC 4648)
+                                     It encodes 5 bytes to 8 characters. The
+                                     digits 0, 1 and 8 are skipped due to their
+                                     similarity with the letters O, I and B.
+                                     The encoding use this representation for
+                                     each 5-bit value from zero to 31:
+\
+                                          0 -  9:  A B C D E F G H I J
+                                         10 - 19:  K L M N O P Q R S T
+                                         20 - 29:  U V W X Y Z 2 3 4 5
+                                         30 - 31:  6 7
+\
+                                         Padding:  =
 \
                 base32-nopadding     Base32, no padding (RFC 4648) (3.0)
 \
                 base32hex            Base32hex (RFC 4648) (3.0)
+                                     It encodes 5 bytes to 8 characters. It
+                                     extends hexadecimal in a more natural way.
+                                     The encoding use this representation for
+                                     each 5-bit value from zero to 31:
+\
+                                          0 -  9:  0 1 2 3 4 5 6 7 8 9
+                                         10 - 19:  A B C D E F G H I J
+                                         20 - 29:  K L M N O P Q R S T
+                                         30 - 31:  U V
+\
+                                         Padding:  =
 \
                 base32hex-nopadding  Base32hex, no padding (RFC 4648) (3.0)
 \
                 base64               Base64 (RFC 4648)
+                                     It encodes 3 bytes to 4 characters, meaning
+                                     a space efficiency of 75 %.
+                                     The encoding use this representation for
+                                     each 6-bit value from zero to 63:
+\
+                                          0 -  9:  A B C D E F G H I J
+                                         10 - 19:  K L M N O P Q R S T
+                                         20 - 29:  U V W X Y Z a b c d
+                                         30 - 39:  e f g h i j k l m n
+                                         40 - 49:  o p q r s t u v w x
+                                         50 - 59:  y z 0 1 2 3 4 5 6 7
+                                         60 - 63:  8 9 + /
+\
+                                         Padding:  =
 \
                 base64-nopadding     Base64, no padding (RFC 4648) (3.2)
 \
                 base64url            Base64 for URL (RFC 4648) (3.0)
+                                     The '+' and '/' characters of standard
+                                     Base64 are replaced by '-' and '_', so that
+                                     using URL encoders/decoders are no longer
+                                     necessary.
+                                     It encodes 3 bytes to 4 characters.
+                                     The encoding use this representation for
+                                     each 6-bit value from zero to 63:
+\
+                                          0 -  9:  A B C D E F G H I J
+                                         10 - 19:  K L M N O P Q R S T
+                                         20 - 29:  U V W X Y Z a b c d
+                                         30 - 39:  e f g h i j k l m n
+                                         40 - 49:  o p q r s t u v w x
+                                         50 - 59:  y z 0 1 2 3 4 5 6 7
+                                         60 - 63:  8 9 - _
+\
+                                         Padding:  =
 \
                 base64url-nopadding  Base64 for URL, no padding (RFC4648) (3.2)
 \
+                z85                  Z85 (3.7)
+                                     Z85 was suggested by Pieter Hintjens
+                                     (1962 – 2016) for the ZeroMQ messaging lib.
+                                     See also https://rfc.zeromq.org/spec/32/
+\
+                                     Z85 encodes 4 bytes to 5 characters,
+                                     meaning a space-efficiency of 80 %.
+                                     It is a string-safe encoding, it can be
+                                     used cleanly in source code, XML, JSON,
+                                     and so on.
+\
+                                     The encoding use this representation for
+                                     each base-85 value from zero to 84:
+\
+                                         0 -  9:  0 1 2 3 4 5 6 7 8 9
+                                        10 - 19:  a b c d e f g h i j
+                                        20 - 29:  k l m n o p q r s t
+                                        30 - 39:  u v w x y z A B C D
+                                        40 - 49:  E F G H I J K L M N
+                                        50 - 59:  O P Q R S T U V W X
+                                        60 - 69:  Y Z . - : + = ^ ! /
+                                        70 - 79:  * ? & < > ( ) [ ] {
+                                        80 - 84:  } @ % $ #
+\
+                                     Note: 85^5 is bigger than 2^32, therefore a
+                                     five-byte Z85 data chunk cannot start
+                                     with '#', therefore even if the '#'
+                                     character is part of the alphabet of Z85,
+                                     it is save to use it for option
+                                     --ignore-lines-starting-with-string.
+\
+                                     Z85 is a good binary-to-text encoding for
+                                     hash values. However according to the spec
+                                     it is up to the application to ensure that
+                                     frames and strings are padded if necessary.
+                                     The spec does not mention how to do padding.
+                                     The length constraint is not a problem for
+                                     many of the hash functions, because the
+                                     length of the hash values are usually a
+                                     multiple of 4 bytes. However, it is a
+                                     problem for a few, not so common,
+                                     algorithms like blake2s-240, or
+                                     skein-1024-1000 for example.
+\
+                                     In order to use Z85 for all algorithms
+                                     supported by Jacksum, the following
+                                     implementation is used:
+\
+                                     For messages that are a multiple of 4
+                                     bytes, it behaves exactly like the original
+                                     Z85 encoding, and no padding is required.
+\
+                                     For messages that are not a multiple of 4
+                                     bytes, it behaves like Ascii85 with respect
+                                     to padding behavior. For decoding, we just
+                                     need to fill up with '#' characters instead
+                                     of 'u' before decoding, and ignore
+                                     the appropriate number of characters in the
+                                     decoded string. This is very space-
+                                     efficient, because for decoding, padding
+                                     can be calculated from the length of the
+                                     encoded string, and for encoding, only
+                                     characters that are really required need to
+                                     be stored.
+\
                 z-base-32            z-base-32 (3.1)
+                                     It encodes 5 bytes to 8 characters.
+                                     The encoding use this representation for
+                                     each 5-bit value from zero to 31:
+\
+                                          0 -  9:  y b n d r f g 8 e j
+                                         10 - 19:  k m c p q x o t 1 u
+                                         20 - 29:  w i s z a 3 4 5 h 7
+                                         30 - 31:  6 7
+\
+                                         Padding:  none
 \
 \
-            Available since version 1.6.0 of Jacksum if not stated otherwise,
-            see also the options -F, -g, -G, -q, -x, and -X.
+            Available since version 1.6.0 of Jacksum if not stated otherwise.
+            See also the options -F, -g, -G, -q, -x, and -X.
 
 
     -f
@@ -1423,6 +1721,10 @@ OPTIONS
                                          platforms it is replaced by a ' '.
                                          (3.3)
 \
+                #CHECKSUM                alias for #HASH.
+\
+                #DIGEST                  alias for #HASH.
+\
                 #ESCAPETAG               if the option called
                                          --gnu-filename-escaping is enabled, the
                                          <token> will be replaced by a single
@@ -1430,6 +1732,17 @@ OPTIONS
                                          (default), it will be replaced by an
                                          empty string.
                                          See also --gnu-filename-escaping  (3.3)
+\
+                #FILENAME                will be replaced by the file name and
+                                         path (depends on -P)
+\
+                #FILENAME{name}          will be replaced by the file name (1.6)
+\
+                #FILENAME{path}          will be replaced by the file path (1.6)
+\
+                #FILESIZE                will be replaced by the file size
+\
+                #FINGERPRINT             alias for #HASH.
 \
                 #HASH                    will be replaced by the hash, CRC or
                                          checksum value (depends on the
@@ -1468,16 +1781,11 @@ OPTIONS
                 #HASHES{<encoding>}      like #HASHES, but with an explicit
                                          encoding (3.3)
 \
-                #FILENAME                will be replaced by the file name and
-                                         path (depends on -P)
+                #LENGTH                  is an alias for #FILESIZE (3.0)
 \
-                #FILENAME{name}          will be replaced by the file name (1.6)
-\
-                #FILENAME{path}          will be replaced by the file path (1.6)
-\
-                #FILESIZE                will be replaced by the file size
-\
-                #LENGTH                  is an alis for #FILESIZE (3.0)
+                #MESSAGE                 is an alias for #FILENAME (3.7) for a
+                                         more convenient name for the message if
+                                         using the option --string-list
 \
                 #SEPARATOR               will be replaced by the separator which
                                          you can specify with -s
@@ -1495,11 +1803,10 @@ OPTIONS
                 #QUOTE                   will be replaced by one quote char (")
 \
 \
-            Aliases for #HASH are #CHECKSUM, #DIGEST, and #FINGERPRINT.
-\
             Available since version 1.5.0 of Jacksum, unless otherwise
-            specified, see also the options -a, -E, -g, -G,
-            --gnu-filename-escaping, -P, -s, -t, -x, and -X.
+            specified.
+            See also the options -a, -E, -g, -G, --gnu-filename-escaping, -P,
+            -s, -t, -x, and -X.
 
 
     -g <count>
@@ -1510,7 +1817,8 @@ OPTIONS
             Groups are separated by a blank or by the character
             specified by -G; the value for <count> must be greater than 0.
 \
-            Available since Jacksum 1.6.0, see also -E, -G, -x and -X
+            Available since Jacksum 1.6.0.
+            See also options -E, -G, -x, and -X.
 
 
     -G <char>
@@ -1519,8 +1827,8 @@ OPTIONS
             Sets the separator for byte groups, only valid if encoding is
             hexadecimal and option -g has been set.
 \
-            Available since version 1.6.0 of Jacksum, see also -E, -g, -x and
-            -X.
+            Available since version 1.6.0 of Jacksum.
+            See also options -E, -g, -x, and -X.
 
 
     --gnu-filename-escaping <boolean>
@@ -1557,8 +1865,8 @@ OPTIONS
             starts with a backslash, and the problematic characters in the file
             name are escaped with a backslash.
 \
-            Available since version 3.3.0 of Jacksum, see also the option
-            -F, token #ESCAPETAG.
+            Available since version 3.3.0 of Jacksum.
+            See also the option -F, token #ESCAPETAG.
 
 
     --header
@@ -1586,15 +1894,37 @@ OPTIONS
             Prints the help; valid code for language is "en"; valid values for
             word are strings such as section headers, options or algorithms.
             See the section "EXAMPLES" for more information, or simply type
-            'jacksum -h examples'
+\
+            > jacksum -h examples
 \
             Available since version 1.0.0 of Jacksum,
             parameter word since version 1.6.0 of Jacksum.
 
 
+    --hmacs
+\
+            Prints all algorithms that support HMAC.
+            If "-V info" has been set, it also prints the following columns:
+\
+            l - the bit-length of the hash output
+            B - the block size in bytes
+            L - the byte-length of the hash output which is also
+                the recommended minimum length in bytes of the key
+            T - the recommended minimum length in bytes of the HMAC output
+                in case of truncation
+\
+            If --verbose summary has been set, it also prints the number of
+            supported HMACs.
+\
+            Available since version 3.7.0 of Jacksum.
+            See also the options "-a hmac:", "-k".
+
+
     --info
 \
-            Returns information and exits the program.
+            Forces the information mode, and sets the verbose control to info.
+            It returns information and exits the program.
+\
             If option -a has not been set, it will print out
 \
                 - The program name and version
@@ -1612,7 +1942,7 @@ OPTIONS
 \
                 - Algorithm id
                 - Hash length in bits and bytes
-                - Blocksize in bits and bytes (if applicable)
+                - Block size in bits and bytes (if applicable)
                 - CRC implementation details including different representations
                   of the polynomial (normal, reversed, and Koopman repr.)
                 - The corresponding reciprocal polynomial of a CRC
@@ -1624,24 +1954,61 @@ OPTIONS
 \
                 - Details for each algorithm
 \
+            If --style has been set, it prints details about the style.
+\
             Available since version 3.0.0 of Jacksum.
+            See also the options -a, --style, --list
 
 
     -I <string>
     --ignore-lines-starting-with-string <string>
 \
-            While reading a list by -L or -c, lines are ignored if they start
-            with the string <string>.
+            While reading a list by -L or -c or --string-list, lines are ignored
+            if they start with the string <string>.
 \
             Available since version 1.6.0 of Jacksum, see also option -c.
+            See also the option --ignore-empty-lines.
+
+
+    --ignore-empty-lines
+\
+            While reading a string list by --string-list, lines are ignored
+            if they are empty. Lines are not trimmed to determine the emptiness.
+\
+            By default, or if the option is omitted, empty lines are hashed,
+            which in fact is treated as an empty message for the algorithm.
+\
+            Available since version 1.7.0 of Jacksum.
+            See also the options --string-list and --ignore-lines-starting-with-string.
+
+
+    -k  (([<type>:]<sequence>)|(readline|password))
+    --key (([<type>:]<sequence>)|(readline|password))
+\
+            Sets a secret key for the Keyed-Hash Message Authentication Code
+            (HMAC). The settings supported for option -k are the same as for
+            option -q which is ok for testing purposes.
+            However, in multi user environments, only file:<file>, readline,
+            and password are recommended settings, because all other settings
+            will make the secret key appear either in process lists which could
+            be gathered by other users as well or in history files which are
+            stored on disk usually.
+\
+            Examples:
+                > jacksum -a hmac:sha256 -k file:my-secret.txt my-message.txt
+                > jacksum -a hmac:sha256 -k password my-message.txt
+                Password:
+\
+            Available since version 3.7.0 of Jacksum.
+            See also the options "-a hmac:", --hmacs, --charset-console
 
 
     --license
 \
             Prints out the license under which the project is offered.
 \
-            Available since version 3.0.0 of Jacksum, see also the option
-            --copyright.
+            Available since version 3.0.0 of Jacksum.
+            See also the option --copyright.
 
     -l
     --list
@@ -1651,8 +2018,8 @@ OPTIONS
             If option -a is set, it lists the IDs of the algorithms only.
 \
             Examples:
-                jacksum -a all:sha -l
-                jacksum -a all:32 -l
+                > jacksum -a all:sha -l
+                > jacksum -a all:32 -l
 \
             If the option -c and --list-filter is set, it will list the
             filenames only without the statuses OK, FAILED, MISSING or NEW.
@@ -1686,8 +2053,8 @@ OPTIONS
             Only if the filter is set to ok, failed or both, hashing
             occurs. For detecting missing or new files, hashing is not required.
 \
-            Available since version 3.0.0 of Jacksum, see also the options
-            -c, and --list.
+            Available since version 3.0.0 of Jacksum.
+            See also the options -c, and --list.
 
 
     -L <textfile>
@@ -1706,6 +2073,7 @@ OPTIONS
             Wildcards are not supported in the <textfile>.
 \
             Available since version 3.0.0 of Jacksum.
+            See also the options --file-list-format, --file-list-charset.
 
 
     --file-list-format <format>
@@ -1713,17 +2081,25 @@ OPTIONS
                 If this option is omitted, the format of the file list file is
                 set to "list". The supported formats are:
 \
-                list    default. Each filename is stored in a separate line.
+                list    default. Each filename is stored on a separate line.
+                        Those lists can be generated, for example, by the "find"
+                        command on GNU/Linux and Unix systems, the "dir /b"
+                        command in cmd-shells on Microsoft Windows, or the
+                        "dir -n" command in Windows PowerShells on Microsoft
+                        Windows.
+                        Alternatively, use Jacksum to generate those lists:
+                        > jacksum --style filesonly
 \
                 ssv     space-separated values. Each filename is separated by
                         one or more common space characters (a space or a
                         horizontal tab). A file name that contains space
                         characters has to be enclosed in double quotes. This is
                         useful if Jacksum operates in Windows shells, where
-                        Jacksum isn't able to accept program arguments or
+                        Jacksum is not able to accept program arguments or
                         file names that contain Unicode characters.
 \
             Available since version 3.0.0 of Jacksum.
+            See also the options --file-list, --file-list-charset.
 
 
     --legacy-stdin-name
@@ -1753,8 +2129,8 @@ OPTIONS
             integrity check later, you should not set this option, because
             without path information it is impossible to find the files again.
 \
-            Available since version 3.2.0 of Jacksum, see also -P,
-            --path-relative-to, and --path-absolute.
+            Available since version 3.2.0 of Jacksum.
+            See also the options -P, --path-relative-to, and --path-absolute.
 
 
     -o <file>
@@ -1764,7 +2140,8 @@ OPTIONS
             output; the program exits with a warning if the file exists, and the
             file specified by -o is excluded from the calculation process.
 \
-            Available since version 1.6.0 of Jacksum, see also -O, -u and -U.
+            Available since version 1.6.0 of Jacksum.
+            See also the options -O, -u and -U.
 
 
     -O <file>
@@ -1773,9 +2150,37 @@ OPTIONS
             Same as -o, however an existing file will be overwritten without any
             warning. See also -U.
 \
-            Available since version 1.6.0 of Jacksum 1.6.0, see also -o, -u,
-            and -U.
+            Available since version 1.6.0 of Jacksum.
+            See also -o, -u, and -U.
 
+
+    --output-file-replace-tokens
+\
+            Replaces some tokens if they appear in the <file> specified by
+            -o or -O. The following tokens are supported:
+\
+                #ALGONAME              alias for #ALGONAME{lowercase}
+\
+                #ALGONAME{lowercase}   the name of the algorithm in lowercase
+                                       characters
+\
+                #ALGONAME{uppercase}   the name of the algorithm in uppercase
+                                       characters
+\
+            #ALGONAME variants set the algorithm id as part of the output file
+            name. If the algorithm id contains a colon (e. g. "crc:", "prng:",
+            or "hmac:"), it will be replaced by an equal sign, because Microsoft
+            Windows file systems don't allow the colon to be part of a file
+            or path, because it is used to separate drives.
+\
+            Example:
+                > jacksum -a sha-256 --output-file-replace-tokens
+                  -O /myisos/.#ALGONAME{uppercase} /myisos/*.iso
+                creates a filename called /myisos/.SHA-256 containing the
+                SHA-256 hashes of all .iso files in the /myisos/ directory.
+\
+            Available since version 3.7.0 of Jacksum.
+            See also -o, -O.
 
     --path-absolute
     --absolute
@@ -1785,8 +2190,8 @@ OPTIONS
             absolute paths are passed as program arguments. If this option is
             set, paths are printed absolutely in all cases.
 \
-            Available since version 3.3.0 of Jacksum, see also -P,
-            --path-relative-to, and --no-path.
+            Available since version 3.3.0 of Jacksum.
+            See also the options -P, --path-relative-to, and --no-path.
 
 
     --path-relative-to <path>
@@ -1806,8 +2211,8 @@ OPTIONS
             If this option is set during check mode, the path for each file
             object in the check file is simply prepended by <path>.
 \
-            Available since version 3.2.0 of Jacksum, see also -P,
-            --path-absolute, and --no-path.
+            Available since version 3.2.0 of Jacksum.
+            See also the options -P, --path-absolute, and --no-path.
 
 
     --path-relative-to-entry <number>
@@ -1819,8 +2224,8 @@ OPTIONS
             greater than 0. This option requires the option --file-list. If
             file list is empty, this option is ignored.
 \
-            Available since version 3.3.0 of Jacksum, see also
-            --path-relative-to.
+            Available since version 3.3.0 of Jacksum.
+            See also option --path-relative-to.
 
 
     -P <char>
@@ -1833,109 +2238,267 @@ OPTIONS
             required, for example to produce relative links for HTML pages on
             Microsoft Windows.
 \
-            Available since version 1.5.0 of Jacksum, see also -F,
-            --path-absolute, and --path-relative.
+            Available since version 1.5.0 of Jacksum.
+            See also the options -F, --path-absolute, and --path-relative.
 
 
-    -q [<type>:]<sequence>
-    --quick [<type>:]<sequence>
+    -q (([<type>:]<sequence>)|(readline|password))
+    --quick (([<type>:]<sequence>)|(readline|password))
 \
-            Process a sequence quickly and quit the program. The <type> can be
-            used to specify the type of the sequence as text, formatted text,
-            binary, hexadecimal, decimal, or file. If <type> is not set, the
-            sequence is expected to be in hex form.
-            Any of following examples (except text, unformatted) return the
-            same digest of a input of seven bytes.
+            Process a sequence quickly and quit the program. The settings
+            supported for option -q are the same as for option -k.
+            The <type> can be used to specify the type of the input:
 \
-                Decimal
+                - text or formatted text
+                - binary, decimal, octal, or hexadecimal sequence
+                - Base32, Base32hex, Base64, Base64url, or z85 encoded string
+                - one file (max. 128 MiB)
+                - input from the console visible or hidden
 \
-                    dec:101,103,103,32,52,50,10
-                    dec:"101, 103, 103, 32, 52, 50, 10"
-                    dec:"101 103 103 32 52 50 10"
-\
-                    Decimal values must be separated from each other by
-                    comma or spaces.
+            If <type> is not set, the sequence is expected to be in hex form.
+            The following values for <type> are supported:
 \
 \
-                Binary
+                base32
 \
-                    bin:1100101,1100111,1100111,100000,110100,110010,1010
-                    bin:"1100101, 1100111, 1100111, 100000, 110100, 110010,1010"
-                    bin:"1100101 1100111 1100111 100000 110100 110010 1010"
-                    bin:1100101011001110110011100100000001101000011001000001010
+                    A Base32 encoded string. The string can be encoded using
+                    base32 or base32-nopadding. For more information see also
+                    option -E.
+\
+                    Examples:
+                        > jacksum -q base32:MFXHG53FOIQGS4ZAGQZA====
+                        > jacksum -q base32:MFXHG53FOIQGS4ZAGQZA
+\
+\
+                base32hex
+\
+                    A Base32hex encoded string. The string can be encoded using
+                    base32hex or base32hex-nopadding. For more information see
+                    also the option -E.
+\
+                    Examples:
+                        > jacksum -q base32hex:C5N76TR5E8G6ISP06GP0====
+                        > jacksum -q base32hex:C5N76TR5E8G6ISP06GP0
+\
+\
+                base64
+\
+                    A Base64 encoded string. The string can be encoded using
+                    base64 or base64-nopadding. For more information see also
+                    the option -E.
+\
+                    Examples:
+                        > jacksum -q base64:dGhlIGFuc3dlciBpcyA0Mg==
+                        > jacksum -q base64:dGhlIGFuc3dlciBpcyA0Mg
+\
+\
+                base64url
+\
+                    A Base64url encoded string. The string can be encoded using
+                    base64url or base64url-nopadding. For more information see
+                    also the option -E.
+\
+                    Examples:
+                        > jacksum -q base64url:wN7K_g==
+                        > jacksum -q base64url:wN7K_g
+\
+\
+                bin
 \
                     Binary values can be separated by commas or spaces,
                     but you do not have to, as long as it is clear,
                     where the 8 bit boundaries are. If necessary you have to
                     fill up with leading zeros as the last example illustrates.
 \
+                    Examples:
+                        > jacksum -q bin:1100101,1100111,100000,110100,110010,1010
+                        > jacksum -q bin:"1100101, 1100111, 100000, 110100, 110010,1010"
+                        > jacksum -q bin:"1100101 1100111 100000 110100 110010 1010"
+                        > jacksum -q bin:11001010110011100100000001101000011001000001010
 \
-                Hexadecimal
 \
-                    6567672034320A
-                    hex:6567672034320A
-                    hex:65,67,67,20,34,32,A
-                    hex:"65, 67, 67, 20, 34, 32, A"
-                    hex:"65 67 67 20 34 32 A"
+                dec
 \
-                    Hex values can be separated by commas or spaces, but you do
-                    not have to, as long as it is clear, where the 8 bit
+                    Decimal values must be separated from each other by a comma
+                    or one or more spaces. If you use spaces, you must enclose
+                    the string in quotation marks to indicate to the shell that
+                    it is one string.
+\
+                    Examples:
+                        > jacksum -q dec:101,103,32,52,50,10
+                        > jacksum -q dec:"101, 103, 32, 52, 50, 10"
+                        > jacksum -q dec:"101 103 32 52 50 10"
+\
+\
+                file
+\
+                    If <type> is specified as "file", all bytes from the
+                    <file> will be read and kept in memory.
+                    The -q option is also used to feed data to the algorithm
+                    finder module which tries to find the algorithm to a
+                    checksum/CRC/hash value. It does that by processing data
+                    using a brute force algorithm, and I/O operations must be
+                    avoided where possible in that case. Therefore the size of
+                    <file> is limited to 128 MiB, because the entire content of
+                    the file will be stored in memory for fast access. This
+                    option is not intended for reading in large files. If you
+                    want to read large files up to 8 Exbibytes
+                    (= 8,000,000,000 Gibibytes) pass <file> as a parameter to
+                    Jacksum.
+\
+                    Example:
+                        > jacksum -q file:myfile.img
+\
+\
+                hex
+\
+                    Hexadecimal values can be separated by commas or spaces, but
+                    you do not have to, as long as it is clear, where the 8 bit
                     boundaries are. If necessary you have to fill up with
-                    leading zeros as the last two examples illustrates.
+                    leading zeros as the first two examples illustrates.
+\
+                    Examples:
+                        > jacksum -q 65672034320A
+                        > jacksum -q hex:65672034320A
+                        > jacksum -q hex:65,67,20,34,32,A
+                        > jacksum -q hex:"65, 67, 20, 34, 32, A"
+                        > jacksum -q hex:"65 67 20 34 32 A"
 \
 \
-                Text, unformatted:
+                oct
 \
-                    txt:"egg 42\n"
+                    Octal values must be separated from each other by a comma
+                    or one or more spaces. If you use spaces, you must enclose
+                    the string in quotation marks to indicate to the shell that
+                    it is one string.
 \
-                    If <type> is only specified as "txt", the default character
-                    set of the platform used to represent the sequence seq.
-                    For unformatted text, the \n is not interpreted as one
-                    character (Newline), but rather as two separate characters
-                    (backslash and "n"). Accordingly, the sequence above 
+                    Examples:
+                        > jacksum -q oct:145,147,40,64,62,12
+                        > jacksum -q oct:"145, 147, 40, 64, 62, 12"
+                        > jacksum -q oct:"145 147 40 64 62 12"
+\
+\
+                password
+\
+                    Reads a password or passphrase from the console, not
+                    including any line-termination characters. You can use that
+                    mode to generate both unique and strong passwords for
+                    websites. The returned hash values will be stronger
+                    than anything a normal human brain could remember, and
+                    nothing needs to be stored on disk. If the password is
+                    compromised, the master password will still remain secret.
+                    In other words, you can treat Jacksum as a password
+                    generator that generates the actual password for a website
+                    on demand.
+\
+                    Some notes and recommendations:
+\
+                    - Combine a master password with website-specific
+                      information, such as the domain name, to get unique
+                      passwords.
+                    - For the master password you should use a strong password
+                      that is at least 8 characters long; the longer, the
+                      better, and you should be able to remember it easily.
+                    - You should use a non-broken, strong cryptographic hash
+                      algorithm for the task.
+                    - Set the character set explicitly if you use multiple
+                      different operating systems or environments that do not
+                      use UTF-8 for the console by default, and make sure to
+                      remember the character set as well.
+                    - You can use all of the available characters for the
+                      password.
+                    - You can copy and paste the password to the prompt, but it
+                      is better if you remember it and type it, as this trains
+                      your brain to remember the password, and your brain will
+                      be the only place where the master password resides.
+\
+                    Due to security reasons the following limits apply:
+\
+                    - You won't see the password that you enter; in other words,
+                      echoing is disabled to prevent shoulder-surfing attacks.
+                    - Only the hash is printed by default; it is not possible to
+                      print the password in clear text, even if particular
+                      format options such as -F or --style are set. Use
+                      option "-q readline" if you prefer echoing.
+                    - Operating system piping is not possible, because we want
+                      to make sure that the password is coming from a keyboard
+                      and not transfer passwords in clear text between processes
+                      via piping.
+                    - Operating system redirection is not possible, because a
+                      console is required to enter the password. Use the
+                      options -o/-O to save the hash to a file if you do no wish
+                      to see the hash value in the console.
+                    - To minimize the lifetime of sensitive data in memory, the
+                      password is cleared from memory after processing. Java's
+                      String interning is not used for the password.
+\
+                    Examples:
+                        > jacksum -q password -a sha256 -E z85
+                        Password: facebook.com <a strong master password>
+\
+\
+                readline
+\
+                    Reads one string from the console, not including any
+                    line-termination characters. It works similar to the
+                    "password" mode, but it shows the string that you type,
+                    and you can print it out again by specifying format options
+                    which is useful for investigating particular strings and
+                    encodings.
+                    By default UTF-8 is used for the character encoding in the
+                    console. See also --charset-console.
+\
+                    Example:
+                        > jacksum -q readline
+                          -F "#HASH msg=#MESSAGE msglen=#LENGTH hex=#SEQUENCE{hex}"
+\
+\
+                txt
+\
+                    Text, unformatted.  If <type> is only specified as "txt",
+                    the default character set of the platform used to represent
+                    the <sequence>.
+                    For unformatted text, the \n is NOT interpreted as one
+                    character (new line), but rather as two separate characters
+                    (backslash and "n"). Accordingly, the sequence above
                     represents an input of 8 bytes and not 7 bytes.
 \
-\
-                Text, formatted:
-\
-                     txtf:"egg 42\n"
-                     txtf:"egg 42\x0A"
-\
-                     If type is specified as "txtf", UTF-8 will be used to
-                     interpret the sequence seq as formatted text.
-                     The following escape sequences are interpreted accordingly:
-\
-                     \n    New Line (0x0A)
-                     \r    Carriage Return (0x0D)
-                     \t    Horizontal Tab (0x09)
-                     \"    Double Quote (0x22)
-                     \'    Single Quote (0x27)
-                     \\    Backslash (0x5C)
-                     \xHH  Hexadecimal Number (HH can become 00 to 7F)
+                    Example:
+                        > jacksum -q txt:"the answer is 42\n"
 \
 \
-                File:
+                txtf
 \
-                     file:<file>
+                    Text, formatted. If type is specified as "txtf", UTF-8 will
+                    be used to interpret the <sequence> as formatted text.
+                    The following escape sequences are interpreted accordingly:
 \
-                     If <type> is specified as "file", all bytes from the
-                     <file> will be read and kept in memory.
-                     The -q option is also used to feed data to the algorithm
-                     finder module which tries to find the algorithm to a
-                     checksum/CRC/hash value. It does that by processing data
-                     using a brute force algorithm, and I/O operations must be
-                     avoided where possible in that case. Therefore the size of
-                     <file> is limited to 128 MiB, because the entire content of
-                     the file will be stored in memory for fast access. This
-                     option is not intended for reading in large files. If you
-                     want to read large files up to 8 Exbibytes
-                     (= 8,000,000,000 Gibibytes) pass <file> as a parameter to
-                     Jacksum.
+                        \t    Horizontal Tab (0x09)
+                        \n    New Line (0x0A)
+                        \r    Carriage Return (0x0D)
+                        \"    Double Quote (0x22)
+                        \'    Single Quote (0x27)
+                        \\    Backslash (0x5C)
+                        \xHH  Hexadecimal Number (HH can become 00 to 7F)
+\
+                    Examples:
+                        > jacksum -q txtf:"answer is 42\n"
+                        > jacksum -q txtf:"answer is 42\x0A"
+\
+\
+                z85
+\
+                    A Z85 encoded string. For more information see also
+                    option -E.
+\
+                    Example:
+                        > jacksum -q z85:vqZdgwPw]cB09p{
 \
 \
             Available since version 1.3.0 of Jacksum (hex only), "type" since
-            version 1.5.0, type "bin" and "txtf" since version 3.0.0, and type
-            "file" since version 3.1.0 of Jacksum.
+            version 1.5.0, type "bin" and "txtf" since version 3.0.0, type
+            "file" since version 3.1.0 of Jacksum, console mode since version
+            3.7.0 of Jacksum.
 
 
     --scan-all-unix-file-types
@@ -1984,6 +2547,40 @@ OPTIONS
             Available since version 3.1.0 of Jacksum.
 
 
+    --string-list <list>
+\
+            Activates the "string list"-mode. For each message in <list> a hash
+            value will be calculated. The order of the lines in the file will be
+            maintained.
+\
+            A line is considered to be terminated by any one of a line feed
+            ('\n'), a carriage return ('\r'), a carriage return followed
+            immediately by a line feed ('\r\n').
+            A message is a string containing the contents of the line, not
+            including any line-termination characters.
+            Empty lines are considered empty messages and are hashed. If you
+            do not want to hash empty messages, set the option
+            --ignore-empty-lines.
+\
+            If <list> is set to a single dash (-) Jacksum reads from stdin.
+            Use option --charset-string-list to specify the character set for
+            <list> so that it can be read properly. If <list> is headed by an
+            optional Byte Order Mark (BOM), it will be removed if present before
+            reading.
+            You can use the option -I in order to ignore all lines that start
+            with a particular string in <list>.
+            You can use the option --ignore-empty-lines to ignore all lines
+            that are empty.
+\
+            All available format options also apply to this mode. See also the
+            options -E, -g, -G, -F, -x, -X.
+            Use option --charset-output-file (if -o or -O has been set), or
+            option --charset-stdout to specify the character set for the output.
+            Use option --bom to force a Byte Order Mark (BOM).
+\
+            Available since version 3.7.0 of Jacksum.
+
+
     -r <depth>
     --recursive <depth>
 \
@@ -2029,7 +2626,8 @@ OPTIONS
             If the default parser is unable to parse the output, you can still
             write your own compatibility file; see also -C.
 \
-            Available since version 1.0.0 of Jacksum, see also -F.
+            Available since version 1.0.0 of Jacksum.
+            See also option -F.
 
 
     --threads-hashing <threads>
@@ -2052,6 +2650,7 @@ OPTIONS
             of threads will be started.
 \
             Available since version 3.3.0 of Jacksum.
+            See also option --threads-reading.
 
 
     --threads-reading <threads>
@@ -2086,7 +2685,7 @@ OPTIONS
                   order.
 \
             Available since version 3.3.0 of Jacksum.
-
+            See also option --threads-hashing.
 
     -t <format>
     --timestamp <format>
@@ -2141,7 +2740,8 @@ OPTIONS
                                    can specify with -s
                 #QUOTE             will be replaced by one quote char (")
 \
-            Available since version 1.6.0 of Jacksum, see also -F.
+            Available since version 1.6.0 of Jacksum.
+            See also option -F.
 
 
     -8
@@ -2170,9 +2770,10 @@ OPTIONS
             GNU/Linux) or to "nul" (on Microsoft Windows) in order to ignore the
             output.
 \
-            Available since version 1.6.0 of Jacksum, see also -U, -o and -O.
+            Available since version 1.6.0 of Jacksum.
             Starting with version 3.0.0 of Jacksum, the file encoding has been
             set to UTF-8.
+            See also options -U, -o and -O.
 
 
     -U <file>
@@ -2184,21 +2785,24 @@ OPTIONS
             "/dev/null" (on Unix and GNU/Linux) or to "nul" (on Microsoft
             Windows) in order to ignore the output.
 \
-            Available since version 1.6.0 of Jacksum, see also -u, -o and -O.
+            Available since version 1.6.0 of Jacksum.
             Starting with version 3.0.0 of Jacksum, the file encoding has been
             set to UTF-8.
+            See also options -u, -o and -O.
 
 
-    -v      
-    --version    
+    -v
+    --version
 \
             Prints the product name and version, and exits the program.
-            This option has been available since Jacksum 1.2.0.
+            This option has been available since version 1.2.0 of Jacksum.
 \
             Additional information about the copyright and license will be 
-            printed out if verbose info output is requested.
-            Examples: "jacksum -v --verbose info" or "jacksum --info"
-            Available since version 3.0.0 of Jacksum.
+            printed out if verbose info output has been requested:
+\
+            > jacksum -v --info
+\
+            Available since version 3.7.0 of Jacksum.
 
 
     -V <control set>
@@ -2229,7 +2833,7 @@ OPTIONS
             these operations:
             --check-file, --check-line, or -a unknown:<length>
             If you set option --version, <control set> ist set to "none".
-            If you set option --info, <control set> is set to "default" again.
+            If you set option --info, <control set> is set to "info".
 \
             Available since version 1.6.0 of Jacksum.
             The keywords "all" and "none" are available since version 3.0.0 of
@@ -2246,8 +2850,8 @@ OPTIONS
             but it can be specified by the --style option if it is not the
             default.
 \
-            Available since version 3.4.0 of Jacksum, see also
-            --wanted-list-charset, and --style
+            Available since version 3.4.0 of Jacksum.
+            See also the options --wanted-list-charset, and --style.
 
 
     --wanted-list-filter <filter>
@@ -2274,7 +2878,8 @@ OPTIONS
             If this option is omitted, the <filter> is set to "positive".
             Hashing occurs in any case regardless of the filter set.
 \
-            Available since version 3.4.0 of Jacksum, see also -w, and --list.
+            Available since version 3.4.0 of Jacksum.
+            See also the options -w, and --list.
 
 
     -x
@@ -2282,7 +2887,8 @@ OPTIONS
 \
             Lowercase hex output for the checksum is an alias for "-E hex".
 \
-            Available since version 1.1.0 of Jacksum, see also option -E.
+            Available since version 1.1.0 of Jacksum.
+            See also option -E.
 
 
     -X            
@@ -2290,7 +2896,8 @@ OPTIONS
 \
             Uppercase hex output for the checksum is an alias for "-E hexup".
 \
-            Available since version 1.1.0 of Jacksum, see also the option -E.
+            Available since version 1.1.0 of Jacksum.
+            See also the option -E.
 
 
     -
@@ -2300,10 +2907,10 @@ OPTIONS
             binary mode, and the filename is set to "<stdin>".
 \
             Example:
-            > jacksum - < your.iso
+                > jacksum - < your.iso
 
 
-    --
+    -
 \
             A double dash is used to signify the end of command options, after
             which only positional arguments are accepted.
@@ -2313,7 +2920,7 @@ OPTIONS
             folder.
 \
             Example:
-            > jacksum -- -
+                > jacksum -- -
 \
             Available since version 3.0.0 of Jacksum.
 
@@ -2613,7 +3220,8 @@ ALGORITHMS
                 BLAKE2b is the successor of BLAKE-512.
 \
                 Use -C tagged or -F "BLAKE2b (#FILENAME) = #DIGEST" to get the
-                "cksum -a blake2b" output format from the GNU Core Utilities 9.0.
+                "cksum -a blake2b" output format from the GNU Core
+                Utilities 9.0.
 \
             compatibility:
                 - 7z:              -
@@ -4428,6 +5036,130 @@ ALGORITHMS
                 gnu.crypto.hash.Haval
 
 
+    hmac:<algo>[:<bits>]
+\
+            algorithm:
+                HMAC, the keyed-hash message authentication code.
+\
+            length:
+                same length as the the underlying hash function.
+\
+            type:
+                keyed-hash message authentication code.
+\
+            published:
+                02/1997
+\
+            broken:
+                It depends on the underlying hash function. Note that even if
+                the underlying hash function has been broken it does not
+                necessarily mean that the corresponding HMAC is broken as well.
+\
+            comment:
+                HMAC is a mechanism for message authentication using any
+                iterated cryptographic hash function in combination with a
+                secret shared key. See also RFC 2104.
+\
+                The prefix "hmac:" or "hmac-" can be used to specify a HMAC.
+\
+                Compatible algorithms:
+                    The cryptographic strength of HMAC depends on the
+                    properties of the underlying hash function.
+                    To see a list of suitable hash functions enter
+\
+                    > jacksum --hmacs
+\
+                The Key:
+                    The HMAC requires a key which can be set by option -k.
+                    The key can be of any length (keys longer than B bytes
+                    are first hashed using H).  However, less than L bytes
+                    is strongly discouraged as it would decrease the
+                    security strength of the function.  Keys longer than L
+                    bytes are acceptable but the extra length would not
+                    significantly increase the function strength. The
+                    recommended key length, whether a key follows the RFC
+                    recommendation, and whether the key will be hashed, can be
+                    seen for a HMAC by specifying the option --info.
+\
+                    Example:
+                        > jacksum -a hmac:sha3-256 -k txt:test --info
+                        ...
+                        key length should have min. bytes:    32
+                        key length follows above recom.:      false
+                        key will be hashed:                   false
+                        ...
+\
+                Truncated output:
+                    A well-known practice with message authentication codes
+                    is to truncate the output of the MAC and output only part of
+                    the bits. This can be achieved by setting a value for
+                    <bits>. <bits> must be a positive integer that describes the
+                    new output size of the algorithm in bits. The <bits>
+                    leftmost bits of the HMAC computation will be used for the
+                    output.
+                    If <bits> is not a multiple of 8, the output will be rounded
+                    to the next multiple of 8, and the remaining bits will be
+                    padded to zero.
+                    If <bits> is zero or greater than the output of the
+                    underlying algorithm, <bits> is set to the width of the hash
+                    function.
+                    It is possible to see whether a truncation specified by the
+                    user follows the recommendation from RFC 2104 by specifying
+                    the option --info.
+\
+                    Example:
+                        > jacksum -a hmac:sha3-256:160 -k txt:test --info
+                        ...
+                        truncate to bits:                     160
+                        truncate to bytes:                    20
+                        trunc. length should have min. bits:  128
+                        trunc. length follows above recom.:   true
+                        ...
+\
+                    RFC 2104 from February 1997 proposes denoting a realization
+                    of HMAC that uses a hash function H with t bits of output as
+                    HMAC-H-t. However, since there are algorithms that mark a
+                    truncated version of a hash function already with a hyphen,
+                    it would be not clear whether the hyphen truncates the hash
+                    function or the HMAC. Therefore Jacksum requires the colon
+                    to mark a truncated HMAC.
+\
+            compatibility:
+                - Angstrom:        -
+                - BeOS:            -
+                - BusyBox:         -
+                - CentOS:          -
+                - DragonFly BSD:   -
+                - FreeBSD:         -
+                - FreeDOS:         -
+                - GNU/Hurd:        -
+                - GNU/Linux:       -
+                - gpg:             -
+                - HP-UX:           -
+                - JDK:             Mac mac = Mac.getInstance("Hmac"+<algo>); mac.init(<key>); mac.doFinal(<message>);
+                - Kali Linux:      -
+                - macOS:           -
+                - Minix:           -
+                - PHP:             hash_hmac('<algo>', '<message>', '<key>');
+                - MS-DOS:          -
+                - NetBSD:          -
+                - NextStep:        -
+                - OpenIndiana:     -
+                - OpenSSL:         openssl dgst -<algo> -mac hmac -macopt hexkey:<key> <message>
+                - Plan 9:          -
+                - PowerShell:      -
+                - Python:          hmac.new(<key>, <message>, hashlib.<algo>).hexdigest()
+                - Solaris:         -
+                - Windows:         -
+                - Wolfram:         ResourceFunction["HMAC"][<message>, <key>, "<algo>"]
+\
+            since:
+                Jacksum 3.7.0
+\
+            implementation:
+                net.jacksum.algorithms.HMAC
+
+
     jh<length>, jh-<length>
             algorithm:
                 JH
@@ -5197,7 +5929,7 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.PhotonBeetleDigest
 
 
-    prng[:[init=<init>][<separator>][mpy=<multiplier>][<separator>][add=<addend>]]
+    prng, prng:[init=<init>][<separator>][mpy=<multiplier>][<separator>][add=<addend>]
             algorithm:
                 PRNG (pseudo random number generator) hash
 \
@@ -5249,7 +5981,7 @@ ALGORITHMS
                 not be one of the characters in [0-9a-fA-F] if the preceding
                 value is in hexadecimal respresentation, and the <separator>
                 must not be one of the characters in [0-9] if the preceding
-                value is in decimal representation; it is recommend to use a
+                value is in decimal representation; it is recommended to use a
                 comma for the <separator>. Properties can be given in any order.
 \
                 The default PRNG Hash can be expressed as
@@ -5415,7 +6147,7 @@ ALGORITHMS
                 RIPEMD was developed in the framework of the EU project RIPE
                 (RACE Integrity Primitives Evaluation), used by GnuPG.
                 The default encoding is hexadecimal.
-                Use option "--compat openssl" to get the openssl output format.
+                Use option "--style openssl" to get the openssl output format.
                 format.
 \
             compatibility:
@@ -5601,7 +6333,7 @@ ALGORITHMS
                 version, published in 1995 in FIPS PUB 180-1 and commonly
                 referred to as "SHA-1".
                 The default encoding is hexadecimal.
-                Use option "--compat openssl" to get the openssl output format.
+                Use option "--style openssl" to get the openssl output format.
 \
             compatibility:
                 - 7z:              -

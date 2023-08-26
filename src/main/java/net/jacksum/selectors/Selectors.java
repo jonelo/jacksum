@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -159,12 +159,13 @@ public class Selectors {
         Xoodyak_Selector.class,
         Xor8_Selector.class,
         xxHash32_Selector.class
-
     };
 
     public final static Class<?>[] allSelectorClasses = {
         // the combined hash algorithm has to be the first in this list!
         CombinedChecksum_Selector.class,
+
+        HMAC_Selector.class,
         // most popular algorithms first due to performance reasons
         // order is also used by the brute forcer in order to find algorithms
 

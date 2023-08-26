@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.zip.Checksum;
 import net.jacksum.formats.Encoding;
 import net.jacksum.formats.Formatter;
+import net.jacksum.parameters.Sequence;
 import net.jacksum.parameters.combined.ChecksumParameters;
 
 /**
@@ -78,7 +79,13 @@ abstract public class AbstractChecksum implements Checksum {
 //        this.checksumParameters = parameters;
         formatPreferences.overwritePreferences(parameters);
         formatter = new Formatter(formatPreferences);
-        this.sequence = parameters.getSequenceAsBytes();
+        if (parameters.isSequence()) {
+            this.sequence = parameters.getSequence().asBytes();
+        }
+        if (parameters.getSequence() != null && parameters.getSequence().getType() != null && parameters.getSequence().getType().equals(Sequence.Type.FILE)) {
+            filename = parameters.getSequence().getPayload();
+        }
+
     }
 
     public FormatPreferences getFormatPreferences() {

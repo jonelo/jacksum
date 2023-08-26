@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -24,7 +24,9 @@
 package net.jacksum.actions;
 
 import net.jacksum.actions.info.copyright.CopyrightAction;
+import net.jacksum.actions.info.hmacs.HMACsAction;
 import net.jacksum.actions.info.license.LicenseAction;
+import net.jacksum.actions.io.strings.HashStringsAction;
 import net.jacksum.actions.io.wanted.HashFilesWantedAction;
 import net.jacksum.statistics.Statistics;
 import java.security.NoSuchAlgorithmException;
@@ -90,6 +92,8 @@ public class Actions {
                 return new HashFilesWantedAction(parameters);
             case CHECK:
                 return new CheckAction(parameters);
+            case STRING_LIST:
+                return new HashStringsAction(parameters);
             case FIND_ALGO:
                 return new FindAlgoAction(parameters);
             case INFO_ALGO:
@@ -104,6 +108,8 @@ public class Actions {
                 return new LicenseAction();
             case COPYRIGHT:
                 return new CopyrightAction();
+            case HMACS:
+                return new HMACsAction(parameters);
             case HELP: // fall through
             default:
                 return new HelpAction(parameters);

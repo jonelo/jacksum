@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -23,10 +23,12 @@
 package net.jacksum.actions.io.quick;
 
 import net.jacksum.actions.io.compare.CompareActionInterface;
+import net.jacksum.parameters.base.ConsoleParameters;
 import net.jacksum.parameters.combined.ChecksumParameters;
 import net.jacksum.parameters.base.CustomizedFormatParameters;
 import net.jacksum.parameters.base.ExpectationParameters;
 import net.jacksum.parameters.base.SequenceParameters;
+import net.jacksum.parameters.base.KeyParameters;
 import net.jacksum.parameters.combined.StatisticsParameters;
 
 /**
@@ -38,5 +40,7 @@ public interface QuickActionParameters extends
         StatisticsParameters,
         CustomizedFormatParameters,
         ExpectationParameters,
-        SequenceParameters {
+        SequenceParameters,
+        KeyParameters,
+        ConsoleParameters {
 }

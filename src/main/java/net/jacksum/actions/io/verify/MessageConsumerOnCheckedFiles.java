@@ -1,6 +1,6 @@
 /*
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.compats.parsing.HashEntry;
-import net.jacksum.formats.FingerprintFormatter;
+import net.jacksum.formats.EncodingDecoding;
 import net.jacksum.multicore.manyfiles.Message;
 import net.jacksum.multicore.manyfiles.MessageConsumer;
 import net.jacksum.cli.ExitCode;
@@ -168,7 +168,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                     
                     if (cont) {
                         // compare the hashes: OK or FAILED
-                        if (FingerprintFormatter.encodeBytes(message.getPayload().getDigest(), parameters.getEncoding(), 0, ' ').equals(map.get(filenameAsKey).getHash())) {
+                        if (EncodingDecoding.encodeBytes(message.getPayload().getDigest(), parameters.getEncoding(), 0, ' ').equals(map.get(filenameAsKey).getHash())) {
                             print(filter.isFilterOk(), OK, filename);
                             matches++;
                             //map.get(filename).setStatus(HashEntry.Status.OK);

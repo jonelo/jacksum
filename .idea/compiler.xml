@@ -9,8 +9,5 @@
         <module name="jacksum" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="jacksum" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>

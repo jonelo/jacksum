@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -38,7 +38,7 @@ public class SequenceFormatter {
         Matcher matcher = pattern.matcher(buf.toString());
         try {
             while (matcher.find()) {
-                GeneralString.replaceAllStrings(buf, matcher.group(1), FingerprintFormatter.encodeBytes(bytes, Encoding.string2Encoding(matcher.group(2)), grouping, groupChar));
+                GeneralString.replaceAllStrings(buf, matcher.group(1), EncodingDecoding.encodeBytes(bytes, Encoding.string2Encoding(matcher.group(2)), grouping, groupChar));
             }
         } catch (IllegalArgumentException e) {
             System.err.println(e);

@@ -50,7 +50,7 @@ public class Blake2bp_Selector extends Selector {
     public Map<String, String> getAvailableAliases() {
         if (aliases == null) {
             aliases = new LinkedHashMap<>(2); // ceil(1/0.75)
-            aliases.put("blake2bp", "blake2sp-512");
+            aliases.put("blake2bp-512", "blake2bp");
         }
         return aliases;
     }

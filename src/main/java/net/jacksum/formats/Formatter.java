@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -140,6 +140,7 @@ public class Formatter {
     
     private static void _replaceFilenameTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
 
+        if (abstractChecksum.getFilename() == null) return;
         FilenameFormatter filenameFormatter = new FilenameFormatter(abstractChecksum.getFormatPreferences());
         String formattedFilename = filenameFormatter.format(abstractChecksum.getFilename());
 
@@ -234,6 +235,7 @@ public class Formatter {
     public static void replaceAliases(StringBuilder format) {
         FingerprintFormatter.replaceAliases(format);
         SizeFormatter.replaceAliases(format);
+        FilenameFormatter.replaceAliases(format);
     }
 
     public FingerprintFormatter getFingerprintFormatter() {

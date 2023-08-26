@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
+  Jacksum 3.7.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -49,7 +49,8 @@ public class AlgoInfoActionStatistics extends Statistics {
     public Map<String, Object> build() {
         Map<String, Object> map = new LinkedHashMap<>();        
         map.put("number of algorithms filtered", getAlgorithmCount());
-        return map;    }
+        return map;
+    }
 
     @Override
     public void reset() {
