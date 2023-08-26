@@ -12,25 +12,43 @@
 
 # Jacksum
 
-**Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform, feature-rich, multi-threaded command line utility that makes hash functions available to you.
+**Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform,
+feature-rich, multi-threaded, command line utility that makes hash
+functions available to you to solve particular tasks the smart way.
 
-It covers many types of use cases where hash values are needed:
+Jacksum covers many types of use cases in which hash values make sense:
 
-- Calculating of hash values of almost any input
+- Calculating of hash values/fingerprints of almost any input
+  (command line arg, console, standard input, plain or encoded strings,
+  files, partitions, disks, NTFS ADS, pipes, sockets, doors, ...)
 - Finding OK/failed/missing/new files (verify file/data integrity)
 - Finding files by their fingerprints for positive matching
 - Finding files that do not match certain fingerprints for negative matching
 - Finding all duplicates of a file by its hash value
 - Finding the algorithm(s) that generated a certain hash value
+- Investigate polynomials of CRCs
+- Investigate parameters of HMACs
 
 In order to achieve the goals above Jacksum supports you with
 
+- cross-platform executability
+- Recursive traversal with depth control, policies to follow symbolic
+  links on files and/or folders, and file system cycle detection
+- Multi-threading across platforms for parallel hash calculations and
+  data reads in order to take advantage of multi-core processors and
+  fast SSD storage
 - 489 standard hash functions
+- HMAC support for 414 hash functions
+- 60+ command line options to control Jacksum's behavior
 - Customizable CRCs from 1 to 64 bit width
-- 60+ options to control Jacksum's behavior on the command line
-- 14 standard encodings for representing hash values
-- 10 predefined styles for reading and writing files that contain hash values
-- 8600+ lines of manpage with descriptions, examples, and compatibility lists for the most common algorithms
+- 15 different encodings for representing hash values
+- 10 predefined standard styles for reading and writing files that
+  contain hash values
+- Fully customizable output format
+- 170+ different character sets to be able to read and write hash files
+  correctly
+- 9200+ lines of manpage with descriptions, examples, and compatibility
+  lists for all supported algorithms
 
 Jacksum is also a library. You can use it for your projects. It is written entirely in **Java** ☕.
 
