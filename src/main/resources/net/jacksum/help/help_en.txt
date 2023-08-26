@@ -2154,6 +2154,34 @@ OPTIONS
             See also -o, -u, and -U.
 
 
+    --output-file-replace-tokens
+\
+            Replaces some tokens if they appear in the <file> specified by
+            -o or -O. The following tokens are supported:
+\
+                #ALGONAME              alias for #ALGONAME{lowercase}
+\
+                #ALGONAME{lowercase}   the name of the algorithm in lowercase
+                                       characters
+\
+                #ALGONAME{uppercase}   the name of the algorithm in uppercase
+                                       characters
+\
+            #ALGONAME variants set the algorithm id as part of the output file
+            name. If the algorithm id contains a colon (e. g. "crc:", "prng:",
+            or "hmac:"), it will be replaced by an equal sign, because Microsoft
+            Windows file systems don't allow the colon to be part of a file
+            or path, because it is used to separate drives.
+\
+            Example:
+                > jacksum -a sha-256 --output-file-replace-tokens
+                  -O /myisos/.#ALGONAME{uppercase} /myisos/*.iso
+                creates a filename called /myisos/.SHA-256 containing the
+                SHA-256 hashes of all .iso files in the /myisos/ directory.
+\
+            Available since version 3.7.0 of Jacksum.
+            See also -o, -O.
+
     --path-absolute
     --absolute
 \

@@ -24,6 +24,7 @@ Jacksum 3.7.0, TBD, 2023
   - added encodings
     - added encoding Z85 for option -E (without a limit on the length of the input)
     - added support for oct, Base32, Base32hex, Base64, Base64url, and Z85 to option -q
+  - added option --output-file-replace-tokens
 
 - bug fixes:
   - NPE if filename is null and -F is set (e.g. 'jacksum -a none -F "#SEQUENCE" -q txt:')

@@ -30,6 +30,8 @@ import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
 import net.loefflmann.sugar.util.GeneralString;
 
+import java.util.Locale;
+
 /**
  * All parameters for the Command Line Interface (CLI)
  *
@@ -102,6 +104,7 @@ public class CLIParameters {
     public static final String __OUTPUT_FILE = "--output-file";
     public static final String _OUTPUT_FILE_OVERWRITE = "-O";
     public static final String __OUTPUT_FILE_OVERWRITE = "--output-file-overwrite";
+    public static final String __OUTPUT_FILE_REPLACE_TOKENS = "--output-file-replace-tokens";
     public static final String _PATH_SEPARATOR = "-P";
     public static final String __PATH_SEPARATOR = "--path-separator";
     public static final String _QUICK = "-q";
@@ -484,6 +487,9 @@ public class CLIParameters {
                         handleUserParamError(arg, __OUTPUT_FILE_OVERWRITE);
                     }
 
+                } else if (arg.equals(__OUTPUT_FILE_REPLACE_TOKENS)) {
+                    parameters.setOutputFileReplaceTokens(true);
+
                 } else if (arg.equals(_PATH_SEPARATOR) || arg.equals(__PATH_SEPARATOR)) {
                     if (firstfile < args.length) {
                         arg = args[firstfile++];
@@ -736,6 +742,22 @@ public class CLIParameters {
                     parameters.setStdinForFilenamesFromArgs(true);
                 } else {
                     parameters.getFilenamesFromArgs().add(args[i]);
+                }
+            }
+
+            // replace #ALGONAME, #ALGONAME{lowercase}, #ALGONAME{uppercase}
+            if (parameters.getOutputFile() != null && parameters.isOutputFileReplaceTokens()) {
+                parameters.setOutputFileRaw(parameters.getOutputFile());
+                if (parameters.getAlgorithm() != null) {
+                    parameters.setOutputFile(
+                            parameters.getOutputFile().replaceAll(
+                                    "#ALGONAME\\{uppercase\\}", parameters.getAlgorithm().toUpperCase(Locale.US).replace(':', '=')));
+                    parameters.setOutputFile(
+                            parameters.getOutputFile().replaceAll(
+                                    "#ALGONAME\\{lowercase\\}", "#ALGONAME"));
+                    parameters.setOutputFile(
+                            parameters.getOutputFile().replaceAll(
+                                    "#ALGONAME", parameters.getAlgorithm().toLowerCase(Locale.US).replace(':', '=')));
                 }
             }
 

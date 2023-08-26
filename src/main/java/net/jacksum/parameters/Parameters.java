@@ -185,6 +185,9 @@ public class Parameters implements
     private String filelistFormat = null;
     // -O/-o
     private String outputFile = null;
+    // --output-file-replace-tokens
+    private boolean outputFileReplaceTokens = false;
+    private String outputFileRaw = null;
     // -U/-u
     private String errorFile = null;
     // -O
@@ -1836,24 +1839,7 @@ public class Parameters implements
         return list;
     }
 
-    // ignore/disable unsupported/unsuitable/incompatible parameters
-    public void checkParameters() throws ParameterException, ExitException {
-        expandFileList();
-        handleCharsets();
-        checkForNonsenseParameterCombinations();
-        handleKey();
-        handleCompatibility();
-
-        // validity check for --algorithm
-        if (algorithm != null) {
-            if (algorithm.startsWith("+")) {
-                throw new ParameterException(String.format("The algorithm %s must not start with a + sign, but it can end with one.", algorithm));
-            }
-            if (algorithm.contains("++")) {
-                throw new ParameterException(String.format("The algorithm %s must not contain ++.", algorithm));
-            }
-        }
-
+    private void resolvePathRelativeTo() throws ParameterException {
         // validity check for --path-relative-to-entry
         if (isPathRelativeToEntry() && getFilenamesFromFilelist().size() > 0) {
             setPathRelativeToAsString(getFilenamesFromFilelist().get(getPathRelativeToEntry()-1));
@@ -1870,13 +1856,36 @@ public class Parameters implements
                         pathRelativeTo = path.toAbsolutePath().normalize().getParent();
                     }
                 } else {
-                    throw new ParameterException(String.format("%s does not exist.\n", pathRelativeToAsString));
+                    throw new ParameterException(String.format("%s does not exist.%n", pathRelativeToAsString));
                 }
             } catch (InvalidPathException ipe) {
-                throw new ParameterException(String.format("%s is an invalid path.\n", pathRelativeToAsString));
+                throw new ParameterException(String.format("%s is an invalid path.%n", pathRelativeToAsString));
             }
         }
+    }
 
+    private void validateAlgorithm() throws ParameterException {
+        // validity check for --algorithm
+        if (algorithm != null) {
+            if (algorithm.startsWith("+")) {
+                throw new ParameterException(String.format("The algorithm %s must not start with a + sign, but it can end with one.", algorithm));
+            }
+            if (algorithm.contains("++")) {
+                throw new ParameterException(String.format("The algorithm %s must not contain ++.", algorithm));
+            }
+        }
+    }
+
+    // ignore/disable unsupported/unsuitable/incompatible parameters
+    public void checkParameters() throws ParameterException, ExitException {
+        expandFileList();
+
+        handleCharsets();
+        checkForNonsenseParameterCombinations();
+        handleKey();
+        handleCompatibility();
+        validateAlgorithm();
+        resolvePathRelativeTo();
         handleWarningsAndImplicitSettings();
     }
 
@@ -2036,7 +2045,7 @@ public class Parameters implements
     }
 
 
-    private void checkForNonsenseParameterCombinations() throws ParameterException, ExitException {
+    private void checkAlgorithmIsNone() throws ParameterException {
         // exit if selected parameters make no sense
         if (getAlgorithmIdentifier().equals("none")) {
             // there is no hash value for algorithm "none"
@@ -2049,7 +2058,9 @@ public class Parameters implements
                 throw new ParameterException("-a none and -e cannot go together.");
             }
         }
+    }
 
+    private void checkAlgorithmIsRead() throws ParameterException {
         if (getAlgorithmIdentifier().equals("read")) {
             if (isEncodingSet() && !isFormatWanted()) {
                 throw new ParameterException("-a read and -E without -F cannot go together.");
@@ -2058,6 +2069,11 @@ public class Parameters implements
                 throw new ParameterException("-a read and -e cannot go together.");
             }
         }
+    }
+
+    private void checkForNonsenseParameterCombinations() throws ParameterException, ExitException {
+        checkAlgorithmIsNone();
+        checkAlgorithmIsRead();
 
         if (stdin && isSequence()) {
             throw new ParameterException("Cannot read from both standard input and -q.");
@@ -2289,9 +2305,12 @@ public class Parameters implements
         }
     }
 
-
+    /**
+     * Process list that has been specified by -L resp. --file-list
+     * @throws ParameterException if file list does not exist, if it is not readable or if file list format or file list charset is unsupported
+     */
     public void expandFileList() throws ParameterException {
-        // processing list that has been specified with -L
+
         if (this.getFilelistFilename() != null) {
             this.getFilenamesFromFilelist().clear();
             try {
@@ -2365,4 +2384,19 @@ public class Parameters implements
         return buffer.toString();
     }
 
+    public boolean isOutputFileReplaceTokens() {
+        return outputFileReplaceTokens;
+    }
+
+    public void setOutputFileReplaceTokens(boolean outputFileReplaceTokens) {
+        this.outputFileReplaceTokens = outputFileReplaceTokens;
+    }
+
+    public String getOutputFileRaw() {
+        return outputFileRaw;
+    }
+
+    public void setOutputFileRaw(String outputFileRaw) {
+        this.outputFileRaw = outputFileRaw;
+    }
 }
