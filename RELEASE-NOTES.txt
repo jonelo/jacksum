@@ -1,4 +1,4 @@
-Jacksum 3.7.0, TBD, 2023
+Jacksum 3.7.0, Aug 26, 2023
 
 - new features:
   - added HMAC support
