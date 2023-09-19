@@ -55,7 +55,7 @@ Jacksum is also a library. You can use it for your projects. It is written entir
 
 ## Audience
 
-Jacksum is for users with security in mind, advanced users, sysadmins, students of informatics, computer scientists, cybersecurity engineers, forensics engineers, penetration testers, white hat hackers, reverse engineers, CRC researchers, etc.
+Jacksum is for users with security in mind, advanced users, sysadmins, students of informatics, computer scientists, cybersecurity engineers, forensics engineers, penetration testers, white hat hackers, reverse engineers, CRC researchers, etc. Jacksum is for professionals, but since HashGarten bundles the Jacksum library, Jacksum is available even to users who don't even know how to open a terminal.
 
 
 ## System Requirements
@@ -100,9 +100,13 @@ Adler-32, ascon-hash, ascon-hasha, ascon-xof, ascon-xofa, AST strsum PRNG hash, 
 
 See also [Algorithms of Jacksum](https://github.com/jonelo/jacksum/wiki/Algorithms)
 
+Jacksum supports **HMAC**, a mechanism for message authentication using any iterated cryptographic hash function in combination with a secret shared key.
+
+Jacksum supports the **"Rocksoft (tm) Model CRC Algorithm"** to describe CRCs, so additional 1.0399*10^267 customized CRCs can be used.
+
 ## User Interfaces
 
-Jacksum provides a command line interface (CLI), a graphical user interface (GUI), and an application programming interface (API).
+Jacksum provides a command line interface (CLI), and an application programming interface (API). A graphical user interface (GUI) is provided by HashGarten which is a subproject of the Jacksum project. Also, there are file browser integrations (FBI) available to integrate Jacksum and HashGarten into your preferred file browser such as Finder on macOS, Windows Explorer on Microsoft Windows or Caja, Dolphin, elementary Files, Konqueror, Krusader, Nemo, GNOME Nautilus, ROX-Filter, SpaceFM, Thunar, Xfe, or zzzFM on GNU/Linux.
 
 ### CLI
 
