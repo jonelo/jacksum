@@ -219,7 +219,8 @@ OPERATING MODES
         jacksum [OPTION]... (--quick|-q) <sequence>
 \
         In this mode, you can specify the input data entirely on the command
-        line and calculate the hash(es) of it.
+        line and calculate the hash(es) of it. You can also read secret data
+        from the console, and hash the secret.
 \
         The mode is enabled if you specify -q (or --quick).
 \
@@ -235,6 +236,8 @@ OPERATING MODES
 \
         Example:
             > jacksum -q txt:"Hello World"
+            > jacksum -q password -a sha256 -E z85
+            Password: facebook.com <a strong master password>
 \
 \
     5. Verify a sequence quickly
@@ -242,8 +245,7 @@ OPERATING MODES
         jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
 \
         In this mode, you can specify the input data on the command line,
-        calculate the hash(es), and verify the integrity. You can also read
-        secret data from the console, and hash the secret.
+        calculate the hash(es), and verify the integrity.
         This mode is enabled if you specify both -q and -e.
 \
         For OPTION the following option types are supported:
@@ -256,8 +258,6 @@ OPERATING MODES
 \
         Examples:
             > jacksum -a md5 -e 5d41402abc4b2a76b9719d911017c592 -q txt:hello
-            > jacksum -q password -a sha256 -E z85
-            Password: facebook.com <a strong master password>
 \
 \
     6. Find hash functions
