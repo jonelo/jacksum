@@ -818,7 +818,7 @@ OPTIONS
 \
             you can specify a parser file by using the --compat option.
             The parser file must have all the necessary definitions to properly
-            parse <file>. For more information, see the -C option.
+            parse <file>. For more information, see the -C resp. --style option.
 \
             If <file> is set to a single dash (-) Jacksum reads from stdin.
             Use option --charset-check-file to specify the character set for
@@ -826,6 +826,9 @@ OPTIONS
 \
             You can use the option -I in order to ignore all lines that start
             with a particular string in <file>.
+\
+            If multiple hash values are stored in the check file for a file name
+            the last hash value will win that corresponds to that file name.
 \
             To exclude files from being checked, just remove the lines from the
             list. This can be done with "findstr /V" on Windows, and with

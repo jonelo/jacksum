@@ -1,3 +1,17 @@
+Jacksum 3.8.0, TBD
+
+- new features:
+
+- bug fixes:
+  - Don't ignore records with same comments in wanted list files.
+    While ignoring duplicate file names in check files makes sense for the option --check-file, that setting is
+    suboptimal if option --wanted-list is used, because filenames are treated as comments in wanted lists.
+
+- improved performance:
+
+- updated documentation:
+
+
 Jacksum 3.7.0, Aug 26, 2023
 
 - new features:

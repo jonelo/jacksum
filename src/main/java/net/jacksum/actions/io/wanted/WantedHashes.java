@@ -57,6 +57,7 @@ public class WantedHashes {
         // construct the parser by using Parser's properties
         try {
             parser = new Parser(compatibilityProperties);
+            parser.setReplaceDuplicateFilenames(false);
         } catch (InvalidParserParameterException pe) {
             throw new ParameterException(pe.getMessage());
         }
