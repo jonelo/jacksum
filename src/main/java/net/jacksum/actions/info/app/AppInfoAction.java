@@ -49,6 +49,7 @@ public class AppInfoAction implements Action {
         printSupportedCharsets();
         printSystemProperties();
         printAvailableProcessors();
+        printJavaHeapInfo();
         return ExitCode.OK;
     }
 
@@ -96,6 +97,14 @@ public class AppInfoAction implements Action {
     private void printAvailableProcessors() {
         System.out.printf("Available processors: %s\n\n", Runtime.getRuntime().availableProcessors());
     }
+
+    private void printJavaHeapInfo() {
+        System.out.println("Java Heap:");
+        System.out.printf("    Total memory: %s\n", Runtime.getRuntime().totalMemory());
+        System.out.printf("    Free memory: %s\n", Runtime.getRuntime().freeMemory());
+        System.out.printf("    Max memory: %s\n", Runtime.getRuntime().maxMemory());
+    }
+
 
     private static void printSystemProperties() {
         System.out.println("System properties:");

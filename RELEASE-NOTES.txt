@@ -1,6 +1,7 @@
 Jacksum 3.8.0, TBD
 
 - new features:
+  - added Java Heap Info to the output of the --info option (for troubleshooting purposes)
 
 - bug fixes:
   - Don't ignore records with same comments in wanted list files.
