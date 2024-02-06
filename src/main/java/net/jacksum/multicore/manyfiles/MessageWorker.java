@@ -25,6 +25,8 @@ package net.jacksum.multicore.manyfiles;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+
 import net.jacksum.multicore.manyfiles.Message.Type;
 import net.jacksum.parameters.combined.GatheringParameters;
 import net.jacksum.parameters.combined.ProducerConsumerParameters;
@@ -53,6 +55,9 @@ public class MessageWorker implements Runnable {
         //System.out.println("File Consumer started.");        
 
         ExecutorService executorService = Executors.newFixedThreadPool(cores);
+        // The producer thread will be employed to run the task it just submitted. This is effective back pressure.
+        // If the caller is running the task itself, it can't produce another tasks until it is done with its current task.
+        ((ThreadPoolExecutor)executorService).setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         try {
             Message message;
             // consuming messages until the exit message is received
