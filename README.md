@@ -1,16 +1,15 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/jonelo/jacksum?color=blue)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/jonelo/jacksum?color=blue)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/jonelo/jacksum?color=green)
-![GitHub downloads latest](https://img.shields.io/github/downloads/jonelo/jacksum/v3.6.0/total?color=green)
+![GitHub downloads latest](https://img.shields.io/github/downloads/jonelo/jacksum/v3.7.0/total?color=green)
 ![GitHub](https://img.shields.io/github/license/jonelo/jacksum?color=green)
 ![GitHub top language](https://img.shields.io/github/languages/top/jonelo/jacksum?color=green)
 ![GitHub downloads](https://img.shields.io/github/downloads/jonelo/jacksum/total?color=green)
 
-* * *
-
-<img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
 # Jacksum
+
+<img width="128" height="128" align="right" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
 **Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform,
 feature-rich, multi-threaded, command line utility that makes hash
