@@ -9,6 +9,8 @@ Jacksum 3.8.0, TBD
     suboptimal if option --wanted-list is used, because filenames are treated as comments in wanted lists.
   - OOM can occur if producer is much faster than the consumer threads
   - keccak-384 was not recognised as an alias
+  - added info about the usage of the internal state value for verification of test vectors submitted for the NIST competition
+    in the manpage for skein-256.
 
 - improved performance:
 

@@ -7479,6 +7479,13 @@ ALGORITHMS
                 This is the implementation of version 1.3 of Skein, which was
                 presented to NIST for the 3rd and final round of the competition
                 in October 2010.
+                Note: for the submission to NIST, the authors used an internal
+                state of 512 bits for the digest widths 224, 256, 384, and 512.
+                If you want to verify test vectors of the 256 bit width
+                submitted for the NIST competition, you must specify the
+                algorithm as skein-512-256 and not as skein-256. The skein256
+                command that comes with FreeBSD 11.1 and later, uses an internal
+                state of 256 bits.
 \
             compatibility:
                 - 7z:              -
