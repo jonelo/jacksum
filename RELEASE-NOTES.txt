@@ -8,6 +8,7 @@ Jacksum 3.8.0, TBD
     While ignoring duplicate file names in check files makes sense for the option --check-file, that setting is
     suboptimal if option --wanted-list is used, because filenames are treated as comments in wanted lists.
   - OOM can occur if producer is much faster than the consumer threads
+  - keccak-384 was not recognised as an alias
 
 - improved performance:
 
