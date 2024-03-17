@@ -30,6 +30,11 @@ import net.jacksum.zzadopt.fr.cryptohash.BlueMidnightWish224;
 import net.jacksum.zzadopt.fr.cryptohash.BlueMidnightWish256;
 import net.jacksum.zzadopt.fr.cryptohash.BlueMidnightWish384;
 import net.jacksum.zzadopt.fr.cryptohash.BlueMidnightWish512;
+import net.jacksum.zzadopt.fr.cryptohash.SIMD224;
+import net.jacksum.zzadopt.fr.cryptohash.SIMD256;
+import net.jacksum.zzadopt.fr.cryptohash.SIMD384;
+import net.jacksum.zzadopt.fr.cryptohash.SIMD512;
+
 import net.jacksum.zzadopt.fr.cryptohash.RadioGatun32;
 import net.jacksum.zzadopt.fr.cryptohash.RadioGatun64;
 import net.jacksum.zzadopt.fr.cryptohash.PANAMA;
@@ -148,6 +153,18 @@ public class HashFactory implements Registry {
                break;
            case BMW224:
                result = new BlueMidnightWish224();
+               break;
+           case SIMD512:
+               result = new SIMD512();
+               break;
+           case SIMD384:
+               result = new SIMD384();
+               break;
+           case SIMD256:
+               result = new SIMD256();
+               break;
+           case SIMD224:
+               result = new SIMD224();
                break;
 
            default:

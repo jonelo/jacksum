@@ -135,6 +135,11 @@ public class Selectors {
         SHA3_512_Selector.class,
         SHAKE128_Selector.class,
         SHAKE256_Selector.class,
+        SIMD224_Selector.class,
+        SIMD256_Selector.class,
+        SIMD384_Selector.class,
+        SIMD512_Selector.class,
+
         Skein_Selector.class,
         SM3_Selector.class,
         Streebog256_Selector.class,
@@ -278,6 +283,11 @@ public class Selectors {
         BlueMidnightWish256_Selector.class,
         BlueMidnightWish384_Selector.class,
         BlueMidnightWish512_Selector.class,
+
+        SIMD224_Selector.class,
+        SIMD256_Selector.class,
+        SIMD384_Selector.class,
+        SIMD512_Selector.class,
         
         
         // pre-SHA-3-competition workshop suggestions

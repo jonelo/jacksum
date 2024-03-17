@@ -44,6 +44,11 @@ public interface Registry {
    final static String BMW384 = "bluemidnightwish384";
    final static String BMW512 = "bluemidnightwish512";
 
+   final static String SIMD224 = "simd224";
+   final static String SIMD256 = "simd256";
+   final static String SIMD384 = "simd384";
+   final static String SIMD512 = "simd512";
+
 
    // not submitted to the SHA-3 competition
    final static String RADIOGATUN32 = "radiogatun32";

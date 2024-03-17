@@ -7482,6 +7482,42 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.SHAKEDigest
 
 
+    simd<length>, simd-<length>
+            algorithm:
+                SIMD
+\
+            length:
+                224, 384, 256 or 512 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                09/2009
+\
+            broken:
+                no
+\
+            website:
+                https://who.rocq.inria.fr/Gaetan.Leurent/simd.html
+\
+            comment:
+                SIMD is one of 14 hash functions that had made it into the
+                second round of the NIST SHA-3 competition
+                (2007-2012). SIMD was submitted by Gaetan Leurent, France.
+                SIMD did not pass the final (3rd) round of the
+                NIST SHA-3 competition, but it is not broken. This is the latest
+                implementation according to the second round of the NIST SHA-3
+                competition.
+                (SIMD specification from Sep 15, 2009)
+\
+            since:
+                Jacksum 3.8.0
+\
+            implementation:
+                fr.cryptohash.SIMD<length>
+
+
     skein-256, skein-256-<length>, skein256
             algorithm:
                 Skein-256
