@@ -40,6 +40,10 @@ public class Selectors {
         Blake2sp_Selector.class,
         Blake2bp_Selector.class,
         Blake3_Selector.class,
+        BlueMidnightWish224_Selector.class,
+        BlueMidnightWish256_Selector.class,
+        BlueMidnightWish384_Selector.class,
+        BlueMidnightWish512_Selector.class,
         CksumMinix_Selector.class,
         Cksum_Selector.class,
         CRC8_Selector.class,
@@ -269,6 +273,11 @@ public class Selectors {
         Luffa256_Selector.class,
         Luffa384_Selector.class,
         Luffa512_Selector.class,
+
+        BlueMidnightWish224_Selector.class,
+        BlueMidnightWish256_Selector.class,
+        BlueMidnightWish384_Selector.class,
+        BlueMidnightWish512_Selector.class,
         
         
         // pre-SHA-3-competition workshop suggestions

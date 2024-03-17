@@ -3535,6 +3535,43 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests.Blake3Digest
 
 
+    bluemidnightwish<length>, bluemidnightwish-<length>
+            algorithm:
+                Blue Midnight Wish
+\
+            length:
+                224, 384, 256 or 512 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                09/2009
+\
+            broken:
+                no
+\
+            website:
+                https://web.archive.org/web/20161028114810/http://www.q2s.ntnu.no/sha3_nist_competition/start
+\
+            comment:
+                "Blue Midnight Wish" is one of 14 hash functions that had made
+                it into the second round of the NIST SHA-3 competition
+                (2007-2012). "Blue Midnight Wish" was submitted by a team at
+                the Norwegian University of Science and Technology.
+                "Blue Midnight Wish" did not pass the final (3rd) round of the
+                NIST SHA-3 competition, but it is not broken. This is the latest
+                implementation according to the second round of the NIST SHA-3
+                competition.
+                (Blue Midnight Wish specification from Sep 10, 2009)
+\
+            since:
+                Jacksum 3.8.0
+\
+            implementation:
+                fr.cryptohash.BlueMidnightWish<length>
+
+
     cksum
             algorithm:
                 POSIX 1003.2 CRC algorithm

@@ -38,7 +38,12 @@ public interface Registry {
    final static String LUFFA256 = "luffa256";
    final static String LUFFA384 = "luffa384";
    final static String LUFFA512 = "luffa512";
-   
+
+   final static String BMW224 = "bluemidnightwish224";
+   final static String BMW256 = "bluemidnightwish256";
+   final static String BMW384 = "bluemidnightwish384";
+   final static String BMW512 = "bluemidnightwish512";
+
 
    // not submitted to the SHA-3 competition
    final static String RADIOGATUN32 = "radiogatun32";

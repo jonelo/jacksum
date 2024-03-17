@@ -1,3 +1,4 @@
+// https://web.archive.org/web/20160620024611/http://www.saphir2.com/sphlib/files/sphlib-3.0.zip
 package net.jacksum.zzadopt.fr.cryptohash.ext;
 
 import net.jacksum.zzadopt.fr.cryptohash.Digest;
@@ -25,6 +26,10 @@ import net.jacksum.zzadopt.fr.cryptohash.Luffa224;
 import net.jacksum.zzadopt.fr.cryptohash.Luffa256;
 import net.jacksum.zzadopt.fr.cryptohash.Luffa384;
 import net.jacksum.zzadopt.fr.cryptohash.Luffa512;
+import net.jacksum.zzadopt.fr.cryptohash.BlueMidnightWish224;
+import net.jacksum.zzadopt.fr.cryptohash.BlueMidnightWish256;
+import net.jacksum.zzadopt.fr.cryptohash.BlueMidnightWish384;
+import net.jacksum.zzadopt.fr.cryptohash.BlueMidnightWish512;
 import net.jacksum.zzadopt.fr.cryptohash.RadioGatun32;
 import net.jacksum.zzadopt.fr.cryptohash.RadioGatun64;
 import net.jacksum.zzadopt.fr.cryptohash.PANAMA;
@@ -132,6 +137,19 @@ public class HashFactory implements Registry {
            case LUFFA224:
                result = new Luffa224();
                break;
+           case BMW512:
+               result = new BlueMidnightWish512();
+               break;
+           case BMW384:
+               result = new BlueMidnightWish384();
+               break;
+           case BMW256:
+               result = new BlueMidnightWish256();
+               break;
+           case BMW224:
+               result = new BlueMidnightWish224();
+               break;
+
            default:
                break;
        }
