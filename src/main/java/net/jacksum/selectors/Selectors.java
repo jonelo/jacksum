@@ -91,6 +91,11 @@ public class Selectors {
         Groestl512_Selector.class,
         GostDefault_Selector.class,
         GostCryptoPro_Selector.class,
+        Hamsi224_Selector.class,
+        Hamsi256_Selector.class,
+        Hamsi384_Selector.class,
+        Hamsi512_Selector.class,
+
         Has160_Selector.class,
         Haval_Selector.class,
         JH224_Selector.class,
@@ -299,7 +304,11 @@ public class Selectors {
         CubeHash384_Selector.class,
         CubeHash512_Selector.class,
 
-        
+        Hamsi224_Selector.class,
+        Hamsi256_Selector.class,
+        Hamsi384_Selector.class,
+        Hamsi512_Selector.class,
+
         // pre-SHA-3-competition workshop suggestions
         // ------------------------------------------
         FORK256_Selector.class,

@@ -2,10 +2,11 @@ Jacksum 3.8.0, TBD
 
 - new features:
   - added Java Heap Info to the output of the --info option (for troubleshooting purposes)
-  - added 2 algorithms from the round 2 of the NIST SHA-3 competition:
+  - added 4 algorithms from the round 2 of the NIST SHA-3 competition:
     - BlueMidnightWish-[224,256,384,512]
     - SIMD-[224,256,384,512]
     - CubeHash-[224,256,384,512]
+    - Hamsi-[224,256,384,512]
 
 - bug fixes:
   - Don't ignore records with same comments in wanted list files.

@@ -38,6 +38,10 @@ import net.jacksum.zzadopt.fr.cryptohash.CubeHash224;
 import net.jacksum.zzadopt.fr.cryptohash.CubeHash256;
 import net.jacksum.zzadopt.fr.cryptohash.CubeHash384;
 import net.jacksum.zzadopt.fr.cryptohash.CubeHash512;
+import net.jacksum.zzadopt.fr.cryptohash.Hamsi224;
+import net.jacksum.zzadopt.fr.cryptohash.Hamsi256;
+import net.jacksum.zzadopt.fr.cryptohash.Hamsi384;
+import net.jacksum.zzadopt.fr.cryptohash.Hamsi512;
 
 import net.jacksum.zzadopt.fr.cryptohash.RadioGatun32;
 import net.jacksum.zzadopt.fr.cryptohash.RadioGatun64;
@@ -182,6 +186,19 @@ public class HashFactory implements Registry {
                break;
            case CUBEHASH224:
                result = new CubeHash224();
+               break;
+
+           case HAMSI512:
+               result = new Hamsi512();
+               break;
+           case HAMSI384:
+               result = new Hamsi384();
+               break;
+           case HAMSI256:
+               result = new Hamsi256();
+               break;
+           case HAMSI224:
+               result = new Hamsi224();
                break;
 
            default:
