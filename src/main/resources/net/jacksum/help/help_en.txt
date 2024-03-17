@@ -7697,7 +7697,7 @@ ALGORITHMS
                 RFC 6986
 \
             comment:
-                Streebogis a cryptographic hash function defined in the Russian
+                Streebog is a cryptographic hash function defined in the Russian
                 national standard GOST R 34.11-2012. It was co-developed by the 
                 FSB (Federalnaja Sluschba Besopasnosti), the Federal Security
                 Service of the Russian Federation to replace the obsolete GOST
@@ -7766,7 +7766,7 @@ ALGORITHMS
                 RFC 6986
 \
             comment:
-                Streebogis a cryptographic hash function defined in the Russian
+                Streebog is a cryptographic hash function defined in the Russian
                 national standard GOST R 34.11-2012. It was co-developed by the 
                 FSB (Federalnaja Sluschba Besopasnosti), the Federal Security
                 Service of the Russian Federation to replace the obsolete GOST
