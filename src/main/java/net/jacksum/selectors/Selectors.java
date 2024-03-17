@@ -62,6 +62,11 @@ public class Selectors {
         CRC64_GO_Selector.class,
         CRC64xz_Selector.class,
         CRC82darc_Selector.class,
+        CubeHash224_Selector.class,
+        CubeHash256_Selector.class,
+        CubeHash384_Selector.class,
+        CubeHash512_Selector.class,
+
         DHA256_Selector.class,
         ECHO224_Selector.class,
         ECHO256_Selector.class,
@@ -288,7 +293,12 @@ public class Selectors {
         SIMD256_Selector.class,
         SIMD384_Selector.class,
         SIMD512_Selector.class,
-        
+
+        CubeHash224_Selector.class,
+        CubeHash256_Selector.class,
+        CubeHash384_Selector.class,
+        CubeHash512_Selector.class,
+
         
         // pre-SHA-3-competition workshop suggestions
         // ------------------------------------------

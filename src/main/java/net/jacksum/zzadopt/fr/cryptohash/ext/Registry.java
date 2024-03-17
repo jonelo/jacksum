@@ -49,6 +49,10 @@ public interface Registry {
    final static String SIMD384 = "simd384";
    final static String SIMD512 = "simd512";
 
+   final static String CUBEHASH224 = "cubehash224";
+   final static String CUBEHASH256 = "cubehash256";
+   final static String CUBEHASH384 = "cubehash384";
+   final static String CUBEHASH512 = "cubehash512";
 
    // not submitted to the SHA-3 competition
    final static String RADIOGATUN32 = "radiogatun32";

@@ -34,6 +34,10 @@ import net.jacksum.zzadopt.fr.cryptohash.SIMD224;
 import net.jacksum.zzadopt.fr.cryptohash.SIMD256;
 import net.jacksum.zzadopt.fr.cryptohash.SIMD384;
 import net.jacksum.zzadopt.fr.cryptohash.SIMD512;
+import net.jacksum.zzadopt.fr.cryptohash.CubeHash224;
+import net.jacksum.zzadopt.fr.cryptohash.CubeHash256;
+import net.jacksum.zzadopt.fr.cryptohash.CubeHash384;
+import net.jacksum.zzadopt.fr.cryptohash.CubeHash512;
 
 import net.jacksum.zzadopt.fr.cryptohash.RadioGatun32;
 import net.jacksum.zzadopt.fr.cryptohash.RadioGatun64;
@@ -165,6 +169,19 @@ public class HashFactory implements Registry {
                break;
            case SIMD224:
                result = new SIMD224();
+               break;
+
+           case CUBEHASH512:
+               result = new CubeHash512();
+               break;
+           case CUBEHASH384:
+               result = new CubeHash384();
+               break;
+           case CUBEHASH256:
+               result = new CubeHash256();
+               break;
+           case CUBEHASH224:
+               result = new CubeHash224();
                break;
 
            default:
