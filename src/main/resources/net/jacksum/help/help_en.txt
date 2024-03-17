@@ -7559,6 +7559,11 @@ ALGORITHMS
                 This is the implementation of version 1.3 of Skein, which was
                 presented to NIST for the 3rd and final round of the competition
                 in October 2010.
+                Note: for the submission to NIST, the authors used an internal
+                state of 512 bits for the digest widths 224, 256, 384, and 512.
+                If you want to verify test vectors submitted for the NIST
+                competition, you must specify the algorithm as skein-512-224,
+                skein-512-256, skein-512-384 or skein-512-512.
 \
             compatibility:
                 - 7z:              -
