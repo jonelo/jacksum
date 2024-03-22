@@ -770,10 +770,11 @@ OPTIONS
             By default, Jacksum uses algorithms provided by the Java API if
             available, as these are optimized by your JVM vendor and usually
             provide a very good performance.
-            If -A is set, Jacksum uses an alternate, pure Java implementation of
-            an algorithm, if available. Actually, Jacksum supports alternate
-            implementations for the following algorithms:
-            adler32, crc32, md2, md5, sha-1, sha-256, sha-384, sha-512
+            If -A is set, Jacksum uses an alternative, pure Java implementation
+            of an algorithm, if available. Actually, Jacksum supports
+            alternative implementations for the following algorithms:
+            adler32, blake3, crc32, md2, md5, sha-1, sha-256, sha-384, sha-512,
+            sha3-224, sha3-256, sha3-384, sha3-512
 \
             Available since version 1.5.0 of Jacksum.
             See also option -a.
@@ -1949,7 +1950,7 @@ OPTIONS
                 - CRC implementation details including different representations
                   of the polynomial (normal, reversed, and Koopman repr.)
                 - The corresponding reciprocal polynomial of a CRC
-                - Whether an alternate implementation has been requested,
+                - Whether an alternative implementation has been requested,
                   whether it is available and would be used
 \
             If -a has been set to return multiple or all algorithms,
@@ -2992,8 +2993,8 @@ ALGORITHMS
 \
             implementation:
                 java.util.zip.Adler32 as provided by the JDK.
-                The alternate implementation from net.jacksum.algorithms is used
-                if option -A has been specified.
+                The alternative implementation from net.jacksum.algorithms is
+                used if option -A has been specified.
 
 
     ascon-hash
@@ -3531,8 +3532,8 @@ ALGORITHMS
                 Jacksum 3.0.0
 \
             implementation:
-                io.github.rctcwyvrn.blake3, alternate implementation provided by
-                org.bouncycastle.crypto.digests.Blake3Digest
+                io.github.rctcwyvrn.blake3, alternative implementation provided
+                by org.bouncycastle.crypto.digests.Blake3Digest
 
 
     bluemidnightwish<length>, bluemidnightwish-<length>
@@ -4790,7 +4791,7 @@ ALGORITHMS
                 1991
 \
             comment:
-                Fowler-Noll-Vo alternate is a non-cryptographic hash function
+                Fowler-Noll-Vo is a non-cryptographic hash function
                 created by Glenn Fowler, Landon Curt Noll, and Phong Vo.
                 The only difference between the FNV-1a hash and the FNV-1 hash
                 is the order of the xor and multiply in the update method.
@@ -5888,7 +5889,7 @@ ALGORITHMS
 \
             implementation:
                 java.security.MessageDigest. gnu.crypto.hash.MD5 is the
-                alternate implementation and it will be used if you have set the
+                alternative implementation and it will be used if you have set the
                 option -A.
 
 
@@ -6583,7 +6584,7 @@ ALGORITHMS
 \
             implementation:
                 java.security.MessageDigest as provided by the JRE.
-                gnu.crypto.hash.Sha160 is the alternate implementation and it
+                gnu.crypto.hash.Sha160 is the alternative implementation and it
                 will be used if you have specified the option -A.
 
 
@@ -6762,8 +6763,8 @@ ALGORITHMS
 \
             implementation:
                 java.security.MessageDigest as provided by the JRE.
-                gnu.crypto.hash.Sha256 is an alternate implementation and it is
-                used if you have specified option -A.
+                gnu.crypto.hash.Sha256 is an alternative implementation and it
+                is used if you have specified option -A.
 
 
     sha-384, sha384
@@ -6855,8 +6856,8 @@ ALGORITHMS
 \
             implementation:
                 java.security.MessageDigest as provided by the JRE.
-                gnu.crypto.hash.Sha384 is an alternate implementation and it is
-                used if you have specified option -A.
+                gnu.crypto.hash.Sha384 is an alternative implementation and it
+                is used if you have specified option -A.
 
 
     sha-512, sha512
@@ -6948,8 +6949,8 @@ ALGORITHMS
 \
             implementation:
                 java.security.MessageDigest as provided by the JRE.
-                gnu.crypto.hash.Sha512 is an alternate implementation and it is
-                used if you have specified option -A.
+                gnu.crypto.hash.Sha512 is an alternative implementation and it
+                is used if you have specified option -A.
 
 
     sha-512/224, sha512/224, sha512t224
@@ -7154,7 +7155,7 @@ ALGORITHMS
                 Jacksum 3.0.0
 \
             implementation:
-                java.security.MessageDigest, the alternate implementation
+                java.security.MessageDigest, the alternative implementation
                 org.bouncycastle.crytpo.digests.SHA3Digest will be used if your
                 JRE/JDK doesn't support that algorithm, or if the option -A has
                 been specified.
@@ -7228,7 +7229,7 @@ ALGORITHMS
                 Jacksum 3.0.0
 \
             implementation:
-                java.security.MessageDigest, the alternate implementation
+                java.security.MessageDigest, the alternative implementation
                 org.bouncycastle.crytpo.digests.SHA3Digest will be used if your
                 JRE/JDK doesn't support that algorithm, or if the option -A has
                 been specified.
@@ -7303,7 +7304,7 @@ ALGORITHMS
                 Jacksum 3.0.0
 \
             implementation:
-                java.security.MessageDigest, the alternate implementation
+                java.security.MessageDigest, the alternative implementation
                 org.bouncycastle.crytpo.digests.SHA3Digest will be used if your
                 JRE/JDK doesn't support that algorithm, or if the option -A has
                 been specified.
@@ -7377,7 +7378,7 @@ ALGORITHMS
                 Jacksum 3.0.0
 \
             implementation:
-                java.security.MessageDigest, the alternate implementation
+                java.security.MessageDigest, the alternative implementation
                 org.bouncycastle.crytpo.digests.SHA3Digest will be used if your
                 JRE/JDK doesn't support that algorithm, or if the option -A has
                 been specified.
@@ -9149,7 +9150,7 @@ EXAMPLES
         > jacksum -A -a md5 -V summary bigfile.iso
         Among others it also returns the elapsed time (-V summary) which was
         necessary to calculate the MD5 Hash of the file called bigfile.iso
-        by using the alternate MD5 implementation (-A).
+        by using the alternative MD5 implementation (-A).
 \
 \
     Calculate hashes from file lists:
@@ -9395,7 +9396,7 @@ EXAMPLES
         > jacksum -a blake2b --info
         prints implementation details about the BLAKE2b algorithm, such as hash
         length in bits and bytes, blocksize if applicable, relative speed rank,
-        and whether an alternate implementation is available.
+        and whether an alternative implementation is available.
 \
         > jacksum -a crc64_xz --info
         prints implementation details about the CRC64_xz. Since it is a CRC,
