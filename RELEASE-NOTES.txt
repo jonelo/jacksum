@@ -7,6 +7,7 @@ Jacksum 3.8.0, TBD
     - SIMD-[224,256,384,512]
     - CubeHash-[224,256,384,512]
     - Hamsi-[224,256,384,512]
+    - Shabal-[192,224,256,384,512]
 
 - bug fixes:
   - Don't ignore records with same comments in wanted list files.

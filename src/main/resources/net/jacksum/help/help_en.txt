@@ -7384,6 +7384,44 @@ ALGORITHMS
                 been specified.
 
 
+    shabal<length>, shabal-<length>
+            algorithm:
+                Shabal
+\
+            length:
+                192, 224, 384, 256 or 512 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                09/2009
+\
+            broken:
+                no
+\
+            website:
+                https://web.archive.org/web/20161203012059/http://www.shabal.com/
+\
+            comment:
+                Shabal is one of 14 hash functions that had made it into the
+                second round of the NIST SHA-3 competition
+                (2007-2012). Shabal was submitted by the France funded research
+                project Saphir to NIST’s international competition on hash
+                functions.
+                Shabal did not pass the final (3rd) round of the NIST SHA-3
+                competition, but it is not broken. This is the latest
+                implementation according to the second round of the NIST SHA-3
+                competition.
+                (Shabal specification from Sep 2009)
+\
+            since:
+                Jacksum 3.8.0
+\
+            implementation:
+                fr.cryptohash.Shabal<length>
+
+
     shake128
             algorithm:
                 SHAKE128 (Secure Hash Algorithm KECCAK, 128 bit security)

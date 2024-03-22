@@ -42,6 +42,17 @@ import net.jacksum.zzadopt.fr.cryptohash.Hamsi224;
 import net.jacksum.zzadopt.fr.cryptohash.Hamsi256;
 import net.jacksum.zzadopt.fr.cryptohash.Hamsi384;
 import net.jacksum.zzadopt.fr.cryptohash.Hamsi512;
+import net.jacksum.zzadopt.fr.cryptohash.Shabal192;
+import net.jacksum.zzadopt.fr.cryptohash.Shabal224;
+import net.jacksum.zzadopt.fr.cryptohash.Shabal256;
+import net.jacksum.zzadopt.fr.cryptohash.Shabal384;
+import net.jacksum.zzadopt.fr.cryptohash.Shabal512;
+//import net.jacksum.zzadopt.fr.cryptohash.SHAvite224;
+//import net.jacksum.zzadopt.fr.cryptohash.SHAvite256;
+//import net.jacksum.zzadopt.fr.cryptohash.SHAvite384;
+//import net.jacksum.zzadopt.fr.cryptohash.SHAvite512;
+
+
 
 import net.jacksum.zzadopt.fr.cryptohash.RadioGatun32;
 import net.jacksum.zzadopt.fr.cryptohash.RadioGatun64;
@@ -201,6 +212,35 @@ public class HashFactory implements Registry {
                result = new Hamsi224();
                break;
 
+           case SHABAL512:
+               result = new Shabal512();
+               break;
+           case SHABAL384:
+               result = new Shabal384();
+               break;
+           case SHABAL256:
+               result = new Shabal256();
+               break;
+           case SHABAL224:
+               result = new Shabal224();
+               break;
+           case SHABAL192:
+               result = new Shabal192();
+               break;
+/*
+           case SHAVITE512:
+               result = new SHAvite512();
+               break;
+           case SHAVITE384:
+               result = new SHAvite384();
+               break;
+           case SHAVITE256:
+               result = new SHAvite256();
+               break;
+           case SHAVITE224:
+               result = new SHAvite224();
+               break;
+*/
            default:
                break;
        }

@@ -59,6 +59,18 @@ public interface Registry {
    final static String HAMSI384 = "hamsi384";
    final static String HAMSI512 = "hamsi512";
 
+   final static String SHABAL192 = "shabal192";
+   final static String SHABAL224 = "shabal224";
+   final static String SHABAL256 = "shabal256";
+   final static String SHABAL384 = "shabal384";
+   final static String SHABAL512 = "shabal512";
+
+//   final static String SHAVITE224 = "shavite224";
+//   final static String SHAVITE256 = "shavite256";
+//   final static String SHAVITE384 = "shavite384";
+//   final static String SHAVITE512 = "shavite512";
+
+
    // not submitted to the SHA-3 competition
    final static String RADIOGATUN32 = "radiogatun32";
    final static String RADIOGATUN64 = "radiogatun64";

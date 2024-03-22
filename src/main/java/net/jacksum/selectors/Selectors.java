@@ -143,6 +143,18 @@ public class Selectors {
         SHA3_256_Selector.class,
         SHA3_384_Selector.class,
         SHA3_512_Selector.class,
+
+        Shabal192_Selector.class,
+        Shabal224_Selector.class,
+        Shabal256_Selector.class,
+        Shabal384_Selector.class,
+        Shabal512_Selector.class,
+
+        //Shavite224_Selector.class,
+        //Shavite256_Selector.class,
+        //Shavite384_Selector.class,
+        //Shavite512_Selector.class,
+
         SHAKE128_Selector.class,
         SHAKE256_Selector.class,
         SIMD224_Selector.class,
@@ -308,6 +320,18 @@ public class Selectors {
         Hamsi256_Selector.class,
         Hamsi384_Selector.class,
         Hamsi512_Selector.class,
+
+        Shabal192_Selector.class,
+        Shabal224_Selector.class,
+        Shabal256_Selector.class,
+        Shabal384_Selector.class,
+        Shabal512_Selector.class,
+
+        //Shavite224_Selector.class,
+        //Shavite256_Selector.class,
+        //Shavite384_Selector.class,
+        //Shavite512_Selector.class,
+
 
         // pre-SHA-3-competition workshop suggestions
         // ------------------------------------------
