@@ -66,7 +66,6 @@ public class Selectors {
         CubeHash256_Selector.class,
         CubeHash384_Selector.class,
         CubeHash512_Selector.class,
-
         DHA256_Selector.class,
         ECHO224_Selector.class,
         ECHO256_Selector.class,
@@ -95,7 +94,6 @@ public class Selectors {
         Hamsi256_Selector.class,
         Hamsi384_Selector.class,
         Hamsi512_Selector.class,
-
         Has160_Selector.class,
         Haval_Selector.class,
         JH224_Selector.class,
@@ -131,6 +129,7 @@ public class Selectors {
         Ripemd160_Selector.class,
         Ripemd256_Selector.class,
         Ripemd320_Selector.class,
+        RomulusH_Selector.class,
         SHA0_Selector.class,
         SHA1_Selector.class,
         SHA2_224_Selector.class,
@@ -143,13 +142,11 @@ public class Selectors {
         SHA3_256_Selector.class,
         SHA3_384_Selector.class,
         SHA3_512_Selector.class,
-
         Shabal192_Selector.class,
         Shabal224_Selector.class,
         Shabal256_Selector.class,
         Shabal384_Selector.class,
         Shabal512_Selector.class,
-
         //Shavite224_Selector.class,
         //Shavite256_Selector.class,
         //Shavite384_Selector.class,
@@ -252,8 +249,8 @@ public class Selectors {
 
         Esch_Selector.class,
         PhotonBeetle_Selector.class,
+        RomulusH_Selector.class,
         Xoodyak_Selector.class,
-
 
         // SHA-3 competition
         // =================

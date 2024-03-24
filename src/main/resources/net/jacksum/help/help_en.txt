@@ -6423,6 +6423,43 @@ ALGORITHMS
                 org.bouncycastle.crypto.digests
 
 
+    romulush, romulus-h
+            algorithm:
+                Romulus-H
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                05/2021 (v1.3)
+\
+            broken:
+                no
+\
+            website:
+                https://romulusae.github.io/romulus/
+\
+            comment:
+                Romulus-H is a cryptographic hash function using the tweakable
+                block cipher Skinny-128/384+ internally.
+\
+                Romulus (Romulus-H is one part of the Romulus submissin) was one
+                of the 10 finalists of the NIST Lightweight Cryptography
+                competition (2019-2023).
+\
+                Romulus was created by Tetsu Iwata, Mustafa Khairallah,
+                Kazuhiko Minematsu, Thomas Peyrin, and Chun Guo.
+\
+            since:
+                Jacksum 3.8.0
+\
+            implementation:
+                net.jacksum.algorithms.md.Romulus_H
+
+
     sha0, sha-0
             algorithm:
                 SHA-0
