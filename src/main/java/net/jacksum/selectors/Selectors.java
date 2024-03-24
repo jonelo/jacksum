@@ -327,10 +327,10 @@ public class Selectors {
         Shabal384_Selector.class,
         Shabal512_Selector.class,
 
-        //Shavite224_Selector.class,
-        //Shavite256_Selector.class,
-        //Shavite384_Selector.class,
-        //Shavite512_Selector.class,
+//        Shavite224_Selector.class,
+//        Shavite256_Selector.class,
+//        Shavite384_Selector.class,
+//        Shavite512_Selector.class,
 
 
         // pre-SHA-3-competition workshop suggestions

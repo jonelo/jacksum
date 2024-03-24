@@ -65,10 +65,10 @@ public interface Registry {
    final static String SHABAL384 = "shabal384";
    final static String SHABAL512 = "shabal512";
 
-//   final static String SHAVITE224 = "shavite224";
-//   final static String SHAVITE256 = "shavite256";
-//   final static String SHAVITE384 = "shavite384";
-//   final static String SHAVITE512 = "shavite512";
+   final static String SHAVITE224 = "shavite224";
+   final static String SHAVITE256 = "shavite256";
+   final static String SHAVITE384 = "shavite384";
+   final static String SHAVITE512 = "shavite512";
 
 
    // not submitted to the SHA-3 competition
