@@ -33,8 +33,10 @@ package net.jacksum.algorithms.md;
  * by Mustafa Khairallah, Thomas Peyrin and Kazuhiko Minematsu
  *
  * Date: 24 March 2024
- * This source has been translated from C to Java by Johann N. Loefflmann and
- * it is released under the conditions of both the original MIT license and the
+ * This source has been translated from C to Java by Johann N. Loefflmann
+ * It has been modified to be compatible with update() and doDigestFinal() methods
+ * in order to be able to process large files.
+ * It is released under the conditions of both the original MIT license and the
  * GPLv3+ - jonelo@jonelo.de
  */
 
@@ -53,44 +55,24 @@ public class Romulus_H extends AbstractChecksum {
     private byte[] h = new byte[16];
     private byte[] g = new byte[16];
 
-    // byte array to store the last message that didn't fit in a full 32 byte array
+    // A byte array to store the last bytes of the message that didn't fit in a full 32 byte array
     private byte[] lastMessage = new byte[32];
     private int lastMessageLength = 0;
 
 
-    public static void skinny_128_384_plus_enc(byte[] input, byte[] userkey) {
-        Skinny128_384_plus.enc(input, userkey);
+    private static void hirose_128_128_256(byte[] h, byte[] g, byte[] m) {
+        hirose_128_128_256(h, g, m, 0);
     }
 
-    // in = input message
-    // inlen = length of the input message
-    // out = the 256 bit hash
-    public static void crypto_hash(byte[] out, byte[] in, long inlen) {
-        byte[] h = new byte[16];
-        byte[] g = new byte[16];
-        long mlen = inlen;
-        byte[] p = new byte[32];
-
-        initialize(h, g);
-        while (mlen >= 32) {
-            hirose_128_128_256(h, g, in);
-            in = Arrays.copyOfRange(in, 32, in.length);
-            mlen -= 32;
-        }
-
-        ipad_256(in, p, 32, (int) mlen);
-        h[0] ^= 2;
-        hirose_128_128_256(h, g, p);
-
-        System.arraycopy(h, 0, out, 0, 16);
-        System.arraycopy(g, 0, out, 16, 16);
-    }
-
-
-
-    // The hirose double-block length (DBL) compression function.
-    // works on the first 32 bytes in m(essage) only.
-    public static void hirose_128_128_256(byte[] h, byte[] g, byte[] m) {
+    /**
+     * The hirose double-block length (DBL) compression function.
+     * Takes 32 bytes from the m(essage), starting at moffset.
+     * @param h an array of 16 bytes
+     * @param g an array of 16 bytes
+     * @param m the message
+     * @param moffset the offset in message m
+     */
+    private static void hirose_128_128_256(byte[] h, byte[] g, byte[] m, int moffset) {
         byte[] key = new byte[48];
         byte[] hh = new byte[16];
 
@@ -104,11 +86,11 @@ public class Romulus_H extends AbstractChecksum {
         g[0] ^= 0x01;
 
         for (int i = 0; i < 32; i++) {
-            key[i + 16] = m[i];
+            key[i + 16] = m[i + moffset];
         }
 
-        skinny_128_384_plus_enc(h, key);
-        skinny_128_384_plus_enc(g, key);
+        Skinny_128_384_plus.enc(h, key);
+        Skinny_128_384_plus.enc(g, key);
 
         for (int i = 0; i < 16; i++) {
             h[i] ^= hh[i];
@@ -134,7 +116,7 @@ public class Romulus_H extends AbstractChecksum {
     // l = length of the padded message
     // len8 = length of the message m, expressed in 8 bits
     //
-    public static void ipad_256(byte[] m, byte[] mp, int l, int len8) {
+    private static void ipad_256(byte[] m, byte[] mp, int l, int len8) {
         for (int i = 0; i < l; i++) {
             if (i < len8) {
                 mp[i] = m[i];
@@ -146,6 +128,7 @@ public class Romulus_H extends AbstractChecksum {
         }
     }
 
+/*
     // Padding function: pads the byte length of the message mod 32 to the last incomplete block.
     // For complete blocks it returns the same block. For an empty block it returns a 0^2n string.
     // The function is called for full block messages to add a 0^2n block. This and the modulus are
@@ -161,7 +144,8 @@ public class Romulus_H extends AbstractChecksum {
             }
         }
     }
-
+*/
+/*
     private static String bytesToHex(byte[] bytes) {
         StringBuilder result = new StringBuilder();
         for (byte b : bytes) {
@@ -177,9 +161,8 @@ public class Romulus_H extends AbstractChecksum {
         crypto_hash(output, input, input.length);
         System.out.println("Hash:     " + bytesToHex(output));
         System.out.println("expected: " + "FA6CB425E9FB07E7643D429D4C0A0A77D134AD5F7B6E0BB7195FD1B3DB4C7E83");
-
     }
-
+*/
 
     public Romulus_H() throws NoSuchAlgorithmException {
         bitWidth = 256;
@@ -197,37 +180,41 @@ public class Romulus_H extends AbstractChecksum {
         length = 0;
         virgin = true;
         initialize(h, g);
+        lastMessageLength = 0;
     }
 
     @Override
     public void update(byte[] bytes, int offset, int length) {
 
-        if (lastMessageLength > 0) {
-            // TODO:
-            // take into account any remaining bytes from the last update call
-            // let "in" be the lastMessage + newMessage
-        }
-        long mlen = length;
         byte[] in = null;
-
-        // resolve offset
-        if (offset == 0) {
-            in = bytes;
+        long mlen = length;
+        if (lastMessageLength > 0) {
+            // take into account any remaining bytes from the last update() call
+            // let "in" be the lastMessage + newMessage
+            in = new byte[lastMessageLength + length];
+            System.arraycopy(lastMessage, 0, in, 0, lastMessageLength);
+            System.arraycopy(bytes, offset, in, lastMessageLength, length);
         } else {
-            in = Arrays.copyOfRange(bytes, offset, offset+length);
+            // resolve offset
+            if (offset == 0) {
+                in = bytes;
+            } else {
+                in = Arrays.copyOfRange(bytes, offset, offset + length);
+            }
         }
 
+        int moffset = 0;
         // work on full 32 byte message blocks
         while (mlen >= 32) {
-            hirose_128_128_256(h, g, in);
-            in = Arrays.copyOfRange(in, 32, in.length);
+            hirose_128_128_256(h, g, in, moffset);
+            moffset += 32;
             mlen -= 32;
         }
 
-        // save the remaining bytes for the doFinal()/digest() method
+        // save the remaining bytes for the doFinalDigest() method
         lastMessageLength = (int)mlen; // at this stage mlen is <= 32
         if (lastMessageLength > 0) {
-            System.arraycopy(in, 0, lastMessage, 0, lastMessageLength);
+            System.arraycopy(in, moffset, lastMessage, 0, lastMessageLength);
         }
     }
 

@@ -42,7 +42,7 @@ package net.jacksum.algorithms.md;
  * This file includes only the encryption function of SKINNY-128-384+ as required by Romulus-v1.3
  */
 
-public class Skinny128_384_plus {
+public class Skinny_128_384_plus {
 
     private static final boolean DEBUG = false;
 
@@ -185,7 +185,6 @@ public class Skinny128_384_plus {
     public static void subCell8(byte[][] state) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-//                state[i][j] = (byte)((sbox_8[(byte)(state[i][j])&0xFF]) & 0xFF);
                 state[i][j] = sbox_8[(byte) (state[i][j]) & 0xFF];
             }
         }
@@ -290,10 +289,6 @@ public class Skinny128_384_plus {
 
         for (i = 0; i < 16; i++)
             input[i] = (byte) (state[i >> 2][i & 0x3] & 0xFF);
-    }
-
-    public static void skinny_128_384_plus_enc(byte[] input, byte[] userkey) {
-        enc(input, userkey);
     }
 
 }
