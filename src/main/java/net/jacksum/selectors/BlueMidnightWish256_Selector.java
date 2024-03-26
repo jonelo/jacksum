@@ -53,7 +53,7 @@ public class BlueMidnightWish256_Selector extends Selector {
 
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
-        return new MDCryptohashSphlib3(net.jacksum.zzadopt.fr.cryptohash.ext.Registry.BMW224);
+        return new MDCryptohashSphlib3(net.jacksum.zzadopt.fr.cryptohash.ext.Registry.BMW256);
     }
 
 }
