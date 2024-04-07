@@ -125,7 +125,7 @@ If you prefer a GUI and you just would like to calc and verify hashes with a gra
 
 ### File Browser Integration (FBI)
 
-The File Browser Integration (FBI) installer can integrate both Jacksum and HashGarten into your preferred file browser, such as Finder on macOS, Windows File Explorer on Microsoft Windows, and Caja, Dolphin, elementary Files, GNOME Nautilus, Konqueror, Krusader, muCommander, Nemo, ROX-Filter, SpaceFM, Thunar, Xfe, or zzzFM on GNU/Linux. See also [Integrations](https://github.com/jonelo/jacksum/#integrations).
+The File Browser Integration (FBI) installer can integrate both Jacksum and HashGarten into your preferred file browser, such as Finder on macOS, Windows File Explorer on Microsoft Windows, and Caja, Dolphin, elementary Files, GNOME Nautilus, Konqueror, Krusader, muCommander, Nemo, ROX-Filter, SpaceFM, Thunar, Xfe, or zzzFM on GNU/Linux. See also [Integrations](https://github.com/jonelo/jacksum/tree/main?tab=readme-ov-file#integrations).
 
 ## Examples
 
