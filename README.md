@@ -105,13 +105,19 @@ Jacksum supports the **"Rocksoft (tm) Model CRC Algorithm"** to describe CRCs, s
 
 ## User Interfaces
 
-Jacksum provides a command line interface (CLI), and an application programming interface (API). A graphical user interface (GUI) is provided by HashGarten which is a subproject of the Jacksum project. Also, there are file browser integrations (FBI) available to integrate Jacksum and HashGarten into your preferred file browser such as Finder on macOS, Windows Explorer on Microsoft Windows or Caja, Dolphin, elementary Files, Konqueror, Krusader, Nemo, GNOME Nautilus, ROX-Filter, SpaceFM, Thunar, Xfe, or zzzFM on GNU/Linux.
+Jacksum provides a Command Line Interface (CLI), an Application Programming Interface (API). A Graphical User Interface (GUI) is provided by HashGarten which is a subproject of the Jacksum project. Also, there are File Browser Integrations (FBI) available.
+
+### Architecture
+
+![Architecture](https://github.com/jonelo/jacksum/assets/10409423/c8d4fb82-aaf6-450e-a92b-3576122eafa1)
 
 ### CLI
 
 If you are a skilled command line user you will benefit from the power on the command line and you can use Jacksum in scripts, cronjobs, etc. in order to automate file integration/verification tasks for example.
 
 <img width="100%" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/screenshot-jacksum_on_ubuntu-cli_examples.png" alt="Jacksum on Ubuntu, CLI examples" style="vertical-align:top;margin:10px 10px" />
+
+See also the [https://github.com/jonelo/jacksum/wiki/Manpage](manual of Jacksum).
 
 ### GUI
 
@@ -121,9 +127,13 @@ If you prefer a graphical user interface (GUI) and you just would like to calc a
 
 <img width="100%" src="https://raw.githubusercontent.com/jonelo/HashGarten/main/docs/images/HashGarten-0.9.0-select-algorithm.png" alt="HashGarten is powered by Jacksum" style="vertical-align:top;margin:10px 10px" />
 
-## CLI usage
+### FBI
 
-Go to (Jacksum's manual)[https://github.com/jonelo/jacksum/wiki/Manpage].
+File Browser Integrations are available to integrate both Jacksum and HashGarten into your preferred file browser, such as Finder on macOS, Windows File Explorer on Microsoft Windows, and Caja, Dolphin, elementary Files, GNOME Nautilus, Konqueror, Krusader, muCommander, Nemo, ROX-Filter, SpaceFM, Thunar, Xfe, or zzzFM on GNU/Linux.
+
+* [Jacksum File Browser Integration for Microsoft Windows](https://github.com/jonelo/jacksum-fbi-windows)
+* [Jacksum File Browser Integration for GNU/Linux](https://github.com/jonelo/jacksum-fbi-linux)
+* [Jacksum File Browser Integration for macOS](https://github.com/jonelo/jacksum-fbi-macos)
 
 ## Examples
 
