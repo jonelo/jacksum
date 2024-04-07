@@ -111,7 +111,7 @@ Jacksum provides a Command Line Interface (CLI), an Application Programming Inte
 
 ![Architecture](https://github.com/jonelo/jacksum/assets/10409423/c8d4fb82-aaf6-450e-a92b-3576122eafa1)
 
-### CLI
+### Command Line Interface (CLI)
 
 If you are a skilled command line user you will benefit from the power on the command line and you can use Jacksum in scripts, cronjobs, etc. in order to automate file integration/verification tasks for example.
 
@@ -119,19 +119,13 @@ If you are a skilled command line user you will benefit from the power on the co
 
 See also the [https://github.com/jonelo/jacksum/wiki/Manpage](manual of Jacksum).
 
-### GUI
+### Graphical User Interface (GUI)
 
-If you prefer a graphical user interface (GUI) and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration (FBI) installer which comes with [HashGarten](https://github.com/jonelo/HashGarten) that is a GUI for Jacksum. The installer is available for many different file managers on Windows, Linux, and macOS. See also [Integrations](https://github.com/jonelo/jacksum/#integrations).
+If you prefer a GUI and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration (FBI) installer which comes with [HashGarten](https://github.com/jonelo/HashGarten) that is a GUI for Jacksum.
 
-<img width="60%" src="https://raw.githubusercontent.com/jonelo/jacksum-fbi-windows/main/docs/images/sendto-de.png" alt="Jacksum on Windows, SendTo" style="vertical-align:top;margin:10px 10px" />
+### File Browser Integration (FBI)
 
-### FBI
-
-File Browser Integrations are available to integrate both Jacksum and HashGarten into your preferred file browser, such as Finder on macOS, Windows File Explorer on Microsoft Windows, and Caja, Dolphin, elementary Files, GNOME Nautilus, Konqueror, Krusader, muCommander, Nemo, ROX-Filter, SpaceFM, Thunar, Xfe, or zzzFM on GNU/Linux.
-
-* [Jacksum File Browser Integration for Microsoft Windows](https://github.com/jonelo/jacksum-fbi-windows)
-* [Jacksum File Browser Integration for GNU/Linux](https://github.com/jonelo/jacksum-fbi-linux)
-* [Jacksum File Browser Integration for macOS](https://github.com/jonelo/jacksum-fbi-macos)
+The File Browser Integration (FBI) installer can integrate both Jacksum and HashGarten into your preferred file browser, such as Finder on macOS, Windows File Explorer on Microsoft Windows, and Caja, Dolphin, elementary Files, GNOME Nautilus, Konqueror, Krusader, muCommander, Nemo, ROX-Filter, SpaceFM, Thunar, Xfe, or zzzFM on GNU/Linux. See also [Integrations](https://github.com/jonelo/jacksum/#integrations).
 
 ## Examples
 
