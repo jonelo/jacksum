@@ -109,7 +109,7 @@ Jacksum provides a Command Line Interface (CLI), an Application Programming Inte
 
 ### Architecture
 
-![Architecture](https://github.com/jonelo/jacksum/assets/10409423/c8d4fb82-aaf6-450e-a92b-3576122eafa1)
+![Architecture](https://github.com/jonelo/jacksum/assets/10409423/d0d0ce30-3698-4d7d-8d0e-e2c3d7f29bc3)
 
 ### Command Line Interface (CLI)
 
@@ -121,7 +121,7 @@ See also the [manual of Jacksum](https://github.com/jonelo/jacksum/wiki/Manpage)
 
 ### Graphical User Interface (GUI)
 
-If you prefer a GUI and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration (FBI) installer which comes with [HashGarten](https://github.com/jonelo/HashGarten) that is a GUI for Jacksum.
+If you prefer a GUI and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration (FBI) installer which comes with [HashGarten](https://github.com/jonelo/HashGarten) that is a GUI for Jacksum. HashGarten also runs standalone and it supports Drag and Drop.
 
 ### File Browser Integration (FBI)
 
