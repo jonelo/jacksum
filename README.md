@@ -121,11 +121,9 @@ See also the [https://github.com/jonelo/jacksum/wiki/Manpage](manual of Jacksum)
 
 ### GUI
 
-If you prefer a graphical user interface (GUI) and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration (FBI) installer which comes with [HashGarten](https://github.com/jonelo/HashGarten) that is a GUI for Jacksum. The installer is available for many different file managers on Windows, Linux, and macOS. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
+If you prefer a graphical user interface (GUI) and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration (FBI) installer which comes with [HashGarten](https://github.com/jonelo/HashGarten) that is a GUI for Jacksum. The installer is available for many different file managers on Windows, Linux, and macOS. See also [Integrations](https://github.com/jonelo/jacksum/#integrations).
 
 <img width="60%" src="https://raw.githubusercontent.com/jonelo/jacksum-fbi-windows/main/docs/images/sendto-de.png" alt="Jacksum on Windows, SendTo" style="vertical-align:top;margin:10px 10px" />
-
-<img width="100%" src="https://raw.githubusercontent.com/jonelo/HashGarten/main/docs/images/HashGarten-0.9.0-select-algorithm.png" alt="HashGarten is powered by Jacksum" style="vertical-align:top;margin:10px 10px" />
 
 ### FBI
 
