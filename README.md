@@ -46,7 +46,7 @@ In order to achieve the goals above Jacksum supports you with
 - Fully customizable output format
 - 170+ different character sets to be able to read and write hash files
   correctly
-- 9200+ lines of manpage with descriptions, examples, and compatibility
+- 9200+ lines of  with descriptions, examples, and compatibility
   lists for all supported algorithms
 
 Jacksum is also a library. You can use it for your projects. It is written entirely in **Java** ☕.
@@ -117,7 +117,7 @@ If you are a skilled command line user you will benefit from the power on the co
 
 <img width="100%" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/screenshot-jacksum_on_ubuntu-cli_examples.png" alt="Jacksum on Ubuntu, CLI examples" style="vertical-align:top;margin:10px 10px" />
 
-See also the [https://github.com/jonelo/jacksum/wiki/Manpage](manual of Jacksum).
+See also the [manual of Jacksum](https://github.com/jonelo/jacksum/wiki/Manpage).
 
 ### Graphical User Interface (GUI)
 
