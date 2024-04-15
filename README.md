@@ -78,7 +78,7 @@ Jacksum is for users with security in mind, advanced users, sysadmins, students 
 - Supported architectures are dependent on the OS and the JDK vendor:
   - x86 64 bit (x64)
   - x86 32 bit (x86)
-  - ARM 64 bit (AArch64, resp. M1)
+  - ARM 64 bit (AArch64, resp. Apple silicon)
   - ARM 32 bit (AArch32)
   - PPC 64 bit (ppc64)
 - a GitHub user have had success to run Jacksum without modification even on a smartphone running Android on ARM 64 bit, see also https://github.com/jonelo/jacksum/issues/7
