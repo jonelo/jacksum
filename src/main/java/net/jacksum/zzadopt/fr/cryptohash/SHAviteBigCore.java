@@ -321,7 +321,11 @@ abstract class SHAviteBigCore extends DigestEngine {
 		return 128;
 	}
 
-	/** @see DigestEngine */
+	/**
+	 * @see DigestEngine
+	 * @param dst an instance of SHAviteBigCore
+	 * @return an instance of Digest
+	 **/
 	protected Digest copyState(SHAviteBigCore dst)
 	{
 		System.arraycopy(h, 0, dst.h, 0, h.length);

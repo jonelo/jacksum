@@ -321,7 +321,11 @@ abstract class SHAviteSmallCore extends DigestEngine {
 		return 64;
 	}
 
-	/** @see DigestEngine */
+	/**
+	 * @see DigestEngine
+	 * @param dst an instance of SHAviteSmallCore
+	 * @return an instance of Digest
+	 **/
 	protected Digest copyState(SHAviteSmallCore dst)
 	{
 		System.arraycopy(h, 0, dst.h, 0, h.length);

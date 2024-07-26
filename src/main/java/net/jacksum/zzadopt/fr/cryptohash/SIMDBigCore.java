@@ -54,7 +54,11 @@ abstract class SIMDBigCore extends DigestEngine {
 		return 128;
 	}
 
-	/** @see DigestEngine */
+	/**
+	 * @see DigestEngine
+	 * @param dst an instance of SIMDBigCore
+	 * @return an instance of Digest
+	 **/
 	protected Digest copyState(SIMDBigCore dst)
 	{
 		System.arraycopy(state, 0, dst.state, 0, 32);

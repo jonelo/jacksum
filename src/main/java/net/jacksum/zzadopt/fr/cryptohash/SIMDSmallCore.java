@@ -54,7 +54,11 @@ abstract class SIMDSmallCore extends DigestEngine {
 		return 64;
 	}
 
-	/** @see DigestEngine */
+	/**
+	 * @see DigestEngine
+	 * @param dst an instance of SIMDSmallCore
+	 * @return an instance of Digest
+	 **/
 	protected Digest copyState(SIMDSmallCore dst)
 	{
 		System.arraycopy(state, 0, dst.state, 0, 16);
