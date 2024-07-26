@@ -414,7 +414,11 @@ abstract class CubeHashCore extends DigestEngine {
 		xv = iv[31];
 	}
 
-	/** @see DigestEngine */
+	/**
+	 * @see DigestEngine
+	 * @param dst an instance of CubeHashCore
+	 * @return an instance of Digest
+	 **/
 	protected Digest copyState(CubeHashCore dst)
 	{
 		dst.x0 = x0;

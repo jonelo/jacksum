@@ -53,7 +53,10 @@ abstract class BlueMidnightWishSmallCore extends DigestEngine {
 		return 64;
 	}
 
-	/** @see DigestEngine */
+	/** @see DigestEngine
+	 * @param dst a BlueMidnightWishSmallCore instance
+	 * @return the Digest instance
+	 **/
 	protected Digest copyState(BlueMidnightWishSmallCore dst)
 	{
 		System.arraycopy(H, 0, dst.H, 0, H.length);
