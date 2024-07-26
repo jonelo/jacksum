@@ -58,7 +58,7 @@ public class JacksumAPI {
     /**
      * The Copyright of the program
      */
-    public final static String COPYRIGHT = "Copyright (C) 2001-2006, 2021-2023, Dipl.-Inf. (FH) Johann N. Loefflmann";
+    public final static String COPYRIGHT = "Copyright (C) 2001-2006, 2021-2024, Dipl.-Inf. (FH) Johann N. Loefflmann";
 
     /**
      * Returns a Version object of this API.
