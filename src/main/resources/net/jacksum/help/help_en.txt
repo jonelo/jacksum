@@ -7,37 +7,80 @@ VERSION
 
 
 SYNOPSIS
-    jacksum [OPTION]... FILES
+    Jacksum selects the appropriate operating mode dependent on the options
+    and parameters that you set. The options mentioned below are the minimum
+    options that trigger a particular mode. For each mode you can set many
+    more options. See OPERATING MODES for details.
 \
-    jacksum [OPTION]... ((--check-file|-c) <file> | --check-line <line>)
-            [OPTION]... [FILES]
+    Calculate hashes
 \
-    jacksum [OPTION]... ((--wanted-list|-w) <list> | (--expect|-e) <hash>))
-            [OPTION]... [FILES]
+        Calculate hashes from files
+            jacksum [OPTION]... FILES
 \
-    jacksum [OPTION]... (--quick|-q) <sequence>
-            [OPTION]... [(--expect|-e) <hash> [(--algorithm|-a) unknown:<bits>]]
-            [OPTION]...
+        Calculate hashes from user input
+            jacksum [OPTION]... (--quick|-q) <sequence>
+                    [OPTION]...
 \
-    jacksum [OPTION]... --string-list <file>
-            [OPTION]...
+        Calculate hashes from strings
+            jacksum [OPTION]... --string-list <file>
+                    [OPTION]...
 \
-    jacksum [
-              (--algorithm|-a) <algorithm> (--list|-l) |
-              --copyright |
-              (--help|-h) [<language>] [<word>] |
-              --hmacs [-V <vcontrol>] |
-              --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
-              --info [(--style|-C) <style>] |
-              --license |
-              (--version|-v) [-V <vcontrol>]
+\
+    Verify integrity
+\
+        Verify data/file integrity
+            jacksum [OPTION]... ((--check-file|-c) <file> | --check-line <line>)
+                    [OPTION]... [FILES]
+\
+        Verify the integrity of user input
+            jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
+                    [OPTION]...
+\
+        Find strings that match a hash
+            jacksum [OPTION]... --string-list <file> (--expect|-e) <hash>
+                    [OPTION]...
+\
+\
+    Find files by their fingerprints
+\
+            jacksum [OPTION]... ((--wanted-list|-w) <list> | (--expect|-e) <hash>))
+                    [OPTION]... [FILES]
+\
+\
+    Find hash functions
+\
+            jacksum [OPTION]... (--algorithm|-a) unknown:<bits>
+                                (--quick|-q) <sequence> (--expect|-e) <hash>
+                    [OPTION]...
+\
+\
+    Gather information
+\
+        Gather program information
+            jacksum [
+                --copyright |
+                (--help|-h) [<language>] [<word>] |
+                --info [(--style|-C) <style>] |
+                --license |
+                (--version|-v) [-V <vcontrol>]
             ]
+\
+        Gather information on algorithms
+            jacksum [
+                (--algorithm|-a) <algorithm> (--list|-l) |
+                (--help|-h) [<language>] [<algorithm>] |
+                --hmacs [-V <vcontrol>] |
+                --info [(--algorithm|-a) <algorithm> [(--list|-l)]] [(--quick|-q) <sequence>] |
+            ]
+\
 \
     Notes:
         - FILES means "((--file-list|-L) <file-list> | FILE) [FILE]..."
         - FILE can be a regular file, a directory, any platform-dependent file,
           or the hyphen (-) which represents standard input. For more
           information, see section PARAMETERS.
+        - OPTION can be one of the supported options for a particular mode. See
+          OPERATING MODES, OPTION TYPES, and OPTION SUPPORT MATRIX for details.
 
 
 DESCRIPTION
@@ -66,8 +109,8 @@ DESCRIPTION
         - Multi-threading across platforms for parallel hash calculations and
           data reads in order to take advantage of multi-core processors and
           fast SSD storage
-        - 489 standard hash functions
-        - HMAC support for 414 hash functions
+        - 511 standard hash functions
+        - HMAC support for 427 hash functions
         - 60+ command line options to control Jacksum's behavior
         - Customizable CRCs from 1 to 64 bit width
         - 15 different encodings for representing hash values
@@ -86,7 +129,9 @@ OPERATING MODES
     and parameters that you set. See also the sections entitled "SYNOPSIS",
     "OPTION TYPES", "OPTION SUPPORT MATRIX", and "EXAMPLES".
 \
-    1. Calculate and print the hash values
+    1. Calculate hashes
+\
+    1.1 Calculate hashes from files
 \
         jacksum [OPTION]... FILES
 \
@@ -125,13 +170,76 @@ OPERATING MODES
               --threads-hashing max --header -F "#HASHES #FILENAME" .
 \
 \
-    2. Verify data/file integrity
+    1.2. Calculate hashes from user input
+\
+        jacksum [OPTION]... (--quick|-q) <sequence>
+                [OPTION]...
+\
+        In this mode, you can specify the input data entirely on the command
+        line and calculate the hash(es) of it. You can also read secret data
+        from the console, and hash the secret.
+\
+        The mode is enabled if you specify -q (or --quick).
+\
+        For OPTION the following option types are supported:
+\
+            - Common Options
+            - Security Strength Options
+            - Hashing Performance Options
+            - Quick Mode Options
+            - File/Path Format Options
+            - Output Format Options
+            - Output Options
+\
+        Example:
+            > jacksum -q txt:"Hello World"
+            > jacksum -q password -a sha256 -E z85
+            Password: facebook.com <a strong master password>
+            > jacksum -q password -a hmac:sha256 -k password
+            Key (echo off): <enter the HMAC key here>
+            Password: <enter the secret message here>
+\
+\
+    1.3. Calculate hashes from strings
+\
+        jacksum [OPTION]... --string-list <file>
+                [OPTION]...
+\
+        In this mode, hash values are calculated from multiple strings.
+\
+        For OPTION the following option types are supported:
+\
+            - Common Options
+            - Hash Strings Mode Options
+            - Security Strength Options
+            - Hashing Performance Options
+            - Output Format Options
+            - Output Options
+\
+        Example:
+            > jacksum --string-list words.txt
+\
+\
+    2. Verify integrity
+\
+    2.1 Verify file integrity
 \
         jacksum [OPTION]... ((--check-file|-c) <file> | --check-line <line>)
                 [OPTION]... [FILES]
 \
         The data/file integrity verification mode is enabled if you specify
         the option -c (or --check-file) or the option --check-line.
+\
+        For OPTION, the following option types are supported:
+\
+            - Common Options
+            - Security Strength Options
+            - File List Options
+            - Check/Integrity Verification Mode Options
+            - Directory Traversal Options
+            - Hashing Performance Options
+            - I/O Performance Options
+            - Output Options
 \
         You can specify the style of the check-file by setting the option
         --style. If one or more input lines are invalid, use --check-strict to
@@ -154,17 +262,6 @@ OPERATING MODES
         If you specify the hyphen for FILES, Jacksum will read from the standard
         input channel.
 \
-        For OPTION, the following option types are supported:
-\
-            - Common Options
-            - Security Strength Options
-            - File List Options
-            - Check/Integrity Verification Mode Options
-            - Directory Traversal Options
-            - Hashing Performance Options
-            - I/O Performance Options
-            - Output Options
-\
         Examples:
             > jacksum -c my.hashes
             > jacksum -c my.hashes .
@@ -172,7 +269,71 @@ OPERATING MODES
             > jacksum -a crc32c+sha256+whirlpool --style bsd -c my.hashes .
 \
 \
-    3. Wanted list
+    2.2 Verify file integrity (strict)
+\
+        jacksum [OPTION]... ((--check-file|-c) <file> | --check-line <line>)
+                [OPTION]... --check-strict
+                [OPTION]... FILES
+\
+        A strict check guarantees that no file has been changed,
+        no file has been added, and no file has been removed.
+\
+        To perform a strict check, the following conditions must be met:
+\
+        - FILES must not be omitted, because we want detect new files if there
+          are any
+        - FILES must be set to the same folder which was specified as output
+          during the creation of <file>.
+        - the check file <file> must not be stored in FILES, because otherwise
+          <file> would be detected as a new or modified file.
+        - the option --list-filter must be set to all (default), because we
+          do not want to filter anything in strict mode
+        - the option -V must be set to summary (default for -c)
+        - the option --scan-ntfs-ads should be set on Windows, because
+          one or more ADS could have been added which we wouldn't detect
+          otherwise.
+        - the option --scan-all-unix-file-types should be set on GNU/Linux and
+          Unix, because we want to detect any non-regular files that have been
+          added to FILES
+        - the option --strict-check should be set so that the exit code
+          reflects the actual outcome of the verification
+
+        The summary prints an additional line called "strict check".
+        The value for "strict check" can become PASSED or FAILED.
+        If the value is set to PASSED, it means that
+\
+        - all files listed in <file> have been read, hashed and verified
+          against the current objects on the file system
+        - no file in <file> have been removed
+        - no additional files (regular or non-regular) have been added to FILES
+\
+        Example:
+            >  jacksum -a sha256 -c ../.SHA256 --scan-ntfs-ads --check-strict .
+\
+\
+    2.3 Verify the integrity of user input
+\
+        jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
+\
+        In this mode, you can specify the input data on the command line,
+        calculate the hash(es), and verify the integrity.
+        This mode is enabled if you specify both -q and -e.
+\
+        For OPTION the following option types are supported:
+\
+            - Common Options
+            - Security Strength Options
+            - Hashing Performance Options
+            - Quick Mode Options
+            - Output Options
+\
+        Examples:
+            > jacksum -a md5 -q txt:hello -e 5d41402abc4b2a76b9719d911017c592
+            > jacksum -a hmac:sha256 -q password -k password -e
+              60273a1e778ed009a6fb32fa11dbb16f905148fc2ec84a67f8a3b3a6cabaa9b7
+\
+\
+    3. Find files by their fingerprints
 \
         jacksum [OPTION]... ((--wanted-list|-w) <list> | (--expect|-e) <hash>))
                 [OPTION]... [FILES]
@@ -214,56 +375,11 @@ OPERATING MODES
             > jacksum -a blake2b-64 -e a47fc96f87b6fb5a .
 \
 \
-    4. Hash a sequence quickly
-\
-        jacksum [OPTION]... (--quick|-q) <sequence>
-\
-        In this mode, you can specify the input data entirely on the command
-        line and calculate the hash(es) of it. You can also read secret data
-        from the console, and hash the secret.
-\
-        The mode is enabled if you specify -q (or --quick).
-\
-        For OPTION the following option types are supported:
-\
-            - Common Options
-            - Security Strength Options
-            - Hashing Performance Options
-            - Quick Mode Options
-            - File/Path Format Options
-            - Output Format Options
-            - Output Options
-\
-        Example:
-            > jacksum -q txt:"Hello World"
-            > jacksum -q password -a sha256 -E z85
-            Password: facebook.com <a strong master password>
-\
-\
-    5. Verify a sequence quickly
-\
-        jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
-\
-        In this mode, you can specify the input data on the command line,
-        calculate the hash(es), and verify the integrity.
-        This mode is enabled if you specify both -q and -e.
-\
-        For OPTION the following option types are supported:
-\
-            - Common Options
-            - Security Strength Options
-            - Hashing Performance Options
-            - Quick Mode Options
-            - Output Options
-\
-        Examples:
-            > jacksum -a md5 -e 5d41402abc4b2a76b9719d911017c592 -q txt:hello
-\
-\
-    6. Find hash functions
+    4. Find hash functions
 \
         jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
                             (--algorithm|-a) unknown:<bits>
+                [OPTION]...
 \
         In this mode, you can find the hash function that was used to produce a
         hash. This mode is enabled if you specify -q, -e and -a unknown:<bits>
@@ -281,27 +397,7 @@ OPERATING MODES
             > jacksum -a unknown:16 -q hex:050000 -E hex -e d893
 \
 \
-    7. Hash strings in a list
-\
-        jacksum [OPTION]... --string-list <file>
-                [OPTION]...
-\
-        In this mode, hash values are calculated from strings.
-\
-        For OPTION the following option types are supported:
-\
-            - Common Options
-            - Hash Strings Mode Options
-            - Security Strength Options
-            - Hashing Performance Options
-            - Output Format Options
-            - Output Options
-\
-        Example:
-            > jacksum --string-list words.txt
-\
-\
-    8. Gather information
+    5. Gather information
 \
         jacksum [
             (--algorithm|-a) <algorithm> (--list|-l) |
@@ -899,10 +995,11 @@ OPTIONS
             If at least one error is found during the process, the program
             returns an error code greater than 1.
             Improperly formatted lines are ignored with regards to the exit code
-            unless you set --check-strict.
+            unless you set --check-strict. If you set --check-strict more
+            conditions apply with regards to the exit code.
 \
             Available with the features above since version 3.0.0 of Jacksum.
-            See also the options -C, -I, and --list-filter.
+            See also the options -C, -I, --list-filter, and --check-strict.
 
 
     --check-line <string>
@@ -917,6 +1014,23 @@ OPTIONS
 \
             If one or more input lines are invalid, exit with a non-zero status
             after all warnings have been issued when verifying integrity.
+\
+            If all input lines are valid, exit with a non-zero status if ...
+\
+                - option --list-filter is not set to all, because the filter
+                  could prevent hashing which could prevent reliable detection
+                - one or more files failed the verification process (mismatch)
+                - one or more files have been added
+                - one or more files have been removed
+\
+            For a reliable strict check you also should ...
+\
+                - set the option --scan-ntfs-ads for files stored on a NTFS
+                  file systems to detect new alternate data streams that might
+                  have been added
+                - set the option --scan-all-unix-file-types for files stored
+                  on Unix- and GNU/Linux file systems to detect special Unix
+                  file types that might have been added.
 \
             Available since version 3.0.0 of Jacksum.
 
@@ -989,7 +1103,8 @@ OPTIONS
 \
                 bsd
 \
-                    Aliases: bsd-tagged, linux-tagged, gnu-linux-tagged.
+                    Aliases: bsd-tagged, linux-tagged, gnu-linux-tagged
+\
                     A common lightweight plain text file format on BSD systems
                     and GNU/Linux. The algorithm information is stored in the
                     file (therefore it is called "tagged").
@@ -1016,7 +1131,8 @@ OPTIONS
 \
                 bsd-r
 \
-                    Aliases: bsd-untagged, bsd-reversed.
+                    Aliases: bsd-untagged, bsd-reversed
+\
                     A common lightweight plain text file format on BSD systems
                     does not store the algorithm information, thus it is
                     referred to as "untagged". The BSD reversed mode
@@ -1072,7 +1188,8 @@ OPTIONS
 \
                 gnu-linux
 \
-                    Aliases: linux, linux-untagged, gnu-linux-untagged.
+                    Aliases: linux, linux-untagged, gnu-linux-untagged
+\
                     A common lightweight plain text file format on GNU/Linux
                     and macOS without algorithm information in the file
                     (untagged).
@@ -1144,6 +1261,7 @@ OPTIONS
                 openssl-dgst
 \
                     Aliases: openssl, openssl-tagged
+\
                     A lightweight plain text file format used by OpenSSL.
 \
                     This compatibility file can print and parse the output,
@@ -1161,6 +1279,7 @@ OPTIONS
                 openssl-dgst-r
 \
                     Aliases: openssl-r, openssl-untagged
+\
                     A lightweight plain text file format used by OpenSSL.
 \
                     This compatibility file can print and parse the output
@@ -1196,6 +1315,7 @@ OPTIONS
                 solaris-digest
 \
                     Alias: solaris-untagged
+\
                     A lightweight plain text file format on Solaris with
                     algorithm information in the file.
 \
@@ -1212,6 +1332,7 @@ OPTIONS
                 solaris-digest-v
 \
                     Alias: solaris-tagged
+\
                     A lightweight plain text file format on Solaris without
                     algorithm information in the file.
 \
@@ -1258,7 +1379,7 @@ OPTIONS
                     e = enabled by default, but can be disabled on demand
                     E = enabled by default and cannot be disabled
 \
-                    h = hex
+                    h = hex, lowercase
                     H = hex, uppercase
 
 
@@ -1514,10 +1635,31 @@ OPTIONS
 \
                 bb                   alias for bubblebabble
 \
-                bubblebabble         BubbleBabble is used by OpenSSH and SSH2.
-                                     The encoding was defined as a mechanism to
-                                     encode any binary data in a human-readable
-                                     format.
+                bubblebabble         "Bubble Babble" is a binary data encoding
+                                     designed by Antti Huima, Finland in April
+                                     2000.
+                                     The encoding uses alternation of
+                                     consonants and vowels (a,e,i,o,u,y) to
+                                     encode binary data to pseudowords that can
+                                     be pronounced more easily by humans than
+                                     arbitrary lists of hexadecimal digists for
+                                     example.
+                                     The encoding includes a checksumming method
+                                     that can sometimes detect invalid
+                                     encodings. The method does not increase the
+                                     length of the encoded data.
+                                     Pseudowords are grouped by five characters,
+                                     separated by a hyphen.
+                                     The encoding uses the following characters:
+\
+                                         20 - 29:              a b c d
+                                         30 - 39:  e f g h i j k l m n
+                                         40 - 49:  o p q r s t u v w x
+                                         50 - 59:  y z
+\
+                                       Separator:  -
+\
+                                     BubbleBabble is used by OpenSSH and SSH2.
 \
                 base16               Base16 (RFC 4648)
 \
@@ -2041,11 +2183,14 @@ OPTIONS
             will make the secret key appear either in process lists which could
             be gathered by other users as well or in history files which are
             stored on disk usually.
+            In order to avoid shoulder surfing attacks in non-private
+            environments you should prefer file:<file> or password over
+            readline.
 \
             Examples:
-                > jacksum -a hmac:sha256 -k file:my-secret.txt my-message.txt
-                > jacksum -a hmac:sha256 -k password my-message.txt
-                Password:
+                > jacksum -a hmac:sha256 -k file:key.txt message.txt
+                > jacksum -a hmac:sha256 -k password message.txt
+                Key (echo off):
 \
             Available since version 3.7.0 of Jacksum.
             See also the options "-a hmac:", --hmacs, --charset-console
@@ -2958,7 +3103,7 @@ OPTIONS
                 > jacksum - < your.iso
 
 
-    -
+    --
 \
             A double dash is used to signify the end of command options, after
             which only positional arguments are accepted.
@@ -2978,7 +3123,7 @@ ALGORITHMS
     The following algorithms are supported:
 #ALGORITHMS-BEGIN
     adler32, adler-32
-            algorithm:  
+            algorithm name:
                 Adler-32
 \
             length:
@@ -3042,7 +3187,7 @@ ALGORITHMS
 
 
     ascon-hash
-            algorithm:
+            algorithm name:
                 Ascon-Hash (v1.2)
 \
             length:
@@ -3093,7 +3238,7 @@ ALGORITHMS
 
 
     ascon-hasha
-            algorithm:
+            algorithm name:
                 Ascon-Hasha (v1.2)
 \
             length:
@@ -3123,7 +3268,7 @@ ALGORITHMS
 
 
     ascon-xof
-            algorithm:
+            algorithm name:
                 Ascon-Xof (v1.2)
 \
             length:
@@ -3152,7 +3297,7 @@ ALGORITHMS
 
 
     ascon-xofa
-            algorithm:
+            algorithm name:
                 Ascon-XofA (v1.2)
 \
             length:
@@ -3182,7 +3327,7 @@ ALGORITHMS
 
 
     aststrsum, ast, strsum
-            algorithm:
+            algorithm name:
                 The AST (AT&T Software Technology) strsum PRNG (pseudo random
                 number generator) hash.
 \
@@ -3214,7 +3359,7 @@ ALGORITHMS
 
 
     blake<length>, blake-<length>
-            algorithm:
+            algorithm name:
                 BLAKE-<length>
 \
             length:
@@ -3245,7 +3390,7 @@ ALGORITHMS
 
 
     blake2b, blake2b-<length>, b2sum, b2sum-<length>
-            algorithm:
+            algorithm name:
                 BLAKE2b
 \
             length:
@@ -3318,7 +3463,7 @@ ALGORITHMS
 
 
     blake2bp, blake2bp-512
-            algorithm:
+            algorithm name:
                 BLAKE2bp
 \
             length:
@@ -3387,7 +3532,7 @@ ALGORITHMS
 
 
     blake2s, blake2s-<length>
-            algorithm:
+            algorithm name:
                 BLAKE2s
 \
             length:
@@ -3450,7 +3595,7 @@ ALGORITHMS
 
 
     blake2sp, blake2sp-256
-            algorithm:
+            algorithm name:
                 BLAKE2sp
 \
             length:
@@ -3519,7 +3664,7 @@ ALGORITHMS
 
 
     blake3, blake3-256
-            algorithm:
+            algorithm name:
                 BLAKE3
 \
             length:
@@ -3581,7 +3726,7 @@ ALGORITHMS
 
 
     bluemidnightwish<length>, bluemidnightwish-<length>
-            algorithm:
+            algorithm name:
                 Blue Midnight Wish
 \
             length:
@@ -3618,7 +3763,7 @@ ALGORITHMS
 
 
     cksum
-            algorithm:
+            algorithm name:
                 POSIX 1003.2 CRC algorithm
 \
             length:
@@ -3634,9 +3779,9 @@ ALGORITHMS
                 The Posix CRC cannot be described completely by the
                 Rocksoft-Model, because the algorithm includes the length to
                 the CRC. Without this special, the code would be:
-                crc:32,04C11DB7,0,false,false,FFFFFFFF
+                crc:32,04C11DB7,00000000,false,false,FFFFFFFF
                 With the additional length parameter it can be expressed as
-                crc:32,04C11DB7,0,false,false,FFFFFFFF,false
+                crc:32,04C11DB7,00000000,false,false,FFFFFFFF,false
 \
             compatibility:
                 - 7z:              -
@@ -3687,11 +3832,11 @@ ALGORITHMS
                  Jacksum 1.0.0
 \
             implementation:
-                 crc:32,04C11DB7,0,false,false,FFFFFFFF,false
+                 crc:32,04C11DB7,00000000,false,false,FFFFFFFF,false
 
 
     cksum_minix
-            algorithm:
+            algorithm name:
                 cksum algorithm on Minix 3.2.0 and earlier
 \
             length:
@@ -3743,7 +3888,7 @@ ALGORITHMS
 
 
     crc:<width>,<poly>,<init>,<refIn>,<refOut>,<xorOut>[,<includeLen>[,<xorLen>]]
-            algorithm:
+            algorithm name:
                 CRC (Cyclic Redundancy Check), generic
 \
             length:
@@ -3756,12 +3901,17 @@ ALGORITHMS
                 With this generic CRC you can specify all CRC-algorithms which
                 can be described by the famous "Rocksoft (tm) Model CRC
                 Algorithm". The default encoding for the output is decimal.
-                You can change the default output by specifying one of the
+                You can change the output encoding by specifying one of the
                 options called -C, -E, -F, --style, -x, or -X.
+\
                 Parameters after crc: must have at least 6, and can have 7 or 8
-                values. All values have to be separated by a comma. The required
-                parameters are: width,poly,init,refIn,refOut,xorOut. The
-                optional parameters are includeLen, and xorLen.
+                values. All values have to be separated by a comma.
+\
+                The required parameters are:
+                <width>,<poly>,<init>,<refIn>,<refOut>,<xorOut>
+\
+                The optional parameters are:
+                [,<includeLen>[,<xorLen>]]
 \
                     <width>
                         width of the crc, expressed in bits. This is one less
@@ -3838,13 +3988,13 @@ ALGORITHMS
                         xorLen value.
 \
             since:
-                Available since Jacksum 1.7.0 (bit widths [8..64]),
-                includeLen and xorLen since Jacksum 3.0.0,
-                bit widths [1..7] since Jacksum 3.6.0
+                Available since Jacksum 1.7.0 (range [8..64] for <width>),
+                <includeLen> and <xorLen> since Jacksum 3.0.0,
+                additional range [1..7] for <width> since Jacksum 3.6.0
 
 
     crc8, crc-8
-            algorithm:
+            algorithm name:
                 CRC-8
 \
             length:
@@ -3864,11 +4014,11 @@ ALGORITHMS
                 Jacksum 1.6.0
 \
              implementation:
-                8,7,0,false,false,0
+                crc:8,7,0,false,false,0
 
 
     crc16, crc-16
-            algorithm:
+            algorithm name:
                 CRC-16 (ARC)
 \
             length:
@@ -3888,11 +4038,11 @@ ALGORITHMS
                 Jacksum 1.2.0
 \
             implementation:
-                crc:16,8005,0,true,true,0
+                crc:16,8005,0000,true,true,0000
 
 
     crc16_x25, crc-16_x-25, fcs16, fcs-16
-            algorithm:
+            algorithm name:
                 CRC-16 (Frame Checking Sequence)
 \
             length:
@@ -3913,7 +4063,7 @@ ALGORITHMS
 
 
     crc16_minix, crc-16_minix
-            algorithm:
+            algorithm name:
                 Minix' crc
 \
             length:
@@ -3964,11 +4114,11 @@ ALGORITHMS
                 Jacksum 3.0.0
 \
             implementation:
-                based on crc:16,1021,0,false,false,0
+                based on crc:16,1021,0000,false,false,0000
 
 
     crc24, crc-24
-            algorithm:
+            algorithm name:
                 CRC-24
 \
             length:
@@ -3990,11 +4140,11 @@ ALGORITHMS
                 Jacksum 1.6.0
 \
             implementation:
-                crc:24,864CFB,B704CE,false,false,0
+                crc:24,864CFB,B704CE,false,false,000000
 
 
     crc32, crc-32, fcs32, fcs-32
-            algorithm:
+            algorithm name:
                 CRC-32
 \
             length:
@@ -4053,7 +4203,7 @@ ALGORITHMS
 
 
     crc32c, crc-32c
-            algorithm:
+            algorithm name:
                 CRC-32c (iSCSI)
 \
             length:
@@ -4111,7 +4261,7 @@ ALGORITHMS
 
 
     crc32_bzip2, crc-32_bzip-2
-            algorithm:
+            algorithm name:
                 CRC-32 (bzip2)
 \
             length:
@@ -4131,7 +4281,7 @@ ALGORITHMS
 
 
     crc32_mpeg2, crc-32_mpeg-2
-            algorithm:
+            algorithm name:
                 CRC-32 (MPEG-2)
 \
             length:
@@ -4148,11 +4298,11 @@ ALGORITHMS
                 Jacksum 1.4.0
 \
             implementation:
-                crc:32,04C11DB7,FFFFFFFF,false,false,0
+                crc:32,04C11DB7,FFFFFFFF,false,false,00000000
 
 
     crc32_php, crc-32_php
-            algorithm:
+            algorithm name:
                 CRC-32 (PHP's crc32)
 \
             length:
@@ -4208,7 +4358,7 @@ ALGORITHMS
 
 
     crc32_ubi, crc-32_ubi, ubicrc32, crc32_jamcrc, crc-32_jamcrc
-            algorithm:
+            algorithm name:
                 CRC-32 (UBICRC32 and JAMCRC)
 \
             length:
@@ -4260,11 +4410,11 @@ ALGORITHMS
             Jacksum 3.0.0
 \
         implementation:
-            crc:32,04C11DB7,FFFFFFFF,true,true,0
+            crc:32,04C11DB7,FFFFFFFF,true,true,00000000
 
 
     crc64, crc-64
-            algorithm:
+            algorithm name:
                 CRC-64 (often wrongly assumed as a FCS in ISO 3309)
 \
             length:
@@ -4307,7 +4457,7 @@ ALGORITHMS
 
 
     crc64_ecma, crc-64_ecma
-            algorithm:
+            algorithm name:
                 CRC-64 (ECMA-182)
 \
             length:
@@ -4338,7 +4488,7 @@ ALGORITHMS
 
 
     crc64_go-iso, crc-64_go-iso
-            algorithm:
+            algorithm name:
                 CRC-64 (programming language GO, const ISO)
 \
             length:
@@ -4369,7 +4519,7 @@ ALGORITHMS
 
 
     crc64_xz, crc-64_xz, crc64_go-ecma, crc-64_go-ecma
-            algorithm:
+            algorithm name:
                 CRC-64 (.xz, and prog lang GO, const ECMA)
 \
             length:
@@ -4432,7 +4582,7 @@ ALGORITHMS
 
 
     crc82, crc82_darc, crc82, crc82_darc
-            algorithm:
+            algorithm name:
                 CRC-82 (DARC)
 \
             length:
@@ -4497,7 +4647,7 @@ ALGORITHMS
 
 
     cubehash<length>, cubehash-<length>
-            algorithm:
+            algorithm name:
                 CubeHash
 \
             length:
@@ -4533,7 +4683,7 @@ ALGORITHMS
 
 
     dha256, dha-256
-            algorithm:
+            algorithm name:
                 DHA-256
 \
             length:
@@ -4572,10 +4722,12 @@ ALGORITHMS
 
 
     echo<length>, echo-<length>
-            algorithm:
+            algorithm name:
                 ECHO
+\
             length:
                 224, 384, 256 or 512 bits
+\
             type:
                 cryptographic hash function
 \
@@ -4609,7 +4761,7 @@ ALGORITHMS
 
 
     elf, elf32, elf-32
-            algorithm:
+            algorithm name:
                 ELF
 \
             length:
@@ -4631,7 +4783,7 @@ ALGORITHMS
 
 
     ed2k, emule, edonkey
-            algorithm:
+            algorithm name:
                 eMule/eDonkey
 \
             length:
@@ -4656,7 +4808,7 @@ ALGORITHMS
 
 
     esch<length>
-            algorithm:
+            algorithm name:
                 Esch
 \
             length:
@@ -4697,7 +4849,7 @@ ALGORITHMS
 
 
     fletcher16, fletcher-16
-            algorithm:
+            algorithm name:
                 Fletcher's checksum
 \
             length:
@@ -4728,7 +4880,7 @@ ALGORITHMS
 
 
     fnv-0_<length>
-            algorithm:
+            algorithm name:
                 FNV-0
 \
             length:
@@ -4762,7 +4914,7 @@ ALGORITHMS
 
 
     fnv-1_<length>
-            algorithm:
+            algorithm name:
                 FNV-1
 \
             length:
@@ -4822,7 +4974,7 @@ ALGORITHMS
 
 
     fnv-1a_<length>
-            algorithm:
+            algorithm name:
                 FNV-1a
 \
             length: 
@@ -4884,7 +5036,7 @@ ALGORITHMS
 
 
     fork256, fork-256
-            algorithm:
+            algorithm name:
                 FORK-256
 \
             length:
@@ -4926,7 +5078,7 @@ ALGORITHMS
 
 
     fugue<length>, fugue-<length>
-            algorithm:
+            algorithm name:
                 Fugue
 \
             length:
@@ -4964,7 +5116,7 @@ ALGORITHMS
 
 
     gost, gost:<init>
-            algorithm:
+            algorithm name:
                 GOST R 34.11-94
 \
             length:
@@ -5036,7 +5188,7 @@ ALGORITHMS
 
 
     groestl<length>, groestl-<length>
-            algorithm:
+            algorithm name:
                 Groestl
 \
             length:
@@ -5068,7 +5220,7 @@ ALGORITHMS
 
 
     hamsi<length>, hamsi-<length>
-            algorithm:
+            algorithm name:
                 Hamsi
 \
             length:
@@ -5105,7 +5257,7 @@ ALGORITHMS
 
 
     has160, has-160
-            algorithm:
+            algorithm name:
                 HAS-160
 \
             length:
@@ -5133,7 +5285,7 @@ ALGORITHMS
 
 
     haval, haval_<length>_<rounds>
-            algorithm:
+            algorithm name:
                 HAVAL
 \
             length:
@@ -5196,7 +5348,7 @@ ALGORITHMS
 
     hmac:<algo>[:<bits>]
 \
-            algorithm:
+            algorithm name:
                 HMAC, the keyed-hash message authentication code.
 \
             length:
@@ -5319,10 +5471,12 @@ ALGORITHMS
 
 
     jh<length>, jh-<length>
-            algorithm:
+            algorithm name:
                 JH
+\
             length:
                 224, 384, 256 oder 512 bits
+\
             type:
                 cryptographic hash function
 \
@@ -5350,7 +5504,7 @@ ALGORITHMS
 
 
     joaat, joaat32, joaat-32
-            algorithm:
+            algorithm name:
                 Bob Jenkins' One-at-a-Time Hash (joaat)
 \
             length:
@@ -5407,7 +5561,7 @@ ALGORITHMS
 
 
     k12, kangaroo12, kangarootwelve
-            algorithm:
+            algorithm name:
                 KangarooTwelve
 \
             length:
@@ -5481,7 +5635,7 @@ ALGORITHMS
 
 
     m14, marsupilami14, marsupilamifourteen
-            algorithm:
+            algorithm name:
                 MarsupilamiFourteen
 \
             length:
@@ -5549,7 +5703,7 @@ ALGORITHMS
 
 
     keccak<length>, keccak-<length>
-            algorithm:
+            algorithm name:
                 Keccak
 \
             length:
@@ -5614,8 +5768,9 @@ ALGORITHMS
             implementation:
                 fr.cryptohash.Keccak<length>
 
+
     kupyna-<length>
-            algorithm:
+            algorithm name:
                 Kupyna
 \
             length:
@@ -5640,8 +5795,9 @@ ALGORITHMS
             since:
                 Jacksum 3.0.0
 
+
     lsh-<wordlength>-<length>
-            algorithm:
+            algorithm name:
                 LSH (Lightweight Secure Hash)
 \
             length:
@@ -5677,7 +5833,7 @@ ALGORITHMS
 
 
     luffa<length>, luffa-<length>
-            algorithm:
+            algorithm name:
                 Luffa v2.0.1
 \
             length:
@@ -5713,7 +5869,7 @@ ALGORITHMS
 
 
     md2, md2sum
-            algorithm:
+            algorithm name:
                 MD2
 \
             length:
@@ -5782,7 +5938,7 @@ ALGORITHMS
 
 
     md4, md4sum
-            algorithm:
+            algorithm name:
                 MD4
 \
             length:
@@ -5850,7 +6006,7 @@ ALGORITHMS
 
 
     md5, md5sum
-            algorithm:
+            algorithm name:
                 MD5
 \
             length:
@@ -5883,6 +6039,7 @@ ALGORITHMS
                 - BeOS:            /bin/md5sum
                 - BusyBox:         /bin/md5sum
                 - CentOS:          /bin/md5sum
+                - ClamAV:          sigtool --md5
                 - DragonFly BSD:   /sbin/md5
                 - eComStation:     C:\ecs\KLIBC\bin\md5sum
                 - FreeBSD:         /sbin/md5
@@ -5938,7 +6095,7 @@ ALGORITHMS
 
 
     mdc2, mdc-2
-            algorithm:
+            algorithm name:
                 MDC-2
 \
             length:
@@ -6002,7 +6159,7 @@ ALGORITHMS
 
 
     none
-            algorithm:
+            algorithm name:
                 none
 \
             length:
@@ -6023,7 +6180,7 @@ ALGORITHMS
 
 
     panama
-            algorithm:
+            algorithm name:
                 PANAMA
 \
             length:
@@ -6053,7 +6210,7 @@ ALGORITHMS
 
 
     photon-beetle
-            algorithm:
+            algorithm name:
                 PHOTON-Beetle Hash
 \
             length:
@@ -6088,7 +6245,7 @@ ALGORITHMS
 
 
     prng, prng:[init=<init>][<separator>][mpy=<multiplier>][<separator>][add=<addend>]
-            algorithm:
+            algorithm name:
                 PRNG (pseudo random number generator) hash
 \
             length:
@@ -6169,7 +6326,7 @@ ALGORITHMS
 
 
     radiogatun, radiogatun:<wordlen>, rg<wordlen>, rg-<wordlen>
-            algorithm:
+            algorithm name:
                 RadioGatun[32] and RadioGatun[64]
 \
             length:
@@ -6208,7 +6365,7 @@ ALGORITHMS
 
 
     read
-            algorithm:
+            algorithm name:
                 read
 \
             length:
@@ -6229,7 +6386,7 @@ ALGORITHMS
 
 
     rmd128, rmd-128, ripemd128, ripemd-128, ripe-md128
-            algorithm:
+            algorithm name:
                 RIPEMD-128
 \
             length:
@@ -6286,7 +6443,7 @@ ALGORITHMS
 
 
     rmd160, rmd-160, ripemd160, ripemd-160, ripe-md160
-            algorithm:
+            algorithm name:
                RIPEMD-160
 \
             length:
@@ -6354,7 +6511,7 @@ ALGORITHMS
 
 
     rmd256, rmd-256, ripemd256, ripemd-256, ripe-md256
-            algorithm:
+            algorithm name:
                 RIPEMD-256
 \
             length:
@@ -6411,7 +6568,7 @@ ALGORITHMS
 
 
     rmd320, rmd-320, ripemd320, ripemd-320, ripe-md320
-            algorithm:
+            algorithm name:
                 RIPEMD-320
 \
             length:
@@ -6468,7 +6625,7 @@ ALGORITHMS
 
 
     romulush, romulus-h
-            algorithm:
+            algorithm name:
                 Romulus-H
 \
             length:
@@ -6505,7 +6662,7 @@ ALGORITHMS
 
 
     sha0, sha-0
-            algorithm:
+            algorithm name:
                 SHA-0
 \
             length:
@@ -6569,7 +6726,7 @@ ALGORITHMS
 
 
     sha-1, sha, sha1, sha1sum, sha160, sha-160, dssl
-            algorithm:
+            algorithm name:
                 SHA-1
 \
             length:
@@ -6609,6 +6766,7 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         /bin/sha1sum
                 - CentOS:          /bin/sha1sum
+                - ClamAV:          sigtool --sha1
                 - DragonFly BSD:   /sbin/sha1
                 - eComStation:     C:\ecs\KLIBC\bin\sha1sum
                 - FreeBSD:         /sbin/sha1
@@ -6670,7 +6828,7 @@ ALGORITHMS
 
 
     sha-224, sha224
-            algorithm:
+            algorithm name:
                 SHA-224
 \
             length:
@@ -6755,7 +6913,7 @@ ALGORITHMS
 
 
     sha-256, sha256
-            algorithm:
+            algorithm name:
                 SHA-256
 \
             length:
@@ -6794,6 +6952,7 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         /bin/sha256sum
                 - CentOS:          /bin/sha256sum
+                - ClamAV:          sigtool --sha256
                 - DragonFly BSD:   /sbin/sha256
                 - FreeBSD 6+:      /sbin/sha256
                 - FreeDOS:         -
@@ -6849,7 +7008,7 @@ ALGORITHMS
 
 
     sha-384, sha384
-            algorithm:
+            algorithm name:
                 SHA-384
 \
             length:
@@ -6942,7 +7101,7 @@ ALGORITHMS
 
 
     sha-512, sha512
-            algorithm:
+            algorithm name:
                 SHA-512
 \
             length:
@@ -7035,7 +7194,7 @@ ALGORITHMS
 
 
     sha-512/224, sha512/224, sha512t224
-            algorithm:
+            algorithm name:
                 SHA-512/224
 \
             length:
@@ -7102,7 +7261,7 @@ ALGORITHMS
 
 
     sha-512/256, sha512/256, sha512t256
-            algorithm:
+            algorithm name:
                 SHA-512/256
 \
             length:
@@ -7168,7 +7327,7 @@ ALGORITHMS
 
 
     sha3-224, sha-3-224
-            algorithm:
+            algorithm name:
                 SHA-3
 \
             length:
@@ -7243,7 +7402,7 @@ ALGORITHMS
 
 
     sha3-256, sha-3-256
-            algorithm:
+            algorithm name:
                 SHA-3
 \
             length:
@@ -7317,7 +7476,7 @@ ALGORITHMS
 
 
     sha3-384, sha-3-384
-            algorithm:
+            algorithm name:
                 SHA-3
 \
             length:
@@ -7392,7 +7551,7 @@ ALGORITHMS
 
 
     sha3-512, sha-3-512
-            algorithm:
+            algorithm name:
                 SHA-3
 \
             length:
@@ -7466,7 +7625,7 @@ ALGORITHMS
 
 
     shabal<length>, shabal-<length>
-            algorithm:
+            algorithm name:
                 Shabal
 \
             length:
@@ -7504,7 +7663,7 @@ ALGORITHMS
 
 
     shake128
-            algorithm:
+            algorithm name:
                 SHAKE128 (Secure Hash Algorithm KECCAK, 128 bit security)
 \
             length:
@@ -7590,7 +7749,7 @@ ALGORITHMS
 
 
     shake256
-            algorithm:
+            algorithm name:
                 SHAKE256 (Secure Hash Algorithm KECCAK, 256 bit security)
 \
             length:
@@ -7676,7 +7835,7 @@ ALGORITHMS
 
 
     simd<length>, simd-<length>
-            algorithm:
+            algorithm name:
                 SIMD
 \
             length:
@@ -7712,7 +7871,7 @@ ALGORITHMS
 
 
     skein-256, skein-256-<length>, skein256
-            algorithm:
+            algorithm name:
                 Skein-256
 \
             length:
@@ -7792,7 +7951,7 @@ ALGORITHMS
 
 
     skein-512, skein-512-<length>, skein512
-            algorithm:
+            algorithm name:
                 Skein-512
 \
             length:
@@ -7870,7 +8029,7 @@ ALGORITHMS
 
 
     skein-1024, skein-1024-<length>, skein1024
-            algorithm:
+            algorithm name:
                 Skein-1024
 \
             length:
@@ -7943,7 +8102,7 @@ ALGORITHMS
 
 
     streebog256, streebog-256
-            algorithm:
+            algorithm name:
                 Streebog Hash Function (GOST R 34.11-2012)
 \
             length:
@@ -8014,7 +8173,7 @@ ALGORITHMS
 
 
     streebog512, streebog-512
-            algorithm:
+            algorithm name:
                 Streebog Hash Function (GOST R 34.11-2012)
 \
             length:
@@ -8083,7 +8242,7 @@ ALGORITHMS
 
 
     sm3
-            algorithm:
+            algorithm name:
                 SM3
 \
             length:
@@ -8145,7 +8304,7 @@ ALGORITHMS
 
 
     sum<length>, sum-<length>
-            algorithm:
+            algorithm name:
                 Sum
 \
             length:
@@ -8172,7 +8331,7 @@ ALGORITHMS
 
 
     sum_bsd, bsd, bsdsum, sumbsd
-            algorithm:
+            algorithm name:
                 BSD checksum algorithm
 \
             length:
@@ -8241,7 +8400,7 @@ ALGORITHMS
 
 
     sum_minix
-            algorithm:
+            algorithm name:
                 Minix' sum
 \
             length:
@@ -8288,7 +8447,7 @@ ALGORITHMS
 
 
     sum_plan9, crc32_fddi
-            algorithm:
+            algorithm name:
                 FDDI CRC / Plan 9 sum
 \
             length:
@@ -8299,15 +8458,15 @@ ALGORITHMS
 \
             comment:
                 The default encoding is decimal.
-                The sum command on Plan 9 prints the crc in hex, in order to get
+                The sum command on Plan 9 prints the CRC in hex, in order to get
                 the output of Plan 9, specify the option -E hex.
                 The FDDI CRC cannot be described completely by the Rocksoft-
                 Model, because the algorithm includes the xor'ed length to the
                 CRC. Without this special, the code would be:
-                crc:32,04C11DB7,0,true,true,0
+                crc:32,04C11DB7,00000000,true,true,00000000
                 With the additional length parameter the algorithm can be
                 expressed as
-                crc:32,04C11DB7,0,true,true,0,true,CC55CC55
+                crc:32,04C11DB7,00000000,true,true,00000000,true,CC55CC55
 \
             compatibility:
                 - 7z:              -
@@ -8339,11 +8498,11 @@ ALGORITHMS
                 Jacksum 3.0.0
 \
             implementation:
-                crc:32,04C11DB7,0,true,true,0,true,CC55CC55
+                crc:32,04C11DB7,00000000,true,true,00000000,true,CC55CC55
 
 
     sum_sysv, sysv, sysvsum, sumsysv
-            algorithm:
+            algorithm name:
                UNIX System V checksum algorithm
 \
             length:
@@ -8416,7 +8575,7 @@ ALGORITHMS
 
 
     tiger128, tiger-128
-            algorithm:
+            algorithm name:
                 Tiger 128
 \
             length:
@@ -8473,7 +8632,7 @@ ALGORITHMS
 
 
     tiger-128-4-php, tiger_128_4_php
-            algorithm:
+            algorithm name:
                 PHP's variant on Tiger with 32 rounds called tiger128,4
 \
             length:
@@ -8533,7 +8692,7 @@ ALGORITHMS
 
 
     tiger160, tiger-160
-            algorithm:
+            algorithm name:
                 Tiger 160
 \
             length:
@@ -8590,7 +8749,7 @@ ALGORITHMS
 
 
     tiger-160-4-php, tiger_160_4_php
-            algorithm:
+            algorithm name:
                 PHP's variant on Tiger with 32 rounds called tiger160,4
 \
             length:
@@ -8650,7 +8809,7 @@ ALGORITHMS
 
 
     tiger, tiger192, tiger-192
-            algorithm:
+            algorithm name:
                 Tiger
 \
             length:
@@ -8713,7 +8872,7 @@ ALGORITHMS
 
 
     tiger-192-4-php, tiger_192_4_php
-            algorithm:
+            algorithm name:
                 PHP's variant on Tiger with 32 rounds called tiger192,4
 \
             length:
@@ -8772,7 +8931,7 @@ ALGORITHMS
 
 
     tiger2        
-            algorithm:
+            algorithm name:
                 Tiger2
 \
             length:
@@ -8799,7 +8958,7 @@ ALGORITHMS
 
 
     tth, tree:tiger, tree:tiger192, tree:tiger-192
-            algorithm:
+            algorithm name:
                 Tiger Tree Hash (based on a Hash tree/Merkle tree)
 \
             length:
@@ -8829,7 +8988,7 @@ ALGORITHMS
 
 
     tth2, tree:tiger2
-            algorithm:
+            algorithm name:
                 Tiger Tree Hash 2 (based on a Hash tree/Merkle tree)
 \
             length:
@@ -8859,7 +9018,7 @@ ALGORITHMS
 
 
     vsh, vsh-1024
-            algorithm:
+            algorithm name:
                 VSH (Very Smooth Hash)
 \
             length:
@@ -8899,7 +9058,7 @@ ALGORITHMS
 
 
     whirlpool0, whirlpool-0
-            algorithm:
+            algorithm name:
                 Whirlpool-0
 \
             length:
@@ -8928,7 +9087,7 @@ ALGORITHMS
 
 
     whirlpool1, whirlpool-1, whirlpool-t
-            algorithm:
+            algorithm name:
                 Whirlpool-1
 \
             length:
@@ -8962,7 +9121,7 @@ ALGORITHMS
 
 
     whirlpool, whirlpool2, whirlpool-2
-            algorithm:
+            algorithm name:
                 Whirlpool
 \
             length:
@@ -9029,7 +9188,7 @@ ALGORITHMS
 
 
     xoodyak
-            algorithm:
+            algorithm name:
                 Xoodyak
 \
             length:
@@ -9067,7 +9226,7 @@ ALGORITHMS
 
 
     xor8, xor-8
-            algorithm:
+            algorithm name:
                 Exclusive-OR
 \
             length:
@@ -9089,7 +9248,7 @@ ALGORITHMS
 
 
     xxhash32, xxh32
-            algorithm:
+            algorithm name:
                 xxHash32 (XXH32)
 \
             length:
@@ -9592,7 +9751,8 @@ EXAMPLES
         prints the entire help
 \
         > jacksum -h | more
-        prints the entire help, pagewise (more should work on most OS)
+        prints the entire help, pagewise ("less" is also fine on macOS and
+        Linux flavours, but the "more" command works on Windows as well)
 \
 \
         Print entire help sections
@@ -9648,7 +9808,7 @@ REPORTING BUGS
 
 
 COPYRIGHT
-    Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Loefflmann
+    Copyright (c) 2001-2024 Dipl.-Inf. (FH) Johann N. Loefflmann
     Type `jacksum --copyright` to see the entire copyright section.
 
 
