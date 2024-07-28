@@ -1,14 +1,29 @@
-Jacksum 3.8.0, TBD
+Jacksum 3.8.0, Aug TBD
 
 - new features:
-  - added Java Heap Info to the output of the --info option (for troubleshooting purposes)
-  - added Romulus-H v1.3, it is one of the finalists from the Lightweight Cryptography Competition held by NIST
-  - added 4 algorithms from the round 2 of the NIST SHA-3 competition:
-    - BlueMidnightWish-[224,256,384,512]
-    - SIMD-[224,256,384,512]
-    - CubeHash-[224,256,384,512]
-    - Hamsi-[224,256,384,512]
-    - Shabal-[192,224,256,384,512]
+  - new algorithms
+    - Jacksum now supports 511 algorithms!
+    - added Romulus-H v1.3, it is one of the finalists from the Lightweight Cryptography Competition held by NIST
+    - added 5 (resp. 17) algorithms from the round 2 of the NIST SHA-3 competition:
+      - BlueMidnightWish-[224,256,384,512]
+      - SIMD-[224,256,384,512]
+      - CubeHash-[224,256,384,512]
+      - Hamsi-[224,256,384,512]
+      - Shabal-[192,224,256,384,512]
+  - new styles (for I/O)
+    - added hash data base (hdb) style which is used by ClamAV's sigtool
+  - added strict check mode
+    - in strict check mode, all files must pass the verification process, and no files have been added, and no files have been removed
+    - added strict check output to the verification summary
+    - exit code follows --strict-check
+  - added more algorithm investigation info
+    - added avalanche effect info to the algorithm info
+    - allowed option -q to specify the sequence for the avalanche calculation
+    - added also reversed and Koopman representations for the reciprocal polynomial representation if --info is set for a CRC
+  - added troubleshooting features
+    - added Java Heap Info if --info option has been set
+  - improvements on existing features
+    - allowed option -e for --string-list
 
 - bug fixes:
   - Don't ignore records with same comments in wanted list files.
