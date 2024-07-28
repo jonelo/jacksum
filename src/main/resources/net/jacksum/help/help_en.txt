@@ -1,5 +1,5 @@
 NAME
-    Jacksum - a command-line tool that lets you use hashes to solve tasks.
+    Jacksum - may the hashes be with you. 500+ hash functions and countless features.
 
 
 VERSION
