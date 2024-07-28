@@ -23,8 +23,10 @@
 package net.jacksum.actions.info.algo;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Locale;
 
 import net.jacksum.algorithms.HMAC;
 import net.jacksum.algorithms.checksums.PrngHashInfo;
@@ -143,16 +145,13 @@ public class AlgoInfoAction implements Action {
             CrcInfo crc = (CrcInfo) checksum;
             byte[] polyAsBytes = crc.getPolyAsBytes();
             String polyAsBits = ByteSequences.formatAsBits(polyAsBytes, crc.getWidth());
-            String reversedPolyAsBits = new StringBuilder(polyAsBits).reverse().toString();
-            String koopmanPolyAsBits = "1"+polyAsBits.substring(0, polyAsBits.length()-1);
-            String reciprocalPolyAsBits = new StringBuilder(koopmanPolyAsBits).reverse().toString();
 
             buffer.append(String.format("%n%sCRC parameters:%n", indent));
             buffer.append(String.format(FORMAT, indent, "width (in bits):", crc.getWidth()));
-            buffer.append(String.format(FORMAT, indent, "polynomial [hex]:", new BigInteger(polyAsBits, 2).toString(16)));
+            buffer.append(String.format(FORMAT, indent, "polynomial [hex]:", polyAsHex(polyAsBits)));
             buffer.append(String.format(FORMAT, indent, "init [hex]:", ByteSequences.hexformat(crc.getInitialValue(), crc.getWidth() / 4)));
-            buffer.append(String.format(FORMAT, indent, "refIn:", crc.isRefIn()));
-            buffer.append(String.format(FORMAT, indent, "refOut:", crc.isRefOut()));
+            buffer.append(String.format(FORMAT, indent, "refIn [boolean]:", crc.isRefIn()));
+            buffer.append(String.format(FORMAT, indent, "refOut [boolean]:", crc.isRefOut()));
             buffer.append(String.format(FORMAT, indent, "xorOut [hex]:", ByteSequences.hexformat(crc.getXorOut(), crc.getWidth() / 4)));
 
             if (checksum instanceof CrcGeneric) {
@@ -174,19 +173,16 @@ public class AlgoInfoAction implements Action {
                 }
             }
 
+            // Normal poly representation
             buffer.append(String.format("%n%sPolynomial representations:%n", indent));
             buffer.append(String.format(FORMAT, indent, "mathematical:", CrcUtils.polyAsMathExpression(crc.getWidth(), polyAsBytes)));
-            buffer.append(String.format(FORMAT, indent, "normal/MSB first [binary]:", polyAsBits));
-            buffer.append(String.format(FORMAT, indent, "normal/MSB first [hex]:", new BigInteger(polyAsBits, 2).toString(16)));
-            buffer.append(String.format(FORMAT, indent, "reversed/LSB first [binary]:", reversedPolyAsBits));
-            buffer.append(String.format(FORMAT, indent, "reversed/LSB first [hex]:", new BigInteger(reversedPolyAsBits, 2).toString(16)));
-            buffer.append(String.format(FORMAT, indent, "Koopman [binary]:", koopmanPolyAsBits));
-            buffer.append(String.format(FORMAT, indent, "Koopman [hex]:", new BigInteger(koopmanPolyAsBits, 2).toString(16)));
+            appendBuffer(buffer, indent, polyAsBits);
 
-            buffer.append(String.format("%n%sReciprocal poly (similar error detection strength):%n", indent));
+            // Reciprocal poly
+            buffer.append(String.format("%n%sReciprocal polynomial representations (the reciprocal poly has a similar error detection strength):%n", indent));
+            String reciprocalPolyAsBits = new StringBuilder(polyAsKoopmanPolyInBits(polyAsBits)).reverse().toString();
             buffer.append(String.format(FORMAT, indent, "mathematical:", CrcUtils.polyAsMathExpression(crc.getWidth(), reciprocalPolyAsBits)));
-            buffer.append(String.format(FORMAT, indent, "normal [binary]:", reciprocalPolyAsBits));
-            buffer.append(String.format(FORMAT, indent, "normal [hex]:", new BigInteger(reciprocalPolyAsBits, 2).toString(16)));
+            appendBuffer(buffer, indent, reciprocalPolyAsBits);
         }
 
 
@@ -207,6 +203,26 @@ public class AlgoInfoAction implements Action {
         buffer.append(String.format("%n%salternative/secondary implementation:%n", indent));
         buffer.append(String.format(FORMAT, indent, "has been requested:", parameters.isAlternateImplementationWanted()));
         buffer.append(String.format(FORMAT, indent, "is available and would be used:", checksum.isActualAlternateImplementationUsed()));
+    }
+
+    private String polyAsKoopmanPolyInBits(String polyAsBits) {
+        return "1"+polyAsBits.substring(0, polyAsBits.length()-1);
+    }
+
+    private String polyAsHex(String poly) {
+        return new BigInteger(poly, 2).toString(16);
+    }
+
+    private void appendBuffer(StringBuilder buffer, String indent, String polyAsBits) {
+        buffer.append(String.format(FORMAT, indent, "normal/MSB first [binary]:", polyAsBits));
+        buffer.append(String.format(FORMAT, indent, "normal/MSB first [hex]:", polyAsHex(polyAsBits)));
+        String reversedPolyAsBits = new StringBuilder(polyAsBits).reverse().toString();
+        buffer.append(String.format(FORMAT, indent, "reversed/LSB first [binary]:", reversedPolyAsBits));
+        buffer.append(String.format(FORMAT, indent, "reversed/LSB first [hex]:", polyAsHex(reversedPolyAsBits)));
+        String koopmanPolyAsBits = polyAsKoopmanPolyInBits(polyAsBits);
+        buffer.append(String.format(FORMAT, indent, "Koopman [binary]:", koopmanPolyAsBits));
+        buffer.append(String.format(FORMAT, indent, "Koopman [hex]:", polyAsHex(koopmanPolyAsBits)));
+
     }
 
     private int singleView(StringBuilder buffer) throws ExitException {
