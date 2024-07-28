@@ -18,6 +18,10 @@ Jacksum 3.8.0, TBD
   - keccak-384 was not recognised as an alias
   - added info about the usage of the internal state value for verification of test vectors submitted for the NIST competition
     in the manpage for skein-256.
+  - the prompt is "Password: " twice if both options -k password -q password have been specified
+    (e.g. "jacksum -q password -a hmac:sha256 -k password"), the prompt for the key is now "Key (echo off): " to
+    distinguish the input.
+
 
 - improved performance:
 

@@ -26,19 +26,29 @@ package net.loefflmann.sugar.io;
 import net.loefflmann.sugar.util.ExitException;
 
 public class Console {
-    public static char[] readPassword() throws ExitException {
+
+    public static char[] readPassword(String prompt) throws ExitException {
         java.io.Console console = System.console();
         if (console == null) {
             throw new ExitException("Console not present.");
         }
-        return console.readPassword("Password: ");
+        return console.readPassword(prompt);
+    }
+
+    public static char[] readPassword() throws ExitException {
+        return readPassword("Password: ");
+    }
+
+    public static String readLine(String prompt) throws ExitException {
+        java.io.Console console = System.console();
+        if (console == null) {
+            throw new ExitException("Console not present.");
+        }
+        return console.readLine(prompt);
     }
 
     public static String readLine() throws ExitException {
-        java.io.Console console = System.console();
-        if (console == null) {
-            throw new ExitException("Console not present.");
-        }
-        return console.readLine("Enter a string: ");
+        return readLine("Enter a string: ");
     }
+
 }
