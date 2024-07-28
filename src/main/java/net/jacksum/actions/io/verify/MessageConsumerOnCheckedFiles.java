@@ -266,8 +266,22 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
         if (errors > 0) {
             return ExitCode.IO_ERROR;
         }
-        if (mismatches > 0) {
-            return ExitCode.CHECK_MISMATCH;
+        ListFilter listFilter = parameters.getListFilter();
+        if (parameters.isCheckStrict()) {
+            // if --check-strict is set, --list-filter all must be set
+            if (!listFilter.isFilterOk() ||
+                    !listFilter.isFilterFailed() ||
+                    !listFilter.isFilterMissing() ||
+                    !listFilter.isFilterNew()) {
+                return ExitCode.PARAMETER_ERROR;
+            }
+            if (mismatches + filesMissing + newFiles > 0) {
+                return ExitCode.EXPECTATION_NOT_MET;
+            }
+        } else {
+            if (mismatches > 0) {
+                return ExitCode.CHECK_MISMATCH;
+            }
         }
         return ExitCode.OK;
     }
