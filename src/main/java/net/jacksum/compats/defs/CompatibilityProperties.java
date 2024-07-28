@@ -457,6 +457,7 @@ public class CompatibilityProperties implements Serializable {
             case "solaris-digest":
             case "solaris-digest-v":
             case "files-only":
+            case "hdb":
             case "hexhashes-only":
                 return true;
             default:

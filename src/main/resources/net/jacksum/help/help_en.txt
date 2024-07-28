@@ -1098,6 +1098,33 @@ OPTIONS
                     Available since version 3.0.0 of Jacksum.
 \
 \
+                hdb
+\
+                    This style is used by sigtool which is a part of ClamAV.
+                    ClamAV is an open source (GPLv2) anti-virus toolkit,
+                    designed especially for e-mail scanning on mail gateways.
+                    ClamAV is supported by Cisco Systems, Inc. ClamAV supports
+                    hash-based signatures to scan and identify infected files.
+\
+                    sigtool can generate hdb files. hdb is an abbreviation for
+                    "hash data base". MD5 is supported, ClamAV 0.98 has also
+                    added support for SHA1 and SHA256 file checksums. The
+                    format is the same as for MD5 file checksum:
+\
+                    HashStringInHex:FileSizeInBytes:MalwareName
+\
+                    The hdb compat file brought to you by Jacksum works with
+                    any algorithm supported by Jacksum, and it even works with
+                    concatenated algorithms.
+                    If you don't want the path stored in the .hdb, you can set
+                    the --no-path option.
+                    GNU escaping is enabled by default and can be disabled;
+                    see the option --gnu-filename-escaping for more
+                    information.
+\
+                    Available since version 3.8.0 of Jacksum.
+\
+\
                 hexhashes-only
 \
                     Alias: hexhashesonly
@@ -1210,6 +1237,7 @@ OPTIONS
                 fciv             |  i  |  *  |  -  |  h  |  -  |  -  |  -  |
                 files-only       |  L  |  -  |  -  |  -  |  -  |  -  |  e  |
                 gnu-linux        |  i  |  *  |  -  |  h  |  -  |  -  |  e  |
+                hdb              |  i  |  *  |  -  |  h  |  E  |  -  |  e  |
                 hexhashes-only   |  w  |  *  |  -  |  h  |  -  |  -  |  -  |
                 openssl-dgst     |  i  |  *  |  E  |  h  |  -  |  -  |  e  |
                 openssl-dgst-r   |  i  |  *  |  -  |  h  |  -  |  -  |  e  |
@@ -1958,7 +1986,13 @@ OPTIONS
 \
                 - Details for each algorithm
 \
-            If --style has been set, it prints details about the style.
+            Example:
+                > jacksum -a all:crc --info --list
+\
+            If --style has been set, it prints details about the style config.
+\
+            Example:
+                > jacksum --style hdb --info
 \
             Available since version 3.0.0 of Jacksum.
             See also the options -a, --style, --list
