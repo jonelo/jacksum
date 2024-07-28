@@ -28,4 +28,5 @@ public interface CheckParameters {
 
     ListFilter getListFilter();
     boolean isList();
+    boolean isCheckStrict();
 }

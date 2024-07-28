@@ -81,6 +81,35 @@ public class AlgoInfoAction implements Action {
             buffer.append(String.format(FORMAT, indent, "bytes:", Integer.toString(blockSize)));
         }
 
+        boolean avalanche = true;
+        if (avalanche) {
+            byte[] input = null;
+            if (parameters.isSequence()) {
+                input = parameters.getSequence().asBytes();
+            } else {
+                input = "123456789".getBytes(StandardCharsets.UTF_8);
+            }
+
+            // Avalanche makes only sense if input is at least 1 bit, resp. 1 byte)
+            if (input.length > 0) {
+                buffer.append(String.format("%n%savalanche effect:%n", indent));
+                AvalancheInfo avalancheInfo = Avalanche.calc(checksum, input);
+
+                buffer.append(String.format(FORMAT, indent, "input length in bytes:", input.length));
+                buffer.append(String.format(FORMAT, indent, "input length in bits:", input.length * 8));
+                buffer.append(String.format(FORMAT, indent, "hash calculations:", input.length * 16));
+                buffer.append(String.format(FORMAT, indent, "input [hex]:", ByteSequences.format(input)));
+                buffer.append(String.format(FORMAT, indent, "input [bin]:", ByteSequences.formatAsBits(input)));
+
+                buffer.append(String.format(FORMAT, indent, "avalanche min effect:",
+                        String.format(Locale.US, "%.2f %%", avalancheInfo.getHammingDistanceMin())));
+                buffer.append(String.format(FORMAT, indent, "avalanche avg effect:",
+                        String.format(Locale.US, "%.2f %%", avalancheInfo.getHammingDistanceAvg())));
+                buffer.append(String.format(FORMAT, indent, "avalanche max effect:",
+                        String.format(Locale.US, "%.2f %%", avalancheInfo.getHammingDistanceMax())));
+            }
+        }
+
         if (checksum instanceof PrngHashInfo) {
             PrngHashInfo prngHashinfo = (PrngHashInfo) checksum;
             buffer.append(String.format("%n%sPRNG Hash parameters:%n", indent));

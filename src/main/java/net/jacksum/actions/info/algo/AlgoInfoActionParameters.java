@@ -23,9 +23,10 @@
 package net.jacksum.actions.info.algo;
 
 import net.jacksum.parameters.base.AlgorithmParameters;
+import net.jacksum.parameters.base.SequenceParameters;
 import net.jacksum.parameters.base.VerboseParameters;
 
-public interface AlgoInfoActionParameters extends AlgorithmParameters, VerboseParameters {
+public interface AlgoInfoActionParameters extends AlgorithmParameters, VerboseParameters, SequenceParameters {
 
     boolean isList();
     boolean isInfoMode();

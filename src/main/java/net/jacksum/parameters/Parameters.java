@@ -351,7 +351,7 @@ public class Parameters implements
         } else if (findAlgorithm) {
             return ActionType.FIND_ALGO;
 
-        } else if (isSequence()) {
+        } else if (isSequence() && !isInfoMode()) {
             return ActionType.QUICK;
 
         } else if (isStringList()) {
@@ -1895,7 +1895,7 @@ public class Parameters implements
     private void handleKey() throws ParameterException, ExitException {
         if (isKey()) {
             if (getKey().getType().equals(Sequence.Type.PASSWORD)) {
-                char[] passwd = net.loefflmann.sugar.io.Console.readPassword();
+                char[] passwd = net.loefflmann.sugar.io.Console.readPassword("Key (echo off): ");
                 if (passwd != null) {
                     try {
                         setKey(new Sequence(Sequence.Type.PASSWORD, new String(passwd).getBytes(getCharsetConsole())));
@@ -1907,7 +1907,7 @@ public class Parameters implements
                 }
             } else
             if (getKey().getType().equals(Sequence.Type.READLINE)) {
-                String line = net.loefflmann.sugar.io.Console.readLine();
+                String line = net.loefflmann.sugar.io.Console.readLine("Key (echo on): ");
                 if (line != null) {
                     try {
                         setKey(new Sequence(Sequence.Type.READLINE, line.getBytes(getCharsetConsole())));
