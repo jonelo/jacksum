@@ -1975,9 +1975,19 @@ OPTIONS
                 - Algorithm id
                 - Hash length in bits and bytes
                 - Block size in bits and bytes (if applicable)
-                - CRC implementation details including different representations
-                  of the polynomial (normal, reversed, and Koopman repr.)
-                - The corresponding reciprocal polynomial of a CRC
+                - Avalanche effect:
+                  if a sequence has been specified (using -q), the sequence
+                  will be used to calculate the avalanche effect. If the
+                  sequence is less than 1 byte, avalanche won't be calculated.
+                  If a sequence has not been specified, "123456789" will be
+                  used.
+                - in case of a CRC:
+                  CRC implementation details including different
+                  representations of the polynomial (normal, reversed,
+                  and Koopman repr.), and the corresponding reciprocal
+                  polynomial including different representations of the
+                  polynomial
+                - in case of a PRNG: PRNG hash parameters
                 - Whether an alternative implementation has been requested,
                   whether it is available and would be used
 \
