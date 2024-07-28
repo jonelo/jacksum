@@ -139,7 +139,7 @@ m is often called the message or data, and dependent on the design, and security
 Calculating hash values is usually the first step you take to be able to check data integrity at all later on.
 Jacksum supports not only hundreds of different algorithms for calculating hash values, it also supports many predefined styles and comprehensive formatting features to get the format you need.
 
-Example 1: Default style (is dependent on the algorithm)
+Example 1: Default style (output is dependent on the selected algorithm)
 
     $ jacksum -a sha3-256 ubuntu-22.04-desktop-amd64.iso
     c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43 ubuntu-22.04-desktop-amd64.iso
@@ -195,6 +195,7 @@ Example 9: Customized output in hashdeep format (filesize,hash1,...,hashN,filena
     4927586304,8485d0b3,b98dac940a82b110e6265ca78d1320f1f7103861e922aa1a54e4202686e9bbd3,6ef3a1c2dc1c90242ece09b82cb109a2a3db8dc6d64914ae35439cc98e3fd4bd,./ubuntu-22.04.2-desktop-amd64.iso
 
 
+
 ### Customize CRCs
 
 #### 6 parameters
@@ -206,7 +207,7 @@ Example 1: get the Castagnoli CRC-32 in lower hex
     $ jacksum -a crc:32,1EDC6F41,FFFFFFFF,true,true,FFFFFFFF -x -q txt:123456789
     e3069283 9
 
-Example 2: as above by using an alias
+Example 2: as above by using the alias (Castagnoli CRC)
 
     $ jacksum -a crc32c -x -q txt:123456789
     e3069283 9
@@ -220,7 +221,7 @@ Example 1: get the POSIX 1003.2 CRC algorithm
     $ jacksum -a crc:32,04C11DB7,0,false,false,FFFFFFFF,false -x -q txt:123456789
     377a6011 9
 
-Example 2: as above by using an alias
+Example 2: as above by using the alias (cksum)
 
     $ jacksum -a cksum -x -q txt:123456789
     377a6011 9
@@ -485,6 +486,28 @@ Once you have identified the correct algorithm, you can calculate your own input
 jacksum -a crc:16,1021,FFFF,false,false,FFFF -E hex -q txt:"Hello World"
 ```
 </details>
+
+### Find malware by hash values
+
+#### Get or create a malware database
+
+To identify malware on a computer by hash values, you need hash values from malware.
+
+##### Get an existing malware database
+
+For example you can use scripts such as [dumahadaba](https://github.com/jonelo/dumahadaba) to transform a malware database to a plain text file which Jacksum is able to proceed further.
+
+##### Create hash values from malware by Jacksum
+
+If you know malware, you can create your own malware database by Jacksum.
+In the following example we have a directory called ./malware where all the malware is located where we want to calculate hash values from.
+We store the hash values in the hdb format which is used by [ClamAV's sigtool](https://docs.clamav.net/manual/Signatures.html#hash-based-signatures) (hash:filesize:filename). We set the --no-path option because we are interested in the filename only.
+
+    $ jacksum -a sha256 --style hdb --no-path -O malware.sha256.hdb ./malware/
+
+#### Find malware using Jacksum and a .hdb file
+
+    $ jacksum -a sha256 --style hdb --wanted-list malware.sha256.hdb .
 
 ### Jacksum hacks (unexpected free gifts)
 
