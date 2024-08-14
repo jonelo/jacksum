@@ -1,7 +1,8 @@
 NAME
     Jacksum - may the hashes be with you. 500+ CRCs, checksums, and crypto
               hash functions. Calculate hashes, verify integrity, find files
-              by their fingerprints, and find wanted hash functions.
+              by their fingerprints, find desired hash functions, and get
+              detailed info about hash functions.
 
 
 VERSION
