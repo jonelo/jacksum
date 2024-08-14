@@ -1,5 +1,7 @@
 NAME
-    Jacksum - may the hashes be with you. A checksum tool, 500+ hash functions, many features.
+    Jacksum - may the hashes be with you. 500+ CRCs, checksums, and crypto
+              hash functions. Calculate hashes, verify integrity, find files
+              by their fingerprints, and find wanted hash functions.
 
 
 VERSION
@@ -131,6 +133,16 @@ OPERATING MODES
 \
     1. Calculate hashes
 \
+        For each mode in this section, the following option types are supported
+        for OPTION:
+\
+            - Common Options
+            - Security Strength Options
+            - Hashing Performance Options
+            - Output Format Options
+            - Output Options
+\
+\
     1.1 Calculate hashes from files
 \
         jacksum [OPTION]... FILES
@@ -147,19 +159,15 @@ OPERATING MODES
         algorithms and comprehensive format options to get the output to
         meet your needs.
 \
-        For OPTION the following option types are supported:
+        The following option types are also supported for OPTION:
 \
-            - Common Options
-            - Security Strength Options
             - File List Options
             - Directory Traversal Options
-            - Hashing Performance Options
             - I/O Performance Options
             - File/Path Format Options
-            - Output Format Options
-            - Output Options
 \
         Examples:
+\
             > jacksum myfile.iso
             > cat myfile | jacksum -
             > jacksum .
@@ -181,17 +189,13 @@ OPERATING MODES
 \
         The mode is enabled if you specify -q (or --quick).
 \
-        For OPTION the following option types are supported:
+        The following option types are also supported for OPTION:
 \
-            - Common Options
-            - Security Strength Options
-            - Hashing Performance Options
             - Quick Mode Options
             - File/Path Format Options
-            - Output Format Options
-            - Output Options
 \
-        Example:
+        Examples:
+\
             > jacksum -q txt:"Hello World"
             > jacksum -q password -a sha256 -E z85
             Password: facebook.com <a strong master password>
@@ -207,20 +211,25 @@ OPERATING MODES
 \
         In this mode, hash values are calculated from multiple strings.
 \
-        For OPTION the following option types are supported:
+        The following option type is also supported for OPTION:
 \
-            - Common Options
             - Hash Strings Mode Options
-            - Security Strength Options
-            - Hashing Performance Options
-            - Output Format Options
-            - Output Options
 \
         Example:
+\
             > jacksum --string-list words.txt
 \
 \
     2. Verify integrity
+\
+        For each mode in this section, the following option types are supported
+        for OPTION:
+\
+            - Common Options
+            - Security Strength Options
+            - Hashing Performance Options
+            - Output Options
+\
 \
     2.1 Verify file integrity
 \
@@ -229,17 +238,6 @@ OPERATING MODES
 \
         The data/file integrity verification mode is enabled if you specify
         the option -c (or --check-file) or the option --check-line.
-\
-        For OPTION, the following option types are supported:
-\
-            - Common Options
-            - Security Strength Options
-            - File List Options
-            - Check/Integrity Verification Mode Options
-            - Directory Traversal Options
-            - Hashing Performance Options
-            - I/O Performance Options
-            - Output Options
 \
         You can specify the style of the check-file by setting the option
         --style. If one or more input lines are invalid, use --check-strict to
@@ -262,7 +260,15 @@ OPERATING MODES
         If you specify the hyphen for FILES, Jacksum will read from the standard
         input channel.
 \
+        The following option types are also supported for OPTION:
+\
+            - File List Options
+            - Check/Integrity Verification Mode Options
+            - Directory Traversal Options
+            - I/O Performance Options
+\
         Examples:
+\
             > jacksum -c my.hashes
             > jacksum -c my.hashes .
             > jacksum -c my.hashes --list-filter none,missing,new .
@@ -280,34 +286,43 @@ OPERATING MODES
 \
         To perform a strict check, the following conditions must be met:
 \
-        - FILES must not be omitted, because we want detect new files if there
-          are any
-        - FILES must be set to the same folder which was specified as output
-          during the creation of <file>.
-        - the check file <file> must not be stored in FILES, because otherwise
-          <file> would be detected as a new or modified file.
-        - the option --list-filter must be set to all (default), because we
-          do not want to filter anything in strict mode
-        - the option -V must be set to summary (default for -c)
-        - the option --scan-ntfs-ads should be set on Windows, because
-          one or more ADS could have been added which we wouldn't detect
-          otherwise.
-        - the option --scan-all-unix-file-types should be set on GNU/Linux and
-          Unix, because we want to detect any non-regular files that have been
-          added to FILES
-        - the option --strict-check should be set so that the exit code
-          reflects the actual outcome of the verification
+            - FILES must not be omitted, because we want detect new files if
+              there are any
+            - FILES must be set to the same folder which was specified as
+              output during the creation of <file>.
+            - the check file <file> must not be stored in FILES, because
+              otherwise <file> would be detected as a new or modified file.
+            - the option --list-filter must be set to all (default), because
+              we do not want to filter anything in strict mode
+            - the option -V must be set to summary (default for -c)
+            - the option --scan-ntfs-ads should be set on Windows, because
+              one or more ADS could have been added which we wouldn't detect
+              otherwise.
+            - the option --scan-all-unix-file-types should be set on GNU/Linux
+              and Unix, because we want to detect any non-regular files that
+              have been added to FILES
+            - the option --strict-check should be set so that the exit code
+              reflects the actual outcome of the verification
 
-        The summary prints an additional line called "strict check".
-        The value for "strict check" can become PASSED or FAILED.
-        If the value is set to PASSED, it means that
+        The summary prints an additional line called "strict check". The value
+        for "strict check" can become PASSED or FAILED. If the value is set to
+        PASSED, it means that
 \
-        - all files listed in <file> have been read, hashed and verified
-          against the current objects on the file system
-        - no file in <file> have been removed
-        - no additional files (regular or non-regular) have been added to FILES
+            - all files listed in <file> have been read, hashed and verified
+              against the current objects on the file system
+            - no file in <file> have been removed
+            - no additional files (regular or non-regular) have been added to
+              FILES
+\
+        The following option types are also supported for OPTION:
+\
+            - File List Options
+            - Check/Integrity Verification Mode Options
+            - Directory Traversal Options
+            - I/O Performance Options
 \
         Example:
+\
             >  jacksum -a sha256 -c ../.SHA256 --scan-ntfs-ads --check-strict .
 \
 \
@@ -319,15 +334,12 @@ OPERATING MODES
         calculate the hash(es), and verify the integrity.
         This mode is enabled if you specify both -q and -e.
 \
-        For OPTION the following option types are supported:
+        The following option type is also supported for OPTION:
 \
-            - Common Options
-            - Security Strength Options
-            - Hashing Performance Options
             - Quick Mode Options
-            - Output Options
 \
         Examples:
+\
             > jacksum -a md5 -q txt:hello -e 5d41402abc4b2a76b9719d911017c592
             > jacksum -a hmac:sha256 -q password -k password -e
               60273a1e778ed009a6fb32fa11dbb16f905148fc2ec84a67f8a3b3a6cabaa9b7
@@ -354,7 +366,7 @@ OPERATING MODES
         If you specify the hyphen for FILES, Jacksum will read from the standard
         input channel.
 \
-        For OPTION the following option types are supported:
+        The following option types are supported for OPTION:
 \
             - Common Options
             - Security Strength Options
@@ -366,6 +378,7 @@ OPERATING MODES
             - Output Options
 \
         Examples:
+\
             > jacksum -a sha256 ./all-official-log4j-libs/ > /tmp/log4j.hashes
             > jacksum -a sha256 -V nosummary -w /tmp/log4j.hashes /
                 MATCH  /opt/serverapp/log.jar (log4j-core-2.12.0.jar)
@@ -386,7 +399,7 @@ OPERATING MODES
         where <bits> specifies the width of the algorithm in question. <bits>
         can be an integer from 1 to 1024.
 \
-        For OPTION the following option types are supported:
+        The following option types are supported for OPTION:
 \
             - Common Options
             - Security Strength Options
@@ -394,6 +407,7 @@ OPERATING MODES
             - Output Options
 \
         Example:
+\
             > jacksum -a unknown:16 -q hex:050000 -E hex -e d893
 \
 \
@@ -414,6 +428,7 @@ OPERATING MODES
         exit. See the OPTIONS section for more details on each option.
 \
         Examples:
+\
             > jacksum -a all:256 -l
             > jacksum --hmacs
             > jacksum -h -h
@@ -2056,6 +2071,7 @@ OPTIONS
                 - JMV name, vendor, and version
                 - OS name, architecture, and version
                 - ISO 8601 timestamp of invocation
+                  see also https://www.iso.org/iso-8601-date-and-time-format.html
                 - Working directory of invocation
                 - Invocation arguments
 \
