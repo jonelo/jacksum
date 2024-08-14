@@ -1,5 +1,5 @@
 NAME
-    Jacksum - may the hashes be with you. 500+ hash functions and countless features.
+    Jacksum - may the hashes be with you. A checksum tool, 500+ hash functions, many features.
 
 
 VERSION
@@ -18,7 +18,7 @@ SYNOPSIS
             jacksum [OPTION]... FILES
 \
         Calculate hashes from user input
-            jacksum [OPTION]... (--quick|-q) <sequence>
+            jacksum [OPTION]... {--quick|-q} <sequence>
                     [OPTION]...
 \
         Calculate hashes from strings
@@ -29,28 +29,28 @@ SYNOPSIS
     Verify integrity
 \
         Verify data/file integrity
-            jacksum [OPTION]... ((--check-file|-c) <file> | --check-line <line>)
+            jacksum [OPTION]... {{--check-file|-c} <file> | --check-line <line>}
                     [OPTION]... [FILES]
 \
         Verify the integrity of user input
-            jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
+            jacksum [OPTION]... {--quick|-q} <sequence> {--expect|-e} <hash>
                     [OPTION]...
 \
         Find strings that match a hash
-            jacksum [OPTION]... --string-list <file> (--expect|-e) <hash>
+            jacksum [OPTION]... --string-list <file> {--expect|-e} <hash>
                     [OPTION]...
 \
 \
     Find files by their fingerprints
 \
-            jacksum [OPTION]... ((--wanted-list|-w) <list> | (--expect|-e) <hash>))
+            jacksum [OPTION]... {{--wanted-list|-w} <list> | {--expect|-e} <hash>}}
                     [OPTION]... [FILES]
 \
 \
     Find hash functions
 \
-            jacksum [OPTION]... (--algorithm|-a) unknown:<bits>
-                                (--quick|-q) <sequence> (--expect|-e) <hash>
+            jacksum [OPTION]... {--algorithm|-a} unknown:<bits>
+                                {--quick|-q} <sequence> {--expect|-e} <hash>
                     [OPTION]...
 \
 \
@@ -59,23 +59,23 @@ SYNOPSIS
         Gather program information
             jacksum [
                 --copyright |
-                (--help|-h) [<language>] [<word>] |
-                --info [(--style|-C) <style>] |
+                {--help|-h} [<language>] [<word>] |
+                --info [{--style|-C} <style>] |
                 --license |
-                (--version|-v) [-V <vcontrol>]
+                {--version|-v} [-V <vcontrol>]
             ]
 \
         Gather information on algorithms
             jacksum [
-                (--algorithm|-a) <algorithm> (--list|-l) |
-                (--help|-h) [<language>] [<algorithm>] |
+                {--algorithm|-a} <algorithm> {--list|-l} |
+                {--help|-h} [<language>] [<algorithm>] |
                 --hmacs [-V <vcontrol>] |
-                --info [(--algorithm|-a) <algorithm> [(--list|-l)]] [(--quick|-q) <sequence>] |
+                --info [{--algorithm|-a} <algorithm> [{--list|-l}]] [{--quick|-q} <sequence>]
             ]
 \
 \
     Notes:
-        - FILES means "((--file-list|-L) <file-list> | FILE) [FILE]..."
+        - FILES means "{{--file-list|-L} <file-list> | FILE} [FILE]..."
         - FILE can be a regular file, a directory, any platform-dependent file,
           or the hyphen (-) which represents standard input. For more
           information, see section PARAMETERS.
@@ -119,7 +119,7 @@ DESCRIPTION
         - Fully customizable output format
         - 170+ different character sets to be able to read and write hash files
           correctly
-        - 9200+ lines of manpage with descriptions, examples, and compatibility
+        - 9500+ lines of manpage with descriptions, examples, and compatibility
           lists for all supported algorithms
 
 
@@ -172,7 +172,7 @@ OPERATING MODES
 \
     1.2. Calculate hashes from user input
 \
-        jacksum [OPTION]... (--quick|-q) <sequence>
+        jacksum [OPTION]... {--quick|-q} <sequence>
                 [OPTION]...
 \
         In this mode, you can specify the input data entirely on the command
@@ -224,7 +224,7 @@ OPERATING MODES
 \
     2.1 Verify file integrity
 \
-        jacksum [OPTION]... ((--check-file|-c) <file> | --check-line <line>)
+        jacksum [OPTION]... {{--check-file|-c} <file> | --check-line <line>}
                 [OPTION]... [FILES]
 \
         The data/file integrity verification mode is enabled if you specify
@@ -271,7 +271,7 @@ OPERATING MODES
 \
     2.2 Verify file integrity (strict)
 \
-        jacksum [OPTION]... ((--check-file|-c) <file> | --check-line <line>)
+        jacksum [OPTION]... {{--check-file|-c} <file> | --check-line <line>}
                 [OPTION]... --check-strict
                 [OPTION]... FILES
 \
@@ -313,7 +313,7 @@ OPERATING MODES
 \
     2.3 Verify the integrity of user input
 \
-        jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
+        jacksum [OPTION]... {--quick|-q} <sequence> {--expect|-e} <hash>
 \
         In this mode, you can specify the input data on the command line,
         calculate the hash(es), and verify the integrity.
@@ -335,7 +335,7 @@ OPERATING MODES
 \
     3. Find files by their fingerprints
 \
-        jacksum [OPTION]... ((--wanted-list|-w) <list> | (--expect|-e) <hash>))
+        jacksum [OPTION]... {{--wanted-list|-w} <list> | {--expect|-e} <hash>}}
                 [OPTION]... [FILES]
 \
         In "Wanted list" mode, you can find all files that match or do not
@@ -377,8 +377,8 @@ OPERATING MODES
 \
     4. Find hash functions
 \
-        jacksum [OPTION]... (--quick|-q) <sequence> (--expect|-e) <hash>
-                            (--algorithm|-a) unknown:<bits>
+        jacksum [OPTION]... {--quick|-q} <sequence> {--expect|-e} <hash>
+                            {--algorithm|-a} unknown:<bits>
                 [OPTION]...
 \
         In this mode, you can find the hash function that was used to produce a
@@ -400,14 +400,14 @@ OPERATING MODES
     5. Gather information
 \
         jacksum [
-            (--algorithm|-a) <algorithm> (--list|-l) |
+            {--algorithm|-a} <algorithm> {--list|-l} |
             --copyright |
-            (--help|-h) [<language>] [<word>] |
+            {--help|-h} [<language>] [<word>] |
             --hmacs [-V <vcontrol>] |
-            --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
-            --info [(--style|-C) <style>] |
+            --info [{--algorithm|-a} <algorithm> [{--list|-l}]] |
+            --info [{--style|-C} <style>] |
             --license |
-            (--version|-v) [-V <vcontrol>]
+            {--version|-v} [-V <vcontrol>]
         ]
 \
         In these modes, some information will be gathered, and the program will
@@ -428,18 +428,18 @@ OPTION TYPES
     Security Strength Options
         This option controls the strength of the hashing procedure.
 \
-        [(--algorithm|-a) <algorithm>]
-        [(--key|-k) <key>]
+        [{--algorithm|-a} <algorithm>]
+        [{--key|-k} <key>]
 \
 \
     Check/Integrity Verification Mode Options
         Those options control the data verification process.
 \
-        ((--check-file|-c) <checkfile> | --check-line <line>) [
-            [(--charset-check-file|--check-file-charset) <charset>]
+        {{--check-file|-c} <checkfile> | --check-line <line>} [
+            [{--charset-check-file|--check-file-charset} <charset>]
             [--check-strict]
-            [(--style|-C) <style>]
-            [(--ignore-lines-starting-with-string|-I) <string>]
+            [{--style|-C} <style>]
+            [{--ignore-lines-starting-with-string|-I} <string>]
             [--list-filter <filter>]
         ]
 \
@@ -447,19 +447,19 @@ OPTION TYPES
     Wanted List Mode Options
         Those options control the behavior of the "wanted list" mode.
 \
-        (--wanted-list|-w) <list> [
-            [(--expect|-e) <hash value>]
-            [(--charset-wanted-list|--wanted-list-charset) <charset>]
-            [(--match-filter|--wanted-list-filter) <filter>]
+        {--wanted-list|-w} <list> [
+            [{--expect|-e} <hash value>]
+            [{--charset-wanted-list|--wanted-list-charset} <charset>]
+            [{--match-filter|--wanted-list-filter} <filter>]
         ]
 \
 \
     Quick Mode Options
         Those options control the behavior of the quick mode.
 \
-        (--quick|-q) [<type>:]<sequence> [
-            [(--algorithm|-a) <algorithm>]
-            [(--expect|-e) <hash value>]
+        {--quick|-q} [<type>:]<sequence> [
+            [{--algorithm|-a} <algorithm>]
+            [{--expect|-e} <hash value>]
         ]
 \
 \
@@ -467,8 +467,8 @@ OPTION TYPES
         Those options adjust the behavior in the "hash strings"-mode.
 \
         --string-list <file> [
-            [(--charset-string-list|--string-list-charset) <charset>]
-            [(--ignore-lines-starting-with-string|-I) <string>]
+            [{--charset-string-list|--string-list-charset} <charset>]
+            [{--ignore-lines-starting-with-string|-I} <string>]
             [--ignore-empty-lines]
         ]
 \
@@ -478,32 +478,32 @@ OPTION TYPES
         afterwards.
 \
         [
-            (--algorithm|-a) <algorithm> (--list|-l) |
+            {--algorithm|-a} <algorithm> {--list|-l} |
             --copyright |
-            (--help|-h) [<language>] [<word>] |
+            {--help|-h} [<language>] [<word>] |
             --hmacs [-V <vcontrol>] |
-            --info [(--algorithm|-a) <algorithm> [(--list|-l)]] |
-            --info [(--style|-C) <style>] |
+            --info [{--algorithm|-a} <algorithm> [{--list|-l}]] |
+            --info [{--style|-C} <style>] |
             --license |
-            (--version|-v) [-V <vcontrol>]
+            {--version|-v} [-V <vcontrol>]
         ]
 \
 \
     Common Options
         Those options can be used almost by any operating mode.
 \
-        [(--verbose|-V) <vcontrol>]
-        [(--list|-l)]
+        [{--verbose|-V} <vcontrol>]
+        [{--list|-l}]
         [--]
 \
 \
     File List Options
         Those options specify the way file list are to be read.
 \
-        (--file-list|-L) <file-list> [
-            [(--charset-file-list|--file-list-charset) <charset>]
+        {--file-list|-L} <file-list> [
+            [{--charset-file-list|--file-list-charset} <charset>]
             [--file-list-format <format>]
-            [(--ignore-lines-starting-with-string|-I) <string>]
+            [{--ignore-lines-starting-with-string|-I} <string>]
         ]
 \
 \
@@ -526,7 +526,7 @@ OPTION TYPES
     Hashing Performance Options
         Those options control the performance of hashing.
 \
-        [(--algorithm|-a) <algorithm> [--alternative|-A]]
+        [{--algorithm|-a} <algorithm> [--alternative|-A]]
         [--threads-hashing <threads>]
 \
 \
@@ -543,11 +543,11 @@ OPTION TYPES
         [
             --no-path |
             [
-                (
+                {
                     --path-absolute |
                     --path-relative-to <path> |
-                    (--path-relative-to-entry <number> (--file-list|-L) <list>)
-                )
+                    {--path-relative-to-entry <number> {--file-list|-L} <list>}
+                }
                 [--path-separator|-P <char>]
             ]
         ]
@@ -558,17 +558,17 @@ OPTION TYPES
 \
         [--header]
         [
-            (--style|-C) <style> |
+            {--style|-C} <style> |
             [
-                [(--format|-F) <format>]
+                [{--format|-F} <format>]
                 [
-                    [(--encoding|-E) <encoding>] |
-                    [[(--hex-lowercase|-x)|(--hex-uppercase|-X)] [-g <count> [-G <char>]]]
+                    [{--encoding|-E} <encoding>] |
+                    [[{--hex-lowercase|-x}|{--hex-uppercase|-X}] [-g <count> [-G <char>]]]
                 ]
                 [--filesize <boolean>]
-                [(--timestamp|-t) <format>]
+                [{--timestamp|-t} <format>]
                 [--legacy-stdin-name]
-                [(--separator|-s) <string>]
+                [{--separator|-s} <string>]
             ]
         ]
 \
@@ -580,11 +580,11 @@ OPTION TYPES
         [--bom]
         [
             --stdout-charset <charset> |
-            [(--output-file|-o|-O) <file> [--output-file-charset <charset>]]
+            [{--output-file|-o|-O} <file> [--output-file-charset <charset>]]
         ]
         [
             --stderr-charset <charset> |
-            [(--error-file|-u|-U) <file> [--error-file-charset <charset>>]]
+            [{--error-file|-u|-U} <file> [--error-file-charset <charset>>]]
         ]
 
 
@@ -2172,8 +2172,8 @@ OPTIONS
             See also the options --string-list and --ignore-lines-starting-with-string.
 
 
-    -k  (([<type>:]<sequence>)|(readline|password))
-    --key (([<type>:]<sequence>)|(readline|password))
+    -k  {[<type>:]<sequence>|readline|password}
+    --key {[<type>:]<sequence>|readline|password}
 \
             Sets a secret key for the Keyed-Hash Message Authentication Code
             (HMAC). The settings supported for option -k are the same as for
@@ -2435,8 +2435,8 @@ OPTIONS
             See also the options -F, --path-absolute, and --path-relative.
 
 
-    -q (([<type>:]<sequence>)|(readline|password))
-    --quick (([<type>:]<sequence>)|(readline|password))
+    -q {[<type>:]<sequence>|readline|password}
+    --quick {[<type>:]<sequence>|readline|password}
 \
             Process a sequence quickly and quit the program. The settings
             supported for option -q are the same as for option -k.
