@@ -23,6 +23,7 @@
 
 package net.jacksum.actions.io.quick;
 
+import net.jacksum.actions.io.hash.Header;
 import net.jacksum.parameters.Sequence;
 import net.loefflmann.sugar.util.ByteSequences;
 import net.loefflmann.sugar.util.ExitException;
@@ -53,6 +54,10 @@ public class QuickAction implements Action {
         // the sequence parameter is required
         if (!parameters.isSequence()) {
             throw new ParameterException("A sequence has to be set by option -q.");
+        }
+
+        if (parameters.isHeaderWanted()) {
+            new Header(parameters).print();
         }
 
         AbstractChecksum checksum = Actions.getChecksumInstance(parameters);
