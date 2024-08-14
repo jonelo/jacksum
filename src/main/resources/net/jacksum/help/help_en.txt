@@ -122,7 +122,7 @@ DESCRIPTION
         - Fully customizable output format
         - 170+ different character sets to be able to read and write hash files
           correctly
-        - 9500+ lines of manpage with descriptions, examples, and compatibility
+        - 9800+ lines of manpage with descriptions, examples, and compatibility
           lists for all supported algorithms
 
 
