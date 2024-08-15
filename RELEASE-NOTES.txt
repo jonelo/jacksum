@@ -38,8 +38,8 @@ Jacksum 3.8.0, Aug TBD
     distinguish the input.
   - issue#32 --header not working using --quick
 
-
 - improved performance:
+  - used a short buffer for the --header output
 
 - updated documentation:
 
