@@ -2640,7 +2640,6 @@ OPTIONS
                 version 3.3.0 of Jacksum.
 
 
-
     --path-relative-to <path>
     --relative-to <path>
 \
@@ -2997,6 +2996,10 @@ OPTIONS
             option with care and wisdom.
 \
 \
+            See also:
+\
+                options -d, -f, and -r.
+\
             Available since:
 \
                 version 3.1.0 of Jacksum.
@@ -3010,8 +3013,8 @@ OPTIONS
             Jacksum scans for ADS and calculates hashes for those. The option
             -r <depth> is respected.
 \
-            Note: setting this option makes the output platform-dependent if ADS
-            can be found.
+            Note: setting this option makes the output platform-dependent if
+            at least one ADS can be found.
 \
 \
             Available since:
