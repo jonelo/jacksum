@@ -2,7 +2,7 @@ NAME
     Jacksum - may the hashes be with you. 500+ CRCs, checksums, and crypto
               hash functions. Calculate hashes, verify integrity, find files
               by their fingerprints, find desired hash functions, and get
-              detailed info about hash functions.
+              detailed info about hash functions. 10000+ lines of manpage.
 
 
 VERSION
@@ -122,7 +122,7 @@ DESCRIPTION
         - Fully customizable output format
         - 170+ different character sets to be able to read and write hash files
           correctly
-        - 9800+ lines of manpage with descriptions, examples, and compatibility
+        - 10000+ lines of manpage with descriptions, examples, and compatibility
           lists for all supported algorithms
 
 
@@ -869,11 +869,17 @@ OPTIONS
                 length). Please be patient! Both options, -q and -e, are
                 required in this case. See also -V, -e, -E, and -q.
 \
-        The option -a is available since version 1.0.0 of Jacksum.
-        <algo>[+<algo>]... is supported since version 1.7.0 of Jacksum.
-        all:<length>, all:<string>, and unknown:<length> are supported since
-        version 3.0.0 of Jacksum.
-        See also option -A.
+\
+            See also:
+\
+                option -A
+\
+            Available since:
+\
+                The option -a is available since version 1.0.0 of Jacksum.
+                <algo>[+<algo>]... is supported since version 1.7.0 of Jacksum.
+                all:<length>, all:<string>, and unknown:<length> are supported since
+                version 3.0.0 of Jacksum.
 
 
     -A
@@ -888,8 +894,14 @@ OPTIONS
             adler32, blake3, crc32, md2, md5, sha-1, sha-256, sha-384, sha-512,
             sha3-224, sha3-256, sha3-384, sha3-512
 \
-            Available since version 1.5.0 of Jacksum.
-            See also option -a.
+\
+            Available since:
+\
+                version 1.5.0 of Jacksum.
+\
+            See also:
+\
+                option -a.
 
 
     --bom
@@ -912,7 +924,10 @@ OPTIONS
             even if you don't set --bom, because it is required for those
             charsets to have a BOM in the output. See also --utf8
 \
-            Available since version 3.1.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.1.0 of Jacksum.
 
 
     -c <file>
@@ -1014,8 +1029,14 @@ OPTIONS
             unless you set --check-strict. If you set --check-strict more
             conditions apply with regards to the exit code.
 \
-            Available with the features above since version 3.0.0 of Jacksum.
-            See also the options -C, -I, --list-filter, and --check-strict.
+\
+            See also:
+\
+                the options -C, -I, --list-filter, and --check-strict.
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum
 
 
     --check-line <string>
@@ -1023,7 +1044,14 @@ OPTIONS
             Take a <string> from the command line and treat it as if it were
             coming from a check file.
 \
-            Available since version 3.0.0 of Jacksum.
+\
+            See also:
+\
+                option --style
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     --check-strict
@@ -1048,7 +1076,10 @@ OPTIONS
                   on Unix- and GNU/Linux file systems to detect special Unix
                   file types that might have been added.
 \
-            Available since version 3.0.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     -C <compatibility style>
@@ -1142,6 +1173,7 @@ OPTIONS
                     GNU escaping can be disabled; see the option
                     "--gnu-filename-escaping".
                     If you don't specify -a, the algorithm defaults to sha3-256.
+\
                     Available since version 3.0.0 of Jacksum.
 \
 \
@@ -1168,6 +1200,7 @@ OPTIONS
                     GNU escaping can be disabled; see the option
                     "--gnu-filename-escaping" for more information. If you do
                     not specify -a, the algorithm defaults to sha3-256.
+\
                     Available since version 3.0.0 of Jacksum.
 \
 \
@@ -1184,6 +1217,7 @@ OPTIONS
                     Jacksum; it even works with concatenated algorithms. If
                     you do not specify -a, the algorithm defaults to sha1,
                     as is the strongest algorithm that FCIV supports.
+\
                     Available since version 3.0.0 of Jacksum.
 \
 \
@@ -1358,6 +1392,7 @@ OPTIONS
                     The compat file works with any algorithm supported by
                     Jacksum, it even works with concatenated algorithms. If
                     you do not specify -a, the algorithm defaults to sha3-256.
+\
                     Available since version 3.0.0 of Jacksum.
 \
 \
@@ -1461,7 +1496,13 @@ OPTIONS
                     32-bit UCS Transformation Format, little-endian byte order.
 \
 \
-            Available since version 3.0.0 of Jacksum.
+            See also:
+\
+                option --info
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     --charset-wanted-list <charset>
@@ -1471,7 +1512,10 @@ OPTIONS
             If this option is not specified, UTF-8 will be used. See also -w
             or --wanted-list.
 \
-            Available since version 3.4.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.4.0 of Jacksum.
 
 
     --charset-file-list <charset>
@@ -1481,7 +1525,10 @@ OPTIONS
             -L. If this option is not specified, UTF-8 will be used for the file
             list. See also --file-list or -L.
 \
-            Available since version 3.0.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     --charset-error-file <charset>
@@ -1491,7 +1538,10 @@ OPTIONS
             specified, UTF-8 will be used for the error file. See also
             --error-file.
 \
-            Available since version 3.0.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     --charset-output-file <charset>
@@ -1501,7 +1551,10 @@ OPTIONS
             specified, UTF-8 will be used for the output file. See also
             --output-file.
 \
-            Available since version 3.0.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     --charset-stderr <charset>
@@ -1511,7 +1564,10 @@ OPTIONS
             (stderr). If this option is not specified, the default charset will
             be used that is dependent on your shell settings. See also --utf8.
 \
-            Available since version 3.0.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     --charset-stdout <charset>
@@ -1521,7 +1577,9 @@ OPTIONS
             If this option is not specified, the default charset will be used
             that is dependent on your shell settings. See also --utf8.
 \
-            Available since version 3.0.0 of Jacksum.
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     --charset-string-list <charset>
@@ -1531,7 +1589,10 @@ OPTIONS
             not specified, UTF-8 will be used for the string list file. See also
             option --string-list.
 \
-            Available since version 3.7.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.7.0 of Jacksum.
 
 
     --charset-console <charset>
@@ -1541,7 +1602,9 @@ OPTIONS
             options "-q readline" and "-q password".
             If this option is not specified, UTF-8 will be used.
 \
-            Available since version 3.7.0 of Jacksum.
+            Available since:
+\
+                version 3.7.0 of Jacksum.
 
 
     --copyright
@@ -1549,7 +1612,10 @@ OPTIONS
             prints out the copyrights and license information for all portions
             of the software that Jacksum licensed. See also --license.
 \
-            Available since version 3.0.0 of Jacksum.
+            Available since:
+\
+                version 3.0.0 of Jacksum.
+
 
     -d      
     --dont-follow-symlinks-to-directories
@@ -1561,9 +1627,16 @@ OPTIONS
             traversing. If you set -d, Jacksum will not follow any symbolic
             links on directories.
 \
-            Available since version 1.5.0 of Jacksum, see also the options "-r"
-            and "-f". File system cycle detection has been available since
-            version 3.0.0 of Jacksum.
+\
+            See also:
+\
+                options -r, and -f, resp. --dont-follow-symlinks-to-files
+
+\
+            Available since:
+\
+                Available since version 1.5.0 of Jacksum. File system cycle
+                detection has been available since version 3.0.0 of Jacksum.
 
 
     -e <hash value>
@@ -1572,6 +1645,11 @@ OPTIONS
 \
             A particular hash value is expected. Works with a file,
             standard input, or the option -q.
+\
+            The hash value can be specified as case sensitive or case
+            insensitive, except if Base64 encoding (by -E) has been specified,
+            because Base64 is case sensitive.
+\
 \
             In "quick mode", it just returns MATCH (exit code 0) or NO MATCH
             (exit code 1).
@@ -1584,12 +1662,15 @@ OPTIONS
                 > jacksum -q txt:"Hello World" -a crc32c -X -e 691DAAFF
                 [NO MATCH]
 \
-            The hash value can be specified as case sensitive or case
-            insensitive, except if Base64 encoding (by -E) has been specified,
-            because Base64 is case sensitive.
 \
-            Available since version 1.4.0 of Jacksum,
-            see also the options -a, -q, -E, -x, and -X.
+            See also:
+\
+                the options -a, -q, -E, -x, and -X.
+\
+            Available since:
+\
+                version 1.4.0 of Jacksum.
+\
 \
             In "wanted list mode", all matches are printed out by default, so
             you can find all duplicates of files that have the same hash. You
@@ -1607,8 +1688,14 @@ OPTIONS
                 C:\Applications\jacksum-3.4.0\jacksum-3.4.0.jar
                 C:\Applications\jacksum\jacksum.jar
 \
-            Available since version 1.6.0 of Jacksum.
-            See also the options -a, -q, -E, -l, -x, -X, and --match-filter.
+\
+            See also:
+\
+                the options -a, -q, -E, -l, -x, -X, and --match-filter.
+\
+            Available since:
+\
+                version 1.6.0 of Jacksum.
 
 
     -E <encoding>
@@ -1827,8 +1914,13 @@ OPTIONS
                                          Padding:  none
 \
 \
-            Available since version 1.6.0 of Jacksum if not stated otherwise.
-            See also the options -F, -g, -G, -q, -x, and -X.
+            See also:
+\
+                the options -F, -g, -G, -q, -x, and -X.
+\
+            Available since:
+\
+                version 1.6.0 of Jacksum if not stated otherwise.
 
 
     -f
@@ -1837,9 +1929,15 @@ OPTIONS
             process regular files only. Do not follow symbolic links to
             files (any OS), to block devices, character devices, named pipes,
             sockets (Unix-like OS only), nor to doors (Solaris only).
-            See also option -d
 \
-            Available since version 3.0.0 of Jacksum.
+\
+            See also:
+\
+                option -d, resp. --dont-follow-symlinks-to-directories
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     --filesize <boolean>
@@ -1856,7 +1954,14 @@ OPTIONS
 \
                 no|off|false|0|disabled  disables the file size
 \
-            Available since version 3.3.0 of Jacksum.
+\
+            See also:
+\
+                option --format, token #FILESIZE
+\
+            Available since:
+\
+                version 3.3.0 of Jacksum.
 
 
     -F <format>
@@ -1993,10 +2098,14 @@ OPTIONS
                 #QUOTE                   will be replaced by one quote char (")
 \
 \
-            Available since version 1.5.0 of Jacksum, unless otherwise
-            specified.
-            See also the options -a, -E, -g, -G, --gnu-filename-escaping, -P,
-            -s, -t, -x, and -X.
+            See also:
+\
+                the options -a, -E, -g, -G, --gnu-filename-escaping, -P,
+                -s, -t, -x, and -X.
+\
+            Available since:
+\
+                version 1.5.0 of Jacksum, unless otherwise specified.
 
 
     -g <count>
@@ -2007,8 +2116,14 @@ OPTIONS
             Groups are separated by a blank or by the character
             specified by -G; the value for <count> must be greater than 0.
 \
-            Available since Jacksum 1.6.0.
-            See also options -E, -G, -x, and -X.
+\
+            See also:
+\
+                options -E, -G, -x, and -X.
+\
+            Available since:
+\
+                Jacksum 1.6.0
 
 
     -G <char>
@@ -2017,8 +2132,14 @@ OPTIONS
             Sets the separator for byte groups, only valid if encoding is
             hexadecimal and option -g has been set.
 \
-            Available since version 1.6.0 of Jacksum.
-            See also options -E, -g, -x, and -X.
+\
+            See also:
+\
+                options -E, -g, -x, and -X.
+\
+            Available since:
+\
+                version 1.6.0 of Jacksum.
 
 
     --gnu-filename-escaping <boolean>
@@ -2055,8 +2176,14 @@ OPTIONS
             starts with a backslash, and the problematic characters in the file
             name are escaped with a backslash.
 \
-            Available since version 3.3.0 of Jacksum.
-            See also the option -F, token #ESCAPETAG.
+\
+            See also:
+\
+                the option -F, token #ESCAPETAG.
+\
+            Available since:
+\
+                version 3.3.0 of Jacksum.
 
 
     --header
@@ -2076,7 +2203,14 @@ OPTIONS
                 - Working directory of invocation
                 - Invocation arguments
 \
-            Available since version 3.3.0 of Jacksum.
+\
+            See also:
+\
+                option --ignore-lines-starting-with-string
+\
+            Available since:
+\
+                version 3.3.0 of Jacksum.
 
 
     -h [language] [word]
@@ -2084,12 +2218,17 @@ OPTIONS
 \
             Prints the help; valid code for language is "en"; valid values for
             word are strings such as section headers, options or algorithms.
-            See the section "EXAMPLES" for more information, or simply type
 \
-            > jacksum -h examples
 \
-            Available since version 1.0.0 of Jacksum,
-            parameter word since version 1.6.0 of Jacksum.
+            See also:
+\
+                the section "EXAMPLES" for more information, or simply type
+                > jacksum -h examples
+\
+            Available since:
+\
+                version 1.0.0 of Jacksum,
+                option value [word] since version 1.6.0 of Jacksum.
 
 
     --hmacs
@@ -2107,8 +2246,13 @@ OPTIONS
             If --verbose summary has been set, it also prints the number of
             supported HMACs.
 \
-            Available since version 3.7.0 of Jacksum.
-            See also the options "-a hmac:", "-k".
+\
+            See also:
+                the options "-a hmac:", -k.
+\
+            Available since:
+\
+                version 3.7.0 of Jacksum.
 
 
     --info
@@ -2163,8 +2307,14 @@ OPTIONS
             Example:
                 > jacksum --style hdb --info
 \
-            Available since version 3.0.0 of Jacksum.
-            See also the options -a, --style, --list
+\
+            See also:
+\
+                the options -a, --style, --list
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     -I <string>
@@ -2173,8 +2323,17 @@ OPTIONS
             While reading a list by -L or -c or --string-list, lines are ignored
             if they start with the string <string>.
 \
-            Available since version 1.6.0 of Jacksum, see also option -c.
-            See also the option --ignore-empty-lines.
+            The value of the option also changes the comment string of the
+            option --header.
+\
+\
+            See also:
+\
+                the options --ignore-empty-lines, and --header.
+\
+            Available since:
+\
+                version 1.6.0 of Jacksum, see also option -c.
 
 
     --ignore-empty-lines
@@ -2185,8 +2344,14 @@ OPTIONS
             By default, or if the option is omitted, empty lines are hashed,
             which in fact is treated as an empty message for the algorithm.
 \
-            Available since version 1.7.0 of Jacksum.
-            See also the options --string-list and --ignore-lines-starting-with-string.
+\
+            See also:
+\
+                the options --string-list and --ignore-lines-starting-with-string.
+\
+            Available since:
+\
+                version 1.7.0 of Jacksum.
 
 
     -k  {[<type>:]<sequence>|readline|password}
@@ -2209,16 +2374,29 @@ OPTIONS
                 > jacksum -a hmac:sha256 -k password message.txt
                 Key (echo off):
 \
-            Available since version 3.7.0 of Jacksum.
-            See also the options "-a hmac:", --hmacs, --charset-console
+\
+            See also:
+\
+                the options "-a hmac:", --hmacs, --charset-console
+\
+            Available since:
+\
+                version 3.7.0 of Jacksum
 
 
     --license
 \
             Prints out the license under which the project is offered.
 \
-            Available since version 3.0.0 of Jacksum.
-            See also the option --copyright.
+\
+            See also:
+\
+                the option --copyright.
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
+
 
     -l
     --list
@@ -2237,7 +2415,10 @@ OPTIONS
             If options --wanted-list and --wanted-list-filter are set, it lists
             the filenames only without the statuses MATCH or NO MATCH.
 \
-            Available since version 3.0.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     --list-filter <filter>
@@ -2263,8 +2444,14 @@ OPTIONS
             Only if the filter is set to ok, failed or both, hashing
             occurs. For detecting missing or new files, hashing is not required.
 \
-            Available since version 3.0.0 of Jacksum.
-            See also the options -c, and --list.
+\
+            See also:
+\
+                the options -c, and --list.
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     -L <textfile>
@@ -2276,14 +2463,24 @@ OPTIONS
             If the option --file-list-format is set to ssv, each line in the
             file will be treated as multiple filenames, separated by spaces or
             tabs.
+\
             If <textfile> is set to "-", standard input stream is used.
+\
             The charset UTF-8 is used to read the file unless you specify
             the charset by the option --charset-file-list.
+\
             The option -L <textfile> can go in addition to file parameters.
             Wildcards are not supported in the <textfile>.
 \
-            Available since version 3.0.0 of Jacksum.
-            See also the options --file-list-format, --file-list-charset.
+\
+            See also:
+\
+                the options --file-list-format, --file-list-charset.
+
+            Available since:
+\
+                version 3.0.0 of Jacksum.
+
 
 
     --file-list-format <format>
@@ -2308,21 +2505,29 @@ OPTIONS
                         Jacksum is not able to accept program arguments or
                         file names that contain Unicode characters.
 \
-            Available since version 3.0.0 of Jacksum.
-            See also the options --file-list, --file-list-charset.
+\
+            See also:
+\
+                the options --file-list, --file-list-charset.
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     --legacy-stdin-name
 \
             Starting with Jacksum 3 the standard input stream is named
-            "<stdin>" for the output, as the single dash could also be the
-            name of a file or a directory. Since the characters < and > cannot
-            be used for filenames or directory names on most file systems,
-            <stdin> is a great choice for naming stdin for the output.
-            If you set the --legacy-stdin-name, Jacksum uses the "-" again for
-            naming the standard input stream.
+            "<stdin>", as the single dash could also be the name of a file or
+            a directory. Since the characters < and > cannot be used for
+            filenames or directory names on most file systems, <stdin> is a
+            great choice for naming stdin. If you set the --legacy-stdin-name,
+            Jacksum uses the "-" again for naming the standard input stream.
 \
-            Available since version 3.0.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     --no-path
@@ -2339,8 +2544,14 @@ OPTIONS
             integrity check later, you should not set this option, because
             without path information it is impossible to find the files again.
 \
-            Available since version 3.2.0 of Jacksum.
-            See also the options -P, --path-relative-to, and --path-absolute.
+\
+            See also:
+\
+                the options -P, --path-relative-to, and --path-absolute.
+\
+            Available since:
+\
+                version 3.2.0 of Jacksum.
 
 
     -o <file>
@@ -2350,18 +2561,30 @@ OPTIONS
             output; the program exits with a warning if the file exists, and the
             file specified by -o is excluded from the calculation process.
 \
-            Available since version 1.6.0 of Jacksum.
-            See also the options -O, -u and -U.
+            See also:
+\
+                the options -O, -u and -U.
+\
+            Available since:
+\
+                version 1.6.0 of Jacksum.
 
 
     -O <file>
     --output-file-overwrite <file>
 \
             Same as -o, however an existing file will be overwritten without any
-            warning. See also -U.
+            warning.
 \
-            Available since version 1.6.0 of Jacksum.
-            See also -o, -u, and -U.
+\
+            See also:
+\
+                 -o, -u, and -U.
+\
+            Available since:
+\
+                version 1.6.0 of Jacksum.
+
 
 
     --output-file-replace-tokens
@@ -2389,8 +2612,15 @@ OPTIONS
                 creates a filename called /myisos/.SHA-256 containing the
                 SHA-256 hashes of all .iso files in the /myisos/ directory.
 \
-            Available since version 3.7.0 of Jacksum.
-            See also -o, -O.
+\
+            See also:
+\
+                the options -o, and -O.
+\
+            Available since:
+\
+                version 3.7.0 of Jacksum.
+
 
     --path-absolute
     --absolute
@@ -2400,8 +2630,15 @@ OPTIONS
             absolute paths are passed as program arguments. If this option is
             set, paths are printed absolutely in all cases.
 \
-            Available since version 3.3.0 of Jacksum.
-            See also the options -P, --path-relative-to, and --no-path.
+\
+            See also:
+\
+                the options -P, --path-relative-to, and --no-path.
+\
+            Available since:
+\
+                version 3.3.0 of Jacksum.
+
 
 
     --path-relative-to <path>
@@ -2421,8 +2658,14 @@ OPTIONS
             If this option is set during check mode, the path for each file
             object in the check file is simply prepended by <path>.
 \
-            Available since version 3.2.0 of Jacksum.
-            See also the options -P, --path-absolute, and --no-path.
+\
+            See also:
+\
+                the options -P, --path-absolute, and --no-path.
+
+            Available since:
+\
+                version 3.2.0 of Jacksum.
 
 
     --path-relative-to-entry <number>
@@ -2434,8 +2677,13 @@ OPTIONS
             greater than 0. This option requires the option --file-list. If
             file list is empty, this option is ignored.
 \
-            Available since version 3.3.0 of Jacksum.
-            See also option --path-relative-to.
+            See also:
+\
+                option --path-relative-to
+\
+            Available since:
+\
+                version 3.3.0 of Jacksum
 
 
     -P <char>
@@ -2448,8 +2696,14 @@ OPTIONS
             required, for example to produce relative links for HTML pages on
             Microsoft Windows.
 \
-            Available since version 1.5.0 of Jacksum.
-            See also the options -F, --path-absolute, and --path-relative.
+\
+            See also:
+\
+                the options -F, --path-absolute, and --path-relative.
+\
+            Available since:
+\
+                version 1.5.0 of Jacksum
 
 
     -q {[<type>:]<sequence>|readline|password}
@@ -2705,10 +2959,12 @@ OPTIONS
                         > jacksum -q z85:vqZdgwPw]cB09p{
 \
 \
-            Available since version 1.3.0 of Jacksum (hex only), "type" since
-            version 1.5.0, type "bin" and "txtf" since version 3.0.0, type
-            "file" since version 3.1.0 of Jacksum, console mode since version
-            3.7.0 of Jacksum.
+            Available since:
+\
+                version 1.3.0 of Jacksum (hex only), "type" since version
+                1.5.0, type "bin" and "txtf" since version 3.0.0, type
+                "file" since version 3.1.0 of Jacksum, console mode since
+                version 3.7.0 of Jacksum.
 
 
     --scan-all-unix-file-types
@@ -2740,7 +2996,10 @@ OPTIONS
             setting this option makes the output platform-dependent. Use this
             option with care and wisdom.
 \
-            Available since version 3.1.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.1.0 of Jacksum.
 
 
     --scan-ntfs-ads
@@ -2754,7 +3013,10 @@ OPTIONS
             Note: setting this option makes the output platform-dependent if ADS
             can be found.
 \
-            Available since version 3.1.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.1.0 of Jacksum.
 
 
     --string-list <list>
@@ -2788,7 +3050,10 @@ OPTIONS
             option --charset-stdout to specify the character set for the output.
             Use option --bom to force a Byte Order Mark (BOM).
 \
-            Available since version 3.7.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.7.0 of Jacksum.
 
 
     -r <depth>
@@ -2799,8 +3064,11 @@ OPTIONS
             <depth> is set to "max" implicitly. If -r is explicitly set, the
             current working directory is used if no file parameter is specified.
 \
-            Available since version 1.0.0 of Jacksum.
-            The <depth> is available since version 3.0.0 of Jacksum.
+\
+            Available since:
+\
+                version 1.0.0 of Jacksum.
+                The <depth> is available since version 3.0.0 of Jacksum.
 
 
     -s <string>
@@ -2836,8 +3104,14 @@ OPTIONS
             If the default parser is unable to parse the output, you can still
             write your own compatibility file; see also -C.
 \
-            Available since version 1.0.0 of Jacksum.
-            See also option -F.
+\
+            See also:
+\
+                option -F
+\
+            Available since:
+\
+                version 1.0.0 of Jacksum.
 
 
     --threads-hashing <threads>
@@ -2859,8 +3133,14 @@ OPTIONS
             than the number of threads actually needed, only the required number
             of threads will be started.
 \
-            Available since version 3.3.0 of Jacksum.
-            See also option --threads-reading.
+\
+            See also:
+\
+                option --threads-reading
+\
+            Available since:
+\
+                version 3.3.0 of Jacksum.
 
 
     --threads-reading <threads>
@@ -2875,7 +3155,6 @@ OPTIONS
             produced in an unpredictable order, as the actual load on the
             system can affect the speed of each thread. If <threads> is set to
             the value "max", it is set to the number of available processors.
-\
 \
             Recommendations:
 \
@@ -2894,8 +3173,15 @@ OPTIONS
                   Set <threads> to 1 if if you want the output in a predictable
                   order.
 \
-            Available since version 3.3.0 of Jacksum.
-            See also option --threads-hashing.
+\
+            See also:
+\
+                option --threads-hashing
+\
+            Available since:
+\
+                version 3.3.0 of Jacksum.
+
 
     -t <format>
     --timestamp <format>
@@ -2950,8 +3236,14 @@ OPTIONS
                                    can specify with -s
                 #QUOTE             will be replaced by one quote char (")
 \
-            Available since version 1.6.0 of Jacksum.
-            See also option -F.
+\
+            See also:
+\
+                option -F
+\
+            Available since:
+\
+                version 1.6.0 of Jacksum.
 
 
     -8
@@ -2967,52 +3259,76 @@ OPTIONS
             compatible with this setting. On Microsoft Windows, you can change
             that by changing the code page by entering: "CHCP 65001"
 \
-            Available since version 3.0.0 of Jacksum.
+\
+            See also:
+\
+                options --charset-stdout, and --charset-stderr
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 
     -u <file>
     --error-file <file>
 \
-            Ugly, undesirable, unforeseen, and uninvited error messages of the
-            program go to a file rather than to standard error. The <file> is
-            excluded from the calculation process, and the program exits if the
-            file exists. You can set <file> to "/dev/null" (on Unix and
-            GNU/Linux) or to "nul" (on Microsoft Windows) in order to ignore the
-            output.
+            "Ugly, undesirable, unforeseen, and uninvited" error messages of
+            the program go to a file rather than to standard error. The <file>
+            is excluded from the calculation process, and the program exits if
+            the file exists. You can set <file> to "/dev/null" (on Unix and
+            GNU/Linux) or to "nul" (on Microsoft Windows) in order to ignore
+            the output.
 \
-            Available since version 1.6.0 of Jacksum.
-            Starting with version 3.0.0 of Jacksum, the file encoding has been
-            set to UTF-8.
-            See also options -U, -o and -O.
+\
+            See also:
+\
+                options -U, -o and -O.
+\
+            Available since:
+\
+                version 1.6.0 of Jacksum.
+                Starting with version 3.0.0 of Jacksum, the file encoding has
+                been set to UTF-8.
 
 
     -U <file>
     --error-file-overwrite <file>
 \
-            Ugly, undesirable, unforeseen, and uninvited error messages of the
-            program go to a file rather than to standard error. An existing file
-            will be overwritten without any warning. You can set <file> to
+            "Ugly, undesirable, unforeseen, and uninvited" error messages of
+            the program go to a file rather than to standard error. An existing
+            file will be overwritten without any warning. You can set <file> to
             "/dev/null" (on Unix and GNU/Linux) or to "nul" (on Microsoft
             Windows) in order to ignore the output.
 \
-            Available since version 1.6.0 of Jacksum.
-            Starting with version 3.0.0 of Jacksum, the file encoding has been
-            set to UTF-8.
-            See also options -u, -o and -O.
+\
+            See also:
+\
+                options -u, -o and -O.
+\
+            Available since:
+\
+                version 1.6.0 of Jacksum.
+                Starting with version 3.0.0 of Jacksum, the file encoding has been
+                set to UTF-8.
 
 
     -v
     --version
 \
             Prints the product name and version, and exits the program.
-            This option has been available since version 1.2.0 of Jacksum.
 \
             Additional information about the copyright and license will be 
             printed out if verbose info output has been requested:
 \
             > jacksum -v --info
 \
-            Available since version 3.7.0 of Jacksum.
+\
+            See also:
+                > jacksum -h VERSION
+\
+            Available since:
+                version 1.2.0 of Jacksum.
+                options --info with -v since version 3.7.0 of Jacksum.
 
 
     -V <control set>
@@ -3045,9 +3361,12 @@ OPTIONS
             If you set option --version, <control set> ist set to "none".
             If you set option --info, <control set> is set to "info".
 \
-            Available since version 1.6.0 of Jacksum.
-            The keywords "all" and "none" are available since version 3.0.0 of
-            Jacksum.
+\
+            Available since:
+\
+                version 1.6.0 of Jacksum.
+                The keywords "all" and "none" are available since version 3.0.0
+                of Jacksum.
 
 
     -w <hash-file>
@@ -3060,8 +3379,14 @@ OPTIONS
             but it can be specified by the --style option if it is not the
             default.
 \
-            Available since version 3.4.0 of Jacksum.
-            See also the options --wanted-list-charset, and --style.
+\
+            See also:
+\
+                the options --wanted-list-charset, and --style.
+\
+            Available since:
+\
+                version 3.4.0 of Jacksum.
 
 
     --wanted-list-filter <filter>
@@ -3088,8 +3413,14 @@ OPTIONS
             If this option is omitted, the <filter> is set to "positive".
             Hashing occurs in any case regardless of the filter set.
 \
-            Available since version 3.4.0 of Jacksum.
-            See also the options -w, and --list.
+\
+            See also:
+\
+                the options -w, and --list.
+\
+            Available since:
+\
+                version 3.4.0 of Jacksum.
 
 
     -x
@@ -3097,8 +3428,14 @@ OPTIONS
 \
             Lowercase hex output for the checksum is an alias for "-E hex".
 \
-            Available since version 1.1.0 of Jacksum.
-            See also option -E.
+\
+            See also:
+\
+                options -X, and -E.
+
+            Available since:
+\
+                version 1.1.0 of Jacksum.
 
 
     -X            
@@ -3106,8 +3443,14 @@ OPTIONS
 \
             Uppercase hex output for the checksum is an alias for "-E hexup".
 \
-            Available since version 1.1.0 of Jacksum.
-            See also the option -E.
+\
+            See also:
+\
+                the options -x, and -E.
+\
+            Available since:
+\
+                version 1.1.0 of Jacksum.
 
 
     -
@@ -3132,7 +3475,10 @@ OPTIONS
             Example:
                 > jacksum -- -
 \
-            Available since version 3.0.0 of Jacksum.
+\
+            Available since:
+\
+                version 3.0.0 of Jacksum.
 
 #OPTIONS-END
 ALGORITHMS
