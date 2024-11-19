@@ -1,4 +1,4 @@
-Jacksum 3.8.0, Aug TBD
+Jacksum 3.8.0, Dec TBD
 
 - new features:
   - new algorithms
@@ -26,6 +26,7 @@ Jacksum 3.8.0, Aug TBD
     - allowed option -e for --string-list
 
 - bug fixes:
+  - HMAC does not implement reset() method correctly which means that the same hash of the first calculation is always returned
   - Don't ignore records with same comments in wanted list files.
     While ignoring duplicate file names in check files makes sense for the option --check-file, that setting is
     suboptimal if option --wanted-list is used, because filenames are treated as comments in wanted lists.
