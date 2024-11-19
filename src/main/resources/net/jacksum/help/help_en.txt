@@ -1,7 +1,7 @@
 NAME
     Jacksum - may the hashes be with you. 500+ CRCs, checksums, and crypto
               hash functions. Calculate hashes, verify integrity, find files
-              by their fingerprints, find desired hash functions, and get
+              by their fingerprints, find hash functions to a hash, and get
               detailed info about hash functions. 10000+ lines of manpage.
 
 
@@ -60,6 +60,7 @@ SYNOPSIS
     Gather information
 \
         Gather program information
+\
             jacksum [
                 --copyright |
                 {--help|-h} [<language>] [<word>] |
@@ -68,7 +69,9 @@ SYNOPSIS
                 {--version|-v} [-V <vcontrol>]
             ]
 \
+\
         Gather information on algorithms
+\
             jacksum [
                 {--algorithm|-a} <algorithm> {--list|-l} |
                 {--help|-h} [<language>] [<algorithm>] |
@@ -324,7 +327,7 @@ OPERATING MODES
 \
         Example:
 \
-            >  jacksum -a sha256 -c ../.SHA256 --scan-ntfs-ads --check-strict .
+            > jacksum -a sha256 -c ../.SHA256 --check-strict --scan-ntfs-ads .
 \
 \
     2.3 Verify the integrity of user input
@@ -352,9 +355,9 @@ OPERATING MODES
                 [OPTION]... [FILES]
 \
         In "Wanted list" mode, you can find all files that match or do not
-        match a set of known hashes. In other words, you can verify the
-        integrity of a file, find files by their fingerprints, or find all
-        duplicates of a file.
+        match a set of known hashes stored in a list file. In other words,
+        you can verify the integrity of a file, find files by their
+        fingerprints, or find all duplicates of a file.
 \
         This mode is enabled if you specify the option -w (or --wanted-list) or
         -e (or --expect). The character set of <list> can be specified by
