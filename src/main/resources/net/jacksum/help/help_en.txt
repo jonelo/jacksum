@@ -21,39 +21,39 @@ SYNOPSIS
             jacksum [OPTION]... FILES
 \
         Calculate hashes from user input
-            jacksum [OPTION]... {--quick|-q} <sequence>
+            jacksum {--quick|-q} <sequence>
                     [OPTION]...
 \
         Calculate hashes from strings
-            jacksum [OPTION]... --string-list <file>
+            jacksum --string-list <file>
                     [OPTION]...
 \
 \
     Verify integrity
 \
         Verify data/file integrity
-            jacksum [OPTION]... {{--check-file|-c} <file> | --check-line <line>}
+            jacksum {{--check-file|-c} <file> | --check-line <line>}
                     [OPTION]... [FILES]
 \
         Verify the integrity of user input
-            jacksum [OPTION]... {--quick|-q} <sequence> {--expect|-e} <hash>
+            jacksum {--quick|-q} <sequence> {--expect|-e} <hash>
                     [OPTION]...
 \
         Find strings that match a hash
-            jacksum [OPTION]... --string-list <file> {--expect|-e} <hash>
+            jacksum --string-list <file> {--expect|-e} <hash>
                     [OPTION]...
 \
 \
     Find files by their fingerprints
 \
-            jacksum [OPTION]... {{--wanted-list|-w} <list> | {--expect|-e} <hash>}}
+            jacksum {{--wanted-list|-w} <list> | {--expect|-e} <hash>}}
                     [OPTION]... [FILES]
 \
 \
     Find hash functions
 \
-            jacksum [OPTION]... {--algorithm|-a} unknown:<bits>
-                                {--quick|-q} <sequence> {--expect|-e} <hash>
+            jacksum {--algorithm|-a} unknown:<bits>
+                    {--quick|-q} <sequence> {--expect|-e} <hash>
                     [OPTION]...
 \
 \
@@ -182,9 +182,9 @@ OPERATING MODES
               --threads-hashing max --header -F "#HASHES #FILENAME" .
 \
 \
-    1.2. Calculate hashes from user input
+    1.2 Calculate hashes from user input
 \
-        jacksum [OPTION]... {--quick|-q} <sequence>
+        jacksum {--quick|-q} <sequence>
                 [OPTION]...
 \
         In this mode, you can specify the input data entirely on the command
@@ -208,9 +208,9 @@ OPERATING MODES
             Password: <enter the secret message here>
 \
 \
-    1.3. Calculate hashes from strings
+    1.3 Calculate hashes from strings
 \
-        jacksum [OPTION]... --string-list <file>
+        jacksum --string-list <file>
                 [OPTION]...
 \
         In this mode, hash values are calculated from multiple strings.
@@ -222,6 +222,30 @@ OPERATING MODES
         Example:
 \
             > jacksum --string-list words.txt
+\
+\
+    1.4 Generate [many] [large] random [pseudo] numbers
+\
+        jacksum -a hmac:<algo>[:<trim-to-bit-width>] -k <key>
+                --string-list <file> -F "#HASH"
+                [OPTION]...
+\
+        This method is similar to the one described in section 1.3, but it's
+        used to generate large random pseudo-numbers. Here is how you can do it:
+
+        1. Use a unique set of strings in <file>.
+        2. Apply an HMAC (Hash-based Message Authentication Code) using a
+           compatible hash function.
+        3. Trim the HMAC to fit the desired bit-width of the random numbers.
+        4. Set the HMAC key as a seed to ensure randomness for the entire process.
+        5. Treat each string in <file> as an individual seed to generate a number.
+        6. Format each line to show just the hash value.
+        7. Encode the hash value in decimal form so that the hash value appears as a number.
+\
+        Example:
+\
+            > jacksum -h | sort | uniq > strings.txt
+            > jacksum -a hmac:sha256:64 -k txt:run42 --string-list strings.txt -F "#HASH" -E dec
 \
 \
     2. Verify integrity
@@ -237,7 +261,7 @@ OPERATING MODES
 \
     2.1 Verify file integrity
 \
-        jacksum [OPTION]... {{--check-file|-c} <file> | --check-line <line>}
+        jacksum {{--check-file|-c} <file> | --check-line <line>}
                 [OPTION]... [FILES]
 \
         The data/file integrity verification mode is enabled if you specify
@@ -281,8 +305,7 @@ OPERATING MODES
 \
     2.2 Verify file integrity (strict)
 \
-        jacksum [OPTION]... {{--check-file|-c} <file> | --check-line <line>}
-                [OPTION]... --check-strict
+        jacksum {{--check-file|-c} <file> | --check-line <line>} --check-strict
                 [OPTION]... FILES
 \
         A strict check guarantees that no file has been changed,
@@ -332,7 +355,8 @@ OPERATING MODES
 \
     2.3 Verify the integrity of user input
 \
-        jacksum [OPTION]... {--quick|-q} <sequence> {--expect|-e} <hash>
+        jacksum {--quick|-q} <sequence> {--expect|-e} <hash>
+                [OPTION]...
 \
         In this mode, you can specify the input data on the command line,
         calculate the hash(es), and verify the integrity.
@@ -351,7 +375,7 @@ OPERATING MODES
 \
     3. Find files by their fingerprints
 \
-        jacksum [OPTION]... {{--wanted-list|-w} <list> | {--expect|-e} <hash>}}
+        jacksum {{--wanted-list|-w} <list> | {--expect|-e} <hash>}}
                 [OPTION]... [FILES]
 \
         In "Wanted list" mode, you can find all files that match or do not
@@ -394,8 +418,8 @@ OPERATING MODES
 \
     4. Find hash functions
 \
-        jacksum [OPTION]... {--quick|-q} <sequence> {--expect|-e} <hash>
-                            {--algorithm|-a} unknown:<bits>
+        jacksum {--algorithm|-a} unknown:<bits>
+                {--quick|-q} <sequence> {--expect|-e} <hash>
                 [OPTION]...
 \
         In this mode, you can find the hash function that was used to produce a
