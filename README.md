@@ -653,8 +653,8 @@ $ rm -R jacksum-$VERSION/
 
 ## Integrations
 
-* [Jacksum for Windows](https://github.com/jonelo/jacksum-fbi-windows)
-* [Jacksum for Linux](https://github.com/jonelo/jacksum-fbi-linux)
+* [Jacksum for Windows](https://github.com/jonelo/jacksum-for-windows)
+* [Jacksum for Linux](https://github.com/jonelo/jacksum-for-linux)
 * [Jacksum for macOS](https://github.com/jonelo/jacksum-for-macos)
 * [Jacksum on Docker](https://hub.docker.com/r/jonelo/jacksum)
 * [HashGarten](https://github.com/jonelo/HashGarten) - a GUI for Jacksum
