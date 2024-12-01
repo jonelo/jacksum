@@ -104,6 +104,8 @@ DESCRIPTION
         - Finding files that do not match certain fingerprints for negative matching
         - Finding all duplicates of a file by its hash value
         - Finding the algorithm(s) that generated a certain hash value
+        - Generating random pseudo numbers by a hash function of your choice
+        - Generating reproducible unique secure passwords
         - Investigate polynomials of CRCs
         - Investigate parameters of HMACs
 \
@@ -246,6 +248,53 @@ OPERATING MODES
 \
             > jacksum -h | sort | uniq > strings.txt
             > jacksum -a hmac:sha256:64 -k txt:run42 --string-list strings.txt -F "#HASH" -E dec
+\
+\
+    1.5 Generate reproducible unique secure passwords
+\
+        jacksum -a hmac:<algo>[:<trim-to-bit-width]
+                -k <key> -q <sequence> -E <encoding>
+                [OPTION]...
+\
+        This method can be used to generate unique and secure passwords.
+        The advantage is that you only have to remember ONE secure master
+        password. Yet, you can still use different, strong passwords for all
+        your accounts.
+        No password manager is required, because nothing is stored on disk,
+        the master password will be in your brain only. Even the generated
+        passwords are not stored somewhere, they will be regenerated on
+        demand.
+        The complete considerations for this method are described at
+        https://bit.ly/secure-passwords-with-jacksum
+\
+        Here is how you can do it:
+\
+        1. Apply an HMAC to make precalculated rainbow tables useless for
+           attack purpose
+        2. For the HMAC select a cryptographic, non-broken hash function
+           that generates a long enough hash value (e.g. SHA3-512)
+        3. Trim the HMAC to avoid revealing the entire hash to the website
+           which protects the actual master password.
+        4. The key of the HMAC is your master password (-k)
+        5. The message to be hashed (-q) contains the website address
+           and the master password (appending it is fine)
+        6. Apply the base64 encoding without padding to be compliant
+           with most website requirements with respect to password
+           complexity. In order to avoid padding for the base64 encoding
+           and without the need to use the special base64-nopadding
+           encoding, the number of encoded bytes (the hash) must be a
+           multiple of 3.
+\
+        The example below will truncate the SHA3-512 hash value after 240 bits
+        that results in a 40 character password with at least three different
+        character categories (upper- and lowercase characters, numbers, and
+        sometimes even a special character).
+\
+        Example:
+\
+            > jacksum -a hmac:sha3-512:240 -8 -k password -q password -E base64
+            Key (echo off): <your-master-password>
+            Password: <a-webpage-on-the-internet.com> <your-master-password>
 \
 \
     2. Verify integrity
