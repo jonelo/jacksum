@@ -104,11 +104,15 @@ public class DefaultCompatibilityProperties {
         String regexIntToken = " *(\\d+)";  // matches also right-justified file sizes (e.g. crc16_minix)
         String regexFilename="[*]*(.*)$";
 
-        // filesize is wanted, because there is a + sign, or --filesize on has been set
-        if (parameters.getAlgorithmIdentifier().contains("+") || (parameters.isFilesizeWanted())) {
+        // file size is wanted, because there is a + sign, or --filesize on has been set explicitly
+        if (
+                (parameters.getAlgorithmIdentifier().contains("+") && (!parameters.isFilesizeWantedSet()))
+                || (parameters.getAlgorithmIdentifier().contains("+") && parameters.isFilesizeWantedSet() && parameters.isFilesizeWanted())
+                || (parameters.isFilesizeWantedSet() && parameters.isFilesizeWanted())
+        ) {
 
             if (parameters.isTimestampWanted()) {
-                // hash, filesize, timestamp, and filename
+                // hash, file size, timestamp, and filename
                 regexp = regexStart + regexGnuEscToken +
                         regexStrToken + separator +
                         regexIntToken + separator +
@@ -120,7 +124,7 @@ public class DefaultCompatibilityProperties {
                 parserProperties.setRegexpTimestampPos(4);
                 parserProperties.setRegexpFilenamePos(5);
             } else {
-                // hash, filesize, and filename
+                // hash, file size, and filename
                 regexp = regexStart + regexGnuEscToken +
                         regexStrToken + separator +
                         regexIntToken + separator +
@@ -131,7 +135,7 @@ public class DefaultCompatibilityProperties {
                 parserProperties.setRegexpFilenamePos(4);
             }
 
-        } else {
+        } else { // file size is not wanted
             if (parameters.isTimestampWanted()) {
                 // hash, timestamp, and filename
                 regexp = regexStart + regexGnuEscToken +
