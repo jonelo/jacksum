@@ -10,6 +10,7 @@ Jacksum 3.8.0, Dec TBD
       - CubeHash-[224,256,384,512]
       - Hamsi-[224,256,384,512]
       - Shabal-[192,224,256,384,512]
+    - added CRC-64 (NVM Express 64b CRC)
   - new styles (for I/O)
     - added hash data base (hdb) style which is used by ClamAV's sigtool
   - added strict check mode

@@ -5004,6 +5004,31 @@ ALGORITHMS
                 crc:64,1b,ffffffffffffffff,true,true,ffffffffffffffff -E hex
 
 
+    crc64_nvme, crc-64_nvme
+            algorithm name:
+                CRC-64 (NVM Express 64b CRC)
+\
+            length:
+                64 bits
+\
+            type:
+                CRC
+\
+            comment:
+                Used in the NVM Express® NVM Command Set Specification, Revision 1d,
+                from December 28, 2023, page 81ff, see also https://nvmexpress.org
+\
+                Note that on page 83 in the pdf the "Check"-value 11199E50_6128D175h
+                is printed in little-endian representation. In big-endian representation
+                the value is AE8B1486_0A799888h.
+\
+            since:
+                Jacksum 3.8.0
+\
+            implementation:
+                crc:64,ad93d23594c93659,ffffffffffffffff,true,true,ffffffffffffffff -E hex
+
+
     crc64_xz, crc-64_xz, crc64_go-ecma, crc-64_go-ecma
             algorithm name:
                 CRC-64 (.xz, and prog lang GO, const ECMA)

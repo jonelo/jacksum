@@ -61,6 +61,8 @@ public class Selectors {
         CRC64_ECMA182_Selector.class,
         CRC64_GO_Selector.class,
         CRC64xz_Selector.class,
+        CRC64_NVME_Selector.class,
+
         CRC82darc_Selector.class,
         CubeHash224_Selector.class,
         CubeHash256_Selector.class,
@@ -445,6 +447,7 @@ public class Selectors {
         CRC64_ECMA182_Selector.class,
         CRC64_GO_Selector.class,
         CRC64xz_Selector.class,
+        CRC64_NVME_Selector.class,
         
         CRC32_Selector.class,
         CRC32_PHP_Selector.class,

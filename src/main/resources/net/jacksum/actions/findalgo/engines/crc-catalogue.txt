@@ -113,6 +113,7 @@ CRC-40/GSM;crc:40,0004820009,0000000000,false,false,ffffffffff
 CRC-64/ECMA-182;crc:64,42f0e1eba9ea3693,0000000000000000,false,false,0000000000000000
 CRC-64/GO-ISO;crc:64,000000000000001b,ffffffffffffffff,true,true,ffffffffffffffff
 CRC-64/MS;crc:64,259c84cba6426349,ffffffffffffffff,true,true,0000000000000000
+CRC-64/NVME;crc:64,ad93d23594c93659,ffffffffffffffff,true,true,ffffffffffffffff
 CRC-64/REDIS;crc:64,ad93d23594c935a9,0000000000000000,true,true,0000000000000000
 CRC-64/WE;crc:64,42f0e1eba9ea3693,ffffffffffffffff,false,false,ffffffffffffffff
 CRC-64/XZ;crc:64,42f0e1eba9ea3693,ffffffffffffffff,true,true,ffffffffffffffff
