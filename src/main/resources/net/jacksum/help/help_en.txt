@@ -1,8 +1,9 @@
 NAME
-    Jacksum - may the hashes be with you. 500+ CRCs, checksums, and crypto
-              hash functions. Calculate hashes, verify integrity, find files
+    Jacksum - may the hashes be with you. 500+ crypto hash functions, CRCs,
+              and checksum. Calculate hash values, verify integrity, find files
               by their fingerprints, find hash functions to a hash, and get
-              detailed info about hash functions. 10000+ lines of manpage.
+              detailed info about hash functions. 10000+ lines of manpage,
+              and hash function info including compatibility lists.
 
 
 VERSION
@@ -15,7 +16,8 @@ SYNOPSIS
     options that trigger a particular mode. For each mode you can set many
     more options. See OPERATING MODES for details.
 \
-    Calculate hashes
+\
+    Calculate hash values
 \
         Calculate hashes from files
             jacksum [OPTION]... FILES
@@ -28,23 +30,40 @@ SYNOPSIS
             jacksum --string-list <file>
                     [OPTION]...
 \
+        Generate large random (pseudo) numbers
+            jacksum -a hmac:<algo>[:<trim-to-bit-width>] -k <seed>
+                    --string-list <feed> -F "#HASH"
+                    [OPTION]...
 \
-    Verify integrity
+        Generate unique secure reproducible passwords
+            jacksum -a hmac:<algo>[:<trim-to-bit-width]
+                    -k <key> -q <sequence> -E <encoding>
+                    [OPTION]...
 \
-        Verify data/file integrity
+\
+    Verify data integrity
+\
+        Verify file integrity
             jacksum {{--check-file|-c} <file> | --check-line <line>}
                     [OPTION]... [FILES]
+\
+        Verify file integrity (strict, aka audit)
+            jacksum {{--check-file|-c} <file> | --check-line <line>} --check-strict
+                    [OPTION]... FILES
 \
         Verify the integrity of user input
             jacksum {--quick|-q} <sequence> {--expect|-e} <hash>
                     [OPTION]...
 \
+\
+    Find strings and files
+\
         Find strings that match a hash
+\
             jacksum --string-list <file> {--expect|-e} <hash>
                     [OPTION]...
 \
-\
-    Find files by their fingerprints
+        Find files by their fingerprints
 \
             jacksum {{--wanted-list|-w} <list> | {--expect|-e} <hash>}}
                     [OPTION]... [FILES]
@@ -59,25 +78,44 @@ SYNOPSIS
 \
     Gather information
 \
-        Gather program information
+        Gather algorithm information
 \
-            jacksum [
-                --copyright |
-                {--help|-h} [<language>] [<word>] |
-                --info [{--style|-C} <style>] |
-                --license |
-                {--version|-v} [-V <vcontrol>]
-            ]
+            jacksum {--algorithm|-a} <algorithm> {--list|-l} |
+                    {--help|-h} [<language>] [<algorithm>] |
+                    --hmacs [-V <vcontrol>] |
+                    --info [{--algorithm|-a} <algorithm> [{--list|-l}]] [{--quick|-q} <sequence>]
 \
+        Gather option information
 \
-        Gather information on algorithms
+            jacksum {--help|-h} [<language>] { options | <option> }
 \
-            jacksum [
-                {--algorithm|-a} <algorithm> {--list|-l} |
-                {--help|-h} [<language>] [<algorithm>] |
-                --hmacs [-V <vcontrol>] |
-                --info [{--algorithm|-a} <algorithm> [{--list|-l}]] [{--quick|-q} <sequence>]
-            ]
+        Gather parameter information
+\
+            jacksum -h parameters
+\
+        Gather encoding information
+\
+            jacksum {--help|-h} [<language>] -E
+\
+        Gather style information
+\
+            jacksum {--help|-h} [<language>] --style
+            jacksum {--style|-C} <style> --info
+\
+        Gather program version
+\
+            jacksum [ {--version|-v} [{--verbose|-V} <vcontrol>] [--info] ]
+            jacksum [ {--help|-h} [<language>] version ]
+\
+        Gather copyright information
+\
+            jacksum --copyright
+            jacksum {--help|-h} [<language>] copyright
+\
+        Gather license information
+\
+             jacksum --license
+             jacksum {--help|-h} [<language>] license
 \
 \
     Notes:
@@ -228,7 +266,7 @@ OPERATING MODES
 \
     1.4 Generate [many] [large] random [pseudo] numbers
 \
-        jacksum -a hmac:<algo>[:<trim-to-bit-width>] -k <key>
+        jacksum -a hmac:<algo>[:<trim-to-bit-width>] -k <seed>
                 --string-list <file> -F "#HASH"
                 [OPTION]...
 \
@@ -297,7 +335,7 @@ OPERATING MODES
             Password: <a-webpage-on-the-internet.com> <your-master-password>
 \
 \
-    2. Verify integrity
+    2. Verify data integrity
 \
         For each mode in this section, the following option types are supported
         for OPTION:
@@ -422,7 +460,14 @@ OPERATING MODES
               60273a1e778ed009a6fb32fa11dbb16f905148fc2ec84a67f8a3b3a6cabaa9b7
 \
 \
-    3. Find files by their fingerprints
+    3. Find data
+\
+\   3.1 Find strings that match a hash
+\
+            jacksum --string-list <file> {--expect|-e} <hash>
+                    [OPTION]...
+\
+    3.2 Find files by their fingerprints
 \
         jacksum {{--wanted-list|-w} <list> | {--expect|-e} <hash>}}
                 [OPTION]... [FILES]
@@ -490,29 +535,99 @@ OPERATING MODES
 \
     5. Gather information
 \
-        jacksum [
-            {--algorithm|-a} <algorithm> {--list|-l} |
-            --copyright |
-            {--help|-h} [<language>] [<word>] |
-            --hmacs [-V <vcontrol>] |
-            --info [{--algorithm|-a} <algorithm> [{--list|-l}]] |
-            --info [{--style|-C} <style>] |
-            --license |
-            {--version|-v} [-V <vcontrol>]
-        ]
+       In these modes, some information is collected and the program is
+       terminated. See the OPTIONS section for more details on each option.
 \
-        In these modes, some information will be gathered, and the program will
-        exit. See the OPTIONS section for more details on each option.
+\
+    5.1 Gather algorithm information
+\
+        jacksum {--algorithm|-a} <algorithm> {--list|-l} |
+                {--help|-h} [<language>] [<algorithm>] |
+                --hmacs [-V <vcontrol>] |
+                --info [{--algorithm|-a} <algorithm> [{--list|-l}]] [{--quick|-q} <sequence>]
 \
         Examples:
 \
             > jacksum -a all:256 -l
+            > jacksum -a all:crc -l --info
+            > jacksum -a all:crc -l -q "txt:the quick brown fox jumps over the lazy dog" --info
             > jacksum --hmacs
-            > jacksum -h -h
             > jacksum --info
-            > jacksum --info -a all:crc -l
-            > jacksum --style bsd --info
-            > jacksum -v -V all
+\
+\
+    5.2 Gather option information
+\
+        jacksum {--help|-h} [<language>] { options | <option> }
+\
+        Examples:
+\
+            > jacksum -h -h
+            > jacksum -h -a
+            > jacksum -h options
+\
+\
+    5.3 Gather parameter information
+\
+        jacksum -h parameters
+\
+        Examples:
+\
+            > jacksum -h parameters
+\
+\
+    5.4 Gather encoding information
+\
+        jacksum {--help|-h} [<language>] -E
+\
+        Examples:
+\
+            > jacksum -h -E
+\
+\
+    5.5 Gather style information
+\
+        jacksum {--help|-h} [<language>] --style
+        jacksum --info [{--style|-C} <style>]
+\
+        Examples:
+\
+            > jacksum -h --style
+            > jacksum --info --style bsd
+\
+\
+    5.6 Gather program version
+\
+            jacksum [ {--version|-v} [{--verbose|-V} <vcontrol>] [--info] ]
+            jacksum [ {--help|-h} [<language>] version ]
+\
+        Examples:
+\
+            > jacksum -v
+            > jacksum --version
+            > jacksum -v --info info
+            > jacksum -h version
+\
+\
+    5.7 Gather copyright information
+\
+        jacksum --copyright
+        jacksum {--help|-h} [<language>] copyright
+\
+        Examples:
+\
+            > jacksum --copyright
+            > jacksum -h copyright
+\
+\
+    5.8 Gather license information
+\
+        jacksum --license
+        jacksum {--help|-h} [<language>] license
+\
+        Examples:
+\
+            > jacksum --license
+            > jacksum -h license
 
 
 OPTION TYPES
