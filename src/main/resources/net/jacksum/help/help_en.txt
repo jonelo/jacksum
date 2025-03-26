@@ -5135,7 +5135,13 @@ ALGORITHMS
 \
                 Note that on page 83 in the pdf the "Check"-value 11199E50_6128D175h
                 is printed in little-endian representation. In big-endian representation
-                the value is AE8B1486_0A799888h.
+                the value is AE8B1486_0A799888h. Big-endian is the standard
+                for all hash values calculated by Jacksum.
+\
+                The algorithm is also used by AWS' Amazon S3. The AWS SDK automatically
+                calculate CRC-based checksums for uploads as data is transmitted over
+                the network. The return value is Base64 encoded by the AWS SDK.
+                See also https://bit.ly/AWSCRC64NVME
 \
             since:
                 Jacksum 3.8.0
