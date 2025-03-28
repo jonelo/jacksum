@@ -6293,6 +6293,7 @@ ALGORITHMS
                 - CentOS:          -
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
+                - GNU/Hurd:        -
                 - GNU/Linux:       -
                 - Go:              -
                 - gpg:             -
@@ -6365,6 +6366,7 @@ ALGORITHMS
                 - CentOS:          -
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
+                - GNU/Hurd:        -
                 - GNU/Linux:       -
                 - Go:              -
                 - gpg:             -
@@ -6435,6 +6437,7 @@ ALGORITHMS
                 - CentOS:          -
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
+                - GNU/Hurd:        -
                 - GNU/Linux:       -
                 - Go:              -
                 - gpg:             -
@@ -8030,6 +8033,7 @@ ALGORITHMS
                 - DragonFly BSD:   -
                 - FreeBSD:         -
                 - FreeDOS:         -
+                - GNU/Hurd:        /usr/bin/shasum -a 512224
                 - GNU/Linux:       /usr/bin/shasum -a 512224
                                    (not available on every Linux)
                 - Go:              -
@@ -8640,6 +8644,7 @@ ALGORITHMS
                 - CentOS:          -
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
+                - GNU/Hurd:        -
                 - GNU/Linux:       -
                 - Go:              -
                 - gpg:             -
