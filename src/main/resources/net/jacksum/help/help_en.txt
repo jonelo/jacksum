@@ -4803,7 +4803,7 @@ ALGORITHMS
 
     crc32c, crc-32c
             algorithm name:
-                CRC-32c (iSCSI)
+                CRC-32c (Castgnoli, iSCSI)
 \
             length:
                 32 bits
