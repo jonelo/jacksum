@@ -4884,6 +4884,32 @@ ALGORITHMS
                 crc:32,04C11DB7,FFFFFFFF,false,false,FFFFFFFF
 
 
+    crc32_go-koopman, crc-32_go-koopman
+            algorithm name:
+                CRC-32 (GO KOOPMAN)
+\
+            length:
+                32 bits
+\
+            type:
+                CRC
+\
+            comment:
+                This CRC is used by the Go API. The default encoding is decimal.
+\
+                Note that the Go API on https://pkg.go.dev/hash/crc32
+                uses the reversed representation of the poly for the
+                const.Koopman (0xeb31d82e) instead of the normal
+                representation (0x741b8cd7). To specify the CRC using the
+                Rocksoft Model we have to reverse it again.
+\
+            since:
+                Jacksum 3.8.0
+\
+            implementation:
+                crc:32,741B8CD7,FFFFFFFF,true,true,FFFFFFFF
+
+
     crc32_mpeg2, crc-32_mpeg-2
             algorithm name:
                 CRC-32 (MPEG-2)
@@ -5117,13 +5143,50 @@ ALGORITHMS
 \
                 According to the website above, the poly x^64+x^4+x^3+x+1 is
                 defined in ISO 3309 (which actually isn't true, because ISO 3309
-                and the successors including ISO/IEC 13239:2002 don't specify a
-                64 bit poly at all).
-                Anyway, for the algorithm in GO, that polynomial is used.
+                and the successors including ISO/IEC 13239:2002 do not specify a
+                64 bit poly at all, but a 16 and 32 bit poly).
+                Anyway, for the algorithm in Go, that polynomial is used.
                 The crc parameters init, refin, refout, and xorOut are
                 non-default. Note that the Go API documentation uses the reversed
                 representation of the poly for the const.ISO (0xD800000000000000)
-                instead of the normal representation (0x1B).
+                instead of the normal representation (0x1B). To specify the CRC
+                using the Rocksoft Model we have to reverse it again.
+\
+            compatibility:
+                - 7z:              -
+                - 7zFM:            -
+                - Angstrom:        -
+                - BeOS:            -
+                - CentOS:          -
+                - DragonFly BSD:   -
+                - eComStation:     -
+                - FreeBSD:         -
+                - FreeDOS:         -
+                - GNU/Hurd:        -
+                - GNU/Linux:       -
+                - Go API:          hash/crc64.MakeTable(crc64.ISO))
+                - gpg:             -
+                - HashGarten:      Algorithm -> crc64_go-iso
+                - HP-UX:           -
+                - IBM AIX:         -
+                - Jacksum:         jacksum -a crc64_go-iso
+                - Java API:        -
+                - Kali Linux:      -
+                - macOS:           -
+                - Minix:           -
+                - MS-DOS:          -
+                - NetBSD:          -
+                - NextStep:        -
+                - OpenIndiana:     -
+                - OpenSSL:         -
+                - PHP:             -
+                - Plan 9:          -
+                - PowerShell:      -
+                - Python:          -
+                - Solaris:         -
+                - Ubuntu:          -
+                - Windows:         -
+                - Wolfram:         -
 \
             since:
                 Jacksum 3.0.0
@@ -5181,12 +5244,13 @@ ALGORITHMS
                 const ECMA See also https://golang.org/pkg/hash/crc64/
 \
                 The poly is defined in the standard ECMA-182, but for the
-                algorithm in GO, only the polynomial is used from ECMA. The crc
+                algorithm in Go, only the polynomial is used from ECMA. The crc
                 parameters init, refin, refout, and xorOut are different.
                 Note that the Go API documentation uses the reversed
                 representation of the poly for the const.ECMA
                 (0xC96C5795D7870F42) rather than the normal representation
-                (0x42f0e1eba9ea3693).
+                (0x42f0e1eba9ea3693). To specify the CRC using the Rocksoft
+                Model we have to reverse it again.
 \
             compatibility:
                 - 7z:              7z h -scrccrc64
@@ -5200,7 +5264,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go API:          -
+                - Go API:          hash/crc64.MakeTable(crc64.ECMA))
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc64_xz
                 - HP-UX:           -

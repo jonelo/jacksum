@@ -121,3 +121,5 @@ CRC-82/DARC;crc:82,0308c0111011401440411,000000000000000000000,true,true,0000000
 
 # added by jonelo, July 28, 2022
 CRC-64/JONES;crc:64,ad93d23594c935a9,ffffffffffffffff,true,true,0
+# added by jonelo, March 28, 2025
+CRC-32/GO-KOOPMAN;crc:32,741B8CD7,ffffffff,true,true,ffffffff

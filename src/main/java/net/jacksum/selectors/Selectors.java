@@ -57,6 +57,7 @@ public class Selectors {
         CRC32ubi_Selector.class,
         CRC32_PHP_Selector.class,
         CRC32c_Selector.class,
+        CRC32_GO_KOOPMAN_Selector.class,
         CRC64_Selector.class,
         CRC64_ECMA182_Selector.class,
         CRC64_GO_Selector.class,
@@ -456,6 +457,7 @@ public class Selectors {
         CRC32bzip2_Selector.class,
         CRC32mpeg2_Selector.class,
         CRC32c_Selector.class,
+        CRC32_GO_KOOPMAN_Selector.class,
         
         CRC24_Selector.class,
         
