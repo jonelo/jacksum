@@ -138,8 +138,8 @@ DESCRIPTION
           (command line arg, console, standard input, plain or encoded strings,
           files, partitions, disks, NTFS ADS, pipes, sockets, doors, ...)
         - Finding OK/failed/missing/new files (verify file/data integrity)
-        - Finding files by their fingerprints for positive matching
-        - Finding files that do not match certain fingerprints for negative matching
+        - Finding files by their fingerprints (positive matching)
+        - Finding files that do not match certain fingerprints (negative matching)
         - Finding all duplicates of a file by its hash value
         - Finding the algorithm(s) that generated a certain hash value
         - Generating random pseudo numbers by a hash function of your choice
