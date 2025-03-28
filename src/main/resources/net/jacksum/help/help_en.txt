@@ -3713,6 +3713,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - Haiku:           -
                 - HashGarten:      Algorithm -> adler32
                 - HP-UX:           -
@@ -3996,6 +3997,7 @@ ALGORITHMS
                                    /usr/bin/b2sum [-l <length>]
                 - GNU/Linux (GNU Coreutils 9.0+ 09/2021):
                                    /usr/bin/cksum -a blake2b [-l <length>]
+                - Go:              -
                 - HashGarten:      Algorithm -> blake2b[-<length>]
                 - HP-UX:           -
                 - IBM AIX:         -
@@ -4067,6 +4069,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - HashGarten:      Algorithm -> blake2bp
                 - HP-UX:           -
                 - IBM AIX:         -
@@ -4133,6 +4136,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - HashGarten:      Algorithm -> blake2s[-<length>]
                 - HP-UX:           -
                 - IBM AIX:         -
@@ -4205,6 +4209,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - HashGarten:      Algorithm -> blake2sp
                 - HP-UX:           -
                 - IBM AIX:         -
@@ -4270,6 +4275,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - HashGarten:      Algorithm -> blake3
                 - HP-UX:           -
                 - IBM AIX:         -
@@ -4377,6 +4383,7 @@ ALGORITHMS
                 - GNU/Linux:       /usr/bin/cksum
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a crc
+                - Go:              -
                 - Haiku:           /bin/cksum
                 - HashGarten:      Algorithm -> cksum
                 - HP-UX:           /usr/bin/cksum
@@ -4442,6 +4449,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - HashGarten:      Algorithm -> cksum_minix
                 - HP-UX:           -
                 - IBM AIX:         -
@@ -4670,6 +4678,7 @@ ALGORITHMS
                 - DragonFly BSD:   -
                 - FreeBSD:         -
                 - FreeDOS:         -
+                - Go:              -
                 - HashGarten:      Algorithm -> crc16_minix
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
@@ -4757,6 +4766,7 @@ ALGORITHMS
                 - HashGarten:      Algorithm -> crc32
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              hash/crc32.MakeTable(crc32.IEEE))
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc32
                 - HP-UX:           -
@@ -4822,6 +4832,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              hash/crc32.MakeTable(crc32.Castagnoli))
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc32c
                 - HP-UX:           -
@@ -4923,6 +4934,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc32_php
                 - HP-UX:           -
@@ -4984,6 +4996,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc32_ubi
                 - HP-UX:           -
@@ -5187,6 +5200,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc64_xz
                 - HP-UX:           -
@@ -5255,6 +5269,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc82_darc
                 - HP-UX:           -
@@ -5589,6 +5604,9 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              hash/fnv.New32()
+                                   hash/fnv.New64()
+                                   hash/fnv.New128()
                 - gpg:             -
                 - HashGarten:      Algorithm -> fnv-1_<length>
                 - HP-UX:           -
@@ -5655,6 +5673,9 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              hash/fnv.New32a()
+                                   hash/fnv.New64a()
+                                   hash/fnv.New128a()
                 - gpg:             -
                 - HashGarten:      Algorithm -> fnv-1a_<length>
                 - HP-UX:           -
@@ -5808,6 +5829,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> gost
                 - HP-UX:           -
@@ -5974,6 +5996,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> haval_<length>_<rounds>
                 - HP-UX:           -
@@ -6101,6 +6124,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      -
                 - HP-UX:           -
@@ -6194,6 +6218,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> joaat
                 - HP-UX:           -
@@ -6269,6 +6294,7 @@ ALGORITHMS
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> kangarootwelve
                 - HP-UX:           -
@@ -6340,6 +6366,7 @@ ALGORITHMS
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> marsupilamifourteen
                 - HP-UX:           -
@@ -6409,6 +6436,7 @@ ALGORITHMS
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> keccak<length>
                 - HP-UX:           -
@@ -6577,6 +6605,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> md2
                 - HP-UX:           -
@@ -6650,6 +6679,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> md4
                 - HP-UX:           -
@@ -6732,6 +6762,7 @@ ALGORITHMS
                 - GNU/Linux:       /usr/bin/md5sum
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a md5
+                - Go:              -
                 - gpg:             -
                 - Haiku:           /bin/md5sum
                 - HashGarten:      Algorithm -> md5
@@ -6817,6 +6848,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> mdc2
                 - HP-UX:           -
@@ -7006,6 +7038,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> prng
                 - HP-UX:           -
@@ -7137,6 +7170,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> ripemd128
                 - HP-UX:           -
@@ -7201,6 +7235,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             gpg --print-md ripemd160
                 - HashGarten:      Algorithm -> ripemd160
                 - HP-UX:           -
@@ -7270,6 +7305,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> ripemd256
                 - HP-UX:           -
@@ -7331,6 +7367,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> ripemd320
                 - HP-UX:           -
@@ -7435,6 +7472,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha0
                 - HP-UX:           -
@@ -7521,6 +7559,7 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha1
+                - Go:              -
                 - gpg:             gpg --print-md sha1
                 - Haiku:           /bin/sha1sum
                 - HashGarten:      Algorithm -> sha-1
@@ -7622,6 +7661,7 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha224
+                - Go:              -
                 - gpg:             gpg --print-md sha224
                 - HashGarten:      Algorithm -> sha-224
                 - HP-UX:           -
@@ -7714,6 +7754,7 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha256
+                - Go:              crypto/sha256.New()
                 - gpg:             gpg --print-md sha256
                 - HashGarten:      Algorithm -> sha-256
                 - HP-UX:           -
@@ -7811,6 +7852,7 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha384
+                - Go:              -
                 - gpg:             gpg --print-md sha384
                 - HashGarten:      Algorithm -> sha-384
                 - HP-UX:           -
@@ -7908,6 +7950,7 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha512
+                - Go:              -
                 - gpg:             gpg --print-md sha512
                 - HashGarten:      Algorithm -> sha-512
                 - HP-UX:           -
@@ -7989,6 +8032,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Linux:       /usr/bin/shasum -a 512224
                                    (not available on every Linux)
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha-512/224
                 - HP-UX:           -
@@ -8058,6 +8102,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Linux:       /usr/bin/shasum -a 512256
                                    (not available on every Linux)
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha-512/256
                 - HP-UX:           -
@@ -8134,6 +8179,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-224
                 - HP-UX:           -
@@ -8212,6 +8258,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-256
                 - HP-UX:           -
@@ -8291,6 +8338,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-384
                 - HP-UX:           -
@@ -8369,6 +8417,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-512
                 - HP-UX:           -
@@ -8500,6 +8549,7 @@ ALGORITHMS
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> shake128
                 - HP-UX:           -
@@ -8589,6 +8639,7 @@ ALGORITHMS
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> shake256
                 - HP-UX:           -
@@ -8711,6 +8762,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> skein-256-<length>
                 - HP-UX:           -
@@ -8793,6 +8845,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> skein-512-<length>
                 - HP-UX:           -
@@ -8870,6 +8923,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> skein-1024-<length>
                 - HP-UX:           -
@@ -8945,6 +8999,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> streebog256
                 - HP-UX:           -
@@ -9018,6 +9073,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> streebog512
                 - HP-UX:           -
@@ -9086,6 +9142,7 @@ ALGORITHMS
                                    /usr/bin/cksum -a sm3
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sm3
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sm3
                 - HP-UX:           -
@@ -9175,6 +9232,7 @@ ALGORITHMS
                 - GNU/Linux:       /usr/bin/sum [-r]
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a bsd
+                - Go:              -
                 - Haiku:           /bin/sum [-r]
                 - HashGarten:      Algorithm -> sum_bsd
                 - HP-UX:           /usr/bin/sum -r
@@ -9239,6 +9297,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - HashGarten:      Algorithm -> sum_minix
                 - HP-UX:           -
                 - IBM AIX:         -
@@ -9296,6 +9355,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - HashGarten:      Algorithm -> crc_fddi
                 - HP-UX:           -
                 - IBM AIX:         -
@@ -9357,6 +9417,7 @@ ALGORITHMS
                 - GNU/Linux:       /usr/bin/sum -s
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sysv
+                - Go:              -
                 - Haiku:           /bin/sum -s
                 - HashGarten:      Algorithm -> sum_sysv
                 - HP-UX:           /usr/bin/sum
@@ -9430,6 +9491,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> tiger128
                 - HP-UX:           -
@@ -9494,6 +9556,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> tiger128-4-php
                 - HP-UX:           -
@@ -9555,6 +9618,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> tiger160
                 - HP-UX:           -
@@ -9619,6 +9683,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> tiger160-4-php
                 - HP-UX:           -
@@ -9686,6 +9751,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> tiger
                 - HP-UX:           -
@@ -9749,6 +9815,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> tiger-192-4-php
                 - HP-UX:           -
@@ -10009,6 +10076,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
+                - Go:              -
                 - gpg:             -
                 - HashGarten:      Algorithm -> whirlpool2
                 - HP-UX:           -
