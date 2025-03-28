@@ -3713,13 +3713,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - Haiku:           -
                 - HashGarten:      Algorithm -> adler32
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum          jacksum -a adler32
-                - Java:            java.util.zip.Adler32
+                - Java API:        java.util.zip.Adler32
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -3997,12 +3997,12 @@ ALGORITHMS
                                    /usr/bin/b2sum [-l <length>]
                 - GNU/Linux (GNU Coreutils 9.0+ 09/2021):
                                    /usr/bin/cksum -a blake2b [-l <length>]
-                - Go:              -
+                - Go API:          -
                 - HashGarten:      Algorithm -> blake2b[-<length>]
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a blake2b[-<length>]
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -4069,12 +4069,12 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - HashGarten:      Algorithm -> blake2bp
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a blake2bp
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -4136,12 +4136,12 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - HashGarten:      Algorithm -> blake2s[-<length>]
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a blake2s[-<length>]
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -4209,12 +4209,12 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - HashGarten:      Algorithm -> blake2sp
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a blake2sp
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -4275,12 +4275,12 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - HashGarten:      Algorithm -> blake3
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a blake3
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -4383,14 +4383,14 @@ ALGORITHMS
                 - GNU/Linux:       /usr/bin/cksum
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a crc
-                - Go:              -
+                - Go API:          -
                 - Haiku:           /bin/cksum
                 - HashGarten:      Algorithm -> cksum
                 - HP-UX:           /usr/bin/cksum
                                    /usr/bin/sum -p
                 - IBM AIX:         /usr/bin/cksum
                 - Jacksum:         jacksum -a cksum
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      /usr/bin/cksum
                 - macOS:           /usr/bin/cksum
                 - Minix 3.2.1+:    /usr/bin/cksum
@@ -4449,12 +4449,12 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - HashGarten:      Algorithm -> cksum_minix
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a cksum_minix
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix 3.2.0:     /usr/bin/cksum
@@ -4678,7 +4678,7 @@ ALGORITHMS
                 - DragonFly BSD:   -
                 - FreeBSD:         -
                 - FreeDOS:         -
-                - Go:              -
+                - Go API:          -
                 - HashGarten:      Algorithm -> crc16_minix
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
@@ -4686,7 +4686,7 @@ ALGORITHMS
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a crc16_minix
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix 1.3+:      /usr/bin/crc
@@ -4727,7 +4727,7 @@ ALGORITHMS
 \
             compatibility:
                 - Bouncy Castle:   org.bouncycastle.bcpg.CRC24 (bcpg-jdk)
-                - Java:            -
+                - Java API:        -
 \
             since:
                 Jacksum 1.6.0
@@ -4766,13 +4766,13 @@ ALGORITHMS
                 - HashGarten:      Algorithm -> crc32
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              hash/crc32.MakeTable(crc32.IEEE))
+                - Go API:          hash/crc32.MakeTable(crc32.IEEE))
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc32
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a crc32
-                - Java:            java.util.zip.CRC32
+                - Java API:        java.util.zip.CRC32
                 - Kali Linux:      -
                 - macOS:           /usr/bin/cksum -o 3
                 - Minix:           -
@@ -4832,7 +4832,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              hash/crc32.MakeTable(crc32.Castagnoli))
+                - Go API:          hash/crc32.MakeTable(crc32.Castagnoli))
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc32c
                 - HP-UX:           -
@@ -4934,13 +4934,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc32_php
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a crc32_php
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -4996,13 +4996,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc32_ubi
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a crc32_ubi
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      /usr/bin/ubicrc32
                 - macOS:           -
                 - Minix:           -
@@ -5200,13 +5200,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc64_xz
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a crc64_xz
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -5269,13 +5269,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc82_darc
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a crc82_darc
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -5604,7 +5604,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              hash/fnv.New32()
+                - Go API:          hash/fnv.New32()
                                    hash/fnv.New64()
                                    hash/fnv.New128()
                 - gpg:             -
@@ -5612,7 +5612,7 @@ ALGORITHMS
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a fnv-1_<length>
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -5673,7 +5673,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              hash/fnv.New32a()
+                - Go API:          hash/fnv.New32a()
                                    hash/fnv.New64a()
                                    hash/fnv.New128a()
                 - gpg:             -
@@ -5681,7 +5681,7 @@ ALGORITHMS
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a fnv-1a_<length>
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -5829,13 +5829,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> gost
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a gost
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        openssl dgst -md_gost94
                 - macOS:           -
@@ -5996,13 +5996,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> haval_<length>_<rounds>
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a haval_<length>_<rounds>
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -6124,13 +6124,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      -
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a hmac:<algo>[:<bits>] -k <key>
-                - Java:            Mac mac = Mac.getInstance("Hmac"+<algo>); mac.init(<key>); mac.doFinal(<message>);
+                - Java API:        Mac mac = Mac.getInstance("Hmac"+<algo>); mac.init(<key>); mac.doFinal(<message>);
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -6218,13 +6218,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> joaat
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a joaat
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        -
                 - macOS:           -
@@ -6295,7 +6295,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> kangarootwelve
                 - HP-UX:           -
@@ -6368,7 +6368,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> marsupilamifourteen
                 - HP-UX:           -
@@ -6439,7 +6439,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> keccak<length>
                 - HP-UX:           -
@@ -6608,7 +6608,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> md2
                 - HP-UX:           -
@@ -6682,13 +6682,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> md4
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a md4
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        openssl dgst -md4
                 - macOS:           -
@@ -6765,14 +6765,14 @@ ALGORITHMS
                 - GNU/Linux:       /usr/bin/md5sum
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a md5
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - Haiku:           /bin/md5sum
                 - HashGarten:      Algorithm -> md5
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a md5
-                - Java:            java.security.MessageDigest.
+                - Java API:        java.security.MessageDigest.
                                    MessageDigest.getInstance("MD5");
                 - Kali Linux:      /usr/bin/md5sum
                 - LibreSSL:        openssl dgst -md5
@@ -6851,13 +6851,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> mdc2
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a mdc2
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        -
                 - macOS:           -
@@ -7041,13 +7041,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> prng
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a prng
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        -
                 - macOS:           -
@@ -7173,13 +7173,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> ripemd128
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a ripemd128
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -7238,13 +7238,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             gpg --print-md ripemd160
                 - HashGarten:      Algorithm -> ripemd160
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a ripemd160
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        openssl dgst -ripemd160
                 - macOS:           -
@@ -7308,13 +7308,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> ripemd256
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a ripemd256
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -7370,13 +7370,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> ripemd320
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a ripemd320
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -7475,13 +7475,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha0
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha0
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        openssl dgst -sha
                 - macOS:           -
@@ -7562,14 +7562,14 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha1
-                - Go:              -
+                - Go API:          -
                 - gpg:             gpg --print-md sha1
                 - Haiku:           /bin/sha1sum
                 - HashGarten:      Algorithm -> sha-1
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha1
-                - Java:            java.security.MessageDigest.
+                - Java API:        java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA-1");
                 - Kali Linux:      /usr/bin/sha1sum
                                    /usr/bin/shasum [-a 1]
@@ -7664,13 +7664,13 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha224
-                - Go:              -
+                - Go API:          -
                 - gpg:             gpg --print-md sha224
                 - HashGarten:      Algorithm -> sha-224
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha224
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      /usr/bin/sha224sum
                                    /usr/bin/shasum -a 224
                 - LibreSSL:        openssl dgst -sha224
@@ -7757,13 +7757,13 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha256
-                - Go:              crypto/sha256.New()
+                - Go API:          crypto/sha256.New()
                 - gpg:             gpg --print-md sha256
                 - HashGarten:      Algorithm -> sha-256
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha256
-                - Java:            java.security.MessageDigest.
+                - Java API:        java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA-256");
                 - Kali Linux:      /usr/bin/sha256sum
                                    /usr/bin/shasum -a 256                                               
@@ -7855,13 +7855,13 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha384
-                - Go:              -
+                - Go API:          -
                 - gpg:             gpg --print-md sha384
                 - HashGarten:      Algorithm -> sha-384
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha384
-                - Java:            java.security.MessageDigest.
+                - Java API:        java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA-384");
                 - Kali Linux:      /usr/bin/sha384sum
                                    /usr/bin/shasum -a 384
@@ -7953,13 +7953,13 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha512
-                - Go:              -
+                - Go API:          -
                 - gpg:             gpg --print-md sha512
                 - HashGarten:      Algorithm -> sha-512
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha512
-                - Java:            java.security.MessageDigest.
+                - Java API:        java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA-512");
                 - Kali Linux:      /usr/bin/sha512sum
                                    /usr/bin/shasum -a 512
@@ -8036,7 +8036,7 @@ ALGORITHMS
                 - GNU/Hurd:        /usr/bin/shasum -a 512224
                 - GNU/Linux:       /usr/bin/shasum -a 512224
                                    (not available on every Linux)
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha-512/224
                 - HP-UX:           -
@@ -8107,7 +8107,7 @@ ALGORITHMS
                 - GNU/Hurd:        /usr/bin/shasum -a 512256
                 - GNU/Linux:       /usr/bin/shasum -a 512256
                                    (not available on every Linux)
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha-512/256
                 - HP-UX:           -
@@ -8184,7 +8184,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-224
                 - HP-UX:           -
@@ -8263,7 +8263,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-256
                 - HP-UX:           -
@@ -8343,7 +8343,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-384
                 - HP-UX:           -
@@ -8422,7 +8422,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-512
                 - HP-UX:           -
@@ -8555,7 +8555,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> shake128
                 - HP-UX:           -
@@ -8646,13 +8646,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> shake256
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a shake256
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - KeccakSum:       KeccakSum --shake256 --hex --outputbits 512
                 - LibreSSL:        -
@@ -8769,13 +8769,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> skein-256-<length>
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a skein-256-<length>
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        -
                 - macOS:           -
@@ -8852,13 +8852,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> skein-512-<length>
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a skein-512-<length>
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        -
                 - macOS:           -
@@ -8930,13 +8930,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> skein-1024-<length>
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a skein-1024-<length>
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        -
                 - macOS:           -
@@ -9006,13 +9006,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> streebog256
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a streebog256
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        openssl dgst -strebog256
                 - macOS:           -
@@ -9080,13 +9080,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> streebog512
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a streebog512
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        openssl dgst -strebog512
                 - macOS:           -
@@ -9149,13 +9149,13 @@ ALGORITHMS
                                    /usr/bin/cksum -a sm3
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sm3
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> sm3
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sm3
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        -
                 - macOS:           -
@@ -9239,7 +9239,7 @@ ALGORITHMS
                 - GNU/Linux:       /usr/bin/sum [-r]
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a bsd
-                - Go:              -
+                - Go API:          -
                 - Haiku:           /bin/sum [-r]
                 - HashGarten:      Algorithm -> sum_bsd
                 - HP-UX:           /usr/bin/sum -r
@@ -9304,7 +9304,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - HashGarten:      Algorithm -> sum_minix
                 - HP-UX:           -
                 - IBM AIX:         -
@@ -9362,7 +9362,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - HashGarten:      Algorithm -> crc_fddi
                 - HP-UX:           -
                 - IBM AIX:         -
@@ -9424,7 +9424,7 @@ ALGORITHMS
                 - GNU/Linux:       /usr/bin/sum -s
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sysv
-                - Go:              -
+                - Go API:          -
                 - Haiku:           /bin/sum -s
                 - HashGarten:      Algorithm -> sum_sysv
                 - HP-UX:           /usr/bin/sum
@@ -9498,13 +9498,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> tiger128
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a tiger128
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -9563,13 +9563,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> tiger128-4-php
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a tiger128-4-php
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -9625,13 +9625,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> tiger160
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a tiger160
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -9690,13 +9690,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> tiger160-4-php
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a tiger160-4-php
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -9758,13 +9758,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> tiger
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a tiger
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -9822,13 +9822,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> tiger-192-4-php
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a tiger-192-4-php
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
@@ -10083,13 +10083,13 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go:              -
+                - Go API:          -
                 - gpg:             -
                 - HashGarten:      Algorithm -> whirlpool2
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a whirlpool2
-                - Java:            -
+                - Java API:        -
                 - Kali Linux:      -
                 - LibreSSL:        openssl dgst -whirlpool
                 - macOS:           -
