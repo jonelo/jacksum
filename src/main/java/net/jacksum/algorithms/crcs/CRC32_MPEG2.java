@@ -26,56 +26,14 @@ package net.jacksum.algorithms.crcs;
 import net.jacksum.algorithms.checksums.Cksum;
 import net.jacksum.formats.Encoding;
 
-public class CRC32_MPEG2 extends Cksum implements CrcInfo {
+import java.security.NoSuchAlgorithmException;
 
-    public CRC32_MPEG2() {
-        super();
+public class CRC32_MPEG2 extends CrcGeneric {
+
+    public CRC32_MPEG2() throws NoSuchAlgorithmException {
+        super(32, 0x04c11db7L, 0xFFFFFFFFL, false, false, 0x0L);
         formatPreferences.setHashEncoding(Encoding.DEC);
-        formatPreferences.setSeparator(" ");
         formatPreferences.setFilesizeWanted(true);
-        reset();
-    }
-
-    @Override
-    public final void reset() {
-        value = 0xFFFFFFFF;
-        length = 0;
-    }
-
-    // this method is provided in the superclass, but 'value' is overridden
-    // the MPEG2 CRC is just the raw value as below
-    @Override
-    public long getValue() {
-       return (value & 0xFFFFFFFFL);
-    }
-
-    @Override
-    public byte[] getPolyAsBytes() {
-        return new byte[] {(byte)0x04, (byte)0xC1, (byte)0x1D, (byte)0xB7};
-    }
-
-    @Override
-    public int getWidth() {
-        return 32;
-    }
-
-    @Override
-    public long getInitialValue() {
-        return 0xFFFFFFFFL;
-    }
-
-    @Override
-    public boolean isRefIn() {
-        return false;
-    }
-
-    @Override
-    public boolean isRefOut() {
-        return false;
-    }
-
-    @Override
-    public long getXorOut() {
-        return 0;
+        formatPreferences.setSeparator(" ");
     }
 }
