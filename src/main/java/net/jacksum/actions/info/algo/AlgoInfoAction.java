@@ -67,7 +67,7 @@ public class AlgoInfoAction implements Action {
                 indent = String.format("%"+indentation+"s", "");
             }*/
 
-        buffer.append(String.format("%shash length:%n", indent));
+        buffer.append(String.format("%sHash length:%n", indent));
         buffer.append(String.format(FORMAT, indent, "bits:", checksum.getSize()));
         int padOneByte = checksum.getSize() % 8 > 0 ? 1 : 0;
         int bytes = checksum.getSize() / 8 + padOneByte;
@@ -79,38 +79,9 @@ public class AlgoInfoAction implements Action {
 
         int blockSize = checksum.getBlockSize();
         if (blockSize > 0) {
-            buffer.append(String.format("%n%sblocksize:%n", indent));
+            buffer.append(String.format("%n%sBlock size:%n", indent));
             buffer.append(String.format(FORMAT, indent, "bits:", Integer.toString(blockSize * 8)));
             buffer.append(String.format(FORMAT, indent, "bytes:", Integer.toString(blockSize)));
-        }
-
-        boolean avalanche = true;
-        if (avalanche) {
-            byte[] input = null;
-            if (parameters.isSequence()) {
-                input = parameters.getSequence().asBytes();
-            } else {
-                input = "123456789".getBytes(StandardCharsets.UTF_8);
-            }
-
-            // Avalanche makes only sense if input is at least 1 bit, resp. 1 byte)
-            if (input.length > 0) {
-                buffer.append(String.format("%n%savalanche effect:%n", indent));
-                AvalancheInfo avalancheInfo = Avalanche.calc(checksum, input);
-
-                buffer.append(String.format(FORMAT, indent, "input length in bytes:", input.length));
-                buffer.append(String.format(FORMAT, indent, "input length in bits:", input.length * 8));
-                buffer.append(String.format(FORMAT, indent, "hash calculations:", input.length * 16));
-                buffer.append(String.format(FORMAT, indent, "input [hex]:", ByteSequences.format(input)));
-                buffer.append(String.format(FORMAT, indent, "input [bin]:", ByteSequences.formatAsBits(input)));
-
-                buffer.append(String.format(FORMAT, indent, "avalanche min effect:",
-                        String.format(Locale.US, "%.2f %%", avalancheInfo.getHammingDistanceMin())));
-                buffer.append(String.format(FORMAT, indent, "avalanche avg effect:",
-                        String.format(Locale.US, "%.2f %%", avalancheInfo.getHammingDistanceAvg())));
-                buffer.append(String.format(FORMAT, indent, "avalanche max effect:",
-                        String.format(Locale.US, "%.2f %%", avalancheInfo.getHammingDistanceMax())));
-            }
         }
 
         if (checksum instanceof PrngHashInfo) {
@@ -192,21 +163,51 @@ public class AlgoInfoAction implements Action {
         }
 
 
+        boolean avalanche = true;
+        if (avalanche) {
+            byte[] input = null;
+            if (parameters.isSequence()) {
+                input = parameters.getSequence().asBytes();
+            } else {
+                input = "123456789".getBytes(StandardCharsets.UTF_8);
+            }
+
+            // Avalanche makes only sense if input is at least 1 bit, resp. 1 byte)
+            if (input.length > 0) {
+                buffer.append(String.format("%n%sAvalanche effect:%n", indent));
+                AvalancheInfo avalancheInfo = Avalanche.calc(checksum, input);
+
+                buffer.append(String.format(FORMAT, indent, "input length in bytes:", input.length));
+                buffer.append(String.format(FORMAT, indent, "input length in bits:", input.length * 8));
+                buffer.append(String.format(FORMAT, indent, "hash calculations:", input.length * 16));
+                buffer.append(String.format(FORMAT, indent, "input [hex]:", ByteSequences.format(input)));
+                buffer.append(String.format(FORMAT, indent, "input [bin]:", ByteSequences.formatAsBits(input)));
+
+                buffer.append(String.format(FORMAT, indent, "avalanche min effect:",
+                        String.format(Locale.US, "%.2f %%", avalancheInfo.getHammingDistanceMin())));
+                buffer.append(String.format(FORMAT, indent, "avalanche avg effect:",
+                        String.format(Locale.US, "%.2f %%", avalancheInfo.getHammingDistanceAvg())));
+                buffer.append(String.format(FORMAT, indent, "avalanche max effect:",
+                        String.format(Locale.US, "%.2f %%", avalancheInfo.getHammingDistanceMax())));
+            }
+        }
+
+
         if (checksum.isActualAlternateImplementationUsed()) {
-            buffer.append(String.format("%n%sspeed:%n", indent));
+            buffer.append(String.format("%n%sSpeed:%n", indent));
             buffer.append(String.format(FORMAT, indent, "relative rank:", "unknown, speed is calculated for primary algorithms only"));
         } else {
             int weight = HashAlgorithm.getWeight(checksum.getName());
             if (weight > 1) {
                 int rank = HashAlgorithm.getRank(checksum.getName());
-                buffer.append(String.format("%n%sspeed:%n", indent));
+                buffer.append(String.format("%n%sSpeed:%n", indent));
                 buffer.append(String.format(FORMAT, indent, "relative rank:", rank + "/" + allSupportedAlgorithmsCount));
                 // long speedpoints = 100-Math.round((double)(100.0*weight/(double)maxWeight));
                 // buffer.append(String.format("%s  %-32s%s\n\n", indent, "speed points (100 max):", speedpoints)); // "*".repeat((int)stars)
             }
         }
 
-        buffer.append(String.format("%n%salternative/secondary implementation:%n", indent));
+        buffer.append(String.format("%n%sAlternative/secondary implementation:%n", indent));
         buffer.append(String.format(FORMAT, indent, "has been requested:", parameters.isAlternateImplementationWanted()));
         buffer.append(String.format(FORMAT, indent, "is available and would be used:", checksum.isActualAlternateImplementationUsed()));
     }
@@ -234,7 +235,7 @@ public class AlgoInfoAction implements Action {
     private int singleView(StringBuilder buffer) throws ExitException {
         try {
             AbstractChecksum checksum = JacksumAPI.getInstance(parameters);
-            buffer.append(String.format("  algorithm:%n"));
+            buffer.append(String.format("  Algorithm:%n"));
 
             if (checksum instanceof CombinedChecksum) {
                 buffer.append(String.format("    %-38s%s%n", "name:", checksum.getName()));
