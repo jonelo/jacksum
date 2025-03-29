@@ -38,6 +38,7 @@ Jacksum 3.8.0, Dec TBD
     (e.g. "jacksum -q password -a hmac:sha256 -k password"), the prompt for the key is now "Key (echo off): " to
     distinguish the input.
   - issue#32 --header not working using --quick
+  - if multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
 
 - improved performance:
   - used a short buffer for the --header output
