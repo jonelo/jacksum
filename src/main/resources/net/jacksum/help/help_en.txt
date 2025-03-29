@@ -3997,7 +3997,7 @@ ALGORITHMS
                                    /usr/bin/b2sum [-l <length>]
                 - GNU/Linux (GNU Coreutils 9.0+ 09/2021):
                                    /usr/bin/cksum -a blake2b [-l <length>]
-                - Go API:          -
+                - Go API:          golang.org/x/crypto/blake2b.New(<byte-length>, nil)
                 - HashGarten:      Algorithm -> blake2b[-<length>]
                 - HP-UX:           -
                 - IBM AIX:         -
@@ -4136,7 +4136,8 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go API:          -
+                - Go API:          golang.org/x/crypto/blake2s.New128()
+                                   golang.org/x/crypto/blake2s.New256()
                 - HashGarten:      Algorithm -> blake2s[-<length>]
                 - HP-UX:           -
                 - IBM AIX:         -
@@ -6503,7 +6504,8 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go API:          -
+                - Go API:          golang.org/x/crypto/sha3.NewLegacyKeccak256()
+                                   golang.org/x/crypto/sha3.NewLegacyKeccak512()
                 - gpg:             -
                 - HashGarten:      Algorithm -> keccak<length>
                 - HP-UX:           -
@@ -6746,7 +6748,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go API:          -
+                - Go API:          golang.org/x/crypto/md4.New()
                 - gpg:             -
                 - HashGarten:      Algorithm -> md4
                 - HP-UX:           -
@@ -7302,7 +7304,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go API:          -
+                - Go API:          golang.org/x/crypto/ripemd160.New()
                 - gpg:             gpg --print-md ripemd160
                 - HashGarten:      Algorithm -> ripemd160
                 - HP-UX:           -
@@ -7626,7 +7628,7 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha1
-                - Go API:          -
+                - Go API:          crypto/sha1.New()
                 - gpg:             gpg --print-md sha1
                 - Haiku:           /bin/sha1sum
                 - HashGarten:      Algorithm -> sha-1
@@ -7728,7 +7730,7 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha224
-                - Go API:          -
+                - Go API:          crypto/sha256.New224()
                 - gpg:             gpg --print-md sha224
                 - HashGarten:      Algorithm -> sha-224
                 - HP-UX:           -
@@ -7919,7 +7921,7 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha384
-                - Go API:          -
+                - Go API:          crypto/sha512.New384()
                 - gpg:             gpg --print-md sha384
                 - HashGarten:      Algorithm -> sha-384
                 - HP-UX:           -
@@ -8017,7 +8019,7 @@ ALGORITHMS
                                    (not available on every Linux)
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sha512
-                - Go API:          -
+                - Go API:          crypto/sha512.New()
                 - gpg:             gpg --print-md sha512
                 - HashGarten:      Algorithm -> sha-512
                 - HP-UX:           -
@@ -8100,7 +8102,7 @@ ALGORITHMS
                 - GNU/Hurd:        /usr/bin/shasum -a 512224
                 - GNU/Linux:       /usr/bin/shasum -a 512224
                                    (not available on every Linux)
-                - Go API:          -
+                - Go API:          crypto/sha512.New512_224()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha-512/224
                 - HP-UX:           -
@@ -8171,7 +8173,7 @@ ALGORITHMS
                 - GNU/Hurd:        /usr/bin/shasum -a 512256
                 - GNU/Linux:       /usr/bin/shasum -a 512256
                                    (not available on every Linux)
-                - Go API:          -
+                - Go API:          crypto/sha512.New512_256()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha-512/256
                 - HP-UX:           -
@@ -8248,7 +8250,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go API:          -
+                - Go API:          golang.org/x/crypto/sha3.New224()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-224
                 - HP-UX:           -
@@ -8327,7 +8329,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go API:          -
+                - Go API:          golang.org/x/crypto/sha3.New256()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-256
                 - HP-UX:           -
@@ -8407,7 +8409,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go API:          -
+                - Go API:          golang.org/x/crypto/sha3.New384()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-384
                 - HP-UX:           -
@@ -8486,7 +8488,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go API:          -
+                - Go API:          golang.org/x/crypto/sha3.New512()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-512
                 - HP-UX:           -
@@ -8619,7 +8621,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go API:          -
+                - Go API:          golang.org/x/crypto/sha3.NewShake128()
                 - gpg:             -
                 - HashGarten:      Algorithm -> shake128
                 - HP-UX:           -
@@ -8710,7 +8712,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go API:          -
+                - Go API:          golang.org/x/crypto/sha3.NewShake256()
                 - gpg:             -
                 - HashGarten:      Algorithm -> shake256
                 - HP-UX:           -
