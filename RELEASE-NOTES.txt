@@ -39,6 +39,8 @@ Jacksum 3.8.0, Dec TBD
     distinguish the input.
   - issue#32 --header not working using --quick
   - if multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
+  - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC definition code
+    if --info has been requested
 
 - improved performance:
   - used a short buffer for the --header output

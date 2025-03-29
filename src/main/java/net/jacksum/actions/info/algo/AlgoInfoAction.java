@@ -31,6 +31,7 @@ import java.util.Locale;
 import net.jacksum.algorithms.HMAC;
 import net.jacksum.algorithms.checksums.PrngHashInfo;
 import net.jacksum.algorithms.crcs.CrcInfo;
+import net.jacksum.algorithms.crcs.CrcModel;
 import net.jacksum.algorithms.crcs.CrcUtils;
 import net.loefflmann.sugar.util.ByteSequences;
 import net.loefflmann.sugar.util.ExitException;
@@ -170,6 +171,11 @@ public class AlgoInfoAction implements Action {
                         }
                     }
                     buffer.append(String.format(FORMAT, indent, "Jacksum CRC algo def:", crcGen.getString()));
+                }
+            } else {
+                // Jacksum CRC algo definitions only for bit widths [1..64]
+                if (crc.getWidth() <= 64) {
+                    buffer.append(String.format(FORMAT, indent, "Jacksum CRC algo def:", new CrcModel(crc).getString()));
                 }
             }
 

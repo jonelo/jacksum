@@ -71,6 +71,10 @@ public class CrcModel {
         this(model.getWidth(), model.getPoly(), model.getInit(), model.isRefIn(), model.isRefOut(), model.getXorOut());
     }
 
+    public CrcModel(CrcInfo info) {
+        this(info.getWidth(), bytesToLong(info.getPolyAsBytes()), info.getInitialValue(), info.isRefIn(), info.isRefOut(), info.getXorOut());
+    }
+
     public CrcModel(String props) throws NoSuchAlgorithmException {
         String[] array = props.split(",");
         if (array.length < 6) {
@@ -95,6 +99,19 @@ public class CrcModel {
             throw new NoSuchAlgorithmException("Unknown algorithm: invalid parameter. "+iae.getMessage());
         }
     }
+
+    // Transforms a byte[] to a long
+    public static long bytesToLong(final byte[] bytes) throws IllegalArgumentException {
+        if (bytes.length > Long.BYTES) throw new IllegalArgumentException("byte array length is greater than what fits into a long.");
+
+        long result = 0;
+        for (int i = 0; i < bytes.length; i++) {
+            result <<= Byte.SIZE;
+            result |= (bytes[i] & 0xFF);
+        }
+        return result;
+    }
+
 
     public String getString() {
         StringBuilder sb = new StringBuilder();
