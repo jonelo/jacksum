@@ -51,8 +51,8 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
     private List<HashEntry> hashEntries;
     private HashMap<String, HashEntry> map;
     private long matches, mismatches, errors, filesMissing;
-    private Statistics statistics;
-    private Messenger messenger;
+    private final Statistics statistics;
+    private final Messenger messenger;
 
     // private Set<String> notRemovedFilesSet;
     public MessageConsumerOnCheckedFiles() {
