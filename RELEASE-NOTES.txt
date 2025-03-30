@@ -1,4 +1,4 @@
-Jacksum 3.8.0, Dec TBD
+Jacksum 3.8.0, TBD
 
 - new features:
   - new algorithms
@@ -11,7 +11,7 @@ Jacksum 3.8.0, Dec TBD
       - Hamsi-[224,256,384,512]
       - Shabal-[192,224,256,384,512]
     - added CRC-64 (NVM Express 64b CRC)
-    - added CRC-32 (GO KOOPMAN) (issue #35)
+    - added CRC-32 (Go Koopman) (issue #35)
   - new styles (for I/O)
     - added hash data base (hdb) style which is used by ClamAV's sigtool
   - added strict check mode
