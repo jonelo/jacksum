@@ -2,7 +2,7 @@ Jacksum 3.8.0, Dec TBD
 
 - new features:
   - new algorithms
-    - Jacksum now supports 511 algorithms!
+    - Jacksum now supports 513 algorithms!
     - added Romulus-H v1.3, it is one of the finalists from the Lightweight Cryptography Competition held by NIST
     - added 5 (resp. 17) algorithms from the round 2 of the NIST SHA-3 competition:
       - BlueMidnightWish-[224,256,384,512]
@@ -37,10 +37,11 @@ Jacksum 3.8.0, Dec TBD
   - the prompt is "Password: " twice if both options -k password -q password have been specified
     (e.g. "jacksum -q password -a hmac:sha256 -k password"), the prompt for the key is now "Key (echo off): " to
     distinguish the input.
-  - issue#32 --header not working using --quick
+  - issue #32 --header not working using --quick
   - if multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
   - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC definition code
     if --info has been requested
+  - issue #36 - If multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
 
 - improved performance:
   - used a short buffer for the --header output
