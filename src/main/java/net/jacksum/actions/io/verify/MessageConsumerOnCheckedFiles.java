@@ -140,7 +140,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                 
                 // is it a file that we can compare ...?
                 if (map.containsKey(filenameAsKey)) {
-                    
+
                     boolean cont = true;
                     
                     // check if filesize is available in the map
@@ -165,7 +165,15 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                             cont = false;                            
                         }
                     }
-                    
+
+                    // '-a none' has not been set, a hash is not there, but the file is there for sure (message type == FILE_HASHED)
+                    if (cont && message.getPayload().getDigest() == null) {
+                        print(filter.isFilterOk(), OK, filename);
+                        matches++;
+                        cont = false;
+                    }
+
+                    // a hash value is there
                     if (cont) {
                         // compare the hashes: OK or FAILED
                         if (EncodingDecoding.encodeBytes(message.getPayload().getDigest(), parameters.getEncoding(), 0, ' ').equals(map.get(filenameAsKey).getHash())) {

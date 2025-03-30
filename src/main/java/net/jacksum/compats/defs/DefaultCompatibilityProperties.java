@@ -100,60 +100,106 @@ public class DefaultCompatibilityProperties {
 
         String regexStart = "^";
         String regexGnuEscToken = "([\\\\]?)";
+        String regexSeparator =  parameters.isSeparatorSet() ? "["+parameters.getSeparator()+"]?" : "[ ]?";
         String regexStrToken = "(.+?)";
         String regexIntToken = " *(\\d+)";  // matches also right-justified file sizes (e.g. crc16_minix)
         String regexFilename="[*]*(.*)$";
 
-        // file size is wanted, because there is a + sign, or --filesize on has been set explicitly
-        if (
-                (parameters.getAlgorithmIdentifier().contains("+") && (!parameters.isFilesizeWantedSet()))
-                || (parameters.getAlgorithmIdentifier().contains("+") && parameters.isFilesizeWantedSet() && parameters.isFilesizeWanted())
-                || (parameters.isFilesizeWantedSet() && parameters.isFilesizeWanted())
-        ) {
+        // no hash value wanted
+        if (parameters.getAlgorithmIdentifier().equals("none")) {
+            if (parameters.isFilesizeWanted()) { // file size wanted
+                if (parameters.isTimestampWanted()) {
+                    // file size, timestamp, and filename
+                    regexp = regexStart + regexGnuEscToken + regexSeparator +
+                            regexIntToken + separator + // file size
+                            regexStrToken + separator + // timestamp
+                            regexFilename;
+                    parserProperties.setRegexpGnuEscapingPos(1);
+                    parserProperties.setRegexpFilesizePos(2);
+                    parserProperties.setRegexpTimestampPos(3);
+                    parserProperties.setRegexpFilenamePos(4);
+                } else {
+                    // file size, and filename
+                    regexp = regexStart + regexGnuEscToken + regexSeparator +
+                            regexIntToken + separator +
+                            regexFilename;
+                    parserProperties.setRegexpGnuEscapingPos(1);
+                    parserProperties.setRegexpFilesizePos(2);
+                    parserProperties.setRegexpFilenamePos(3);
+                }
 
-            if (parameters.isTimestampWanted()) {
-                // hash, file size, timestamp, and filename
-                regexp = regexStart + regexGnuEscToken +
-                        regexStrToken + separator +
-                        regexIntToken + separator +
-                        regexStrToken + separator +
-                        regexFilename;
-                parserProperties.setRegexpGnuEscapingPos(1);
-                parserProperties.setRegexHashPos(2);
-                parserProperties.setRegexpFilesizePos(3);
-                parserProperties.setRegexpTimestampPos(4);
-                parserProperties.setRegexpFilenamePos(5);
-            } else {
-                // hash, file size, and filename
-                regexp = regexStart + regexGnuEscToken +
-                        regexStrToken + separator +
-                        regexIntToken + separator +
-                        regexFilename;
-                parserProperties.setRegexpGnuEscapingPos(1);
-                parserProperties.setRegexHashPos(2);
-                parserProperties.setRegexpFilesizePos(3);
-                parserProperties.setRegexpFilenamePos(4);
+            } else { // no file size wanted
+                if (parameters.isTimestampWanted()) {
+                    // timestamp, and filename
+                    regexp = regexStart + regexGnuEscToken + regexSeparator +
+                            regexStrToken + separator + // timestamp
+                            regexFilename;
+                    parserProperties.setRegexpGnuEscapingPos(1);
+                    parserProperties.setRegexpTimestampPos(2);
+                    parserProperties.setRegexpFilenamePos(3);
+                } else {
+                    // filename only
+                    regexp = regexStart + regexGnuEscToken + regexSeparator +
+                            regexFilename;
+                    parserProperties.setRegexpGnuEscapingPos(1);
+                    parserProperties.setRegexpFilenamePos(2);
+                }
             }
 
-        } else { // file size is not wanted
-            if (parameters.isTimestampWanted()) {
-                // hash, timestamp, and filename
-                regexp = regexStart + regexGnuEscToken +
-                        regexStrToken + separator +
-                        regexStrToken + separator +
-                        regexFilename;
-                parserProperties.setRegexpGnuEscapingPos(1);
-                parserProperties.setRegexHashPos(2);
-                parserProperties.setRegexpTimestampPos(3);
-                parserProperties.setRegexpFilenamePos(4);
-            } else {
-                // hash, and filename
-                regexp = regexStart + regexGnuEscToken +
-                        regexStrToken + separator +
-                        regexFilename;
-                parserProperties.setRegexpGnuEscapingPos(1);
-                parserProperties.setRegexHashPos(2);
-                parserProperties.setRegexpFilenamePos(3);
+        // hash value wanted
+        } else {
+
+            // file size is wanted, because there is a + sign, or --filesize on has been set explicitly
+            if (
+                    (parameters.getAlgorithmIdentifier().contains("+") && (!parameters.isFilesizeWantedSet()))
+                            || (parameters.getAlgorithmIdentifier().contains("+") && parameters.isFilesizeWantedSet() && parameters.isFilesizeWanted())
+                            || (parameters.isFilesizeWantedSet() && parameters.isFilesizeWanted())
+            ) {
+
+                if (parameters.isTimestampWanted()) {
+                    // hash, file size, timestamp, and filename
+                    regexp = regexStart + regexGnuEscToken +
+                            regexStrToken + separator +
+                            regexIntToken + separator +
+                            regexStrToken + separator +
+                            regexFilename;
+                    parserProperties.setRegexpGnuEscapingPos(1);
+                    parserProperties.setRegexHashPos(2);
+                    parserProperties.setRegexpFilesizePos(3);
+                    parserProperties.setRegexpTimestampPos(4);
+                    parserProperties.setRegexpFilenamePos(5);
+                } else {
+                    // hash, file size, and filename
+                    regexp = regexStart + regexGnuEscToken +
+                            regexStrToken + separator +
+                            regexIntToken + separator +
+                            regexFilename;
+                    parserProperties.setRegexpGnuEscapingPos(1);
+                    parserProperties.setRegexHashPos(2);
+                    parserProperties.setRegexpFilesizePos(3);
+                    parserProperties.setRegexpFilenamePos(4);
+                }
+
+            } else { // file size is not wanted
+                if (parameters.isTimestampWanted()) {
+                    // hash, timestamp, and filename
+                    regexp = regexStart + regexGnuEscToken +
+                            regexStrToken + separator +
+                            regexStrToken + separator +
+                            regexFilename;
+                    parserProperties.setRegexpGnuEscapingPos(1);
+                    parserProperties.setRegexHashPos(2);
+                    parserProperties.setRegexpTimestampPos(3);
+                    parserProperties.setRegexpFilenamePos(4);
+                } else {
+                    // hash, and filename
+                    regexp = regexStart + regexGnuEscToken +
+                            regexStrToken + separator +
+                            regexFilename;
+                    parserProperties.setRegexpGnuEscapingPos(1);
+                    parserProperties.setRegexHashPos(2);
+                    parserProperties.setRegexpFilenamePos(3);
+                }
             }
         }
 
