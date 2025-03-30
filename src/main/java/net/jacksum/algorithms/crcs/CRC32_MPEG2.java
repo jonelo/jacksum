@@ -22,8 +22,6 @@
  */
 
 package net.jacksum.algorithms.crcs;
-
-import net.jacksum.algorithms.checksums.Cksum;
 import net.jacksum.formats.Encoding;
 
 import java.security.NoSuchAlgorithmException;
