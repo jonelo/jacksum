@@ -2294,9 +2294,22 @@ public class Parameters implements
 
                 if (this.isFilesizeWantedSet()) {
                     if (!compatibilityProperties.isFilesizeSupported()) {
-                        messenger.print(WARNING, String.format("Ignoring option %s, because the style \"%s\" doesn't support file sizes.", __FILESIZE, compatibilityID));
+                        messenger.print(WARNING, String.format("Ignoring option %s, because the style \"%s\" does not support file sizes.", __FILESIZE, compatibilityID));
                     }
                 }
+
+                if (this.isTimestampWanted()) {
+                    // if the style allows overwriting the timestamp format and the timestamp format has been set using -t ...
+                    if (compatibilityProperties.isTimestampSupported() && compatibilityProperties.isTimestampFormatUserSelectable()) {
+                        // ... we overwrite the default in the compatibilityProperties object ...
+                        compatibilityProperties.setTimestampFormat(this.getTimestampFormat());
+                        // ... and flag that change by setting setTimestampFormatUserSelected(true);
+                        compatibilityProperties.setTimestampFormatUserSelected(true);
+                    } else {
+                        messenger.print(WARNING, String.format("Ignoring option %s, because the style \"%s\" does not support file timestamps.", __TIMESTAMP, compatibilityID));
+                    }
+                }
+
 
                 // patch this parameters object explicitly, because now the parameters
                 // come from the compatibilityID object (the compatibilityProperties)
@@ -2326,6 +2339,7 @@ public class Parameters implements
                 if (this.getCommentChars() == null && compatibilityProperties.getIgnoreLinesStartingWithString() != null) {
                     this.setCommentChars(compatibilityProperties.getIgnoreLinesStartingWithString());
                 }
+                this.setTimestampFormat(compatibilityProperties.getTimestampFormat());
 
                 AbstractChecksum.setStdinName(compatibilityProperties.getStdinName());
 

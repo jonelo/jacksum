@@ -43,6 +43,7 @@ public class CompatibilityProperties implements Serializable {
 
     private boolean strictCheck = false;
     private boolean hashAlgorithmUserSelected = false;
+    private boolean timestampFormatUserSelected = false;
 
     private final static String COMPAT_SYNTAX_VERSION = "compat.syntaxVersion";
     private final static String COMPAT_NAME = "compat.name";
@@ -63,6 +64,8 @@ public class CompatibilityProperties implements Serializable {
     private final static String HASH_NIBBLES = "parser.regexp.nibbles";
     private final static String HASH_ALGORITHM = "algorithm.default";
     private final static String HASH_ALGORITHM_USER_SELECTABLE = "algorithm.userSelectable";
+    private final static String TIMESTAMP_FORMAT = "timestampFormat.format";
+    private final static String TIMESTAMP_FORMAT_USER_SELECTABLE = "timestampFormat.userSelectable";
     private final static String LINES_FORMAT = "formatter.format";
     private final static String HASH_ENCODING = "formatter.hash.encoding";
     private final static String STDIN_NAME = "formatter.stdinName";
@@ -236,6 +239,11 @@ public class CompatibilityProperties implements Serializable {
         return getFormat().contains("#FILESIZE") && getRegexpFilesizePos() > 0;
     }
 
+    public boolean isTimestampSupported() {
+        return getFormat().contains("#TIMESTAMP") && getRegexpTimestampPos() > 0;
+    }
+
+
     public String getRegexp() {
         return props.getProperty(LINES_REGEXP);
     }
@@ -325,9 +333,16 @@ public class CompatibilityProperties implements Serializable {
     }
 
 
+    // hash algorithm
+
     public String getHashAlgorithm() {
         return props.getProperty(HASH_ALGORITHM);
     }
+
+    public void setHashAlgorithm(String hashAlgorithm) {
+        props.setProperty(HASH_ALGORITHM, hashAlgorithm);
+    }
+
 
     public boolean getHashAlgorithmUserSelectable() {
         return props.getProperty(HASH_ALGORITHM_USER_SELECTABLE, "false").equals("true");
@@ -337,13 +352,46 @@ public class CompatibilityProperties implements Serializable {
         props.setProperty(HASH_ALGORITHM_USER_SELECTABLE, selectable ? "true" : "false");
     }
 
-    public void setHashAlgorithm(String hashAlgorithm) {
-        props.setProperty(HASH_ALGORITHM, hashAlgorithm);
+    /**
+     * @return the hashAlgorithmUserSelected
+     */
+    public boolean getHashAlgorithmUserSelected() {
+        return hashAlgorithmUserSelected;
     }
 
-    public String getHashEncoding() {
-        return props.getProperty(HASH_ENCODING);
+    /**
+     * @param hashAlgorithmUserSelected the hashAlgorithmUserSelected to set
+     */
+    public void setHashAlgorithmUserSelected(boolean hashAlgorithmUserSelected) {
+        this.hashAlgorithmUserSelected = hashAlgorithmUserSelected;
     }
+
+    // timestamp
+
+    public String getTimestampFormat() {
+        return props.getProperty(TIMESTAMP_FORMAT);
+    }
+
+    public void setTimestampFormat(String timestampFormat) {
+        props.setProperty(TIMESTAMP_FORMAT, timestampFormat);
+    }
+
+
+    public boolean isTimestampFormatUserSelectable() {
+        return props.getProperty(TIMESTAMP_FORMAT_USER_SELECTABLE, "false").equals("true");
+    }
+
+    public void setTimestampFormatUserSelectable(boolean selectable) {
+        props.setProperty(TIMESTAMP_FORMAT_USER_SELECTABLE, selectable ? "true": "false");
+    }
+
+
+    public boolean getTimestampFormatUserSelected() { return timestampFormatUserSelected; }
+
+    public void setTimestampFormatUserSelected(boolean timestampFormatUserSelected) {
+        this.timestampFormatUserSelected = timestampFormatUserSelected;
+    }
+
 
     public int getHashNibbles() {
         return Integer.parseInt(props.getProperty(HASH_NIBBLES, "-1"));
@@ -354,9 +402,14 @@ public class CompatibilityProperties implements Serializable {
     }
 
 
+    public String getHashEncoding() {
+        return props.getProperty(HASH_ENCODING, "hex");
+    }
+
     public void setHashEncoding(String hashEncoding) {
         props.setProperty(HASH_ENCODING, hashEncoding);
     }
+
 
     public String getFormat(String algoid) {
 
@@ -431,19 +484,6 @@ public class CompatibilityProperties implements Serializable {
         this.strictCheck = strictCheck;
     }
 
-    /**
-     * @return the hashAlgorithmUserSelected
-     */
-    public boolean getHashAlgorithmUserSelected() {
-        return hashAlgorithmUserSelected;
-    }
-
-    /**
-     * @param hashAlgorithmUserSelected the hashAlgorithmUserSelected to set
-     */
-    public void setHashAlgorithmUserSelected(boolean hashAlgorithmUserSelected) {
-        this.hashAlgorithmUserSelected = hashAlgorithmUserSelected;
-    }
 
     private boolean isParserSupported(String parser) {
         switch (parser) {
@@ -459,6 +499,10 @@ public class CompatibilityProperties implements Serializable {
             case "files-only":
             case "hdb":
             case "hexhashes-only":
+            case "sizes+names":
+            case "timestamps+names":
+            case "full":
+            case "full-nohashes":
                 return true;
             default:
                 return false;
@@ -500,6 +544,9 @@ public class CompatibilityProperties implements Serializable {
 
             case "hexhashesonly":
                 return "hexhashes-only";
+
+            case "names-only":
+                return "files-only";
 
             default:
                 return parser;
