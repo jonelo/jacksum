@@ -1,9 +1,5 @@
 NAME
-    Jacksum - may the hashes be with you. 500+ crypto hash functions, CRCs,
-              and checksum. Calculate hash values, verify integrity, find files
-              by their fingerprints, find hash functions to a hash, and get
-              detailed info about hash functions. 10000+ lines of manpage,
-              and hash function info including compatibility lists.
+    Jacksum - a professional checksum/hash tool
 
 
 VERSION
@@ -11,23 +7,83 @@ VERSION
 
 
 SYNOPSIS
-    Jacksum selects the appropriate operating mode dependent on the options
-    and parameters that you set. The options mentioned below are the minimum
-    options that trigger a particular mode. For each mode you can set many
-    more options. See OPERATING MODES for details.
+    jacksum [OPTION]... [FILE]...
+
+
+DESCRIPTION
+    Jacksum (JAva ChecKSUM) is a free, open source, cross-platform,
+    feature-rich, multi-threaded, command line utility that makes hash
+    functions available to you to solve particular tasks the smart way.
 \
+    Jacksum supports 500+ crypto hash functions, CRCs, and checksums.
+    Calculate hash values, verify integrity, find files by their fingerprints,
+    find hash functions to a hash, and get detailed info about hash functions.
+    10000+ lines of manpage, and hash function info including compatibility
+    lists.  May the hashes be with you!
+\
+    Jacksum selects the appropriate operating mode dependent on the options
+    and parameters that you set. See the OPERATING MODES sections for details.
+\
+    Jacksum covers many types of use cases in which hash values make sense:
+\
+        - Calculating of hash values/fingerprints of almost any input
+          (files, file trees, command line args, console, standard input,
+          plain or encoded strings, partitions, disks, NTFS ADS, pipes,
+          sockets, doors, ...)
+        - Finding OK/failed/missing/new files (verify file/data integrity)
+        - Finding files by their fingerprints (positive matching)
+        - Finding files that do not match certain fingerprints (negative matching)
+        - Finding all duplicates of a file by its hash value
+        - Finding the algorithm(s) that generated a certain hash value
+        - Generating random pseudo numbers by a hash function of your choice
+        - Generating reproducible unique secure passwords
+        - Investigate polynomials of CRCs
+        - Investigate parameters of HMACs
+\
+    In order to achieve the goals above, Jacksum supports four major areas
+\
+        - Support for algorithms
+          - 513 algorithms (crypto hash functions, CRCs, and checksums)
+          - HMAC support for 427 hash functions
+          - Customizable CRCs from 1 to 64 bit width
+\
+        - Cross-platform
+          - 60+ command line options to control Jacksum's behavior
+          - Cross-platform executability with identical behavior
+          - Multi-threading for parallel hash calculations to take advantage of
+            multiprocessors and multi-core processors
+          - Multi-threading for parallel data reads in order to take advantage of
+            faster data access speed of SSD storage
+\
+        - I/O control
+          - Recursive traversal with depth control, policies to follow symbolic
+            links on files and/or folders, and file system cycle detection
+          - Wildcard support
+          - Fully customizable output format
+          - Creation of checklists with check values such as checksums,
+            file size, timestamp and file name
+          - 10 predefined standard styles for reading and writing check files
+          - 15 different encodings for representing hash values
+          - 170+ different character sets to read and write check files correctly
+\
+        - Documentation
+          - 10000+ lines of manpage with descriptions, examples, and compatibility
+            lists for all supported algorithms
+
+
+OPERATING MODES OVERVIEW
 \
     Calculate hash values
 \
-        Calculate hashes from files
-            jacksum [OPTION]... FILES
+        Calculate hash values from files
+            jacksum [-a <algorithms>] [OPTION]... FILES
 \
-        Calculate hashes from user input
-            jacksum {--quick|-q} <sequence>
+        Calculate hash values from user input
+            jacksum [-a <algorithms>] {--quick|-q} <sequence>
                     [OPTION]...
 \
-        Calculate hashes from strings
-            jacksum --string-list <file>
+        Calculate hash values from strings
+            jacksum [-a <algorithms>] --string-list <file>
                     [OPTION]...
 \
         Generate large random (pseudo) numbers
@@ -41,31 +97,87 @@ SYNOPSIS
                     [OPTION]...
 \
 \
-    Verify data integrity
+    Generate check lists
 \
-        Verify file integrity
-            jacksum {{--check-file|-c} <file> | --check-line <line>}
+        Generate a lightweight checklist (file sizes and names only)
+            jacksum --style sizes+names
                     [OPTION]... [FILES]
 \
-        Verify file integrity (strict, aka audit)
-            jacksum {{--check-file|-c} <file> | --check-line <line>} --check-strict
+        Generate a lightweight checklist (timestamps and names only)
+            jacksum --style timestamps+names
+                    [{--timestamp|-t} <timestamp-format>]
+                    [OPTION]... [FILES]
+\
+        Generate a lightweight checklist (file sizes, timestamps, and names only)
+            jacksum --style full-nohashes
+                    [OPTION]... [FILES]
+\
+        Generate a lightweight checklist (file names only)
+            jacksum --style names-only
+                    [OPTION]... [FILES]
+\
+        Generate a hash value checklist (hash values at least)
+            jacksum [[--style {bsd|bsd-r|sfv|gnu-linux|fciv|openssl-dgst|
+                      openssl-dgst-r|solaris-digest|solaris-digest-v|hdb}] |
+                     [--filesize {on|off}]
+                     [{--timestamp|-t} <timestamp-format>]
+                     [{--encoding|-E} <encoding>]
+                    ]
+                    [OPTION]... [FILES]
+\
+        Generate a full blown checklist (hash values, timestamps, file sizes, names)
+            jacksum {--style full|
+                     --filesize on
+                     {--timestamp|-t} <timestamp-format>
+                     [{--encoding|-E} <encoding>]
+                    }
+                    [OPTION]... [FILES]
+\
+\
+    Generate wanted lists
+\
+        Generate wanted lists
+            jacksum [[--style {full|bsd|bsd-r|sfv|gnu-linux|fciv|openssl-dgst|
+                      openssl-dgst-r|solaris-digest|solaris-digest-v|hdb}] |
+                     [--filesize {on|off}]
+                     [{--timestamp|-t} <timestamp-format>]
+                     [{--encoding|-E} <encoding>]
+                    ]
+                    [OPTION]... [FILES]
+\
+\
+    Verify data integrity
+\
+        Verify data integrity by reading a check list
+            jacksum {{--check-file|-c} <file> | --check-line <line>}
+                    [--style <style>]
+                    [OPTION]... [FILES]
+\
+        Verify data integrity by reading a check list (strict, aka audit)
+            jacksum {{--check-file|-c} <file> | --check-line <line>}
+                    [--style <style>] --check-strict
                     [OPTION]... FILES
 \
-        Verify the integrity of user input
+        Verify data integrity of user input by providing a hash value
             jacksum {--quick|-q} <sequence> {--expect|-e} <hash>
                     [OPTION]...
 \
 \
     Find strings and files
 \
-        Find strings that match a hash
+        Find strings that match a hash value
 \
             jacksum --string-list <file> {--expect|-e} <hash>
                     [OPTION]...
 \
-        Find files by their fingerprints
+        Find files by a fingerprint, given by the user
 \
-            jacksum {{--wanted-list|-w} <list> | {--expect|-e} <hash>}}
+            jacksum {--expect|-e} <hash>
+                    [OPTION]... [FILES]
+\
+        Find files by their fingerprints, stored in wanted list
+\
+            jacksum {--wanted-list|-w} <list>
                     [OPTION]... [FILES]
 \
 \
@@ -127,54 +239,14 @@ SYNOPSIS
           OPERATING MODES, OPTION TYPES, and OPTION SUPPORT MATRIX for details.
 
 
-DESCRIPTION
-    Jacksum (JAva ChecKSUM) is a free, open source, cross-platform,
-    feature-rich, multi-threaded, command line utility that makes hash
-    functions available to you to solve particular tasks the smart way.
-\
-    Jacksum covers many types of use cases in which hash values make sense:
-\
-        - Calculating of hash values/fingerprints of almost any input
-          (command line arg, console, standard input, plain or encoded strings,
-          files, partitions, disks, NTFS ADS, pipes, sockets, doors, ...)
-        - Finding OK/failed/missing/new files (verify file/data integrity)
-        - Finding files by their fingerprints (positive matching)
-        - Finding files that do not match certain fingerprints (negative matching)
-        - Finding all duplicates of a file by its hash value
-        - Finding the algorithm(s) that generated a certain hash value
-        - Generating random pseudo numbers by a hash function of your choice
-        - Generating reproducible unique secure passwords
-        - Investigate polynomials of CRCs
-        - Investigate parameters of HMACs
-\
-    In order to achieve the goals above, Jacksum supports:
-\
-        - cross-platform executability
-        - Recursive traversal with depth control, policies to follow symbolic
-          links on files and/or folders, and file system cycle detection
-        - Multi-threading across platforms for parallel hash calculations and
-          data reads in order to take advantage of multi-core processors and
-          fast SSD storage
-        - 511 standard hash functions
-        - HMAC support for 427 hash functions
-        - 60+ command line options to control Jacksum's behavior
-        - Customizable CRCs from 1 to 64 bit width
-        - 15 different encodings for representing hash values
-        - 10 predefined standard styles for reading and writing files that
-          contain hash values
-        - Fully customizable output format
-        - 170+ different character sets to be able to read and write hash files
-          correctly
-        - 10000+ lines of manpage with descriptions, examples, and compatibility
-          lists for all supported algorithms
-
-
-OPERATING MODES
+OPERATING MODES EXPLAINED
 \
     Jacksum selects the appropriate operating mode dependent on the options
-    and parameters that you set. See also the sections entitled "SYNOPSIS",
-    "OPTION TYPES", "OPTION SUPPORT MATRIX", and "EXAMPLES".
-\
+    and parameters that you set. The options mentioned below are the minimum
+    options that trigger a particular mode. For each mode you can set many
+    more options. See also the sections entitled SYNOPSIS, OPTION TYPES,
+    OPTION SUPPORT MATRIX, and EXAMPLES.
+
     1. Calculate hashes
 \
         For each mode in this section, the following option types are supported
@@ -272,7 +344,7 @@ OPERATING MODES
 \
         This method is similar to the one described in section 1.3, but it's
         used to generate large random pseudo-numbers. Here is how you can do it:
-
+\
         1. Use a unique set of strings in <file>.
         2. Apply an HMAC (Hash-based Message Authentication Code) using a
            compatible hash function.
@@ -282,7 +354,7 @@ OPERATING MODES
         6. Format each line to show just the hash value.
         7. Encode the hash value in decimal form so that the hash value appears as a number.
 \
-        Example:
+        Examples:
 \
             > jacksum -h | sort | uniq > strings.txt
             > jacksum -a hmac:sha256:64 -k txt:run42 --string-list strings.txt -F "#HASH" -E dec
@@ -1273,9 +1345,9 @@ OPTIONS
                 version 3.0.0 of Jacksum.
 
 
-    -C <compatibility style>
-    --compat <compatibility style>
-    --style <compatibility style>
+    -C <style>
+    --compat <style>
+    --style <style>
 \
             Specify the compatibility behavior of Jacksum for both input format
             and output format. Replace <compatibility> with one of the
@@ -2557,7 +2629,7 @@ OPTIONS
 \
             Available since:
 \
-                version 1.6.0 of Jacksum, see also option -c.
+                version 1.6.0 of Jacksum
 
 
     --ignore-sizes
@@ -2565,8 +2637,6 @@ OPTIONS
             During a check, file sizes are ignored if they are present in the
             check file.
 \
-            While reading a string list by --string-list, lines are ignored
-            if they are empty. Lines are not trimmed to determine the emptiness.
 \
             See also:
 \
