@@ -281,6 +281,13 @@ public class Parameters implements
 
     private boolean ignoreEmptyLines = false;
 
+    private boolean ignoreHashes = false;
+
+    private boolean ignoreSizes = false;
+
+    private boolean ignoreTimestamps = false;
+
+
     // ************************************** constructors *********************************************************
 
     /**
@@ -1013,6 +1020,19 @@ public class Parameters implements
         this.ignoreEmptyLines = ignoreEmptyLines;
     }
 
+    public boolean isIgnoreHashes() { return ignoreHashes; }
+
+    public void setIgnoreHashes(boolean ignoreHashes) { this.ignoreHashes = ignoreHashes; }
+
+    public boolean isIgnoreSizes() { return ignoreSizes; }
+
+    public void setIgnoreSizes(boolean ignoreSizes) { this.ignoreSizes = ignoreSizes; }
+
+    public boolean isIgnoreTimestamps() { return ignoreTimestamps; }
+
+    public void setIgnoreTimestamps(boolean ignoreTimestamps) { this.ignoreTimestamps = ignoreTimestamps; }
+
+
     public String getCharsetConsole() {
         return charsetConsole;
     }
@@ -1402,6 +1422,15 @@ public class Parameters implements
         if (newParameters.isCheckStrict()) {
             this.setCheckStrict(true);
         }
+        if (newParameters.isIgnoreHashes()) {
+            this.setIgnoreHashes(true);
+        }
+        if (newParameters.isIgnoreSizes()) {
+            this.setIgnoreSizes(true);
+        }
+        if (newParameters.isIgnoreTimestamps()) {
+            this.setIgnoreTimestamps(true);
+        }
         if (newParameters.isStringList()) {
             this.setStringList(newParameters.getStringList());
             if (!newParameters.getCharsetStringList().equalsIgnoreCase(UTF_8)) {
@@ -1621,6 +1650,15 @@ public class Parameters implements
         }
         if (checkStrict) {
             list.add(__CHECK_STRICT);
+        }
+        if (ignoreHashes) {
+            list.add(__IGNORE_HASHES);
+        }
+        if (ignoreSizes) {
+            list.add(__IGNORE_SIZES);
+        }
+        if (ignoreTimestamps) {
+            list.add(__IGNORE_TIMESTAMPS);
         }
         if (stringList != null) {
             list.add(__STRING_LIST);

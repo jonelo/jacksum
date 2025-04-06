@@ -29,4 +29,7 @@ public interface CheckParameters {
     ListFilter getListFilter();
     boolean isList();
     boolean isCheckStrict();
+    boolean isIgnoreTimestamps();
+    boolean isIgnoreHashes();
+    boolean isIgnoreSizes();
 }

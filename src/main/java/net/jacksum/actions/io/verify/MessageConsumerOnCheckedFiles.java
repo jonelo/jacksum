@@ -144,7 +144,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                     boolean cont = true;
                     
                     // check if filesize is available in the map
-                    if (map.get(filenameAsKey).getFilesize() > -1 && map.get(filenameAsKey).getFilesize() != message.getPayload().getSize()) {
+                    if (!parameters.isIgnoreSizes() && map.get(filenameAsKey).getFilesize() > -1 && map.get(filenameAsKey).getFilesize() != message.getPayload().getSize()) {
                             print(filter.isFilterFailed(), FAILED, filename);
                             if (!parameters.isList() && parameters.getVerbose().isInfo()) {
                                 System.err.printf("           [filesize expected: %s, actual: %s]\n", map.get(filenameAsKey).getFilesize(), message.getPayload().getSize());
@@ -152,9 +152,9 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                             mismatches++;
                             cont = false;
                     }
-                    
+
                     // check the timestamp if timestamp is available in the map
-                    if (cont && map.get(filenameAsKey).getTimestamp() != null) {
+                    if (cont && !parameters.isIgnoreTimestamps() && map.get(filenameAsKey).getTimestamp() != null) {
                         String actualTimestampAsString = timestampFormatter.format(message.getPayload().getBasicFileAttributes().lastModifiedTime().to(TimeUnit.MILLISECONDS));
                         if (!map.get(filenameAsKey).getTimestamp().equals(actualTimestampAsString)) {
                             print(filter.isFilterFailed(), FAILED, filename);
@@ -174,17 +174,25 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                     }
 
                     // a hash value is there
-                    if (cont) {
+                    if (cont && !parameters.isIgnoreHashes()) {
                         // compare the hashes: OK or FAILED
                         if (EncodingDecoding.encodeBytes(message.getPayload().getDigest(), parameters.getEncoding(), 0, ' ').equals(map.get(filenameAsKey).getHash())) {
                             print(filter.isFilterOk(), OK, filename);
                             matches++;
+                            cont = false;
                             //map.get(filename).setStatus(HashEntry.Status.OK);
                         } else {
                             print(filter.isFilterFailed(), FAILED, filename);
                             mismatches++;
+                            cont = false;
                             //map.get(filename).setStatus(HashEntry.Status.FAILED);
                         }
+                    }
+
+                    // we only check the existence of the file, and since it is tagged with FILE_HASHED, we know it is there for sure.
+                    if (cont) {
+                        print(filter.isFilterOk(), OK, filename);
+                        matches++;
                     }
                 // ... or is it a new file?
                 } else {

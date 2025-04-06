@@ -2508,6 +2508,39 @@ OPTIONS
                 version 3.0.0 of Jacksum.
 
 
+    --ignore-hashes
+\
+            During a check, hash values are ignored if they are present in the
+            check file.
+\
+\
+            See also:
+\
+                the options -c, --style
+\
+            Available since:
+\
+                version 3.8.0 of Jacksum
+
+
+    --ignore-empty-lines
+\
+            While reading a string list by --string-list, lines are ignored
+            if they are empty. Lines are not trimmed to determine the emptiness.
+\
+            By default, or if the option is omitted, empty lines are hashed,
+            which in fact is treated as an empty message for the algorithm.
+\
+\
+            See also:
+\
+                the options --string-list and --ignore-lines-starting-with-string.
+\
+            Available since:
+\
+                version 1.7.0 of Jacksum.
+
+
     -I <string>
     --ignore-lines-starting-with-string <string>
 \
@@ -2527,22 +2560,38 @@ OPTIONS
                 version 1.6.0 of Jacksum, see also option -c.
 
 
-    --ignore-empty-lines
+    --ignore-sizes
+\
+            During a check, file sizes are ignored if they are present in the
+            check file.
 \
             While reading a string list by --string-list, lines are ignored
             if they are empty. Lines are not trimmed to determine the emptiness.
 \
-            By default, or if the option is omitted, empty lines are hashed,
-            which in fact is treated as an empty message for the algorithm.
+            See also:
+\
+                the options -c, and --style
+\
+            Available since:
+\
+                version 3.8.0 of Jacksum
+
+
+    --ignore-timestamps
+\
+            During a check, timestamps are ignored if they are present in the
+            check file.
 \
 \
             See also:
 \
-                the options --string-list and --ignore-lines-starting-with-string.
+                the options -c, and --style
 \
             Available since:
 \
-                version 1.7.0 of Jacksum.
+                version 3.8.0 of Jacksum
+
+
 
 
     -k  {[<type>:]<sequence>|readline|password}

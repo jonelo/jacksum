@@ -88,6 +88,9 @@ public class CLIParameters {
     public static final String _IGNORE_LINES_STARTING_WITH_STRING = "-I";
     public static final String __IGNORE_LINES_STARTING_WITH_STRING = "--ignore-lines-starting-with-string";
     public static final String __IGNORE_EMPTY_LINES = "--ignore-empty-lines";
+    public static final String __IGNORE_HASHES = "--ignore-hashes";
+    public static final String __IGNORE_SIZES = "--ignore-sizes";
+    public static final String __IGNORE_TIMESTAMPS = "--ignore-timestamps";
     public static final String _KEY = "-k";
     public static final String __KEY = "--key";
     public static final String _LIST = "-l";
@@ -406,6 +409,15 @@ public class CLIParameters {
 
                 } else if (arg.equals(__IGNORE_EMPTY_LINES)) {
                     parameters.setIgnoreEmptyLines(true);
+
+                } else if (arg.equals(__IGNORE_HASHES)) {
+                    parameters.setIgnoreHashes(true);
+
+                } else if (arg.equals(__IGNORE_SIZES)) {
+                    parameters.setIgnoreSizes(true);
+
+                } else if (arg.equals(__IGNORE_TIMESTAMPS)) {
+                    parameters.setIgnoreTimestamps(true);
 
                 } else if (arg.equals(_KEY) || arg.equals(__KEY)) {
                     if (firstfile < args.length) {
