@@ -39,7 +39,6 @@ import net.jacksum.actions.io.verify.CheckConsumerParameters;
 import net.jacksum.actions.io.verify.ListFilter;
 import net.jacksum.actions.io.wanted.MatchFilter;
 import net.jacksum.algorithms.AbstractChecksum;
-import net.jacksum.algorithms.HMAC;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Messenger;
 import net.jacksum.cli.Verbose;
