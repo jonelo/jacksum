@@ -503,6 +503,7 @@ public class CompatibilityProperties implements Serializable {
             case "timestamps+names":
             case "full":
             case "full-nohashes":
+            case "full-notimestamps":
                 return true;
             default:
                 return false;
