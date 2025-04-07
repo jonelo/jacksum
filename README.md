@@ -1,16 +1,15 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/jonelo/jacksum?color=blue)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/jonelo/jacksum?color=blue)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/jonelo/jacksum?color=green)
-![GitHub downloads latest](https://img.shields.io/github/downloads/jonelo/jacksum/v3.6.0/total?color=green)
+![GitHub downloads latest](https://img.shields.io/github/downloads/jonelo/jacksum/v3.7.0/total?color=green)
 ![GitHub](https://img.shields.io/github/license/jonelo/jacksum?color=green)
 ![GitHub top language](https://img.shields.io/github/languages/top/jonelo/jacksum?color=green)
 ![GitHub downloads](https://img.shields.io/github/downloads/jonelo/jacksum/total?color=green)
 
-* * *
-
-<img width="128" height="128" align="left" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
 # Jacksum
+
+<img width="128" height="128" align="right" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/jacksum_logo_128x128.png" alt="Jacksum logo" style="vertical-align:top;margin:10px 10px" />
 
 **Jacksum** (**JAva ChecKSUM**) is a free, open source, cross-platform,
 feature-rich, multi-threaded, command line utility that makes hash
@@ -47,7 +46,7 @@ In order to achieve the goals above Jacksum supports you with
 - Fully customizable output format
 - 170+ different character sets to be able to read and write hash files
   correctly
-- 9200+ lines of manpage with descriptions, examples, and compatibility
+- 9200+ lines of  with descriptions, examples, and compatibility
   lists for all supported algorithms
 
 Jacksum is also a library. You can use it for your projects. It is written entirely in **Java** ☕.
@@ -79,7 +78,7 @@ Jacksum is for users with security in mind, advanced users, sysadmins, students 
 - Supported architectures are dependent on the OS and the JDK vendor:
   - x86 64 bit (x64)
   - x86 32 bit (x86)
-  - ARM 64 bit (AArch64, resp. M1)
+  - ARM 64 bit (AArch64, resp. Apple silicon)
   - ARM 32 bit (AArch32)
   - PPC 64 bit (ppc64)
 - a GitHub user have had success to run Jacksum without modification even on a smartphone running Android on ARM 64 bit, see also https://github.com/jonelo/jacksum/issues/7
@@ -106,25 +105,27 @@ Jacksum supports the **"Rocksoft (tm) Model CRC Algorithm"** to describe CRCs, s
 
 ## User Interfaces
 
-Jacksum provides a command line interface (CLI), and an application programming interface (API). A graphical user interface (GUI) is provided by HashGarten which is a subproject of the Jacksum project. Also, there are file browser integrations (FBI) available to integrate Jacksum and HashGarten into your preferred file browser such as Finder on macOS, Windows Explorer on Microsoft Windows or Caja, Dolphin, elementary Files, Konqueror, Krusader, Nemo, GNOME Nautilus, ROX-Filter, SpaceFM, Thunar, Xfe, or zzzFM on GNU/Linux.
+Jacksum provides a Command Line Interface (CLI), an Application Programming Interface (API). A Graphical User Interface (GUI) is provided by HashGarten which is a subproject of the Jacksum project. Also, there are File Browser Integrations (FBI) available.
 
-### CLI
+### Architecture
+
+![Architecture](https://github.com/jonelo/jacksum/assets/10409423/d0d0ce30-3698-4d7d-8d0e-e2c3d7f29bc3)
+
+### Command Line Interface (CLI)
 
 If you are a skilled command line user you will benefit from the power on the command line and you can use Jacksum in scripts, cronjobs, etc. in order to automate file integration/verification tasks for example.
 
 <img width="100%" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/screenshot-jacksum_on_ubuntu-cli_examples.png" alt="Jacksum on Ubuntu, CLI examples" style="vertical-align:top;margin:10px 10px" />
 
-### GUI
+See also the [manual of Jacksum](https://github.com/jonelo/jacksum/wiki/Manpage).
 
-If you prefer a graphical user interface (GUI) and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration (FBI) installer which comes with [HashGarten](https://github.com/jonelo/HashGarten) that is a GUI for Jacksum. The installer is available for many different file managers on Windows, Linux, and macOS. See also [Integrations](https://github.com/jonelo/jacksum#integrations).
+### Graphical User Interface (GUI)
 
-<img width="60%" src="https://raw.githubusercontent.com/jonelo/jacksum-fbi-windows/main/docs/images/sendto-de.png" alt="Jacksum on Windows, SendTo" style="vertical-align:top;margin:10px 10px" />
+If you prefer a GUI and you just would like to calc and verify hashes with a graphical user interface, I recommend to download and use the Jacksum File Browser Integration (FBI) installer which comes with [HashGarten](https://github.com/jonelo/HashGarten) that is a GUI for Jacksum. HashGarten also runs standalone and it supports Drag and Drop.
 
-<img width="100%" src="https://raw.githubusercontent.com/jonelo/HashGarten/main/docs/images/HashGarten-0.9.0-select-algorithm.png" alt="HashGarten is powered by Jacksum" style="vertical-align:top;margin:10px 10px" />
+### File Browser Integration (FBI)
 
-## CLI usage
-
-Go to (Jacksum's manual)[https://github.com/jonelo/jacksum/wiki/Manpage].
+The File Browser Integration (FBI) installer can integrate both Jacksum and HashGarten into your preferred file browser, such as Finder on macOS, Windows File Explorer on Microsoft Windows, and Caja, Dolphin, elementary Files, GNOME Nautilus, Konqueror, Krusader, muCommander, Nemo, ROX-Filter, SpaceFM, Thunar, Xfe, or zzzFM on GNU/Linux. See also [Integrations](https://github.com/jonelo/jacksum/tree/main?tab=readme-ov-file#integrations).
 
 ## Examples
 
@@ -675,9 +676,9 @@ $ rm -R jacksum-$VERSION/
 
 ## Integrations
 
-* [Jacksum File Browser Integration for Microsoft Windows](https://github.com/jonelo/jacksum-fbi-windows)
-* [Jacksum File Browser Integration for GNU/Linux](https://github.com/jonelo/jacksum-fbi-linux)
-* [Jacksum File Browser Integration for macOS](https://github.com/jonelo/jacksum-fbi-macos)
+* [Jacksum for Windows](https://github.com/jonelo/jacksum-for-windows)
+* [Jacksum for Linux](https://github.com/jonelo/jacksum-for-linux)
+* [Jacksum for macOS](https://github.com/jonelo/jacksum-for-macos)
 * [Jacksum on Docker](https://hub.docker.com/r/jonelo/jacksum)
 * [HashGarten](https://github.com/jonelo/HashGarten) - a GUI for Jacksum
 * NumericalChameleon, see http://www.numericalchameleon.net
