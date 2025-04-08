@@ -451,6 +451,7 @@ OPERATING MODES EXPLAINED
 \
             - File List Options
             - Check/Integrity Verification Mode Options
+            - Input Format Options
             - Directory Traversal Options
             - I/O Performance Options
 \
@@ -566,6 +567,7 @@ OPERATING MODES EXPLAINED
             - Security Strength Options
             - File List Options
             - Wanted List Mode Options
+            - Input Format Options
             - Directory Traversal Options
             - Hashing Performance Options
             - I/O Performance Options
@@ -713,6 +715,7 @@ OPTION TYPES
 \
     Check/Integrity Verification Mode Options
         Those options control the data verification process.
+        See also Input Format Options.
 \
         {{--check-file|-c} <checkfile> | --check-line <line>} [
             [{--charset-check-file|--check-file-charset} <charset>]
@@ -725,10 +728,11 @@ OPTION TYPES
 \
     Wanted List Mode Options
         Those options control the behavior of the "wanted list" mode.
+        See also Input Format Options.
 \
         {--wanted-list|-w} <list> [
-            [{--expect|-e} <hash value>]
             [{--charset-wanted-list|--wanted-list-charset} <charset>]
+            [{--expect|-e} <hash value>]
             [{--match-filter|--wanted-list-filter} <filter>]
         ]
 \
@@ -832,22 +836,42 @@ OPTION TYPES
         ]
 \
 \
+    Input Format Options
+        Those options specify the format of a check list resp. a wanted list.
+        [
+            [{--style|-C} <style>]
+            [
+                [--ignore-empty-lines]
+                [{--ignore-lines-starting-with-string|-I} <string>]
+                [{--separator|-s} <string>]
+                [--gnu-filename-escaping <boolean>]
+                [
+                    [{--encoding|-E} <encoding>] |
+                    [[{--hex-lowercase|-x}|{--hex-uppercase|-X}] [-g <count> [-G <char>]]]
+                ]
+                [{--timestamp|-t} <format>]
+                [--filesize <boolean>]
+                [--legacy-stdin-name]
+            ]
+        ]
+\
+\
     Output Format Options
         Those options adjust the format of the output to meet your requirements.
 \
         [--header]
         [
-            {--style|-C} <style> |
+            [--style|-C} <style>]
             [
+                [{--separator|-s} <string>]
                 [{--format|-F} <format>]
                 [
                     [{--encoding|-E} <encoding>] |
                     [[{--hex-lowercase|-x}|{--hex-uppercase|-X}] [-g <count> [-G <char>]]]
                 ]
-                [--filesize <boolean>]
                 [{--timestamp|-t} <format>]
+                [--filesize <boolean>]
                 [--legacy-stdin-name]
-                [{--separator|-s} <string>]
             ]
         ]
 \
@@ -896,6 +920,7 @@ OPTION SUPPORT MATRIX
         | Hashing Performance Options              | x | x | x | x | x | x | - | - |
         | I/O Performance Options                  | x | x | x | - | - | - | - | - |
         | File/Path Format Options                 | x | - | - | x | - | - | - | - |
+        | Input Format Options                     | - | x | x | - | x | - | - | - |
         | Output Format Options                    | x | - | - | x | - | x | - | - |
         | Output Options                           | x | x | x | x | x | x | x | x |
         ----------------------------------------------------------------------------
@@ -2930,7 +2955,6 @@ OPTIONS
             Available since:
 \
                 version 3.0.0 of Jacksum.
-
 
 
     --file-list-format <format>
