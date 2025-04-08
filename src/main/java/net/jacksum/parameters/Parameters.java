@@ -2282,6 +2282,10 @@ public class Parameters implements
                     }
                 }
 
+                if (this.isHeaderWanted()) {
+                    compatibilityProperties.setHeader(true);
+                }
+
                 if (this.isGnuEscapingSetByUser()) {
                     // if the style allows overwriting GnuEscaping and GnuEscaping has been set using --gnu-filename-escaping ...
                     if (compatibilityProperties.isGnuEscapingSupported() && compatibilityProperties.isGnuEscapingUserSelectable()) {
@@ -2331,8 +2335,11 @@ public class Parameters implements
                         this.setFormat(fmt);
                     }
                 }
+
+
                 this.setAlgorithm(compatibilityProperties.getHashAlgorithm());
                 this.setEncoding(compatibilityProperties.getHashEncoding());
+                this.setHeaderWanted(compatibilityProperties.getHeader());
                 this.setStdinName(compatibilityProperties.getStdinName());
                 this.setLineSeparator(compatibilityProperties.getLineSeparator());
                 gnuEscaping = compatibilityProperties.isGnuEscapingEnabled();

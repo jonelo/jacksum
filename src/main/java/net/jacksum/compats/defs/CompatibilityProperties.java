@@ -74,6 +74,7 @@ public class CompatibilityProperties implements Serializable {
     private final static String GNU_ESCAPING_ENABLED = "formatter.gnuescaping.enabled";
     private final static String ALGONAME_DEFAULT_REPLACEMENT = "formatter.ALGONAME.defaultReplacement";
     private final static String ALGONAME_EXCEPTION_MAPPINGS = "formatter.ALGONAME.exceptionMappings";
+    private final static String HEADER = "header";
 
 
     /**
@@ -410,6 +411,12 @@ public class CompatibilityProperties implements Serializable {
         props.setProperty(HASH_ENCODING, hashEncoding);
     }
 
+
+    public boolean getHeader() {
+        return props.getProperty(HEADER, "false").equals("true");
+    }
+
+    public void setHeader(boolean header) { props.setProperty(HEADER, header ? "true": "false"); }
 
     public String getFormat(String algoid) {
 
