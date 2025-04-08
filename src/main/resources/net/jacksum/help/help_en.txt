@@ -720,8 +720,9 @@ OPTION TYPES
         {{--check-file|-c} <checkfile> | --check-line <line>} [
             [{--charset-check-file|--check-file-charset} <charset>]
             [--check-strict]
-            [{--style|-C} <style>]
-            [{--ignore-lines-starting-with-string|-I} <string>]
+            [--ignore-hashes]
+            [--ignore-sizes]
+            [--ignore-timestamps]
             [--list-filter <filter>]
         ]
 \
