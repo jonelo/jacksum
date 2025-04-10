@@ -14,6 +14,12 @@ Jacksum 3.8.0, TBD
     - added CRC-32 (Go Koopman) (issue #35)
   - added new options: --ignore-hashes, --ignore-sizes, --ignore-timestamps
   - added new styles (for I/O)
+    - full
+    - full-nohashes
+    - full-notimestamps
+    - full-nosizes
+    - sizes+names
+    - timestamps+names
     - hash data base (hdb) style which is used by ClamAV's sigtool
   - added new timestamp formats
     - default-utc

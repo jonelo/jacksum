@@ -1540,7 +1540,7 @@ OPTIONS
                     and they can be used as "wanted lists" (option -w).
 \
                     You can get a similar style by specifying the options
-                    `-a sha3-256 -x --filesize on -t default`
+                    `-a sha3-256 -x --filesize on --timestamp iso`
                     However, in that case the check values timestamp,
                     and file size are swapped. The full style swaps
                     prints timestamp first followed by the file size. That
@@ -1570,7 +1570,7 @@ OPTIONS
                     are still there and the timestamps and file sizes
                     have not been altered.
                     The default timestamp format is the one specified by
-                    '-t default'. However, you can overwrite the default
+                    '-t iso'. However, you can overwrite the default
                     timestamp format with any timestamp format that is
                     supported by option -t.
 \
@@ -1588,7 +1588,7 @@ OPTIONS
                     and they can be used as "wanted lists" (option -w).
 \
                     You can get a similar style by specifying the options
-                    `-a sha3-256 -x --filesize off -t default`
+                    `-a sha3-256 -x --filesize off -t iso`
 \
                     You can overwrite the defaults by setting
                     the options -a, and -t.
