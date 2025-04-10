@@ -1185,13 +1185,13 @@ OPTIONS
             sha3-224, sha3-256, sha3-384, sha3-512
 \
 \
+            See also:
+\
+                option -a
+\
             Available since:
 \
                 version 1.5.0 of Jacksum.
-\
-            See also:
-\
-                option -a.
 
 
     --bom
@@ -1322,7 +1322,7 @@ OPTIONS
 \
             See also:
 \
-                the options -C, -I, --list-filter, and --check-strict.
+                options -C, -I, --list-filter, and --check-strict
 \
             Available since:
 \
@@ -1542,9 +1542,10 @@ OPTIONS
                     You can get a similar style by specifying the options
                     `-a sha3-256 -x --filesize on -t default`
                     However, in that case the check values timestamp,
-                    and file size are swapped. The full style makes it easier
-                    to read for humans, because both the hash value and
-                    the timestamps have a fixed string length.
+                    and file size are swapped. The full style swaps
+                    prints timestamp first followed by the file size. That
+                    makes it easier to read for humans, because both the
+                    hash value and the timestamps have a fixed string length.
 \
                     You can overwrite the defaults by setting
                     the options -a, and -t.
@@ -2095,7 +2096,7 @@ OPTIONS
 \
             See also:
 \
-                the options -a, -q, -E, -x, and -X.
+                the options -a, -q, -E, -x, and -X
 \
             Available since:
 \
@@ -2121,7 +2122,7 @@ OPTIONS
 \
             See also:
 \
-                the options -a, -q, -E, -l, -x, -X, and --match-filter.
+                options -a, -q, -E, -l, -x, -X, and --match-filter
 \
             Available since:
 \
@@ -2346,7 +2347,7 @@ OPTIONS
 \
             See also:
 \
-                the options -F, -g, -G, -q, -x, and -X.
+                options -F, -g, -G, -q, -x, and -X.
 \
             Available since:
 \
@@ -2530,7 +2531,7 @@ OPTIONS
 \
             See also:
 \
-                the options -a, -E, -g, -G, --gnu-filename-escaping, -P,
+                options -a, -E, -g, -G, --gnu-filename-escaping, -P,
                 -s, -t, -x, and -X.
 \
             Available since:
@@ -2549,7 +2550,7 @@ OPTIONS
 \
             See also:
 \
-                options -E, -G, -x, and -X.
+                options -E, -G, -x, and -X
 \
             Available since:
 \
@@ -2565,7 +2566,7 @@ OPTIONS
 \
             See also:
 \
-                options -E, -g, -x, and -X.
+                options -E, -g, -x, and -X
 \
             Available since:
 \
@@ -2609,7 +2610,7 @@ OPTIONS
 \
             See also:
 \
-                the option -F, token #ESCAPETAG.
+                the option -F, token #ESCAPETAG
 \
             Available since:
 \
@@ -2678,7 +2679,7 @@ OPTIONS
 \
 \
             See also:
-                the options "-a hmac:", -k.
+                the options "-a hmac:", -k
 \
             Available since:
 \
@@ -2773,7 +2774,7 @@ OPTIONS
 \
             See also:
 \
-                the options --string-list and --ignore-lines-starting-with-string.
+                options --string-list and --ignore-lines-starting-with-string
 \
             Available since:
 \
@@ -2792,7 +2793,7 @@ OPTIONS
 \
             See also:
 \
-                the options --ignore-empty-lines, and --header.
+                options --ignore-empty-lines, and --header
 \
             Available since:
 \
@@ -2868,7 +2869,7 @@ OPTIONS
 \
             See also:
 \
-                the option --copyright.
+                option --copyright
 \
             Available since:
 \
@@ -2924,7 +2925,7 @@ OPTIONS
 \
             See also:
 \
-                the options -c, and --list.
+                options -c, and --list
 \
             Available since:
 \
@@ -2952,7 +2953,7 @@ OPTIONS
 \
             See also:
 \
-                the options --file-list-format, --file-list-charset.
+                options --file-list-format, --file-list-charset
 
             Available since:
 \
@@ -2984,7 +2985,7 @@ OPTIONS
 \
             See also:
 \
-                the options --file-list, --file-list-charset.
+                options --file-list, --file-list-charset
 \
             Available since:
 \
@@ -3039,7 +3040,7 @@ OPTIONS
 \
             See also:
 \
-                the options -P, --path-relative-to, and --path-absolute.
+                options -P, --path-relative-to, and --path-absolute
 \
             Available since:
 \
@@ -3055,7 +3056,7 @@ OPTIONS
 \
             See also:
 \
-                the options -O, -u and -U.
+                options -O, -u and -U
 \
             Available since:
 \
@@ -3071,7 +3072,7 @@ OPTIONS
 \
             See also:
 \
-                 -o, -u, and -U.
+                options -o, -u, and -U
 \
             Available since:
 \
@@ -3107,7 +3108,7 @@ OPTIONS
 \
             See also:
 \
-                the options -o, and -O.
+                options -o, and -O
 \
             Available since:
 \
@@ -3125,7 +3126,7 @@ OPTIONS
 \
             See also:
 \
-                the options -P, --path-relative-to, and --no-path.
+                options -P, --path-relative-to, and --no-path
 \
             Available since:
 \
@@ -3152,7 +3153,7 @@ OPTIONS
 \
             See also:
 \
-                the options -P, --path-absolute, and --no-path.
+                options -P, --path-absolute, and --no-path
 
             Available since:
 \
@@ -3190,7 +3191,7 @@ OPTIONS
 \
             See also:
 \
-                the options -F, --path-absolute, and --path-relative.
+                options -F, --path-absolute, and --path-relative.
 \
             Available since:
 \
@@ -3490,7 +3491,7 @@ OPTIONS
 \
             See also:
 \
-                options -d, -f, and -r.
+                options -d, -f, and -r
 \
             Available since:
 \
@@ -3790,7 +3791,7 @@ OPTIONS
 \
             See also:
 \
-                options -U, -o and -O.
+                options -U, -o and -O
 \
             Available since:
 \
@@ -3811,7 +3812,7 @@ OPTIONS
 \
             See also:
 \
-                options -u, -o and -O.
+                options -u, -o and -O
 \
             Available since:
 \
@@ -3924,7 +3925,7 @@ OPTIONS
 \
             See also:
 \
-                the options -w, and --list.
+                options -w, and --list
 \
             Available since:
 \
@@ -3939,7 +3940,7 @@ OPTIONS
 \
             See also:
 \
-                options -X, and -E.
+                options -X, and -E
 
             Available since:
 \
@@ -3954,7 +3955,7 @@ OPTIONS
 \
             See also:
 \
-                the options -x, and -E.
+                options -x, and -E
 \
             Available since:
 \
