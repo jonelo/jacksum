@@ -15,8 +15,9 @@ Jacksum 3.8.0, TBD
   - added new options: --ignore-hashes, --ignore-sizes, --ignore-timestamps
   - added new styles (for I/O)
     - hash data base (hdb) style which is used by ClamAV's sigtool
-    - full, full-nohashes, full-notimestamps, full-nosizes
-    - sizes+names, timestamps+names
+  - added new timestamp formats
+    - default-utc
+    - iso-utc
   - added strict check mode
     - in strict check mode, all files must pass the verification process, and no files have been added, and no files have been removed
     - added strict check output to the verification summary

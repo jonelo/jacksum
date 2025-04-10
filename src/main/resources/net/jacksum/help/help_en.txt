@@ -64,6 +64,7 @@ DESCRIPTION
             file size, timestamp and file name
           - 10 predefined standard styles for reading and writing check files
           - 15 different encodings for representing hash values
+          - 6 predefined styles for representing file timestamps
           - 170+ different character sets to read and write check files correctly
 \
         - Documentation
@@ -3707,28 +3708,41 @@ OPTIONS
                 Z   Time zone, RFC 822
                 X   Time zone, ISO 8601
 \
-            If <format> has been set to the word "default", timestamps are
-            formatted as "yyyyMMddHHmmssSSS".
-            Available since version 1.3.0 of Jacksum, including milliseconds
-            since version 3.0.0 of Jacksum.
-\
-            If <format> has been set to the word "unixtime", timestamps are
-            formatted by the POSIX time (the number of seconds that
-            have elapsed since midnight UTC on 1 January 1970).
-            Available since version 3.0.0 of Jacksum.
-\
-            If <format> has been set to the word "unixtime-ms", timestamps are
-            formatted by the POSIX time (the number of milliseconds that
-            have elapsed since midnight UTC on 1 January 1970).
-            Available since version 3.0.0 of Jacksum.
-\
-            If <format> has been set to "iso8601", timestamps are formatted
-            using "yyyy-MM-dd'T'HH:mm:ss.SSSXXX" to be compatible with
-            ISO 8601.
+            In addition to the above, the following tokens are replaced:
 \
                 #SEPARATOR         will be replaced by the separator which you
-                                   can specify with -s
+                                   can specify with option -s
                 #QUOTE             will be replaced by one quote char (")
+\
+            Predefined timestamp formats for <format>:
+\
+                default
+                    timestamps are formatted as "yyyyMMddHHmmssSSS"
+                    expressed in the local time zone. Available since version
+                    1.3.0 of Jacksum, including milliseconds since version
+                    3.0.0 of Jacksum.
+\
+                default-utc
+                    timestamps are formatted as "yyyyMMddHHmmssSSS"
+                    expressed in UTC. Available since version 3.8.0 of Jacksum.
+\
+                iso8601 or iso
+                    "yyyy-MM-dd'T'HH:mm:ss.SSSXXX" is used to format timestamps
+                    to be compatible with ISO 8601.
+\
+                iso8601utc or iso-utc
+                    "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" is used to format timestamps
+                    where the timestamp value is transformed to UTC.
+\
+                unixtime
+                    timestamps are formatted by the POSIX time (the number of
+                    seconds that have elapsed since midnight UTC on
+                    1 January 1970). Available since version 3.0.0 of Jacksum.
+\
+                unixtime-ms
+                    timestamps are formatted by the POSIX time (the number of
+                    milliseconds that have elapsed since midnight UTC on
+                    1 January 1970). Available since version 3.0.0 of Jacksum.
 \
 \
             See also:

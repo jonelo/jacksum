@@ -46,6 +46,7 @@ import net.jacksum.compats.defs.CompatibilityProperties;
 import net.jacksum.compats.defs.InvalidCompatibilityPropertiesException;
 import net.jacksum.formats.Encoding;
 import net.jacksum.formats.EncodingDecoding;
+import net.jacksum.formats.TimestampFormatter;
 import net.jacksum.multicore.OSControl;
 import net.jacksum.multicore.ThreadControl;
 import net.jacksum.multicore.manyfiles.ProducerParameters;
@@ -2173,18 +2174,14 @@ public class Parameters implements
         }
 
         try {
-            if (timestampFormat != null &&
-                    !timestampFormat.equals("default") &&
-                    !timestampFormat.equals("unixtime") &&
-                    !timestampFormat.equals("unixtime-ms") &&
-                    !timestampFormat.equals("iso8601")) {
-                // #QUOTE and #SEPARATOR should be replaced
-                this.timestampFormat = decodeQuote(this.timestampFormat);
-                this.timestampFormat = decodeSeparator(this.timestampFormat, this.separator);
-                // test, if the timestampformat is valid
-                Format timestampFormatter = new SimpleDateFormat(this.timestampFormat);
-                // ... ignore the return value, just force an IllegalArgumentException if format is invalid
-                timestampFormatter.format(new Date());
+            if (timestampFormat != null && !TimestampFormatter.isFormatASupportedKeyword(timestampFormat)) {
+                    // #QUOTE and #SEPARATOR should be replaced
+                    timestampFormat = decodeQuote(timestampFormat);
+                    timestampFormat = decodeSeparator(timestampFormat, separator);
+                    // test, if the timestampformat is valid
+                    Format timestampFormatter = new SimpleDateFormat(timestampFormat);
+                    // ... ignore the return value, just force an IllegalArgumentException if format is invalid
+                    timestampFormatter.format(new Date());
             }
         } catch (IllegalArgumentException e) {
             throw new ExitException(e.getMessage(), ExitCode.PARAMETER_ERROR);

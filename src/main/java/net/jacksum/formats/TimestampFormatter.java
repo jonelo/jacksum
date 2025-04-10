@@ -24,7 +24,11 @@ package net.jacksum.formats;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+
 import net.jacksum.parameters.base.TimestampFormatParameters;
 
 public class TimestampFormatter implements TimestampFormatParameters {
@@ -32,35 +36,89 @@ public class TimestampFormatter implements TimestampFormatParameters {
 
     private final TimestampFormatParameters parameters;
     private Format timestampFormatter;
+    public static final String KEY_ISO8601 = "iso8601";
+    public static final String KEY_ISO = "iso";
+
+    public static final String KEY_ISO8601_UTC = "iso8601utc";
+    public static final String KEY_ISO_UTC = "iso-utc";
+
     public static final String KEY_UNIXTIME = "unixtime";
     public static final String KEY_UNIXTIME_MS = "unixtime-ms";
-    public static final String KEY_ISO8601 = "iso8601";
+
     public static final String KEY_DEFAULT = "default";
+    public static final String KEY_DEFAULT_UTC = "default-utc";
     public static final String FORMAT_DEFAULT = "yyyyMMddHHmmssSSS";
+
     public static final String FORMAT_ISO8601 = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+    public static final String FORMAT_ISO8601_UTC = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     public TimestampFormatter(TimestampFormatParameters parameters) {
         this.parameters = parameters;
+
+        // init timestampFormatter if required
+        switch (parameters.getTimestampFormat()) {
+            case KEY_ISO8601_UTC:
+            case KEY_ISO_UTC:
+            case KEY_UNIXTIME:
+            case KEY_UNIXTIME_MS:
+            case KEY_DEFAULT_UTC:
+                 break;
+            case KEY_ISO8601:
+            case KEY_ISO:
+                timestampFormatter = new SimpleDateFormat(FORMAT_ISO8601);
+                break;
+            case KEY_DEFAULT:
+                timestampFormatter = new SimpleDateFormat(FORMAT_DEFAULT);
+                break;
+            default:
+                timestampFormatter = new SimpleDateFormat(getParameters().getTimestampFormat());
+        }
+    }
+
+    public static boolean isFormatASupportedKeyword(String format) {
+        switch (format) {
+            case KEY_ISO8601:
+            case KEY_ISO:
+            case KEY_ISO8601_UTC:
+            case KEY_ISO_UTC:
+            case KEY_UNIXTIME:
+            case KEY_UNIXTIME_MS:
+            case KEY_DEFAULT:
+            case KEY_DEFAULT_UTC:
+            return true;
+            default: return false;
+        }
     }
 
     public String format(long timestamp) {
-        
-        if (getParameters().getTimestampFormat().equals(KEY_UNIXTIME)) {
-            return Long.toString(timestamp / 1000);
+
+        switch (parameters.getTimestampFormat()) {
+
+            case KEY_ISO8601_UTC:
+            case KEY_ISO_UTC:
+                return DateTimeFormatter
+                        .ofPattern(FORMAT_ISO8601_UTC)
+                        .withZone(ZoneOffset.UTC)
+                        .format(Instant.ofEpochMilli(timestamp));
+
+            case KEY_DEFAULT_UTC:
+                return DateTimeFormatter
+                        .ofPattern(FORMAT_DEFAULT)
+                        .withZone(ZoneOffset.UTC)
+                        .format(Instant.ofEpochMilli(timestamp));
+
+            case KEY_UNIXTIME:
+                return Long.toString(timestamp / 1000);
+
+            case KEY_UNIXTIME_MS:
+                return Long.toString(timestamp);
+
+            case KEY_ISO8601:
+            case KEY_ISO:
+            case KEY_DEFAULT:
+            default:
+                return timestampFormatter.format(new Date(timestamp));
         }
-        if (getParameters().getTimestampFormat().equals(KEY_UNIXTIME_MS)) {
-            return Long.toString(timestamp);
-        }
-        if (getParameters().getTimestampFormat().equals(KEY_DEFAULT) && timestampFormatter == null) {
-            timestampFormatter = new SimpleDateFormat(FORMAT_DEFAULT);
-        } else
-        if (getParameters().getTimestampFormat().equals(KEY_ISO8601) && timestampFormatter == null) {
-            timestampFormatter = new SimpleDateFormat(FORMAT_ISO8601);
-        } else
-        if (timestampFormatter == null) {
-            timestampFormatter = new SimpleDateFormat(getParameters().getTimestampFormat());
-        }
-        return timestampFormatter.format(new Date(timestamp));
     }
     
     /**
