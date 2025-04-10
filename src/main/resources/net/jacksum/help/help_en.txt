@@ -2635,7 +2635,7 @@ OPTIONS
 \
             See also:
 \
-                option --ignore-lines-starting-with-string
+                options --no-header, --ignore-lines-starting-with-string
 \
             Available since:
 \
@@ -3003,6 +3003,22 @@ OPTIONS
             Available since:
 \
                 version 3.0.0 of Jacksum.
+
+
+    --no-header
+\
+            No header is printed by default. However, the styles
+            with "full" in the names activates the header. If you
+            do not want the header to be printed, set this option.
+\
+\
+            See also:
+\
+                option --header
+\
+            Available since:
+\
+                version 3.8.0 of Jacksum.
 
 
     --no-path

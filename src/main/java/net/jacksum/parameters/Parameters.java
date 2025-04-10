@@ -229,6 +229,7 @@ public class Parameters implements
 
     // --header
     private boolean headerWanted = false;
+    private boolean headerWantedExplicitlySet = false;
 
     // --bom
     private boolean bom = false;
@@ -862,6 +863,17 @@ public class Parameters implements
         this.headerWanted = headerWanted;
     }
 
+    // by default the flag headerWantedExplicitlySet is false,
+    // it becomes true if the user explicitly set --header or --no-header
+    public void setHeaderWantedExplicitlySet(boolean headerWantedExplicitlySet) {
+        this.headerWantedExplicitlySet = headerWantedExplicitlySet;
+    }
+
+    // did the user specify explicitly --header or --no-header ?
+    public boolean isHeaderWantedExplicitlySet() {
+        return headerWantedExplicitlySet;
+    }
+
     public boolean isPathAbsolute() {
         return pathAbsolute;
     }
@@ -1409,9 +1421,9 @@ public class Parameters implements
         if (newParameters.isLicenseWanted()) {
             this.setLicenseWanted(true);
         }
-        if (newParameters.isHeaderWanted()) {
-            this.setHeaderWanted(true);
-        }
+        this.setHeaderWanted(newParameters.isHeaderWanted());
+        this.setHeaderWantedExplicitlySet(newParameters.isHeaderWantedExplicitlySet());
+
         if (newParameters.getCheckFile() != null) {
             this.setCheckFile(newParameters.getCheckFile());
         }
@@ -1636,8 +1648,11 @@ public class Parameters implements
         if (licenseWanted) {
             list.add(__LICENSE);
         }
-        if (headerWanted) {
+        if (headerWanted && headerWantedExplicitlySet) {
             list.add(__HEADER);
+        }
+        if (!headerWanted && headerWantedExplicitlySet) {
+            list.add(__NO_HEADER);
         }
         if (checkFile != null) {
             list.add(_CHECK_FILE);
@@ -2282,8 +2297,8 @@ public class Parameters implements
                     }
                 }
 
-                if (this.isHeaderWanted()) {
-                    compatibilityProperties.setHeader(true);
+                if (this.isHeaderWantedExplicitlySet()) {
+                    compatibilityProperties.setHeaderWanted(this.isHeaderWanted());
                 }
 
                 if (this.isGnuEscapingSetByUser()) {
@@ -2339,7 +2354,7 @@ public class Parameters implements
 
                 this.setAlgorithm(compatibilityProperties.getHashAlgorithm());
                 this.setEncoding(compatibilityProperties.getHashEncoding());
-                this.setHeaderWanted(compatibilityProperties.getHeader());
+                this.setHeaderWanted(compatibilityProperties.isHeaderWanted());
                 this.setStdinName(compatibilityProperties.getStdinName());
                 this.setLineSeparator(compatibilityProperties.getLineSeparator());
                 gnuEscaping = compatibilityProperties.isGnuEscapingEnabled();

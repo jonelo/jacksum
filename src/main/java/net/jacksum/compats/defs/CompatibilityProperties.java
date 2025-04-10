@@ -412,11 +412,11 @@ public class CompatibilityProperties implements Serializable {
     }
 
 
-    public boolean getHeader() {
+    public boolean isHeaderWanted() {
         return props.getProperty(HEADER, "false").equals("true");
     }
 
-    public void setHeader(boolean header) { props.setProperty(HEADER, header ? "true": "false"); }
+    public void setHeaderWanted(boolean header) { props.setProperty(HEADER, header ? "true": "false"); }
 
     public String getFormat(String algoid) {
 

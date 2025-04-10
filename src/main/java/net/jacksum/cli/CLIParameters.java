@@ -56,6 +56,7 @@ public class CLIParameters {
     public static final String __COPYRIGHT = "--copyright";
     public static final String __LICENSE = "--license";
     public static final String __HEADER = "--header";
+    public static final String __NO_HEADER = "--no-header";
     public static final String _CHECK_FILE = "-c";
     public static final String __CHECK_FILE = "--check-file";
     public static final String __CHECK_LINE = "--check-line";
@@ -260,6 +261,11 @@ public class CLIParameters {
 
                 } else if (arg.equals(__HEADER)) {
                     parameters.setHeaderWanted(true);
+                    parameters.setHeaderWantedExplicitlySet(true);
+
+                } else if (arg.equals(__NO_HEADER)) {
+                    parameters.setHeaderWanted(false);
+                    parameters.setHeaderWantedExplicitlySet(true);
 
                 } else if (arg.equals(_CHECK_FILE) || arg.equals(__CHECK_FILE)) {
                     if (firstfile < args.length) {
