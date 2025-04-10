@@ -10,9 +10,14 @@ Jacksum 3.8.0, TBD
       - CubeHash-[224,256,384,512]
       - Hamsi-[224,256,384,512]
       - Shabal-[192,224,256,384,512]
-    - added CRC-64 (NVM Express 64b CRC)
-    - added CRC-32 (Go Koopman) (issue #35)
-  - added new options: --ignore-hashes, --ignore-sizes, --ignore-timestamps
+    - added CRCs
+      - CRC-64 (NVM Express 64b CRC)
+      - CRC-32 (Go Koopman) (issue #35)
+  - added new options:
+    - --ignore-hashes
+    - --ignore-sizes
+    - --ignore-timestamps
+    - --no-header
   - added new styles (for I/O)
     - full
     - full-nohashes
