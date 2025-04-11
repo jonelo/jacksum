@@ -34,8 +34,6 @@ import net.jacksum.algorithms.AbstractChecksum;
 
 public class Formatter {
 
-    private final static String EMPTY_STRING = "";
-
     private FormatPreferences formatPreferences;
     private LineFormatter lineFormatter;
     private FingerprintFormatter fingerprintFormatter;
@@ -76,22 +74,48 @@ public class Formatter {
             filenameFormatted = nonSharedFilenameFormatter.format(checksum.getFilename());
         }
         boolean filenameContainedProblematicChars = nonSharedFilenameFormatter.didTheFormatMethodChangeProblematicChars();
-        
-        return String.format("%s%s%s%s%s",
-                fingerprint.length() > 0 && filenameContainedProblematicChars ?
-                        "\\" : EMPTY_STRING,
 
-                fingerprint.length() > 0 ?
-                        fingerprint : EMPTY_STRING,
+        boolean hash_da = !fingerprint.isEmpty();
+        boolean size_da = sizeFormatter != null;
+        boolean timestamp_da = timestampFormatter != null && timestampFormatter.getParameters().isTimestampWanted();
 
-                sizeFormatter != null ?
-                        (fingerprint.length() > 0 ? separator : EMPTY_STRING) + sizeFormatter.format(checksum.getLength()) : EMPTY_STRING,
-                
-                timestampFormatter != null && timestampFormatter.getParameters().isTimestampWanted() ?  
-                        separator + timestampFormatter.format(checksum.getTimestamp()) : EMPTY_STRING,
-                
-                checksum.getFilename() != null ?
-                        separator + filenameFormatted : EMPTY_STRING);
+        StringBuilder sb = new StringBuilder(128);
+
+        // GNU tag
+        if (filenameContainedProblematicChars){
+            sb.append("\\");
+        }
+
+        // hash wanted
+        if (hash_da) {
+            sb.append(fingerprint);
+        }
+
+        // size wanted
+        if (size_da) {
+            if (hash_da) {
+                sb.append(separator);
+            }
+            sb.append(sizeFormatter.format(checksum.getLength()));
+        }
+
+        // timestamp wanted
+        if (timestamp_da) {
+            if (hash_da || size_da) {
+                sb.append(separator);
+            }
+            sb.append(timestampFormatter.format(checksum.getTimestamp()));
+        }
+
+        // name
+        if (checksum.getFilename() != null) {
+            if (hash_da || size_da || timestamp_da) {
+                sb.append(separator);
+            }
+            sb.append(filenameFormatted);
+        }
+
+        return sb.toString();
     }
 
     

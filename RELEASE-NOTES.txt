@@ -58,6 +58,7 @@ Jacksum 3.8.0, TBD
     if --info has been requested
   - issue #36 - If multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
   - issue #37 - Parser does not find valid entries if algorithm "none" (no hashing) has been selected
+  - issue #38 - If hash values are not wanted by the user, there should be no leading separator character left in the output
 
 - improved performance:
   - used a short buffer for the --header output
