@@ -1377,31 +1377,34 @@ OPTIONS
     --style <style>
 \
             Specify the compatibility behavior of Jacksum for both input format
-            and output format. Replace <compatibility> with one of the
+            and output format. Replace <style> with one of the
             predefined keywords as described below in order to get a predefined
             behavior or replace it with a file that contains the properties that
             are required for a compatibility file.
+\
+            For a description of a compatibility/style file, see the Wiki at
+            https://github.com/jonelo/jacksum/wiki/File-Format-of-Styles
+\
             To get the properties of one of the predefined compatibility files,
-            add the option --info. For example: `jacksum -C bsd --info`
-            The <compatibility> option can be used for the hashing mode, the
+            add the option --info. For example: `jacksum --style bsd --info`
+            The <style> option can be used for the hashing mode, the
             check mode and the info mode.
 \
 \
             calculating hash values mode:
 \
-                During normal hashing of files/messages the <compatibility
-                style> determines the actual output format only. The algorithm
-                (--algorithm), the encoding for the representation of the hash
-                value (--encoding), and the format (--format) are used as
-                defined in <compatibility style>.
+                During normal hashing of files/messages the <style>determines
+                the actual output format only. The algorithm (--algorithm),
+                the encoding for the representation of the hash value
+                (--encoding), and the format (--format) are used as
+                defined in <style>.
 \
-                If the <compatibility style> supports the user-specified
-                algorithm, you can set option -a to get the expected output
-                format defined in <compatibility style>, but with the algorithm
-                you want. For example, this allows you to print SHA3-256 hashes
-                in the legacy SFV format.
+                If the <style> supports the user-specified algorithm, you can
+                set option -a to get the expected output format defined in
+                <style>, but with the algorithm you want. For example,
+                this allows you to print SHA3-256 hashes in the legacy SFV format.
 \
-                if the <compatibility style> supports the GNU file name escaping
+                If the <style> supports the GNU file name escaping
                 formatter to be enabled by the user, you can set option
                 --gnu-filename-escaping to tag all lines that contain file names
                 that have been escaped by that feature.
@@ -1416,17 +1419,17 @@ OPTIONS
                 or define your own parser by providing a short property file.
 \
                 In check mode (if option -c or --check-file has been set),
-                the <compatibility style> determines the parser that is used to
-                read the file content properly. With -C, you can check against a
-                list that was created by a different application, or if you have
-                generated a list with Jacksum and used the -F option.
+                the <style> determines the parser that is used to read the
+                file content properly. With --style, you can check against a
+                list that was created by a different application, or if you
+                have generated a list with Jacksum and used the -F option.
 \
                 To specify the character set of the input file, use the
                 option --charset-check-file if the input file was not saved in
                 the UTF-8 character set.
 \
                 You can also write you own parser definition, save it to a text
-                file and specify the location of the file with -C.
+                file and specify the location of the file with --style.
 \
 \
             info mode:
@@ -1435,8 +1438,8 @@ OPTIONS
                 in the compatibility file are printed.
 \
 \
-            For <compatibility style>, the following predefined compatibility
-            files are supported:
+            For <style>, the following predefined compatibility style files
+            are supported:
 \
                 bsd
 \
@@ -1463,6 +1466,11 @@ OPTIONS
                     GNU escaping can be disabled; see the option
                     "--gnu-filename-escaping".
                     If you don't specify -a, the algorithm defaults to sha3-256.
+\
+                    Example (hash truncated to simplify the output):
+\
+                    > jacksum38 -a sha-512/224 --style bsd *.txt
+                    SHA512t224 (gpl-3.0.txt) = 43f7ec26cfa66d9c6ff0cb2d59...
 \
                     Available since version 3.0.0 of Jacksum.
 \
@@ -1491,13 +1499,18 @@ OPTIONS
                     "--gnu-filename-escaping" for more information. If you do
                     not specify -a, the algorithm defaults to sha3-256.
 \
+                    Example (hash truncated to simplify the output):
+\
+                    > jacksum -a sha-512/224 --style bsd-r *.txt
+                    ...66d9c6ff0cb2d59d5c4e4ef38c94a486925bfc07df4af gpl-3.0.txt
+\
                     Available since version 3.0.0 of Jacksum.
 \
 \
                 fciv
 \
-                    "File Checksum Integrity Verifier" is a lightweight plain
-                    text file format from Microsoft.
+                    "File Checksum Integrity Verifier" was tool from Microsoft.
+                    It supported a lightweight plain text file format.
 \
                     This compatibility file can print and parse the output
                     similar to that of the calls "FCIV -sha1" or "FCIV -md5"
@@ -1507,6 +1520,11 @@ OPTIONS
                     Jacksum; it even works with concatenated algorithms. If
                     you do not specify -a, the algorithm defaults to sha1,
                     as is the strongest algorithm that FCIV supports.
+\
+                    Example:
+\
+                    > jacksum -a sha1 --style fciv *.txt
+                    31a3d460bb3c7d98845187c716a30db81c44b615 gpl-3.0.txt
 \
                     Available since version 3.0.0 of Jacksum.
 \
@@ -1527,6 +1545,13 @@ OPTIONS
                     However, those lists can be used to check the existence
                     of files (option -c) if that is the only information
                     you are interested in.
+\
+                    Example:
+\
+                    > jacksum --style names-only *.txt
+                    gpl-3.0.txt
+\
+                    Available since version 3.0.0 of Jacksum.
 \
 \
                 full
@@ -1552,6 +1577,11 @@ OPTIONS
                     The compat file works with any algorithm supported by
                     Jacksum, it even works with concatenated algorithms.
 \
+                    Example (hash truncated to simplify the output):
+\
+                    > jacksum -a sha256 --style full *.txt
+                    ...9dfb36986 2025-04-13T11:12:50.729+02:00 35149 gpl-3.0.txt
+\
                     Available since version 3.8.0 fo Jacksum.
 \
 \
@@ -1574,6 +1604,11 @@ OPTIONS
                     timestamp format with any timestamp format that is
                     supported by option -t.
 \
+                    Example:
+\
+                    > jacksum --style full-nohashes *.txt
+                    2025-04-13T11:12:50.729+02:00 35149 gpl-3.0.txt
+\
                     Available since version 3.8.0 fo Jacksum.
 \
 \
@@ -1595,6 +1630,11 @@ OPTIONS
                     The compat file works with any algorithm supported by
                     Jacksum, it even works with concatenated algorithms.
 \
+                    Example (hash truncated to simplify the output):
+\
+                    > jacksum -a sha256 --style full-nosizes *.txt
+                    ...9dfb36986 2025-04-13T11:12:50.729+02:00 gpl-3.0.txt
+\
                     Available since version 3.8.0 fo Jacksum.
 \
 \
@@ -1614,6 +1654,11 @@ OPTIONS
                     You can overwrite the defaults by setting the option -a.
                     The compat file works with any algorithm supported by
                     Jacksum, it even works with concatenated algorithms.
+\
+                    Example (hash truncated to simplify the output):
+\
+                    > jacksum -a sha256 --style full-notimestamps *.txt
+                    ...ae7ad8af9b23dde66d6af86c9dfb36986 35149 gpl-3.0.txt
 \
                     Available since version 3.8.0 fo Jacksum.
 \
@@ -1643,6 +1688,11 @@ OPTIONS
                     The binary mode tag is set to '*' on Microsoft Windows,
                     and ' ' on non-Windows systems. If you do not specify -a,
                     the algorithm defaults to sha3-256.
+\
+                    Example (hash truncated to simplify the output):
+\
+                    > jacksum -a sha256 --style gnu-linux *.txt
+                    ...76696f2ae7ad8af9b23dde66d6af86c9dfb36986 *gpl-3.0.txt
 \
                     Available since version 3.0.0 of Jacksum.
 \
@@ -1687,6 +1737,11 @@ OPTIONS
                     The compat file works with any algorithm supported by
                     Jacksum, it even works with concatenated algorithms.
 \
+                    Example:
+\
+                    > jacksum -a sha1 --style hexhashes-only *.txt
+                    31a3d460bb3c7d98845187c716a30db81c44b615
+\
                     Available since version 3.0.0 of Jacksum.
 \
 \
@@ -1704,6 +1759,11 @@ OPTIONS
                     GNU escaping can be disabled; see the option
                     --gnu-filename-escaping for more information. If you do not
                     specify -a, the algorithm defaults to sha3-256.
+\
+                    Example (hash truncated to simplify the output):
+\
+                    > jacksum -a sha256 --style openssl-dgst *.txt
+                    SHA-256(gpl-3.0.txt)= 3972dc9744f6499f0f9b2dbf76696...
 \
                     Available since version 3.0.0 of Jacksum.
 \
@@ -1725,6 +1785,11 @@ OPTIONS
                     GNU escaping can be disabled; see also the option
                     --gnu-filename-escaping for mor information. If you do not
                     specify -a, the algorithm defaults to sha3-256.
+\
+                    Example (hash truncated to simplify the output):
+\
+                    > jacksum -a sha256 --style *.txt
+                    ...6696f2ae7ad8af9b23dde66d6af86c9dfb36986 *gpl-3.0.txt
 \
                     Available since version 3.0.0 fo Jacksum.
 \
@@ -1748,6 +1813,11 @@ OPTIONS
                     You can achieve the same default output by specifying the
                     options `-a none --filesize off`.
 \
+                    Example:
+\
+                    > jacksum --style sizes+names *.txt
+                    35149 gpl-3.0.txt
+\
                     Available since version 3.8.0 fo Jacksum.
 \
 \
@@ -1762,6 +1832,11 @@ OPTIONS
                     If you do not specify -a, the algorithm defaults to crc32,
                     because that is the algorithm that was used during the
                     original design of the SFV format.
+\
+                    Example:
+\
+                    > jacksum --style sfv *.txt
+                    gpl-3.0.txt 97673D00
 \
                     Available since version 3.0.0 of Jacksum.
 \
@@ -1780,6 +1855,11 @@ OPTIONS
                     Jacksum, it even works with concatenated algorithms. If you
                     do not specify -a, the algorithm defaults to sha3-256.
 \
+                    Example (hash truncated to simplify the output):
+\
+                    > jacksum -a sha256 --style solaris-digest *.txt
+                    (gpl-3.0.txt) = 3972dc9744f6499f0f9b2dbf76696f2ae7...
+\
                     Available since version 3.0.0 of Jacksum.
 \
 \
@@ -1797,6 +1877,11 @@ OPTIONS
                     Jacksum, it even works with concatenated algorithms. If
                     you do not specify -a, the algorithm defaults to sha3-256.
 \
+                    Example (hash truncated to simplify the output):
+\
+                    > jacksum -a sha256 --style solaris-digest-v *.txt
+                    sha-256 (gpl-3.0.txt) = 3972dc9744f6499f0f9b2dbf76696...
+\
                     Available since version 3.0.0 of Jacksum.
 \
 \
@@ -1813,7 +1898,12 @@ OPTIONS
                     are still there and the timestamps have not been altered.
 \
                     You can achieve the same by specifying the options
-                    `-a none -t default`.
+                    `-a none -t iso`. You can adjust timestamp format by -t.
+\
+                    Example:
+\
+                    > jacksum --style timestamps+names *.txt
+                    2025-04-13T11:12:50.729+02:00 gpl-3.0.txt
 \
                     Available since version 3.8.0 fo Jacksum.
 \
@@ -3734,6 +3824,7 @@ OPTIONS
                 iso8601utc or iso-utc
                     "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" is used to format timestamps
                     where the timestamp value is transformed to UTC.
+                    Available since version 3.8.0 of Jacksum.
 \
                 unixtime
                     timestamps are formatted by the POSIX time (the number of
