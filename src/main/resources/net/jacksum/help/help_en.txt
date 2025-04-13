@@ -3809,32 +3809,43 @@ OPTIONS
 \
                 default
                     timestamps are formatted as "yyyyMMddHHmmssSSS"
-                    expressed in the local time zone. Available since version
-                    1.3.0 of Jacksum, including milliseconds since version
-                    3.0.0 of Jacksum.
+                    expressed in the local time zone.
+\
+                    Available since version 1.3.0 of Jacksum, including
+                    milliseconds since version 3.0.0 of Jacksum.
 \
                 default-utc
                     timestamps are formatted as "yyyyMMddHHmmssSSS"
-                    expressed in UTC. Available since version 3.8.0 of Jacksum.
+                    expressed in UTC.
+\
+                    Available since version 3.8.0 of Jacksum.
 \
                 iso8601 or iso
                     "yyyy-MM-dd'T'HH:mm:ss.SSSXXX" is used to format timestamps
                     to be compatible with ISO 8601.
 \
+                    Available since version 3.0.0 of Jacksum, alias iso since
+                    version 3.8.0 of Jacksum.
+\
                 iso8601utc or iso-utc
                     "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" is used to format timestamps
                     where the timestamp value is transformed to UTC.
+\
                     Available since version 3.8.0 of Jacksum.
 \
                 unixtime
                     timestamps are formatted by the POSIX time (the number of
                     seconds that have elapsed since midnight UTC on
-                    1 January 1970). Available since version 3.0.0 of Jacksum.
+                    1 January 1970).
+\
+                    Available since version 3.0.0 of Jacksum.
 \
                 unixtime-ms
                     timestamps are formatted by the POSIX time (the number of
                     milliseconds that have elapsed since midnight UTC on
-                    1 January 1970). Available since version 3.0.0 of Jacksum.
+                    1 January 1970).
+\
+                    Available since version 3.0.0 of Jacksum.
 \
 \
             See also:
