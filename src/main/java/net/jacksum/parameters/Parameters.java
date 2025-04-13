@@ -2338,7 +2338,7 @@ public class Parameters implements
                                 compatibilityProperties.getStdinName()));
                     } else { // we are in normal calculation/print mode
                         String fmt = compatibilityProperties.getFormat(this.getAlgorithmIdentifier());
-                        messenger.print(INFO, String.format("Option --compat/-style has been set, setting implicitly -a %s -E %s -F \"%s\", stdin-name=%s",
+                        messenger.print(INFO, String.format("Option --compat/--style has been set, setting implicitly -a %s -E %s -F \"%s\", stdin-name=%s",
                                 compatibilityProperties.getHashAlgorithm(),
                                 compatibilityProperties.getHashEncoding(),
                                 fmt,
