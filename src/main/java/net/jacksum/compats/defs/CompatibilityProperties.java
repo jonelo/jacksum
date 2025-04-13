@@ -74,7 +74,7 @@ public class CompatibilityProperties implements Serializable {
     private final static String GNU_ESCAPING_ENABLED = "formatter.gnuescaping.enabled";
     private final static String ALGONAME_DEFAULT_REPLACEMENT = "formatter.ALGONAME.defaultReplacement";
     private final static String ALGONAME_EXCEPTION_MAPPINGS = "formatter.ALGONAME.exceptionMappings";
-    private final static String HEADER = "header";
+    private final static String HEADER = "formatter.header";
 
 
     /**
