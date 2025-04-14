@@ -26,6 +26,11 @@ import java.util.Arrays;
 public class Avalanche {
     public static AvalancheInfo calc(AbstractChecksum checksum, byte[] message) {
 
+        checksum.reset();
+        checksum.update(message);
+        byte[] out1 = checksum.getByteArray();
+
+
         double min=100.0, max=0.0;
         double avg = 0.0;
         for (int byteIndex=0; byteIndex < message.length; byteIndex++) {
@@ -33,9 +38,9 @@ public class Avalanche {
 
                 byte[] bytes = Arrays.copyOf(message, message.length);
 //                System.out.println("bin(string original)= " + ByteSequences.formatAsBits(bytes));
-                checksum.reset();
-                checksum.update(bytes);
-                byte[] out1 = checksum.getByteArray();
+//                checksum.reset();
+//                checksum.update(bytes);
+//                byte[] out1 = checksum.getByteArray();
 //                System.out.println("algo(string original)=" + ByteSequences.format(out1, false));
 
                 // the first bit in big endian representation (from the right hand side) ???

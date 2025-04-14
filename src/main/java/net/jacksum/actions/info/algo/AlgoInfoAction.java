@@ -179,7 +179,7 @@ public class AlgoInfoAction implements Action {
 
                 buffer.append(String.format(FORMAT, indent, "input length in bytes:", input.length));
                 buffer.append(String.format(FORMAT, indent, "input length in bits:", input.length * 8));
-                buffer.append(String.format(FORMAT, indent, "hash calculations:", input.length * 16));
+                buffer.append(String.format(FORMAT, indent, "hash calculations:", (input.length * 8)+1 ));
                 buffer.append(String.format(FORMAT, indent, "input [hex]:", ByteSequences.format(input)));
                 buffer.append(String.format(FORMAT, indent, "input [bin]:", ByteSequences.formatAsBits(input)));
 
