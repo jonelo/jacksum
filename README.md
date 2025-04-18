@@ -489,76 +489,7 @@ jacksum -a crc:16,1021,FFFF,false,false,FFFF -E hex -q txt:"Hello World"
 
 ### Jacksum hacks (unexpected free gifts)
 
-Jacksum's primary purpose is to deal with hashes. However, since Jacksum supports both many encodings and customized formatting you get additional features which can be quite useful sometimes. For all examples below we set "-a none", because we are not interested in hashing at all.
-
-#### Hex dump of a file
-
-    $ jacksum -a none -q file:myfile.dat -F "#SEQUENCE" -E hex -g 1
-    4a 61 63 6b 73 75 6d
-
-#### String to hex
-
-    $ jacksum -a none -q txtf:"hello world\n" -F "#SEQUENCE{hex}"
-    68656c6c6f20776f726c640a
-
-#### Hex string to base64
-
-    $ jacksum -a none -q hex:68656c6c6f20776f726c64 -F "#SEQUENCE{base64}"
-    aGVsbG8gd29ybGQ=
-
-#### Integer to a binary sequence
-
-    $ jacksum -a none -q dec:42 -F "#SEQUENCE{bin}"
-    00101010
-
-#### Hex string to octal
-
-    $ jacksum -a none -q hex:7A -F "#SEQUENCE{oct}"
-    172
-
-#### Hex string to bin, octal, decimal, and hexadecimal
-
-    $ jacksum -a none -q hex:CAFE -F "bin: #SEQUENCE{bin}, dec: #SEQUENCE{dec}, oct: 0#SEQUENCE{oct}, hex:#SEQUENCE{hexup}"
-    bin: 1100101011111110, dec: 51966, oct: 0145376, hex:CAFE
-
-#### Hex string to bin, octal, decimal, and hexadecimal in JSON
-
-    $ jacksum -a none -q hex:CAFE -F '{ "bin": "#SEQUENCE{bin}", "dec": "#SEQUENCE{dec}", "oct": "0#SEQUENCE{oct}", "hex": "0x#SEQUENCE{hexup}" }'
-    { "bin": "1100101011111110", "dec": "51966", "oct": "0145376", "hex": "CAFE" }
-
-#### encode hex string to base64
-
-    $ jacksum -a none -q hex:C0DECAFE -F "#SEQUENCE{base64}"
-    wN7K/g==
-
-#### encode file content to base64
-
-    $ jacksum -a none -q file:myfile.dat -F "#SEQUENCE{base64}
-    SmFja3N1bQ==
-
-#### decode base64
-
-    $ jacksum -a none -q base64:wN7K/g== -F "#SEQUENCE{hex-uppercase}"
-    C0DECAFE
-
-#### encode Z85
-
-    $ jacksum -a none -q hex:C0DECAFE -F "#SEQUENCE{z85}"
-    Z#0lk
-
-#### decode Z85
-
-    $ jacksum -a none -q "z85:Z#0lk" -F "#SEQUENCE{hex}"
-    c0decafe
-
-#### Count characters 
-
-    $ jacksum -a none -q txt:"Hello World" -F "#LENGTH"
-    11
-
-#### etc.
-
-You get the idea ;-)
+See https://github.com/jonelo/jacksum/wiki/Jacksum-Hacks
 
 
 ### More examples
