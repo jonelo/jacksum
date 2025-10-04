@@ -232,6 +232,9 @@ public class Parameters implements
     private boolean headerWanted = false;
     private boolean headerWantedExplicitlySet = false;
 
+    // only settable by a style
+    private String leadingHeader = null;
+
     // --bom
     private boolean bom = false;
 
@@ -2345,6 +2348,7 @@ public class Parameters implements
                                 compatibilityProperties.getStdinName()));
 
                         this.setFormat(fmt);
+                        this.setLeadingHeader(compatibilityProperties.getLeadingHeaderFormatted(this.getAlgorithmIdentifier()));
                     }
                 }
 
@@ -2468,5 +2472,13 @@ public class Parameters implements
 
     public void setOutputFileRaw(String outputFileRaw) {
         this.outputFileRaw = outputFileRaw;
+    }
+
+    public String getLeadingHeader() {
+        return leadingHeader;
+    }
+
+    public void setLeadingHeader(String leadingHeader) {
+        this.leadingHeader = leadingHeader;
     }
 }

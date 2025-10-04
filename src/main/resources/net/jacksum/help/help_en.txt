@@ -101,16 +101,16 @@ OPERATING MODES OVERVIEW
     Generate check lists
 \
         Generate a lightweight checklist (file sizes and names only)
-            jacksum --style sizes+names
+            jacksum --style sizes-and-names
                     [OPTION]... [FILES]
 \
         Generate a lightweight checklist (timestamps and names only)
-            jacksum --style timestamps+names
+            jacksum --style timestamps-and-names
                     [{--timestamp|-t} <timestamp-format>]
                     [OPTION]... [FILES]
 \
         Generate a lightweight checklist (file sizes, timestamps, and names only)
-            jacksum --style full-nohashes
+            jacksum --style full-no-hashes
                     [OPTION]... [FILES]
 \
         Generate a lightweight checklist (file names only)
@@ -1585,7 +1585,7 @@ OPTIONS
                     Available since version 3.8.0 fo Jacksum.
 \
 \
-                full-nohashes
+                full-no-hashes
 \
                     Same style as full, but without hash values.
                     GNU escaping is enabled by default, but it can be disabled;
@@ -1606,13 +1606,13 @@ OPTIONS
 \
                     Example:
 \
-                    > jacksum --style full-nohashes *.txt
+                    > jacksum --style full-no-hashes *.txt
                     2025-04-13T11:12:50.729+02:00 35149 gpl-3.0.txt
 \
                     Available since version 3.8.0 fo Jacksum.
 \
 \
-                full-nosizes
+                full-no-sizes
 \
                     GNU escaping is enabled by default, but it can be disabled;
                     see also the option --gnu-filename-escaping.
@@ -1632,13 +1632,13 @@ OPTIONS
 \
                     Example (hash truncated to simplify the output):
 \
-                    > jacksum -a sha256 --style full-nosizes *.txt
+                    > jacksum -a sha256 --style full-no-sizes *.txt
                     ...9dfb36986 2025-04-13T11:12:50.729+02:00 gpl-3.0.txt
 \
                     Available since version 3.8.0 fo Jacksum.
 \
 \
-                full-notimestamps
+                full-no-timestamps
 \
                     GNU escaping is enabled by default, but it can be disabled;
                     see also the option --gnu-filename-escaping.
@@ -1657,7 +1657,7 @@ OPTIONS
 \
                     Example (hash truncated to simplify the output):
 \
-                    > jacksum -a sha256 --style full-notimestamps *.txt
+                    > jacksum -a sha256 --style full-no-timestamps *.txt
                     ...ae7ad8af9b23dde66d6af86c9dfb36986 35149 gpl-3.0.txt
 \
                     Available since version 3.8.0 fo Jacksum.
@@ -1794,7 +1794,7 @@ OPTIONS
                     Available since version 3.0.0 fo Jacksum.
 \
 \
-                sizes+names
+                sizes-and-names
 \
                     GNU escaping is enabled by default, but it can be disabled;
                     see also the option --gnu-filename-escaping.
@@ -1815,7 +1815,7 @@ OPTIONS
 \
                     Example:
 \
-                    > jacksum --style sizes+names *.txt
+                    > jacksum --style sizes-and-names *.txt
                     35149 gpl-3.0.txt
 \
                     Available since version 3.8.0 fo Jacksum.
@@ -1885,7 +1885,7 @@ OPTIONS
                     Available since version 3.0.0 of Jacksum.
 \
 \
-                timestamps+names
+                timestamps-and-names
 \
                     GNU escaping is enabled by default, but it can be disabled;
                     see also the option --gnu-filename-escaping.
@@ -1902,7 +1902,7 @@ OPTIONS
 \
                     Example:
 \
-                    > jacksum --style timestamps+names *.txt
+                    > jacksum --style timestamps-and-names *.txt
                     2025-04-13T11:12:50.729+02:00 gpl-3.0.txt
 \
                     Available since version 3.8.0 fo Jacksum.
@@ -1931,11 +1931,11 @@ OPTIONS
                 solaris-digest-v    |  cw |  *  |  E  |  h  |  -  |  -  |  d  |
                 --------------------+-----+-----+-----+-----+-----+-----+-----|
                 full                |  cw |  *  |  -  |  h  |  E  |  E  |  e  |
-                full-nosizes        |  cw |  *  |  -  |  h  |  -  |  E  |  e  |
-                full-notimestamps   |  cw |  *  |  -  |  h  |  E  |  -  |  e  |
-                full-nohashes       |  c  |  -  |  -  |  -  |  E  |  E  |  e  |
-                sizes+names         |  c  |  -  |  -  |  -  |  E  |  -  |  e  |
-                timestamps+names    |  c  |  -  |  -  |  -  |  -  |  E  |  e  |
+                full-no-sizes       |  cw |  *  |  -  |  h  |  -  |  E  |  e  |
+                full-no-timestamps  |  cw |  *  |  -  |  h  |  E  |  -  |  e  |
+                full-no-hashes      |  c  |  -  |  -  |  -  |  E  |  E  |  e  |
+                sizes-and-names     |  c  |  -  |  -  |  -  |  E  |  -  |  e  |
+                timestamps-and-names|  c  |  -  |  -  |  -  |  -  |  E  |  e  |
                 names-only          |  c  |  -  |  -  |  -  |  -  |  -  |  e  |
                 hexhashes-only      |  w  |  *  |  -  |  h  |  -  |  -  |  -  |
                 --------------------+-----+-----+-----+-----+-----+-----+-----|
