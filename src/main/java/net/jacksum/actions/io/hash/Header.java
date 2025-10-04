@@ -64,6 +64,10 @@ public class Header {
             return;
         }
 
+        if (headerParameters.getLeadingHeader() != null) {
+            sb.append(headerParameters.getLeadingHeader());
+        }
+
         max = 0;
 
         // a single, empty comment line

@@ -75,6 +75,7 @@ public class CompatibilityProperties implements Serializable {
     private final static String ALGONAME_DEFAULT_REPLACEMENT = "formatter.ALGONAME.defaultReplacement";
     private final static String ALGONAME_EXCEPTION_MAPPINGS = "formatter.ALGONAME.exceptionMappings";
     private final static String HEADER = "formatter.header";
+    private final static String LEADING_HEADER = "formatter.leadingHeader";
 
 
     /**
@@ -418,16 +419,41 @@ public class CompatibilityProperties implements Serializable {
 
     public void setHeaderWanted(boolean header) { props.setProperty(HEADER, header ? "true": "false"); }
 
-    public String getFormat(String algoid) {
+
+    public void setLeadingHeader(String leadingHeader) {
+         props.setProperty(LEADING_HEADER, leadingHeader);
+    }
+
+    public String getLeadingHeader() {
+        return props.getProperty(LEADING_HEADER, null);
+    }
+
+    private String primaryAlgoID = null;
+    private void initPrimaryAlgoIDfrom(String algoID) {
+        if (primaryAlgoID == null) {
+            try {
+                AbstractChecksum checksum = JacksumAPI.getChecksumInstance(algoID);
+                primaryAlgoID = checksum.getName();
+            } catch (NoSuchAlgorithmException ex) {
+                primaryAlgoID = algoID;
+            }
+        }
+    }
+
+    public String getLeadingHeaderFormatted(String algoID) {
+        if (props.getProperty(LEADING_HEADER) != null && props.getProperty(LEADING_HEADER).contains("#ALGONAMES")) {
+            String header = props.getProperty(LEADING_HEADER);
+            return header.replace("#ALGONAMES", algoID.replace("+",","));
+        }
+        return props.getProperty(LEADING_HEADER);
+    }
+
+    public String getFormat(String algoID) {
 
         if (props.getProperty(LINES_FORMAT).contains("#ALGONAME")) {
             // what is the primary id?
-            String primaryID;
-            try {
-                AbstractChecksum checksum = JacksumAPI.getChecksumInstance(algoid);
-                primaryID = checksum.getName();
-            } catch (NoSuchAlgorithmException ex) {
-                primaryID = algoid;
+            if (primaryAlgoID == null) {
+                initPrimaryAlgoIDfrom(algoID);
             }
 
             String format = props.getProperty(LINES_FORMAT);
@@ -437,7 +463,7 @@ public class CompatibilityProperties implements Serializable {
                 String[] tokens = getAlgonameExceptionMappings().split(";");
                 for (String token : tokens) {
                     String[] tuple = token.split("=");
-                    if (tuple[0].equals(primaryID)) {
+                    if (tuple[0].equals(primaryAlgoID)) {
                         format = format.replace("#ALGONAME", tuple[1]);
                     }
                 }
@@ -506,12 +532,13 @@ public class CompatibilityProperties implements Serializable {
             case "files-only":
             case "hdb":
             case "hexhashes-only":
-            case "sizes+names":
-            case "timestamps+names":
+            case "sizes-and-names":
+            case "timestamps-and-names":
             case "full":
-            case "full-nohashes":
-            case "full-notimestamps":
-            case "full-nosizes":
+            case "full-no-hashes":
+            case "full-no-timestamps":
+            case "full-no-sizes":
+            case "hashdeep":
                 return true;
             default:
                 return false;
