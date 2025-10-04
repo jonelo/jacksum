@@ -92,7 +92,7 @@ OPERATING MODES OVERVIEW
                     --string-list <feed> -F "#HASH"
                     [OPTION]...
 \
-        Generate unique secure reproducible passwords
+        Generate unique secure reproducible passwords using a master password
             jacksum -a hmac:<algo>[:<trim-to-bit-width]
                     -k <key> -q <sequence> -E <encoding>
                     [OPTION]...
@@ -193,9 +193,9 @@ OPERATING MODES OVERVIEW
 \
         Gather algorithm information
 \
-            jacksum {--algorithm|-a} <algorithm> {--list|-l} |
+            jacksum {--algorithm|-a} <algorithm> {--list|-l} [{--verbose|-V} <control>] |
                     {--help|-h} [<language>] [<algorithm>] |
-                    --hmacs [-V <vcontrol>] |
+                    --hmacs [{--verbose|-V} <vcontrol>] |
                     --info [{--algorithm|-a} <algorithm> [{--list|-l}]] [{--quick|-q} <sequence>]
 \
         Gather option information
@@ -361,7 +361,7 @@ OPERATING MODES EXPLAINED
             > jacksum -a hmac:sha256:64 -k txt:run42 --string-list strings.txt -F "#HASH" -E dec
 \
 \
-    1.5 Generate reproducible unique secure passwords
+    1.5 Generate reproducible unique secure passwords using a master password
 \
         jacksum -a hmac:<algo>[:<trim-to-bit-width]
                 -k <key> -q <sequence> -E <encoding>
@@ -405,7 +405,7 @@ OPERATING MODES EXPLAINED
 \
             > jacksum -a hmac:sha3-512:240 -8 -k password -q password -E base64
             Key (echo off): <your-master-password>
-            Password: <a-webpage-on-the-internet.com> <your-master-password>
+            Password: <a-webpage-on-the-internet> <your-master-password>
 \
 \
     2. Verify data integrity
@@ -623,6 +623,7 @@ OPERATING MODES EXPLAINED
 \
         Examples:
 \
+            > jacksum -a all --list --verbose summary
             > jacksum -a all:256 -l
             > jacksum -a all:crc -l --info
             > jacksum -a all:crc -l -q "txt:the quick brown fox jumps over the lazy dog" --info
@@ -11218,7 +11219,7 @@ REPORTING BUGS
 
 
 COPYRIGHT
-    Copyright (c) 2001-2024 Dipl.-Inf. (FH) Johann N. Loefflmann
+    Copyright (c) 2001-2025 Dipl.-Inf. (FH) Johann N. Loefflmann
     Type `jacksum --copyright` to see the entire copyright section.
 
 
