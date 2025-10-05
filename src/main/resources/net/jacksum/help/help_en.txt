@@ -110,7 +110,7 @@ OPERATING MODES OVERVIEW
                     [OPTION]... [FILES]
 \
         Generate a lightweight checklist (file sizes, timestamps, and names only)
-            jacksum --style full-no-hashes
+            jacksum --style without-hashes
                     [OPTION]... [FILES]
 \
         Generate a lightweight checklist (file names only)
@@ -1586,7 +1586,7 @@ OPTIONS
                     Available since version 3.8.0 fo Jacksum.
 \
 \
-                full-no-hashes
+                without-hashes
 \
                     Same style as full, but without hash values.
                     GNU escaping is enabled by default, but it can be disabled;
@@ -1607,13 +1607,13 @@ OPTIONS
 \
                     Example:
 \
-                    > jacksum --style full-no-hashes *.txt
+                    > jacksum --style without-hashes *.txt
                     2025-04-13T11:12:50.729+02:00 35149 gpl-3.0.txt
 \
                     Available since version 3.8.0 fo Jacksum.
 \
 \
-                full-no-sizes
+                without-sizes
 \
                     GNU escaping is enabled by default, but it can be disabled;
                     see also the option --gnu-filename-escaping.
@@ -1633,13 +1633,13 @@ OPTIONS
 \
                     Example (hash truncated to simplify the output):
 \
-                    > jacksum -a sha256 --style full-no-sizes *.txt
+                    > jacksum -a sha256 --style without-sizes *.txt
                     ...9dfb36986 2025-04-13T11:12:50.729+02:00 gpl-3.0.txt
 \
                     Available since version 3.8.0 fo Jacksum.
 \
 \
-                full-no-timestamps
+                without-timestamps
 \
                     GNU escaping is enabled by default, but it can be disabled;
                     see also the option --gnu-filename-escaping.
@@ -1658,7 +1658,7 @@ OPTIONS
 \
                     Example (hash truncated to simplify the output):
 \
-                    > jacksum -a sha256 --style full-no-timestamps *.txt
+                    > jacksum -a sha256 --style without-timestamps *.txt
                     ...ae7ad8af9b23dde66d6af86c9dfb36986 35149 gpl-3.0.txt
 \
                     Available since version 3.8.0 fo Jacksum.
@@ -1932,9 +1932,9 @@ OPTIONS
                 solaris-digest-v    |  cw |  *  |  E  |  h  |  -  |  -  |  d  |
                 --------------------+-----+-----+-----+-----+-----+-----+-----|
                 full                |  cw |  *  |  -  |  h  |  E  |  E  |  e  |
-                full-no-sizes       |  cw |  *  |  -  |  h  |  -  |  E  |  e  |
-                full-no-timestamps  |  cw |  *  |  -  |  h  |  E  |  -  |  e  |
-                full-no-hashes      |  c  |  -  |  -  |  -  |  E  |  E  |  e  |
+                without-sizes       |  cw |  *  |  -  |  h  |  -  |  E  |  e  |
+                without-timestamps  |  cw |  *  |  -  |  h  |  E  |  -  |  e  |
+                without-hashes      |  c  |  -  |  -  |  -  |  E  |  E  |  e  |
                 sizes-and-names     |  c  |  -  |  -  |  -  |  E  |  -  |  e  |
                 timestamps-and-names|  c  |  -  |  -  |  -  |  -  |  E  |  e  |
                 names-only          |  c  |  -  |  -  |  -  |  -  |  -  |  e  |

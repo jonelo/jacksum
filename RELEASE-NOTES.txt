@@ -20,9 +20,9 @@ Jacksum 3.8.0, TBD
     - --no-header
   - added new styles (for I/O)
     - full
-    - full-no-hashes
-    - full-no-timestamps
-    - full-no-sizes
+    - without-hashes
+    - without-timestamps
+    - without-sizes
     - sizes-and-names
     - timestamps-and-names
     - hash data base (hdb) style which is used by ClamAV's sigtool
