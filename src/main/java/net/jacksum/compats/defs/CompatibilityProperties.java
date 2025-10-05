@@ -538,7 +538,7 @@ public class CompatibilityProperties implements Serializable {
             case "without-hashes":
             case "without-timestamps":
             case "without-sizes":
-            case "hashdeep":
+            //case "hashdeep":
                 return true;
             default:
                 return false;
