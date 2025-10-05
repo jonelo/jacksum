@@ -6926,6 +6926,7 @@ ALGORITHMS
                                    golang.org/x/crypto/sha3.NewLegacyKeccak512()
                 - gpg:             -
                 - HashGarten:      Algorithm -> keccak<length>
+                - Homebrew:        keccak-<length>sum
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a keccak<length>
@@ -8151,6 +8152,7 @@ ALGORITHMS
                 - Go API:          crypto/sha256.New224()
                 - gpg:             gpg --print-md sha224
                 - HashGarten:      Algorithm -> sha-224
+                - Homebrew:        sha3-224sum
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha224
@@ -8244,6 +8246,7 @@ ALGORITHMS
                 - Go API:          crypto/sha256.New()
                 - gpg:             gpg --print-md sha256
                 - HashGarten:      Algorithm -> sha-256
+                - Homebrew:        sha3-256sum
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha256
@@ -8342,6 +8345,7 @@ ALGORITHMS
                 - Go API:          crypto/sha512.New384()
                 - gpg:             gpg --print-md sha384
                 - HashGarten:      Algorithm -> sha-384
+                - Homebrew:        sha3-384sum
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha384
@@ -8440,6 +8444,7 @@ ALGORITHMS
                 - Go API:          crypto/sha512.New()
                 - gpg:             gpg --print-md sha512
                 - HashGarten:      Algorithm -> sha-512
+                - Homebrew:        sha3-512sum
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha512

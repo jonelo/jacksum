@@ -67,7 +67,7 @@ Jacksum 3.8.0, TBD
 - updated documentation:
   - added info about the usage of the internal state value for verification of test vectors submitted for the NIST competition
     in the manpage for skein-256.
-  - added the "Go API" to the compatibility lists
+  - added the "Go API", and Homebrew to the compatibility lists
 
 
 Jacksum 3.7.0, Aug 26, 2023
