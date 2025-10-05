@@ -11001,7 +11001,10 @@ EXAMPLES
         directory. The output format is customized, it prints also
         the filesize.
 \
-        > jacksum -a crc32 -X -f -F "#FILENAME #CHECKSUM" -o list.sfv .
+        > jacksum -a crc32 -X -f -F "#FILENAME #CHECKSUM" -o list.sfv *
+        prints CRC-32 values in the Simple File Verificator (SFV) format
+\
+        > jacksum --style sfv -f -o list.sfv *
         prints CRC-32 values in the Simple File Verificator (SFV) format
 \
         > jacksum -a ed2k -f -F
