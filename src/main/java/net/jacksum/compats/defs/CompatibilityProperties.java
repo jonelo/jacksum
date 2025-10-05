@@ -576,13 +576,11 @@ public class CompatibilityProperties implements Serializable {
                 return "solaris-digest";
 
             case "filesonly":
+            case "names-only":
                 return "files-only";
 
             case "hexhashesonly":
                 return "hexhashes-only";
-
-            case "names-only":
-                return "files-only";
 
             default:
                 return parser;
