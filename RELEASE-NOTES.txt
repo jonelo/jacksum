@@ -48,7 +48,7 @@ Jacksum 3.8.0, TBD
     While ignoring duplicate file names in check files makes sense for the option --check-file, that setting is
     suboptimal if option --wanted-list is used, because filenames are treated as comments in wanted lists.
   - OOM can occur if producer is much faster than the consumer threads
-  - keccak-384 was not recognised as an alias
+  - keccak-384 was not recognized as an alias
   - the prompt is "Password: " twice if both options -k password -q password have been specified
     (e.g. "jacksum -q password -a hmac:sha256 -k password"), the prompt for the key is now "Key (echo off): " to
     distinguish the input.
