@@ -62,7 +62,7 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
-            Main main = new Main(args);
+            new Main(args);
         } catch (ExitException e) {
             if (e.getMessage() != null) {
                 System.err.println(e.getMessage());

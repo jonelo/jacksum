@@ -113,12 +113,12 @@ public class AllAlgorithms_Selector extends Selector {
             }            
         }
 
-        Iterator iterator = map.entrySet().iterator();
+        Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         String[] codes = new String[map.entrySet().size()];
         int i = 0;
         StringBuilder allNames = new StringBuilder();
         while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
+            Map.Entry<String, String> entry = iterator.next();
             // String description = (String)entry.getValue();
             String n = ((String) entry.getKey());
             allNames.append(n);

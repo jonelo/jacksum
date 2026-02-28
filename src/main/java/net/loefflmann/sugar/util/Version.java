@@ -27,7 +27,7 @@ package net.loefflmann.sugar.util;
 import java.util.StringTokenizer;
 
 
-public class Version implements Comparable {
+public class Version implements Comparable<Version> {
     private int
             major,
             sub,
@@ -77,8 +77,7 @@ public class Version implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        Version v = (Version) o;
+    public int compareTo(Version v) {
         if (this.equals(v)) return 0;
 
         if (
