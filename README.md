@@ -17,16 +17,16 @@ functions available to you to solve particular tasks the smart way.
 
 Jacksum covers many types of use cases in which hash values make sense:
 
-- Calculating of hash values/fingerprints of almost any input
-  (command line arg, console, standard input, plain or encoded strings,
+- Calculating hash values/fingerprints of almost any input
+  (command-line args, console, standard input, plain or encoded strings,
   files, partitions, disks, NTFS ADS, pipes, sockets, doors, ...)
-- Finding OK/failed/missing/new files (verify file/data integrity)
+- Finding OK, failed, missing, or new files (verifying file/data integrity)
 - Finding files by their fingerprints (positive matching)
 - Finding files that do not match certain fingerprints (negative matching)
 - Finding all duplicates of a file by its hash value
 - Finding the algorithm(s) that generated a certain hash value
-- Investigate polynomials of CRCs
-- Investigate parameters of HMACs
+- Investigating polynomials of CRCs
+- Investigating parameters of HMACs
 
 In order to achieve the goals above Jacksum supports you with
 
@@ -46,7 +46,7 @@ In order to achieve the goals above Jacksum supports you with
 - Fully customizable output format
 - 170+ different character sets to be able to read and write hash files
   correctly
-- 9200+ lines of  with descriptions, examples, and compatibility
+- 9200+ lines of documentation with descriptions, examples, and compatibility
   lists for all supported algorithms
 
 Jacksum is also a library. You can use it for your projects. It is written entirely in **Java** ☕.
@@ -113,7 +113,7 @@ Jacksum provides a Command Line Interface (CLI), an Application Programming Inte
 
 ### Command Line Interface (CLI)
 
-If you are a skilled command line user you will benefit from the power on the command line and you can use Jacksum in scripts, cronjobs, etc. in order to automate file integration/verification tasks for example.
+Command line users benefit from the power on the command line. You can call Jacksum in scripts, cronjobs, AI agents, etc. in order to automate file integration/verification tasks for example.
 
 <img width="100%" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/screenshot-jacksum_on_ubuntu-cli_examples.png" alt="Jacksum on Ubuntu, CLI examples" style="vertical-align:top;margin:10px 10px" />
 
