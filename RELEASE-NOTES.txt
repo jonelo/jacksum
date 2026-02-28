@@ -56,6 +56,7 @@ Jacksum 3.8.0, TBD
   - if multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
   - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC definition code
     if --info has been requested
+  - issue #30 - java.lang.OutOfMemoryError i.e. "Thread-0" or "pool-1-thread-4"
   - issue #36 - If multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
   - issue #37 - Parser does not find valid entries if algorithm "none" (no hashing) has been selected
   - issue #38 - If hash values are not wanted by the user, there should be no leading separator character left in the output

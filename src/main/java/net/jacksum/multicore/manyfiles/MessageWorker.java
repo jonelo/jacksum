@@ -25,7 +25,9 @@ package net.jacksum.multicore.manyfiles;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import net.jacksum.multicore.manyfiles.Message.Type;
 import net.jacksum.parameters.combined.GatheringParameters;
@@ -54,10 +56,19 @@ public class MessageWorker implements Runnable {
     public void run() {
         //System.out.println("File Consumer started.");        
 
+        // potential fix for issue #30
+        int capacity = cores * 100; // or a memory-based calculation
+        ExecutorService executorService = new ThreadPoolExecutor(
+            cores, cores, 0L, TimeUnit.MILLISECONDS, 
+            new LinkedBlockingQueue<Runnable>(capacity)
+        );
+        /*
         ExecutorService executorService = Executors.newFixedThreadPool(cores);
         // The producer thread will be employed to run the task it just submitted. This is effective back pressure.
         // If the caller is running the task itself, it can't produce another tasks until it is done with its current task.
+        */
         ((ThreadPoolExecutor)executorService).setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+
         try {
             Message message;
             // consuming messages until the exit message is received
