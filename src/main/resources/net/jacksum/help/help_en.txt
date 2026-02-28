@@ -1,5 +1,5 @@
 NAME
-    Jacksum - a professional checksum/hash tool
+    Jacksum - a checksum/hash tool
 
 
 VERSION
@@ -11,40 +11,43 @@ SYNOPSIS
 
 
 DESCRIPTION
-    Jacksum (JAva ChecKSUM) is a free, open source, cross-platform,
-    feature-rich, multi-threaded, command line utility that makes hash
+    Jacksum (JAva ChecKSUM) is a professional checksum/hash tool written
+    entirely in Java. It is free, open source, cross-platform, feature-rich,
+    multi-threaded, and it supports a command line interface that makes hash
     functions available to you to solve particular tasks the smart way.
-\
-    Jacksum supports 500+ crypto hash functions, CRCs, and checksums.
-    Calculate hash values, verify integrity, find files by their fingerprints,
-    find hash functions to a hash, and get detailed info about hash functions.
-    10000+ lines of manpage, and hash function info including compatibility
-    lists.  May the hashes be with you!
-\
-    Jacksum selects the appropriate operating mode dependent on the options
-    and parameters that you set. See the OPERATING MODES sections for details.
 \
     Jacksum covers many types of use cases in which hash values make sense:
 \
-        - Calculating of hash values/fingerprints of almost any input
-          (files, file trees, command line args, console, standard input,
-          plain or encoded strings, partitions, disks, NTFS ADS, pipes,
-          sockets, doors, ...)
-        - Finding OK/failed/missing/new files (verify file/data integrity)
-        - Finding files by their fingerprints (positive matching)
-        - Finding files that do not match certain fingerprints (negative matching)
-        - Finding all duplicates of a file by its hash value
-        - Finding the algorithm(s) that generated a certain hash value
-        - Generating random pseudo numbers by a hash function of your choice
-        - Generating reproducible unique secure passwords
-        - Investigate polynomials of CRCs
-        - Investigate parameters of HMACs
+        - Calculating hash values/fingerprints
+          - of almost any input:
+            files, file trees, command line arguments, plain strings,
+            encoded strings, console, standard input, NTFS ADS, pipes,
+            sockets, doors, partitions, and disks
+          - Generating and persisting check lists resp. wanted lists
+          - Generating random pseudo numbers
+          - Generating reproducible, unique, secure passwords
+\
+        - Verifying data integrity
+          - Finding any OK/failed/missing/new files
+          - Performing a strict integrity verification aka audit
+
+        - Finding objects
+          - Finding strings that match a hash
+          - Finding files by their fingerprints (positive matching)
+          - Finding files that do not match certain fingerprints (negative matching)
+          - Finding all duplicates of a file by its hash value
+          - Finding the algorithm(s) that generated a certain hash value
+\
+        - Gathering information
+          - Gathering detailed hash algorithm information
+          - Investigating CRC polynomials
+          - Investigating HMAC parameters
 \
     In order to achieve the goals above, Jacksum supports four major areas
 \
         - Support for algorithms
-          - 513 algorithms (crypto hash functions, CRCs, and checksums)
-          - HMAC support for 427 hash functions
+          - 500+ algorithms (crypto hash functions, CRCs, and checksums)
+          - HMAC support for 420+ hash functions
           - Customizable CRCs from 1 to 64 bit width
 \
         - Cross-platform
@@ -55,24 +58,30 @@ DESCRIPTION
           - Multi-threading for parallel data reads in order to take advantage of
             faster data access speed of SSD storage
 \
-        - I/O control
+        - Comprehensive I/O control
           - Recursive traversal with depth control, policies to follow symbolic
             links on files and/or folders, and file system cycle detection
           - Wildcard support
-          - Fully customizable output format
           - Creation of checklists with check values such as checksums,
             file size, timestamp and file name
           - 10 predefined standard styles for reading and writing check files
           - 15 different encodings for representing hash values
           - 6 predefined styles for representing file timestamps
           - 170+ different character sets to read and write check files correctly
+          - Fully customizable output format on demand
 \
         - Documentation
           - 10000+ lines of manpage with descriptions, examples, and compatibility
             lists for all supported algorithms
+\
+    May the hashes be with you, always!
 
 
 OPERATING MODES OVERVIEW
+\
+    Jacksum selects the appropriate operating mode dependent on the options
+    and parameters that you set. See the OPERATING MODES EXPLAINED section
+    for details.
 \
     Calculate hash values
 \
@@ -182,7 +191,7 @@ OPERATING MODES OVERVIEW
                     [OPTION]... [FILES]
 \
 \
-    Find hash functions
+    Find hash functions by knowing both the input and the hash value
 \
             jacksum {--algorithm|-a} unknown:<bits>
                     {--quick|-q} <sequence> {--expect|-e} <hash>
@@ -248,7 +257,7 @@ OPERATING MODES EXPLAINED
     more options. See also the sections entitled SYNOPSIS, OPTION TYPES,
     OPTION SUPPORT MATRIX, and EXAMPLES.
 
-    1. Calculate hashes
+    1. Calculating hashes
 \
         For each mode in this section, the following option types are supported
         for OPTION:
@@ -260,7 +269,7 @@ OPERATING MODES EXPLAINED
             - Output Options
 \
 \
-    1.1 Calculate hashes from files
+    1.1 Calculating hashes from files
 \
         jacksum [OPTION]... FILES
 \
@@ -295,7 +304,7 @@ OPERATING MODES EXPLAINED
               --threads-hashing max --header -F "#HASHES #FILENAME" .
 \
 \
-    1.2 Calculate hashes from user input
+    1.2 Calculating hashes from user input
 \
         jacksum {--quick|-q} <sequence>
                 [OPTION]...
@@ -321,7 +330,7 @@ OPERATING MODES EXPLAINED
             Password: <enter the secret message here>
 \
 \
-    1.3 Calculate hashes from strings
+    1.3 Calculating hashes from strings
 \
         jacksum --string-list <file>
                 [OPTION]...
@@ -337,7 +346,7 @@ OPERATING MODES EXPLAINED
             > jacksum --string-list words.txt
 \
 \
-    1.4 Generate [many] [large] random [pseudo] numbers
+    1.4 Generating [many] [large] random [pseudo] numbers
 \
         jacksum -a hmac:<algo>[:<trim-to-bit-width>] -k <seed>
                 --string-list <file> -F "#HASH"
@@ -361,7 +370,7 @@ OPERATING MODES EXPLAINED
             > jacksum -a hmac:sha256:64 -k txt:run42 --string-list strings.txt -F "#HASH" -E dec
 \
 \
-    1.5 Generate reproducible unique secure passwords using a master password
+    1.5 Generating reproducible unique secure passwords using a master password
 \
         jacksum -a hmac:<algo>[:<trim-to-bit-width]
                 -k <key> -q <sequence> -E <encoding>
@@ -408,7 +417,7 @@ OPERATING MODES EXPLAINED
             Password: <a-webpage-on-the-internet> <your-master-password>
 \
 \
-    2. Verify data integrity
+    2. Verifying data integrity
 \
         For each mode in this section, the following option types are supported
         for OPTION:
@@ -419,7 +428,7 @@ OPERATING MODES EXPLAINED
             - Output Options
 \
 \
-    2.1 Verify file integrity
+    2.1 Verifying file integrity
 \
         jacksum {{--check-file|-c} <file> | --check-line <line>}
                 [OPTION]... [FILES]
@@ -464,7 +473,7 @@ OPERATING MODES EXPLAINED
             > jacksum -a crc32c+sha256+whirlpool --style bsd -c my.hashes .
 \
 \
-    2.2 Verify file integrity (strict)
+    2.2 Verifying file integrity (strict)
 \
         jacksum {{--check-file|-c} <file> | --check-line <line>} --check-strict
                 [OPTION]... FILES
@@ -514,7 +523,7 @@ OPERATING MODES EXPLAINED
             > jacksum -a sha256 -c ../.SHA256 --check-strict --scan-ntfs-ads .
 \
 \
-    2.3 Verify the integrity of user input
+    2.3 Verifying the integrity of user input
 \
         jacksum {--quick|-q} <sequence> {--expect|-e} <hash>
                 [OPTION]...
@@ -534,14 +543,14 @@ OPERATING MODES EXPLAINED
               60273a1e778ed009a6fb32fa11dbb16f905148fc2ec84a67f8a3b3a6cabaa9b7
 \
 \
-    3. Find data
+    3. Finding strings and files
 \
-\   3.1 Find strings that match a hash
+\   3.1 Finding strings that match a hash
 \
             jacksum --string-list <file> {--expect|-e} <hash>
                     [OPTION]...
 \
-    3.2 Find files by their fingerprints
+    3.2 Finding files by their fingerprints
 \
         jacksum {{--wanted-list|-w} <list> | {--expect|-e} <hash>}}
                 [OPTION]... [FILES]
@@ -585,7 +594,7 @@ OPERATING MODES EXPLAINED
             > jacksum -a blake2b-64 -e a47fc96f87b6fb5a .
 \
 \
-    4. Find hash functions
+    4. Finding hash functions by knowing both the input and the hash value
 \
         jacksum {--algorithm|-a} unknown:<bits>
                 {--quick|-q} <sequence> {--expect|-e} <hash>
@@ -608,13 +617,13 @@ OPERATING MODES EXPLAINED
             > jacksum -a unknown:16 -q hex:050000 -E hex -e d893
 \
 \
-    5. Gather information
+    5. Gathering information
 \
        In these modes, some information is collected and the program is
        terminated. See the OPTIONS section for more details on each option.
 \
 \
-    5.1 Gather algorithm information
+    5.1 Gathering algorithm information
 \
         jacksum {--algorithm|-a} <algorithm> {--list|-l} |
                 {--help|-h} [<language>] [<algorithm>] |
@@ -631,7 +640,7 @@ OPERATING MODES EXPLAINED
             > jacksum --info
 \
 \
-    5.2 Gather option information
+    5.2 Gathering option information
 \
         jacksum {--help|-h} [<language>] { options | <option> }
 \
@@ -642,7 +651,7 @@ OPERATING MODES EXPLAINED
             > jacksum -h options
 \
 \
-    5.3 Gather parameter information
+    5.3 Gathering parameter information
 \
         jacksum -h parameters
 \
@@ -651,7 +660,7 @@ OPERATING MODES EXPLAINED
             > jacksum -h parameters
 \
 \
-    5.4 Gather encoding information
+    5.4 Gathering encoding information
 \
         jacksum {--help|-h} [<language>] -E
 \
@@ -660,7 +669,7 @@ OPERATING MODES EXPLAINED
             > jacksum -h -E
 \
 \
-    5.5 Gather style information
+    5.5 Gathering style information
 \
         jacksum {--help|-h} [<language>] --style
         jacksum --info [{--style|-C} <style>]
@@ -671,7 +680,7 @@ OPERATING MODES EXPLAINED
             > jacksum --info --style bsd
 \
 \
-    5.6 Gather program version
+    5.6 Gathering program version
 \
             jacksum [ {--version|-v} [{--verbose|-V} <vcontrol>] [--info] ]
             jacksum [ {--help|-h} [<language>] version ]
@@ -684,7 +693,7 @@ OPERATING MODES EXPLAINED
             > jacksum -h version
 \
 \
-    5.7 Gather copyright information
+    5.7 Gathering copyright information
 \
         jacksum --copyright
         jacksum {--help|-h} [<language>] copyright
@@ -695,7 +704,7 @@ OPERATING MODES EXPLAINED
             > jacksum -h copyright
 \
 \
-    5.8 Gather license information
+    5.8 Gathering license information
 \
         jacksum --license
         jacksum {--help|-h} [<language>] license
@@ -864,7 +873,7 @@ OPTION TYPES
 \
         [--header]
         [
-            [--style|-C} <style>]
+            [{--style|-C} <style>]
             [
                 [{--separator|-s} <string>]
                 [{--format|-F} <format>]
@@ -1064,6 +1073,36 @@ OPTIONS
                     > jacksum -h hmac:
 \
 \
+            <algo>[+<algo>]...
+\
+                Multiple algorithms can be selected by concatenating them with
+                the plus character.
+                Examples: "sha1+crc32", "sha512+sha3-512+blake2b-512",
+                "all:32+all:64", etc.
+                The new algorithm resulting from all concatenated algorithms
+                returns, by default, only one composite value consisting of all
+                chained hash values. This feature allows you to use any
+                combination of algorithms for any predefined standard style,
+                even if the style was designed to support only one algorithm.
+                Each file is read only once, even if multiple algorithms are
+                selected, in order to minimize I/O calls and improve
+                performance. Additionally, each algorithm can run in parallel if
+                the computer supports multi-threading.
+                You can control the performance behavior by setting the option
+                called "--threads-hashing".
+\
+                If at least one "+" character is found after the option -a, the
+                output is normalized by a hexadecimal lowercase checksum and a
+                decimal file size is inserted.
+                Examples: "md5+", "sha256+", "sha3-256+"
+                You can disable adding the filesize by setting --filesize off.
+\
+                You can customize the output behavior by using the options -E,
+                -F, -g, -G. Especially, take a look at the various tokens for
+                --format which allows you to highly customize the output to
+                meet your actual needs.
+\
+\
             all[:<length|string>]
 \
                 All or a particular group of algorithms can be filtered by a
@@ -1115,50 +1154,27 @@ OPTIONS
                    > jacksum -a all:whirlpool -F "#ALGONAME{i}(#FILENAME) = #HASH{i}" *.txt
 \
 \
-            <algo>[+<algo>]...
-\
-                Multiple algorithms can be selected by concatenating them with
-                the plus character.
-                Examples: "sha1+crc32", "sha512+sha3-512+blake2b-512",
-                "all:32+all:64", etc.
-                The new algorithm resulting from all concatenated algorithms
-                returns, by default, only one composite value consisting of all
-                chained hash values. This feature allows you to use any
-                combination of algorithms for any predefined standard style,
-                even if the style was designed to support only one algorithm.
-                Each file is read only once, even if multiple algorithms are
-                selected, in order to minimize I/O calls and improve
-                performance. Additionally, each algorithm can run in parallel if
-                the computer supports multi-threading.
-                You can control the performance behavior by setting the option
-                called "--threads-hashing".
-\
-                If at least one "+" character is found after the option -a, the
-                output is normalized by a hexadecimal lowercase checksum and a
-                decimal file size is inserted.
-                Examples: "md5+", "sha256+", "sha3-256+"
-                You can disable adding the filesize by setting --filesize off.
-\
-                You can customize the output behavior by using the options -E,
-                -F, -g, -G. Especially, take a look at the various tokens for
-                --format which allows you to highly customize the output to
-                meet your actual needs.
-\
-\
-            Find an unknown algorithm (-a unknown:<length>):
+            unknown:<length>
 \
                 If you only know the input and the output, and you want to know
                 the algorithm that has been used to produce the output,
                 you can set <algo> to unknown:<length>, replacing <length>
-                with the length of the digest in bits. In that case, all
-                supported algorithms will be tested to see if there is one that
-                can produce the expected output. Additionally, a list of
-                well-known CRCs will be checked, and finally, all CRC algorithms
-                will be tested by brute force (init and xorOut are set to either
-                all bits zero or all bits one while refIn and refOut are set to
-                either true or false for all potential polynomials of the given
-                length). Please be patient! Both options, -q and -e, are
-                required in this case. See also -V, -e, -E, and -q.
+                with the length of the digest in bits.
+\
+                In that case, all supported algorithms will be tested to see if
+                there is one that can produce the expected output. Additionally,
+                a list of well-known CRCs will be checked, and finally, all CRC
+                algorithms will be tested by brute force (init and xorOut are
+                set to either all bits zero or all bits one while refIn and
+                refOut are set to either true or false for all potential
+                polynomials of the given length). Please be patient!
+\
+                Both options, -q and -e, are required in this case.
+                See also -V, -e, -E, and -q.
+\
+                Examples:
+                > jacksum -a unknown:16 -q hex:050000 -E hex -e d893
+                > jacksum -a unknown:128 -q "txt:Hello World" -X -e B10A8DB164E0754105B7A99BE72E3FE5
 \
 \
             See also:
@@ -1302,7 +1318,7 @@ OPTIONS
 \
             If you want to filter the output by one or more statuses, you can
             set the option --list-filter <filter>
-            If you don't want the status at all in the output, you can you can
+            If you don't want the status at all in the output, you can
             set the option --list and only the filenames will be printed.
 \
             After the filenames (and, by default, the status for each file) have
@@ -1567,9 +1583,9 @@ OPTIONS
 \
                     You can get a similar style by specifying the options
                     `-a sha3-256 -x --filesize on --timestamp iso`
-                    However, in that case the check values timestamp,
-                    and file size are swapped. The full style swaps
-                    prints timestamp first followed by the file size. That
+                    However, in that case the check values timestamp
+                    and file size are swapped. The full style prints
+                    timestamp first followed by the file size. That
                     makes it easier to read for humans, because both the
                     hash value and the timestamps have a fixed string length.
 \
@@ -1583,7 +1599,7 @@ OPTIONS
                     > jacksum -a sha256 --style full *.txt
                     ...9dfb36986 2025-04-13T11:12:50.729+02:00 35149 gpl-3.0.txt
 \
-                    Available since version 3.8.0 fo Jacksum.
+                    Available since version 3.8.0 of Jacksum.
 \
 \
                 without-hashes
@@ -1610,7 +1626,7 @@ OPTIONS
                     > jacksum --style without-hashes *.txt
                     2025-04-13T11:12:50.729+02:00 35149 gpl-3.0.txt
 \
-                    Available since version 3.8.0 fo Jacksum.
+                    Available since version 3.8.0 of Jacksum.
 \
 \
                 without-sizes
@@ -1636,7 +1652,7 @@ OPTIONS
                     > jacksum -a sha256 --style without-sizes *.txt
                     ...9dfb36986 2025-04-13T11:12:50.729+02:00 gpl-3.0.txt
 \
-                    Available since version 3.8.0 fo Jacksum.
+                    Available since version 3.8.0 of Jacksum.
 \
 \
                 without-timestamps
@@ -1661,7 +1677,7 @@ OPTIONS
                     > jacksum -a sha256 --style without-timestamps *.txt
                     ...ae7ad8af9b23dde66d6af86c9dfb36986 35149 gpl-3.0.txt
 \
-                    Available since version 3.8.0 fo Jacksum.
+                    Available since version 3.8.0 of Jacksum.
 \
 \
                 gnu-linux
@@ -1784,7 +1800,7 @@ OPTIONS
                     The compat file works with any algorithm supported by
                     Jacksum, it even works with concatenated algorithms.
                     GNU escaping can be disabled; see also the option
-                    --gnu-filename-escaping for mor information. If you do not
+                    --gnu-filename-escaping for more information. If you do not
                     specify -a, the algorithm defaults to sha3-256.
 \
                     Example (hash truncated to simplify the output):
@@ -1792,7 +1808,7 @@ OPTIONS
                     > jacksum -a sha256 --style *.txt
                     ...6696f2ae7ad8af9b23dde66d6af86c9dfb36986 *gpl-3.0.txt
 \
-                    Available since version 3.0.0 fo Jacksum.
+                    Available since version 3.0.0 of Jacksum.
 \
 \
                 sizes-and-names
@@ -1819,7 +1835,7 @@ OPTIONS
                     > jacksum --style sizes-and-names *.txt
                     35149 gpl-3.0.txt
 \
-                    Available since version 3.8.0 fo Jacksum.
+                    Available since version 3.8.0 of Jacksum.
 \
 \
                 sfv
@@ -1906,7 +1922,7 @@ OPTIONS
                     > jacksum --style timestamps-and-names *.txt
                     2025-04-13T11:12:50.729+02:00 gpl-3.0.txt
 \
-                    Available since version 3.8.0 fo Jacksum.
+                    Available since version 3.8.0 of Jacksum.
 \
 \
             A dragon's view about the features of the <style>. The first part
@@ -11227,7 +11243,7 @@ REPORTING BUGS
 
 
 COPYRIGHT
-    Copyright (c) 2001-2025 Dipl.-Inf. (FH) Johann N. Loefflmann
+    Copyright (c) 2001-2026 Dipl.-Inf. (FH) Johann N. Loefflmann
     Type `jacksum --copyright` to see the entire copyright section.
 
 
