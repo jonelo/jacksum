@@ -24,7 +24,6 @@ package net.jacksum.multicore.manyfiles;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -52,6 +51,22 @@ public class MessageWorker implements Runnable {
         this.gatheringParameters = parameters;
     }
 
+    /**
+     * Executes the main message processing loop for handling file hashing tasks.
+     * <p>
+     * Creates a thread pool with a bounded queue to process incoming messages from the input queue.
+     * The thread pool uses a caller-runs policy for rejection handling to implement back pressure.
+     * <p>
+     * Processing flow:
+     * - Continuously consumes messages from the input queue until an EXIT message is received
+     * - For HASH_FILE and HASH_STDIN messages: submits a WorkerThread task to the executor service
+     * - For DONT_HASH_FILE and DONT_HASH_STDIN messages: marks them as FILE_NOT_HASHED and forwards to output queue
+     * - For other message types: forwards them directly to the output queue
+     * - Null type messages are forwarded immediately to the output queue
+     * <p>
+     * After processing all messages, gracefully shuts down the executor service and waits for
+     * all worker threads to complete before sending a final EXIT message to the output queue.
+     */
     @Override
     public void run() {
         //System.out.println("File Consumer started.");        
