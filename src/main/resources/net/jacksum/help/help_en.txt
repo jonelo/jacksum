@@ -545,7 +545,7 @@ OPERATING MODES EXPLAINED
 \
     3. Finding strings and files
 \
-\   3.1 Finding strings that match a hash
+    3.1 Finding strings that match a hash
 \
             jacksum --string-list <file> {--expect|-e} <hash>
                     [OPTION]...
