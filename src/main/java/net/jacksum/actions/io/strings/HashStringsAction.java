@@ -23,6 +23,8 @@
 
 package net.jacksum.actions.io.strings;
 
+import net.jacksum.actions.io.compare.CompareAndPrintResult;
+import net.jacksum.actions.io.compare.CompareAndReturnResult;
 import net.jacksum.actions.io.hash.Header;
 import net.jacksum.cli.CLIParameters;
 import net.jacksum.parameters.Sequence;
@@ -62,6 +64,11 @@ public class HashStringsAction implements Action {
         }
 
         AbstractChecksum checksum = Actions.getChecksumInstance(parameters);
+        CompareAndReturnResult compareAndReturnResult = null;
+        if (parameters.isExpectation()) {
+            compareAndReturnResult = new CompareAndReturnResult(checksum, parameters);
+        }
+
 
         String filename = parameters.getStringList();
 
@@ -72,6 +79,8 @@ public class HashStringsAction implements Action {
         InputStreamReader inputStreamReader = null;
         FileInputStream fileInputStream = null;
         Charset charset = Charset.forName(parameters.getCharsetStringList());
+
+
 
         try {
             // don't use try-with-resources here, because we only want to close the BufferedReader (and FileReader),
@@ -113,9 +122,18 @@ public class HashStringsAction implements Action {
                     // set the line as the filename
                     checksum.setFilename(line);
                     // print out checksum
-                    Actions.printChecksum(checksum, parameters);
-                    processedLines++;
 
+                    boolean match;
+                    if (parameters.isExpectation()) {
+                        compareAndReturnResult.perform();
+                        if (compareAndReturnResult.getLastResult()) {
+                            Actions.printChecksum(checksum, parameters);
+                        }
+                    } else {
+                        Actions.printChecksum(checksum, parameters);
+                    }
+
+                    processedLines++;
                     checksum.reset();
                 }
             }
@@ -123,6 +141,13 @@ public class HashStringsAction implements Action {
 
             getStatistics().setTotalLines(lineNumber);
             getStatistics().setHashedLines(processedLines);
+            if (compareAndReturnResult != null) {
+                getStatistics().setMatchedLines(compareAndReturnResult.getPositives());
+                getStatistics().setNotMatchedLines(compareAndReturnResult.getNegatives());
+            } else {
+                getStatistics().setMatchedLines(-1);
+                getStatistics().setNotMatchedLines(-1);
+            }
             getStatistics().setIgnoredLines(ignoredLines);
             getStatistics().setEmptyLines(emptyLines);
 

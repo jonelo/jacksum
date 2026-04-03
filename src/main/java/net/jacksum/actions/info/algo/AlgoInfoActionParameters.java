@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.7.0 - a checksum utility in Java
+  Jacksum 3.8.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -23,9 +23,10 @@
 package net.jacksum.actions.info.algo;
 
 import net.jacksum.parameters.base.AlgorithmParameters;
+import net.jacksum.parameters.base.SequenceParameters;
 import net.jacksum.parameters.base.VerboseParameters;
 
-public interface AlgoInfoActionParameters extends AlgorithmParameters, VerboseParameters {
+public interface AlgoInfoActionParameters extends AlgorithmParameters, VerboseParameters, SequenceParameters {
 
     boolean isList();
     boolean isInfoMode();

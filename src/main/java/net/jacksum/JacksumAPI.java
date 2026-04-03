@@ -1,6 +1,6 @@
 /*
 
-  Jacksum 3.7.0 - a checksum utility in Java
+  Jacksum 3.8.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -49,7 +49,7 @@ public class JacksumAPI {
     /**
      * The version of the API
      */
-    public final static String VERSION = "3.7.0";
+    public final static String VERSION = "3.8.0";
     /**
      * The URI of the program
      */
@@ -58,7 +58,7 @@ public class JacksumAPI {
     /**
      * The Copyright of the program
      */
-    public final static String COPYRIGHT = "Copyright (C) 2001-2006, 2021-2023, Dipl.-Inf. (FH) Johann N. Loefflmann";
+    public final static String COPYRIGHT = "Copyright (C) 2001-2006, 2021-2025, Dipl.-Inf. (FH) Johann N. Loefflmann";
 
     /**
      * Returns a Version object of this API.
@@ -120,6 +120,10 @@ public class JacksumAPI {
      */
     public static Map<String, String> getAvailableAlgorithms() {
         return HashFunctionFactory.getAvailableAlgorithms();
+    }
+
+    public static Map<String, String> getAvailableHMACs() {
+        return HashFunctionFactory.getAvailableHMACs();
     }
 
     /**

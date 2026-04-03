@@ -26,7 +26,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import net.jacksum.algorithms.AbstractChecksum;
-import net.jacksum.algorithms.wrappers.Blake3Wrapper;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
@@ -37,7 +36,6 @@ public class AsconXof_Selector extends Selector {
 
     private final static String ID = "ascon-xof";
     private static Map<String, String> algos;
-    private static Map<String, String> aliases;
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

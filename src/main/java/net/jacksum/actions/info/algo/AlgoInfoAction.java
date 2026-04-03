@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.7.0 - a checksum utility in Java
+  Jacksum 3.8.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -23,12 +23,15 @@
 package net.jacksum.actions.info.algo;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Locale;
 
 import net.jacksum.algorithms.HMAC;
 import net.jacksum.algorithms.checksums.PrngHashInfo;
 import net.jacksum.algorithms.crcs.CrcInfo;
+import net.jacksum.algorithms.crcs.CrcModel;
 import net.jacksum.algorithms.crcs.CrcUtils;
 import net.loefflmann.sugar.util.ByteSequences;
 import net.loefflmann.sugar.util.ExitException;
@@ -64,7 +67,7 @@ public class AlgoInfoAction implements Action {
                 indent = String.format("%"+indentation+"s", "");
             }*/
 
-        buffer.append(String.format("%shash length:%n", indent));
+        buffer.append(String.format("%sHash length:%n", indent));
         buffer.append(String.format(FORMAT, indent, "bits:", checksum.getSize()));
         int padOneByte = checksum.getSize() % 8 > 0 ? 1 : 0;
         int bytes = checksum.getSize() / 8 + padOneByte;
@@ -76,7 +79,7 @@ public class AlgoInfoAction implements Action {
 
         int blockSize = checksum.getBlockSize();
         if (blockSize > 0) {
-            buffer.append(String.format("%n%sblocksize:%n", indent));
+            buffer.append(String.format("%n%sBlock size:%n", indent));
             buffer.append(String.format(FORMAT, indent, "bits:", Integer.toString(blockSize * 8)));
             buffer.append(String.format(FORMAT, indent, "bytes:", Integer.toString(blockSize)));
         }
@@ -114,16 +117,13 @@ public class AlgoInfoAction implements Action {
             CrcInfo crc = (CrcInfo) checksum;
             byte[] polyAsBytes = crc.getPolyAsBytes();
             String polyAsBits = ByteSequences.formatAsBits(polyAsBytes, crc.getWidth());
-            String reversedPolyAsBits = new StringBuilder(polyAsBits).reverse().toString();
-            String koopmanPolyAsBits = "1"+polyAsBits.substring(0, polyAsBits.length()-1);
-            String reciprocalPolyAsBits = new StringBuilder(koopmanPolyAsBits).reverse().toString();
 
             buffer.append(String.format("%n%sCRC parameters:%n", indent));
             buffer.append(String.format(FORMAT, indent, "width (in bits):", crc.getWidth()));
-            buffer.append(String.format(FORMAT, indent, "polynomial [hex]:", new BigInteger(polyAsBits, 2).toString(16)));
+            buffer.append(String.format(FORMAT, indent, "polynomial [hex]:", polyAsHex(polyAsBits)));
             buffer.append(String.format(FORMAT, indent, "init [hex]:", ByteSequences.hexformat(crc.getInitialValue(), crc.getWidth() / 4)));
-            buffer.append(String.format(FORMAT, indent, "refIn:", crc.isRefIn()));
-            buffer.append(String.format(FORMAT, indent, "refOut:", crc.isRefOut()));
+            buffer.append(String.format(FORMAT, indent, "refIn [boolean]:", crc.isRefIn()));
+            buffer.append(String.format(FORMAT, indent, "refOut [boolean]:", crc.isRefOut()));
             buffer.append(String.format(FORMAT, indent, "xorOut [hex]:", ByteSequences.hexformat(crc.getXorOut(), crc.getWidth() / 4)));
 
             if (checksum instanceof CrcGeneric) {
@@ -143,47 +143,99 @@ public class AlgoInfoAction implements Action {
                     }
                     buffer.append(String.format(FORMAT, indent, "Jacksum CRC algo def:", crcGen.getString()));
                 }
+            } else {
+                // Jacksum CRC algo definitions only for bit widths [1..64]
+                if (crc.getWidth() <= 64) {
+                    buffer.append(String.format(FORMAT, indent, "Jacksum CRC algo def:", new CrcModel(crc).getString()));
+                }
             }
 
+            // Normal poly representation
             buffer.append(String.format("%n%sPolynomial representations:%n", indent));
             buffer.append(String.format(FORMAT, indent, "mathematical:", CrcUtils.polyAsMathExpression(crc.getWidth(), polyAsBytes)));
-            buffer.append(String.format(FORMAT, indent, "normal/MSB first [binary]:", polyAsBits));
-            buffer.append(String.format(FORMAT, indent, "normal/MSB first [hex]:", new BigInteger(polyAsBits, 2).toString(16)));
-            buffer.append(String.format(FORMAT, indent, "reversed/LSB first [binary]:", reversedPolyAsBits));
-            buffer.append(String.format(FORMAT, indent, "reversed/LSB first [hex]:", new BigInteger(reversedPolyAsBits, 2).toString(16)));
-            buffer.append(String.format(FORMAT, indent, "Koopman [binary]:", koopmanPolyAsBits));
-            buffer.append(String.format(FORMAT, indent, "Koopman [hex]:", new BigInteger(koopmanPolyAsBits, 2).toString(16)));
+            appendBuffer(buffer, indent, polyAsBits);
 
-            buffer.append(String.format("%n%sReciprocal poly (similar error detection strength):%n", indent));
+            // Reciprocal poly
+            buffer.append(String.format("%n%sReciprocal polynomial representations (the reciprocal poly has a similar error detection strength):%n", indent));
+            String reciprocalPolyAsBits = new StringBuilder(polyAsKoopmanPolyInBits(polyAsBits)).reverse().toString();
             buffer.append(String.format(FORMAT, indent, "mathematical:", CrcUtils.polyAsMathExpression(crc.getWidth(), reciprocalPolyAsBits)));
-            buffer.append(String.format(FORMAT, indent, "normal [binary]:", reciprocalPolyAsBits));
-            buffer.append(String.format(FORMAT, indent, "normal [hex]:", new BigInteger(reciprocalPolyAsBits, 2).toString(16)));
+            appendBuffer(buffer, indent, reciprocalPolyAsBits);
+        }
+
+
+        boolean avalanche = true;
+        if (avalanche) {
+            byte[] input = null;
+            if (parameters.isSequence()) {
+                input = parameters.getSequence().asBytes();
+            } else {
+                input = "123456789".getBytes(StandardCharsets.UTF_8);
+            }
+
+            // Avalanche makes only sense if input is at least 1 bit, resp. 1 byte)
+            if (input.length > 0) {
+                buffer.append(String.format("%n%sAvalanche effect:%n", indent));
+                AvalancheInfo avalancheInfo = Avalanche.calc(checksum, input);
+
+                buffer.append(String.format(FORMAT, indent, "input length in bytes:", input.length));
+                buffer.append(String.format(FORMAT, indent, "input length in bits:", input.length * 8));
+                buffer.append(String.format(FORMAT, indent, "hash calculations:", (input.length * 8)+1 ));
+                buffer.append(String.format(FORMAT, indent, "input [hex]:", ByteSequences.format(input)));
+                buffer.append(String.format(FORMAT, indent, "input [bin]:", ByteSequences.formatAsBits(input)));
+
+                buffer.append(String.format(FORMAT, indent, "avalanche min effect:",
+                        String.format(Locale.US, "%.2f %%", avalancheInfo.getHammingDistanceMin())));
+                buffer.append(String.format(FORMAT, indent, "avalanche avg effect:",
+                        String.format(Locale.US, "%.2f %%", avalancheInfo.getHammingDistanceAvg())));
+                buffer.append(String.format(FORMAT, indent, "avalanche max effect:",
+                        String.format(Locale.US, "%.2f %%", avalancheInfo.getHammingDistanceMax())));
+            }
         }
 
 
         if (checksum.isActualAlternateImplementationUsed()) {
-            buffer.append(String.format("%n%sspeed:%n", indent));
+            buffer.append(String.format("%n%sSpeed:%n", indent));
             buffer.append(String.format(FORMAT, indent, "relative rank:", "unknown, speed is calculated for primary algorithms only"));
         } else {
             int weight = HashAlgorithm.getWeight(checksum.getName());
             if (weight > 1) {
                 int rank = HashAlgorithm.getRank(checksum.getName());
-                buffer.append(String.format("%n%sspeed:%n", indent));
+                buffer.append(String.format("%n%sSpeed:%n", indent));
                 buffer.append(String.format(FORMAT, indent, "relative rank:", rank + "/" + allSupportedAlgorithmsCount));
                 // long speedpoints = 100-Math.round((double)(100.0*weight/(double)maxWeight));
                 // buffer.append(String.format("%s  %-32s%s\n\n", indent, "speed points (100 max):", speedpoints)); // "*".repeat((int)stars)
             }
         }
 
-        buffer.append(String.format("%n%salternative/secondary implementation:%n", indent));
+        buffer.append(String.format("%n%sAlternative/secondary implementation:%n", indent));
         buffer.append(String.format(FORMAT, indent, "has been requested:", parameters.isAlternateImplementationWanted()));
         buffer.append(String.format(FORMAT, indent, "is available and would be used:", checksum.isActualAlternateImplementationUsed()));
+    }
+
+    private String polyAsKoopmanPolyInBits(String polyAsBits) {
+        return "1"+polyAsBits.substring(0, polyAsBits.length()-1);
+    }
+
+    private String polyAsHex(String poly) {
+        return new BigInteger(poly, 2).toString(16);
+    }
+
+    private void appendBuffer(StringBuilder buffer, String indent, String polyAsBits) {
+        buffer.append(String.format(FORMAT, indent, "normal/MSB first [binary]:", polyAsBits));
+        buffer.append(String.format(FORMAT, indent, "normal/MSB first [hex]:", polyAsHex(polyAsBits)));
+        String reversedPolyAsBits = new StringBuilder(polyAsBits).reverse().toString();
+        buffer.append(String.format(FORMAT, indent, "reversed/LSB first [binary]:", reversedPolyAsBits));
+        buffer.append(String.format(FORMAT, indent, "reversed/LSB first [hex]:", polyAsHex(reversedPolyAsBits)));
+        String koopmanPolyAsBits = polyAsKoopmanPolyInBits(polyAsBits);
+        buffer.append(String.format(FORMAT, indent, "Koopman [binary]:", koopmanPolyAsBits));
+        buffer.append(String.format(FORMAT, indent, "Koopman [hex]:", polyAsHex(koopmanPolyAsBits)));
+
     }
 
     private int singleView(StringBuilder buffer) throws ExitException {
         try {
             AbstractChecksum checksum = JacksumAPI.getInstance(parameters);
-            buffer.append(String.format("  algorithm:%n"));
+            buffer.append(String.format("  Algorithm:%n"));
 
             if (checksum instanceof CombinedChecksum) {
                 buffer.append(String.format("    %-38s%s%n", "name:", checksum.getName()));

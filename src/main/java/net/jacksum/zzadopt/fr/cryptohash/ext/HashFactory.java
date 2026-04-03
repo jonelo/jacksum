@@ -1,3 +1,4 @@
+// https://web.archive.org/web/20160620024611/http://www.saphir2.com/sphlib/files/sphlib-3.0.zip
 package net.jacksum.zzadopt.fr.cryptohash.ext;
 
 import net.jacksum.zzadopt.fr.cryptohash.Digest;
@@ -25,6 +26,34 @@ import net.jacksum.zzadopt.fr.cryptohash.Luffa224;
 import net.jacksum.zzadopt.fr.cryptohash.Luffa256;
 import net.jacksum.zzadopt.fr.cryptohash.Luffa384;
 import net.jacksum.zzadopt.fr.cryptohash.Luffa512;
+import net.jacksum.zzadopt.fr.cryptohash.BlueMidnightWish224;
+import net.jacksum.zzadopt.fr.cryptohash.BlueMidnightWish256;
+import net.jacksum.zzadopt.fr.cryptohash.BlueMidnightWish384;
+import net.jacksum.zzadopt.fr.cryptohash.BlueMidnightWish512;
+import net.jacksum.zzadopt.fr.cryptohash.SIMD224;
+import net.jacksum.zzadopt.fr.cryptohash.SIMD256;
+import net.jacksum.zzadopt.fr.cryptohash.SIMD384;
+import net.jacksum.zzadopt.fr.cryptohash.SIMD512;
+import net.jacksum.zzadopt.fr.cryptohash.CubeHash224;
+import net.jacksum.zzadopt.fr.cryptohash.CubeHash256;
+import net.jacksum.zzadopt.fr.cryptohash.CubeHash384;
+import net.jacksum.zzadopt.fr.cryptohash.CubeHash512;
+import net.jacksum.zzadopt.fr.cryptohash.Hamsi224;
+import net.jacksum.zzadopt.fr.cryptohash.Hamsi256;
+import net.jacksum.zzadopt.fr.cryptohash.Hamsi384;
+import net.jacksum.zzadopt.fr.cryptohash.Hamsi512;
+import net.jacksum.zzadopt.fr.cryptohash.Shabal192;
+import net.jacksum.zzadopt.fr.cryptohash.Shabal224;
+import net.jacksum.zzadopt.fr.cryptohash.Shabal256;
+import net.jacksum.zzadopt.fr.cryptohash.Shabal384;
+import net.jacksum.zzadopt.fr.cryptohash.Shabal512;
+import net.jacksum.zzadopt.fr.cryptohash.SHAvite224;
+import net.jacksum.zzadopt.fr.cryptohash.SHAvite256;
+import net.jacksum.zzadopt.fr.cryptohash.SHAvite384;
+import net.jacksum.zzadopt.fr.cryptohash.SHAvite512;
+
+
+
 import net.jacksum.zzadopt.fr.cryptohash.RadioGatun32;
 import net.jacksum.zzadopt.fr.cryptohash.RadioGatun64;
 import net.jacksum.zzadopt.fr.cryptohash.PANAMA;
@@ -132,6 +161,86 @@ public class HashFactory implements Registry {
            case LUFFA224:
                result = new Luffa224();
                break;
+           case BMW512:
+               result = new BlueMidnightWish512();
+               break;
+           case BMW384:
+               result = new BlueMidnightWish384();
+               break;
+           case BMW256:
+               result = new BlueMidnightWish256();
+               break;
+           case BMW224:
+               result = new BlueMidnightWish224();
+               break;
+           case SIMD512:
+               result = new SIMD512();
+               break;
+           case SIMD384:
+               result = new SIMD384();
+               break;
+           case SIMD256:
+               result = new SIMD256();
+               break;
+           case SIMD224:
+               result = new SIMD224();
+               break;
+
+           case CUBEHASH512:
+               result = new CubeHash512();
+               break;
+           case CUBEHASH384:
+               result = new CubeHash384();
+               break;
+           case CUBEHASH256:
+               result = new CubeHash256();
+               break;
+           case CUBEHASH224:
+               result = new CubeHash224();
+               break;
+
+           case HAMSI512:
+               result = new Hamsi512();
+               break;
+           case HAMSI384:
+               result = new Hamsi384();
+               break;
+           case HAMSI256:
+               result = new Hamsi256();
+               break;
+           case HAMSI224:
+               result = new Hamsi224();
+               break;
+
+           case SHABAL512:
+               result = new Shabal512();
+               break;
+           case SHABAL384:
+               result = new Shabal384();
+               break;
+           case SHABAL256:
+               result = new Shabal256();
+               break;
+           case SHABAL224:
+               result = new Shabal224();
+               break;
+           case SHABAL192:
+               result = new Shabal192();
+               break;
+
+           case SHAVITE512:
+               result = new SHAvite512();
+               break;
+           case SHAVITE384:
+               result = new SHAvite384();
+               break;
+           case SHAVITE256:
+               result = new SHAvite256();
+               break;
+           case SHAVITE224:
+               result = new SHAvite224();
+               break;
+
            default:
                break;
        }

@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.7.0 - a checksum utility in Java
+  Jacksum 3.8.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -77,6 +77,12 @@ public class Parser {
             throw new InvalidParserParameterException(String.format("Regular Expression expected in parser \"%s\"", props.getCompatName()));
         }
     }
+
+    // controls how duplicate filenames should be handled
+    // true: replace duplicate filenames (useful for --check-list)
+    // false: don't replace duplicate "filenames", because filenames are comments (useful for --wanted-list)
+    private boolean replaceDuplicateFilenames = true;
+
 
     public HashEntry parseOneLine(String line) {
         HashEntry hashEntry = null;
@@ -216,7 +222,6 @@ public class Parser {
                 bufferedReader = new BufferedReader(fileReader);
             }
 
-            boolean replaceDuplicateFilenames = true;
             String line;
             int lineNumber = 0;
             int properlyFormattedLines = 0;
@@ -287,4 +292,11 @@ public class Parser {
         return statistics;
     }
 
+    public boolean isReplaceDuplicateFilenames() {
+        return replaceDuplicateFilenames;
+    }
+
+    public void setReplaceDuplicateFilenames(boolean replaceDuplicateFilenames) {
+        this.replaceDuplicateFilenames = replaceDuplicateFilenames;
+    }
 }

@@ -28,4 +28,5 @@ public interface HeaderParameters {
     String[] getCLIParameters();
     String[] getCLIParametersWithQuotes();
     boolean isHeaderWanted();
+    String getLeadingHeader();
 }

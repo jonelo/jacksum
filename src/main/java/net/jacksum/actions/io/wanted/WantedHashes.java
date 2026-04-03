@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.7.0 - a checksum utility in Java
+  Jacksum 3.8.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -57,6 +57,7 @@ public class WantedHashes {
         // construct the parser by using Parser's properties
         try {
             parser = new Parser(compatibilityProperties);
+            parser.setReplaceDuplicateFilenames(false);
         } catch (InvalidParserParameterException pe) {
             throw new ParameterException(pe.getMessage());
         }

@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.7.0 - a checksum utility in Java
+  Jacksum 3.8.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -56,6 +56,7 @@ public class CLIParameters {
     public static final String __COPYRIGHT = "--copyright";
     public static final String __LICENSE = "--license";
     public static final String __HEADER = "--header";
+    public static final String __NO_HEADER = "--no-header";
     public static final String _CHECK_FILE = "-c";
     public static final String __CHECK_FILE = "--check-file";
     public static final String __CHECK_LINE = "--check-line";
@@ -88,6 +89,9 @@ public class CLIParameters {
     public static final String _IGNORE_LINES_STARTING_WITH_STRING = "-I";
     public static final String __IGNORE_LINES_STARTING_WITH_STRING = "--ignore-lines-starting-with-string";
     public static final String __IGNORE_EMPTY_LINES = "--ignore-empty-lines";
+    public static final String __IGNORE_HASHES = "--ignore-hashes";
+    public static final String __IGNORE_SIZES = "--ignore-sizes";
+    public static final String __IGNORE_TIMESTAMPS = "--ignore-timestamps";
     public static final String _KEY = "-k";
     public static final String __KEY = "--key";
     public static final String _LIST = "-l";
@@ -257,6 +261,11 @@ public class CLIParameters {
 
                 } else if (arg.equals(__HEADER)) {
                     parameters.setHeaderWanted(true);
+                    parameters.setHeaderWantedExplicitlySet(true);
+
+                } else if (arg.equals(__NO_HEADER)) {
+                    parameters.setHeaderWanted(false);
+                    parameters.setHeaderWantedExplicitlySet(true);
 
                 } else if (arg.equals(_CHECK_FILE) || arg.equals(__CHECK_FILE)) {
                     if (firstfile < args.length) {
@@ -406,6 +415,15 @@ public class CLIParameters {
 
                 } else if (arg.equals(__IGNORE_EMPTY_LINES)) {
                     parameters.setIgnoreEmptyLines(true);
+
+                } else if (arg.equals(__IGNORE_HASHES)) {
+                    parameters.setIgnoreHashes(true);
+
+                } else if (arg.equals(__IGNORE_SIZES)) {
+                    parameters.setIgnoreSizes(true);
+
+                } else if (arg.equals(__IGNORE_TIMESTAMPS)) {
+                    parameters.setIgnoreTimestamps(true);
 
                 } else if (arg.equals(_KEY) || arg.equals(__KEY)) {
                     if (firstfile < args.length) {

@@ -1,6 +1,6 @@
 /*
 
-  Jacksum 3.7.0 - a checksum utility in Java
+  Jacksum 3.8.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -32,6 +32,7 @@ public class Header {
     public static final String FORMAT_ISO8601 = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
     private final HeaderParameters headerParameters;
     private final String commentChars;
+    private final StringBuilder sb;
 
     public Header(HeaderParameters headerParameters) {
         this.headerParameters = headerParameters;
@@ -40,21 +41,33 @@ public class Header {
         } else {
             commentChars = "#";
         }
+        sb = new StringBuilder();
     }
 
     private void printLine(String name, String value) {
-        System.out.printf("%s %s: %s%s", commentChars, name, value, headerParameters.getLineSeparator());
+        //System.out.printf("%s %s: %s%s", commentChars, name, value, headerParameters.getLineSeparator());
         max = Math.max(max, name.length() + value.length() + add);
+        sb.append(String.format("%s %s: %s%s", commentChars, name, value, headerParameters.getLineSeparator()));
     }
 
     private void printEmptyCommentLine() {
-        System.out.printf("%s%s", commentChars, headerParameters.getLineSeparator());
+        sb.append(String.format("%s%s", commentChars, headerParameters.getLineSeparator()));
     }
 
     private int max = 0;
     private final static int add = 3; // the blank before the name, the colon, and the blank after the name
+    private boolean virgin = true;
 
     public void print() {
+        if (!virgin) {
+            System.out.print(sb.toString());
+            return;
+        }
+
+        if (headerParameters.getLeadingHeader() != null) {
+            sb.append(headerParameters.getLeadingHeader());
+        }
+
         max = 0;
 
         // a single, empty comment line
@@ -98,7 +111,10 @@ public class Header {
                 String.join(" ", headerParameters.getCLIParametersWithQuotes()));
 
         // a single comment line, filled with underscores
-        System.out.printf("%s%s%s", commentChars, "_".repeat(max), headerParameters.getLineSeparator());
+        sb.append(String.format("%s%s%s", commentChars, "_".repeat(max), headerParameters.getLineSeparator()));
+
+        System.out.print(sb.toString());
+        virgin = false;
     }
 
 }

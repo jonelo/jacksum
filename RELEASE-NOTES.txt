@@ -1,3 +1,77 @@
+Jacksum 3.8.0, TBD
+
+- new features:
+  - new algorithms
+    - Jacksum now supports 513 algorithms!
+    - added Romulus-H v1.3, it is one of the finalists from the Lightweight Cryptography Competition held by NIST
+    - added 5 (resp. 17) algorithms from the round 2 of the NIST SHA-3 competition:
+      - BlueMidnightWish-[224,256,384,512]
+      - SIMD-[224,256,384,512]
+      - CubeHash-[224,256,384,512]
+      - Hamsi-[224,256,384,512]
+      - Shabal-[192,224,256,384,512]
+    - added CRCs
+      - CRC-64 (NVM Express 64b CRC)
+      - CRC-32 (Go Koopman) (issue #35)
+  - added new options:
+    - --ignore-hashes
+    - --ignore-sizes
+    - --ignore-timestamps
+    - --no-header
+  - added new styles (for I/O)
+    - full
+    - without-hashes
+    - without-timestamps
+    - without-sizes
+    - sizes-and-names
+    - timestamps-and-names
+    - hash data base (hdb) style which is used by ClamAV's sigtool
+  - added new timestamp formats
+    - default-utc
+    - iso-utc
+  - added strict check mode
+    - in strict check mode, all files must pass the verification process, and no files have been added, and no files have been removed
+    - added strict check output to the verification summary
+    - exit code follows --strict-check
+  - added more algorithm investigation info
+    - added avalanche effect info to the algorithm info
+    - allowed option -q to specify the sequence for the avalanche calculation
+    - added also reversed and Koopman representations for the reciprocal polynomial representation if --info is set for a CRC
+  - added troubleshooting features
+    - added Java Heap Info if --info option has been set
+  - improvements on existing features
+    - allowed option -e for --string-list
+
+- bug fixes:
+  - HMAC does not implement reset() method correctly which means that the same hash of the first calculation is always returned
+  - Don't ignore records with same comments in wanted list files.
+    While ignoring duplicate file names in check files makes sense for the option --check-file, that setting is
+    suboptimal if option --wanted-list is used, because filenames are treated as comments in wanted lists.
+  - OOM can occur if producer is much faster than the consumer threads
+  - keccak-384 was not recognized as an alias
+  - the prompt is "Password: " twice if both options -k password -q password have been specified
+    (e.g. "jacksum -q password -a hmac:sha256 -k password"), the prompt for the key is now "Key (echo off): " to
+    distinguish the input.
+  - issue #32 --header not working using --quick
+  - if multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
+  - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC definition code
+    if --info has been requested
+  - issue #30 - java.lang.OutOfMemoryError i.e. "Thread-0" or "pool-1-thread-4"
+  - issue #36 - If multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
+  - issue #37 - Parser does not find valid entries if algorithm "none" (no hashing) has been selected
+  - issue #38 - If hash values are not wanted by the user, there should be no leading separator character left in the output
+  - issue #40 - Output style for BSD is not 100% compatible for the cases sha512/224, sha512/256, and skein-512-512
+  - issue #41 - '-p' option is no longer supported but documentation still references this option
+
+- improved performance:
+  - used a short buffer for the --header output
+
+- updated documentation:
+  - added info about the usage of the internal state value for verification of test vectors submitted for the NIST competition
+    in the manpage for skein-256.
+  - added the "Go API", and Homebrew to the compatibility lists
+
+
 Jacksum 3.7.0, Aug 26, 2023
 
 - new features:

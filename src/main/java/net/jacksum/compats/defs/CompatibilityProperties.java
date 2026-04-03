@@ -1,6 +1,6 @@
 /*
 
-  Jacksum 3.7.0 - a checksum utility in Java
+  Jacksum 3.8.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -43,6 +43,7 @@ public class CompatibilityProperties implements Serializable {
 
     private boolean strictCheck = false;
     private boolean hashAlgorithmUserSelected = false;
+    private boolean timestampFormatUserSelected = false;
 
     private final static String COMPAT_SYNTAX_VERSION = "compat.syntaxVersion";
     private final static String COMPAT_NAME = "compat.name";
@@ -63,6 +64,8 @@ public class CompatibilityProperties implements Serializable {
     private final static String HASH_NIBBLES = "parser.regexp.nibbles";
     private final static String HASH_ALGORITHM = "algorithm.default";
     private final static String HASH_ALGORITHM_USER_SELECTABLE = "algorithm.userSelectable";
+    private final static String TIMESTAMP_FORMAT = "timestampFormat.format";
+    private final static String TIMESTAMP_FORMAT_USER_SELECTABLE = "timestampFormat.userSelectable";
     private final static String LINES_FORMAT = "formatter.format";
     private final static String HASH_ENCODING = "formatter.hash.encoding";
     private final static String STDIN_NAME = "formatter.stdinName";
@@ -71,6 +74,8 @@ public class CompatibilityProperties implements Serializable {
     private final static String GNU_ESCAPING_ENABLED = "formatter.gnuescaping.enabled";
     private final static String ALGONAME_DEFAULT_REPLACEMENT = "formatter.ALGONAME.defaultReplacement";
     private final static String ALGONAME_EXCEPTION_MAPPINGS = "formatter.ALGONAME.exceptionMappings";
+    private final static String HEADER = "formatter.header";
+    private final static String LEADING_HEADER = "formatter.leadingHeader";
 
 
     /**
@@ -236,6 +241,11 @@ public class CompatibilityProperties implements Serializable {
         return getFormat().contains("#FILESIZE") && getRegexpFilesizePos() > 0;
     }
 
+    public boolean isTimestampSupported() {
+        return getFormat().contains("#TIMESTAMP") && getRegexpTimestampPos() > 0;
+    }
+
+
     public String getRegexp() {
         return props.getProperty(LINES_REGEXP);
     }
@@ -325,9 +335,16 @@ public class CompatibilityProperties implements Serializable {
     }
 
 
+    // hash algorithm
+
     public String getHashAlgorithm() {
         return props.getProperty(HASH_ALGORITHM);
     }
+
+    public void setHashAlgorithm(String hashAlgorithm) {
+        props.setProperty(HASH_ALGORITHM, hashAlgorithm);
+    }
+
 
     public boolean getHashAlgorithmUserSelectable() {
         return props.getProperty(HASH_ALGORITHM_USER_SELECTABLE, "false").equals("true");
@@ -337,13 +354,46 @@ public class CompatibilityProperties implements Serializable {
         props.setProperty(HASH_ALGORITHM_USER_SELECTABLE, selectable ? "true" : "false");
     }
 
-    public void setHashAlgorithm(String hashAlgorithm) {
-        props.setProperty(HASH_ALGORITHM, hashAlgorithm);
+    /**
+     * @return the hashAlgorithmUserSelected
+     */
+    public boolean getHashAlgorithmUserSelected() {
+        return hashAlgorithmUserSelected;
     }
 
-    public String getHashEncoding() {
-        return props.getProperty(HASH_ENCODING);
+    /**
+     * @param hashAlgorithmUserSelected the hashAlgorithmUserSelected to set
+     */
+    public void setHashAlgorithmUserSelected(boolean hashAlgorithmUserSelected) {
+        this.hashAlgorithmUserSelected = hashAlgorithmUserSelected;
     }
+
+    // timestamp
+
+    public String getTimestampFormat() {
+        return props.getProperty(TIMESTAMP_FORMAT);
+    }
+
+    public void setTimestampFormat(String timestampFormat) {
+        props.setProperty(TIMESTAMP_FORMAT, timestampFormat);
+    }
+
+
+    public boolean isTimestampFormatUserSelectable() {
+        return props.getProperty(TIMESTAMP_FORMAT_USER_SELECTABLE, "false").equals("true");
+    }
+
+    public void setTimestampFormatUserSelectable(boolean selectable) {
+        props.setProperty(TIMESTAMP_FORMAT_USER_SELECTABLE, selectable ? "true": "false");
+    }
+
+
+    public boolean getTimestampFormatUserSelected() { return timestampFormatUserSelected; }
+
+    public void setTimestampFormatUserSelected(boolean timestampFormatUserSelected) {
+        this.timestampFormatUserSelected = timestampFormatUserSelected;
+    }
+
 
     public int getHashNibbles() {
         return Integer.parseInt(props.getProperty(HASH_NIBBLES, "-1"));
@@ -354,20 +404,56 @@ public class CompatibilityProperties implements Serializable {
     }
 
 
+    public String getHashEncoding() {
+        return props.getProperty(HASH_ENCODING, "hex");
+    }
+
     public void setHashEncoding(String hashEncoding) {
         props.setProperty(HASH_ENCODING, hashEncoding);
     }
 
-    public String getFormat(String algoid) {
+
+    public boolean isHeaderWanted() {
+        return props.getProperty(HEADER, "false").equals("true");
+    }
+
+    public void setHeaderWanted(boolean header) { props.setProperty(HEADER, header ? "true": "false"); }
+
+
+    public void setLeadingHeader(String leadingHeader) {
+         props.setProperty(LEADING_HEADER, leadingHeader);
+    }
+
+    public String getLeadingHeader() {
+        return props.getProperty(LEADING_HEADER, null);
+    }
+
+    private String primaryAlgoID = null;
+    private void initPrimaryAlgoIDfrom(String algoID) {
+        if (primaryAlgoID == null) {
+            try {
+                AbstractChecksum checksum = JacksumAPI.getChecksumInstance(algoID);
+                primaryAlgoID = checksum.getName();
+            } catch (NoSuchAlgorithmException ex) {
+                primaryAlgoID = algoID;
+            }
+        }
+    }
+
+    public String getLeadingHeaderFormatted(String algoID) {
+        if (props.getProperty(LEADING_HEADER) != null && props.getProperty(LEADING_HEADER).contains("#ALGONAMES")) {
+            String header = props.getProperty(LEADING_HEADER);
+            return header.replace("#ALGONAMES", algoID.replace("+",","));
+        }
+        return props.getProperty(LEADING_HEADER);
+    }
+
+    public String getFormat(String algoID) {
 
         if (props.getProperty(LINES_FORMAT).contains("#ALGONAME")) {
             // what is the primary id?
-            String primaryID;
-            try {
-                AbstractChecksum checksum = JacksumAPI.getChecksumInstance(algoid);
-                primaryID = checksum.getName();
-            } catch (NoSuchAlgorithmException ex) {
-                primaryID = algoid;
+            if (primaryAlgoID == null) {
+                initPrimaryAlgoIDfrom(algoID);
             }
 
             String format = props.getProperty(LINES_FORMAT);
@@ -377,7 +463,7 @@ public class CompatibilityProperties implements Serializable {
                 String[] tokens = getAlgonameExceptionMappings().split(";");
                 for (String token : tokens) {
                     String[] tuple = token.split("=");
-                    if (tuple[0].equals(primaryID)) {
+                    if (tuple[0].equals(primaryAlgoID)) {
                         format = format.replace("#ALGONAME", tuple[1]);
                     }
                 }
@@ -431,19 +517,6 @@ public class CompatibilityProperties implements Serializable {
         this.strictCheck = strictCheck;
     }
 
-    /**
-     * @return the hashAlgorithmUserSelected
-     */
-    public boolean getHashAlgorithmUserSelected() {
-        return hashAlgorithmUserSelected;
-    }
-
-    /**
-     * @param hashAlgorithmUserSelected the hashAlgorithmUserSelected to set
-     */
-    public void setHashAlgorithmUserSelected(boolean hashAlgorithmUserSelected) {
-        this.hashAlgorithmUserSelected = hashAlgorithmUserSelected;
-    }
 
     private boolean isParserSupported(String parser) {
         switch (parser) {
@@ -457,7 +530,15 @@ public class CompatibilityProperties implements Serializable {
             case "solaris-digest":
             case "solaris-digest-v":
             case "files-only":
+            case "hdb":
             case "hexhashes-only":
+            case "sizes-and-names":
+            case "timestamps-and-names":
+            case "full":
+            case "without-hashes":
+            case "without-timestamps":
+            case "without-sizes":
+            //case "hashdeep":
                 return true;
             default:
                 return false;
@@ -495,6 +576,7 @@ public class CompatibilityProperties implements Serializable {
                 return "solaris-digest";
 
             case "filesonly":
+            case "names-only":
                 return "files-only";
 
             case "hexhashesonly":

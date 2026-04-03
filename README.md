@@ -17,16 +17,16 @@ functions available to you to solve particular tasks the smart way.
 
 Jacksum covers many types of use cases in which hash values make sense:
 
-- Calculating of hash values/fingerprints of almost any input
-  (command line arg, console, standard input, plain or encoded strings,
+- Calculating hash values/fingerprints of almost any input
+  (command-line args, console, standard input, plain or encoded strings,
   files, partitions, disks, NTFS ADS, pipes, sockets, doors, ...)
-- Finding OK/failed/missing/new files (verify file/data integrity)
-- Finding files by their fingerprints for positive matching
-- Finding files that do not match certain fingerprints for negative matching
+- Finding OK, failed, missing, or new files (verifying file/data integrity)
+- Finding files by their fingerprints (positive matching)
+- Finding files that do not match certain fingerprints (negative matching)
 - Finding all duplicates of a file by its hash value
 - Finding the algorithm(s) that generated a certain hash value
-- Investigate polynomials of CRCs
-- Investigate parameters of HMACs
+- Investigating polynomials of CRCs
+- Investigating parameters of HMACs
 
 In order to achieve the goals above Jacksum supports you with
 
@@ -46,7 +46,7 @@ In order to achieve the goals above Jacksum supports you with
 - Fully customizable output format
 - 170+ different character sets to be able to read and write hash files
   correctly
-- 9200+ lines of  with descriptions, examples, and compatibility
+- 9200+ lines of documentation with descriptions, examples, and compatibility
   lists for all supported algorithms
 
 Jacksum is also a library. You can use it for your projects. It is written entirely in **Java** ☕.
@@ -93,9 +93,9 @@ Go to [Features of Jacksum](https://github.com/jonelo/jacksum/wiki/Features).
 
 ## Algorithm Support
 
-Jacksum supports **489 hash functions**, both cryptographic and non-cryptographic hash function sets, including CRCs and classic checksums.
+Jacksum supports **513 hash functions**, both cryptographic and non-cryptographic hash function sets, including CRCs and classic checksums.
 
-Adler-32, ascon-hash, ascon-hasha, ascon-xof, ascon-xofa, AST strsum PRNG hash, BLAKE-[224,256,348,512], BLAKE2b-[8..512], BLAKE2s-[8..256], BLAKE2bp, BLAKE2sp, BLAKE3, cksum (Minix), cksum (Unix), CRC-8 (FLAC), CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16, CRC-24 (OpenPGP), CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32 (UBICRC32), CRC-32 (PHP's crc32), CRC-64 (ISO 3309), CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO), CRC-64 (.xz and prog lang GO, const ECMA), CRC-82/DARC, DHA-256, ECHO-[224,256,348,512], ed2k, ELF (Unix), esch256, esch384, Fletcher's Checksum, FNV-0_[32,64,128,256,512,1024], FNV-1_[32,64,128,256,512,1024], FNV-1a_[32,64,128,256,512,1024], FORK-256, Fugue-[224,256,348,512], GOST Crypto-Pro (GOST R 34.11-94), GOST R 34.11-94, Groestl-[224,256,384,512], HAS-160 (KISA), HAVAL-128-[3,4,5], HAVAL-[160,192,224,256]-[3,4,5], JH[224,256,284,512], joaat, KangarooTwelve, Keccak[224,256,384,512], Kupyna[256,384,512] (DSTU 7564:2014), LSH-256-[224,256], LSH-512-[224,256,384,512] (KS X 3262), Luffa-[224,256,348,512], MD2, MD4, MD5, MDC2, MarsupilamiFourteen, PANAMA, PRNG hash, RIPEMD-128, RIPEMD[160,256,320], RadioGatun[32,64], SHA-0, SHA-1, SHA-[224,256,384,512], SHA-512/[224,256]  (NIST FIPS 180-4), SHA3-[224,256,384,512], SHAKE[128,256] (NIST FIPS 202), SM3, Skein-1024-[8..1024], Skein-256-[8..256], Skein-512-[8..512], Streebog-[256,512] (GOST R 34.11-2012), sum (BSD Unix), sum (Minix), sum (System V Unix), sum [8,16,24,32,40,48,56,64], Tiger, Tiger/128, Tiger/160, Tiger2, photon-beetle, PHP Tiger variants (tiger192,4, tiger160,4, and tiger128,4), VSH-1024, Whirpool-0, Whirlpool-T, Whirlpool, Xoodyak, xor8, and XXH32.
+Adler-32, ascon-hash, ascon-hasha, ascon-xof, ascon-xofa, AST strsum PRNG hash, BLAKE-[224,256,348,512], BLAKE2b-[8..512], BLAKE2s-[8..256], BLAKE2bp, BLAKE2sp, BLAKE3, BlueMidnightWish-[224,256,384,512], cksum (Minix), cksum (Unix), CubeHash-[224,256,384,512], CRC-8 (FLAC), CRC-16 (LHA/ARC), CRC-16 (Minix), FCS-16, CRC-24 (OpenPGP), CRC-32 (FCS-32), CRC-32 (MPEG-2), CRC-32 (bzip2), CRC-32 (FDDI), CRC-32 (UBICRC32), CRC-32 (PHP's crc32), CRC-32 (Go Koopman), CRC-64 (ISO 3309), CRC-64 (ECMA-182), CRC-64 (prog lang GO, const ISO), CRC-64 (NVM Express 64b CRC), CRC-64 (.xz and prog lang GO, const ECMA), CRC-82/DARC, DHA-256, ECHO-[224,256,348,512], ed2k, ELF (Unix), esch256, esch384, Fletcher's Checksum, FNV-0_[32,64,128,256,512,1024], FNV-1_[32,64,128,256,512,1024], FNV-1a_[32,64,128,256,512,1024], FORK-256, Fugue-[224,256,348,512], GOST Crypto-Pro (GOST R 34.11-94), GOST R 34.11-94, Groestl-[224,256,384,512], Hamsi-[224,256,384,512], HAS-160 (KISA), HAVAL-128-[3,4,5], HAVAL-[160,192,224,256]-[3,4,5], JH[224,256,284,512], joaat, KangarooTwelve, Keccak[224,256,384,512], Kupyna[256,384,512] (DSTU 7564:2014), LSH-256-[224,256], LSH-512-[224,256,384,512] (KS X 3262), Luffa-[224,256,348,512], MD2, MD4, MD5, MDC2, MarsupilamiFourteen, PANAMA, PRNG hash, RIPEMD-128, RIPEMD[160,256,320], RadioGatun[32,64], Romulus-H, SHA-0, SHA-1, SHA-[224,256,384,512], SHA-512/[224,256]  (NIST FIPS 180-4), SHA3-[224,256,384,512], Shabal-[192,224,256,384,512], SHAKE[128,256] (NIST FIPS 202), SIMD-[224,256,384,512], SM3, Skein-1024-[8..1024], Skein-256-[8..256], Skein-512-[8..512], Streebog-[256,512] (GOST R 34.11-2012), sum (BSD Unix), sum (Minix), sum (System V Unix), sum [8,16,24,32,40,48,56,64], Tiger, Tiger/128, Tiger/160, Tiger2, photon-beetle, PHP Tiger variants (tiger192,4, tiger160,4, and tiger128,4), VSH-1024, Whirpool-0, Whirlpool-T, Whirlpool, Xoodyak, xor8, and XXH32.
 
 See also [Algorithms of Jacksum](https://github.com/jonelo/jacksum/wiki/Algorithms)
 
@@ -113,7 +113,7 @@ Jacksum provides a Command Line Interface (CLI), an Application Programming Inte
 
 ### Command Line Interface (CLI)
 
-If you are a skilled command line user you will benefit from the power on the command line and you can use Jacksum in scripts, cronjobs, etc. in order to automate file integration/verification tasks for example.
+Command line users benefit from the power on the command line. You can call Jacksum in scripts, cronjobs, AI agents, etc. in order to automate file integration/verification tasks for example.
 
 <img width="100%" src="https://raw.githubusercontent.com/jonelo/jacksum/main/docs/images/screenshot-jacksum_on_ubuntu-cli_examples.png" alt="Jacksum on Ubuntu, CLI examples" style="vertical-align:top;margin:10px 10px" />
 
@@ -140,7 +140,7 @@ m is often called the message or data, and dependent on the design, and security
 Calculating hash values is usually the first step you take to be able to check data integrity at all later on.
 Jacksum supports not only hundreds of different algorithms for calculating hash values, it also supports many predefined styles and comprehensive formatting features to get the format you need.
 
-Example 1: Default style (is dependent on the algorithm)
+Example 1: Default style (output is dependent on the selected algorithm)
 
     $ jacksum -a sha3-256 ubuntu-22.04-desktop-amd64.iso
     c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43 ubuntu-22.04-desktop-amd64.iso
@@ -196,6 +196,7 @@ Example 9: Customized output in hashdeep format (filesize,hash1,...,hashN,filena
     4927586304,8485d0b3,b98dac940a82b110e6265ca78d1320f1f7103861e922aa1a54e4202686e9bbd3,6ef3a1c2dc1c90242ece09b82cb109a2a3db8dc6d64914ae35439cc98e3fd4bd,./ubuntu-22.04.2-desktop-amd64.iso
 
 
+
 ### Customize CRCs
 
 #### 6 parameters
@@ -207,7 +208,7 @@ Example 1: get the Castagnoli CRC-32 in lower hex
     $ jacksum -a crc:32,1EDC6F41,FFFFFFFF,true,true,FFFFFFFF -x -q txt:123456789
     e3069283 9
 
-Example 2: as above by using an alias
+Example 2: as above by using the alias (Castagnoli CRC)
 
     $ jacksum -a crc32c -x -q txt:123456789
     e3069283 9
@@ -221,7 +222,7 @@ Example 1: get the POSIX 1003.2 CRC algorithm
     $ jacksum -a crc:32,04C11DB7,0,false,false,FFFFFFFF,false -x -q txt:123456789
     377a6011 9
 
-Example 2: as above by using an alias
+Example 2: as above by using the alias (cksum)
 
     $ jacksum -a cksum -x -q txt:123456789
     377a6011 9
@@ -486,6 +487,28 @@ Once you have identified the correct algorithm, you can calculate your own input
 jacksum -a crc:16,1021,FFFF,false,false,FFFF -E hex -q txt:"Hello World"
 ```
 </details>
+
+### Find malware by hash values
+
+#### Get or create a malware database
+
+To identify malware on a computer by hash values, you need hash values from malware.
+
+##### Get an existing malware database
+
+For example you can use scripts such as [dumahadaba](https://github.com/jonelo/dumahadaba) to transform a malware database to a plain text file which Jacksum is able to proceed further.
+
+##### Create hash values from malware by Jacksum
+
+If you know malware, you can create your own malware database by Jacksum.
+In the following example we have a directory called ./malware where all the malware is located where we want to calculate hash values from.
+We store the hash values in the hdb format which is used by [ClamAV's sigtool](https://docs.clamav.net/manual/Signatures.html#hash-based-signatures) (hash:filesize:filename). We set the --no-path option because we are interested in the filename only.
+
+    $ jacksum -a sha256 --style hdb --no-path -O malware.sha256.hdb ./malware/
+
+#### Find malware using Jacksum and a .hdb file
+
+    $ jacksum -a sha256 --style hdb --wanted-list malware.sha256.hdb .
 
 ### Jacksum hacks (unexpected free gifts)
 

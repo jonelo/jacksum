@@ -53,6 +53,9 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
         if (listFilter.isFilterMissing()) {
            map.put("missing files (MISSING)", missingFiles);
         }
+        if (listFilter.isFilterOk() && listFilter.isFilterFailed() && listFilter.isFilterNew() && listFilter.isFilterMissing()) {
+            map.put("strict check", (mismatches + newFiles + missingFiles) == 0 ? "PASSED" : "FAILED");
+        }
         super.put(map);
         return map;
     }

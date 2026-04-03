@@ -40,14 +40,22 @@ public class HashStringsActionStatistics extends StatisticsBytes {
     private long emptyLines;
     private long hashedLines;
 
+    private long matchedLines;
+    private long notMatchedLines;
+
     @Override
     public Map<String, Object> build() {
         Map<String, Object> map = new LinkedHashMap<>();
 
         map.put("total lines read", getTotalLines());
-        map.put("total lines hashed", getHashedLines());
         map.put("ignored comment lines", getIgnoredLines());
         map.put("ignored empty lines", getEmptyLines());
+        map.put("","");
+        map.put("total lines hashed", getHashedLines());
+        if (getMatchedLines() >= 0 && getNotMatchedLines() >= 0) {
+            map.put("total lines matched", getMatchedLines());
+            map.put("total lines not matched", getNotMatchedLines());
+        }
         map.put("total bytes hashed", getBytes());
         map.put("total bytes hashed (human readable)", GeneralMath.formatByteCountHumanReadable(getBytes(), true));
         return map;
@@ -59,6 +67,8 @@ public class HashStringsActionStatistics extends StatisticsBytes {
         totalLines = 0;
         setHashedLines(0);
         ignoredLines = 0;
+        matchedLines = 0;
+        notMatchedLines = 0;
     }
 
     public long getTotalLines() {
@@ -97,5 +107,21 @@ public class HashStringsActionStatistics extends StatisticsBytes {
 
     public void setEmptyLines(long emptyLines) {
         this.emptyLines = emptyLines;
+    }
+
+    public long getMatchedLines() {
+        return matchedLines;
+    }
+
+    public void setMatchedLines(long matchedLines) {
+        this.matchedLines = matchedLines;
+    }
+
+    public long getNotMatchedLines() {
+        return notMatchedLines;
+    }
+
+    public void setNotMatchedLines(long notMatchedLines) {
+        this.notMatchedLines = notMatchedLines;
     }
 }

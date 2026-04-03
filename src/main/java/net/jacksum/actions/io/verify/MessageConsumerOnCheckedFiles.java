@@ -1,6 +1,6 @@
 /*
 
-  Jacksum 3.7.0 - a checksum utility in Java
+  Jacksum 3.8.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -51,8 +51,8 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
     private List<HashEntry> hashEntries;
     private HashMap<String, HashEntry> map;
     private long matches, mismatches, errors, filesMissing;
-    private Statistics statistics;
-    private Messenger messenger;
+    private final Statistics statistics;
+    private final Messenger messenger;
 
     // private Set<String> notRemovedFilesSet;
     public MessageConsumerOnCheckedFiles() {
@@ -140,11 +140,11 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                 
                 // is it a file that we can compare ...?
                 if (map.containsKey(filenameAsKey)) {
-                    
+
                     boolean cont = true;
                     
                     // check if filesize is available in the map
-                    if (map.get(filenameAsKey).getFilesize() > -1 && map.get(filenameAsKey).getFilesize() != message.getPayload().getSize()) {
+                    if (!parameters.isIgnoreSizes() && map.get(filenameAsKey).getFilesize() > -1 && map.get(filenameAsKey).getFilesize() != message.getPayload().getSize()) {
                             print(filter.isFilterFailed(), FAILED, filename);
                             if (!parameters.isList() && parameters.getVerbose().isInfo()) {
                                 System.err.printf("           [filesize expected: %s, actual: %s]\n", map.get(filenameAsKey).getFilesize(), message.getPayload().getSize());
@@ -152,9 +152,9 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                             mismatches++;
                             cont = false;
                     }
-                    
+
                     // check the timestamp if timestamp is available in the map
-                    if (cont && map.get(filenameAsKey).getTimestamp() != null) {
+                    if (cont && !parameters.isIgnoreTimestamps() && map.get(filenameAsKey).getTimestamp() != null) {
                         String actualTimestampAsString = timestampFormatter.format(message.getPayload().getBasicFileAttributes().lastModifiedTime().to(TimeUnit.MILLISECONDS));
                         if (!map.get(filenameAsKey).getTimestamp().equals(actualTimestampAsString)) {
                             print(filter.isFilterFailed(), FAILED, filename);
@@ -165,18 +165,34 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                             cont = false;                            
                         }
                     }
-                    
-                    if (cont) {
+
+                    // '-a none' has not been set, a hash is not there, but the file is there for sure (message type == FILE_HASHED)
+                    if (cont && message.getPayload().getDigest() == null) {
+                        print(filter.isFilterOk(), OK, filename);
+                        matches++;
+                        cont = false;
+                    }
+
+                    // a hash value is there
+                    if (cont && !parameters.isIgnoreHashes()) {
                         // compare the hashes: OK or FAILED
                         if (EncodingDecoding.encodeBytes(message.getPayload().getDigest(), parameters.getEncoding(), 0, ' ').equals(map.get(filenameAsKey).getHash())) {
                             print(filter.isFilterOk(), OK, filename);
                             matches++;
+                            cont = false;
                             //map.get(filename).setStatus(HashEntry.Status.OK);
                         } else {
                             print(filter.isFilterFailed(), FAILED, filename);
                             mismatches++;
+                            cont = false;
                             //map.get(filename).setStatus(HashEntry.Status.FAILED);
                         }
+                    }
+
+                    // we only check the existence of the file, and since it is tagged with FILE_HASHED, we know it is there for sure.
+                    if (cont) {
+                        print(filter.isFilterOk(), OK, filename);
+                        matches++;
                     }
                 // ... or is it a new file?
                 } else {
@@ -266,8 +282,22 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
         if (errors > 0) {
             return ExitCode.IO_ERROR;
         }
-        if (mismatches > 0) {
-            return ExitCode.CHECK_MISMATCH;
+        ListFilter listFilter = parameters.getListFilter();
+        if (parameters.isCheckStrict()) {
+            // if --check-strict is set, --list-filter all must be set
+            if (!listFilter.isFilterOk() ||
+                    !listFilter.isFilterFailed() ||
+                    !listFilter.isFilterMissing() ||
+                    !listFilter.isFilterNew()) {
+                return ExitCode.PARAMETER_ERROR;
+            }
+            if (mismatches + filesMissing + newFiles > 0) {
+                return ExitCode.EXPECTATION_NOT_MET;
+            }
+        } else {
+            if (mismatches > 0) {
+                return ExitCode.CHECK_MISMATCH;
+            }
         }
         return ExitCode.OK;
     }

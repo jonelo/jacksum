@@ -27,6 +27,8 @@ package net.loefflmann.sugar.encodings;
   encode() has been ported to Java from the OpenSSH's C source called key.c by
   Johann N. Loefflmann
 
+  See also http://web.mit.edu/kenta/www/one/bubblebabble/spec/jrtrjwzi/draft-huima-01.txt
+
  */
 /**
  * Header notice from the source called key.c in OpenSSH:

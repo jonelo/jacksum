@@ -37,13 +37,12 @@ public class Engine {
     
     private final BlockingQueue<Message> inputQueue;
     private final BlockingQueue<Message> outputQueue;
-    
-    private final ProducerConsumerParameters parameters;
+
 
 
     public Engine(ProducerConsumerParameters parameters, MessageConsumer consumer)
             throws NoSuchAlgorithmException {
-        this.parameters = parameters;
+    //    this.parameters = parameters;
 
         AlgorithmPool algoPool = new AlgorithmPool(parameters);
         // pass the actual format preferences of the algorithm to the consumer

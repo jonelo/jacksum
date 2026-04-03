@@ -149,6 +149,7 @@ public class HMAC extends AbstractChecksum  {
 	public void reset() {
 		digest.reset();
 		digest.update(i_key_pad);
+		virgin = true;
 	}
 
 	@Override

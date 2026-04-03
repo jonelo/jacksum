@@ -39,7 +39,6 @@ import net.jacksum.actions.io.verify.CheckConsumerParameters;
 import net.jacksum.actions.io.verify.ListFilter;
 import net.jacksum.actions.io.wanted.MatchFilter;
 import net.jacksum.algorithms.AbstractChecksum;
-import net.jacksum.algorithms.HMAC;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Messenger;
 import net.jacksum.cli.Verbose;
@@ -47,6 +46,7 @@ import net.jacksum.compats.defs.CompatibilityProperties;
 import net.jacksum.compats.defs.InvalidCompatibilityPropertiesException;
 import net.jacksum.formats.Encoding;
 import net.jacksum.formats.EncodingDecoding;
+import net.jacksum.formats.TimestampFormatter;
 import net.jacksum.multicore.OSControl;
 import net.jacksum.multicore.ThreadControl;
 import net.jacksum.multicore.manyfiles.ProducerParameters;
@@ -230,6 +230,10 @@ public class Parameters implements
 
     // --header
     private boolean headerWanted = false;
+    private boolean headerWantedExplicitlySet = false;
+
+    // only settable by a style
+    private String leadingHeader = null;
 
     // --bom
     private boolean bom = false;
@@ -280,6 +284,13 @@ public class Parameters implements
     private String stringList = null;
 
     private boolean ignoreEmptyLines = false;
+
+    private boolean ignoreHashes = false;
+
+    private boolean ignoreSizes = false;
+
+    private boolean ignoreTimestamps = false;
+
 
     // ************************************** constructors *********************************************************
 
@@ -351,7 +362,7 @@ public class Parameters implements
         } else if (findAlgorithm) {
             return ActionType.FIND_ALGO;
 
-        } else if (isSequence()) {
+        } else if (isSequence() && !isInfoMode()) {
             return ActionType.QUICK;
 
         } else if (isStringList()) {
@@ -856,6 +867,17 @@ public class Parameters implements
         this.headerWanted = headerWanted;
     }
 
+    // by default the flag headerWantedExplicitlySet is false,
+    // it becomes true if the user explicitly set --header or --no-header
+    public void setHeaderWantedExplicitlySet(boolean headerWantedExplicitlySet) {
+        this.headerWantedExplicitlySet = headerWantedExplicitlySet;
+    }
+
+    // did the user specify explicitly --header or --no-header ?
+    public boolean isHeaderWantedExplicitlySet() {
+        return headerWantedExplicitlySet;
+    }
+
     public boolean isPathAbsolute() {
         return pathAbsolute;
     }
@@ -1012,6 +1034,19 @@ public class Parameters implements
     public void setIgnoreEmptyLines(boolean ignoreEmptyLines) {
         this.ignoreEmptyLines = ignoreEmptyLines;
     }
+
+    public boolean isIgnoreHashes() { return ignoreHashes; }
+
+    public void setIgnoreHashes(boolean ignoreHashes) { this.ignoreHashes = ignoreHashes; }
+
+    public boolean isIgnoreSizes() { return ignoreSizes; }
+
+    public void setIgnoreSizes(boolean ignoreSizes) { this.ignoreSizes = ignoreSizes; }
+
+    public boolean isIgnoreTimestamps() { return ignoreTimestamps; }
+
+    public void setIgnoreTimestamps(boolean ignoreTimestamps) { this.ignoreTimestamps = ignoreTimestamps; }
+
 
     public String getCharsetConsole() {
         return charsetConsole;
@@ -1390,9 +1425,9 @@ public class Parameters implements
         if (newParameters.isLicenseWanted()) {
             this.setLicenseWanted(true);
         }
-        if (newParameters.isHeaderWanted()) {
-            this.setHeaderWanted(true);
-        }
+        this.setHeaderWanted(newParameters.isHeaderWanted());
+        this.setHeaderWantedExplicitlySet(newParameters.isHeaderWantedExplicitlySet());
+
         if (newParameters.getCheckFile() != null) {
             this.setCheckFile(newParameters.getCheckFile());
         }
@@ -1401,6 +1436,15 @@ public class Parameters implements
         }
         if (newParameters.isCheckStrict()) {
             this.setCheckStrict(true);
+        }
+        if (newParameters.isIgnoreHashes()) {
+            this.setIgnoreHashes(true);
+        }
+        if (newParameters.isIgnoreSizes()) {
+            this.setIgnoreSizes(true);
+        }
+        if (newParameters.isIgnoreTimestamps()) {
+            this.setIgnoreTimestamps(true);
         }
         if (newParameters.isStringList()) {
             this.setStringList(newParameters.getStringList());
@@ -1608,8 +1652,11 @@ public class Parameters implements
         if (licenseWanted) {
             list.add(__LICENSE);
         }
-        if (headerWanted) {
+        if (headerWanted && headerWantedExplicitlySet) {
             list.add(__HEADER);
+        }
+        if (!headerWanted && headerWantedExplicitlySet) {
+            list.add(__NO_HEADER);
         }
         if (checkFile != null) {
             list.add(_CHECK_FILE);
@@ -1621,6 +1668,15 @@ public class Parameters implements
         }
         if (checkStrict) {
             list.add(__CHECK_STRICT);
+        }
+        if (ignoreHashes) {
+            list.add(__IGNORE_HASHES);
+        }
+        if (ignoreSizes) {
+            list.add(__IGNORE_SIZES);
+        }
+        if (ignoreTimestamps) {
+            list.add(__IGNORE_TIMESTAMPS);
         }
         if (stringList != null) {
             list.add(__STRING_LIST);
@@ -1895,7 +1951,7 @@ public class Parameters implements
     private void handleKey() throws ParameterException, ExitException {
         if (isKey()) {
             if (getKey().getType().equals(Sequence.Type.PASSWORD)) {
-                char[] passwd = net.loefflmann.sugar.io.Console.readPassword();
+                char[] passwd = net.loefflmann.sugar.io.Console.readPassword("Key (echo off): ");
                 if (passwd != null) {
                     try {
                         setKey(new Sequence(Sequence.Type.PASSWORD, new String(passwd).getBytes(getCharsetConsole())));
@@ -1907,7 +1963,7 @@ public class Parameters implements
                 }
             } else
             if (getKey().getType().equals(Sequence.Type.READLINE)) {
-                String line = net.loefflmann.sugar.io.Console.readLine();
+                String line = net.loefflmann.sugar.io.Console.readLine("Key (echo on): ");
                 if (line != null) {
                     try {
                         setKey(new Sequence(Sequence.Type.READLINE, line.getBytes(getCharsetConsole())));
@@ -2121,18 +2177,14 @@ public class Parameters implements
         }
 
         try {
-            if (timestampFormat != null &&
-                    !timestampFormat.equals("default") &&
-                    !timestampFormat.equals("unixtime") &&
-                    !timestampFormat.equals("unixtime-ms") &&
-                    !timestampFormat.equals("iso8601")) {
-                // #QUOTE and #SEPARATOR should be replaced
-                this.timestampFormat = decodeQuote(this.timestampFormat);
-                this.timestampFormat = decodeSeparator(this.timestampFormat, this.separator);
-                // test, if the timestampformat is valid
-                Format timestampFormatter = new SimpleDateFormat(this.timestampFormat);
-                // ... ignore the return value, just force an IllegalArgumentException if format is invalid
-                timestampFormatter.format(new Date());
+            if (timestampFormat != null && !TimestampFormatter.isFormatASupportedKeyword(timestampFormat)) {
+                    // #QUOTE and #SEPARATOR should be replaced
+                    timestampFormat = decodeQuote(timestampFormat);
+                    timestampFormat = decodeSeparator(timestampFormat, separator);
+                    // test, if the timestampformat is valid
+                    Format timestampFormatter = new SimpleDateFormat(timestampFormat);
+                    // ... ignore the return value, just force an IllegalArgumentException if format is invalid
+                    timestampFormatter.format(new Date());
             }
         } catch (IllegalArgumentException e) {
             throw new ExitException(e.getMessage(), ExitCode.PARAMETER_ERROR);
@@ -2245,6 +2297,10 @@ public class Parameters implements
                     }
                 }
 
+                if (this.isHeaderWantedExplicitlySet()) {
+                    compatibilityProperties.setHeaderWanted(this.isHeaderWanted());
+                }
+
                 if (this.isGnuEscapingSetByUser()) {
                     // if the style allows overwriting GnuEscaping and GnuEscaping has been set using --gnu-filename-escaping ...
                     if (compatibilityProperties.isGnuEscapingSupported() && compatibilityProperties.isGnuEscapingUserSelectable()) {
@@ -2257,9 +2313,22 @@ public class Parameters implements
 
                 if (this.isFilesizeWantedSet()) {
                     if (!compatibilityProperties.isFilesizeSupported()) {
-                        messenger.print(WARNING, String.format("Ignoring option %s, because the style \"%s\" doesn't support file sizes.", __FILESIZE, compatibilityID));
+                        messenger.print(WARNING, String.format("Ignoring option %s, because the style \"%s\" does not support file sizes.", __FILESIZE, compatibilityID));
                     }
                 }
+
+                if (this.isTimestampWanted()) {
+                    // if the style allows overwriting the timestamp format and the timestamp format has been set using -t ...
+                    if (compatibilityProperties.isTimestampSupported() && compatibilityProperties.isTimestampFormatUserSelectable()) {
+                        // ... we overwrite the default in the compatibilityProperties object ...
+                        compatibilityProperties.setTimestampFormat(this.getTimestampFormat());
+                        // ... and flag that change by setting setTimestampFormatUserSelected(true);
+                        compatibilityProperties.setTimestampFormatUserSelected(true);
+                    } else {
+                        messenger.print(WARNING, String.format("Ignoring option %s, because the style \"%s\" does not support file timestamps.", __TIMESTAMP, compatibilityID));
+                    }
+                }
+
 
                 // patch this parameters object explicitly, because now the parameters
                 // come from the compatibilityID object (the compatibilityProperties)
@@ -2272,23 +2341,28 @@ public class Parameters implements
                                 compatibilityProperties.getStdinName()));
                     } else { // we are in normal calculation/print mode
                         String fmt = compatibilityProperties.getFormat(this.getAlgorithmIdentifier());
-                        messenger.print(INFO, String.format("Option --compat/-style has been set, setting implicitly -a %s -E %s -F \"%s\", stdin-name=%s",
+                        messenger.print(INFO, String.format("Option --compat/--style has been set, setting implicitly -a %s -E %s -F \"%s\", stdin-name=%s",
                                 compatibilityProperties.getHashAlgorithm(),
                                 compatibilityProperties.getHashEncoding(),
                                 fmt,
                                 compatibilityProperties.getStdinName()));
 
                         this.setFormat(fmt);
+                        this.setLeadingHeader(compatibilityProperties.getLeadingHeaderFormatted(this.getAlgorithmIdentifier()));
                     }
                 }
+
+
                 this.setAlgorithm(compatibilityProperties.getHashAlgorithm());
                 this.setEncoding(compatibilityProperties.getHashEncoding());
+                this.setHeaderWanted(compatibilityProperties.isHeaderWanted());
                 this.setStdinName(compatibilityProperties.getStdinName());
                 this.setLineSeparator(compatibilityProperties.getLineSeparator());
                 gnuEscaping = compatibilityProperties.isGnuEscapingEnabled();
                 if (this.getCommentChars() == null && compatibilityProperties.getIgnoreLinesStartingWithString() != null) {
                     this.setCommentChars(compatibilityProperties.getIgnoreLinesStartingWithString());
                 }
+                this.setTimestampFormat(compatibilityProperties.getTimestampFormat());
 
                 AbstractChecksum.setStdinName(compatibilityProperties.getStdinName());
 
@@ -2398,5 +2472,13 @@ public class Parameters implements
 
     public void setOutputFileRaw(String outputFileRaw) {
         this.outputFileRaw = outputFileRaw;
+    }
+
+    public String getLeadingHeader() {
+        return leadingHeader;
+    }
+
+    public void setLeadingHeader(String leadingHeader) {
+        this.leadingHeader = leadingHeader;
     }
 }

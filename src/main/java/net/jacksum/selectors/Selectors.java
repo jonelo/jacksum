@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 3.7.0 - a checksum utility in Java
+  Jacksum 3.8.0 - a checksum utility in Java
   Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -40,6 +40,10 @@ public class Selectors {
         Blake2sp_Selector.class,
         Blake2bp_Selector.class,
         Blake3_Selector.class,
+        BlueMidnightWish224_Selector.class,
+        BlueMidnightWish256_Selector.class,
+        BlueMidnightWish384_Selector.class,
+        BlueMidnightWish512_Selector.class,
         CksumMinix_Selector.class,
         Cksum_Selector.class,
         CRC8_Selector.class,
@@ -53,11 +57,18 @@ public class Selectors {
         CRC32ubi_Selector.class,
         CRC32_PHP_Selector.class,
         CRC32c_Selector.class,
+        CRC32_GO_KOOPMAN_Selector.class,
         CRC64_Selector.class,
         CRC64_ECMA182_Selector.class,
         CRC64_GO_Selector.class,
         CRC64xz_Selector.class,
+        CRC64_NVME_Selector.class,
+
         CRC82darc_Selector.class,
+        CubeHash224_Selector.class,
+        CubeHash256_Selector.class,
+        CubeHash384_Selector.class,
+        CubeHash512_Selector.class,
         DHA256_Selector.class,
         ECHO224_Selector.class,
         ECHO256_Selector.class,
@@ -82,6 +93,10 @@ public class Selectors {
         Groestl512_Selector.class,
         GostDefault_Selector.class,
         GostCryptoPro_Selector.class,
+        Hamsi224_Selector.class,
+        Hamsi256_Selector.class,
+        Hamsi384_Selector.class,
+        Hamsi512_Selector.class,
         Has160_Selector.class,
         Haval_Selector.class,
         JH224_Selector.class,
@@ -117,6 +132,7 @@ public class Selectors {
         Ripemd160_Selector.class,
         Ripemd256_Selector.class,
         Ripemd320_Selector.class,
+        RomulusH_Selector.class,
         SHA0_Selector.class,
         SHA1_Selector.class,
         SHA2_224_Selector.class,
@@ -129,8 +145,23 @@ public class Selectors {
         SHA3_256_Selector.class,
         SHA3_384_Selector.class,
         SHA3_512_Selector.class,
+        Shabal192_Selector.class,
+        Shabal224_Selector.class,
+        Shabal256_Selector.class,
+        Shabal384_Selector.class,
+        Shabal512_Selector.class,
+        //Shavite224_Selector.class,
+        //Shavite256_Selector.class,
+        //Shavite384_Selector.class,
+        //Shavite512_Selector.class,
+
         SHAKE128_Selector.class,
         SHAKE256_Selector.class,
+        SIMD224_Selector.class,
+        SIMD256_Selector.class,
+        SIMD384_Selector.class,
+        SIMD512_Selector.class,
+
         Skein_Selector.class,
         SM3_Selector.class,
         Streebog256_Selector.class,
@@ -221,8 +252,8 @@ public class Selectors {
 
         Esch_Selector.class,
         PhotonBeetle_Selector.class,
+        RomulusH_Selector.class,
         Xoodyak_Selector.class,
-
 
         // SHA-3 competition
         // =================
@@ -269,8 +300,39 @@ public class Selectors {
         Luffa256_Selector.class,
         Luffa384_Selector.class,
         Luffa512_Selector.class,
-        
-        
+
+        BlueMidnightWish224_Selector.class,
+        BlueMidnightWish256_Selector.class,
+        BlueMidnightWish384_Selector.class,
+        BlueMidnightWish512_Selector.class,
+
+        SIMD224_Selector.class,
+        SIMD256_Selector.class,
+        SIMD384_Selector.class,
+        SIMD512_Selector.class,
+
+        CubeHash224_Selector.class,
+        CubeHash256_Selector.class,
+        CubeHash384_Selector.class,
+        CubeHash512_Selector.class,
+
+        Hamsi224_Selector.class,
+        Hamsi256_Selector.class,
+        Hamsi384_Selector.class,
+        Hamsi512_Selector.class,
+
+        Shabal192_Selector.class,
+        Shabal224_Selector.class,
+        Shabal256_Selector.class,
+        Shabal384_Selector.class,
+        Shabal512_Selector.class,
+
+//        Shavite224_Selector.class,
+//        Shavite256_Selector.class,
+//        Shavite384_Selector.class,
+//        Shavite512_Selector.class,
+
+
         // pre-SHA-3-competition workshop suggestions
         // ------------------------------------------
         FORK256_Selector.class,
@@ -386,6 +448,7 @@ public class Selectors {
         CRC64_ECMA182_Selector.class,
         CRC64_GO_Selector.class,
         CRC64xz_Selector.class,
+        CRC64_NVME_Selector.class,
         
         CRC32_Selector.class,
         CRC32_PHP_Selector.class,
@@ -394,6 +457,7 @@ public class Selectors {
         CRC32bzip2_Selector.class,
         CRC32mpeg2_Selector.class,
         CRC32c_Selector.class,
+        CRC32_GO_KOOPMAN_Selector.class,
         
         CRC24_Selector.class,
         

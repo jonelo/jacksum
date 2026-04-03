@@ -47,7 +47,7 @@ public class Keccak384_Selector extends Selector {
     @Override
     public Map<String, String> getAvailableAliases() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
-        map.put("keccak-284", ID);
+        map.put("keccak-384", ID);
         return map;
     }
 
