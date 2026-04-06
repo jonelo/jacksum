@@ -1,7 +1,7 @@
 /*
 
-  Jacksum 3.8.0 - a checksum utility in Java
-  Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  Jacksum 4.0.0 - a checksum/hash tool written in Java
+  Copyright (c) 2001-2026 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
   This program is free software: you can redistribute it and/or modify it under
@@ -49,7 +49,7 @@ public class JacksumAPI {
     /**
      * The version of the API
      */
-    public final static String VERSION = "3.8.0";
+    public final static String VERSION = "4.0.0";
     /**
      * The URI of the program
      */
@@ -58,7 +58,7 @@ public class JacksumAPI {
     /**
      * The Copyright of the program
      */
-    public final static String COPYRIGHT = "Copyright (C) 2001-2006, 2021-2025, Dipl.-Inf. (FH) Johann N. Loefflmann";
+    public final static String COPYRIGHT = "Copyright (C) 2001-2006, 2021-2026, Dipl.-Inf. (FH) Johann N. Loefflmann";
 
     /**
      * Returns a Version object of this API.

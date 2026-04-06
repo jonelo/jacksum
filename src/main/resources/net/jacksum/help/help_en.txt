@@ -1,9 +1,9 @@
 NAME
-    Jacksum - a checksum/hash tool
+    Jacksum - a comprehensive data integrity and message digest framework
 
 
 VERSION
-    3.8.0
+    4.0.0
 
 
 SYNOPSIS
@@ -11,10 +11,11 @@ SYNOPSIS
 
 
 DESCRIPTION
-    Jacksum (JAva ChecKSUM) is a professional checksum/hash tool written
-    entirely in Java. It is free, open source, cross-platform, feature-rich,
-    multi-threaded, and it supports a command line interface that makes hash
-    functions available to you to solve particular tasks the smart way.
+    Jacksum (JAva ChecKSUM) is a comprehensive data integrity and message
+    digest framework written entirely in Java. It is free, open source,
+    cross-platform, feature-rich, multi-threaded, and it supports a command
+    line interface that makes hash functions available to you to solve
+    particular tasks the smart way.
 \
     Jacksum covers many types of use cases in which hash values make sense:
 \
@@ -46,7 +47,7 @@ DESCRIPTION
     In order to achieve the goals above, Jacksum supports four major areas
 \
         - Support for algorithms
-          - 500+ algorithms (crypto hash functions, CRCs, and checksums)
+          - 510+ algorithms (crypto hash functions, CRCs, and checksums)
           - HMAC support for 420+ hash functions
           - Customizable CRCs from 1 to 64 bit width
 \
@@ -1599,7 +1600,7 @@ OPTIONS
                     > jacksum -a sha256 --style full *.txt
                     ...9dfb36986 2025-04-13T11:12:50.729+02:00 35149 gpl-3.0.txt
 \
-                    Available since version 3.8.0 of Jacksum.
+                    Available since version 4.0.0 of Jacksum.
 \
 \
                 without-hashes
@@ -1626,7 +1627,7 @@ OPTIONS
                     > jacksum --style without-hashes *.txt
                     2025-04-13T11:12:50.729+02:00 35149 gpl-3.0.txt
 \
-                    Available since version 3.8.0 of Jacksum.
+                    Available since version 4.0.0 of Jacksum.
 \
 \
                 without-sizes
@@ -1652,7 +1653,7 @@ OPTIONS
                     > jacksum -a sha256 --style without-sizes *.txt
                     ...9dfb36986 2025-04-13T11:12:50.729+02:00 gpl-3.0.txt
 \
-                    Available since version 3.8.0 of Jacksum.
+                    Available since version 4.0.0 of Jacksum.
 \
 \
                 without-timestamps
@@ -1677,7 +1678,7 @@ OPTIONS
                     > jacksum -a sha256 --style without-timestamps *.txt
                     ...ae7ad8af9b23dde66d6af86c9dfb36986 35149 gpl-3.0.txt
 \
-                    Available since version 3.8.0 of Jacksum.
+                    Available since version 4.0.0 of Jacksum.
 \
 \
                 gnu-linux
@@ -1738,7 +1739,7 @@ OPTIONS
                     see the option --gnu-filename-escaping for more
                     information.
 \
-                    Available since version 3.8.0 of Jacksum.
+                    Available since version 4.0.0 of Jacksum.
 \
 \
                 hexhashes-only
@@ -1835,7 +1836,7 @@ OPTIONS
                     > jacksum --style sizes-and-names *.txt
                     35149 gpl-3.0.txt
 \
-                    Available since version 3.8.0 of Jacksum.
+                    Available since version 4.0.0 of Jacksum.
 \
 \
                 sfv
@@ -1922,7 +1923,7 @@ OPTIONS
                     > jacksum --style timestamps-and-names *.txt
                     2025-04-13T11:12:50.729+02:00 gpl-3.0.txt
 \
-                    Available since version 3.8.0 of Jacksum.
+                    Available since version 4.0.0 of Jacksum.
 \
 \
             A dragon's view about the features of the <style>. The first part
@@ -2867,7 +2868,7 @@ OPTIONS
 \
             Available since:
 \
-                version 3.8.0 of Jacksum
+                version 4.0.0 of Jacksum
 
 
     --ignore-empty-lines
@@ -2919,7 +2920,7 @@ OPTIONS
 \
             Available since:
 \
-                version 3.8.0 of Jacksum
+                version 4.0.0 of Jacksum
 
 
     --ignore-timestamps
@@ -2934,7 +2935,7 @@ OPTIONS
 \
             Available since:
 \
-                version 3.8.0 of Jacksum
+                version 4.0.0 of Jacksum
 
 
 
@@ -3127,7 +3128,7 @@ OPTIONS
 \
             Available since:
 \
-                version 3.8.0 of Jacksum.
+                version 4.0.0 of Jacksum.
 
 
     --no-path
@@ -3835,20 +3836,20 @@ OPTIONS
                     timestamps are formatted as "yyyyMMddHHmmssSSS"
                     expressed in UTC.
 \
-                    Available since version 3.8.0 of Jacksum.
+                    Available since version 4.0.0 of Jacksum.
 \
                 iso8601 or iso
                     "yyyy-MM-dd'T'HH:mm:ss.SSSXXX" is used to format timestamps
                     to be compatible with ISO 8601.
 \
                     Available since version 3.0.0 of Jacksum, alias iso since
-                    version 3.8.0 of Jacksum.
+                    version 4.0.0 of Jacksum.
 \
                 iso8601utc or iso-utc
                     "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" is used to format timestamps
                     where the timestamp value is transformed to UTC.
 \
-                    Available since version 3.8.0 of Jacksum.
+                    Available since version 4.0.0 of Jacksum.
 \
                 unixtime
                     timestamps are formatted by the POSIX time (the number of
@@ -4772,7 +4773,7 @@ ALGORITHMS
                 (Blue Midnight Wish specification from Sep 10, 2009)
 \
             since:
-                Jacksum 3.8.0
+                Jacksum 4.0.0
 \
             implementation:
                 fr.cryptohash.BlueMidnightWish<length>
@@ -5339,7 +5340,7 @@ ALGORITHMS
                 Rocksoft Model we have to reverse it again.
 \
             since:
-                Jacksum 3.8.0
+                Jacksum 4.0.0
 \
             implementation:
                 crc:32,741B8CD7,FFFFFFFF,true,true,FFFFFFFF
@@ -5655,7 +5656,7 @@ ALGORITHMS
                 See also https://bit.ly/AWSCRC64NVME
 \
             since:
-                Jacksum 3.8.0
+                Jacksum 4.0.0
 \
             implementation:
                 crc:64,ad93d23594c93659,ffffffffffffffff,true,true,ffffffffffffffff -E hex
@@ -5830,7 +5831,7 @@ ALGORITHMS
                 (CubeHash specification from Sept. 2009)
 \
             since:
-                Jacksum 3.8.0
+                Jacksum 4.0.0
 \
             implementation:
                 fr.cryptohash.CubeHash<length>
@@ -6423,7 +6424,7 @@ ALGORITHMS
                 (Hamsi specification from Sep 14, 2009)
 \
             since:
-                Jacksum 3.8.0
+                Jacksum 4.0.0
 \
             implementation:
                 fr.cryptohash.Hamsi<length>
@@ -7932,7 +7933,7 @@ ALGORITHMS
                 Kazuhiko Minematsu, Thomas Peyrin, and Chun Guo.
 \
             since:
-                Jacksum 3.8.0
+                Jacksum 4.0.0
 \
             implementation:
                 net.jacksum.algorithms.md.Romulus_H
@@ -8996,7 +8997,7 @@ ALGORITHMS
                 (Shabal specification from Sep 2009)
 \
             since:
-                Jacksum 3.8.0
+                Jacksum 4.0.0
 \
             implementation:
                 fr.cryptohash.Shabal<length>
@@ -9214,7 +9215,7 @@ ALGORITHMS
                 (SIMD specification from Sep 15, 2009)
 \
             since:
-                Jacksum 3.8.0
+                Jacksum 4.0.0
 \
             implementation:
                 fr.cryptohash.SIMD<length>

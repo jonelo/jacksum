@@ -1,8 +1,8 @@
 /*
 
 
-  Jacksum 3.6.0 - a checksum utility in Java
-  Copyright (c) 2001-2023 Dipl.-Inf. (FH) Johann N. Löfflmann,
+  Jacksum 4.0.0 - a checksum/hash tool written in Java
+  Copyright (c) 2001-2026 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
   This program is free software: you can redistribute it and/or modify it under
