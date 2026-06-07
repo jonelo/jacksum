@@ -37,7 +37,8 @@ import net.jacksum.parameters.Parameters;
 import net.loefflmann.sugar.io.GeneralIO;
 
 /**
- *
+ * The FindKnownCRC is an implementation of an FindAlgoEngine.
+ * It can find any algorithms that can be described by CRC parameters.
  * @author Johann N. Loefflmann
  */
 public class FindKnownCRC implements FindAlgoEngine {

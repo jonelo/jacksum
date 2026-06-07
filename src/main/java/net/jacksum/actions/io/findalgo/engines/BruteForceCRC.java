@@ -33,10 +33,9 @@ import net.jacksum.parameters.Parameters;
 
 /**
  *
- * @author Johann
+ * @author Johann N. Löfflmann
  */
 public class BruteForceCRC implements FindAlgoEngine {
-
 
     private final Parameters parameters;
     private BigInteger searched = BigInteger.ONE;

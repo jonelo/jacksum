@@ -26,7 +26,7 @@ import java.math.BigInteger;
 import net.jacksum.parameters.ParameterException;
 
 /**
- *
+ * An interface that can be used to implement a "find algorithms engine".
  * @author Johann N. Loefflmann
  */
 public interface FindAlgoEngine {    
@@ -37,8 +37,16 @@ public interface FindAlgoEngine {
      * @throws ParameterException if the parameter is invalid.
      */
     void find(int width) throws ParameterException;
-    
+
+    /**
+     * How many algorithms have been searched?
+     * @return Returns the number of algorithms that have been searched.
+     */
     BigInteger getSearched();
-    
+
+    /**
+     * How many algorithms have been found?
+     * @return Returns the number of algorithms that have been found.
+     */
     long getFound();
 }

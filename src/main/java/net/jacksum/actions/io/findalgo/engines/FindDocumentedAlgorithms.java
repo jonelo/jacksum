@@ -34,8 +34,9 @@ import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
 
 /**
- *
- * @author Johann
+ * The FindDocumentedAlgorithm is an implementation of an FindAlgoEngine.
+ * It can find all algorithms that are officially supported by Jacksum.
+ * @author Johann N. Löfflmann
  */
 public class FindDocumentedAlgorithms implements FindAlgoEngine {
 

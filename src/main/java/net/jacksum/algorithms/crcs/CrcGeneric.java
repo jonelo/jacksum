@@ -50,9 +50,9 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
 
     protected long value;      // the value, must be accessed by subclasses
     private long[] table;      // Precomputed values
-    private long topBit;       // Stores the value (2 ^ width)
+    // private long topBit;       // Stores the value (2 ^ width)
     private long maskAllBits;  // Stores the value (2 ^ width) - 1
-    private long maskHelp;     // Stores the value (2 ^ (width-8)) -1
+    // private long maskHelp;     // Stores the value (2 ^ (width-8)) -1
     private CrcModelExtended model;
     private CRC tableDriven;
 
