@@ -325,14 +325,23 @@ public class Parameters implements
      * @throws ExitException      if an exit should happen.
      */
     public Parameters checked() throws ParameterException, ExitException {
-        checkParameters();
+        checkParameters(true);
         return this;
     }
+
+    public Parameters checked(boolean setupStreams) throws ParameterException, ExitException {
+        checkParameters(setupStreams);
+        return this;
+    }
+
 
     public Parameters unchecked() {
         return this;
     }
 
+    public void setupStreams() throws ParameterException, ExitException {
+        handleCharsetsAndSetupStreams();
+    }
 
     /**
      * Returns the action type dependent on the parameters.
@@ -1895,6 +1904,110 @@ public class Parameters implements
         return list;
     }
 
+    // setupStreams - if streams should be setup as well
+    public void checkParameters(boolean setupStreams) throws ParameterException, ExitException {
+        resolveFileList(); // --file-list <list> --file-list-charset <charset>
+        if (setupStreams) {
+            handleCharsetsAndSetupStreams();
+        }
+        checkForNonsenseParameterCombinations();
+        handleKey();
+        handleCompatibility();
+        validateAlgorithm(); // --algorithm
+        resolvePathRelativeTo(); // --path-relative-to-entry <number> --path-relative-to <path> --file-list <list>
+        handleWarningsAndImplicitSettings();
+    }
+
+    // ignore/disable unsupported/unsuitable/incompatible parameters
+    public void checkParameters() throws ParameterException, ExitException {
+        checkParameters(true);
+    }
+
+    /**
+     * Process list that has been specified by -L resp. --file-list
+     * @throws ParameterException if file list does not exist, if it is not readable or if file list format or file list charset is unsupported
+     */
+    public void resolveFileList() throws ParameterException {
+
+        if (this.getFilelistFilename() != null) {
+            this.getFilenamesFromFilelist().clear();
+            try {
+                if (this.getFilelistFilename().equals("-")) { // stdin
+
+                    if (this.getFilelistFormat() == null || this.getFilelistFormat().equals("list")) {
+
+                        this.getFilenamesFromFilelist().addAll(
+                                GeneralIO.readLinesFromStdin(
+                                        Charset.forName(this.getCharsetFileList()),
+                                        true,
+                                        this.getCommentChars(), false));
+                    } else if (this.getFilelistFormat().equals("ssv")) { // space separated values
+                        this.getFilenamesFromFilelist().addAll(
+                                GeneralIO.readLinesFromStdin(
+                                        Charset.forName(this.getCharsetFileList()),
+                                        true,
+                                        this.getCommentChars(), true));
+                    } else {
+                        Help.printHelp(HELP_DEFAULT_LANGUAGE, __FILE_LIST_FORMAT);
+                        throw new ParameterException(String.format("File list format \"%s\" is unsupported.", this.getFilelistFormat()));
+                    }
+                } else {
+                    if (this.getFilelistFormat() == null || this.getFilelistFormat().equals("list")) {
+
+                        this.getFilenamesFromFilelist().addAll(
+                                GeneralIO.readLinesFromTextFile(
+                                        this.getFilelistFilename(),
+                                        Charset.forName(this.getCharsetFileList()),
+                                        true,
+                                        this.getCommentChars(), false));
+                    } else if (this.getFilelistFormat().equals("ssv")) { // space separated values
+                        this.getFilenamesFromFilelist().addAll(
+                                GeneralIO.readLinesFromTextFile(
+                                        this.getFilelistFilename(),
+                                        Charset.forName(this.getCharsetFileList()),
+                                        true,
+                                        this.getCommentChars(), true));
+
+                    } else {
+                        Help.printHelp(HELP_DEFAULT_LANGUAGE, __FILE_LIST_FORMAT);
+                        throw new ParameterException(String.format("File list format \"%s\" is unsupported.", this.getFilelistFormat()));
+                    }
+                }
+
+
+                int ndx = 0;
+                while (ndx < this.getFilenamesFromFilelist().size()) {
+
+                    String theString = this.getFilenamesFromFilelist().get(ndx);
+                    if (isGnuEscaping() && theString.startsWith("\\")) {
+                        this.getFilenamesFromFilelist().set(ndx, gnuUnescaping(theString.substring(1)));
+                    }
+                    ndx++ ;
+                }
+
+            } catch (UnsupportedCharsetException uce) {
+                throw new ParameterException(String.format("Charset \"%s\" is unsupported. Check the supported character sets with jacksum --info.", this.getCharsetFileList()));
+            } catch (IOException ex) {
+                throw new ParameterException(String.format("File %s not found or cannot be read.", this.getFilelistFilename()));
+            }
+        }
+    }
+
+
+    // ************************************** private methods *********************************************************
+
+    private void validateAlgorithm() throws ParameterException {
+        // validity check for --algorithm
+        if (algorithm != null) {
+            if (algorithm.startsWith("+")) {
+                throw new ParameterException(String.format("The algorithm %s must not start with a + sign, but it can end with one.", algorithm));
+            }
+            if (algorithm.contains("++")) {
+                throw new ParameterException(String.format("The algorithm %s must not contain ++.", algorithm));
+            }
+        }
+    }
+
     private void resolvePathRelativeTo() throws ParameterException {
         // validity check for --path-relative-to-entry
         if (isPathRelativeToEntry() && getFilenamesFromFilelist().size() > 0) {
@@ -1920,34 +2033,7 @@ public class Parameters implements
         }
     }
 
-    private void validateAlgorithm() throws ParameterException {
-        // validity check for --algorithm
-        if (algorithm != null) {
-            if (algorithm.startsWith("+")) {
-                throw new ParameterException(String.format("The algorithm %s must not start with a + sign, but it can end with one.", algorithm));
-            }
-            if (algorithm.contains("++")) {
-                throw new ParameterException(String.format("The algorithm %s must not contain ++.", algorithm));
-            }
-        }
-    }
-
-    // ignore/disable unsupported/unsuitable/incompatible parameters
-    public void checkParameters() throws ParameterException, ExitException {
-        expandFileList();
-
-        handleCharsets();
-        checkForNonsenseParameterCombinations();
-        handleKey();
-        handleCompatibility();
-        validateAlgorithm();
-        resolvePathRelativeTo();
-        handleWarningsAndImplicitSettings();
-    }
-
-
-    // ************************************** private methods *********************************************************
-
+    // if --key is set to readline or password, input is read from the console to set the key for the parameter object
     private void handleKey() throws ParameterException, ExitException {
         if (isKey()) {
             if (getKey().getType().equals(Sequence.Type.PASSWORD)) {
@@ -1994,7 +2080,12 @@ public class Parameters implements
         System.setErr(stdErrBackup);
     }
 
-    private void handleCharsets() throws ParameterException, ExitException {
+    public void restoreStreams() {
+        restoreStdOut();
+        restoreStdErr();
+    }
+
+    private void handleCharsetsAndSetupStreams() throws ParameterException, ExitException {
         if (isUtf8()) {
             setCharsetStdout(UTF_8);
             setCharsetStderr(UTF_8);
@@ -2379,75 +2470,6 @@ public class Parameters implements
         }
     }
 
-    /**
-     * Process list that has been specified by -L resp. --file-list
-     * @throws ParameterException if file list does not exist, if it is not readable or if file list format or file list charset is unsupported
-     */
-    public void expandFileList() throws ParameterException {
-
-        if (this.getFilelistFilename() != null) {
-            this.getFilenamesFromFilelist().clear();
-            try {
-                if (this.getFilelistFilename().equals("-")) { // stdin
-
-                    if (this.getFilelistFormat() == null || this.getFilelistFormat().equals("list")) {
-
-                        this.getFilenamesFromFilelist().addAll(
-                                GeneralIO.readLinesFromStdin(
-                                        Charset.forName(this.getCharsetFileList()),
-                                        true,
-                                        this.getCommentChars(), false));
-                    } else if (this.getFilelistFormat().equals("ssv")) { // space separated values
-                        this.getFilenamesFromFilelist().addAll(
-                                GeneralIO.readLinesFromStdin(
-                                        Charset.forName(this.getCharsetFileList()),
-                                        true,
-                                        this.getCommentChars(), true));
-                    } else {
-                        Help.printHelp(HELP_DEFAULT_LANGUAGE, __FILE_LIST_FORMAT);
-                        throw new ParameterException(String.format("File list format \"%s\" is unsupported.", this.getFilelistFormat()));
-                    }
-                } else {
-                    if (this.getFilelistFormat() == null || this.getFilelistFormat().equals("list")) {
-
-                        this.getFilenamesFromFilelist().addAll(
-                                GeneralIO.readLinesFromTextFile(
-                                        this.getFilelistFilename(),
-                                        Charset.forName(this.getCharsetFileList()),
-                                        true,
-                                        this.getCommentChars(), false));
-                    } else if (this.getFilelistFormat().equals("ssv")) { // space separated values
-                        this.getFilenamesFromFilelist().addAll(
-                                GeneralIO.readLinesFromTextFile(
-                                        this.getFilelistFilename(),
-                                        Charset.forName(this.getCharsetFileList()),
-                                        true,
-                                        this.getCommentChars(), true));
-
-                    } else {
-                        Help.printHelp(HELP_DEFAULT_LANGUAGE, __FILE_LIST_FORMAT);
-                        throw new ParameterException(String.format("File list format \"%s\" is unsupported.", this.getFilelistFormat()));
-                    }
-                }
-
-
-                int ndx = 0;
-                while (ndx < this.getFilenamesFromFilelist().size()) {
-
-                    String theString = this.getFilenamesFromFilelist().get(ndx);
-                    if (isGnuEscaping() && theString.startsWith("\\")) {
-                        this.getFilenamesFromFilelist().set(ndx, gnuUnescaping(theString.substring(1)));
-                    }
-                    ndx++ ;
-                }
-
-            } catch (UnsupportedCharsetException uce) {
-                throw new ParameterException(String.format("Charset \"%s\" is unsupported. Check the supported character sets with jacksum --info.", this.getCharsetFileList()));
-            } catch (IOException ex) {
-                throw new ParameterException(String.format("File %s not found or cannot be read.", this.getFilelistFilename()));
-            }
-        }
-    }
 
 
     private static String gnuUnescaping(String filename) {
