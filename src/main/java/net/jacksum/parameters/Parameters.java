@@ -2005,6 +2005,9 @@ public class Parameters implements
             if (algorithm.contains("++")) {
                 throw new ParameterException(String.format("The algorithm %s must not contain ++.", algorithm));
             }
+            if (algorithm.contains("hmac:") && !isKey()) {
+                throw new ParameterException(String.format("The HMAC algorithm %s requires a key, this is specified using the -k option.", algorithm));
+            }
         }
     }
 
