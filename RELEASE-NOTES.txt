@@ -59,6 +59,7 @@ Jacksum 4.0.0, April 6, 2026
   - if multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
   - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC definition code
     if --info has been requested
+  - improved HMAC constraint: if blocksize < digestsize HMACs cannot be calculated, this is the case for all ascon algorithms for example.
   - issue #30 - java.lang.OutOfMemoryError i.e. "Thread-0" or "pool-1-thread-4"
   - issue #36 - If multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
   - issue #37 - Parser does not find valid entries if algorithm "none" (no hashing) has been selected

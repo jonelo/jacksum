@@ -68,7 +68,8 @@ public class HMAC extends AbstractChecksum  {
 		digest = JacksumAPI.getChecksumInstance(algorithm);
 		digestsize = digest.getSize()/8;
 		blocksize = digest.getBlockSize();
-		if (blocksize <= 0) {
+		if (blocksize <= 0 || blocksize < digestsize) {
+			// blocksize < digestsize: ascon-xof is such an example, see FIPS 198-1
 			throw new IllegalArgumentException(String.format(
 					"Algorithm %s does not support hash-based message authentication code (HMAC).", algorithm));
 		}

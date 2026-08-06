@@ -178,7 +178,7 @@ public class HashFunctionFactory {
                 e.printStackTrace();
                 throw new RuntimeException("INTERNAL ERROR in JacksumAPI.getAvailableHMACs()");
             }
-            if (checksum != null && checksum.getBlockSize() > 0) {
+            if (checksum != null && checksum.getBlockSize() > 0 && checksum.getBlockSize() >= checksum.getSize()/8) {
                 mapFiltered.put(String.format("hmac:%s", entry.getKey()), String.format("%s (HMAC)", entry.getValue()));
             }
         }

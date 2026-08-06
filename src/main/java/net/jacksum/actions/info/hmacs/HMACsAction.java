@@ -54,7 +54,7 @@ public class HMACsAction implements Action {
             AbstractChecksum checksum;
             try {
                 checksum = JacksumAPI.getChecksumInstance(entry.getKey());
-                if (checksum != null && checksum.getBlockSize() > 0) {
+                if (checksum != null && checksum.getBlockSize() > 0 && checksum.getBlockSize() >= checksum.getSize()/8) {
                     if (parameters.getVerbose().isInfo()) {
                         int T = checksum.getSize() / 16;
                         int r = checksum.getSize() % 16;
