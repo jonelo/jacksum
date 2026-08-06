@@ -93,6 +93,9 @@ public class AlgoInfoAction implements Action {
             buffer.append(String.format(FORMAT, indent, "add [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getAdd(), 8)));
         }
 
+        buffer.append(String.format("%n%sCompatibility:%n", indent));
+        buffer.append(String.format(FORMAT, indent, "HMAC:", blockSize >= bytes));
+
         if (checksum instanceof HMAC) {
             HMAC hmac = (HMAC) checksum;
             buffer.append(String.format("%n%sHMAC parameters:%n", indent));
@@ -296,7 +299,7 @@ public class AlgoInfoAction implements Action {
 
     public int perform(StringBuilder buffer) throws ExitException {
 
-        allSupportedAlgorithmsCount = JacksumAPI.getAvailableAlgorithms().size();
+        allSupportedAlgorithmsCount = JacksumAPI.getAvailableAlgorithms().size() + JacksumAPI.getAvailableHMACs().size();
         int exitCode = parameters.isList() ? listView(buffer) : singleView(buffer);
 
         if (parameters.getVerbose().isSummary()) {
