@@ -38,6 +38,15 @@ package net.jacksum.algorithms.md;
  * in order to be able to process large files.
  * It is released under the conditions of both the original MIT license and the
  * GPLv3+ - jonelo@jonelo.de
+ *
+ * Date: 08 August 2026
+ * Romulus-H returned a wrong hash value if a file was processed in multiple update() calls
+ * where an intermediate chunk was not a multiple of 32 bytes (e.g. when reading from a pipe,
+ * stdin, or a network file system that delivers short reads). The block loop only counted the
+ * newly supplied bytes and ignored bytes carried over from the previous update() call, so full
+ * 32-byte blocks could be skipped and buffered bytes lost. Romulus-H now processes the combined
+ * buffer length correctly.
+ * GPLv3+ - jonelo@jonelo.de
  */
 
 import net.jacksum.algorithms.AbstractChecksum;
@@ -187,7 +196,9 @@ public class Romulus_H extends AbstractChecksum {
     public void update(byte[] bytes, int offset, int length) {
 
         byte[] in = null;
-        long mlen = length;
+        // mlen must reflect the actual length of "in" below, i.e. any bytes carried over
+        // from the previous update() call (lastMessageLength) plus the newly supplied bytes.
+        long mlen = lastMessageLength + length;
         if (lastMessageLength > 0) {
             // take into account any remaining bytes from the last update() call
             // let "in" be the lastMessage + newMessage
