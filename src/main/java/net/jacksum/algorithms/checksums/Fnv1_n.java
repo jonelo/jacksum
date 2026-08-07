@@ -28,32 +28,30 @@ import java.security.NoSuchAlgorithmException;
 
 public class Fnv1_n extends Fnv0_n {
 
-    private final BigInteger INIT;
-
     public Fnv1_n(String width) throws NoSuchAlgorithmException {
         super(width);
+        BigInteger init;
         switch (this.bitWidth) {
-            case 32:   INIT = new BigInteger("2166136261");
+            case 32:   init = new BigInteger("2166136261");
                        break;
-            case 64:   INIT = new BigInteger("14695981039346656037");
+            case 64:   init = new BigInteger("14695981039346656037");
                        break;
-            case 128:  INIT = new BigInteger("144066263297769815596495629667062367629");
+            case 128:  init = new BigInteger("144066263297769815596495629667062367629");
                        break;
-            case 256:  INIT = new BigInteger("100029257958052580907070968620625704837092796014241193945225284501741471925557");
+            case 256:  init = new BigInteger("100029257958052580907070968620625704837092796014241193945225284501741471925557");
                        break;
-            case 512:  INIT = new BigInteger("9659303129496669498009435400716310466090418745672637896108374329434462657994582932197716438449813051892206539805784495328239340083876191928701583869517785");
+            case 512:  init = new BigInteger("9659303129496669498009435400716310466090418745672637896108374329434462657994582932197716438449813051892206539805784495328239340083876191928701583869517785");
                        break;
-            case 1024: INIT = new BigInteger("14197795064947621068722070641403218320880622795441933960878474914617582723252296732303717722150864096521202355549365628174669108571814760471015076148029755969804077320157692458563003215304957150157403644460363550505412711285966361610267868082893823963790439336411086884584107735010676915");
+            case 1024: init = new BigInteger("14197795064947621068722070641403218320880622795441933960878474914617582723252296732303717722150864096521202355549365628174669108571814760471015076148029755969804077320157692458563003215304957150157403644460363550505412711285966361610267868082893823963790439336411086884584107735010676915");
                        break;
             default:   throw new NoSuchAlgorithmException(String.format("Unknown algorithm: width %s is not supported.", this.bitWidth));
         }
-        value = INIT;
-    }
-
-    @Override
-    public void reset() {
-        value = INIT;
-        length = 0;
+        // convert the FNV offset basis once into little-endian 64-bit limbs
+        for (int i = 0; i < nlimbs; i++) {
+            initLimbs[i] = init.longValue();
+            init = init.shiftRight(64);
+        }
+        System.arraycopy(initLimbs, 0, value, 0, nlimbs);
     }
 
 }

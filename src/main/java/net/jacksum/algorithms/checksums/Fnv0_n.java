@@ -23,18 +23,33 @@
 
 package net.jacksum.algorithms.checksums;
 
-import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
+/**
+ * Generic n-bit FNV-0 (and, via subclasses, FNV-1/FNV-1a) implementation.
+ *
+ * <p>The state is kept as a fixed-size little-endian array of 64-bit limbs
+ * ({@code value}) rather than a {@link java.math.BigInteger}, so the per-byte
+ * hashing loop does primitive arithmetic without allocating objects. Every
+ * supported FNV prime is sparse, {@code prime = 2^k + 2^8 + b} (with a small
+ * {@code b < 256}), so {@code value * prime mod 2^width} is computed as three
+ * shifted/scaled additions ({@code (value << k) + (value << 8) + value*b}),
+ * mirroring the trick already used by {@link Fnv0_64}. The modulo {@code 2^width}
+ * is just truncation to {@code nlimbs} limbs plus masking the most significant
+ * limb ({@code topMask}).</p>
+ */
 public class Fnv0_n extends AbstractChecksum {
 
-    BigInteger[] BIG;
-    protected BigInteger prime;
-    protected BigInteger value = BigInteger.ZERO;
-    protected BigInteger mask;
+    protected long[] value;    // current state, little-endian 64-bit limbs
+    protected long[] scratch;  // reused work buffer to avoid per-byte allocation
+    protected long[] initLimbs; // starting value (all zero for FNV-0)
+    protected int nlimbs;      // number of 64-bit limbs = ceil(width/64)
+    protected long topMask;    // mask applied to the most significant limb
+    protected int primeK;      // prime = 2^primeK + 2^8 + primeB
+    protected long primeB;
 
     int targetsize = 0; // in bytes
 
@@ -70,75 +85,108 @@ public class Fnv0_n extends AbstractChecksum {
             formatPreferences.setFilesizeWanted(false);
         }
 
-        // initialize BigInteger array for faster access to the first
-        // 255 BigInteger values
-        BIG = new BigInteger[256];
-        for (int i = 0; i < BIG.length; i++) {
-            BIG[i] = BigInteger.valueOf(i);
-        }
-
-        // initialize BigInteger with the value of 2
-        BigInteger TWO = BIG[2];
-
-        // initialize members dependent on the width
-        mask = TWO.pow(width).subtract(BigInteger.ONE);
+        // initialize members dependent on the width.
+        // Every FNV prime has the form 2^primeK + 2^8 + primeB.
         switch (width) {
             case 32:
-                prime = TWO.pow(24);
-                prime = prime.add(TWO.pow(8));
-                prime = prime.add(BIG[0x93]);
-                // prime = 16777619
-                // prime (bin) = 1000000000000000110010011
-                // prime = new BigInteger("1000000000000000110010011", 2);
+                primeK = 24; primeB = 0x93; // prime = 16777619
                 break;
             case 64:
-                prime = TWO.pow(40);
-                prime = prime.add(TWO.pow(8));
-                prime = prime.add(BIG[0xb3]);
-                // prime = 1099511628211
-                // prime (bin) = 10000000000000000000000000000000110110011
-                // prime = new BigInteger("10000000000000000000000000000000110110011", 2);
+                primeK = 40; primeB = 0xb3; // prime = 1099511628211
                 break;
             case 128:
-                prime = TWO.pow(88);
-                prime = prime.add(TWO.pow(8));
-                prime = prime.add(BIG[0x3b]);
-                // prime = 309485009821345068724781371
+                primeK = 88; primeB = 0x3b; // prime = 309485009821345068724781371
                 break;
             case 256:
-                prime = TWO.pow(168);
-                prime = prime.add(TWO.pow(8));
-                prime = prime.add(BIG[0x63]);
+                primeK = 168; primeB = 0x63;
                 break;
             case 512:
-                prime = TWO.pow(344);
-                prime = prime.add(TWO.pow(8));
-                prime = prime.add(BIG[0x57]);
+                primeK = 344; primeB = 0x57;
                 break;
             case 1024:
-                prime = TWO.pow(680);
-                prime = prime.add(TWO.pow(8));
-                prime = prime.add(BIG[0x8d]);
+                primeK = 680; primeB = 0x8d;
                 break;
             default:
                 throw new NoSuchAlgorithmException(String.format("Unknown algorithm: width %s is not supported.", width));
         }
+
+        nlimbs = (width + 63) >>> 6;
+        int topBits = width & 63;
+        topMask = (topBits == 0) ? -1L : (1L << topBits) - 1L;
         targetsize = width / 8;
+
+        value = new long[nlimbs];
+        scratch = new long[nlimbs];
+        initLimbs = new long[nlimbs]; // FNV-0 starts at zero
     }
 
+    /**
+     * {@code acc += (src << s)} modulo {@code 2^width}; bits shifted beyond the
+     * top limb are discarded (that is the modulo).
+     */
+    protected void addShiftedInto(long[] acc, long[] src, int s) {
+        int ws = s >>> 6;
+        int bs = s & 63;
+        long carry = 0;
+        for (int d = ws; d < nlimbs; d++) {
+            int i = d - ws;
+            long piece = src[i] << bs;
+            if (bs != 0 && i - 1 >= 0) {
+                piece |= src[i - 1] >>> (64 - bs);
+            }
+            long s1 = acc[d] + piece;
+            long c1 = Long.compareUnsigned(s1, piece) < 0 ? 1 : 0;
+            long s2 = s1 + carry;
+            long c2 = Long.compareUnsigned(s2, s1) < 0 ? 1 : 0;
+            acc[d] = s2;
+            carry = c1 + c2;
+        }
+    }
+
+    /**
+     * {@code acc += src * f} modulo {@code 2^width}, with {@code f < 256}.
+     */
+    protected void addScaledInto(long[] acc, long[] src, long f) {
+        long carry = 0;
+        for (int d = 0; d < nlimbs; d++) {
+            long lo = src[d] * f;
+            long hi = Math.unsignedMultiplyHigh(src[d], f); // < 256
+            long s1 = acc[d] + lo;
+            long c1 = Long.compareUnsigned(s1, lo) < 0 ? 1 : 0;
+            long s2 = s1 + carry;
+            long c2 = Long.compareUnsigned(s2, s1) < 0 ? 1 : 0;
+            acc[d] = s2;
+            carry = hi + c1 + c2;
+        }
+    }
+
+    /**
+     * {@code value = (value * prime) mod 2^width}, using the sparse prime
+     * decomposition {@code prime = 2^primeK + 2^8 + primeB}. The result is
+     * produced in {@code scratch} and swapped into {@code value}.
+     */
+    protected void multiplyByPrime() {
+        java.util.Arrays.fill(scratch, 0L);
+        addShiftedInto(scratch, value, primeK); // value << primeK
+        addShiftedInto(scratch, value, 8);      // value << 8
+        addScaledInto(scratch, value, primeB);  // value * primeB
+        scratch[nlimbs - 1] &= topMask;
+        long[] t = value;
+        value = scratch;
+        scratch = t;
+    }
 
     @Override
     public void reset() {
-        value = BigInteger.ZERO;
+        System.arraycopy(initLimbs, 0, value, 0, nlimbs);
         length = 0;
     }
 
     @Override
     public void update(byte[] bytes, int offset, int length) {
         for (int i = offset; i < length + offset; i++) {
-            value = value.multiply(prime);
-            value = value.and(mask);
-            value = value.xor(BIG[bytes[i] & 0xFF]);
+            multiplyByPrime();
+            value[0] ^= (bytes[i] & 0xFF);
         }
         this.length += length;
     }
@@ -147,20 +195,9 @@ public class Fnv0_n extends AbstractChecksum {
     @Override
     public byte[] getByteArray() {
         byte[] target = new byte[targetsize];
-        byte[] source = value.and(mask).toByteArray();
-
-        if (source.length > target.length) {
-            int offset = 0;
-            for (int i = 0; i < source.length; i++) {
-                if (source[i] == 0) {
-                    offset++;
-                } else {
-                    break;
-                }
-            }
-            System.arraycopy(source, offset, target, 0, target.length);
-        } else if (source.length <= target.length) {
-            System.arraycopy(source, 0, target, target.length - source.length, source.length);
+        for (int i = 0; i < targetsize; i++) { // i = byte index counting from the LSB
+            long limb = value[i >>> 3];
+            target[targetsize - 1 - i] = (byte) (limb >>> ((i & 7) << 3));
         }
         return target;
     }

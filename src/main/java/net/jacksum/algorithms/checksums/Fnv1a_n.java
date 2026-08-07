@@ -34,9 +34,8 @@ public class Fnv1a_n extends Fnv1_n {
     @Override
     public void update(byte[] bytes, int offset, int length) {
         for (int i = offset; i < length + offset; i++) {
-            value = value.xor(BIG[bytes[i] & 0xFF]);
-            value = value.multiply(prime);
-            value = value.and(mask); // in Java if x >= 0: x % 2^n == x & (2^n - 1)
+            value[0] ^= (bytes[i] & 0xFF);
+            multiplyByPrime();
         }
         this.length += length;
     }
