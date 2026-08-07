@@ -55,6 +55,9 @@ Jacksum 4.0.0, April 6, 2026
   - the prompt is "Password: " twice if both options -k password -q password have been specified
     (e.g. "jacksum -q password -a hmac:sha256 -k password"), the prompt for the key is now "Key (echo off): " to
     distinguish the input.
+  - sum64 was truncated to 32 bits and behaved like sum32, because getValue() reduced the accumulator modulo
+    2^32 twice ((value mod 2^32) mod 2^32) instead of keeping the full 64-bit value; the upper 32 bits of the
+    result were always zero. sum64 now returns the correct 64-bit sum (the Java long already wraps modulo 2^64).
   - issue #32 --header not working using --quick
   - if multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
   - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC definition code

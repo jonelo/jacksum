@@ -33,23 +33,9 @@ public class Sum64 extends Sum8 {
 
     @Override
     public long getValue() {
-        // divide by 2^64 (which is 2^32 * 2^32)
-        long tempValue = value % 0x100000000L; // 2^32;
-        return tempValue % 0x100000000L; // 2^32;
-    }
-    
-    @Override
-    public void update(byte[] bytes, int offset, int length) {
-        for (int i = offset; i < length + offset; i++) {
-            value += bytes[i] & 0xFF;
-        }
-        // important, because otherwise we could get an overflow
-        // if the filesize is 2^64 bytes, full of 0xFF's, value could
-        // become 2^65, and that exceeds the Java Max long, which is 2^63
-        // (a signed long), so we can avoid that by dividing value by
-        // 2^64 (two times by 2^32) after each update call
-        value = getValue();
-        this.length += length;
+        // value is a Java long, so byte-sum accumulation in Sum8.update()
+        // already wraps modulo 2^64 (two's complement); return it as-is.
+        return value;
     }
 
     @Override
