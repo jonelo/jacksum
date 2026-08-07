@@ -84,6 +84,7 @@ public class MessageWorker implements Runnable {
         */
         ((ThreadPoolExecutor)executorService).setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
 
+        boolean interrupted = false;
         try {
             Message message;
             // consuming messages until the exit message is received
@@ -106,15 +107,42 @@ public class MessageWorker implements Runnable {
                         break;
                 }
             }
-            executorService.shutdown();
-            while (!executorService.isTerminated()) {
-                // that empty body is intended, because we wait until the executor service has been terminated.
-            }
-            outputQueue.put(new Message(Type.EXIT));
-            //logQueue.put(new Message(Type.EXIT));
-
         } catch (InterruptedException e) {
+            interrupted = true;
             e.printStackTrace();
+        } finally {
+            // Wait until all submitted WorkerThreads have finished. Block on
+            // awaitTermination instead of spinning on isTerminated() (the old
+            // busy-wait pinned a full CPU core).
+            executorService.shutdown();
+            while (true) {
+                try {
+                    if (executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS)) {
+                        break;
+                    }
+                } catch (InterruptedException e) {
+                    interrupted = true;
+                    executorService.shutdownNow();
+                    break;
+                }
+            }
+            // Always send the EXIT poison pill downstream, even on the exceptional
+            // path, otherwise MessageConsumer would block forever on take() and
+            // Engine.start()'s join() would hang the whole process. Retry through
+            // interrupts: the consumer only ever blocks on take(), so put() here
+            // cannot deadlock.
+            boolean delivered = false;
+            while (!delivered) {
+                try {
+                    outputQueue.put(new Message(Type.EXIT));
+                    delivered = true;
+                } catch (InterruptedException e) {
+                    interrupted = true;
+                }
+            }
+            if (interrupted) {
+                Thread.currentThread().interrupt();
+            }
         }
 
         //System.out.println("File Consumer stopped.");

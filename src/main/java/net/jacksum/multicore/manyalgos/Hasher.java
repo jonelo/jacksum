@@ -50,12 +50,14 @@ import net.jacksum.algorithms.AbstractChecksum;
  * Updates a set of AbstractChecksums. Reads the data from a queue.
  *
  * @author Federico Tello Gentile
+ * @author Johann N. Löfflmann
  */
 public class Hasher implements Runnable {
 
     private final List<AbstractChecksum> digests;
     private final BlockingQueue<DataUnit> queue;
     private int weight = 0;
+    private volatile Throwable failure;
 
     public Hasher(BlockingQueue<DataUnit> queue) {
         this.queue = queue;
@@ -64,6 +66,15 @@ public class Hasher implements Runnable {
 
     public int getWeight() {
         return weight;
+    }
+
+    /**
+     * @return the throwable that aborted this Hasher, or {@code null} if it
+     * completed normally. Read by {@link ConcurrentHasher} after joining, so a
+     * failure can no longer be silently swallowed and reported as success.
+     */
+    public Throwable getFailure() {
+        return failure;
     }
 
     public void addMessageDigest(HashAlgorithm hash) throws NoSuchAlgorithmException {
@@ -78,13 +89,23 @@ public class Hasher implements Runnable {
             DataUnit du;
             do {
                 du = this.queue.take();
-                for (AbstractChecksum md : this.digests) {
-                    du.updateMessageDigest(md);
+                // Once a failure has been recorded, keep draining the queue
+                // (without hashing) until the terminating unit arrives, so the
+                // DataReader never blocks on a full queue, which would otherwise
+                // deadlock the pipeline on large files.
+                if (this.failure == null) {
+                    try {
+                        for (AbstractChecksum md : this.digests) {
+                            du.updateMessageDigest(md);
+                        }
+                    } catch (RuntimeException | Error ex) {
+                        this.failure = ex;
+                    }
                 }
             } while (du.isNotLast());
         } catch (InterruptedException iEx) {
-            System.err.println(iEx.getMessage());
-            iEx.printStackTrace(System.err);
+            this.failure = iEx;
+            Thread.currentThread().interrupt();
         }
     }
 }

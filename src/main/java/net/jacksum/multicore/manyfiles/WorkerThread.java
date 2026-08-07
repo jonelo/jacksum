@@ -122,9 +122,14 @@ public class WorkerThread implements Runnable {
                 message.setType(Message.Type.FILE_HASHED);
             }
 
-        } catch (NoSuchAlgorithmException | IOException ex) {
+        } catch (Throwable ex) {
+            // Catch everything, not just NoSuchAlgorithmException | IOException.
+            // Tasks run via executor.execute() (no Future), so any unchecked
+            // exception (SecurityException, an Error from Files.readAttributes, an
+            // NPE, ...) would otherwise kill the worker thread silently and make
+            // the file vanish from the output while the run still reports success.
             message.setType(Message.Type.ERROR);
-            message.setInfo(ex.getMessage());
+            message.setInfo(ex.getMessage() != null ? ex.getMessage() : ex.toString());
             //Logger.getLogger(WorkerThread.class.getName()).log(Level.SEVERE, null, ex);
         }
 

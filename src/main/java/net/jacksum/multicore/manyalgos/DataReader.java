@@ -49,6 +49,7 @@ import net.jacksum.algorithms.AbstractChecksum;
  * There's one queue per processor.
  * 
  * @author Federico Tello Gentile
+ * @author Johann N. Löfflmann
  */
 public class DataReader implements Runnable {
 
@@ -67,6 +68,30 @@ public class DataReader implements Runnable {
         }
     }
 
+    /**
+     * Best-effort delivery of the terminating marker to every queue. Unlike
+     * {@link #enqueue(DataUnit)} this never aborts halfway through: if delivery
+     * to one queue is interrupted it retries so that <em>each</em> Hasher
+     * receives the marker and none is left blocked forever on {@code take()}.
+     */
+    private void enqueueToAll(DataUnit du) {
+        boolean interrupted = false;
+        for (BlockingQueue<DataUnit> queue : this.queues) {
+            boolean delivered = false;
+            while (!delivered) {
+                try {
+                    queue.put(du);
+                    delivered = true;
+                } catch (InterruptedException e) {
+                    interrupted = true; // retry, this queue still needs the marker
+                }
+            }
+        }
+        if (interrupted) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     public long getTotal() {
         return total;
     }
@@ -75,35 +100,34 @@ public class DataReader implements Runnable {
     public void run() {
         try (InputStream is = new BufferedInputStream(new FileInputStream(this.file))) {
 
+            // readData() fills a whole buffer (or reaches EOF) and flags the last
+            // unit itself, so there is always at least one unit and the final
+            // (possibly empty) unit terminates the Hashers.
             DataUnit du = new DataUnit(AbstractChecksum.BUFFERSIZE);
-            int read = du.readData(is);
-            while (read > 0) {
-                total += read;
-                enqueue(du);
+            total += du.readData(is);
+            enqueue(du);
+            while (du.isNotLast()) {
                 du = new DataUnit(AbstractChecksum.BUFFERSIZE);
-                read = du.readData(is);
-            }
-            if (read == -1) {
-                // enqueue last one in case the last one is zero bytes
-                du = new DataUnit(1);
-                du.setLength(0);
+                total += du.readData(is);
                 enqueue(du);
             }
 
-        } catch (IOException | InterruptedException ex) {
-            // enqueue the "last one marker", otherwise the future.get() method will hang the entire process
-            // e.g. while trying to read the NTUSER.DAT on Microsoft Windows
-            // (Der Prozess kann nicht auf die Datei zugreifen, da sie von einem anderen Prozess verwendet wird)
-            DataUnit du = new DataUnit(1);
-            du.setLength(0);
-            try {
-                enqueue(du);
-                total = -1;
-                exceptionMessage = ex.getMessage();
-            } catch (InterruptedException e) {
-                System.err.println(e.getMessage());
-                e.printStackTrace(System.err);
-            }
+        } catch (Throwable ex) {
+            // Publish the failure state BEFORE the terminating marker crosses the
+            // queue. The only happens-before edge to the main thread runs through
+            // queue.put -> queue.take -> future.get (the DataReader's own Future is
+            // joined by ConcurrentHasher too, but ordering the writes first keeps
+            // total/exceptionMessage visible regardless).
+            total = -1;
+            exceptionMessage = ex.getMessage();
+            // Always enqueue the "last one marker", otherwise the Hashers would
+            // block forever on take() and future.get() would hang the entire
+            // process, e.g. while trying to read NTUSER.DAT on Microsoft Windows
+            // (Der Prozess kann nicht auf die Datei zugreifen, da sie von einem
+            // anderen Prozess verwendet wird).
+            DataUnit marker = new DataUnit(1);
+            marker.markAsLast();
+            enqueueToAll(marker);
         }
     }
 

@@ -69,6 +69,22 @@ Jacksum 4.0.0, April 6, 2026
   - issue #38 - If hash values are not wanted by the user, there should be no leading separator character left in the output
   - issue #40 - Output style for BSD is not 100% compatible for the cases sha512/224, sha512/256, and skein-512-512
   - issue #41 - '-p' option is no longer supported but documentation still references this option
+  - fixed several concurrency bugs in the parallel hashing engines controlled by --threads-hashing and --threads-reading:
+    - a read error on a file (e.g. a locked file such as NTUSER.DAT on Microsoft Windows) that was hashed with
+      multiple algorithms (--threads-hashing) could be reported as a success with a partially computed,
+      i.e. wrong, hash value. Such errors are now reliably detected and reported.
+    - an unexpected exception while hashing (--threads-hashing) could be silently swallowed and a partially
+      computed hash returned as if it were correct, or it could deadlock the process on large files. Errors are
+      now propagated and no longer silently ignored.
+    - during a parallel directory walk (--threads-reading) an unexpected exception on a single file could make
+      that file silently disappear from the output while the run still reported success. Such files are now
+      reported as an error.
+    - a crash in the file producer, or an interruption of the hashing engine, could leave the parallel directory
+      walk (--threads-reading) hanging forever instead of terminating. Termination is now guaranteed.
+    - the parallel directory walk (--threads-reading) busy-waited for its worker pool to finish, needlessly
+      keeping one CPU core at 100%. It now waits without spinning.
+    - a short read that is not the end of the file is no longer misinterpreted as the last block, which could
+      truncate a hash or block the reader.
 
 - improved performance:
   - used a short buffer for the --header output

@@ -193,43 +193,51 @@ public class MessageProducer implements Runnable {
     @Override
     public void run() {
 
-        Message.Type messageTypeForFiles = Type.HASH_FILE;
-        Message.Type messageTypeForStdin = Type.HASH_STDIN;
-        // we want to calculate hashes for the files in the check file only
-        if (producerParameters.getFilenamesFromCheckFile() != null) {
+        try {
+            Message.Type messageTypeForFiles = Type.HASH_FILE;
+            Message.Type messageTypeForStdin = Type.HASH_STDIN;
+            // we want to calculate hashes for the files in the check file only
+            if (producerParameters.getFilenamesFromCheckFile() != null) {
 
-            if (!producerParameters.getListFilter().isHashingRequired()) {
+                if (!producerParameters.getListFilter().isHashingRequired()) {
+                    messageTypeForFiles = Type.DONT_HASH_FILE;
+                    messageTypeForStdin = Type.DONT_HASH_STDIN;
+                }
+
+                for (String filename : producerParameters.getFilenamesFromCheckFile()) {
+                    // if <stdin> occurs in the check file
+                    if (filename.equals(producerParameters.getStdinName())) {
+                        handleFilenameStdin(messageTypeForStdin);
+                    } else {
+                        handleFilename(filename, true, messageTypeForFiles);
+                    }
+                }
                 messageTypeForFiles = Type.DONT_HASH_FILE;
                 messageTypeForStdin = Type.DONT_HASH_STDIN;
             }
 
-            for (String filename : producerParameters.getFilenamesFromCheckFile()) {
-                // if <stdin> occurs in the check file
-                if (filename.equals(producerParameters.getStdinName())) {
-                    handleFilenameStdin(messageTypeForStdin);
-                } else {
-                    handleFilename(filename, true, messageTypeForFiles);
-                }
+            // stdin wanted on the command line?
+            if (producerParameters.isStdinForFilenamesFromArgs()) {
+                handleFilenameStdin(messageTypeForStdin);
             }
-            messageTypeForFiles = Type.DONT_HASH_FILE;
-            messageTypeForStdin = Type.DONT_HASH_STDIN;
-        }
 
-        // stdin wanted on the command line?
-        if (producerParameters.isStdinForFilenamesFromArgs()) {
-            handleFilenameStdin(messageTypeForStdin);
-        }
+            // all file parameters (files and dirs)
+            for (String filename : allFiles) {
+                handleFilename(filename, false, messageTypeForFiles);
+            }
 
-        // all file parameters (files and dirs)
-        for (String filename : allFiles) {
-            handleFilename(filename, false, messageTypeForFiles);
-        }
-
-        // add exit message
-        try {
-            inputQueue.put(new Message(Type.EXIT));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } finally {
+            // add exit message. This MUST run even if an unchecked exception
+            // escaped the tree walk above, otherwise the EXIT poison pill would
+            // never reach the inputQueue, MessageWorker/MessageConsumer would
+            // block forever on take(), and Engine.start()'s join() would hang the
+            // whole process.
+            try {
+                inputQueue.put(new Message(Type.EXIT));
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                e.printStackTrace();
+            }
         }
 
     }

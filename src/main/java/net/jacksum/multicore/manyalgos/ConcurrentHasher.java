@@ -56,7 +56,7 @@ import java.util.concurrent.*;
  * Hashers based on their weight.
  *
  * @author Federico Tello Gentile
- * contributor Johann N. Löfflmann
+ * @author Johann N. Löfflmann
  */
 public class ConcurrentHasher {
 
@@ -79,58 +79,79 @@ public class ConcurrentHasher {
     }
 
     public void updateHashes(File src, List<HashAlgorithm> hashes) throws IOException {
+
+        final int workingThreads = Math.max(1, Math.min(THREAD_COUNT, hashes.size()));
+
+        // One queue per worker
+        final List<BlockingQueue<DataUnit>> queues =
+                new ArrayList<>(workingThreads);
+
+        final List<Runnable> tasks = new ArrayList<>(workingThreads);
+
+        // One worker per processor
+        final Hasher[] workers = new Hasher[workingThreads];
+
+        // create queues and workers
+        for (int i = 0; i < workingThreads; i++) {
+            BlockingQueue<DataUnit> queue = new ArrayBlockingQueue<>(QUEUE_CAPACITY, true);
+            queues.add(queue);
+            workers[i] = new Hasher(queue);
+            tasks.add(workers[i]);
+        }
+
+        // LPT-Algorithm (Longest Processing Time)
+        // https://en.wikipedia.org/wiki/Multiprocessor_scheduling
+        if (THREAD_COUNT > 1) {
+            Collections.sort(hashes);
+        }
         try {
-
-            final int workingThreads = Math.max(1, Math.min(THREAD_COUNT, hashes.size()));
-
-            // One queue per worker
-            final List<BlockingQueue<DataUnit>> queues =
-                    new ArrayList<>(workingThreads);
-
-            final List<Runnable> tasks = new ArrayList<>(workingThreads);
-
-            // One worker per processor
-            final Hasher[] workers = new Hasher[workingThreads];
-
-            // create queues and workers
-            for (int i = 0; i < workingThreads; i++) {
-                BlockingQueue<DataUnit> queue = new ArrayBlockingQueue<>(QUEUE_CAPACITY, true);
-                queues.add(queue);
-                workers[i] = new Hasher(queue);
-                tasks.add(workers[i]);
-            }
-
-            // LPT-Algorithm (Longest Processing Time)
-            // https://en.wikipedia.org/wiki/Multiprocessor_scheduling
-            if (THREAD_COUNT > 1) {
-                Collections.sort(hashes);
-            }
             for (HashAlgorithm hash : hashes) {
                 minWeight(workers).addMessageDigest(hash);
             }
+        } catch (NoSuchAlgorithmException ex) {
+            throw new IOException(ex.getMessage(), ex);
+        }
 
-            final ExecutorService pool = Executors.newFixedThreadPool(workers.length + 1);
-            //pool.submit(new DataReader(src, queues));
+        final ExecutorService pool = Executors.newFixedThreadPool(workers.length + 1);
+        try {
             DataReader dataReader = new DataReader(src, queues);
-            pool.submit(dataReader);
+            Future<?> readerFuture = pool.submit(dataReader);
 
             List<Future<?>> futures = new ArrayList<>(tasks.size());
-
             for (Runnable task : tasks) {
                 futures.add(pool.submit(task));
             }
+            // Join the Hashers ...
             for (Future<?> f : futures) {
                 f.get();
             }
-            pool.shutdown();
+            // ... and the DataReader too, so total/exceptionMessage are safely
+            // published to this thread (the reader's Future used to be discarded).
+            readerFuture.get();
+
+            // An I/O error (e.g. a locked file) must surface as a failure, never
+            // as a success with a partially computed hash.
             if (dataReader.getTotal() == -1) {
                 throw new IOException(dataReader.getExceptionMessage());
             }
+            // A RuntimeException/Error thrown while updating a digest must not be
+            // silently swallowed either.
+            for (Hasher worker : workers) {
+                Throwable failure = worker.getFailure();
+                if (failure != null) {
+                    throw new IOException("Hashing failed: " + failure.getMessage(), failure);
+                }
+            }
             totalRead = dataReader.getTotal();
 
-        } catch (InterruptedException | NoSuchAlgorithmException | ExecutionException ex) {
-            System.err.println(ex.getMessage());
-            ex.printStackTrace(System.err);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            throw new IOException("Hashing was interrupted", ex);
+        } catch (ExecutionException ex) {
+            Throwable cause = ex.getCause() != null ? ex.getCause() : ex;
+            throw new IOException("Hashing failed: " + cause.getMessage(), cause);
+        } finally {
+            pool.shutdownNow();
         }
     }
 }
