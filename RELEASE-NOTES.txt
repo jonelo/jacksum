@@ -1,4 +1,4 @@
-Jacksum 4.0.0, April 6, 2026
+Jacksum 4.0.0, August TBD, 2026
 
 - Compatibility changes
   - requires a JRE/JDK that is compatible with Java 21 LTS and later, OpenJDK 25 LTS or later is recommended
