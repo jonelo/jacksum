@@ -44,6 +44,7 @@ Jacksum 4.0.0, August TBD, 2026
     - added Java Heap Info if --info option has been set
   - improvements on existing features
     - allowed option -e for --string-list
+  - implemented issue #16: Provide a German Help File
 
 - bug fixes:
   - HMAC does not implement reset() method correctly which means that the same hash of the first calculation is always returned

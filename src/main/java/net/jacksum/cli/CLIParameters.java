@@ -31,6 +31,7 @@ import net.jacksum.parameters.Parameters;
 import net.loefflmann.sugar.util.GeneralString;
 
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * All parameters for the Command Line Interface (CLI)
@@ -162,6 +163,7 @@ public class CLIParameters {
     public static final String DASH = "-";
     public static final String DASHDASH = "--";
     public static final String HELP_DEFAULT_LANGUAGE = "en";
+    public static final Set<String> HELP_LANGUAGES = Set.of("en", "de");
 
 
     public CLIParameters(String[] args) {
@@ -390,8 +392,8 @@ public class CLIParameters {
                     if (firstfile < args.length) {
                         String helpLanguageOrSearchString = args[firstfile++];
 
-                        if (helpLanguageOrSearchString.equalsIgnoreCase(HELP_DEFAULT_LANGUAGE)) {
-                            parameters.setHelpLanguage(helpLanguageOrSearchString);
+                        if (HELP_LANGUAGES.contains(helpLanguageOrSearchString.toLowerCase(Locale.US))) {
+                            parameters.setHelpLanguage(helpLanguageOrSearchString.toLowerCase(Locale.US));
                             if (firstfile < args.length) {
                                 parameters.setHelpSearchString(args[firstfile++]);
                             }
