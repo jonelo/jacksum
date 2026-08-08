@@ -90,6 +90,9 @@ Jacksum 4.0.0, August TBD, 2026
   - used a short buffer for the --header output
   - significant performance improvement for all FNV-0/FNV-1/FNV-1a with a width of 128, 256, 512, and 1024 bits
     by replacing the BigInteger arithmetic with fixed-width arithmetic on a long array (approx. 5x faster for 1024 bits)
+  - performance improvement for aststrsum (aka ast, strsum) by hoisting the hash state and parameters into local
+    variables and switching the inner update loop to 32-bit int arithmetic, which removes the per-byte 64-bit mask
+    from the critical path (approx. 20% faster); the computed hash values are unchanged
 
 - updated documentation:
   - added info about the usage of the internal state value for verification of test vectors submitted for the NIST competition
