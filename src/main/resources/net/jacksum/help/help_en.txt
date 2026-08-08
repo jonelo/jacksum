@@ -52,7 +52,7 @@ DESCRIPTION
           - Customizable CRCs from 1 to 64 bit width
 \
         - Cross-platform
-          - 60+ command line options to control Jacksum's behavior
+          - 71 command line options to control Jacksum's behavior
           - Cross-platform executability with identical behavior
           - Multi-threading for parallel hash calculations to take advantage of
             multiprocessors and multi-core processors
@@ -65,10 +65,12 @@ DESCRIPTION
           - Wildcard support
           - Creation of checklists with check values such as checksums,
             file size, timestamp and file name
-          - 10 predefined standard styles for reading and writing check files
+          - 18 predefined standard styles for reading and writing check files
+          - 15 predefined standard styles for reading and writing wanted lists
           - 15 different encodings for representing hash values
           - 6 predefined styles for representing file timestamps
-          - 170+ different character sets to read and write check files correctly
+          - 170+ different character sets to read and write check files and
+            wanted lists correctly
           - Fully customizable output format on demand
 \
         - Documentation
@@ -93,7 +95,7 @@ OPERATING MODES OVERVIEW
             jacksum [-a <algorithms>] {--quick|-q} <sequence>
                     [OPTION]...
 \
-        Calculate hash values from strings
+        Calculate hash values from strings stored in files
             jacksum [-a <algorithms>] --string-list <file>
                     [OPTION]...
 \
@@ -291,7 +293,7 @@ OPERATING MODES EXPLAINED
             - File List Options
             - Directory Traversal Options
             - I/O Performance Options
-            - File/Path Format Options
+            - Path Format Options
 \
         Examples:
 \
@@ -319,7 +321,7 @@ OPERATING MODES EXPLAINED
         The following option types are also supported for OPTION:
 \
             - Quick Mode Options
-            - File/Path Format Options
+            - Path Format Options
 \
         Examples:
 \
@@ -832,8 +834,9 @@ OPTION TYPES
         [--threads-reading <threads>]
 \
 \
-    File/Path Format Options
-        Those options adjust the format of file/path objects.
+    Path Format and File name Escaping Options
+        Those options adjust the format of path objects and control filename
+        escaping.
 \
         [--gnu-filename-escaping <boolean>]
         [
@@ -932,7 +935,7 @@ OPTION SUPPORT MATRIX
         | Directory Traversal Options              | x | x | x | - | - | - | - | - |
         | Hashing Performance Options              | x | x | x | x | x | x | - | - |
         | I/O Performance Options                  | x | x | x | - | - | - | - | - |
-        | File/Path Format Options                 | x | - | - | x | - | - | - | - |
+        | Path Format Options                      | x | - | - | x | - | - | - | - |
         | Input Format Options                     | - | x | x | - | x | - | - | - |
         | Output Format Options                    | x | - | - | x | - | x | - | - |
         | Output Options                           | x | x | x | x | x | x | x | x |
@@ -1118,7 +1121,7 @@ OPTIONS
                    normalized (if not customized) by a hexadecimal checksum and
                    a decimal file size.
 \
-                   Example:
+                   Examples:
                    > jacksum -a all -l
                    > jacksum -a all --info
                    > jacksum -a all --info -l
@@ -1168,7 +1171,8 @@ OPTIONS
                 algorithms will be tested by brute force (init and xorOut are
                 set to either all bits zero or all bits one while refIn and
                 refOut are set to either true or false for all potential
-                polynomials of the given length). Please be patient!
+                polynomials of the given length). Please be patient in case
+                of a brute-force session.
 \
                 Both options, -q and -e, are required in this case.
                 See also -V, -e, -E, and -q.
@@ -2755,8 +2759,9 @@ OPTIONS
     -h [language] [word]
     --help [language] [word]
 \
-            Prints the help; valid code for language is "en"; valid values for
-            word are strings such as section headers, options or algorithms.
+            Prints the help; valid codes for language are "en" and "de"; valid
+            values for word are strings such as section headers, options or
+            algorithms.
 \
 \
             See also:
@@ -3279,7 +3284,7 @@ OPTIONS
 \
             See also:
 \
-                options --path-relative-to, and --file-list
+                option --path-relative-to
 \
             Available since:
 \
