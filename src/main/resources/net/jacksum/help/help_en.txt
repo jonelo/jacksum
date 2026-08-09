@@ -4231,6 +4231,9 @@ ALGORITHMS
                 256 bits. The hashing modes use the same lightweight 320-bit
                 permutation as the authenticated encryption modes.
 \
+                There is no standard-compliant parameterization according to
+                HMAC for sponge-bashed hash functions (RFC 2104 / FIPS 198-).
+\
             since:
                 Jacksum 3.6.0
 \

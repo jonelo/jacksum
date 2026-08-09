@@ -4677,6 +4677,9 @@ ALGORITHMS
                 leichtgewichtige 320-Bit-Permutation wie die
                 authentifizierten Verschlüsselungsmodi.
 \
+                Für sponge-basierte Hashfunktionen gibt es keine standard-
+                konforme Parameterisierung nach HMAC (RFC 2104 / FIPS 198-).
+\
             seit:
                 Jacksum 3.6.0
 \

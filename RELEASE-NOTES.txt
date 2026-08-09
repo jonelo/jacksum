@@ -2,6 +2,8 @@ Jacksum 4.0.0, August TBD, 2026
 
 - Compatibility changes
   - requires a JRE/JDK that is compatible with Java 21 LTS and later, OpenJDK 25 LTS or later is recommended
+  - the formation of an HMAC with algorithms of the ascon family is no longer possible because there is no
+    standard-compliant parameterization according to HMAC for sponge-bashed hash functions (RFC 2104 / FIPS 198-).
 
 - new features:
   - new algorithms
@@ -47,6 +49,7 @@ Jacksum 4.0.0, August TBD, 2026
   - implemented issue #16: Provide a German Help File
 
 - bug fixes:
+  - improved HMAC constraint: if blocksize < digestsize HMACs cannot be calculated, this is the case for all ascon algorithms for example.
   - HMAC does not implement reset() method correctly which means that the same hash of the first calculation is always returned
   - Don't ignore records with same comments in wanted list files.
     While ignoring duplicate file names in check files makes sense for the option --check-file, that setting is
@@ -63,7 +66,6 @@ Jacksum 4.0.0, August TBD, 2026
   - if multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
   - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC definition code
     if --info has been requested
-  - improved HMAC constraint: if blocksize < digestsize HMACs cannot be calculated, this is the case for all ascon algorithms for example.
   - issue #30 - java.lang.OutOfMemoryError i.e. "Thread-0" or "pool-1-thread-4"
   - issue #36 - If multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
   - issue #37 - Parser does not find valid entries if algorithm "none" (no hashing) has been selected
