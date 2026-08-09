@@ -4362,6 +4362,43 @@ ALGORITHMS
                 net.jacksum.algorithms.checksums.PrngHash
 
 
+    belt-hash, belthash, belt
+            algorithm name:
+                belt-hash (STB 34.101.31)
+\
+            length:
+                256 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                2011
+\
+            broken:
+                no
+\
+            website:
+                https://github.com/bcrypto/belt
+\
+            comment:
+                belt-hash is the hash function of the Belarusian national
+                cryptographic standard STB 34.101.31 ("belt"). It builds a
+                256-bit hash from the belt-compress compression function, which
+                in turn is based on the 128-bit belt block cipher.
+\
+                The belt standard was first published in 2007; belt-hash was
+                added with the second edition of STB 34.101.31 in 2011. The
+                official test vectors for belt-hash are given in annex A.23 of
+                the standard.
+\
+            since:
+                Jacksum 4.0.0
+\
+            implementation:
+                net.jacksum.algorithms.md.BeltHash
+
+
     blake<length>, blake-<length>
             algorithm name:
                 BLAKE-<length>

@@ -72,6 +72,7 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS.put("ascon-xof", 16);
         WEIGHTS.put("ascon-xofa", 13);
         WEIGHTS.put("aststrsum", 40);
+        WEIGHTS.put("belt-hash", 312);
         WEIGHTS.put("blake224", 223);
         WEIGHTS.put("blake256", 225);
         WEIGHTS.put("blake2b-104", 42);
@@ -839,6 +840,8 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS_ALIASES.put("sha256", WEIGHTS.get("sha-256"));
         WEIGHTS_ALIASES.put("adler32", WEIGHTS.get("adler32"));
         WEIGHTS_ALIASES.put("adler-32", WEIGHTS.get("adler32"));
+        WEIGHTS_ALIASES.put("belthash", WEIGHTS.get("belt-hash"));
+        WEIGHTS_ALIASES.put("belt", WEIGHTS.get("belt-hash"));
         // GENERATION END
     }
 

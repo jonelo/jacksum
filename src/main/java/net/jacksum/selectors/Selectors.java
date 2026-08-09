@@ -31,6 +31,7 @@ public class Selectors {
         AsconXof_Selector.class,
         AsconXofA_Selector.class,
         AstStrsum_Selector.class,
+        BeltHash_Selector.class,
         Blake_224_Selector.class,
         Blake_256_Selector.class,
         Blake_384_Selector.class,
@@ -236,7 +237,10 @@ public class Selectors {
         Kupyna512_Selector.class,
         Kupyna384_Selector.class,
         Kupyna256_Selector.class,
-        
+
+        // Belarus
+        BeltHash_Selector.class,
+
         // China        
         SM3_Selector.class,
 

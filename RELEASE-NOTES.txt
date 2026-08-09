@@ -7,7 +7,8 @@ Jacksum 4.0.0, August TBD, 2026
 
 - new features:
   - new algorithms
-    - Jacksum now supports 513 algorithms!
+    - Jacksum now supports 514 algorithms!
+    - added belt-hash, the hash function of the Belarusian national standard STB 34.101.31
     - added Romulus-H v1.3, it is one of the finalists from the Lightweight Cryptography Competition held by NIST
     - added 5 (resp. 17) algorithms from the round 2 of the NIST SHA-3 competition:
       - BlueMidnightWish-[224,256,384,512]
