@@ -84,8 +84,7 @@ public class AlgoInfoAction implements Action {
             buffer.append(String.format(FORMAT, indent, "bytes:", Integer.toString(blockSize)));
         }
 
-        if (checksum instanceof PrngHashInfo) {
-            PrngHashInfo prngHashinfo = (PrngHashInfo) checksum;
+        if (checksum instanceof PrngHashInfo prngHashinfo) {
             buffer.append(String.format("%n%sPRNG Hash parameters:%n", indent));
             buffer.append(String.format(FORMAT, indent, "Jacksum PRNG Hash algo def:", checksum.getName()));
             buffer.append(String.format(FORMAT, indent, "init [hex]:", "0x"+ByteSequences.hexformat(prngHashinfo.getInitValue(), 8)));
@@ -96,8 +95,7 @@ public class AlgoInfoAction implements Action {
         buffer.append(String.format("%n%sCompatibility:%n", indent));
         buffer.append(String.format(FORMAT, indent, "HMAC:", blockSize >= bytes));
 
-        if (checksum instanceof HMAC) {
-            HMAC hmac = (HMAC) checksum;
+        if (checksum instanceof HMAC hmac) {
             buffer.append(String.format("%n%sHMAC parameters:%n", indent));
             buffer.append(String.format(FORMAT, indent, "underlying cryptographic hash:", hmac.getAlgorithm().getName()));
 
@@ -116,8 +114,7 @@ public class AlgoInfoAction implements Action {
             buffer.append(String.format(FORMAT, indent, "key will be hashed:", hmac.isKeyWasHashed()));
         }
 
-        if (checksum instanceof CrcInfo) {
-            CrcInfo crc = (CrcInfo) checksum;
+        if (checksum instanceof CrcInfo crc) {
             byte[] polyAsBytes = crc.getPolyAsBytes();
             String polyAsBits = ByteSequences.formatAsBits(polyAsBytes, crc.getWidth());
 
@@ -168,7 +165,7 @@ public class AlgoInfoAction implements Action {
 
         boolean avalanche = true;
         if (avalanche) {
-            byte[] input = null;
+            byte[] input;
             if (parameters.isSequence()) {
                 input = parameters.getSequence().asBytes();
             } else {
@@ -299,7 +296,7 @@ public class AlgoInfoAction implements Action {
 
     public int perform(StringBuilder buffer) throws ExitException {
 
-        allSupportedAlgorithmsCount = JacksumAPI.getAvailableAlgorithms().size() + JacksumAPI.getAvailableHMACs().size();
+        allSupportedAlgorithmsCount = JacksumAPI.getAvailableAlgorithms().size(); // + JacksumAPI.getAvailableHMACs().size();
         int exitCode = parameters.isList() ? listView(buffer) : singleView(buffer);
 
         if (parameters.getVerbose().isSummary()) {
