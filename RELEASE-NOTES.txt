@@ -72,6 +72,7 @@ Jacksum 4.0.0, August TBD, 2026
   - issue #38 - If hash values are not wanted by the user, there should be no leading separator character left in the output
   - issue #40 - Output style for BSD is not 100% compatible for the cases sha512/224, sha512/256, and skein-512-512
   - issue #41 - '-p' option is no longer supported but documentation still references this option
+  - issue #45 - Correct eDonkey test vector expected hash in code comments
   - fixed several concurrency bugs in the parallel hashing engines controlled by --threads-hashing and --threads-reading:
     - a read error on a file (e.g. a locked file such as NTUSER.DAT on Microsoft Windows) that was hashed with
       multiple algorithms (--threads-hashing) could be reported as a success with a partially computed,

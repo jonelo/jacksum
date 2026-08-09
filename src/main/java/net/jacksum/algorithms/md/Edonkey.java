@@ -146,7 +146,8 @@ public class Edonkey extends AbstractChecksum {
 
     /*
      Testcase:
-     a 3 GB file (length=3221225472), filled with random bytes
-     (Java seed=0), returns the value 0121DA2F201ADA2E2AC81DB26F8DA5EC
+     a 3 GB file (length=3221225472), filled entirely with random bytes
+     (java.utilRandom, seed=0), returns the value 54f49c4b5f2c58420d73855570901ec2
+     see GitHub issue#45
      */
 }
