@@ -7943,6 +7943,64 @@ ALGORITHMS
                 wenn Sie die Option -A gesetzt haben.
 
 
+    md6, md6-<length>
+            Algorithmusname:
+                MD6
+\
+            Länge:
+                frei wählbar, solange ein Vielfaches von 8 und nicht
+                größer als 512. Wird <length> weggelassen, wird
+                <length> auf 256 gesetzt
+\
+            Typ:
+                kryptografische Hashfunktion
+\
+            veröffentlicht:
+                10/2008 (überarbeitet 01/2009)
+\
+            gebrochen:
+                nein
+\
+            Website:
+                https://groups.csail.mit.edu/cis/md6/
+\
+            Kommentar:
+                MD6 wurde von einem Team um Ronald L. Rivest am MIT
+                entworfen und in der ersten Runde des NIST-SHA-3-
+                Wettbewerbs (2007-2012) eingereicht. Anders als seine
+                Vorgänger MD4 und MD5 ist MD6 keine
+                Merkle-Damgård-Konstruktion, sondern ein Hashbaum: die
+                Nachricht wird in Blöcken von 512 Byte verarbeitet, die
+                die Blätter eines 4-ären Baumes bilden. Dadurch lässt
+                sich die Berechnung parallelisieren.
+\
+                MD6 kam nicht in die zweite Runde des Wettbewerbs. Die
+                Einreicher zogen den Algorithmus zurück, weil sie in
+                der Zeit, die der Wettbewerb zuließ, nicht beweisen
+                konnten, dass eine Variante mit wenig genug Runden, um
+                konkurrenzfähig schnell zu sein, differenziellen
+                Angriffen widersteht. MD6 selbst ist nicht gebrochen.
+\
+                Jacksum verwendet die Standardparameter von MD6: keinen
+                Schlüssel, den Modusparameter L = 64 (vollständig
+                hierarchisch) und 40 + <length> / 4 Runden. Das ist
+                die Voreinstellung des Werkzeugs md6sum aus dem
+                Einreichungspaket.
+\
+                Der Hashwert besteht aus den letzten <length> Bit des
+                1024 Bit langen finalen Kettenwertes, wiederum so, wie
+                md6sum ihn ausgibt. Beachten Sie, dass die Dateien
+                *KAT_*.txt des Einreichungspakets stattdessen die
+                führenden Bit des unbeschnittenen Kettenwertes
+                auflisten und somit keine MD6-Hashwerte enthalten.
+\
+            seit:
+                Jacksum 4.0.0
+\
+            Implementierung:
+                net.jacksum.algorithms.md.MD6
+
+
     mdc2, mdc-2
             Algorithmusname:
                 MDC-2

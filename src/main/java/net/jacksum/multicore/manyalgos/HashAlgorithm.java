@@ -51,7 +51,7 @@ import net.jacksum.algorithms.AbstractChecksum;
  */
 public class HashAlgorithm implements Comparable<HashAlgorithm> {
 
-    private static final Map<String, Integer> WEIGHTS = new HashMap<>(690); // max. number of entries/load factor = 512/0.75=683
+    private static final Map<String, Integer> WEIGHTS = new HashMap<>(780); // max. number of entries/load factor = 579/0.75=772
     private static final Map<String, Integer> WEIGHTS_ALIASES = new HashMap<>(350);
     private final String name;
     private final int weight;
@@ -292,6 +292,70 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS.put("md2", 2903);
         WEIGHTS.put("md4", 38);
         WEIGHTS.put("md5", 35);
+        WEIGHTS.put("md6-104", 60);
+        WEIGHTS.put("md6-112", 61);
+        WEIGHTS.put("md6-120", 62);
+        WEIGHTS.put("md6-128", 64);
+        WEIGHTS.put("md6-136", 65);
+        WEIGHTS.put("md6-144", 67);
+        WEIGHTS.put("md6-152", 68);
+        WEIGHTS.put("md6-16", 43);
+        WEIGHTS.put("md6-160", 70);
+        WEIGHTS.put("md6-168", 71);
+        WEIGHTS.put("md6-176", 73);
+        WEIGHTS.put("md6-184", 74);
+        WEIGHTS.put("md6-192", 76);
+        WEIGHTS.put("md6-200", 78);
+        WEIGHTS.put("md6-208", 79);
+        WEIGHTS.put("md6-216", 80);
+        WEIGHTS.put("md6-224", 81);
+        WEIGHTS.put("md6-232", 83);
+        WEIGHTS.put("md6-24", 45);
+        WEIGHTS.put("md6-240", 84);
+        WEIGHTS.put("md6-248", 86);
+        WEIGHTS.put("md6-256", 87);
+        WEIGHTS.put("md6-264", 89);
+        WEIGHTS.put("md6-272", 90);
+        WEIGHTS.put("md6-280", 92);
+        WEIGHTS.put("md6-288", 93);
+        WEIGHTS.put("md6-296", 95);
+        WEIGHTS.put("md6-304", 96);
+        WEIGHTS.put("md6-312", 98);
+        WEIGHTS.put("md6-32", 47);
+        WEIGHTS.put("md6-320", 100);
+        WEIGHTS.put("md6-328", 101);
+        WEIGHTS.put("md6-336", 103);
+        WEIGHTS.put("md6-344", 104);
+        WEIGHTS.put("md6-352", 105);
+        WEIGHTS.put("md6-360", 106);
+        WEIGHTS.put("md6-368", 108);
+        WEIGHTS.put("md6-376", 109);
+        WEIGHTS.put("md6-384", 111);
+        WEIGHTS.put("md6-392", 113);
+        WEIGHTS.put("md6-40", 48);
+        WEIGHTS.put("md6-400", 114);
+        WEIGHTS.put("md6-408", 115);
+        WEIGHTS.put("md6-416", 117);
+        WEIGHTS.put("md6-424", 119);
+        WEIGHTS.put("md6-432", 120);
+        WEIGHTS.put("md6-440", 122);
+        WEIGHTS.put("md6-448", 123);
+        WEIGHTS.put("md6-456", 124);
+        WEIGHTS.put("md6-464", 126);
+        WEIGHTS.put("md6-472", 127);
+        WEIGHTS.put("md6-48", 50);
+        WEIGHTS.put("md6-480", 128);
+        WEIGHTS.put("md6-488", 130);
+        WEIGHTS.put("md6-496", 131);
+        WEIGHTS.put("md6-504", 133);
+        WEIGHTS.put("md6-512", 134);
+        WEIGHTS.put("md6-56", 51);
+        WEIGHTS.put("md6-64", 53);
+        WEIGHTS.put("md6-72", 54);
+        WEIGHTS.put("md6-8", 42);
+        WEIGHTS.put("md6-80", 56);
+        WEIGHTS.put("md6-88", 57);
+        WEIGHTS.put("md6-96", 58);
         WEIGHTS.put("mdc2", 3903);
         WEIGHTS.put("panama", 25);
         WEIGHTS.put("photon-beetle", 5975);
@@ -842,6 +906,7 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS_ALIASES.put("adler-32", WEIGHTS.get("adler32"));
         WEIGHTS_ALIASES.put("belthash", WEIGHTS.get("belt-hash"));
         WEIGHTS_ALIASES.put("belt", WEIGHTS.get("belt-hash"));
+        WEIGHTS_ALIASES.put("md6", WEIGHTS.get("md6-256"));
         // GENERATION END
     }
 

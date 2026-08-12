@@ -123,6 +123,7 @@ public class Selectors {
         MD2_Selector.class,
         MD4_Selector.class,
         MD5_Selector.class,
+        MD6_Selector.class,
         MDC2_Selector.class,
         Panama_Selector.class,
         PrngHash_Selector.class,
@@ -335,6 +336,11 @@ public class Selectors {
 //        Shavite256_Selector.class,
 //        Shavite384_Selector.class,
 //        Shavite512_Selector.class,
+
+
+        // SHA-3 competition, round 1
+        // --------------------------
+        MD6_Selector.class,
 
 
         // pre-SHA-3-competition workshop suggestions

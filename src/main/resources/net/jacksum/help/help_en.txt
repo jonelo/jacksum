@@ -7360,6 +7360,58 @@ ALGORITHMS
                 option -A.
 
 
+    md6, md6-<length>
+            algorithm name:
+                MD6
+\
+            length:
+                freely selectable, as long as it is a multiple of 8 and not
+                greater than 512. If <length> is omitted, <length> is set to 256
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                10/2008 (revised 01/2009)
+\
+            broken:
+                no
+\
+            website:
+                https://groups.csail.mit.edu/cis/md6/
+\
+            comment:
+                MD6 was designed by a team led by Ronald L. Rivest at MIT and
+                submitted to the first round of the NIST SHA-3 competition
+                (2007-2012). Unlike its predecessors MD4 and MD5 it is not a
+                Merkle-Damgård construction, but a hash tree: the message is
+                processed in blocks of 512 bytes which form the leaves of a
+                4-ary tree, so the computation can be parallelized.
+\
+                MD6 did not advance to the second round of the competition.
+                The submitters withdrew it, because they could not prove in
+                the time the competition allowed that a version with few
+                enough rounds to be competitively fast resists differential
+                attacks. MD6 itself is not broken.
+\
+                Jacksum uses the standard parameters of MD6: no key, mode
+                parameter L = 64 (fully hierarchical), and 40 + <length> / 4
+                rounds. That is what the md6sum tool of the submission
+                package uses by default.
+\
+                The hash value is the last <length> bits of the 1024 bit
+                final chaining value, again as printed by md6sum. Note that
+                the *KAT_*.txt files of the submission package list the
+                leading bits of the untrimmed chaining value instead, so
+                they do not contain MD6 hash values.
+\
+            since:
+                Jacksum 4.0.0
+\
+            implementation:
+                net.jacksum.algorithms.md.MD6
+
+
     mdc2, mdc-2
             algorithm name:
                 MDC-2
