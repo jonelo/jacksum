@@ -4200,9 +4200,6 @@ ALGORITHMS
             published:
                 05/2021
 \
-            broken:
-                no
-\
             website:
                 https://ascon.iaik.tugraz.at
 \
@@ -4234,6 +4231,12 @@ ALGORITHMS
                 There is no standard-compliant parameterization according to
                 HMAC for sponge-bashed hash functions (RFC 2104 / FIPS 198-).
 \
+            broken:
+                no; the best published attacks reach 2 of 12 rounds
+                (collisions), the full Ascon-Hash is unaffected; as a sponge
+                construction it is also immune to length-extension attacks
+                see also https://eprint.iacr.org/2019/1115
+\
             since:
                 Jacksum 3.6.0
 \
@@ -4254,15 +4257,19 @@ ALGORITHMS
             published:
                 05/2021
 \
-            broken:
-                no
-\
             website:
                 https://ascon.iaik.tugraz.at
 \
             comment:
                 ascon-hasha is the secondary recommendation by the Ascon team.
                 See also ascon-hash.
+\
+            broken:
+                no; no attack on the full Ascon-Hasha is known that is faster
+                than generic attacks; note that Ascon-Hasha absorbs with 8
+                instead of 12 rounds and therefore has a smaller security
+                margin than Ascon-Hash; as a sponge construction it is immune
+                to length-extension attacks
 \
             since:
                 Jacksum 3.6.0
@@ -4284,14 +4291,17 @@ ALGORITHMS
             published:
                 05/2021
 \
-            broken:
-                no
-\
             website:
                 https://ascon.iaik.tugraz.at
 \
             comment:
                 See also ascon-hash.
+\
+            broken:
+                no; the best published attacks are preimage attacks on 2 of 12
+                rounds, the full Ascon-Xof is unaffected; as a sponge
+                construction it is also immune to length-extension attacks
+                see also https://eprint.iacr.org/2024/371
 \
             since:
                 Jacksum 3.6.0
@@ -4313,15 +4323,19 @@ ALGORITHMS
             published:
                 05/2021
 \
-            broken:
-                no
-\
             website:
                 https://ascon.iaik.tugraz.at
 \
             comment:
                 Ascon-xofA is the secondary recommendation by the Ascon team.
                 See also ascon-xof.
+\
+            broken:
+                no; no attack on the full Ascon-XofA is known that is faster
+                than generic attacks; note that Ascon-XofA absorbs with 8
+                instead of 12 rounds and therefore has a smaller security
+                margin than Ascon-Xof; as a sponge construction it is immune to
+                length-extension attacks
 \
             since:
                 Jacksum 3.6.0
@@ -4375,9 +4389,6 @@ ALGORITHMS
             published:
                 2011
 \
-            broken:
-                no
-\
             website:
                 https://github.com/bcrypto/belt
 \
@@ -4391,6 +4402,13 @@ ALGORITHMS
                 added with the second edition of STB 34.101.31 in 2011. The
                 official test vectors for belt-hash are given in annex A.23 of
                 the standard.
+\
+            broken:
+                no; no attack on belt-hash itself has been published; note
+                however that the public cryptanalysis of belt-hash is thin
+                compared with SHA-2 or SHA-3: the third-party results published
+                so far target the underlying Bel-T block cipher and reach at
+                most 6 of its 8 rounds
 \
             since:
                 Jacksum 4.0.0
@@ -4423,6 +4441,13 @@ ALGORITHMS
                 base for SHA-3, but since 12/2012 there exists an extended
                 version called BLAKE2.
 \
+            broken:
+                no; BLAKE was one of the five SHA-3 finalists and kept one of
+                the largest security margins of all candidates: the best
+                published attacks on the hash function reach 2.5 of 14 rounds
+                for BLAKE-256, the full BLAKE is unaffected; its successor
+                BLAKE2 is not broken either
+\
             since:
                 Jacksum 3.0.0
 \
@@ -4444,9 +4469,6 @@ ALGORITHMS
             published:
                 12/2012
 \
-            broken:
-                no
-\
             website:
                 https://blake2.net
 \
@@ -4456,6 +4478,13 @@ ALGORITHMS
                 Use -C tagged or -F "BLAKE2b (#FILENAME) = #DIGEST" to get the
                 "cksum -a blake2b" output format from the GNU Core
                 Utilities 9.0.
+\
+            broken:
+                no; the best published attacks reach a small number of the 12
+                rounds, the full BLAKE2b is unaffected; unlike SHA-256 and
+                SHA-512, BLAKE2b is not vulnerable to length-extension attacks,
+                and it offers a built-in keyed mode that can be used instead of
+                HMAC
 \
             compatibility:
                 - 7z:              -
@@ -4520,9 +4549,6 @@ ALGORITHMS
             published:
                 12/2012
 \
-            broken:
-                no
-\
             website:
                 https://blake2.net
 \
@@ -4536,6 +4562,11 @@ ALGORITHMS
 \
                 Jacksum implements an iterative, single-threaded 512 bit
                 variant only.
+\
+            broken:
+                no, the same as BLAKE2b: blake2bp only computes several BLAKE2b
+                instances in parallel and combines them, which introduces no
+                weakness of its own
 \
             compatibility:
                 - 7z:              -
@@ -4594,15 +4625,18 @@ ALGORITHMS
             published:
                 12/2012
 \
-            broken:
-                no
-\
             website:
                 https://blake2.net
 \
             comment:
                 BLAKE2s is the successor of BLAKE-256.
                 BLAKE3 is the successor of BLAKE2.
+\
+            broken:
+                no; the best published attacks reach a small number of the 10
+                rounds, the full BLAKE2s is unaffected; BLAKE2s is not
+                vulnerable to length-extension attacks and offers a built-in
+                keyed mode that can be used instead of HMAC
 \
             compatibility:
                 - 7z:              -
@@ -4661,9 +4695,6 @@ ALGORITHMS
             published:
                 12/2012
 \
-            broken:
-                no
-\
             website:
                 https://blake2.net
 \
@@ -4677,6 +4708,11 @@ ALGORITHMS
 \
                 Jacksum implements an iterative, single-threaded 256 bit
                 variant only.
+\
+            broken:
+                no, the same as BLAKE2s: blake2sp only computes several BLAKE2s
+                instances in parallel and combines them, which introduces no
+                weakness of its own
 \
             compatibility:
                 - 7z:              7z h -scrcblake2sp
@@ -4734,15 +4770,19 @@ ALGORITHMS
             published:
                 01/2020
 \
-            broken:
-                no
-\
             website:
                 https://github.com/BLAKE3-team/BLAKE3
 \
             comment:
                 BLAKE3 is a single algorithm, in contrast to BLAKE and BLAKE2,
                 which are algorithm families with multiple variants. 
+\
+            broken:
+                no; the best published attacks reach a small number of the 7
+                rounds, the full BLAKE3 is unaffected; as a Merkle tree over
+                the BLAKE2s round function BLAKE3 is not vulnerable to
+                length-extension attacks and offers built-in keyed and
+                key-derivation modes
 \
             compatibility:
                 - 7z:              -
@@ -4800,9 +4840,6 @@ ALGORITHMS
             published:
                 09/2009
 \
-            broken:
-                no
-\
             website:
                 https://web.archive.org/web/20161028114810/http://www.q2s.ntnu.no/sha3_nist_competition/start
 \
@@ -4812,10 +4849,18 @@ ALGORITHMS
                 (2007-2012). "Blue Midnight Wish" was submitted by a team at
                 the Norwegian University of Science and Technology.
                 "Blue Midnight Wish" did not pass the final (3rd) round of the
-                NIST SHA-3 competition, but it is not broken. This is the latest
+                NIST SHA-3 competition, see "broken" above. This is the latest
                 implementation according to the second round of the NIST SHA-3
                 competition.
                 (Blue Midnight Wish specification from Sep 10, 2009)
+\
+            broken:
+                no, but 2010: several distinguishers and partial collisions for
+                the full compression function are known, the cheapest one needs
+                about 20 calls; the hash function itself has no collision or
+                preimage attack, but these results were the reason why BMW did
+                not advance to the final round
+                see also https://nvlpubs.nist.gov/nistpubs/legacy/ir/nistir7764.pdf
 \
             since:
                 Jacksum 4.0.0
@@ -5859,9 +5904,6 @@ ALGORITHMS
             published:
                 09/2009
 \
-            broken:
-                no
-\
             website:
                 https://cubehash.cr.yp.to/
 \
@@ -5874,6 +5916,12 @@ ALGORITHMS
                 implementation according to the second round of the NIST SHA-3
                 competition.
                 (CubeHash specification from Sept. 2009)
+\
+            broken:
+                no; all published collision and preimage attacks target
+                variants with reduced round or block parameters, the
+                recommended parameter set CubeHash16/32 is unaffected
+                see also https://nvlpubs.nist.gov/nistpubs/legacy/ir/nistir7764.pdf
 \
             since:
                 Jacksum 4.0.0
@@ -5895,9 +5943,6 @@ ALGORITHMS
             published:
                 11/2005
 \
-            broken:
-                no
-\
             website:
                 http://www.nist.gov/hash-function (archived)
                 http://csrc.nist.gov/groups/ST/hash/documents/ChangD_DHA256.pdf
@@ -5913,6 +5958,13 @@ ALGORITHMS
                 but held a public competition from 2007 to 2012
                 (SHA-3 Competition) to find a successor for SHA-1 and the
                 SHA-2 family.
+\
+            broken:
+                no, but boomerang attacks reach 46 of 64 steps and a
+                pseudo-collision for the full function is known (2^127.5); the
+                full DHA-256 has no collision or preimage attack, but it has
+                received far less public analysis than SHA-256, which it was
+                designed to improve upon
 \
             since:
                 Jacksum 3.0.0
@@ -5934,9 +5986,6 @@ ALGORITHMS
             published:
                 2008
 \
-            broken:
-                no
-\
             website:
                 https://crypto.orange-labs.fr/ECHO/
 \
@@ -5945,13 +5994,20 @@ ALGORITHMS
                 second round of the NIST SHA-3 competition (2007-2012).
                 ECHO was submitted by France Telecom (it was rebranded as Orange
                 S.A. in July 2013). ECHO did not pass the final (3rd) round of
-                the NIST SHA-3 competition, but it is not broken.
+                the NIST SHA-3 competition, see "broken" above.
                 This is the latest implementation according to
                 the second round of the NIST SHA-3 competition.
 \
                 ECHO must not be confused with ECOH, because ECOH is also a hash
                 function that was submitted to the SHA-3 competition, but did
                 not advance to round 2.
+\
+            broken:
+                no, but 2010: distinguishers for the full 8-round permutation
+                are known (2^151); the best collision attack on the hash
+                function reaches 5 of 8 rounds (2^112), the full ECHO has no
+                collision or preimage attack
+                see also https://nvlpubs.nist.gov/nistpubs/legacy/ir/nistir7764.pdf
 \
             since:
                 Jacksum 3.0.0
@@ -5992,13 +6048,18 @@ ALGORITHMS
             type:
                 cryptographic hash function
 \
-            broken:
-                no
-\
             comment:
                 this algorithm is used in eDonkey resp. eMule, it is based on
                 MD4, but returns different fingerprints for files >= 9500 KB.
                 The default encoding is hexadecimal.
+\
+            broken:
+                yes; the ed2k hash is built from MD4, and MD4 collisions can be
+                computed in a fraction of a second, so colliding files with the
+                same ed2k hash can be produced at will; ed2k is only suitable
+                for identifying files in P2P networks and for detecting
+                accidental corruption, never for security purposes
+                see also https://eprint.iacr.org/2004/199.pdf
 \
             since:
                 Jacksum 1.5.0
@@ -6019,14 +6080,6 @@ ALGORITHMS
 \
             published:
                 10/2008
-\
-            broken:
-                partly, 2009: the preimage resistance is broken in theory (the
-                attack is faster than the security claim, but far from
-                practical), and the secret-prefix MAC construction
-                H(key || message) is broken in practice; no collision attack
-                against Edon-R is known
-                see also https://eprint.iacr.org/2009/135
 \
             website:
                 https://csrc.nist.gov/projects/hash-functions/sha-3-project
@@ -6064,6 +6117,14 @@ ALGORITHMS
                 on Edon-R 512, but it is salted with a pool specific key, so
                 its values do not match the plain Edon-R values computed here.
 \
+            broken:
+                partly, 2009: the preimage resistance is broken in theory (the
+                attack is faster than the security claim, but far from
+                practical), and the secret-prefix MAC construction
+                H(key || message) is broken in practice; no collision attack
+                against Edon-R is known
+                see also https://eprint.iacr.org/2009/135
+\
             since:
                 Jacksum 4.0.0
 \
@@ -6084,9 +6145,6 @@ ALGORITHMS
             published:
                 05/2021 (v1.2)
 \
-            broken:
-                no
-\
             website:
                 https://sparkle-lwc.github.io/esch
 \
@@ -6104,6 +6162,12 @@ ALGORITHMS
                 university of Luxembourg, and Esch is the name of a city in
                 Luxembourg that is very close to the campus of the university of
                 Luxembourg.
+\
+            broken:
+                no; no attack on the full Esch is known that is faster than
+                generic attacks; Esch was a finalist of the NIST Lightweight
+                Cryptography competition (2019-2023) but was not selected; as a
+                sponge construction it is immune to length-extension attacks
 \
             since:
                 Jacksum 3.6.0
@@ -6326,9 +6390,6 @@ ALGORITHMS
             published:
                 11/2005
 \
-            broken:
-                yes
-\
             website:
                 http://www.nist.gov/hash-function (archived)
                 http://www.csrc.nist.gov/pki/HashWorkshop/2005/Nov1_Presentations/Sung_FORK-256.pdf
@@ -6347,6 +6408,14 @@ ALGORITHMS
                 published and in response the authors improved FORK-256 under the
                 name "New FORK-256". But also this one was discovered to be broken
                 in 2007.
+\
+            broken:
+                yes, 2007: the collision resistance of the full FORK-256 is
+                broken in theory (at most 2^126.6 instead of 2^128), and
+                near-collisions for the full function can be computed in
+                practice for any given IV; FORK-256 must not be used for
+                security purposes
+                see also https://eprint.iacr.org/2007/185.pdf
 \
             since:
                 Jacksum 3.0.0
@@ -6368,9 +6437,6 @@ ALGORITHMS
             published:
                 2008
 \
-            broken:
-                no
-\
             website:
                 https://researcher.watson.ibm.com/researcher/view_group.php?id=3253
 \
@@ -6385,6 +6451,13 @@ ALGORITHMS
 \
                 IBM improved the algorithm further and it is called Fugue 2.0,
                 see fugue2-<length>.
+\
+            broken:
+                no; the best published results are distinguishers for the
+                output transformation and semi-free-start collisions for
+                reduced variants, the full Fugue has no collision or preimage
+                attack
+                see also https://nvlpubs.nist.gov/nistpubs/legacy/ir/nistir7764.pdf
 \
             since:
                 Jacksum 3.0.0
@@ -6406,9 +6479,6 @@ ALGORITHMS
             published:
                 04/2012
 \
-            broken:
-                no
-\
             website:
                 https://researcher.watson.ibm.com/researcher/view_group.php?id=3253
 \
@@ -6427,6 +6497,13 @@ ALGORITHMS
                 Section 5.2 of the Fugue 2.0 specification defines all four
                 output lengths, but only the 256 bit variant was ever
                 implemented by its designers.
+\
+            broken:
+                no; Fugue 2.0 is the 2012 tweak of Fugue and is at least as
+                strong as Fugue, for which no collision or preimage attack on
+                the full function is known either; note that Fugue 2.0 itself
+                has hardly been analysed by third parties, since it was
+                published after the SHA-3 competition had ended
 \
             since:
                 Jacksum 4.0.0
@@ -6448,9 +6525,6 @@ ALGORITHMS
             published:
                 1994
 \
-            broken:
-                2008, see also http://dx.doi.org/10.1007/978-3-540-85174-5_10
-\
             standard:
                 GOST R 34.11-94
 \
@@ -6466,6 +6540,14 @@ ALGORITHMS
                 with the S-Boxes as suggested by the Crypto-Pro company in
                 January 2006 as described in RFC 4357.
                 For the GOST-Standard from 2012 see streebog.
+\
+            broken:
+                yes, 2008: both the collision resistance and the preimage
+                resistance of the full function are broken in theory
+                (collisions in 2^105 instead of 2^128, preimages in 2^192
+                instead of 2^256), but the attacks are far from practical; use
+                its successor streebog512 instead
+                see also https://www.iacr.org/archive/crypto2008/51570163/51570163.pdf
 \
             compatibility:
                 - 7z:              -
@@ -6525,9 +6607,6 @@ ALGORITHMS
             published:
                 01/2011
 \
-            broken:
-                no
-\
             website:
                 http://www.groestl.info/
 \
@@ -6536,6 +6615,13 @@ ALGORITHMS
                 the final round of the NIST SHA-3 competition (2007-2012). This
                 is the implementation according to the third and final round of
                 the NIST SHA-3 Competition.
+\
+            broken:
+                no; Groestl was the most deeply analysed of the five SHA-3
+                finalists: the best collision attacks on the hash function
+                reach 3 of 10 rounds and the best distinguisher covers 9 of 10
+                rounds of the permutation (2^368, 2012), the full Groestl is
+                unaffected
 \
             since:
                 Jacksum 3.0.0
@@ -6557,9 +6643,6 @@ ALGORITHMS
             published:
                 09/2009
 \
-            broken:
-                no
-\
             website:
                 https://www.esat.kuleuven.be/cosic/publications/article-1203.pdf
                 https://web.archive.org/web/20090209043001/http://homes.esat.kuleuven.be/~okucuk/hamsi/
@@ -6569,10 +6652,16 @@ ALGORITHMS
                 second round of the NIST SHA-3 competition
                 (2007-2012). Hamsi was submitted by Ozgul Kucuk, Belgium.
                 Hamsi did not pass the final (3rd) round of the
-                NIST SHA-3 competition, but it is not broken. This is the latest
+                NIST SHA-3 competition, see "broken" above. This is the latest
                 implementation according to the second round of the NIST SHA-3
                 competition.
                 (Hamsi specification from Sep 14, 2009)
+\
+            broken:
+                partly, 2010: the second-preimage resistance of the full
+                Hamsi-256 is broken in theory (2^247 instead of 2^256, far from
+                practical); no collision attack against Hamsi is known, and
+                none of the attacks threatens the plain hashing of files
 \
             since:
                 Jacksum 4.0.0
@@ -6594,13 +6683,17 @@ ALGORITHMS
             published:
                 2000
 \
-            broken:
-                no
-\
             comment:
                 HAS-160 is both a cryptographic hash function and a korean
                 TTA-Standard (Telecommunications and Technology Association).
                 The default encoding is hexadecimal.
+\
+            broken:
+                no, but the best collision attacks reach 53 of 80 steps (2^55)
+                and a semi-free-start collision reaches 65 of 80 steps; the
+                full HAS-160 is unaffected, but its 160-bit output limits the
+                collision resistance to 2^80, which is not sufficient anymore;
+                prefer at least 256 bits
 \
             since:
                 Jacksum 1.7.0
@@ -6622,10 +6715,6 @@ ALGORITHMS
             published:
                 1992
 \
-            broken:      
-                2004, but 128 bits only,
-                see https://eprint.iacr.org/2004/199.pdf
-\
             comment:
                 Haval was invented by Yuliang Zheng, Josef Pieprzyk, and
                 Jennifer Seberry in 1992. The Haval message-digest algorithm has
@@ -6634,6 +6723,14 @@ ALGORITHMS
                 32 bits. The number of <rounds> can vary from 3 to 5. The
                 default values (just "haval") are 128 and 3. The default
                 encoding is hexadecimal.
+\
+            broken:
+                yes; collisions for the full HAVAL are known for every
+                supported number of passes: for 3 passes since 2004 (Wang et
+                al., practical) and for 4 and 5 passes since 2006 (Yu et al.);
+                the preimage resistance of 3-pass HAVAL is broken as well
+                (2008); HAVAL must not be used for security purposes
+                see also https://eprint.iacr.org/2004/199.pdf
 \
             compatibility:
                 - 7z:              -
@@ -6690,11 +6787,6 @@ ALGORITHMS
 \
             published:
                 02/1997
-\
-            broken:
-                It depends on the underlying hash function. Note that even if
-                the underlying hash function has been broken it does not
-                necessarily mean that the corresponding HMAC is broken as well.
 \
             comment:
                 HMAC is a mechanism for message authentication using any
@@ -6765,6 +6857,14 @@ ALGORITHMS
                     function or the HMAC. Therefore Jacksum requires the colon
                     to mark a truncated HMAC.
 \
+            broken:
+                depends on the underlying hash function; note that a broken
+                hash function does not necessarily yield a broken HMAC:
+                HMAC-MD5 has no practical attack although MD5 itself is broken,
+                because the HMAC construction does not rely on collision
+                resistance; nevertheless HMAC should be instantiated with a
+                hash function that is not broken
+\
             compatibility:
                 - Angstrom:        -
                 - BeOS:            -
@@ -6818,9 +6918,6 @@ ALGORITHMS
             published:
                 01/2011
 \
-            broken:
-                no
-\
             website:
                 https://www3.ntu.edu.sg/home/wuhj/research/jh/
 \
@@ -6830,6 +6927,12 @@ ALGORITHMS
                 the implementation according to the third and final round of the
                 NIST SHA-3 Competition. Author of JH is Hongjun Wu from
                 Singapore.
+\
+            broken:
+                no, but 2011: a distinguisher for the full 42-round internal
+                permutation is known (2^304); the best semi-free-start
+                collisions for the compression function reach 37 of 42 rounds,
+                the full JH has no collision or preimage attack
 \
             since:
                 Jacksum 3.0.0
@@ -6913,9 +7016,6 @@ ALGORITHMS
             published:
                 04/2018
 \
-            broken:
-                no
-\
             website:
                 https://keccak.team/kangarootwelve.html
 \
@@ -6934,6 +7034,14 @@ ALGORITHMS
                 Jacksum restricts the set of the supported value for the output
                 length to 256 bits in order to define a reasonable hash
                 function.
+\
+            broken:
+                no; KangarooTwelve uses 12 rounds of the same Keccak-p
+                permutation for which the best published attacks reach 6 of the
+                24 rounds used by SHA-3, so the security margin is smaller than
+                that of SHA-3 but still substantial; as a sponge construction
+                it is immune to length-extension attacks
+                see also https://keccak.team/third_party.html
 \
             compatibility:
                 - 7z:              -
@@ -6992,9 +7100,6 @@ ALGORITHMS
             published:
                 04/2018
 \
-            broken:
-                no
-\
             website:
                 https://keccak.team/kangarootwelve.html
 \
@@ -7007,6 +7112,13 @@ ALGORITHMS
                 Jacksum restricts the set of the supported value for the output
                 length to 512 bits in order to define a reasonable hash
                 function.
+\
+            broken:
+                no; MarsupilamiFourteen is KangarooTwelve with 14 instead of 12
+                rounds of the Keccak-p permutation and therefore has an even
+                larger security margin; the best published attacks on Keccak-p
+                reach 6 of the 24 rounds used by SHA-3; as a sponge
+                construction it is immune to length-extension attacks
 \
             compatibility:
                 - 7z:              -
@@ -7065,9 +7177,6 @@ ALGORITHMS
             published:
                 2012
 \
-            broken:
-                no
-\
             website:
                 https://keccak.team/
 \
@@ -7078,6 +7187,13 @@ ALGORITHMS
                 RadioGatún.
                 On October 2, 2012, Keccak was selected as the winner of the
                 NIST hash function competition.
+\
+            broken:
+                no; the best published collision attacks reach 6 of 24 rounds
+                and the best preimage attacks 4 of 24 rounds, the full Keccak
+                is unaffected; as a sponge construction it is also immune to
+                length-extension attacks
+                see also https://keccak.team/third_party.html
 \
             compatibility:
                 - 7z:              -
@@ -7139,15 +7255,18 @@ ALGORITHMS
             published:
                 2015
 \
-            broken:
-                no, see also https://eprint.iacr.org/2015/959.pdf
-\
             standard:
                 DSTU 7564:2014
 \
             comment:
                 The Kupyna hash function was approved as the new Ukrainian
                 standard DSTU 7564:2014 in 2015.
+\
+            broken:
+                no; the best published attacks are rebound attacks that reach 5
+                of 10 rounds for the hash function (2^120) and 7 of 10 rounds
+                for the compression function, the full Kupyna is unaffected
+                see also https://eprint.iacr.org/2015/959.pdf
 \
             since:
                 Jacksum 3.0.0
@@ -7170,9 +7289,6 @@ ALGORITHMS
             published:
                 2014
 \
-            broken:
-                no
-\
             website:
                 https://seed.kisa.or.kr/kisa/Board/22/detailView.do
 \
@@ -7181,6 +7297,12 @@ ALGORITHMS
 \
             comment:
                 LSH is a national standard of South Korea (KS X 3262).
+\
+            broken:
+                no, but the wide-pipe design makes free-start collisions and
+                pseudo-preimages easy to construct, and boomerang attacks reach
+                14 rounds (2^242 for LSH-256, 2^308 for LSH-512); the full LSH
+                has no collision or preimage attack
 \
             since:
                 Jacksum 3.0.0
@@ -7202,9 +7324,6 @@ ALGORITHMS
             published:
                 10/2009
 \
-            broken:
-                no
-\
             website:
                 https://www.hitachi.com/rd/yrl/crypto/luffa/
 \
@@ -7213,10 +7332,16 @@ ALGORITHMS
                 second round of the NIST SHA-3 competition (2007-2012). Luffa
                 was submitted by Hitachi (and others).
                 Luffa did not pass the final (3rd) round of the NIST SHA-3
-                competition, but it is not broken.
+                competition, see "broken" above.
                 This is the latest implementation according to the second round
                 of the NIST SHA-3 competition.
                 (Luffa specification ver. 2.0.1 from Oct 2, 2009)
+\
+            broken:
+                no, but 2010: distinguishers for the full permutation are
+                known, and semi-free-start collisions reach 7 of 8 rounds
+                (2^104); the full Luffa has no collision or preimage attack
+                see also https://nvlpubs.nist.gov/nistpubs/legacy/ir/nistir7764.pdf
 \
             since:
                 Jacksum 3.0.0
@@ -7238,9 +7363,6 @@ ALGORITHMS
             published:
                 1998
 \
-            broken:
-                yes
-\
             comment:
                 the MD2 message digest algorithm as defined in RFC 1319.
                 RSA Laboratories, in their Bulletin #4, dated November 12, 1996,
@@ -7248,6 +7370,14 @@ ALGORITHMS
                 practical. Jacksum supports MD2 for compatibility and edu
                 purposes. The default encoding is hexadecimal.
                 Use option "--compat openssl" to get the openssl output format.
+\
+            broken:
+                partly, 2005: the preimage resistance of the full MD2 is broken
+                in theory (2^97 instead of 2^128, far from practical), and
+                collisions are known for the compression function and for MD2
+                without its checksum; no collision attack against the full MD2
+                is known, but with 128 bits the generic collision bound is only
+                2^64; MD2 is obsolete, do not use it
 \
             compatibility:
                 - 7z:              -
@@ -7312,9 +7442,6 @@ ALGORITHMS
             published:
                 1990
 \
-            broken:
-                yes
-\
             comment:
                 the MD4 message digest algorithm as defined in RFC 1320.
                 RSA Laboratories, in their Bulletin #4, dated November 12, 1996,
@@ -7322,6 +7449,14 @@ ALGORITHMS
                 compatibility and edu purposes.
                 The default encoding is hexadecimal.
                 Use option "--compat openssl" to get the openssl output format.
+\
+            broken:
+                yes, 2004: collisions can be computed in a fraction of a second
+                on a standard PC (Wang et al.), and even the preimage
+                resistance of the full MD4 is broken (2^102, 2008); MD4 must
+                not be used for any security purpose, only for compatibility
+                with legacy formats
+                see also https://eprint.iacr.org/2004/199.pdf
 \
             compatibility:
                 - 7z:              -
@@ -7385,9 +7520,6 @@ ALGORITHMS
             published:
                 1991
 \
-            broken:
-                yes
-\
             comment:
                 The MD5 message digest algorithm was designed by Ronald Rivest
                 in 1991, and it is defined in RFC 1321.
@@ -7397,6 +7529,15 @@ ALGORITHMS
                 Use -C openssl to print the openssl style.
                 Use -C tagged to print the "cksum -a md5" style from
                 the GNU Core Utilities 9.0.
+\
+            broken:
+                yes, 2004: identical-prefix collisions can be computed in
+                seconds and chosen-prefix collisions in hours on a standard PC;
+                the attack has been demonstrated against real X.509
+                certificates (2008) and was abused by the Flame malware (2012);
+                the preimage resistance is not broken (best attack 2^123.4),
+                but MD5 must not be used for signatures
+                see also https://eprint.iacr.org/2004/199.pdf
 \
             compatibility:
                 - 7z:              -
@@ -7480,9 +7621,6 @@ ALGORITHMS
             published:
                 10/2008 (revised 01/2009)
 \
-            broken:
-                no
-\
             website:
                 https://groups.csail.mit.edu/cis/md6/
 \
@@ -7511,6 +7649,14 @@ ALGORITHMS
                 leading bits of the untrimmed chaining value instead, so
                 they do not contain MD6 hash values.
 \
+            broken:
+                no; the best published attacks reach 16 of the at least 80
+                rounds (collisions for the compression function, 2^30), the
+                full MD6 is unaffected; MD6 was withdrawn from the second round
+                of the SHA-3 competition by its designers because they could
+                not prove resistance against differential attacks for a round
+                number fast enough to be competitive, not because of an attack
+\
             since:
                 Jacksum 4.0.0
 \
@@ -7531,9 +7677,6 @@ ALGORITHMS
             published:
                 1987
 \
-            broken:
-                yes
-\
             comment:
                 The MDC2 (Modification Detection Code 2) algorithm is specified
                 in the ANSI X9.31 and ISO/IEC 10118-2 standards. It works in
@@ -7543,6 +7686,14 @@ ALGORITHMS
                 submitted by IBM, expired on August 28, 2007. The default
                 encoding is hexadecimal.
                 Use option "--compat openssl" to get the openssl output format.
+\
+            broken:
+                yes; the variant implemented here is built on the block cipher
+                DES and produces only 128 bits, so collisions can be found
+                generically in about 2^64 operations, which is within reach
+                today; in addition Knudsen et al. showed in 2009 that MDC-2
+                does not even reach its ideal security level; MDC-2 is
+                obsolete, do not use it for security purposes
 \
             compatibility:
                 - 7z:              -
@@ -7621,15 +7772,20 @@ ALGORITHMS
             published:
                 12/1998
 \
-            broken:
-                04/2007, see also http://radiogatun.noekeon.org/panama/
-\
             comment:
                 PANAMA was designed by Joan Daemen (Belgium) and Craig Clapp
                 (USA) and presented in the paper "Fast Hashing and Stream
                 Encryption with PANAMA" on the 5th Fast Software Encryption
                 (FSE) conference at Paris, France in 1998.
                 RadioGatún is the successor of PANAMA.
+\
+            broken:
+                yes, 2007: the hashing mode of Panama is broken in practice,
+                collisions need only about 2^6 evaluations of the state
+                updating function (Daemen and Van Assche), building on the 2^82
+                attack by Rijmen et al. from 2001; the Panama stream cipher is
+                not affected by this
+                see also http://radiogatun.noekeon.org/panama/
 \
             since:
                 Jacksum 3.0.0
@@ -7651,9 +7807,6 @@ ALGORITHMS
             published:
                 05/2021
 \
-            broken:
-                no
-\
             website:
                 https://www.isical.ac.in/~lightweight/beetle/
 \
@@ -7665,6 +7818,13 @@ ALGORITHMS
                 PHOTON-Beetle was invented by Zhenzhen Bao, Avik Chakraborti,
                 Nilanjan Datta, Jian Guo, Mridul Nandi, Thomas Peyrin, and
                 Kan Yasuda.
+\
+            broken:
+                no; no attack on the full PHOTON-Beetle Hash is known that is
+                faster than generic attacks; it was a finalist of the NIST
+                Lightweight Cryptography competition (2019-2023) but was not
+                selected; as a sponge construction it is immune to
+                length-extension attacks
 \
             since:
                 Jacksum 3.6.0
@@ -7799,9 +7959,6 @@ ALGORITHMS
             published:
                 2006
 \
-            broken:
-                no
-\
             website:
                 http://radiogatun.noekeon.org/
 \
@@ -7817,6 +7974,14 @@ ALGORITHMS
                 rg32 and rg-32 are aliases for radiogatun:32, and
                 rg64 and rg-64 are aliases for radiogatun:64
                 Keccak is the successor of RadioGatún.
+\
+            broken:
+                no; the best published analysis needs about 2^(11w) operations
+                for a word length of w bits and therefore does not beat the
+                security claim for the implemented word lengths 32 and 64;
+                actual collisions have only been demonstrated for toy word
+                lengths such as w = 2
+                see also https://www.iacr.org/archive/fse2009/56650128/56650128.pdf
 \
             since:
                 Jacksum 3.0.0
@@ -7859,12 +8024,19 @@ ALGORITHMS
             published:
                 1996
 \
-            broken:
-                2004, https://eprint.iacr.org/2004/199.pdf
-\
             comment:
                 a message digest, see also RIPEMD-160.
                 The default encoding is hexadecimal.
+\
+            broken:
+                no, but 2013: a collision attack on the full compression
+                function and a distinguisher for the full hash function are
+                known (Landelle and Peyrin), the best collision attack on the
+                hash function itself reaches 40 of 64 steps; in addition the
+                128-bit output limits the collision resistance to 2^64; do not
+                confuse RIPEMD-128 with the original RIPEMD from 1990, for
+                which practical collisions have been known since 2004
+                see also https://eprint.iacr.org/2013/607
 \
             compatibility:
                 - 7z:              -
@@ -7921,15 +8093,20 @@ ALGORITHMS
             published:
                1996
 \
-            broken:
-                no
-\
             comment:
                 RIPEMD was developed in the framework of the EU project RIPE
                 (RACE Integrity Primitives Evaluation), used by GnuPG.
                 The default encoding is hexadecimal.
                 Use option "--style openssl" to get the openssl output format.
                 format.
+\
+            broken:
+                no, but the best collision attacks reach 40 of 80 steps and are
+                practical at that step count (2024); the full RIPEMD-160 is
+                unaffected, but its 160-bit output limits the collision
+                resistance to 2^80, which is not sufficient anymore; prefer at
+                least 256 bits
+                see also https://eprint.iacr.org/2024/350
 \
             compatibility:
                 - 7z:              -
@@ -7994,12 +8171,16 @@ ALGORITHMS
             published: 
                 1996
 \
-            broken:
-                no
-\
             comment:
                 a message digest, see also RIPEMD-160. RIPEMD-256 is as secure
                 as RIPEMD-128. The default encoding is hexadecimal.
+\
+            broken:
+                no, but RIPEMD-256 is derived from RIPEMD-128 and, by its
+                designers' own statement, provides no higher security level
+                than RIPEMD-128: the longer output only reduces the risk of
+                accidental collisions, the collision resistance remains that of
+                a 128-bit hash function; see rmd128
 \
             compatibility:
                 - 7z:              -
@@ -8056,12 +8237,16 @@ ALGORITHMS
             published:
                 1996
 \
-            broken:
-                no
-\
             comment:
                 a message digest, see also RIPEMD-160. RIPEMD-320 is as secure
                 as RIPEMD-160. The default encoding is hexadecimal.
+\
+            broken:
+                no, but RIPEMD-320 is derived from RIPEMD-160 and, by its
+                designers' own statement, provides no higher security level
+                than RIPEMD-160: the longer output only reduces the risk of
+                accidental collisions, the collision resistance remains that of
+                a 160-bit hash function; see rmd160
 \
             compatibility:
                 - 7z:              -
@@ -8118,9 +8303,6 @@ ALGORITHMS
             published:
                 05/2021 (v1.3)
 \
-            broken:
-                no
-\
             website:
                 https://romulusae.github.io/romulus/
 \
@@ -8134,6 +8316,13 @@ ALGORITHMS
 \
                 Romulus was created by Tetsu Iwata, Mustafa Khairallah,
                 Kazuhiko Minematsu, Thomas Peyrin, and Chun Guo.
+\
+            broken:
+                no; no attack on the full Romulus-H is known that is faster
+                than generic attacks; Romulus-H builds a 256-bit hash from the
+                tweakable block cipher SKINNY in Hirose's double-block-length
+                mode and was a finalist of the NIST Lightweight Cryptography
+                competition (2019-2023) but was not selected
 \
             since:
                 Jacksum 4.0.0
@@ -8155,9 +8344,6 @@ ALGORITHMS
             published:
                 1993
 \
-            broken:
-                2004
-\
             comment:
                 the Secure Hash Algorithm, as defined 1993 in the National
                 Institute for Standards and Technology's Federal Information
@@ -8167,6 +8353,13 @@ ALGORITHMS
                 referred to as "SHA-1".
                 The default encoding is hexadecimal.
                 Use option "--style openssl" to get the openssl output format.
+\
+            broken:
+                yes, 2004: the collision resistance of the full SHA-0 is broken
+                in practice, a collision was first computed in 2^39 operations
+                (Wang et al., 2005) and later in about one hour on a PC (Manuel
+                and Peyrin, 2008); NIST had already withdrawn SHA-0 in 1996, it
+                is supported for edu purposes only
 \
             compatibility:
                 - 7z:              -
@@ -8224,9 +8417,6 @@ ALGORITHMS
             published:
                 1995
 \
-            broken:
-                02/2017, see also https://shattered.io
-\
             standard:
                 NIST FIPS 180-1
 \
@@ -8242,6 +8432,16 @@ ALGORITHMS
                 the GNU Core Utilities 9.0.
                 The alias called dss1 (Digital Subscriber Signalling System
                 No. 1) is used by OpenSSL.
+\
+            broken:
+                yes, 02/2017: the first identical-prefix collision was computed
+                (SHAttered, 2^63.1), and in 01/2020 the first chosen-prefix
+                collision followed (SHA-1 is a Shambles, 2^63.4, about 45,000
+                USD of rented GPU time), which breaks SHA-1 for real protocols;
+                the preimage resistance is not broken (the best attacks reach
+                62 of 80 steps), but SHA-1 must not be used for signatures or
+                certificates anymore
+                see also https://shattered.io and https://sha-mbles.github.io
 \
             compatibility:
                 - 7z:              7z h -scrcsha1
@@ -8330,9 +8530,6 @@ ALGORITHMS
             published:
                 2004
 \
-            broken:
-                no, but legacy (not recommended anymore by the BSI)
-\
             standard:
                 NIST FIPS 180-2
 \
@@ -8345,6 +8542,15 @@ ALGORITHMS
                 The default encoding is hexadecimal.
                 Use -C tagged or -F "SHA224 (#FILENAME) = #DIGEST" to get the
                 "cksum -a sha224" output format from the GNU Core Utilities 9.0.
+\
+            broken:
+                no, but legacy: the 224-bit output limits the collision
+                resistance to 2^112, and hash functions at that level have been
+                removed from the recommendations of the BSI (TR-02102-1);
+                moreover SHA-224 withholds only 32 bits of the internal state,
+                so a length-extension attack costs merely 2^32; prefer sha-256
+                or sha-512/256
+                see also https://www.bsi.bund.de/dok/TR-02102
 \
             compatibility:
                 - 7z:              -
@@ -8421,9 +8627,6 @@ ALGORITHMS
             published:
                 2001
 \
-            broken:
-                no
-\
             standard:
                 NIST FIPS 180-2
 \
@@ -8438,6 +8641,14 @@ ALGORITHMS
                 Use -C openssl to print the openssl style.
                 Use -C tagged to print the "cksum -a sha256" style from
                 the GNU Core Utilities 9.0.
+\
+            broken:
+                no, but the best collision attacks reach 31 of 64 steps and are
+                practical at that step count (2024), the best preimage attacks
+                reach 41 of 64 steps; the full SHA-256 is unaffected, but as a
+                Merkle-Damgard construction it permits length-extension
+                attacks: use HMAC or sha-512/256 where that matters
+                see also https://eprint.iacr.org/2024/349.pdf
 \
             compatibility:
                 - 7z:              7z h -scrcsha256
@@ -8522,9 +8733,6 @@ ALGORITHMS
             published:
                 2001
 \
-            broken:
-                no
-\
             standard:
                 NIST FIPS 180-2
 \
@@ -8538,6 +8746,12 @@ ALGORITHMS
                 Use -C openssl to print the openssl style.
                 Use -C tagged to print the "cksum -a sha384" style from
                 the GNU Core Utilities 9.0.
+\
+            broken:
+                no; the best collision attacks against the underlying SHA-512
+                reach 31 of 80 steps, the full function is unaffected; unlike
+                sha-512, SHA-384 truncates the internal state by 128 bits and
+                is therefore not vulnerable to length-extension attacks
 \
             compatibility:
                 - 7z:              -
@@ -8621,9 +8835,6 @@ ALGORITHMS
             published:
                 2001
 \
-            broken:
-                no
-\
             standard:
                 NIST FIPS 180-2
 \
@@ -8637,6 +8848,14 @@ ALGORITHMS
                 Use -C openssl to print the openssl style.
                 Use -C tagged to print the "cksum -a sha512" style from
                 the GNU Core Utilities 9.0.
+\
+            broken:
+                no, but the best collision attacks reach 31 of 80 steps
+                (2^85.5, 2025) and are practical up to 29 steps, the best
+                preimage attacks reach 46 of 80 steps; the full SHA-512 is
+                unaffected, but as a Merkle-Damgard construction it permits
+                length-extension attacks: use HMAC or sha-512/256 where that
+                matters
 \
             compatibility:
                 - 7z:              -
@@ -8720,15 +8939,19 @@ ALGORITHMS
             published:
                 03/2012
 \
-            broken:
-                no
-\
             standard:
                 NIST FIPS 180-4
 \
             comment:
                 In March 2012, the secure hash standard was updated in
                 FIPS PUB 180-4, adding the hash function SHA-512/224.
+\
+            broken:
+                no; SHA-512/224 is SHA-512 with a different initial value,
+                truncated to 224 bits, and the truncation removes the
+                length-extension weakness of sha-512; the 224-bit output limits
+                the collision resistance to 2^112 though, so sha-512/256 is the
+                better choice
 \
             compatibility:
                 - 7z:              -
@@ -8792,15 +9015,18 @@ ALGORITHMS
             published:
                 03/2012
 \
-            broken:
-                no
-\
             standard:
                 NIST FIPS 180-4
 \
             comment:
                 In March 2012, the secure hash standard was updated in
                 FIPS 180-4, adding the hash function SHA-512/256.
+\
+            broken:
+                no; SHA-512/256 is SHA-512 with a different initial value,
+                truncated to 256 bits, and the truncation removes the
+                length-extension weakness of sha-512; the best attacks against
+                SHA-512 reach 31 of 80 steps, the full function is unaffected
 \
             compatibility:
                 - 7z:              -
@@ -8863,9 +9089,6 @@ ALGORITHMS
             published:
                 08/2015
 \
-            broken:
-                no
-\
             standard:
                 NIST FIPS 202 (SHA-3 Standard)
 \
@@ -8879,6 +9102,13 @@ ALGORITHMS
                 were published as a stardard on August 5, 2015. Note that only
                 the four fixed-length SHA-3 algorithms are NIST approved
                 hash algorithms: SHA3-224, SHA3-256, SHA3-384, and SHA3-512.
+\
+            broken:
+                no; the best published collision attacks reach 5 of 24 rounds
+                and the best preimage attacks 4 of 24 rounds, the full SHA3-224
+                is unaffected; as a sponge construction it is also immune to
+                length-extension attacks
+                see also https://eprint.iacr.org/2019/147
 \
             compatibility:
                 - 7z:              -
@@ -8943,9 +9173,6 @@ ALGORITHMS
             published:
                 08/2015
 \
-            broken:
-                no
-\
             standard:
                 NIST FIPS 202 (SHA-3 Standard)
 \
@@ -8959,6 +9186,13 @@ ALGORITHMS
                 were published as a standard on August 5, 2015. Note that only
                 the four fixed-length SHA-3 algorithms are NIST approved hash
                 algorithms: SHA3-224, SHA3-256, SHA3-384, and SHA3-512.
+\
+            broken:
+                no; the best published collision attacks reach 5 of 24 rounds
+                and the best preimage attacks 4 of 24 rounds, the full SHA3-256
+                is unaffected; as a sponge construction it is also immune to
+                length-extension attacks
+                see also https://eprint.iacr.org/2019/147
 \
             compatibility:
                 - 7z:              -
@@ -9022,9 +9256,6 @@ ALGORITHMS
             published:
                 08/2015
 \
-            broken:
-                no
-\
             standard:
                 NIST FIPS 202 (SHA-3 Standard)
 \
@@ -9039,6 +9270,13 @@ ALGORITHMS
                 Note that only the four fixed-length SHA-3 algorithms are NIST
                 approved hash algorithms: SHA3-224, SHA3-256, SHA3-384,
                 and SHA3-512.
+\
+            broken:
+                no; the larger capacity of SHA3-384 makes it even harder to
+                attack than SHA3-256, for which the best published collision
+                attacks reach 5 of 24 rounds; as a sponge construction it is
+                also immune to length-extension attacks
+                see also https://keccak.team/third_party.html
 \
             compatibility:
                 - 7z:              -
@@ -9102,9 +9340,6 @@ ALGORITHMS
             published:
                 08/2015
 \
-            broken:
-                no
-\
             standard:
                 NIST FIPS 202 (SHA-3 Standard)
 \
@@ -9118,6 +9353,13 @@ ALGORITHMS
                 were published as a standard on August 5, 2015. Note that only
                 the four fixed-length SHA-3 algorithms are NIST approved
                 hash algorithms: SHA3-224, SHA3-256, SHA3-384, and SHA3-512.
+\
+            broken:
+                no; the larger capacity of SHA3-512 makes it even harder to
+                attack than SHA3-256, for which the best published collision
+                attacks reach 5 of 24 rounds; as a sponge construction it is
+                also immune to length-extension attacks
+                see also https://keccak.team/third_party.html
 \
             compatibility:
                 - 7z:              -
@@ -9181,9 +9423,6 @@ ALGORITHMS
             published:
                 09/2009
 \
-            broken:
-                no
-\
             website:
                 https://web.archive.org/web/20161203012059/http://www.shabal.com/
 \
@@ -9194,10 +9433,18 @@ ALGORITHMS
                 project Saphir to NIST’s international competition on hash
                 functions.
                 Shabal did not pass the final (3rd) round of the NIST SHA-3
-                competition, but it is not broken. This is the latest
+                competition, see "broken" above. This is the latest
                 implementation according to the second round of the NIST SHA-3
                 competition.
                 (Shabal specification from Sep 2009)
+\
+            broken:
+                no, but several non-randomness properties of the underlying
+                keyed permutation are known (2009-2010), as well as
+                pseudo-collisions for the compression function (2^84); the
+                designers showed that these distinguishers do not weaken Shabal
+                with its recommended parameters, and the full Shabal has no
+                collision or preimage attack
 \
             since:
                 Jacksum 4.0.0
@@ -9218,9 +9465,6 @@ ALGORITHMS
 \
             published:
                 08/2015
-\
-            broken:
-                no
 \
             website:
                 https://csrc.nist.gov/publications/detail/fips/202/final
@@ -9252,6 +9496,13 @@ ALGORITHMS
                 Jacksum takes those considerations into account and restricts
                 the set of the supported value for the output length to
                 256 bits in order to define a reasonable hash function.
+\
+            broken:
+                no; SHAKE128 uses the same Keccak permutation as SHA-3, for
+                which the best published collision attacks reach 6 of 24
+                rounds; note that as an extendable output function SHAKE128
+                provides at most 128 bits of security no matter how long the
+                requested output is; it is immune to length-extension attacks
 \
             compatibility:
                 - 7z:              -
@@ -9310,9 +9561,6 @@ ALGORITHMS
             published:
                 08/2015
 \
-            broken:
-                no
-\
             website:
                 https://csrc.nist.gov/publications/detail/fips/202/final
 \
@@ -9343,6 +9591,13 @@ ALGORITHMS
                 Jacksum takes those considerations into account and restricts
                 the set of the supported value for the output length to
                 512 bits in order to define a reasonable hash function.
+\
+            broken:
+                no; SHAKE256 uses the same Keccak permutation as SHA-3, for
+                which the best published collision attacks reach 6 of 24
+                rounds; note that as an extendable output function SHAKE256
+                provides at most 256 bits of security no matter how long the
+                requested output is; it is immune to length-extension attacks
 \
             compatibility:
                 - 7z:              -
@@ -9401,9 +9656,6 @@ ALGORITHMS
             published:
                 09/2009
 \
-            broken:
-                no
-\
             website:
                 https://who.rocq.inria.fr/Gaetan.Leurent/simd.html
 \
@@ -9412,10 +9664,17 @@ ALGORITHMS
                 second round of the NIST SHA-3 competition
                 (2007-2012). SIMD was submitted by Gaetan Leurent, France.
                 SIMD did not pass the final (3rd) round of the
-                NIST SHA-3 competition, but it is not broken. This is the latest
+                NIST SHA-3 competition, see "broken" above. This is the latest
                 implementation according to the second round of the NIST SHA-3
                 competition.
                 (SIMD specification from Sep 15, 2009)
+\
+            broken:
+                no, but 2010: a distinguisher for the full compression function
+                with complexity 1 is known, and free-start near-collisions
+                reach 20 of 32 rounds (2^107); the full SIMD hash function has
+                no collision or preimage attack
+                see also https://nvlpubs.nist.gov/nistpubs/legacy/ir/nistir7764.pdf
 \
             since:
                 Jacksum 4.0.0
@@ -9437,9 +9696,6 @@ ALGORITHMS
 \
             published:
                 10/2010
-\
-            broken:
-                no
 \
             website:
                 http://www.skein-hash.info/
@@ -9465,6 +9721,12 @@ ALGORITHMS
                 algorithm as skein-512-256 and not as skein-256. The skein256
                 command that comes with FreeBSD 11.1 and later, uses an internal
                 state of 256 bits.
+\
+            broken:
+                no; the best published collision attacks reach 12 of 72 rounds
+                (2^126.5), the full Skein-256 is unaffected; Skein was one of
+                the five SHA-3 finalists and kept a large security margin
+                throughout the competition
 \
             compatibility:
                 - 7z:              -
@@ -9523,9 +9785,6 @@ ALGORITHMS
             published:
                 10/2010
 \
-            broken:
-                no
-\
             website:
                 http://www.skein-hash.info/
                 https://www.schneier.com/academic/skein/
@@ -9548,6 +9807,13 @@ ALGORITHMS
                 If you want to verify test vectors submitted for the NIST
                 competition, you must specify the algorithm as skein-512-224,
                 skein-512-256, skein-512-384 or skein-512-512.
+\
+            broken:
+                no, but a preimage attack on the full 72-round Skein-512 is
+                known (2^511.76, 2012); it is only marginally faster than the
+                generic 2^512 and has no practical relevance; the best
+                collision attacks reach 14 of 72 rounds, the full Skein-512 has
+                no collision attack
 \
             compatibility:
                 - 7z:              -
@@ -9606,9 +9872,6 @@ ALGORITHMS
             published:
                 10/2010
 \
-            broken:
-                no
-\
             website:
                 http://www.skein-hash.info/
                 https://www.schneier.com/academic/skein/
@@ -9626,6 +9889,11 @@ ALGORITHMS
                 This is the implementation of version 1.3 of Skein, which was
                 presented to NIST for the 3rd and final round of the competition
                 in October 2010.
+\
+            broken:
+                no; no attack on the full Skein-1024 is known; note that it
+                received considerably less public analysis than Skein-512,
+                which was the primary submission to the SHA-3 competition
 \
             compatibility:
                 - 7z:              -
@@ -9683,11 +9951,6 @@ ALGORITHMS
             published:
                 2012
 \
-            broken:
-                attack demonstrated in theory (attack breaks all rounds and has
-                lower complexity than security claim)
-                see also https://eprint.iacr.org/2014/675
-\
             website:
                 https://www.streebog.net
 \
@@ -9702,6 +9965,14 @@ ALGORITHMS
                 Service of the Russian Federation to replace the obsolete GOST
                 hash function defined in the old standard GOST R 34.11-94, and
                 as an asymmetric reply to SHA-3 competition by the US NIST.
+\
+            broken:
+                no; the second-preimage attack of 2014 applies to Streebog-512
+                only and is not better than generic attacks for the 256-bit
+                variant; no collision attack against Streebog is known; note
+                that the origin of the S-box remained undocumented until it was
+                reverse-engineered in 2016
+                see also https://eprint.iacr.org/2014/675
 \
             compatibility:
                 - 7z:              -
@@ -9759,9 +10030,6 @@ ALGORITHMS
             published:
                 2012
 \
-            broken:
-                no
-\
             website:
                 https://www.streebog.net
 \
@@ -9776,6 +10044,15 @@ ALGORITHMS
                 Service of the Russian Federation to replace the obsolete GOST
                 hash function defined in the old standard GOST R 34.11-94, and
                 as an asymmetric reply to SHA-3 competition by the US NIST.´
+\
+            broken:
+                partly, 2014: the second-preimage resistance of the full
+                Streebog-512 is broken in theory for long messages (2^266
+                instead of 2^512, far from practical) because of the way the
+                HAIFA counter is used; no collision attack against Streebog is
+                known, and the attack does not threaten the plain hashing of
+                files
+                see also https://eprint.iacr.org/2014/675
 \
             compatibility:
                 - 7z:              -
@@ -9833,9 +10110,6 @@ ALGORITHMS
             published:
                 12/2010
 \
-            broken:
-                no
-\
             comment:
                 SM3 is a cryptographic hash function used in the "Chinese
                 National Standard". It was published by the State Cryptography
@@ -9843,6 +10117,13 @@ ALGORITHMS
 \
                 Use -C linux-tagged or -F "SM3 (#FILENAME) = #DIGEST" to get the
                 "cksum -a sm3" output format from the GNU Core Utilities 9.0.
+\
+            broken:
+                no; the best published preimage attacks reach 32 of 64 steps
+                (2^254.5) and pseudo-collisions 33 of 64 steps, the full SM3 is
+                unaffected; as a Merkle-Damgard construction SM3 permits
+                length-extension attacks, so use HMAC where that matters
+                see also https://eprint.iacr.org/2012/640
 \
             compatibility:
                 - 7z:              -
@@ -10188,12 +10469,15 @@ ALGORITHMS
             published:
                 1995
 \
-            broken:
-                yes
-\
             comment:
                 the hash value is the first 128 bits of the result of Tiger-192.
                 The default encoding is hexadecimal.
+\
+            broken:
+                no, but the same caveats as for tiger apply, and the truncation
+                to 128 bits additionally lowers the generic collision
+                resistance to 2^64, which is not sufficient anymore; the
+                truncation itself is not a weakness
 \
             compatibility:
                 - 7z:              -
@@ -10250,15 +10534,18 @@ ALGORITHMS
             published:
                 2005
 \
-            broken:
-                no
-\
             comment:
                 PHP's tiger128,4 extends the standard Tiger 128 from 24 (3*8)
                 to 32 (4*8) rounds. See also https://bit.ly/3BoVyo0
                 Actually the hash value is the first 128 bits of the result of
                 tiger-192-4-php.
                 The default encoding is hexadecimal.
+\
+            broken:
+                no, but the same caveats as for tiger-192-4-php apply, and the
+                truncation to 128 bits additionally lowers the generic
+                collision resistance to 2^64, which is not sufficient anymore;
+                the truncation itself is not a weakness
 \
             compatibility:
                 - 7z:              -
@@ -10315,12 +10602,15 @@ ALGORITHMS
             published:
                 1995
 \
-            broken:
-                yes
-\
             comment:
                 The hash value is the first 160 bits of the result of Tiger-192.
                 The default encoding is hexadecimal.
+\
+            broken:
+                no, but the same caveats as for tiger apply, and the truncation
+                to 160 bits additionally lowers the generic collision
+                resistance to 2^80, which is not sufficient anymore; the
+                truncation itself is not a weakness
 \
             compatibility:
                 - 7z:              -
@@ -10377,15 +10667,18 @@ ALGORITHMS
             published:
                 2005
 \
-            broken:
-                no
-\
             comment:
                 PHP's tiger160,4 extends the standard Tiger 160 from 24 (3*8)
                 to 32 (4*8) rounds. See also https://bit.ly/3BoVyo0
                 Actually the hash value is the first 160 bits of the result of
                 tiger-192-4-php.
                 The default encoding is hexadecimal.
+\
+            broken:
+                no, but the same caveats as for tiger-192-4-php apply, and the
+                truncation to 160 bits additionally lowers the generic
+                collision resistance to 2^80, which is not sufficient anymore;
+                the truncation itself is not a weakness
 \
             compatibility:
                 - 7z:              -
@@ -10442,9 +10735,6 @@ ALGORITHMS
             published:
                 1995
 \
-            broken:
-                yes
-\
             comment:
                 developed by Ross Anderson and Eli Biham, 1995.
                 The default encoding is hexadecimal.
@@ -10454,6 +10744,14 @@ ALGORITHMS
                 resulted in a non-big-endian representation. PHP 5.4 fixed that.
                 See also https://bugs.php.net/bug.php?id=60221 and
                 https://www.php.net/ChangeLog-5.php#PHP_5_4
+\
+            broken:
+                no, but 2007: the best collision attack reaches 19 of 24 rounds
+                (2^62) and a pseudo-near-collision for the full function needs
+                about 2^47 (Mendel and Rijmen); no collision attack against the
+                full Tiger is known, but the security margin has shrunk and the
+                192-bit output limits the generic collision resistance to 2^96
+                see also https://www.iacr.org/archive/asiacrypt2007/48330539/48330539.pdf
 \
             compatibility:
                 - 7z:              -
@@ -10510,14 +10808,18 @@ ALGORITHMS
             published:
                 2005
 \
-            broken:
-                no
-\
             comment:
                 Tiger was developed by Ross Anderson and Eli Biham, 1995.
                 The default encoding is hexadecimal.
                 PHP's tiger192,4 extends the standard Tiger from 24 (3*8)
                 to 32 (4*8) rounds. See also https://bit.ly/3BoVyo0
+\
+            broken:
+                no, but this variant extends Tiger from 24 to 32 rounds and is
+                therefore at least as strong as Tiger: the best collision
+                attack on Tiger reaches 19 rounds, which is an even smaller
+                fraction here; the 192-bit output limits the generic collision
+                resistance to 2^96; see also tiger
 \
             compatibility:
                 - 7z:              -
@@ -10574,12 +10876,16 @@ ALGORITHMS
             published:
                 2005
 \
-            broken:
-                no
-\
             comment:
                 developed by Ross Anderson and Eli Biham, 2005.
                 The default encoding is hexadecimal.
+\
+            broken:
+                no, but Tiger2 differs from Tiger only in the padding byte, so
+                its cryptanalytic status is the same as that of Tiger: no
+                collision attack on the full function, but the best attack
+                reaches 19 of 24 rounds and the 192-bit output limits the
+                generic collision resistance to 2^96; see also tiger
 \
             since:
                 Jacksum 1.6.0
@@ -10611,6 +10917,13 @@ ALGORITHMS
                 in file sharing applications.
                 The default encoding is base32_nopad.
 \
+            broken:
+                no, the same as tiger: the Merkle tree mode introduces no
+                weakness of its own, the security depends entirely on the
+                underlying Tiger, for which no collision attack on the full
+                function is known, but whose 192-bit output limits the generic
+                collision resistance to 2^96; see also tiger
+\
             since:
                 Jacksum 1.7.0
 \
@@ -10641,6 +10954,13 @@ ALGORITHMS
                 applications.
                 The default encoding is base32_nopad.
 \
+            broken:
+                no, the same as tiger2: the Merkle tree mode introduces no
+                weakness of its own, the security depends entirely on the
+                underlying Tiger2, for which no collision attack on the full
+                function is known, but whose 192-bit output limits the generic
+                collision resistance to 2^96; see also tiger2
+\
             since:
                 Jacksum 1.7.0
 \
@@ -10661,9 +10981,6 @@ ALGORITHMS
             published:
                 11/2005
 \
-            broken:
-                no
-\
             website:
                 http://www.nist.gov/hash-function (archived)
                 http://www.csrc.nist.gov/pki/HashWorkshop/2005/Nov1_Presentations/LENSTRA_vsh.pdf (archived)
@@ -10680,6 +10997,15 @@ ALGORITHMS
                 However, NIST did not select an algorithm immediately, but held
                 a public competition from 2007 to 2012 (SHA-3 Competition) to
                 find a successor for SHA-1 and the SHA-2 family.
+\
+            broken:
+                partly, 2006: the preimage resistance is broken and VSH values
+                have undesirable multiplicative properties, so that related
+                hash values can be constructed at will (Saarinen); the
+                collision resistance is provably related to a factoring problem
+                and no collision attack is known, but VSH must not be used as a
+                general-purpose hash function
+                see also https://eprint.iacr.org/2006/103.pdf
 \
             since:
                 Jacksum 3.0.0
@@ -10701,14 +11027,18 @@ ALGORITHMS
             published:
                 2000
 \
-            broken:
-                yes
-\
             comment:
                 The Whirlpool Hashing Function by Paulo S.L.M. Barreto and
                 Vincent Rijmen, 2000. This is the original specification of
                 Whirlpool from 2000.
                 The default encoding is hexadecimal.
+\
+            broken:
+                no, but superseded: no attack targeting Whirlpool-0 itself has
+                been published, but its S-box was replaced in 2001 and the
+                diffusion matrix was corrected in 2003 because a flaw in it
+                lowered the estimated security below the potential of the
+                design; use whirlpool (the final 2003 version) instead
 \
             since:
                 Jacksum 1.6.0
@@ -10730,9 +11060,6 @@ ALGORITHMS
             published:
                 2001
 \
-            broken:
-                yes
-\
             comment:
                 The Whirlpool Hashing Function by Paulo S.L.M. Barreto and
                 Vincent Rijmen, 2001. This is the first revision of the
@@ -10743,6 +11070,13 @@ ALGORITHMS
                 Since March 2007 the Whirlpool authors name this whirlpool
                 revision "Whirlpool-T".
                 The default encoding is hexadecimal.
+\
+            broken:
+                no, but superseded: no attack targeting Whirlpool-1 itself has
+                been published, but it still contains the flaw in the diffusion
+                matrix that was corrected only in the final 2003 version and
+                that lowered the estimated security below the potential of the
+                design; use whirlpool instead
 \
             since:
                 Jacksum 1.2.0
@@ -10764,9 +11098,6 @@ ALGORITHMS
             published:
                 2003
 \
-            broken:
-                no
-\
             comment:
                 The Whirlpool Hashing Function by Paulo S.L.M. Barreto and
                 Vincent Rijmen. This is the second revision of the specification
@@ -10780,6 +11111,13 @@ ALGORITHMS
                 Organization for Standardization (ISO) in the
                 ISO/IEC 10118-3:2004 standard. 
                 The default encoding is hexadecimal.
+\
+            broken:
+                no, but 2009/2010: rebound attacks yield collisions for 4.5 of
+                10 rounds (2^120), semi-free-start collisions for 5.5 rounds
+                and a distinguisher for the full compression function (2^188);
+                the full Whirlpool has no collision or preimage attack
+                see also https://eprint.iacr.org/2010/198
 \
             compatibility:
                 - 7z:              -
@@ -10836,9 +11174,6 @@ ALGORITHMS
             published:
                 05/2021
 \
-            broken:
-                no
-\
             website:
                 https://keccak.team/xoodyak.html
 \
@@ -10853,6 +11188,12 @@ ALGORITHMS
                 Xoodyak was created by Joan Daemen, Seth Hoffert,
                 Michaël Peeters, Gilles Van Assche, Ronny Van Keer, and
                 Silvia Mella.
+\
+            broken:
+                no; no attack on the full Xoodyak is known that is faster than
+                generic attacks; Xoodyak was a finalist of the NIST Lightweight
+                Cryptography competition (2019-2023) but was not selected; as a
+                sponge construction it is immune to length-extension attacks
 \
             since:
                 Jacksum 3.6.0

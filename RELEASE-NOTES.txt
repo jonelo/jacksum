@@ -112,6 +112,32 @@ Jacksum 4.0.0, August TBD, 2026
   - added info about the usage of the internal state value for verification of test vectors submitted for the NIST competition
     in the manpage for skein-256.
   - added the "Go API", and Homebrew to the compatibility lists
+  - reworked the "broken" field of all cryptographic algorithms in the manpage (English and German). Instead of a bare
+    "yes" or "no" each entry now states which security property is affected (collision, preimage, second-preimage
+    resistance or the use in a MAC), whether an attack is theoretical or practical, the year, and a reference.
+    Sponge constructions and truncated variants now also document whether they are susceptible to length-extension
+    attacks. Along the way several factual errors were corrected:
+    - tiger, tiger128 and tiger160 were marked as broken although there is no collision attack on the full Tiger;
+      the best collision attack reaches 19 of 24 rounds and a pseudo-near-collision of the full function needs
+      about 2^47 (Mendel/Rijmen, ASIACRYPT 2007). This also removed the contradiction with tiger-<length>-4-php,
+      which is a 32-round variant of Tiger and was marked as not broken.
+    - rmd128 cited https://eprint.iacr.org/2004/199.pdf, but that paper breaks the original RIPEMD from 1990,
+      not RIPEMD-128. The entry now cites the results of Landelle/Peyrin (2013) on the full compression function.
+    - streebog256 and streebog512 had their status swapped: the second-preimage attack of
+      https://eprint.iacr.org/2014/675 applies to Streebog-512, not to Streebog-256.
+    - ed2k was marked as not broken although it is built on MD4, whose collisions can be computed in a fraction
+      of a second.
+    - haval said "2004, but 128 bits only", which has been outdated since collisions for the full HAVAL with
+      4 and 5 passes were published in 2006.
+    - whirlpool0 and whirlpool1 were marked as broken although no attack targeting them has been published;
+      they were superseded because of design weaknesses (S-box, diffusion matrix), which is now stated as such.
+    - vsh was marked as not broken although its preimage resistance is broken and its values have multiplicative
+      properties (Saarinen, 2006), which makes it unusable as a general-purpose hash function.
+    - kupyna appended a rebound-attack paper to a plain "no", which read as if the paper supported that verdict.
+    - added the missing "broken" field to blake, tth and tth2.
+    The "broken" field has also been moved behind the "comment" field, so that the short facts
+    (name, length, type, published, website, standard) come first and both descriptive blocks
+    appear together at the end of each entry.
 
 
 Jacksum 3.7.0, Aug 26, 2023
