@@ -6007,6 +6007,70 @@ ALGORITHMS
                 net.jacksum.algorithms.md.Edonkey
 
 
+    edonr<length>, edonr-<length>, edon-r<length>, edon-r-<length>
+            algorithm name:
+                Edon-R
+\
+            length:
+                224, 256, 384 or 512 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                10/2008
+\
+            broken:
+                partly, 2009: the preimage resistance is broken in theory (the
+                attack is faster than the security claim, but far from
+                practical), and the secret-prefix MAC construction
+                H(key || message) is broken in practice; no collision attack
+                against Edon-R is known
+                see also https://eprint.iacr.org/2009/135
+\
+            website:
+                https://csrc.nist.gov/projects/hash-functions/sha-3-project
+\
+            comment:
+                "Edon-R" is one of the 51 hash functions that were submitted to
+                the first round of the NIST SHA-3 competition (2007-2012).
+                It was designed by a team around Danilo Gligoroski at the
+                Norwegian University of Science and Technology (NTNU).
+                Unlike most of its competitors, Edon-R is not built on a
+                Merkle-Damgard compression function, but on quasigroup string
+                transformations ("Latin squares"), which makes it one of the
+                fastest hash functions of the competition.
+\
+                Edon-R did not make it into the second round of the NIST SHA-3
+                competition, because of three cryptanalytic results that were
+                published in 2009: a meet-in-the-middle preimage attack by
+                Khovratovich, Nikolic and Weinmann that needs less effort than
+                the security claim allows (the designers of Edon-R dispute the
+                complexity of that attack, see
+                https://eprint.iacr.org/2009/120), a distinguisher for the
+                compression function of Edon-R 512 by Novotney and Ferguson
+                (https://eprint.iacr.org/2009/378), and a key recovery attack
+                by Leurent against the secret-prefix construction
+                H(key || message), which is practical: 32 queries and 2^30
+                computations are sufficient for Edon-R 256.
+\
+                No collision attack against Edon-R is known, and none of the
+                attacks above threatens the plain hashing of files. Still, a
+                hash function of the SHA-2 or SHA-3 family should be preferred
+                whenever data has to be protected, and Edon-R should not be
+                used to build a message authentication code.
+\
+                Note that the "edonr" checksum of the ZFS filesystem is based
+                on Edon-R 512, but it is salted with a pool specific key, so
+                its values do not match the plain Edon-R values computed here.
+\
+            since:
+                Jacksum 4.0.0
+\
+            implementation:
+                net.jacksum.algorithms.md.EdonR
+
+
     esch<length>
             algorithm name:
                 Esch

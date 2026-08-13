@@ -76,6 +76,7 @@ public class Selectors {
         ECHO384_Selector.class,
         ECHO512_Selector.class,
         Ed2k_Selector.class,
+        EdonR_Selector.class,
         Elf_Selector.class,
         Esch_Selector.class,
         FCS16_Selector.class,
@@ -352,6 +353,8 @@ public class Selectors {
         // SHA-3 competition, round 1
         // --------------------------
         MD6_Selector.class,
+
+        EdonR_Selector.class,
 
 
         // pre-SHA-3-competition workshop suggestions

@@ -210,6 +210,10 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS.put("echo384", 317);
         WEIGHTS.put("echo512", 315);
         WEIGHTS.put("ed2k", 39);
+        WEIGHTS.put("edonr224", 44);
+        WEIGHTS.put("edonr256", 43);
+        WEIGHTS.put("edonr384", 23);
+        WEIGHTS.put("edonr512", 23);
         WEIGHTS.put("elf", 57);
         WEIGHTS.put("esch256", 22);
         WEIGHTS.put("esch384", 33);
@@ -911,6 +915,18 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS_ALIASES.put("belthash", WEIGHTS.get("belt-hash"));
         WEIGHTS_ALIASES.put("belt", WEIGHTS.get("belt-hash"));
         WEIGHTS_ALIASES.put("md6", WEIGHTS.get("md6-256"));
+        WEIGHTS_ALIASES.put("edonr-224", WEIGHTS.get("edonr224"));
+        WEIGHTS_ALIASES.put("edon-r224", WEIGHTS.get("edonr224"));
+        WEIGHTS_ALIASES.put("edon-r-224", WEIGHTS.get("edonr224"));
+        WEIGHTS_ALIASES.put("edonr-256", WEIGHTS.get("edonr256"));
+        WEIGHTS_ALIASES.put("edon-r256", WEIGHTS.get("edonr256"));
+        WEIGHTS_ALIASES.put("edon-r-256", WEIGHTS.get("edonr256"));
+        WEIGHTS_ALIASES.put("edonr-384", WEIGHTS.get("edonr384"));
+        WEIGHTS_ALIASES.put("edon-r384", WEIGHTS.get("edonr384"));
+        WEIGHTS_ALIASES.put("edon-r-384", WEIGHTS.get("edonr384"));
+        WEIGHTS_ALIASES.put("edonr-512", WEIGHTS.get("edonr512"));
+        WEIGHTS_ALIASES.put("edon-r512", WEIGHTS.get("edonr512"));
+        WEIGHTS_ALIASES.put("edon-r-512", WEIGHTS.get("edonr512"));
         // GENERATION END
     }
 
