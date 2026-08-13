@@ -234,6 +234,10 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS.put("fnv-1a_512", 852);
         WEIGHTS.put("fnv-1a_64", 63);
         WEIGHTS.put("fork256", 54);
+        WEIGHTS.put("fugue2-224", 194);
+        WEIGHTS.put("fugue2-256", 194);
+        WEIGHTS.put("fugue2-384", 364);
+        WEIGHTS.put("fugue2-512", 611);
         WEIGHTS.put("fugue224", 172);
         WEIGHTS.put("fugue256", 173);
         WEIGHTS.put("fugue384", 272);

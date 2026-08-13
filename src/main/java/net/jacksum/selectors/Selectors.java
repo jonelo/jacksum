@@ -88,6 +88,10 @@ public class Selectors {
         Fugue256_Selector.class,
         Fugue384_Selector.class,
         Fugue512_Selector.class,
+        Fugue2_224_Selector.class,
+        Fugue2_256_Selector.class,
+        Fugue2_384_Selector.class,
+        Fugue2_512_Selector.class,
         Groestl224_Selector.class,
         Groestl256_Selector.class,
         Groestl384_Selector.class,
@@ -300,7 +304,14 @@ public class Selectors {
         Fugue256_Selector.class,
         Fugue384_Selector.class,
         Fugue512_Selector.class,
-        
+
+        // Fugue 2.0 (April 2012), the tweak of Fugue by IBM; not a competition
+        // submission itself, but it belongs right next to Fugue
+        Fugue2_224_Selector.class,
+        Fugue2_256_Selector.class,
+        Fugue2_384_Selector.class,
+        Fugue2_512_Selector.class,
+
         Luffa224_Selector.class,
         Luffa256_Selector.class,
         Luffa384_Selector.class,

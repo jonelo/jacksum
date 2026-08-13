@@ -6859,14 +6859,60 @@ ALGORITHMS
                 gemäß der zweiten Runde des NIST-SHA-3-Wettbewerbs.
 \
                 IBM hat den Algorithmus weiterentwickelt; er heißt
-                Fugue 2.0 und wird von Jacksum derzeit nicht
-                unterstützt.
+                Fugue 2.0, siehe fugue2-<length>.
 \
             seit:
                 Jacksum 3.0.0
 \
             Implementierung:
                 fr.cryptohash.Fugue<length>
+
+
+    fugue2-<length>
+            Algorithmusname:
+                Fugue 2.0
+\
+            Länge:
+                224, 256, 384 oder 512 Bit
+\
+            Typ:
+                kryptografische Hashfunktion
+\
+            veröffentlicht:
+                04/2012
+\
+            gebrochen:
+                nein
+\
+            Website:
+                https://researcher.watson.ibm.com/researcher/view_group.php?id=3253
+\
+            Kommentar:
+                Fugue 2.0 ist die Weiterentwicklung von Fugue, die
+                seine Entwerfer Shai Halevi, William E. Hall und
+                Charanjit S. Jutla (IBM) im April 2012 nach dem Ende
+                des NIST-SHA-3-Wettbewerbs veröffentlicht haben. Es
+                braucht pro Eingabewort nur halb bis dreiviertel so
+                viele Anwendungen der Rundenfunktion SMIX wie Fugue
+                und ist daher schneller; das kompensiert es durch
+                mehr Schlussrunden.
+\
+                Beide Familien sind Instanzen eines einzigen
+                parametrisierten Entwurfs und unterscheiden sich
+                ausschließlich in ihren Initialisierungsvektoren, in
+                ihrem TIX-Schritt und in ihren Parametern. Das
+                ursprüngliche Fugue steht unter fugue<length>.
+\
+                Abschnitt 5.2 der Spezifikation von Fugue 2.0
+                definiert alle vier Ausgabelängen, implementiert
+                wurde von den Entwerfern aber nur die Variante mit
+                256 Bit.
+\
+            seit:
+                Jacksum 4.0.0
+\
+            Implementierung:
+                net.jacksum.algorithms.md.Fugue2_<length>
 
 
     gost, gost:<init>

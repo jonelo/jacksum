@@ -26,6 +26,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import net.jacksum.algorithms.AbstractChecksum;
+import net.jacksum.algorithms.md.Fugue_256;
+import net.jacksum.algorithms.wrappers.MD;
 import net.jacksum.algorithms.wrappers.MDCryptohashSphlib3;
 
 /**
@@ -53,6 +55,11 @@ public class Fugue256_Selector extends Selector {
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
         return new MDCryptohashSphlib3(net.jacksum.zzadopt.fr.cryptohash.ext.Registry.FUGUE256);
+    }
+
+    @Override
+    public AbstractChecksum getAlternateImplementation() throws NoSuchAlgorithmException {
+        return new MD(new Fugue_256(), -4);
     }
 
 }

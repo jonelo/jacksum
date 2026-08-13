@@ -6319,14 +6319,56 @@ ALGORITHMS
                 implementation according to the second round of the NIST SHA-3
                 competition.
 \
-                IBM improved the algorithm further and it is called Fugue 2.0
-                which is currently not supported by Jacksum.
+                IBM improved the algorithm further and it is called Fugue 2.0,
+                see fugue2-<length>.
 \
             since:
                 Jacksum 3.0.0
 \
             implementation:
                 fr.cryptohash.Fugue<length>
+
+
+    fugue2-<length>
+            algorithm name:
+                Fugue 2.0
+\
+            length:
+                224, 256, 384 or 512 bits
+\
+            type:
+                cryptographic hash function
+\
+            published:
+                04/2012
+\
+            broken:
+                no
+\
+            website:
+                https://researcher.watson.ibm.com/researcher/view_group.php?id=3253
+\
+            comment:
+                Fugue 2.0 is the tweak of Fugue that its designers Shai Halevi,
+                William E. Hall and Charanjit S. Jutla (IBM) published in April
+                2012, after the NIST SHA-3 competition had ended. It needs only
+                half to three quarters as many applications of the SMIX round
+                function per input word as Fugue does and is therefore faster;
+                it compensates for this with more final rounds.
+\
+                Both families are instances of one parameterized design and
+                differ only in their initial vectors, in their TIX step and in
+                their parameters. See fugue<length> for the original Fugue.
+\
+                Section 5.2 of the Fugue 2.0 specification defines all four
+                output lengths, but only the 256 bit variant was ever
+                implemented by its designers.
+\
+            since:
+                Jacksum 4.0.0
+\
+            implementation:
+                net.jacksum.algorithms.md.Fugue2_<length>
 
 
     gost, gost:<init>

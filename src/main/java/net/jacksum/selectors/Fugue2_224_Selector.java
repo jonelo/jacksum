@@ -23,43 +23,33 @@
 package net.jacksum.selectors;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import net.jacksum.algorithms.AbstractChecksum;
-import net.jacksum.algorithms.md.Fugue_384;
+import net.jacksum.algorithms.md.Fugue2_224;
 import net.jacksum.algorithms.wrappers.MD;
-import net.jacksum.algorithms.wrappers.MDCryptohashSphlib3;
 
 /**
  *
  * @author johann
  */
-public class Fugue384_Selector extends Selector {
+public class Fugue2_224_Selector extends Selector {
 
-    private static final String ID = "fugue384";
-    
+    private static final String ID = "fugue2-224";
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
-        Map<String, String> map = new HashMap<>(2); // ceil(1/0.75)
-        map.put(ID, "Fugue-384");
-        return map;
-    }
-    
-    @Override
-    public Map<String, String> getAvailableAliases() {
-        Map<String, String> map = new HashMap<>(2); // ceil(1/0.75)
-        map.put("fugue-384", ID);
+        Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)
+        map.put(ID, "Fugue2-224");
         return map;
     }
 
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
-        return new MDCryptohashSphlib3(net.jacksum.zzadopt.fr.cryptohash.ext.Registry.FUGUE384);
-    }
-
-    @Override
-    public AbstractChecksum getAlternateImplementation() throws NoSuchAlgorithmException {
-        return new MD(new Fugue_384(), -4);
+        // Fugue has no fixed block size in the HMAC sense: the designers set
+        // B = 4 * ceil(#-bits-in-key / 32), i.e. it depends on the key. A negative
+        // value disables HMAC, exactly as fr.cryptohash.FugueCore.getBlockLength() does.
+        return new MD(new Fugue2_224(), -4);
     }
 
 }
