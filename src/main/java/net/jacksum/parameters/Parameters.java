@@ -157,6 +157,8 @@ public class Parameters implements
     private int groupcount = 0;
     // -G
     private Character groupingChar = null;
+    // --exact
+    private boolean exact = false;
     // -h
     private boolean help = false;
     // -h lang
@@ -1279,6 +1281,21 @@ public class Parameters implements
     }
 
     /**
+     * @return the exact
+     */
+    @Override
+    public boolean isExact() {
+        return exact;
+    }
+
+    /**
+     * @param exact the exact to set
+     */
+    public void setExact(boolean exact) {
+        this.exact = exact;
+    }
+
+    /**
      * @return the help
      */
     public boolean isHelp() {
@@ -1758,6 +1775,11 @@ public class Parameters implements
                     list.add(getHelpSearchString());
                 }
             }
+            // --exact has to be added after the search string, because -h would
+            // consume --exact as its search string otherwise
+            if (isExact()) {
+                list.add(__EXACT);
+            }
         }
         if (isInfoMode()) {
             list.add(__INFO);
@@ -1948,7 +1970,7 @@ public class Parameters implements
                                         true,
                                         this.getCommentChars(), true));
                     } else {
-                        Help.printHelp(HELP_DEFAULT_LANGUAGE, __FILE_LIST_FORMAT);
+                        Help.printHelp(HELP_DEFAULT_LANGUAGE, __FILE_LIST_FORMAT, true);
                         throw new ParameterException(String.format("File list format \"%s\" is unsupported.", this.getFilelistFormat()));
                     }
                 } else {
@@ -1969,7 +1991,7 @@ public class Parameters implements
                                         this.getCommentChars(), true));
 
                     } else {
-                        Help.printHelp(HELP_DEFAULT_LANGUAGE, __FILE_LIST_FORMAT);
+                        Help.printHelp(HELP_DEFAULT_LANGUAGE, __FILE_LIST_FORMAT, true);
                         throw new ParameterException(String.format("File list format \"%s\" is unsupported.", this.getFilelistFormat()));
                     }
                 }
@@ -2227,6 +2249,10 @@ public class Parameters implements
 
         if (stdin && isSequence()) {
             throw new ParameterException("Cannot read from both standard input and -q.");
+        }
+
+        if (exact && !(help && isHelpSearchString())) {
+            throw new ParameterException(String.format("Option %s is only supported in combination with %s resp. %s and a search string.", __EXACT, _HELP, __HELP));
         }
 
         if (findAlgorithm) {

@@ -68,6 +68,7 @@ public class CLIParameters {
     public static final String __BOM = "--bom";
     public static final String _DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES = "-d";
     public static final String __DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES = "--dont-follow-symlinks-to-directories";
+    public static final String __EXACT = "--exact";
     public static final String _EXPECT_HASH = "-e";
     public static final String __EXPECT_HASH = "--expect-hash";
     public static final String __EXPECT = "--expect";
@@ -175,12 +176,12 @@ public class CLIParameters {
     }
 
     private void handleUserParamError(String userArg, String helpString) throws ParameterException {
-        Help.printHelp("en", helpString);
+        Help.printHelp("en", helpString, true);
         throw new ParameterException(String.format("Option %s requires a valid parameter.", userArg));
     }
 
     private void handleParamError(String helpString, String formattedMessage, String... values) throws ParameterException {
-        Help.printHelp("en", helpString);
+        Help.printHelp("en", helpString, true);
         throw new ParameterException(String.format("for option \"%s\": "+formattedMessage+ " For syntax on this option see above.", helpString, values));
     }
 
@@ -302,6 +303,9 @@ public class CLIParameters {
 
                 } else if (arg.equals(_DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES) || arg.equals(__DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES)) {
                     parameters.setDontFollowSymlinksToDirectories(true);
+
+                } else if (arg.equals(__EXACT)) {
+                    parameters.setExact(true);
 
                 } else if (arg.equals(_EXPECT_HASH) || (arg.equals(__EXPECT_HASH)) || arg.equals(__EXPECT)) {
                     if (firstfile < args.length) {
@@ -447,7 +451,7 @@ public class CLIParameters {
                         try {
                             parameters.getListFilter().setFilter(args[firstfile++]);
                         } catch (IllegalArgumentException e) {
-                            Help.printHelp(HELP_DEFAULT_LANGUAGE, __LIST_FILTER);
+                            Help.printHelp(HELP_DEFAULT_LANGUAGE, __LIST_FILTER, true);
                             throw new ParameterException(e.getMessage());
                         }
                     } else {
@@ -459,7 +463,7 @@ public class CLIParameters {
                         try {
                             parameters.getWantedListFilter().setFilter(args[firstfile++]);
                         } catch (IllegalArgumentException e) {
-                            Help.printHelp(HELP_DEFAULT_LANGUAGE, __MATCH_FILTER);
+                            Help.printHelp(HELP_DEFAULT_LANGUAGE, __MATCH_FILTER, true);
                             throw new ParameterException(e.getMessage());
                         }
                     } else {
@@ -751,7 +755,7 @@ public class CLIParameters {
                 try {
                     parameters.getVerbose().setVerbose(verboseControl);
                 } catch (IllegalArgumentException e) {
-                    Help.printHelp(HELP_DEFAULT_LANGUAGE, __VERBOSE);
+                    Help.printHelp(HELP_DEFAULT_LANGUAGE, __VERBOSE, true);
                     throw new ParameterException(e.getMessage());
                 }
             }

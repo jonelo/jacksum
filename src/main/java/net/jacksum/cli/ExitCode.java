@@ -33,6 +33,7 @@ public class ExitCode {
 
             NO_ALGO_FOUND = 1,
             CHECK_MISMATCH = 1,
+            NOTHING_FOUND = 1,
             PARAMETER_ERROR = 2,
             CHECKFILE_PARSE_ERROR = 3,
             IO_ERROR = 4,

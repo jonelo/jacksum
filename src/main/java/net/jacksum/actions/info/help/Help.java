@@ -37,10 +37,25 @@ public class Help {
      *
      * @param code   the language code (e.g. en)
      * @param search the search string, can be null
+     * @return true if the search has been successful, false otherwise
      */
-    public static void printHelp(String code, String search) {
+    public static boolean printHelp(String code, String search) {
+        return printHelp(code, search, false);
+    }
+
+    /**
+     * Print help on standard output.
+     *
+     * @param code   the language code (e.g. en)
+     * @param search the search string, can be null
+     * @param strict if true, the search string must match an option, an algorithm ID, or a
+     *               section header exactly, rather than just being a prefix of it
+     * @return true if the search has been successful, false otherwise
+     */
+    public static boolean printHelp(String code, String search, boolean strict) {
         try {
-            System.out.print(searchHelp(code, search));
+            System.out.print(searchHelp(code, search, strict));
+            return true;
         } catch (NothingFoundException nfe) {
             System.err.print(nfe.getMessage());
         } catch (FileNotFoundException fnfe) {
@@ -48,6 +63,7 @@ public class Help {
         } catch (IOException ioe) {
             System.err.print(ioe.getMessage());
         }
+        return false;
     }
 
     public static String searchHelp(String code, String search) throws NothingFoundException, IOException {
@@ -57,7 +73,7 @@ public class Help {
     public static String searchHelp(String code, String search, boolean strict) throws NothingFoundException, IOException {
         String filename = "/net/jacksum/help/help_" + code + ".txt";
         try {
-            return searchLongHelp(filename, search, strict);
+            return searchLongHelp(filename, search, strict, code);
         } catch (FileNotFoundException fnfe) {
             // A note for maintainers of platform specific packages:
             // please keep the help file, don't remove it. The help file is important, because the
@@ -112,7 +128,7 @@ public class Help {
     public static void printLongHelp(String filename, String search) throws
             FileNotFoundException, IOException {
         try {
-            System.out.print(searchLongHelp(filename, search, false));
+            System.out.print(searchLongHelp(filename, search, false, DEFAULT_LANGUAGE));
         } catch (NothingFoundException nfe) {
             System.err.print(nfe.getMessage());
         }
@@ -120,7 +136,24 @@ public class Help {
 
     private final static String NEW_LINE = String.format("%n");
 
-    private static String searchLongHelp(String filename, String search, boolean strict) throws
+    private final static String DEFAULT_LANGUAGE = "en";
+
+    /**
+     * Returns the message that is being used if a search in the help was unsuccessful.
+     *
+     * @param code   the language code (e.g. en)
+     * @param search the search string
+     * @return the message in the language that is determined by code, in English if the
+     * language is unsupported
+     */
+    private static String nothingFoundMessage(String code, String search) {
+        if ("de".equals(code)) {
+            return String.format("Ihre Suche \"%s\" ergab keine Übereinstimmung in der Hilfe.%n", search);
+        }
+        return String.format("Your search \"%s\" did not match any section in the help.%n", search);
+    }
+
+    private static String searchLongHelp(String filename, String search, boolean strict, String code) throws
             FileNotFoundException, IOException, NothingFoundException {
         StringBuilder out = new StringBuilder();
 
@@ -210,7 +243,13 @@ public class Help {
 
                             if (section.equals("OPTIONS") && search.startsWith("-")) {
                                 String trimmedLine = line.trim();
-                                if (strict && trimmedLine.equals(search) || !strict && trimmedLine.startsWith(search)) {
+                                if (strict) {
+                                    // an option can be followed by its parameter, e.g. "-a <algo>...",
+                                    // so we compare the first token of the line only
+                                    if (trimmedLine.split("\\s+")[0].equals(search)) {
+                                        found = true;
+                                    }
+                                } else if (trimmedLine.startsWith(search)) {
                                     found = true;
                                 }
                             } else if (section.equals("ALGORITHMS")) { // in a line there could be many algorithms ids, separated by a comma
@@ -250,7 +289,9 @@ public class Help {
                             // we are out of a searchable section, but the user could search for
                             // a header or a fraction of a header, e.g. "jacksum -h examples",
                             // "jacksum -h example", or "jacksum -h ex"
-                            if (line.toLowerCase(Locale.US).startsWith(search.toLowerCase(Locale.US))) {
+                            // in strict mode, only an entire header matches, e.g. "jacksum --exact -h examples"
+                            if (strict && line.equalsIgnoreCase(search)
+                                    || !strict && line.toLowerCase(Locale.US).startsWith(search.toLowerCase(Locale.US))) {
                                 found = true;
                             }
                     }
@@ -276,7 +317,7 @@ public class Help {
                     foundAtLeastOneSection = true;
                 }
                 if (!foundAtLeastOneSection) {
-                    throw new NothingFoundException(String.format("Your search \"%s\" did not match any section in the help.%n", search));
+                    throw new NothingFoundException(nothingFoundMessage(code, search));
                 }
 
             } // end-if

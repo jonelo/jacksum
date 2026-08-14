@@ -29,6 +29,10 @@ Jacksum 4.0.0, August TBD, 2026
       - CRC-64 (NVM Express 64b CRC)
       - CRC-32 (Go Koopman) (issue #35)
   - added new options:
+    - --exact, it makes the help search (-h <word>) match exactly rather than by prefix, so that
+      options such as "-" and "--" can be looked up at all, e.g. `jacksum --exact -h -` prints the
+      description of the option "-" only, while `jacksum -h -` prints all options;
+      if an exact search is unsuccessful, the exit code is 1
     - --ignore-hashes
     - --ignore-sizes
     - --ignore-timestamps
@@ -65,6 +69,11 @@ Jacksum 4.0.0, August TBD, 2026
     - added Java Heap Info if --info option has been set
   - improvements on existing features
     - allowed option -e for --string-list
+    - if an option has been used with an invalid or a missing parameter, the help that is printed
+      before the error message now covers exactly that option rather than all options that share
+      the same prefix
+    - the message that is printed if a help search was unsuccessful is now localized, it follows
+      the language that has been selected by -h [language], e.g. `jacksum -h de xyz`
   - implemented issue #16: Provide a German Help File
 
 - bug fixes:

@@ -39,7 +39,12 @@ public class HelpAction implements Action {
     public int perform() throws ExitException {
 
         if (parameters.isHelpLanguage() && parameters.isHelpSearchString()) {
-            Help.printHelp(parameters.getHelpLanguage(), parameters.getHelpSearchString());
+            boolean found = Help.printHelp(parameters.getHelpLanguage(), parameters.getHelpSearchString(), parameters.isExact());
+            // an unsuccessful exact search is worth an exit code, because the user has asked
+            // for one particular option, algorithm, or section header
+            if (!found && parameters.isExact()) {
+                return ExitCode.NOTHING_FOUND;
+            }
         } else if (parameters.isHelpLanguage()) {
             Help.printHelp(parameters.getHelpLanguage());
         } else {

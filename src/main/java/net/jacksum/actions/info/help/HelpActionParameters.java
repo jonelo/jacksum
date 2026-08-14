@@ -35,4 +35,6 @@ public interface HelpActionParameters {
 
     String getHelpLanguage();
 
+    boolean isExact();
+
 }

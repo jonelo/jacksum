@@ -228,7 +228,7 @@ OPERATING MODES OVERVIEW
 \
         Options-Informationen sammeln
 \
-            jacksum {--help|-h} [<language>] { options | <option> }
+            jacksum [--exact] {--help|-h} [<language>] { options | <option> }
 \
         Parameter-Informationen sammeln
 \
@@ -695,13 +695,15 @@ OPERATING MODES EXPLAINED
 \
     5.2 Options-Informationen sammeln
 \
-        jacksum {--help|-h} [<language>] { options | <option> }
+        jacksum [--exact] {--help|-h} [<language>] { options | <option> }
 \
         Beispiele:
 \
             > jacksum -h -h
             > jacksum -h -a
             > jacksum -h options
+            > jacksum --exact -h -
+            > jacksum --exact -h --
 \
 \
     5.3 Parameter-Informationen sammeln
@@ -827,7 +829,7 @@ OPTION TYPES
         [
             {--algorithm|-a} <algorithm> {--list|-l} |
             --copyright |
-            {--help|-h} [<language>] [<word>] |
+            {--help|-h} [<language>] [<word>] [--exact] |
             --hmacs [-V <vcontrol>] |
             --info [{--algorithm|-a} <algorithm> [{--list|-l}]] |
             --info [{--style|-C} <style>] |
@@ -2451,6 +2453,41 @@ OPTIONS
                 Version 1.6.0 von Jacksum.
 
 
+    --exact
+\
+            Durchsucht die Hilfe nach einer exakten Übereinstimmung anstatt
+            nach einem Präfix. Ohne --exact gibt die Option -h jede Option,
+            jeden Algorithmus und jede Abschnittsüberschrift aus, die mit dem
+            gesuchten Wort beginnt. Mit --exact wird nur die Option, der
+            Algorithmus bzw. die Abschnittsüberschrift ausgegeben, die exakt
+            dem gesuchten Wort entspricht.
+\
+            Das ist besonders für die Optionen "-" und "--" nützlich, weil
+            ohne --exact nahezu die gesamte Hilfe ausgegeben würde.
+\
+            Die Option --exact setzt sowohl die Option -h als auch ein
+            Suchwort voraus. Zu beachten ist, dass -h das direkt folgende
+            Argument verbraucht; --exact muss daher vor -h oder nach dem
+            Suchwort angegeben werden.
+\
+            War die Suche nicht erfolgreich, ist der Exit-Code 1.
+\
+            Beispiele:
+                > jacksum --exact -h -
+                > jacksum --exact -h --
+                > jacksum --exact -h -a
+                > jacksum -h -a --exact
+\
+\
+            Siehe auch:
+\
+                Option -h
+\
+            Verfügbar seit:
+\
+                Version 4.0.0 von Jacksum.
+
+
     -E <encoding>
     --encoding <encoding>
 \
@@ -3049,9 +3086,15 @@ OPTIONS
             Gibt die Hilfe aus; gültige Codes für language sind "en"
             und "de"; gültige Werte für word sind Zeichenketten wie
             Abschnittsüberschriften, Optionen oder Algorithmen.
+            Standardmäßig trifft [word] auf jede Option, jeden Algorithmus und
+            jede Abschnittsüberschrift zu, die mit [word] beginnt. Setzen Sie
+            die Option --exact, um ausschließlich nach einer exakten
+            Übereinstimmung zu suchen.
 \
 \
             Siehe auch:
+\
+                Option --exact
 \
                 den Abschnitt "EXAMPLES" für weitere Informationen, oder
                 geben Sie einfach ein:
@@ -12249,7 +12292,8 @@ EXIT STATUS
 \
     0  - alles ist OK
     1  - es gab mindestens eine Abweichung während des
-         Verifizierungsprozesses
+         Verifizierungsprozesses, oder die Suche einer exakten Hilfe
+         (--exact -h <word>) war nicht erfolgreich
     >1 - im Falle eines Parameter-, .jacksum- oder E/A-Fehlers
 
 
@@ -12769,6 +12813,15 @@ EXAMPLES
         > jacksum -h -
         gibt alle Optionen aus (da jede Option mit einem Minuszeichen
         beginnt)
+\
+        > jacksum --exact -h -
+        gibt ausschließlich Informationen zur Option "-" aus
+\
+        > jacksum --exact -h --
+        gibt ausschließlich Informationen zur Option "--" aus
+\
+        > jacksum --exact -h --path
+        gibt nichts aus, da es keine Option gibt, die exakt "--path" heißt
 
 
 REPORTING BUGS
