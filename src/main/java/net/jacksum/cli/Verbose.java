@@ -39,6 +39,7 @@ public class Verbose implements Serializable  {
     private boolean warnings;
     private boolean errors;
     private boolean summary;
+    private boolean details;
 
     /**
      * Constructs a verbose object.
@@ -48,6 +49,7 @@ public class Verbose implements Serializable  {
         warnings = true;
         errors = true;
         summary = false;
+        details = false;
     }
 
     public void setDefault() {
@@ -55,6 +57,7 @@ public class Verbose implements Serializable  {
         warnings = true;
         errors = true;
         summary = false;
+        details = false;
     }
 
     /**
@@ -62,7 +65,7 @@ public class Verbose implements Serializable  {
      * @return whether all flags have been set to true.
      */
     public boolean isAllEnabled() {
-        return info && warnings && errors && summary;
+        return info && warnings && errors && summary && details;
     }
 
     /**
@@ -74,6 +77,7 @@ public class Verbose implements Serializable  {
         warnings = true;
         errors = true;
         summary = true;
+        details = true;
     }
 
     public void disableAll() {
@@ -81,6 +85,7 @@ public class Verbose implements Serializable  {
         warnings = false;
         errors = false;
         summary = false;
+        details = false;
     }
 
     /**
@@ -159,19 +164,39 @@ public class Verbose implements Serializable  {
         return summary;
     }
 
+    /**
+     * Sets the details state. Details are additional explanations that are
+     * usually not wanted, e.g. the explanation of the state of an algorithm
+     * that is broken, printed by the option --info.
+     *
+     * @param details are details wanted?
+     */
+    public void setDetails(boolean details) {
+        this.details = details;
+    }
+
+    /**
+     * Gets the details state.
+     *
+     * @return are details wanted?
+     */
+    public boolean isDetails() {
+        return details;
+    }
+
     public boolean isDefault() {
-        return !info && warnings && errors && !summary;
+        return !info && warnings && errors && !summary && !details;
     }
 
     public String toString() {
         List<String> list = new ArrayList<>();
-        if (!info && warnings && errors && !summary) {
+        if (isDefault()) {
             return "default";
         }
-        if (info && warnings && errors && summary) {
+        if (isAllEnabled()) {
             return "all";
         }
-        if (!info && !warnings && !errors && !summary) {
+        if (!info && !warnings && !errors && !summary && !details) {
             return "none";
         }
         if (info) {
@@ -193,6 +218,11 @@ public class Verbose implements Serializable  {
             list.add("summary");
         } else {
             list.add("nosummary");
+        }
+        if (details) {
+            list.add("details");
+        } else {
+            list.add("nodetails");
         }
         return Transformer.list2CsvString(list);
     }
@@ -234,6 +264,12 @@ public class Verbose implements Serializable  {
                     break;
                 case "nosummary":
                     setSummary(false);
+                    break;
+                case "details":
+                    setDetails(true);
+                    break;
+                case "nodetails":
+                    setDetails(false);
                     break;
                 default:
                     throw new IllegalArgumentException(String.format("%s is an invalid parameter", token));

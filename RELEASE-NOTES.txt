@@ -49,6 +49,15 @@ Jacksum 4.0.0, August TBD, 2026
     - added strict check output to the verification summary
     - exit code follows --strict-check
   - added more algorithm investigation info
+    - added a new section called "Security:" to the output of --info, it contains the entry "broken:" which
+      tells whether the selected algorithm is considered broken; the value is one of "yes", "no", "partly",
+      "depends", or "n/a"; the information is read from Jacksum's documentation which remains the single
+      source of truth for it
+    - added the keywords "details" and "nodetails" to the option -V/--verbose; "details" makes --info print
+      the explanation of the value of "broken:" in addition to the value itself, and it is part of "all"
+    - added the API methods JacksumAPI.getBrokenState() and JacksumAPI.getBrokenDescription() so that
+      programs that use Jacksum as a library can determine whether an algorithm is broken; if many
+      algorithms are queried, JacksumAPI.preloadBrokenStates() builds a cache for all subsequent queries
     - added avalanche effect info to the algorithm info
     - allowed option -q to specify the sequence for the avalanche calculation
     - added also reversed and Koopman representations for the reciprocal polynomial representation if --info is set for a CRC
@@ -59,6 +68,8 @@ Jacksum 4.0.0, August TBD, 2026
   - implemented issue #16: Provide a German Help File
 
 - bug fixes:
+  - "Compatibility: HMAC:" in the output of --info has claimed "true" for the algorithms none and read,
+    although an HMAC cannot be formed with an algorithm that is not hash based
   - improved HMAC constraint: if blocksize < digestsize HMACs cannot be calculated, this is the case for all ascon algorithms for example.
   - HMAC does not implement reset() method correctly which means that the same hash of the first calculation is always returned
   - Don't ignore records with same comments in wanted list files.

@@ -2822,6 +2822,15 @@ OPTIONS
                 - Algorithm id
                 - Hash length in bits and bytes
                 - Block size in bits and bytes (if applicable)
+                - Security:
+                  "broken:" tells whether the algorithm is considered broken.
+                  The value is one of "yes", "no", "partly" (only some of the
+                  security properties are broken), "depends" (it depends on a
+                  parameter of the algorithm, e.g. on the underlying hash
+                  function of an HMAC), or "n/a" (the algorithm does not claim
+                  cryptographic security, e.g. a CRC or a checksum).
+                  Set --verbose details in order to also print the explanation
+                  of that value.
                 - Avalanche effect:
                   if a sequence has been specified (using -q), the sequence
                   will be used to calculate the avalanche effect. If the
@@ -3975,15 +3984,19 @@ OPTIONS
                 warnings           enable warnings
                 errors             enable errors
                 summary            print summary at the end
+                details            enable additional explanations
 \
                 noinfo             disable info
                 nowarnings         disable warnings
                 noerrors           disable errors
                 nosummary          don't print the summary at the end
+                nodetails          disable additional explanations
 \
-                all                means info,warnings,errors,summary
-                default            means noinfo,warnings,errors,nosummary
-                none               means noinfo,nowarnings,noerrors,nosummary
+                all                means info,warnings,errors,summary,details
+                default            means noinfo,warnings,errors,nosummary,
+                                   nodetails
+                none               means noinfo,nowarnings,noerrors,nosummary,
+                                   nodetails
 \
             If you do not set --verbose, Jacksum selects a suitable
             <control set> dependent on the operation it performs. By default
@@ -3995,12 +4008,18 @@ OPTIONS
             If you set option --version, <control set> ist set to "none".
             If you set option --info, <control set> is set to "info".
 \
+            The keyword "details" currently controls whether the option --info
+            prints the explanation of the value of "broken:" in addition to
+            the value itself.
+\
 \
             Available since:
 \
                 version 1.6.0 of Jacksum.
                 The keywords "all" and "none" are available since version 3.0.0
                 of Jacksum.
+                The keywords "details" and "nodetails" are available since
+                version 4.0.0 of Jacksum.
 
 
     -w <hash-file>
@@ -4137,8 +4156,14 @@ ALGORITHMS
                 for Adler32 may be found in RFC 1950. Adler32 is a 32-bit
                 extension and improvement of the Fletcher algorithm, used in the
                 ITU-T X.224 / ISO 8073 standard. The default encoding is
-                decimal. Note that an Adler8, an Adler16 or an Adler64-
-                algorithm never have been suggested by Mark Adler.
+                decimal. Note that the Adler algorithm has never been defined
+                for widths other than 32 bits, and that an Adler8, an Adler16
+                or an Adler64 algorithm has never been suggested by Mark Adler.
+                The Adler8 and Adler16 that can be found in the literature were
+                constructed by Maxino/Koopman ("Revisiting Fletcher and Adler
+                Checksums", 2006) for comparison purposes only; they use the
+                largest prime below 2^4 resp. 2^8 as the modulus (13 and 251).
+                An Adler64 exists in third-party implementations only.
 \
             compatibility:
                 - 7z:              -

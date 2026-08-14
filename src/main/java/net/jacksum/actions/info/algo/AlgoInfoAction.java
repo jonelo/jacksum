@@ -38,6 +38,7 @@ import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.JacksumAPI;
 import net.jacksum.actions.Action;
 import net.jacksum.algorithms.AbstractChecksum;
+import net.jacksum.algorithms.BrokenStateRegistry;
 import net.jacksum.algorithms.CombinedChecksum;
 import net.jacksum.algorithms.crcs.CrcGeneric;
 import net.jacksum.cli.ExitCode;
@@ -93,7 +94,16 @@ public class AlgoInfoAction implements Action {
         }
 
         buffer.append(String.format("%n%sCompatibility:%n", indent));
-        buffer.append(String.format(FORMAT, indent, "HMAC:", blockSize >= bytes));
+        // an algorithm with a block size of 0 is not hash based, an HMAC cannot be formed with it
+        buffer.append(String.format(FORMAT, indent, "HMAC:", blockSize > 0 && blockSize >= bytes));
+
+        buffer.append(String.format("%n%sSecurity:%n", indent));
+        buffer.append(String.format(FORMAT, indent, "broken:", JacksumAPI.getBrokenState(checksum.getName())));
+        if (parameters.getVerbose().isDetails()) {
+            for (String line : JacksumAPI.getBrokenDescription(checksum.getName())) {
+                buffer.append(String.format("%s    %s%n", indent, line));
+            }
+        }
 
         if (checksum instanceof HMAC hmac) {
             buffer.append(String.format("%n%sHMAC parameters:%n", indent));
@@ -172,8 +182,9 @@ public class AlgoInfoAction implements Action {
                 input = "123456789".getBytes(StandardCharsets.UTF_8);
             }
 
-            // Avalanche makes only sense if input is at least 1 bit, resp. 1 byte)
-            if (input.length > 0) {
+            // Avalanche makes only sense if input is at least 1 bit, resp. 1 byte),
+            // and if the algorithm actually returns a hash value (none and read don't)
+            if (input.length > 0 && checksum.getSize() > 0) {
                 buffer.append(String.format("%n%sAvalanche effect:%n", indent));
                 AvalancheInfo avalancheInfo = Avalanche.calc(checksum, input);
 
@@ -263,6 +274,11 @@ public class AlgoInfoAction implements Action {
                 boolean first = true;
                 List<AbstractChecksum> allAlgorithms = ((CombinedChecksum) checksum).getAlgorithms();
                 algorithms = allAlgorithms.size();
+                if (parameters.isInfoMode()) {
+                    // many algorithms are going to be queried for their broken state,
+                    // so it pays off to build the cache once
+                    BrokenStateRegistry.preload();
+                }
                 for (AbstractChecksum cs : allAlgorithms) {
 //                    algorithms++;
                     if (parameters.isInfoMode()) {

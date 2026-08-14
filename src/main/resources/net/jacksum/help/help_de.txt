@@ -3113,6 +3113,19 @@ OPTIONS
                 - Algorithmus-ID
                 - Hashlänge in Bit und Byte
                 - Blockgröße in Bit und Byte (falls zutreffend)
+                - Sicherheit:
+                  "broken:" gibt an, ob der Algorithmus als
+                  gebrochen gilt. Der Wert ist einer von "yes",
+                  "no", "partly" (nur ein Teil der
+                  Sicherheitseigenschaften ist gebrochen),
+                  "depends" (es hängt von einem Parameter des
+                  Algorithmus ab, z. B. von der zugrunde liegenden
+                  Hashfunktion eines HMAC) oder "n/a" (der
+                  Algorithmus beansprucht keine kryptografische
+                  Sicherheit, z. B. eine CRC oder eine
+                  Prüfsumme).
+                  Setzen Sie --verbose details, um zusätzlich die
+                  Erläuterung dieses Wertes auszugeben.
                 - Lawineneffekt:
                   wurde eine Sequenz angegeben (mit -q), wird diese
                   Sequenz zur Berechnung des Lawineneffekts verwendet.
@@ -4396,16 +4409,23 @@ OPTIONS
                 errors             aktiviert errors
                 summary            gibt am Ende eine Zusammenfassung
                                    aus
+                details            aktiviert zusätzliche
+                                   Erläuterungen
 \
                 noinfo             deaktiviert info
                 nowarnings         deaktiviert warnings
                 noerrors           deaktiviert errors
                 nosummary          gibt am Ende keine Zusammenfassung
                                    aus
+                nodetails          deaktiviert zusätzliche
+                                   Erläuterungen
 \
-                all                bedeutet info,warnings,errors,summary
-                default            bedeutet noinfo,warnings,errors,nosummary
-                none               bedeutet noinfo,nowarnings,noerrors,nosummary
+                all                bedeutet info,warnings,errors,
+                                   summary,details
+                default            bedeutet noinfo,warnings,errors,
+                                   nosummary,nodetails
+                none               bedeutet noinfo,nowarnings,noerrors,
+                                   nosummary,nodetails
 \
             Setzen Sie --verbose nicht, wählt Jacksum je nach
             ausgeführter Operation ein passendes <control set> aus.
@@ -4419,12 +4439,18 @@ OPTIONS
             Setzen Sie die Option --info, wird <control set> auf
             "info" gesetzt.
 \
+            Das Schlüsselwort "details" steuert derzeit, ob die Option
+            --info zusätzlich zum Wert von "broken:" auch die
+            Erläuterung dieses Wertes ausgibt.
+\
 \
             Verfügbar seit:
 \
                 Version 1.6.0 von Jacksum.
                 Die Schlüsselwörter "all" und "none" sind seit Version
                 3.0.0 von Jacksum verfügbar.
+                Die Schlüsselwörter "details" und "nodetails" sind seit
+                Version 4.0.0 von Jacksum verfügbar.
 
 
     -w <hash-file>
@@ -4575,9 +4601,16 @@ ALGORITHMS
                 Adler32 ist eine 32-Bit-Erweiterung und Verbesserung
                 des Fletcher-Algorithmus, der im
                 ITU-T-X.224/ISO-8073-Standard verwendet wird. Die
-                Standardkodierung ist dezimal. Beachten Sie, dass ein
-                Adler8-, Adler16- oder Adler64-Algorithmus nie von
-                Mark Adler vorgeschlagen wurde.
+                Standardkodierung ist dezimal. Beachten Sie, dass der
+                Adler-Algorithmus nie für andere Breiten als 32 Bit
+                definiert wurde und dass ein Adler8-, Adler16- oder
+                Adler64-Algorithmus nie von Mark Adler vorgeschlagen
+                wurde. Der in der Literatur auffindbare Adler8 und
+                Adler16 wurden von Maxino/Koopman ("Revisiting Fletcher
+                and Adler Checksums", 2006) allein zu Vergleichszwecken
+                konstruiert; sie verwenden die größte Primzahl unter
+                2^4 bzw. 2^8 als Modulus (13 und 251). Einen Adler64
+                gibt es nur in Implementierungen Dritter.
 \
             Kompatibilität:
                 - 7z:              -

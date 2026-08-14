@@ -21,6 +21,8 @@
 package net.jacksum;
 
 import net.jacksum.algorithms.AbstractChecksum;
+import net.jacksum.algorithms.BrokenState;
+import net.jacksum.algorithms.BrokenStateRegistry;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
@@ -196,5 +198,57 @@ public class JacksumAPI {
 
     public static List<String> getAvailableAliases(String algorithm) throws NoSuchAlgorithmException {
         return HashFunctionFactory.getAvailableAliases(algorithm);
+    }
+
+    /**
+     * Returns whether the algorithm with the given identifier is considered
+     * broken. The information is read from Jacksum's documentation.
+     *
+     * @param algorithm identifier for the algorithm, e.g. "md5",
+     * "haval_128_3", "hmac:sha1"
+     * @return the state, never null, {@link BrokenState#NOT_APPLICABLE} if the
+     * algorithm is unknown or if it does not claim cryptographic security
+     * @since 4.0.0
+     */
+    public static BrokenState getBrokenState(String algorithm) {
+        return BrokenStateRegistry.getBrokenState(algorithm);
+    }
+
+    /**
+     * Returns the explanation of the state that is returned by
+     * {@link #getBrokenState(String)}, as it is documented in Jacksum's
+     * documentation. The lines are returned as they are wrapped in the
+     * documentation.
+     *
+     * @param algorithm identifier for the algorithm, e.g. "md5"
+     * @return the lines of the explanation, an empty list if there is none
+     * @since 4.0.0
+     */
+    public static List<String> getBrokenDescription(String algorithm) {
+        return BrokenStateRegistry.getBrokenDescription(algorithm);
+    }
+
+    /**
+     * Builds a cache that answers all subsequent calls of
+     * {@link #getBrokenState(String)} and
+     * {@link #getBrokenDescription(String)} without any further I/O. Calling
+     * this method is only worthwhile if many algorithms are queried, because a
+     * single query is answered by one pass over Jacksum's documentation anyway.
+     * The method is idempotent.
+     *
+     * @since 4.0.0
+     */
+    public static void preloadBrokenStates() {
+        BrokenStateRegistry.preload();
+    }
+
+    /**
+     * Releases the cache that has been built by
+     * {@link #preloadBrokenStates()}.
+     *
+     * @since 4.0.0
+     */
+    public static void unloadBrokenStates() {
+        BrokenStateRegistry.unload();
     }
 }
