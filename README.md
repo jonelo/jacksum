@@ -60,13 +60,13 @@ Jacksum is for users with security in mind, advanced users, sysadmins, students 
 ## System Requirements
 
 - GNU/Linux, Microsoft Windows, or macOS
-- JDK 11 or later
+- JDK 21 or later
 - 2 MiB disk space
 
 <details>
 <summary>Details ...</summary>
 
-- To download the (Open)JDK 11 or later, you can go to any vendor that provides OpenJDK compatible builds, LTS (long term support) releases are recommended, examples are
+- To download the (Open)JDK 21 or later, you can go to any vendor that provides OpenJDK compatible builds, LTS (long term support) releases are recommended, examples are
   - https://adoptium.net
   - https://openjdk.java.net
   - https://www.azul.com/downloads/?package=jdk
@@ -74,7 +74,7 @@ Jacksum is for users with security in mind, advanced users, sysadmins, students 
   - https://www.microsoft.com/openjdk/
   - https://aws.amazon.com/de/corretto/
   - https://sapmachine.io
-  - https://github.com/alibaba/dragonwell8
+  - https://dragonwell-jdk.io
 - Supported architectures are dependent on the OS and the JDK vendor:
   - x86 64 bit (x64)
   - x86 32 bit (x86)

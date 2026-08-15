@@ -47,12 +47,12 @@ DESCRIPTION
     In order to achieve the goals above, Jacksum supports four major areas
 \
         - Support for algorithms
-          - 510+ algorithms (crypto hash functions, CRCs, and checksums)
-          - HMAC support for 420+ hash functions
+          - 586 algorithms (crypto hash functions, CRCs, and checksums)
+          - HMAC support for 490+ hash functions
           - Customizable CRCs from 1 to 64 bit width
 \
         - Cross-platform
-          - 71 command line options to control Jacksum's behavior
+          - 70 command line options to control Jacksum's behavior
           - Cross-platform executability with identical behavior
           - Multi-threading for parallel hash calculations to take advantage of
             multiprocessors and multi-core processors
@@ -67,7 +67,7 @@ DESCRIPTION
             file size, timestamp and file name
           - 18 predefined standard styles for reading and writing check files
           - 15 predefined standard styles for reading and writing wanted lists
-          - 15 different encodings for representing hash values
+          - 17 different encodings for representing hash values
           - 6 predefined styles for representing file timestamps
           - 170+ different character sets to read and write check files and
             wanted lists correctly

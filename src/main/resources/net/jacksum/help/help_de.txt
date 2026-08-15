@@ -53,13 +53,13 @@ DESCRIPTION
     Hauptbereiche
 \
         - Unterstützung für Algorithmen
-          - 510+ Algorithmen (kryptografische Hashfunktionen, CRCs und
+          - 586 Algorithmen (kryptografische Hashfunktionen, CRCs und
             Prüfsummen)
-          - HMAC-Unterstützung für 420+ Hashfunktionen
+          - HMAC-Unterstützung für 490+ Hashfunktionen
           - Anpassbare CRCs von 1 bis 64 Bit Breite
 \
         - Plattformübergreifend
-          - 71 Kommandozeilenoptionen zur Steuerung des Verhaltens
+          - 70 Kommandozeilenoptionen zur Steuerung des Verhaltens
           - Plattformübergreifende Ausführbarkeit mit identischem Verhalten
           - Multithreading für parallele Hashberechnungen, um Mehrprozessor-
             und Mehrkernprozessoren zu nutzen
@@ -76,8 +76,8 @@ DESCRIPTION
           - 18 vordefinierte Standardstile zum Lesen und Schreiben von
             Prüfdateien
           - 15 vordefinierte Standardstile zum Lesen und Schreiben von
-            Fahndungslisaten
-          - 15 verschiedene Kodierungen zur Darstellung von Hashwerten
+            Fahndungslisten
+          - 17 verschiedene Kodierungen zur Darstellung von Hashwerten
           - 6 vordefinierte Stile zur Darstellung von Datei-Zeitstempeln
           - 170+ verschiedene Zeichensätze, um Prüfdateien und Fahndungslisten
             korrekt zu lesen und zu schreiben
