@@ -2,41 +2,53 @@ Jacksum 4.0.0, August TBD, 2026
 
 - Compatibility changes
   - requires a JRE/JDK that is compatible with Java 21 LTS and later, OpenJDK 25 LTS or later is recommended
-  - the formation of an HMAC with algorithms of the ascon family is no longer possible because there is no
-    standard-compliant parameterization according to HMAC for sponge-bashed hash functions (RFC 2104 / FIPS 198-).
+  - the formation of an HMAC with algorithms of the ascon family is no longer possible, because there is no
+    standard-compliant parameterization according to HMAC for sponge-based hash functions
+    (RFC 2104 / FIPS 198-1); in general, an HMAC cannot be formed if the block size of the underlying hash
+    function is smaller than its digest size
+  - an HMAC without a key is rejected now: "-a hmac:<algo>" without the option -k exits with an error message
+    that asks for the option -k, rather than with an unspecific error
+  - sum64 returns different values now, because the values that have been returned so far were wrong,
+    see also the bug fixes below
+  - public API: the method Parameters.checked() has got an overload called
+    Parameters.checked(boolean setupStreams) which allows a caller to validate the parameters without setting
+    up the output and error streams (requested by HashGarten, issue #12); the parameterless method
+    keeps its behavior
 
 - New algorithms
-  - Jacksum now supports 586 algorithms!
+  - 97 new algorithms (including their different lengths) have been added,
+    Jacksum now supports 586 algorithms!
   - added belt-hash, the hash function of the Belarusian national standard STB 34.101.31
   - added MD6 (md6-8 to md6-512, in steps of 8), it was submitted by Ronald L. Rivest et al. to the
     round 1 of the NIST SHA-3 competition
   - added Edon-R (edonr-[224,256,384,512]), it was submitted by Danilo Gligoroski et al. to the
     round 1 of the NIST SHA-3 competition
-  - added Romulus-H v1.3, it is one of the finalists from the Lightweight Cryptography Competition held by NIST
+  - added Romulus-H v1.3 (romulush), it is one of the finalists from the Lightweight Cryptography
+    Competition held by NIST
   - added Fugue 2.0 (fugue2-[224,256,384,512]), the tweak of Fugue that IBM published in April 2012
     after the NIST SHA-3 competition had ended. Section 5.2 of the specification defines all four
     output lengths, but only the 256 bit variant was ever implemented by its designers.
   - the new Fugue 2.0 code also provides an alternate implementation (option -A) of the original
     Fugue, i.e. of fugue[224,256,384,512], which so far had a single implementation only
-  - added 5 (resp. 17) algorithms from the round 2 of the NIST SHA-3 competition:
+  - added 5 algorithm families (resp. 21 algorithms) from the round 2 of the NIST SHA-3 competition:
     - BlueMidnightWish-[224,256,384,512]
     - SIMD-[224,256,384,512]
     - CubeHash-[224,256,384,512]
     - Hamsi-[224,256,384,512]
     - Shabal-[192,224,256,384,512]
   - added CRCs
-    - CRC-64 (NVM Express 64b CRC)
-    - CRC-32 (Go Koopman) (issue #35)
+    - CRC-64 (NVM Express 64b CRC), called crc64_nvme
+    - CRC-32 (Go Koopman), called crc32_go-koopman (issue #35)
 
 - New options
   - --exact, it makes the help search (-h <word>) match exactly rather than by prefix, so that
     options such as "-" and "--" can be looked up at all, e.g. `jacksum --exact -h -` prints the
     description of the option "-" only, while `jacksum -h -` prints all options;
     if an exact search is unsuccessful, the exit code is 1
-  - --ignore-hashes
-  - --ignore-sizes
-  - --ignore-timestamps
-  - --no-header
+  - --ignore-hashes, it ignores the hash values that are stored in a check file during a check (-c)
+  - --ignore-sizes, it ignores the file sizes that are stored in a check file during a check (-c)
+  - --ignore-timestamps, it ignores the timestamps that are stored in a check file during a check (-c)
+  - --no-header, it suppresses the header that is activated by the styles which print one
 
 - Improvements on existing features
   - new styles
@@ -47,13 +59,15 @@ Jacksum 4.0.0, August TBD, 2026
     - sizes-and-names
     - timestamps-and-names
     - hash data base (hdb) style which is used by ClamAV's sigtool
-  - added new timestamp formats
+  - new timestamp formats
     - default-utc
-    - iso-utc
-  - added strict check mode
-    - in strict check mode, all files must pass the verification process, and no files have been added, and no files have been removed
+    - iso8601utc, with the alias iso-utc
+    - added the alias iso for the existing format iso8601
+  - extended the strict check mode (option --check-strict, available since Jacksum 3.0.0)
+    - in strict check mode, all files must pass the verification process, and no files have been added,
+      and no files have been removed
     - added strict check output to the verification summary
-    - exit code follows --strict-check
+    - the exit code follows --check-strict
   - added more algorithm investigation info
     - added a new section called "Security:" to the output of --info, it contains the entry "broken:" which
       tells whether the selected algorithm is considered broken; the value is one of "yes", "no", "partly",
@@ -66,96 +80,115 @@ Jacksum 4.0.0, August TBD, 2026
       algorithms are queried, JacksumAPI.preloadBrokenStates() builds a cache for all subsequent queries
     - added avalanche effect info to the algorithm info
     - allowed option -q to specify the sequence for the avalanche calculation
-    - added also reversed and Koopman representations for the reciprocal polynomial representation if --info is set for a CRC
+    - added also reversed and Koopman representations for the reciprocal polynomial representation if --info
+      is set for a CRC
+    - recalculated the weights that determine the entry "Speed: relative rank:" in the output of --info,
+      HMACs are no longer part of that ranking
   - added troubleshooting features
     - added Java Heap Info if --info option has been set
-  - improvements on existing features
+  - improved the usability
     - allowed option -e for --string-list
     - if an option has been used with an invalid or a missing parameter, the help that is printed
       before the error message now covers exactly that option rather than all options that share
       the same prefix
     - the message that is printed if a help search was unsuccessful is now localized, it follows
       the language that has been selected by -h [language], e.g. `jacksum -h de xyz`
+  - improved the customization
+    - compatibility (style) files understand a new optional property called formatter.leadingHeader in
+      order to prepend a custom text to the header that is printed by --header
 
-- Bug fixes:
-  - "Compatibility: HMAC:" in the output of --info has claimed "true" for the algorithms none and read,
-    although an HMAC cannot be formed with an algorithm that is not hash based
-  - improved HMAC constraint: if blocksize < digestsize HMACs cannot be calculated, this is the case for all ascon algorithms for example.
-  - HMAC does not implement reset() method correctly which means that the same hash of the first calculation is always returned
-  - Don't ignore records with same comments in wanted list files.
-    While ignoring duplicate file names in check files makes sense for the option --check-file, that setting is
-    suboptimal if option --wanted-list is used, because filenames are treated as comments in wanted lists.
-  - OOM can occur if producer is much faster than the consumer threads
-  - keccak-384 was not recognized as an alias
-  - the prompt is "Password: " twice if both options -k password -q password have been specified
-    (e.g. "jacksum -q password -a hmac:sha256 -k password"), the prompt for the key is now "Key (echo off): " to
-    distinguish the input.
-  - sum64 was truncated to 32 bits and behaved like sum32, because getValue() reduced the accumulator modulo
-    2^32 twice ((value mod 2^32) mod 2^32) instead of keeping the full 64-bit value; the upper 32 bits of the
-    result were always zero. sum64 now returns the correct 64-bit sum (the Java long already wraps modulo 2^64).
-  - issue #32 --header not working using --quick
-  - if multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
-  - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC definition code
-    if --info has been requested
-  - issue #30 - java.lang.OutOfMemoryError i.e. "Thread-0" or "pool-1-thread-4"
-  - issue #36 - If multiple algorithms have been selected and file size is not wanted, Jacksum does not find valid entries
-  - issue #37 - Parser does not find valid entries if algorithm "none" (no hashing) has been selected
-  - issue #38 - If hash values are not wanted by the user, there should be no leading separator character left in the output
-  - issue #40 - Output style for BSD is not 100% compatible for the cases sha512/224, sha512/256, and skein-512-512
-  - issue #41 - '-p' option is no longer supported but documentation still references this option
-  - issue #45 - Correct eDonkey test vector expected hash in code comments
-  - fixed several concurrency bugs in the parallel hashing engines controlled by --threads-hashing and --threads-reading:
-    - a read error on a file (e.g. a locked file such as NTUSER.DAT on Microsoft Windows) that was hashed with
-      multiple algorithms (--threads-hashing) could be reported as a success with a partially computed,
+- Bug fixes
+  - HMAC
+    - "Compatibility: HMAC:" in the output of --info has claimed "true" for the algorithms none and read,
+      although an HMAC cannot be formed with an algorithm that is not hash based
+    - improved the HMAC constraint: if blocksize < digestsize an HMAC cannot be calculated, this is the
+      case for all ascon algorithms for example
+    - HMAC does not implement the reset() method correctly which means that the same hash of the first
+      calculation is always returned
+    - the prompt is "Password: " twice if both options -k password -q password have been specified
+      (e.g. "jacksum -q password -a hmac:sha256 -k password"), the prompt for the key is now
+      "Key (echo off): " to distinguish the input
+  - algorithms
+    - sum64 was truncated to 32 bits and behaved like sum32, because getValue() reduced the accumulator
+      modulo 2^32 twice ((value mod 2^32) mod 2^32) instead of keeping the full 64-bit value; the upper
+      32 bits of the result were always zero. sum64 now returns the correct 64-bit sum (the Java long
+      already wraps modulo 2^64).
+    - keccak-384 was not recognized as an alias
+    - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC
+      definition code if --info has been requested
+    - issue #45: the expected eDonkey test vector hash in the code comments was wrong
+  - verification, parsing, and output
+    - records with the same comments in wanted list files are no longer ignored. While ignoring duplicate
+      file names in check files makes sense for the option --check-file, that setting is suboptimal if the
+      option --wanted-list is used, because file names are treated as comments in wanted lists.
+    - issue #32: --header not working using --quick
+    - issue #36: if multiple algorithms have been selected and file size is not wanted, Jacksum does not
+      find valid entries
+    - issue #37: parser does not find valid entries if algorithm "none" (no hashing) has been selected
+    - issue #38: if hash values are not wanted by the user, there should be no leading separator character
+      left in the output
+    - issue #40: output style for BSD is not 100% compatible for the cases sha512/224, sha512/256, and
+      skein-512-512
+  - concurrency (options --threads-hashing and --threads-reading)
+    - issue #30: a java.lang.OutOfMemoryError (e.g. in "Thread-0" or "pool-1-thread-4") can occur if the
+      producer is much faster than the consumer threads
+    - a read error on a file (e.g. a locked file such as NTUSER.DAT on Microsoft Windows) that was hashed
+      with multiple algorithms (--threads-hashing) could be reported as a success with a partially computed,
       i.e. wrong, hash value. Such errors are now reliably detected and reported.
     - an unexpected exception while hashing (--threads-hashing) could be silently swallowed and a partially
-      computed hash returned as if it were correct, or it could deadlock the process on large files. Errors are
-      now propagated and no longer silently ignored.
-    - during a parallel directory walk (--threads-reading) an unexpected exception on a single file could make
-      that file silently disappear from the output while the run still reported success. Such files are now
-      reported as an error.
-    - a crash in the file producer, or an interruption of the hashing engine, could leave the parallel directory
-      walk (--threads-reading) hanging forever instead of terminating. Termination is now guaranteed.
+      computed hash returned as if it were correct, or it could deadlock the process on large files. Errors
+      are now propagated and no longer silently ignored.
+    - during a parallel directory walk (--threads-reading) an unexpected exception on a single file could
+      make that file silently disappear from the output while the run still reported success. Such files are
+      now reported as an error.
+    - a crash in the file producer, or an interruption of the hashing engine, could leave the parallel
+      directory walk (--threads-reading) hanging forever instead of terminating. Termination is now
+      guaranteed.
     - the parallel directory walk (--threads-reading) busy-waited for its worker pool to finish, needlessly
       keeping one CPU core at 100%. It now waits without spinning.
     - a short read that is not the end of the file is no longer misinterpreted as the last block, which could
       truncate a hash or block the reader.
 
-- Improved performance:
-  - used a short buffer for the --header output
-  - significant performance improvement for all FNV-0/FNV-1/FNV-1a with a width of 128, 256, 512, and 1024 bits
-    by replacing the BigInteger arithmetic with fixed-width arithmetic on a long array (approx. 5x faster for 1024 bits)
-  - performance improvement for aststrsum (aka ast, strsum) by hoisting the hash state and parameters into local
-    variables and switching the inner update loop to 32-bit int arithmetic, which removes the per-byte 64-bit mask
-    from the critical path (approx. 20% faster); the computed hash values are unchanged
+- Improved performance
+  - the output of --header is buffered and printed at once rather than line by line
+  - significant performance improvement for all FNV-0/FNV-1/FNV-1a with a width of 128, 256, 512, and 1024
+    bits by replacing the BigInteger arithmetic with fixed-width arithmetic on a long array
+    (approx. 5x faster for 1024 bits)
+  - performance improvement for aststrsum (aka ast, strsum) by hoisting the hash state and parameters into
+    local variables and switching the inner update loop to 32-bit int arithmetic, which removes the per-byte
+    64-bit mask from the critical path (approx. 20% faster); the computed hash values are unchanged
 
-- Updated documentation:
-  - implemented issue #16: Provide a German Help File
-  - added info about the usage of the internal state value for verification of test vectors submitted for the NIST competition
-    in the manpage for skein-256.
+- Updated documentation
+  - issue #16: provided a German help file
+  - issue #41: the option -p is no longer supported, but the documentation still referenced it
+  - added info about the usage of the internal state value for verification of test vectors submitted for
+    the NIST competition in the manpage for skein-256.
   - added the "Go API", and Homebrew to the compatibility lists
-  - reworked the "broken" field of all cryptographic algorithms in the manpage (English and German). Instead of a bare
-    "yes" or "no" each entry now states which security property is affected (collision, preimage, second-preimage
-    resistance or the use in a MAC), whether an attack is theoretical or practical, the year, and a reference.
-    Sponge constructions and truncated variants now also document whether they are susceptible to length-extension
-    attacks. Along the way several factual errors were corrected:
-    - tiger, tiger128 and tiger160 were marked as broken although there is no collision attack on the full Tiger;
-      the best collision attack reaches 19 of 24 rounds and a pseudo-near-collision of the full function needs
-      about 2^47 (Mendel/Rijmen, ASIACRYPT 2007). This also removed the contradiction with tiger-<length>-4-php,
-      which is a 32-round variant of Tiger and was marked as not broken.
+  - reworked the "broken" field of all cryptographic algorithms in the manpage (English and German). Instead
+    of a bare "yes" or "no" each entry now states which security property is affected (collision, preimage,
+    second-preimage resistance or the use in a MAC), whether an attack is theoretical or practical, the year,
+    and a reference. Sponge constructions and truncated variants now also document whether they are
+    susceptible to length-extension attacks. Along the way several factual errors were corrected:
+    - tiger, tiger128 and tiger160 were marked as broken although there is no collision attack on the full
+      Tiger; the best collision attack reaches 19 of 24 rounds and a pseudo-near-collision of the full
+      function needs about 2^47 (Mendel/Rijmen, ASIACRYPT 2007). This also removed the contradiction with
+      tiger-<length>-4-php, which is a 32-round variant of Tiger and was marked as not broken.
     - rmd128 cited https://eprint.iacr.org/2004/199.pdf, but that paper breaks the original RIPEMD from 1990,
-      not RIPEMD-128. The entry now cites the results of Landelle/Peyrin (2013) on the full compression function.
+      not RIPEMD-128. The entry now cites the results of Landelle/Peyrin (2013) on the full compression
+      function.
     - streebog256 and streebog512 had their status swapped: the second-preimage attack of
       https://eprint.iacr.org/2014/675 applies to Streebog-512, not to Streebog-256.
-    - ed2k was marked as not broken although it is built on MD4, whose collisions can be computed in a fraction
-      of a second.
+    - ed2k was marked as not broken although it is built on MD4, whose collisions can be computed in a
+      fraction of a second.
     - haval said "2004, but 128 bits only", which has been outdated since collisions for the full HAVAL with
       4 and 5 passes were published in 2006.
     - whirlpool0 and whirlpool1 were marked as broken although no attack targeting them has been published;
-      they were superseded because of design weaknesses (S-box, diffusion matrix), which is now stated as such.
-    - vsh was marked as not broken although its preimage resistance is broken and its values have multiplicative
-      properties (Saarinen, 2006), which makes it unusable as a general-purpose hash function.
-    - kupyna appended a rebound-attack paper to a plain "no", which read as if the paper supported that verdict.
+      they were superseded because of design weaknesses (S-box, diffusion matrix), which is now stated as
+      such.
+    - vsh was marked as not broken although its preimage resistance is broken and its values have
+      multiplicative properties (Saarinen, 2006), which makes it unusable as a general-purpose hash function.
+    - kupyna appended a rebound-attack paper to a plain "no", which read as if the paper supported that
+      verdict.
     - added the missing "broken" field to blake, tth and tth2.
     - The "broken" field has also been moved behind the "comment" field, so that the short facts
       (name, length, type, published, website, standard) come first and both descriptive blocks

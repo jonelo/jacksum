@@ -501,7 +501,7 @@ OPERATING MODES EXPLAINED
             - the option --scan-all-unix-file-types should be set on GNU/Linux
               and Unix, because we want to detect any non-regular files that
               have been added to FILES
-            - the option --strict-check should be set so that the exit code
+            - the option --check-strict should be set so that the exit code
               reflects the actual outcome of the verification
 
         The summary prints an additional line called "strict check". The value

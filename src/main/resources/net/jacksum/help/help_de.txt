@@ -542,7 +542,7 @@ OPERATING MODES EXPLAINED
               GNU/Linux und Unix gesetzt werden, da wir alle
               nicht-regulären Dateien erkennen wollen, die zu FILES
               hinzugefügt wurden
-            - die Option --strict-check sollte gesetzt werden, damit der
+            - die Option --check-strict sollte gesetzt werden, damit der
               Exit-Code das tatsächliche Ergebnis der Verifizierung
               widerspiegelt
 
