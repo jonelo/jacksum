@@ -5,39 +5,41 @@ Jacksum 4.0.0, August TBD, 2026
   - the formation of an HMAC with algorithms of the ascon family is no longer possible because there is no
     standard-compliant parameterization according to HMAC for sponge-bashed hash functions (RFC 2104 / FIPS 198-).
 
-- new features:
-  - new algorithms
-    - Jacksum now supports 586 algorithms!
-    - added belt-hash, the hash function of the Belarusian national standard STB 34.101.31
-    - added MD6 (md6-8 to md6-512, in steps of 8), it was submitted by Ronald L. Rivest et al. to the
-      round 1 of the NIST SHA-3 competition
-    - added Edon-R (edonr-[224,256,384,512]), it was submitted by Danilo Gligoroski et al. to the
-      round 1 of the NIST SHA-3 competition
-    - added Romulus-H v1.3, it is one of the finalists from the Lightweight Cryptography Competition held by NIST
-    - added Fugue 2.0 (fugue2-[224,256,384,512]), the tweak of Fugue that IBM published in April 2012
-      after the NIST SHA-3 competition had ended. Section 5.2 of the specification defines all four
-      output lengths, but only the 256 bit variant was ever implemented by its designers.
-    - the new Fugue 2.0 code also provides an alternate implementation (option -A) of the original
-      Fugue, i.e. of fugue[224,256,384,512], which so far had a single implementation only
-    - added 5 (resp. 17) algorithms from the round 2 of the NIST SHA-3 competition:
-      - BlueMidnightWish-[224,256,384,512]
-      - SIMD-[224,256,384,512]
-      - CubeHash-[224,256,384,512]
-      - Hamsi-[224,256,384,512]
-      - Shabal-[192,224,256,384,512]
-    - added CRCs
-      - CRC-64 (NVM Express 64b CRC)
-      - CRC-32 (Go Koopman) (issue #35)
-  - added new options:
-    - --exact, it makes the help search (-h <word>) match exactly rather than by prefix, so that
-      options such as "-" and "--" can be looked up at all, e.g. `jacksum --exact -h -` prints the
-      description of the option "-" only, while `jacksum -h -` prints all options;
-      if an exact search is unsuccessful, the exit code is 1
-    - --ignore-hashes
-    - --ignore-sizes
-    - --ignore-timestamps
-    - --no-header
-  - added new styles (for I/O)
+- New algorithms
+  - Jacksum now supports 586 algorithms!
+  - added belt-hash, the hash function of the Belarusian national standard STB 34.101.31
+  - added MD6 (md6-8 to md6-512, in steps of 8), it was submitted by Ronald L. Rivest et al. to the
+    round 1 of the NIST SHA-3 competition
+  - added Edon-R (edonr-[224,256,384,512]), it was submitted by Danilo Gligoroski et al. to the
+    round 1 of the NIST SHA-3 competition
+  - added Romulus-H v1.3, it is one of the finalists from the Lightweight Cryptography Competition held by NIST
+  - added Fugue 2.0 (fugue2-[224,256,384,512]), the tweak of Fugue that IBM published in April 2012
+    after the NIST SHA-3 competition had ended. Section 5.2 of the specification defines all four
+    output lengths, but only the 256 bit variant was ever implemented by its designers.
+  - the new Fugue 2.0 code also provides an alternate implementation (option -A) of the original
+    Fugue, i.e. of fugue[224,256,384,512], which so far had a single implementation only
+  - added 5 (resp. 17) algorithms from the round 2 of the NIST SHA-3 competition:
+    - BlueMidnightWish-[224,256,384,512]
+    - SIMD-[224,256,384,512]
+    - CubeHash-[224,256,384,512]
+    - Hamsi-[224,256,384,512]
+    - Shabal-[192,224,256,384,512]
+  - added CRCs
+    - CRC-64 (NVM Express 64b CRC)
+    - CRC-32 (Go Koopman) (issue #35)
+
+- New options
+  - --exact, it makes the help search (-h <word>) match exactly rather than by prefix, so that
+    options such as "-" and "--" can be looked up at all, e.g. `jacksum --exact -h -` prints the
+    description of the option "-" only, while `jacksum -h -` prints all options;
+    if an exact search is unsuccessful, the exit code is 1
+  - --ignore-hashes
+  - --ignore-sizes
+  - --ignore-timestamps
+  - --no-header
+
+- Improvements on existing features
+  - new styles
     - full
     - without-hashes
     - without-timestamps
@@ -74,9 +76,8 @@ Jacksum 4.0.0, August TBD, 2026
       the same prefix
     - the message that is printed if a help search was unsuccessful is now localized, it follows
       the language that has been selected by -h [language], e.g. `jacksum -h de xyz`
-  - implemented issue #16: Provide a German Help File
 
-- bug fixes:
+- Bug fixes:
   - "Compatibility: HMAC:" in the output of --info has claimed "true" for the algorithms none and read,
     although an HMAC cannot be formed with an algorithm that is not hash based
   - improved HMAC constraint: if blocksize < digestsize HMACs cannot be calculated, this is the case for all ascon algorithms for example.
@@ -120,7 +121,7 @@ Jacksum 4.0.0, August TBD, 2026
     - a short read that is not the end of the file is no longer misinterpreted as the last block, which could
       truncate a hash or block the reader.
 
-- improved performance:
+- Improved performance:
   - used a short buffer for the --header output
   - significant performance improvement for all FNV-0/FNV-1/FNV-1a with a width of 128, 256, 512, and 1024 bits
     by replacing the BigInteger arithmetic with fixed-width arithmetic on a long array (approx. 5x faster for 1024 bits)
@@ -128,7 +129,8 @@ Jacksum 4.0.0, August TBD, 2026
     variables and switching the inner update loop to 32-bit int arithmetic, which removes the per-byte 64-bit mask
     from the critical path (approx. 20% faster); the computed hash values are unchanged
 
-- updated documentation:
+- Updated documentation:
+  - implemented issue #16: Provide a German Help File
   - added info about the usage of the internal state value for verification of test vectors submitted for the NIST competition
     in the manpage for skein-256.
   - added the "Go API", and Homebrew to the compatibility lists
@@ -155,9 +157,9 @@ Jacksum 4.0.0, August TBD, 2026
       properties (Saarinen, 2006), which makes it unusable as a general-purpose hash function.
     - kupyna appended a rebound-attack paper to a plain "no", which read as if the paper supported that verdict.
     - added the missing "broken" field to blake, tth and tth2.
-    The "broken" field has also been moved behind the "comment" field, so that the short facts
-    (name, length, type, published, website, standard) come first and both descriptive blocks
-    appear together at the end of each entry.
+    - The "broken" field has also been moved behind the "comment" field, so that the short facts
+      (name, length, type, published, website, standard) come first and both descriptive blocks
+      appear together at the end of each entry.
 
 
 Jacksum 3.7.0, Aug 26, 2023
