@@ -70,6 +70,35 @@ public class FilenameFormatter implements FilenameFormatParameters {
         return buffer.toString();
     }
 
+    // the inverse of gnuEscapeProblematicCharsInFilename(): the escape sequences \\, \n and \r are
+    // translated back to the character they stand for. The file name is processed in one pass from
+    // left to right, so the backslash that a \\ stands for is never interpreted as the start of
+    // another escape sequence, i.e. the file name a\\nb is unescaped to a\nb and not to a<newline>b.
+    // Any other sequence that starts with a backslash stays unchanged, because a backslash is a
+    // valid character in a file name, real life example:
+    // /lib/systemd/system/system-systemd\x2dcryptsetup.slice
+    public static String gnuUnescapeProblematicCharsInFilename(String filename) {
+        if (filename == null) return "";
+        int length = filename.length();
+        StringBuilder buffer = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            char c = filename.charAt(i);
+            if (c != '\\' || i + 1 == length) { // a normal char, or a trailing backslash
+                buffer.append(c);
+                continue;
+            }
+            char next = filename.charAt(++i);
+            switch (next) {
+                case '\\': buffer.append('\\'); break; // backslash
+                case 'n': buffer.append('\n'); break; // new line
+                case 'r': buffer.append('\r'); break; // carriage return
+                default: // not an escape sequence that has been created by the escaping, keep it
+                    buffer.append(c).append(next);
+            }
+        }
+        return buffer.toString();
+    }
+
     public boolean filenameContainedProblematicChars = false;
 
     public boolean didTheFormatMethodChangeProblematicChars() {

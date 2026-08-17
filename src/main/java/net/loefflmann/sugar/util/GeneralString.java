@@ -200,19 +200,88 @@ public class GeneralString {
     }
     
     /**
-     * Translates escape sequences.
-     * @param s a String.
-     * @return a String.
+     * Translates the escape sequences \t, \n, \r, \", \' and \\ to the character they
+     * stand for. Any other sequence that starts with a backslash stays unchanged.
+     *
+     * @param s a String, possibly with escape sequences.
+     * @return a String with all escape sequences translated.
      */
     public static String translateEscapeSequences(String s) {
-        String temp = s;
-        temp=replaceAllStrings(temp, "\\t", "\t");  //  \t
-        temp=replaceAllStrings(temp, "\\n", "\n");  //  \n
-        temp=replaceAllStrings(temp, "\\r", "\r");  //  \r
-        temp=replaceAllStrings(temp, "\\\"", "\""); //  \"
-        temp=replaceAllStrings(temp, "\\\'", "\'"); //  \'
-        temp=replaceAllStrings(temp, "\\\\", "\\"); //  \\
-        return temp;
+        return translateEscapeSequences(s, false);
+    }
+
+    /**
+     * Translates the escape sequences \t, \n, \r, \", \' and \\ to the character they
+     * stand for, and optionally also \xHH to the character with the hexadecimal value HH,
+     * where HH can become 00 to 7F, and the two hex digits can be written in both upper
+     * and lower case. Any other sequence that starts with a backslash stays unchanged,
+     * this is also true for an incomplete \xHH sequence and for \x80 to \xFF.
+     *
+     * The String is processed in one pass from left to right, so a translated character is
+     * never interpreted as the start of another escape sequence, e.g. \\n stays a
+     * backslash followed by an "n", and \\x41 stays a backslash followed by "x41".
+     *
+     * @param s a String, possibly with escape sequences.
+     * @param hexEscapes if true, \xHH is translated as well.
+     * @return a String with all escape sequences translated.
+     */
+    public static String translateEscapeSequences(String s, boolean hexEscapes) {
+        if (s == null) {
+            return null;
+        }
+        // https://en.wikipedia.org/wiki/Escape_sequences_in_C
+        // https://docs.oracle.com/javase/tutorial/java/data/characters.html
+        int length = s.length();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            char c = s.charAt(i);
+            if (c != '\\' || i + 1 == length) { // a normal char, or a trailing backslash
+                sb.append(c);
+                continue;
+            }
+            char next = s.charAt(++i);
+            switch (next) {
+                case 't': sb.append('\t'); break;  // 0x09
+                case 'n': sb.append('\n'); break;  // 0x0A
+                case 'r': sb.append('\r'); break;  // 0x0D
+                case '"': sb.append('"'); break;   // 0x22
+                case '\'': sb.append('\''); break; // 0x27
+                case '\\': sb.append('\\'); break; // 0x5C
+                case 'x': {
+                    // \xHH, HH can become 00 to 7F, both upper and lower case
+                    int high, low;
+                    if (hexEscapes
+                            && i + 2 < length
+                            && (high = hexDigit(s.charAt(i + 1))) >= 0
+                            && (low = hexDigit(s.charAt(i + 2))) >= 0
+                            && (high << 4 | low) < 128) {
+                        sb.append((char) (high << 4 | low));
+                        i += 2;
+                    } else { // not a valid \xHH sequence, keep it unchanged
+                        sb.append(c).append(next);
+                    }
+                    break;
+                }
+                default: // an unknown escape sequence, keep it unchanged
+                    sb.append(c).append(next);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Returns the value of a hexadecimal digit. In contrast to Character.digit() only
+     * the ASCII characters 0-9, a-f and A-F are accepted.
+     *
+     * @param c a character.
+     * @return the value of the hexadecimal digit (0 to 15), or -1 if c is not a
+     *         hexadecimal digit.
+     */
+    private static int hexDigit(char c) {
+        if (c >= '0' && c <= '9') return c - '0';
+        if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+        if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+        return -1;
     }
     
     

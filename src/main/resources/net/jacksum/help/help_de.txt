@@ -3978,11 +3978,19 @@ OPTIONS
                         \"    Doppeltes Anführungszeichen (0x22)
                         \'    Einfaches Anführungszeichen (0x27)
                         \\    Backslash (0x5C)
-                        \xHH  Hexadezimalzahl (HH kann 00 bis 7F sein)
+                        \xHH  Hexadezimalzahl (HH kann 00 bis 7F sein,
+                              für HH kann sowohl Groß- als auch
+                              Kleinschreibung verwendet werden)
+\
+                    Jede andere Sequenz, die mit einem Backslash
+                    beginnt, wird nicht interpretiert und bleibt
+                    unverändert in den Daten enthalten, das gilt auch
+                    für \x80 bis \xFF.
 \
                     Beispiele:
                         > jacksum -q txtf:"answer is 42\n"
                         > jacksum -q txtf:"answer is 42\x0A"
+                        > jacksum -q txtf:"answer is 42\x0a"
 \
 \
                 z85

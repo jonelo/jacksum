@@ -3597,11 +3597,17 @@ OPTIONS
                         \"    Double Quote (0x22)
                         \'    Single Quote (0x27)
                         \\    Backslash (0x5C)
-                        \xHH  Hexadecimal Number (HH can become 00 to 7F)
+                        \xHH  Hexadecimal Number (HH can become 00 to 7F, and
+                              both upper and lower case can be used for HH)
+\
+                    Any other sequence that starts with a backslash is not
+                    interpreted and stays in the data unchanged, this is also
+                    true for \x80 to \xFF.
 \
                     Examples:
                         > jacksum -q txtf:"answer is 42\n"
                         > jacksum -q txtf:"answer is 42\x0A"
+                        > jacksum -q txtf:"answer is 42\x0a"
 \
 \
                 z85

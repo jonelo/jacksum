@@ -23,12 +23,10 @@
 */
 package net.loefflmann.sugar.util;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ByteSequences {
 
@@ -133,29 +131,26 @@ public class ByteSequences {
         return text.getBytes();
     }
 
+    /**
+     * Interprets escape sequences in a text and returns the result as UTF-8 encoded
+     * bytes.
+     *
+     * The escape sequences \t, \n, \r, \", \' and \\ are translated to the character
+     * they stand for. The escape sequence \xHH is translated to the character with the
+     * hexadecimal value HH, where HH can become 00 to 7F, and the two hex digits can be
+     * written in both upper and lower case. Any other backslash sequence, an incomplete
+     * \xHH sequence, and \x80 to \xFF are kept unchanged.
+     *
+     * The text is processed in one pass from left to right, so a translated character is
+     * never interpreted as the start of another escape sequence, e.g. \\n stays a
+     * backslash followed by an "n", and \\x41 stays a backslash followed by "x41".
+     *
+     * @param text a text, possibly with escape sequences.
+     * @return the UTF-8 encoded bytes of the text with all escape sequences interpreted.
+     */
     public static byte[] textf2Bytes(String text) {
-        //return String.format(text).getBytes("UTF-8");
-        try {
-            // https://en.wikipedia.org/wiki/Escape_sequences_in_C
-            // https://docs.oracle.com/javase/tutorial/java/data/characters.html
-            // jacksum -a none -q txtf:"\"\"\n" -F "hex=#SEQUENCE, length=#LENGTH"
-            String newText
-                    = text
-                            .replaceAll("\\\\n", "\n")
-                            .replaceAll("\\\\r", "\r")
-                            .replaceAll("\\\\t", "\t")
-                            .replaceAll("\\\\\"", "\"")
-                            .replaceAll("\\\\\'", "\'")
-                            .replaceAll("\\\\\\\\", "\\\\");
-            for (int i = 0; i < 128; i++) {
-                newText = newText.replaceAll("\\\\x" + hexformat(i, 2), Character.toString((char) i));
-            }
-            return newText.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            System.err.println(ex);
-            Logger.getLogger(ByteSequences.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        // jacksum -a none -q txtf:"\"\"\n" -F "hex=#SEQUENCE, length=#LENGTH"
+        return GeneralString.translateEscapeSequences(text, true).getBytes(StandardCharsets.UTF_8);
     }
 
     public static byte[] decText2Bytes(String text) throws IllegalArgumentException {

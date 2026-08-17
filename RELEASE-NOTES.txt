@@ -129,6 +129,10 @@ Jacksum 4.0.0, August TBD, 2026
       left in the output
     - issue #40: output style for BSD is not 100% compatible for the cases sha512/224, sha512/256, and
       skein-512-512
+  - escape sequences
+    - issue #46: fixed four bugs in the interpretation of escape sequences, they affected the
+      options -q txtf:, -k txtf:, -s, -c, and --file-list; the interpretation happens in one single
+      pass now, and it is no longer implemented multiple times
   - concurrency (options --threads-hashing and --threads-reading)
     - issue #30: a java.lang.OutOfMemoryError (e.g. in "Thread-0" or "pool-1-thread-4") can occur if the
       producer is much faster than the consumer threads

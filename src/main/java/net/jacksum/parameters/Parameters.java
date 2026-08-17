@@ -46,6 +46,7 @@ import net.jacksum.compats.defs.CompatibilityProperties;
 import net.jacksum.compats.defs.InvalidCompatibilityPropertiesException;
 import net.jacksum.formats.Encoding;
 import net.jacksum.formats.EncodingDecoding;
+import net.jacksum.formats.FilenameFormatter;
 import net.jacksum.formats.TimestampFormatter;
 import net.jacksum.multicore.OSControl;
 import net.jacksum.multicore.ThreadControl;
@@ -2002,7 +2003,8 @@ public class Parameters implements
 
                     String theString = this.getFilenamesFromFilelist().get(ndx);
                     if (isGnuEscaping() && theString.startsWith("\\")) {
-                        this.getFilenamesFromFilelist().set(ndx, gnuUnescaping(theString.substring(1)));
+                        this.getFilenamesFromFilelist().set(ndx,
+                                FilenameFormatter.gnuUnescapeProblematicCharsInFilename(theString.substring(1)));
                     }
                     ndx++ ;
                 }
@@ -2500,14 +2502,6 @@ public class Parameters implements
     }
 
 
-
-    private static String gnuUnescaping(String filename) {
-        StringBuilder buffer = new StringBuilder(filename);
-        GeneralString.replaceAllStrings(buffer, "\\\\", "\\"); // backslash
-        GeneralString.replaceAllStrings(buffer, "\\n", "\n"); // new line
-        GeneralString.replaceAllStrings(buffer, "\\r", "\r"); // carriage return
-        return buffer.toString();
-    }
 
     public boolean isOutputFileReplaceTokens() {
         return outputFileReplaceTokens;
