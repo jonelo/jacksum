@@ -144,18 +144,21 @@ public class Formatter {
     }
     
     private static void _replaceSequenceTokens(StringBuilder buffer, AbstractChecksum abstractChecksum, byte[] sequence) {
+        if (buffer.indexOf("#SEQUENCE") < 0) {
+            return;
+        }
         // replace all "#SEQUENCE{<encoding>}"
         SequenceFormatter.resolveEncoding(buffer, sequence, abstractChecksum.getFormatPreferences().getGrouping(),
                 abstractChecksum.getFormatPreferences().getGroupChar(), "(#SEQUENCE\\{([^}]+)\\})");
 
-        // just in case we have only a "#SEQUENCE", replace it with "#SEQUENCE{<encodig>}"
+        // just in case we have only a "#SEQUENCE", encode the sequence with the encoding
+        // of the hash value (an encoding is not necessarily user selectable, so we must
+        // not take a detour by resolving "#SEQUENCE{<encoding>}" here)
         GeneralString.replaceAllStrings(buffer, "#SEQUENCE",
-                "#SEQUENCE{" + Encoding.encoding2String(abstractChecksum.getFormatPreferences().getEncoding()) + "}");
-
-        // and replace all "#SEQUENCE{<encoding>}" again
-        SequenceFormatter.resolveEncoding(buffer,
-                sequence, abstractChecksum.getFormatPreferences().getGrouping(),
-                abstractChecksum.getFormatPreferences().getGroupChar(), "(#SEQUENCE\\{([^}]+)\\})");        
+                EncodingDecoding.encodeBytes(sequence,
+                        abstractChecksum.getFormatPreferences().getEncoding(),
+                        abstractChecksum.getFormatPreferences().getGrouping(),
+                        abstractChecksum.getFormatPreferences().getGroupChar()));
     }
     
     private static void _replaceFilesizeToken(StringBuilder buffer, AbstractChecksum abstractChecksum) {

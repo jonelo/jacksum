@@ -22,6 +22,7 @@
  */
 package net.jacksum.actions.io.wanted;
 
+import net.jacksum.formats.Encoding;
 import net.jacksum.formats.EncodingDecoding;
 import net.jacksum.statistics.StatisticsForHashedFiles;
 import net.jacksum.cli.ExitCode;
@@ -35,6 +36,7 @@ import net.jacksum.statistics.Statistics;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class MessageConsumerForWantedFiles extends MessageConsumer {
 
@@ -59,16 +61,34 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
         this.parameters = parameters;
         this.hashEntries = list;
         this.messenger.setVerbose(parameters.getVerbose());
-
-        // Put the hashEntries to a map for an indexed access by hash
-        map = new HashMap<>();
-        hashEntries.forEach(hashEntry -> {
-          //  System.out.println(hashEntry.getHash());
-            map.put(hashEntry.getHash(), hashEntry);
-        });
         filter = parameters.getWantedListFilter();
     }
 
+    /**
+     * Returns the wanted hashes, mapped for an indexed access by hash.
+     *
+     * The map is created on demand, because it depends on the encoding of the
+     * hash values: if the alphabet of the encoding is case-insensitive, the
+     * lookup is case-insensitive as well, see also Encoding.hashesAreEqual().
+     *
+     * @return the wanted hashes, mapped for an indexed access by hash
+     */
+    private Map<String, HashEntry> getWantedHashes() {
+        if (map == null) {
+            Encoding encoding = formatPreferences == null ? null : formatPreferences.getEncoding();
+            map = (encoding == null || encoding.isCaseSensitive())
+                    ? new HashMap<>()
+                    : new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+            if (hashEntries != null) {
+                hashEntries.forEach(hashEntry -> {
+                    if (hashEntry.getHash() != null) {
+                        map.put(hashEntry.getHash(), hashEntry);
+                    }
+                });
+            }
+        }
+        return map;
+    }
 
     @Override
     public void handleMessage(Message message) {
@@ -82,9 +102,9 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
                  String hash = EncodingDecoding.encodeBytes(message.getPayload().getDigest(), formatPreferences.getEncoding(), 0, ' ');
                  String filename = message.getPayload().getPath() == null ? "<stdin>" : message.getPayload().getPath().normalize().toString();
 
-                 if (map.containsKey(hash)) {
+                 if (getWantedHashes().containsKey(hash)) {
                      found++;
-                     print(filter.isFilterMatch(), "MATCH", filename, map.get(hash).getFilename());
+                     print(filter.isFilterMatch(), "MATCH", filename, getWantedHashes().get(hash).getFilename());
                  } else {
                      notfound++;
                      print(filter.isFilterNoMatch(), "NO MATCH", filename, hash);

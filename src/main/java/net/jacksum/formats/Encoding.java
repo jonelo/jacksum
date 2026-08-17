@@ -32,26 +32,27 @@ import java.util.Map;
  */
 public enum Encoding {
 
-    BIN("Binary"),
-    DEC("Decimal"),
-    OCT("Octal"),
-    HEX("Hexadecimal (lowercase)"),
-    HEX_UPPERCASE("Hexadecimal (uppercase)"),
-    BASE16("Base16"),
-    BASE32("Base32"),
-    BASE32_NOPADDING("Base32 (no padding)"),
-    BASE32HEX("Base32hex"),
-    BASE32HEX_NOPADDING("Base32hex (no padding)"),
-    BASE64("Base 64"),
-    BASE64_NOPADDING("Base 64 (no padding)"),
-    BASE64URL("Base 64 for URL"),
-    BASE64URL_NOPADDING("Base 64 for URL (no padding)"),
-    BUBBLEBABBLE("BubbleBabble"),
-    ZBASE32("z-base-32"),
-    Z85("Z85"),
+    BIN("bin", "Binary"),
+    DEC("dec", "Decimal"),
+    OCT("oct", "Octal"),
+    HEX("hex", "Hexadecimal (lowercase)"),
+    HEX_UPPERCASE("hex-uppercase", "Hexadecimal (uppercase)"),
+    BASE16("base16", "Base16"),
+    BASE32("base32", "Base32"),
+    BASE32_NOPADDING("base32-nopadding", "Base32 (no padding)"),
+    BASE32HEX("base32hex", "Base32hex"),
+    BASE32HEX_NOPADDING("base32hex-nopadding", "Base32hex (no padding)"),
+    BASE64("base64", "Base 64"),
+    BASE64_NOPADDING("base64-nopadding", "Base 64 (no padding)"),
+    BASE64URL("base64url", "Base 64 for URL"),
+    BASE64URL_NOPADDING("base64url-nopadding", "Base 64 for URL (no padding)"),
+    BUBBLEBABBLE("bubblebabble", "BubbleBabble"),
+    ZBASE32("z-base-32", "z-base-32"),
+    Z85("z85", "Z85"),
 
-    DEC_FIXED_SIZE_WITH_LEADING_ZEROS("Decimal, fixed size with leading zeros");
+    DEC_FIXED_SIZE_WITH_LEADING_ZEROS("dec-fixed-size-with-leading-zeros", "Decimal, fixed size with leading zeros");
 
+    private final String code;
     private final String description;
     private static final Map<String, Encoding> codeMap;
 
@@ -59,8 +60,20 @@ public enum Encoding {
         codeMap = getCodesForAvailableEncodings();
     }
 
-    Encoding(String description) {
+    Encoding(String code, String description) {
+        this.code = code;
         this.description = description;
+    }
+
+    /**
+     * Returns the canonical code of the encoding. The canonical code is the
+     * primary name that is understood by option -E and by the encoding
+     * placeholders of option -F (e.g. #HASH{&lt;code&gt;}).
+     *
+     * @return the canonical code of the encoding
+     */
+    public String getCode() {
+        return code;
     }
 
     /**
@@ -72,7 +85,48 @@ public enum Encoding {
         return description;
     }
 
-    public String toString() { return name().toLowerCase(Locale.US);}
+    /**
+     * Returns whether the alphabet of the encoding is case-sensitive. Encodings
+     * with a case-sensitive alphabet (e.g. Base64) require an exact match when
+     * hash values are compared, all other encodings can be compared without
+     * respecting the case.
+     *
+     * @return true if the alphabet of the encoding is case-sensitive
+     */
+    public boolean isCaseSensitive() {
+        switch (this) {
+            case BASE64:
+            case BASE64_NOPADDING:
+            case BASE64URL:
+            case BASE64URL_NOPADDING:
+            case Z85:
+                return true;
+            default:
+                // all remaining encodings have an alphabet that consists of
+                // digits and/or characters of just one case
+                return false;
+        }
+    }
+
+    /**
+     * Returns whether both hash values are considered to be equal, respecting
+     * the case-sensitivity of the given encoding (be tolerant if we can).
+     *
+     * @param hash the hash value
+     * @param expected the expected hash value
+     * @param encoding the encoding both hash values are encoded with
+     * @return true if both hash values are considered to be equal
+     */
+    public static boolean hashesAreEqual(String hash, String expected, Encoding encoding) {
+        if (hash == null || expected == null) {
+            return false;
+        }
+        return (encoding == null || encoding.isCaseSensitive())
+                ? hash.equals(expected)
+                : hash.equalsIgnoreCase(expected);
+    }
+
+    public String toString() { return code; }
 
     /**
      * Returns all available encodings.
@@ -89,8 +143,14 @@ public enum Encoding {
         return map;
     }
 
+    /**
+     * Returns all codes (canonical codes and aliases) that are understood by
+     * option -E, mapped to the encoding they stand for.
+     *
+     * @return all codes that are understood by option -E
+     */
     public static Map<String, Encoding> getCodesForAvailableEncodings() {
-        Map<String, Encoding> map = new HashMap<>(20);
+        Map<String, Encoding> map = new HashMap<>(24);
         map.put("bb", BUBBLEBABBLE);
         map.put("bubblebabble", BUBBLEBABBLE);
         map.put("hex", HEX);
@@ -111,6 +171,10 @@ public enum Encoding {
         map.put("base64url-nopadding", BASE64URL_NOPADDING);
         map.put("z-base-32", ZBASE32);
         map.put("z85", Z85);
+        // not a user selectable encoding (see getAvailableEncodings), but it has
+        // to be parsable, because it can occur in a generated command line, e.g.
+        // in the header of a file that has been created with -a sum_bsd
+        map.put("dec-fixed-size-with-leading-zeros", DEC_FIXED_SIZE_WITH_LEADING_ZEROS);
         return map;
     }
 
@@ -122,20 +186,25 @@ public enum Encoding {
      * @throws java.lang.IllegalArgumentException if encoding is not supported.
      */
     public static Encoding string2Encoding(String encoding) throws IllegalArgumentException {
-        String key = encoding.toLowerCase();
+        String key = encoding.toLowerCase(Locale.US);
         if (codeMap.containsKey(key)) {
             return codeMap.get(key);
         } else {
             throw new IllegalArgumentException(String.format("Encoding \"%s\" is unknown.", encoding));
         }
     }
-    
+
+    /**
+     * Returns the canonical code of the encoding.
+     *
+     * @param encoding the encoding
+     * @return the canonical code of the encoding
+     * @throws java.lang.IllegalArgumentException if encoding is null.
+     */
     public static String encoding2String(Encoding encoding) throws IllegalArgumentException {
-        for (Map.Entry<String, Encoding> entry : codeMap.entrySet()) {
-            if (entry.getValue().equals(encoding)) {
-              return entry.getKey();
-            }
+        if (encoding == null) {
+            throw new IllegalArgumentException("Encoding must not be null.");
         }
-        throw new IllegalArgumentException(String.format("Encoding \"%s\" is unknown.", encoding));
+        return encoding.getCode();
     }
 }

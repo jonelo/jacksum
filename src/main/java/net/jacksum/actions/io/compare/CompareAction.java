@@ -37,23 +37,12 @@ public abstract class CompareAction implements Action {
     protected CompareActionInterface parameters;
 
     // Tells us whether the expected string is equals to the checksum value (be tolerant).
-    // Tolerant means equalsIngoreCase except if we have BASE64 encoding,
-    // because BASE64 encoding is case-sensitive
+    // Tolerant means equalsIngoreCase except if we have an encoding with a case-sensitive
+    // alphabet (e.g. BASE64 and Z85), see also Encoding.hashesAreEqual()
     protected boolean equalsTolerant(AbstractChecksum checksum, String expected) {
         String value = checksum.getValueFormatted();
         //String value = checksum.getformatter.getFingerprintFormatter().format(getByteArray());
-        if (checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64) ||
-            checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64_NOPADDING) ||
-            checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64URL) ||
-            checksum.getFormatPreferences().getEncoding().equals(Encoding.BASE64URL_NOPADDING) ||
-            checksum.getFormatPreferences().getEncoding().equals(Encoding.Z85)
-           )
-        {
-            // strict checking required for any BASE64+Z85 encoding
-            return value.equals(expected);
-        } else {
-            return value.equalsIgnoreCase(expected);
-        }
+        return Encoding.hashesAreEqual(value, expected, checksum.getFormatPreferences().getEncoding());
     }
 
     public int getPositives() {

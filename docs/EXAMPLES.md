@@ -202,7 +202,8 @@ jacksum -a sha3-256 -E base64 file.dat
 
 `-E` accepts `bin`, `dec`, `oct`, `hex`, `hex-uppercase`, `base16`, `base32`, `base32-nopadding`,
 `base32hex`, `base32hex-nopadding`, `base64`, `base64-nopadding`, `base64url`,
-`base64url-nopadding`, `z85`, and `bb`/`bubblebabble`. `jacksum -h -E` documents each of them.
+`base64url-nopadding`, `z-base-32`, `z85`, and `bb`/`bubblebabble`. `jacksum -h -E` documents each
+of them.
 
 <a name="input"/>
 
@@ -281,10 +282,11 @@ jacksum -q oct:145,147,40,64,62,12
 jacksum -q base32:MFXHG53FOIQGS4ZAGQZA
 jacksum -q base64:dGhlIGFuc3dlciBpcyA0Mg==
 jacksum -q base64url:wN7K_g
+jacksum -q z-base-32:cfz8g75fqeog1h3ygo3y
 jacksum -q "z85:vqZdgwPw]cB09p{"
 ```
 
-Binary, decimal, octal, Base32, Base64, Base64url, and Z85 input.
+Binary, decimal, octal, Base32, Base64, Base64url, z-base-32, and Z85 input.
 
 ```
 jacksum -q file:myfile.img
@@ -1125,7 +1127,8 @@ keeps working.
 ## Where the key comes from
 
 `-k` accepts exactly the same forms as `-q`: `txt:`, `txtf:`, `hex:`, `bin:`, `dec:`, `oct:`,
-`base32:`, `base64:`, `z85:`, `file:`, `readline`, and `password`.
+`base32:`, `base32hex:`, `base64:`, `base64url:`, `z-base-32:`, `z85:`, `file:`, `readline`, and
+`password`.
 
 ```
 jacksum -a hmac:sha256 -k file:key.txt message.txt

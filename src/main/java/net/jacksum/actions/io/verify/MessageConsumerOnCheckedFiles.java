@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.compats.parsing.HashEntry;
+import net.jacksum.formats.Encoding;
 import net.jacksum.formats.EncodingDecoding;
 import net.jacksum.multicore.manyfiles.Message;
 import net.jacksum.multicore.manyfiles.MessageConsumer;
@@ -176,7 +177,12 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                     // a hash value is there
                     if (cont && !parameters.isIgnoreHashes()) {
                         // compare the hashes: OK or FAILED
-                        if (EncodingDecoding.encodeBytes(message.getPayload().getDigest(), parameters.getEncoding(), 0, ' ').equals(map.get(filenameAsKey).getHash())) {
+                        // the comparison is tolerant regarding upper and lower case if the
+                        // alphabet of the encoding allows it, see Encoding.hashesAreEqual()
+                        if (Encoding.hashesAreEqual(
+                                EncodingDecoding.encodeBytes(message.getPayload().getDigest(), parameters.getEncoding(), 0, ' '),
+                                map.get(filenameAsKey).getHash(),
+                                parameters.getEncoding())) {
                             print(filter.isFilterOk(), OK, filename);
                             matches++;
                             cont = false;

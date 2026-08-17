@@ -41,6 +41,10 @@
  *  - reformatted code using IntelliJ and fixed some javadoc typos       *
  *  - some minor code improvements                                       *
  *                                                                       *
+ *  Modifications by jonelo on August 18, 2026:                          *
+ *  - fixed the detection of invalid input data in decode(), the         *
+ *    sentinel of the byte array decodeMap has to be compared unsigned   *
+ *                                                                       *
  *************************************************************************/
 package net.loefflmann.sugar.encodings;
 
@@ -249,7 +253,9 @@ public class ZBase32 {
                 }
                 int b0 = in.get() & 0xff;
                 in = in.slice();
-                buffer[i] = decodeMap[b0];
+                // decodeMap is a byte array, so the sentinel 0xff has to be
+                // compared unsigned, otherwise invalid data is never detected
+                buffer[i] = decodeMap[b0] & 0xff;
                 if (buffer[i] == 0xff) {
                     throw new IllegalArgumentException("Invalid z-base32 input data. " + new String(data));
                 }

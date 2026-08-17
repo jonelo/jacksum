@@ -34,6 +34,10 @@ import java.util.Base64;
 
 public class EncodingDecoding {
     public static String encodeBytes(byte[] bytes, Encoding encoding, int grouping, Character groupChar) {
+        if (bytes == null) {
+            // there is nothing to encode, e.g. #SEQUENCE in a format string while option -q has not been set
+            return "";
+        }
         switch (encoding) {
             case HEX:
                 return ByteSequences.format(bytes, false, grouping, groupChar);
@@ -60,18 +64,26 @@ public class EncodingDecoding {
             case BUBBLEBABBLE:
                 return BubbleBabble.encode(bytes);
             case DEC:
-                return new BigInteger(1, bytes).toString();
+                return bytes.length == 0 ? "" : new BigInteger(1, bytes).toString();
             case DEC_FIXED_SIZE_WITH_LEADING_ZEROS:
-                if (bytes.length == 2) { // only supported for 2 bytes (e.g. BSD sum)
+                if (bytes.length == 2) { // the fixed size is only defined for 2 bytes (e.g. BSD sum)
                     // put back the byte array to a long
                     int value = ByteSequences.twoByteArrayToInt(bytes);
                     return String.format("%05d", value);  // five, because 2^(2*8) = 65535 which are 5 digits max.
                     //ByteBuffer wrapped = ByteBuffer.wrap(bytes); // big-endian by default
                     //short num = wrapped.getShort(); // 1
-                } else throw new UnsupportedOperationException("Encoding not supported for byte arrays of size " + bytes.length);
+                } else {
+                    // fall back to the decimal encoding for all other sizes, because this encoding
+                    // is also used to encode data of an arbitrary size, e.g. the sequence (-q) if
+                    // the algorithm's default encoding is this one (e.g. sum_bsd, crc16_minix)
+                    return encodeBytes(bytes, Encoding.DEC, grouping, groupChar);
+                }
             case BIN:
                 return ByteSequences.formatAsBits(bytes);
             case OCT: {
+                if (bytes.length == 0) {
+                    return "";
+                }
                 BigInteger big = new BigInteger(1, bytes);
                 return big.toString(8);
             }
@@ -128,6 +140,9 @@ public class EncodingDecoding {
                 break;
             case Z85:
                 bytes = Z85.getInstance(Z85.Type.PADDING_IF_REQUIRED).decode(sequence);
+                break;
+            case ZBASE32:
+                bytes = ZBase32.decode(sequence);
                 break;
             case FILE:
                 try {

@@ -1343,9 +1343,15 @@ OPTIONS
             einer früheren Ausgabe von Jacksum oder aus der Ausgabe einer
             anderen Hash-Anwendung. Sie müssen alle Nicht-Standard-
             Optionen erneut setzen, die zur Erzeugung von <list>
-            verwendet worden sein könnten. Die Optionen -a, -E, -g, -G,
-            -t, -d, -f, -x, -X können dabei nötig sein; die Option -F
-            wird ignoriert.
+            verwendet worden sein könnten. Die Optionen -a, -E, -t, -d,
+            -f, -x, -X können dabei nötig sein; die Option -F wird
+            ignoriert. Die Optionen -g und -G werden nicht unterstützt,
+            da gruppierte Hashwerte nicht eingelesen werden können.
+\
+            Hashwerte werden ohne Beachtung der Groß- und Kleinschreibung
+            verglichen, außer wenn mit -E eine Kodierung mit einem
+            groß-/kleinschreibungssensitiven Alphabet gesetzt wurde,
+            siehe auch die Option -e.
 \
             Wenn Sie die Option -F verwendet haben oder die Ausgabe von
             <list> nicht im quasi-Standard-Ausgabeformat vorliegt wie
@@ -2399,9 +2405,10 @@ OPTIONS
             einer Datei, der Standardeingabe oder der Option -q.
 \
             Der Hashwert kann groß-/kleinschreibungssensitiv oder
-            -insensitiv angegeben werden, außer wenn Base64-Kodierung
-            (mit -E) angegeben wurde, da Base64
-            groß-/kleinschreibungssensitiv ist.
+            -insensitiv angegeben werden, außer wenn mit -E eine
+            Kodierung mit einem groß-/kleinschreibungssensitiven
+            Alphabet angegeben wurde, das sind base64,
+            base64-nopadding, base64url, base64url-nopadding und z85.
 \
 \
             Im "Schenell-Modus" wird lediglich MATCH (Exit-Code 0) oder
@@ -2553,14 +2560,21 @@ OPTIONS
                                      Pseudowörter werden in Gruppen von fünf
                                      Zeichen zusammengefasst, getrennt durch
                                      einen Bindestrich.
-                                     Die Kodierung verwendet folgende Zeichen:
+                                     Die Kodierung verwendet sechs Vokale für
+                                     die Werte null bis fünf und 16 Konsonanten
+                                     für die Werte null bis 15:
 \
-                                         20 - 29:              a b c d
-                                         30 - 39:  e f g h i j k l m n
-                                         40 - 49:  o p q r s t u v w x
-                                         50 - 59:  y z
+                                          Vokale (0 -  5):  a e i o u y
+                                     Konsonanten (0 - 15):  b c d f g h k l m n
+                                                            p r s t v z
 \
-                                       Trennzeichen:  -
+                                       Begrenzungszeichen:  x
+                                             Trennzeichen:  -
+\
+                                     Das Begrenzungszeichen x steht am Anfang
+                                     und am Ende der Kodierung; es kommt
+                                     außerdem im letzten Pseudowort vor, wenn
+                                     die Anzahl der kodierten Bytes gerade ist.
 \
                                      BubbleBabble wird von OpenSSH und SSH2
                                      verwendet.
@@ -2727,7 +2741,7 @@ OPTIONS
                                           0 -  9:  y b n d r f g 8 e j
                                          10 - 19:  k m c p q x o t 1 u
                                          20 - 29:  w i s z a 3 4 5 h 7
-                                         30 - 31:  6 7
+                                         30 - 31:  6 9
 \
                                          Padding:  keins
 \
@@ -2973,6 +2987,10 @@ OPTIONS
             durch das mit -G angegebene Zeichen getrennt; der Wert für
             <count> muss größer als 0 sein.
 \
+            Gruppierte Hashwerte können nicht wieder eingelesen werden,
+            daher kann diese Option nicht mit den Optionen -c und -w
+            kombiniert werden.
+\
 \
             Siehe auch:
 \
@@ -2989,6 +3007,10 @@ OPTIONS
             Legt das Trennzeichen für Byte-Gruppen fest; nur gültig,
             wenn die Kodierung hexadezimal ist und die Option -g
             gesetzt wurde.
+\
+            Gruppierte Hashwerte können nicht wieder eingelesen werden,
+            daher kann diese Option nicht mit den Optionen -c und -w
+            kombiniert werden.
 \
 \
             Siehe auch:
@@ -3714,8 +3736,8 @@ OPTIONS
 \
                 - Text oder formatierter Text
                 - binäre, dezimale, oktale oder hexadezimale Sequenz
-                - Base32-, Base32hex-, Base64-, Base64url- oder
-                  z85-kodierte Zeichenkette
+                - Base32-, Base32hex-, Base64-, Base64url-, z-base-32-
+                  oder z85-kodierte Zeichenkette
                 - eine Datei (max. 128 MiB)
                 - Eingabe über die Konsole, sichtbar oder verborgen
 \
@@ -3993,6 +4015,15 @@ OPTIONS
                         > jacksum -q txtf:"answer is 42\x0a"
 \
 \
+                z-base-32
+\
+                    Eine z-base-32-kodierte Zeichenkette. Weitere
+                    Informationen siehe auch die Option -E.
+\
+                    Beispiel:
+                        > jacksum -q z-base-32:cfz8g75fqeog1h3ygo3y
+\
+\
                 z85
 \
                     Eine Z85-kodierte Zeichenkette. Weitere
@@ -4007,7 +4038,8 @@ OPTIONS
                 Version 1.3.0 von Jacksum (nur hex), "type" seit
                 Version 1.5.0, die Typen "bin" und "txtf" seit Version
                 3.0.0, Typ "file" seit Version 3.1.0 von Jacksum,
-                Konsolenmodus seit Version 3.7.0 von Jacksum.
+                Konsolenmodus seit Version 3.7.0 von Jacksum, Typ
+                "z-base-32" seit Version 4.0.0 von Jacksum.
 
 
     --scan-all-unix-file-types
@@ -4514,6 +4546,13 @@ OPTIONS
             das Format von <hash-file> wird die Standardausgabe
             erwartet; ist es nicht die Standardausgabe, kann es über
             die Option --style angegeben werden.
+\
+            Hashwerte werden ohne Beachtung der Groß- und Kleinschreibung
+            verglichen, außer wenn mit -E eine Kodierung mit einem
+            groß-/kleinschreibungssensitiven Alphabet gesetzt wurde,
+            siehe auch die Option -e. Die Optionen -g und -G werden nicht
+            unterstützt, da gruppierte Hashwerte nicht eingelesen werden
+            können.
 \
 \
             Siehe auch:

@@ -26,6 +26,7 @@ package net.loefflmann.sugar.util;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 public class ByteSequences {
@@ -260,10 +261,10 @@ public class ByteSequences {
     }
 
     public static String formatAsBits(byte[] bytes) {
-        if (bytes == null) {
+        if (bytes == null || bytes.length == 0) {
             return "";
         }
-        StringBuilder sb = new StringBuilder(bytes.length);
+        StringBuilder sb = new StringBuilder(bytes.length * 8);
         BigInteger big = new BigInteger(1, bytes);
         sb.append(big.toString(2)); // dual
         while (sb.length() < (bytes.length * 8)) {
@@ -303,7 +304,7 @@ public class ByteSequences {
         if (group > 0) {
             sb = GeneralString.insertBlanks(sb, group, groupChar);
         }
-        return uppercase ? sb.toString().toUpperCase() : sb.toString();
+        return uppercase ? sb.toString().toUpperCase(Locale.US) : sb.toString();
     }
 
     public static String format(byte[] bytes, boolean uppercase) {

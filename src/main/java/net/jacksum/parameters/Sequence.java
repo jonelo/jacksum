@@ -29,7 +29,30 @@ public class Sequence implements Serializable {
     private static final long serialVersionUID = 1865077037563918778L;
 
     public enum Type {
-        TXT, TXTF, DEC, HEX, BIN, OCT, BASE32, BASE32HEX, BASE64, BASE64URL, Z85, READLINE, PASSWORD, FILE
+        TXT("txt"), TXTF("txtf"), DEC("dec"), HEX("hex"), BIN("bin"), OCT("oct"),
+        BASE32("base32"), BASE32HEX("base32hex"), BASE64("base64"), BASE64URL("base64url"),
+        Z85("z85"), ZBASE32("z-base-32"), READLINE("readline"), PASSWORD("password"), FILE("file");
+
+        private final String code;
+
+        Type(String code) {
+            this.code = code;
+        }
+
+        /**
+         * Returns the code of the type, it is the indicator that has to be used
+         * with option -q, e.g. "z-base-32" for the sequence -q z-base-32:&lt;seq&gt;
+         *
+         * @return the code of the type
+         */
+        public String getCode() {
+            return code;
+        }
+
+        @Override
+        public String toString() {
+            return code;
+        }
     }
 
     private Type type = null;
@@ -65,9 +88,9 @@ public class Sequence implements Serializable {
 
     public String asString() {
         if (type.equals(Type.PASSWORD) || type.equals(Type.READLINE)) {
-            return this.type.toString().toLowerCase();
+            return this.type.getCode();
         } else {
-            return String.format("%s:%s", this.type.toString().toLowerCase(), payload);
+            return String.format("%s:%s", this.type.getCode(), payload);
         }
     }
 
@@ -91,7 +114,7 @@ public class Sequence implements Serializable {
     }
 
     public void setSequence(String sequence) throws IllegalArgumentException {
-        String indicator = sequence.toLowerCase();
+        String indicator = sequence.toLowerCase(Locale.US);
 
         if (indicator.equals("password")) {
             setSequence(Type.PASSWORD, enteredFromConsole);
@@ -100,8 +123,8 @@ public class Sequence implements Serializable {
             setSequence(Type.READLINE, enteredFromConsole);
         } else {
             for (Type t : Type.values()) {
-                String code = t.toString().toLowerCase(Locale.US);
-                if (indicator.startsWith(code+":") && !code.equals(Type.PASSWORD) && !code.equals(Type.READLINE)) {
+                String code = t.getCode();
+                if (indicator.startsWith(code+":")) {
                     setSequence(t, sequence.substring(code.length()+1));
                     return;
                 }

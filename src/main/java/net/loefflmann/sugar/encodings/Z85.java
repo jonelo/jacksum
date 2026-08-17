@@ -68,6 +68,9 @@ public class Z85 {
     }
 
     public byte[] decode(String s) throws IllegalArgumentException {
+        if (s.isEmpty()) {
+            return new byte[0]; // nothing to decode
+        }
         try {
             checkZ85(s);
         } catch (IllegalArgumentException e) {
@@ -86,6 +89,13 @@ public class Z85 {
             int code = s.charAt(i) - 32;
             value = value * 85 + decoders[code];
             if ((i + 1) % 5 == 0) {
+                // 85^5 is bigger than 2^32, so not every combination of five characters
+                // of the Z85 alphabet is a valid encoding of four bytes
+                if (value > 0xFFFFFFFFL) {
+                    throw new IllegalArgumentException(
+                            String.format("Z85 decoding error: the five characters \"%s\" do not encode four bytes, the value is out of range.",
+                                    s.substring(i - 4, i + 1)));
+                }
                 int div = 256 * 256 * 256;
                 while (div >= 1) {
                     if (index < ret.length) {

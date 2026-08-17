@@ -86,7 +86,14 @@ Jacksum 4.0.0, August TBD, 2026
       HMACs are no longer part of that ranking
   - added troubleshooting features
     - added Java Heap Info if --info option has been set
+  - new sequence type for the options -q and -k
+    - z-base-32, e.g. "jacksum -q z-base-32:cfz8g75fqeog1h3ygo3y"; so far z-base-32 was supported
+      for the output (-E z-base-32) only
   - improved the usability
+    - hash values that are read by the options -c, -e, and -w are compared without respecting upper and
+      lower case now, unless the encoding that has been selected by -E has a case sensitive alphabet
+      (base64, base64-nopadding, base64url, base64url-nopadding, and z85); so far only the options -q,
+      -e (in quick mode) and --string-list have been tolerant, see also the bug fixes below
     - allowed option -e for --string-list
     - if an option has been used with an invalid or a missing parameter, the help that is printed
       before the error message now covers exactly that option rather than all options that share
@@ -126,7 +133,46 @@ Jacksum 4.0.0, August TBD, 2026
     - an invalid base32 or base32hex string could terminate Jacksum with an uncaught
       java.lang.ArrayIndexOutOfBoundsException instead of an error message, e.g.
       "-q base32:========"; such strings are reported as invalid now
+  - encodings (option -E) and encoded output (option -F)
+    - the option -F could not be used at all with the algorithms sum_bsd and crc16_minix, because their
+      default encoding is an internal one that is not user selectable, and the formatter tried to resolve
+      it by its name; "jacksum -a sum_bsd -F "#HASH" <file>" for example exited with
+      "Encoding "dec_fixed_size_with_leading_zeros" is unknown."
+    - the token #SEQUENCE is encoded with the default encoding of the algorithm if -E has not been set;
+      for sum_bsd and crc16_minix that encoding is a fixed size decimal encoding of two bytes, which
+      cannot represent a sequence of an arbitrary length; the decimal encoding is used for such data now
+    - a #SEQUENCE token in a format string could exit Jacksum with a NullPointerException if there was no
+      sequence at all (option -q not set) and an encoding other than hex was selected, e.g.
+      "jacksum -a sha256 -E base32 -F "#SEQUENCE" <file>"
+    - the option -E was locale dependent: in a Turkish locale "-E BIN" was rejected with
+      "Encoding "BIN" is unknown.", because the encoding name was lowercased with the default locale
+      rather than with a fixed one; the same applied to the type of the option -q, e.g. "-q BIN:1010"
+    - Encoding.toString() returned names that the option -E does not accept, e.g. "hex_uppercase" or
+      "zbase32"; every encoding has got a canonical code now (public API: Encoding.getCode()), which is
+      also what Encoding.toString() and Encoding.encoding2String() return; the latter no longer depends
+      on the iteration order of a hash map, so an encoding with more than one name (e.g. hex and
+      hex-lowercase) always maps back to its canonical code
+    - a z-base-32 encoded string with invalid characters was decoded to arbitrary bytes rather than being
+      rejected, because the sentinel of the decoding table was compared as a signed value
+      (net.loefflmann.sugar.encodings.ZBase32, public API)
+    - a Z85 encoded string could contain a group of five characters that does not encode four bytes
+      (its value exceeds 2^32-1, e.g. "#####"); such a group was decoded to wrong bytes rather than being
+      rejected, e.g. "jacksum -a none -q z85:'#####' -F "#SEQUENCE{hex}""
+    - decoding an empty Z85 string reported a character that is not part of the alphabet of Z85, although
+      there was no character at all; an empty string decodes to an empty byte array now
+    - the encodings bin, dec, and oct returned "0" rather than an empty string for an empty byte array,
+      unlike all other encodings (public API)
   - verification, parsing, and output
+    - hash values were compared case sensitively by the options -c, -w, and by -e in combination with
+      files, although the documentation of -e promises a tolerant comparison for all encodings but Base64,
+      and although the options -q and --string-list have always been tolerant. As a consequence a check
+      file in SFV format that stores its CRCs in lower case was reported as FAILED although all hash values
+      matched (the SFV parser accepts both cases on purpose), and a wanted list (-w) that stores its hash
+      values in upper case, as many hash lists do, did not match a single file.
+    - the options -g and -G (grouped hash values) could be combined with -c and -w, but grouped hash values
+      cannot be parsed: the first group was taken as the whole hash value and the remaining groups became
+      part of the file name, so all files were reported as MISSING rather than OK or FAILED. Both
+      combinations are rejected with a parameter error now.
     - records with the same comments in wanted list files are no longer ignored. While ignoring duplicate
       file names in check files makes sense for the option --check-file, that setting is suboptimal if the
       option --wanted-list is used, because file names are treated as comments in wanted lists.
@@ -181,6 +227,14 @@ Jacksum 4.0.0, August TBD, 2026
     both language versions can be maintained in parallel; all commands and program output in
     the examples are unchanged.
   - issue #41: the option -p is no longer supported, but the documentation still referenced it
+  - corrected two alphabets in the description of the option -E in the manpage (English and German):
+    - the table of the BubbleBabble alphabet was a leftover of the Base64 table; it now documents the six
+      vowels, the 16 consonants, the delimiter x, and the separator that BubbleBabble actually uses
+    - the last row of the z-base-32 alphabet said "30 - 31: 6 7" (a copy of the row of Base32), while
+      z-base-32 uses "6 9" for the values 30 and 31
+  - documented for the options -c, -e, -g, -G, and -w that hash values are compared without respecting
+    upper and lower case unless the alphabet of the encoding is case sensitive, and that grouped hash
+    values (-g, -G) cannot be verified (English and German)
   - added info about the usage of the internal state value for verification of test vectors submitted for
     the NIST competition in the manpage for skein-256.
   - added the "Go API", and Homebrew to the compatibility lists
