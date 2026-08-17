@@ -123,7 +123,7 @@ Jacksum 4.0.0, August TBD, 2026
       by testing the length against 5 instead of the Base32 group size of 8; as a consequence
       Jacksum could not read back its own base32-nopadding output, e.g. "-q base32:YDPMV7Q" was
       rejected while "-q base32:YDPMV7Q=" worked
-    - issue #47: an invalid base32 or base32hex string could terminate Jacksum with an uncaught
+    - an invalid base32 or base32hex string could terminate Jacksum with an uncaught
       java.lang.ArrayIndexOutOfBoundsException instead of an error message, e.g.
       "-q base32:========"; such strings are reported as invalid now
   - verification, parsing, and output
