@@ -175,6 +175,11 @@ Jacksum 4.0.0, August TBD, 2026
   - issue #16: provided a German help file
   - reworked README.md: corrected all outdated facts, and moved the detailed examples,
     the algorithm list, the feature list, and the installation instructions to the wiki
+  - added German translations of the documentation under docs/: docs/ALGORITHMS_de.md,
+    docs/EXAMPLES_de.md, and docs/FEATURES_de.md. They keep the structure and the anchors of
+    their English counterparts (docs/ALGORITHMS.md, docs/EXAMPLES.md, docs/FEATURES.md), so
+    both language versions can be maintained in parallel; all commands and program output in
+    the examples are unchanged.
   - issue #41: the option -p is no longer supported, but the documentation still referenced it
   - added info about the usage of the internal state value for verification of test vectors submitted for
     the NIST competition in the manpage for skein-256.
