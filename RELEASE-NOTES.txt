@@ -117,6 +117,15 @@ Jacksum 4.0.0, August TBD, 2026
     - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC
       definition code if --info has been requested
     - issue #45: the expected eDonkey test vector hash in the code comments was wrong
+  - base32 and base32hex decoding (options -q and -k)
+    - issue #47: an unpadded base32 or base32hex encoded string was only accepted if its length
+      happened to be a multiple of 5, because the decoder decided between padded and unpadded input
+      by testing the length against 5 instead of the Base32 group size of 8; as a consequence
+      Jacksum could not read back its own base32-nopadding output, e.g. "-q base32:YDPMV7Q" was
+      rejected while "-q base32:YDPMV7Q=" worked
+    - issue #47: an invalid base32 or base32hex string could terminate Jacksum with an uncaught
+      java.lang.ArrayIndexOutOfBoundsException instead of an error message, e.g.
+      "-q base32:========"; such strings are reported as invalid now
   - verification, parsing, and output
     - records with the same comments in wanted list files are no longer ignored. While ignoring duplicate
       file names in check files makes sense for the option --check-file, that setting is suboptimal if the

@@ -110,13 +110,13 @@ public class EncodingDecoding {
                 break;
             case BASE32:
                 bytes = new Base32(Base32.Alphabet.BASE32,
-                        sequence.length() % 5 == 0 ? Base32.Padding.NO_PADDING : Base32.Padding.PADDING,
+                        sequence.indexOf('=') < 0 ? Base32.Padding.NO_PADDING : Base32.Padding.PADDING,
                      Base32.UpperLower.UPPERCASE).decode(sequence);
                 if (bytes == null) throw new IllegalArgumentException("Invalid Base32 string.");
                 break;
             case BASE32HEX:
                 bytes = new Base32(Base32.Alphabet.BASE32HEX,
-                        sequence.length() % 5 == 0 ? Base32.Padding.NO_PADDING : Base32.Padding.PADDING,
+                        sequence.indexOf('=') < 0 ? Base32.Padding.NO_PADDING : Base32.Padding.PADDING,
                         Base32.UpperLower.UPPERCASE).decode(sequence);
                 if (bytes == null) throw new IllegalArgumentException("Invalid Base32hex string.");
                 break;

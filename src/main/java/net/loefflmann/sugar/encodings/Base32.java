@@ -78,7 +78,9 @@ public class Base32 {
     private final boolean lowercase;
 
     private final static int[] blockLenToPadLen = { -1, 6, 4, 3, 1, 0 };
-    private final static int[] padLenToBlockLen = { 5, 4, -1, 3, 2, -1, 1};
+    // padlen is 8 minus the number of data characters in a block, so it can also be
+    // 7 (a block with a single data character) or 8 (a block of '=' only), both invalid
+    private final static int[] padLenToBlockLen = { 5, 4, -1, 3, 2, -1, 1, -1, -1};
 
     /**
      * Creates an object that can be used to do base32 conversions.
