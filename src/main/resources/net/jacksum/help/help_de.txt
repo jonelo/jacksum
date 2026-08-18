@@ -4452,9 +4452,11 @@ OPTIONS
 \
 \
             Ein Zeitstempel ist nur verfügbar, wenn die Daten aus einer
-            Datei stammen. Kommen die Daten von der Standardeingabe oder
-            aus einer Sequenz (-q), wird der Token #TIMESTAMP durch eine
-            leere Zeichenkette ersetzt.
+            Datei stammen. Kommen die Daten von der Standardeingabe, aus
+            einer Sequenz (-q) oder aus einer Zeichenkette
+            (--string-list), wird überhaupt kein Zeitstempel geschrieben,
+            und der Token #TIMESTAMP wird durch eine leere Zeichenkette
+            ersetzt.
 \
             Ein <format>, das ein Leerzeichen enthält, kann nicht mit den
             Optionen -c und -w kombiniert werden, da ein Zeitstempel mit

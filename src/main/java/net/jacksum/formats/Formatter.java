@@ -77,7 +77,11 @@ public class Formatter {
 
         boolean hash_da = !fingerprint.isEmpty();
         boolean size_da = sizeFormatter != null;
-        boolean timestamp_da = timestampFormatter != null && timestampFormatter.getParameters().isTimestampWanted();
+        // A timestamp is only available if the data comes from a file. If the data comes from
+        // standard input, from a sequence (-q), or from a string (--string-list), no timestamp
+        // is printed rather than the epoch, see also _replaceTimestampToken().
+        boolean timestamp_da = timestampFormatter != null && timestampFormatter.getParameters().isTimestampWanted()
+                && checksum.isTimestampAvailable();
 
         StringBuilder sb = new StringBuilder(128);
 

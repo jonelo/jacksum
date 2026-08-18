@@ -211,6 +211,7 @@ public class Parameters implements
     private String separator = null;
     // -t
     private String timestampFormat = null;
+    private boolean timestampFormatSetByUser = false;
     // -v
     private boolean versionWanted = false;
 
@@ -733,6 +734,19 @@ public class Parameters implements
 
     public void setTimestampFormat(String timestampFormat) {
         this.timestampFormat = timestampFormat;
+        // null discards the format and with it the fact that the user has set it
+        this.timestampFormatSetByUser = timestampFormat != null;
+    }
+
+    /**
+     * Determines whether the timestamp format has been set by the user (option -t) rather than by a
+     * style (option -C/--style), because a style sets the field directly, see also
+     * handleCompatibility().
+     *
+     * @return true if the timestamp format has been set by the user.
+     */
+    public boolean isTimestampFormatSetByUser() {
+        return timestampFormatSetByUser;
     }
 
     @Override
@@ -1885,7 +1899,7 @@ public class Parameters implements
             list.add(__THREADS_READING);
             list.add(String.valueOf(getThreadsReading()));
         }
-        if (isTimestampWanted()) {
+        if (isTimestampFormatSetByUser()) {
             list.add(_TIMESTAMP);
             list.add(getTimestampFormat());
         }
@@ -2379,7 +2393,11 @@ public class Parameters implements
 
         // both timestamp and sequence have been specified
         if (timestampFormat != null && sequence != null) {
-            messenger.print(WARNING, "A sequence (-q) has been specified, timestamp (-t) will be ignored.");
+            // only warn if the user has asked for a timestamp, the format could also come from a style
+            if (isTimestampFormatSetByUser()) {
+                messenger.print(WARNING, "A sequence (-q) has been specified, timestamp (-t) will be ignored.");
+            }
+            setTimestampFormat(null);
         }
 
         // verification mode, but format has been set using -F <format>
@@ -2395,8 +2413,11 @@ public class Parameters implements
         }
 
         if (stdin && timestampFormat != null) {
+            // only warn if the user has asked for a timestamp, the format could also come from a style
+            if (isTimestampFormatSetByUser()) {
+                messenger.print(WARNING, String.format("Option %s has been ignored, because standard input is used.", __TIMESTAMP));
+            }
             setTimestampFormat(null);
-            messenger.print(WARNING, String.format("Option %s has been ignored, because standard input is used.", __TIMESTAMP));
         }
 
         if (this.isGnuEscapingSetByUser() && this.isGnuEscaping() && OSControl.isWindows()) {
@@ -2499,7 +2520,7 @@ public class Parameters implements
                     }
                 }
 
-                if (this.isTimestampWanted()) {
+                if (this.isTimestampFormatSetByUser()) {
                     // if the style allows overwriting the timestamp format and the timestamp format has been set using -t ...
                     if (compatibilityProperties.isTimestampSupported() && compatibilityProperties.isTimestampFormatUserSelectable()) {
                         // ... we overwrite the default in the compatibilityProperties object ...
@@ -2544,7 +2565,9 @@ public class Parameters implements
                 if (this.getCommentChars() == null && compatibilityProperties.getIgnoreLinesStartingWithString() != null) {
                     this.setCommentChars(compatibilityProperties.getIgnoreLinesStartingWithString());
                 }
-                this.setTimestampFormat(compatibilityProperties.getTimestampFormat());
+                // assign the field directly, so that the style does not mark the timestamp format
+                // as being set by the user, see also gnuEscaping a few lines above
+                timestampFormat = compatibilityProperties.getTimestampFormat();
 
                 AbstractChecksum.setStdinName(compatibilityProperties.getStdinName());
 

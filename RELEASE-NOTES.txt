@@ -222,6 +222,18 @@ Jacksum 4.0.0, August TBD, 2026
       with the comment character, which means that such a line was silently ignored while it was being
       read back. For a sequence (-q) the token was replaced by the epoch (1970-01-01). The token is now
       replaced by an empty string if no timestamp is available.
+    - the default output format printed the epoch (1970-01-01) as the timestamp if -t was set and the
+      data did not come from a file, e.g. "jacksum -a sha1 -t default -q txt:abc" or
+      "jacksum -a sha1 -t default --string-list <list>"; no timestamp (and no separator for it) is
+      written now if no timestamp is available, which is the behavior of the token #TIMESTAMP as well
+    - the warning "A sequence (-q) has been specified, timestamp (-t) will be ignored." did not tell
+      the truth, because the timestamp format was kept and the epoch was printed; the timestamp format
+      is actually being discarded now, as it has always been the case for standard input
+    - both warnings about an ignored option -t (the one for a sequence and the one for standard input)
+      were also printed if -t had not been set at all, but the timestamp format came from a style
+      (-C/--style), e.g. "jacksum -q txt:abc -a sha1 --style full"; Jacksum keeps track of whether the
+      timestamp format has been set by the user now, so such a warning is only printed if the user
+      has actually specified -t
     - a timestamp format (-t) that contains a space produced lines that could not be parsed, because the
       timestamp cannot be told apart from the fields that follow it; all files were reported as MISSING.
       Such a format is now rejected with a parameter error if it is combined with -c resp. -w. None of

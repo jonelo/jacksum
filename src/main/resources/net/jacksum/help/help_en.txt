@@ -4027,7 +4027,8 @@ OPTIONS
 \
 \
             A timestamp is only available if the data comes from a file. If the
-            data comes from standard input or from a sequence (-q), the token
+            data comes from standard input, from a sequence (-q), or from a
+            string (--string-list), no timestamp is written at all, and the token
             #TIMESTAMP is replaced by an empty string.
 \
             A <format> that contains a space cannot be combined with the options
