@@ -94,9 +94,15 @@ Jacksum 4.0.0, August TBD, 2026
       HMACs are no longer part of that ranking
   - added troubleshooting features
     - added Java Heap Info if the option --info has been set
-  - new sequence type for the options -q and -k
+  - new sequence types for the options -q and -k
     - z-base-32, e.g. "jacksum -q z-base-32:cfz8g75fqeog1h3ygo3y"; so far z-base-32 was supported
       for the output (-E z-base-32) only
+    - bubblebabble, e.g. "jacksum -q bubblebabble:xesef-disof-gytuf-katof-movif-baxux"; so far
+      BubbleBabble was supported for the output (-E bb) only; the decoder verifies the redundancy
+      that is part of the BubbleBabble encoding, so invalid strings are rejected rather than
+      being decoded to arbitrary bytes; as a consequence the option -e can compare a BubbleBabble
+      encoded hash value byte-wise now (public API: the new method
+      net.loefflmann.sugar.encodings.BubbleBabble.decode(String))
   - improved the diagnostics
     - a file whose name starts with the comment string (by default "#", ";" for the style sfv) produces
       a line that is treated as a comment while the list is being read back, so such a file is silently

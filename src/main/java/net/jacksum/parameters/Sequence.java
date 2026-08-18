@@ -31,7 +31,8 @@ public class Sequence implements Serializable {
     public enum Type {
         TXT("txt"), TXTF("txtf"), DEC("dec"), HEX("hex"), BIN("bin"), OCT("oct"),
         BASE32("base32"), BASE32HEX("base32hex"), BASE64("base64"), BASE64URL("base64url"),
-        Z85("z85"), ZBASE32("z-base-32"), READLINE("readline"), PASSWORD("password"), FILE("file");
+        Z85("z85"), ZBASE32("z-base-32"), BUBBLEBABBLE("bubblebabble"),
+        READLINE("readline"), PASSWORD("password"), FILE("file");
 
         private final String code;
 

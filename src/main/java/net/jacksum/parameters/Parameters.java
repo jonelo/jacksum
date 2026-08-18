@@ -699,9 +699,17 @@ public class Parameters implements
         if (expectedAsBytes == null) {
             if (isEncodingSet() && getEncoding().equals(Encoding.HEX) && !isGroupingSet()) {
                 expectedAsBytes = EncodingDecoding.sequence2bytes(Sequence.Type.HEX, expected);
+            } else if (isEncodingSet() && getEncoding().equals(Encoding.BUBBLEBABBLE)) {
+                // grouping is not supported by the BubbleBabble encoding, so it can be ignored here
+                try {
+                    expectedAsBytes = EncodingDecoding.sequence2bytes(Sequence.Type.BUBBLEBABBLE, expected);
+                } catch (IllegalArgumentException iae) {
+                    // the expected value is not a valid BubbleBabble string, let the caller
+                    // fall back to the comparison of the strings which returns NO MATCH
+                    throw new UnsupportedOperationException(iae.getMessage());
+                }
             } else {
                 throw new UnsupportedOperationException();
-                // TODO: transform BubbleBabble to bytes
                 // TODO: transform Hex with grouping chars to bytes
                 // TODO: transform dec, oct, base32, base64, etc. to bytes
             }

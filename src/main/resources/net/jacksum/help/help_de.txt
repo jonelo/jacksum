@@ -3802,14 +3802,23 @@ OPTIONS
 \
                 - Text oder formatierter Text
                 - binäre, dezimale, oktale oder hexadezimale Sequenz
-                - Base32-, Base32hex-, Base64-, Base64url-, z-base-32-
-                  oder z85-kodierte Zeichenkette
+                - Base32-, Base32hex-, Base64-, Base64url-, z-base-32-,
+                  z85- oder BubbleBabble-kodierte Zeichenkette
                 - eine Datei (max. 128 MiB)
                 - Eingabe über die Konsole, sichtbar oder verborgen
 \
             Ist <type> nicht gesetzt, wird erwartet, dass die Sequenz
             in Hex-Form vorliegt.
             Folgende Werte für <type> werden unterstützt:
+\
+\
+                bubblebabble
+\
+                    Eine BubbleBabble-kodierte Zeichenkette. Weitere
+                    Informationen siehe auch die Option -E.
+\
+                    Beispiel:
+                        > jacksum -q bubblebabble:xesef-disof-gytuf-katof-movif-baxux
 \
 \
                 base32
@@ -4104,8 +4113,9 @@ OPTIONS
                 Version 1.3.0 von Jacksum (nur hex), "type" seit
                 Version 1.5.0, die Typen "bin" und "txtf" seit Version
                 3.0.0, Typ "file" seit Version 3.1.0 von Jacksum,
-                Konsolenmodus seit Version 3.7.0 von Jacksum, Typ
-                "z-base-32" seit Version 4.0.0 von Jacksum.
+                Konsolenmodus seit Version 3.7.0 von Jacksum, die Typen
+                "z-base-32" und "bubblebabble" seit Version 4.0.0 von
+                Jacksum.
 
 
     --scan-all-unix-file-types

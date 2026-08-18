@@ -144,6 +144,9 @@ public class EncodingDecoding {
             case ZBASE32:
                 bytes = ZBase32.decode(sequence);
                 break;
+            case BUBBLEBABBLE:
+                bytes = BubbleBabble.decode(sequence);
+                break;
             case FILE:
                 try {
                     Path p = Path.of(sequence);

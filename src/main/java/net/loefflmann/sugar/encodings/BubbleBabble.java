@@ -23,6 +23,8 @@
  */
 package net.loefflmann.sugar.encodings;
 
+import java.util.Locale;
+
 /*
   encode() has been ported to Java from the OpenSSH's C source called key.c by
   Johann N. Loefflmann
@@ -56,11 +58,12 @@ package net.loefflmann.sugar.encodings;
  */
 public class BubbleBabble {
 
-    public static String encode(byte[] raw) {
+    private static final char[] VOWELS = {'a', 'e', 'i', 'o', 'u', 'y'};
 
-        char[] vowels = {'a', 'e', 'i', 'o', 'u', 'y'};
-        char[] consonants = {'b', 'c', 'd', 'f', 'g', 'h', 'k', 'l', 'm',
-            'n', 'p', 'r', 's', 't', 'v', 'z', 'x'};
+    private static final char[] CONSONANTS = {'b', 'c', 'd', 'f', 'g', 'h', 'k', 'l', 'm',
+        'n', 'p', 'r', 's', 't', 'v', 'z', 'x'};
+
+    public static String encode(byte[] raw) {
 
         int seed = 1;
         int rounds = (raw.length / 2) + 1;
@@ -77,17 +80,17 @@ public class BubbleBabble {
                 idx1 = ((((int) (raw[2 * i])) & 0xff) >>> 2) & 15;
                 idx2 = (((((int) (raw[2 * i])) & 0xff) & 3) + (seed / 6)) % 6;
 
-                retval.append(vowels[idx0]);
-                retval.append(consonants[idx1]);
-                retval.append(vowels[idx2]);
+                retval.append(VOWELS[idx0]);
+                retval.append(CONSONANTS[idx1]);
+                retval.append(VOWELS[idx2]);
 
                 if (i + 1 < rounds) {
                     idx3 = ((((int) (raw[2 * i + 1])) & 0xff) >>> 4) & 15;
                     idx4 = (((int) (raw[2 * i + 1])) & 0xff) & 15;
 
-                    retval.append(consonants[idx3]);
+                    retval.append(CONSONANTS[idx3]);
                     retval.append('-');
-                    retval.append(consonants[idx4]);
+                    retval.append(CONSONANTS[idx4]);
                     seed = ((seed * 5)
                             + (((((int) (raw[2 * i])) & 0xff) * 7)
                             + (((int) (raw[2 * i + 1])) & 0xff))) % 36;
@@ -96,14 +99,148 @@ public class BubbleBabble {
                 idx0 = seed % 6;
                 idx1 = 16;
                 idx2 = seed / 6;
-                retval.append(vowels[idx0]);
-                retval.append(consonants[idx1]);
-                retval.append(vowels[idx2]);
+                retval.append(VOWELS[idx0]);
+                retval.append(CONSONANTS[idx1]);
+                retval.append(VOWELS[idx2]);
             }
         }
 
         retval.append('x');
         return retval.toString();
+    }
+
+    /**
+     * Method to decode a BubbleBabble encoded String into the original bytes.
+     * It is the inverse operation of encode(). The redundancy that is part of
+     * the BubbleBabble encoding is verified, so that both typos and transmission
+     * errors are detected rather than silently decoded to arbitrary bytes.
+     *
+     * @param babble the BubbleBabble string to decode, both lower and upper case
+     *               characters are supported.
+     * @return the original decoded data.
+     * @throws IllegalArgumentException if invalid BubbleBabble data was specified.
+     */
+    public static byte[] decode(String babble) throws IllegalArgumentException {
+        if (babble == null) {
+            throw new IllegalArgumentException("BubbleBabble decoding error: the input is null.");
+        }
+        // the BubbleBabble alphabet is not case sensitive
+        String input = babble.toLowerCase(Locale.US);
+        int length = input.length();
+
+        // x|abcd-e|abcd-e|fgh|x, i. e. 6 chars per round, but 3 chars for the last
+        // round, plus the two 'x' that frame the tuples: length = 6 * rounds - 1
+        if (length < 5 || (length % 6) != 5) {
+            throw new IllegalArgumentException(String.format(
+                    "BubbleBabble decoding error: %s is not a valid length for a BubbleBabble string.", length));
+        }
+        if (input.charAt(0) != 'x' || input.charAt(length - 1) != 'x') {
+            throw new IllegalArgumentException(
+                    "BubbleBabble decoding error: the string must both start and end with an 'x'.");
+        }
+
+        int rounds = (length + 1) / 6;
+        // The consonant in the middle of the last tuple is an 'x' if and only if the
+        // number of the encoded bytes is even, because a tuple that carries data never
+        // uses an 'x' at that position (see idx1 in encode(), it is 0 to 15, never 16).
+        boolean even = input.charAt(6 * (rounds - 1) + 2) == 'x';
+        byte[] raw = new byte[2 * (rounds - 1) + (even ? 0 : 1)];
+
+        int seed = 1;
+        for (int i = 0; i < rounds; i++) {
+            int pos = 1 + (6 * i);
+
+            if (i + 1 < rounds) {
+                byte byte1 = tuple2byte(input, pos, seed);
+
+                if (input.charAt(pos + 3 + 1) != '-') {
+                    throw new IllegalArgumentException(String.format(
+                            "BubbleBabble decoding error: a '-' was expected at index %s.", pos + 4));
+                }
+                byte byte2 = (byte) ((consonant2index(input.charAt(pos + 3)) << 4)
+                        | consonant2index(input.charAt(pos + 5)));
+
+                raw[2 * i] = byte1;
+                raw[2 * i + 1] = byte2;
+
+                seed = ((seed * 5)
+                        + (((((int) byte1) & 0xff) * 7)
+                        + (((int) byte2) & 0xff))) % 36;
+            } else if (even) {
+                // the last tuple does not carry data, it just encodes the seed
+                if (vowel2index(input.charAt(pos)) != (seed % 6)
+                        || vowel2index(input.charAt(pos + 2)) != (seed / 6)) {
+                    throw new IllegalArgumentException(String.format(
+                            "BubbleBabble decoding error: the checksum of the tuple at index %s does not match.", pos));
+                }
+            } else {
+                raw[raw.length - 1] = tuple2byte(input, pos, seed);
+            }
+        }
+
+        return raw;
+    }
+
+    /**
+     * Decodes the three characters (vowel, consonant, vowel) at the given index
+     * to the one byte that they carry.
+     *
+     * @param input the BubbleBabble string, in lower case.
+     * @param pos   the index of the first of the three characters.
+     * @param seed  the current value of the seed.
+     * @return the decoded byte.
+     * @throws IllegalArgumentException if the characters are not valid, or if the
+     *                                  redundancy that is provided by the seed does not match.
+     */
+    private static byte tuple2byte(String input, int pos, int seed) throws IllegalArgumentException {
+        int idx0 = vowel2index(input.charAt(pos));
+        int idx1 = consonant2index(input.charAt(pos + 1));
+        int idx2 = vowel2index(input.charAt(pos + 2));
+
+        // the vowels carry two bits each, so both values have to be 0 to 3
+        int high = ((idx0 - (seed % 6)) + 6) % 6;
+        int low = ((idx2 - (seed / 6)) + 6) % 6;
+        if (high > 3 || low > 3) {
+            throw new IllegalArgumentException(String.format(
+                    "BubbleBabble decoding error: the checksum of the tuple at index %s does not match.", pos));
+        }
+        return (byte) ((high << 6) | (idx1 << 2) | low);
+    }
+
+    /**
+     * Returns the index of the given vowel in the BubbleBabble vowel alphabet.
+     *
+     * @param vowel the character to look up.
+     * @return the index of the vowel, it is 0 to 5.
+     * @throws IllegalArgumentException if the character is not a BubbleBabble vowel.
+     */
+    private static int vowel2index(char vowel) throws IllegalArgumentException {
+        for (int i = 0; i < VOWELS.length; i++) {
+            if (VOWELS[i] == vowel) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException(String.format(
+                "BubbleBabble decoding error: '%s' is not a valid vowel.", vowel));
+    }
+
+    /**
+     * Returns the index of the given consonant in the BubbleBabble consonant alphabet.
+     * The 'x' is not accepted, because it never carries data.
+     *
+     * @param consonant the character to look up.
+     * @return the index of the consonant, it is 0 to 15.
+     * @throws IllegalArgumentException if the character is not a BubbleBabble consonant
+     *                                  that carries data.
+     */
+    private static int consonant2index(char consonant) throws IllegalArgumentException {
+        for (int i = 0; i < CONSONANTS.length - 1; i++) { // the last one is the 'x'
+            if (CONSONANTS[i] == consonant) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException(String.format(
+                "BubbleBabble decoding error: '%s' is not a valid consonant at this position.", consonant));
     }
 
 }
