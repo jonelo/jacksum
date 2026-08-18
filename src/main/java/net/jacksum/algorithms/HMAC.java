@@ -91,6 +91,19 @@ public class HMAC extends AbstractChecksum  {
 	}
 
 	/**
+	 * Returns the number of significant bits of the value that is returned by
+	 * getByteArray(). For a truncated HMAC this is less than getSize(), because
+	 * getSize() returns the width of the underlying hash function.
+	 *
+	 * @return the number of significant bits in the byte array
+	 * @since Jacksum 4.0.0
+	 */
+	@Override
+	public int getOutputSizeInBits() {
+		return outputLengthInBits > 0 ? Math.min(outputLengthInBits, digest.getSize()) : digest.getSize();
+	}
+
+	/**
 	 * Initialize the HMAC with a key.
 	 * 
 	 * @param key a byte array containing a secret.
@@ -192,6 +205,10 @@ public class HMAC extends AbstractChecksum  {
 			outputLengthInBytes = (outputLengthInBits / 8) + (outputLengthInBits % 8 > 0 ? 1 : 0);
 			if (outputLengthInBytes > result.length) {
 				outputLengthInBytes = result.length;
+			} else {
+				// the truncation is actually in effect; if it is not a multiple of 8,
+				// the surplus bits of the least significant byte have to be zeroed
+				rest = outputLengthInBits % 8;
 			}
 		} else {
 			outputLengthInBytes = result.length;

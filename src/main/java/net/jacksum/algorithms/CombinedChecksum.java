@@ -187,6 +187,25 @@ public class CombinedChecksum extends AbstractChecksum {
     }
 
     /**
+     * Returns the number of significant bits of the value that is returned by
+     * getByteArray(), that is the sum of the significant bits of all combined
+     * algorithms. It can be less than getSize(), because an algorithm can
+     * contribute fewer significant bits than its hash length (a truncated HMAC,
+     * for example).
+     *
+     * @return the number of significant bits in the byte array
+     * @since Jacksum 4.0.0
+     */
+    @Override
+    public int getOutputSizeInBits() {
+        int bits = 0;
+        for (AbstractChecksum algorithm : algorithms) {
+            bits += algorithm.getOutputSizeInBits();
+        }
+        return bits;
+    }
+
+    /**
      * Returns the result of the computation as a byte array.
      *
      * @return the result of the computation as a byte array

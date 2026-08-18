@@ -314,6 +314,19 @@ abstract public class AbstractChecksum implements Checksum {
         return bitWidth;
     }
 
+    /**
+     * Returns the number of significant bits of the value that is returned by
+     * getByteArray(). By default this is the hash length in bits, see getSize().
+     * Algorithms whose getByteArray() carries fewer significant bits than
+     * getSize() reports (a truncated HMAC, for example) override this method.
+     *
+     * @return the number of significant bits in the byte array
+     * @since Jacksum 4.0.0
+     */
+    public int getOutputSizeInBits() {
+        return getSize();
+    }
+
     public String getValueFormatted(Encoding encoding) {
         return formatter.getFingerprintFormatter().format(getByteArray(), encoding);
     }

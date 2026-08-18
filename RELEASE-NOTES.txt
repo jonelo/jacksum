@@ -6,6 +6,9 @@ Jacksum 4.0.0, August TBD, 2026
     standard-compliant parameterization according to HMAC for sponge-based hash functions
     (RFC 2104 / FIPS 198-1); in general, an HMAC cannot be formed if the block size of the underlying hash
     function is smaller than its digest size
+  - a truncated HMAC (hmac:<algo>:<bits>) returns different values now if <bits> is not a multiple of 8,
+    because the surplus bits are zeroed as documented, see also the bug fixes below; "hmac:sha256:155"
+    for example no longer returns the same value as "hmac:sha256:160"
   - sum64 returns different values now, because the values that have been returned so far were wrong,
     see also the bug fixes below; only input whose sum of all byte values reaches 2^32 is affected,
     which is impossible for files smaller than 16,843,010 bytes (approx. 16 MiB, a file filled with
@@ -135,18 +138,25 @@ Jacksum 4.0.0, August TBD, 2026
       order to prepend a custom text to the header that is printed by --header
 
 - Bug fixes
-  - HMAC
-    - "Compatibility: HMAC:" in the output of --info has claimed "true" for the algorithms none and read,
-      although an HMAC cannot be formed with an algorithm that is not hash based
-    - improved the HMAC constraint: if blocksize < digestsize an HMAC cannot be calculated; that is the
-      case for all ascon algorithms, for example
-    - an HMAC without a key is rejected now: "-a hmac:<algo>" without the option -k exits with an error message
-      that asks for the option -k, rather than with an unspecific error
-    - the prompt is "Password: " twice if both options -k password and -q password have been specified
-      (e.g. "jacksum -q password -a hmac:sha256 -k password"), the prompt for the key is now
-      "Key (echo off): " to distinguish the input
-    - HMAC does not implement the reset() method correctly, which means that the same hash of the first
-      calculation is always returned
+  - concurrency (options --threads-hashing and --threads-reading)
+    - issue #30: a java.lang.OutOfMemoryError (e.g. in "Thread-0" or "pool-1-thread-4") can occur if the
+      producer is much faster than the consumer threads
+    - a read error on a file (e.g. a locked file such as NTUSER.DAT on Microsoft Windows) that was hashed
+      with multiple algorithms (--threads-hashing) could be reported as a success with a partially computed,
+      i.e. wrong, hash value. Such errors are now reliably detected and reported.
+    - an unexpected exception while hashing (--threads-hashing) could be silently swallowed and a partially
+      computed hash returned as if it were correct, or it could deadlock the process on large files. Errors
+      are now propagated and no longer silently ignored.
+    - during a parallel directory walk (--threads-reading) an unexpected exception on a single file could
+      make that file silently disappear from the output while the run still reported success. Such files are
+      now reported as an error.
+    - a crash in the file producer, or an interruption of the hashing engine, could leave the parallel
+      directory walk (--threads-reading) hanging forever instead of terminating. Termination is now
+      guaranteed.
+    - the parallel directory walk (--threads-reading) busy-waited for its worker pool to finish, needlessly
+      keeping one CPU core at 100%. It now waits without spinning.
+    - a short read that is not the end of the file is no longer misinterpreted as the last block, which could
+      truncate a hash or block the reader.
   - algorithms
     - sum64 was truncated to 32 bits and behaved like sum32, because getValue() reduced the accumulator
       modulo 2^32 twice ((value mod 2^32) mod 2^32) instead of keeping the full 64-bit value; the upper
@@ -157,15 +167,20 @@ Jacksum 4.0.0, August TBD, 2026
     - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC
       definition code if --info has been requested
     - issue #45: the expected eDonkey test vector hash in the code comments was wrong
-  - base32 and base32hex decoding (options -q and -k)
-    - issue #47: an unpadded base32 or base32hex encoded string was only accepted if its length
-      happened to be a multiple of 5, because the decoder decided between padded and unpadded input
-      by testing the length against 5 instead of the Base32 group size of 8; as a consequence
-      Jacksum could not read back its own base32-nopadding output, e.g. "-q base32:YDPMV7Q" was
-      rejected while "-q base32:YDPMV7Q=" worked
-    - an invalid base32 or base32hex string could terminate Jacksum with an uncaught
-      java.lang.ArrayIndexOutOfBoundsException instead of an error message, e.g.
-      "-q base32:========"; such strings are reported as invalid now
+  - HMAC
+    - improved the HMAC constraint: if blocksize < digestsize an HMAC cannot be calculated; that is the
+      case for all ascon algorithms, for example
+    - a truncated HMAC (hmac:<algo>:<bits>) did not zero the surplus bits if <bits> is not a multiple of 8,
+      although the documentation says so, because the number of surplus bits was never calculated and the
+      masking code was therefore unreachable; "hmac:sha256:155" for example returned the same value as
+      "hmac:sha256:160", see also the compatibility changes above
+    - an HMAC without a key is rejected now: "-a hmac:<algo>" without the option -k exits with an error message
+      that asks for the option -k, rather than with an unspecific error
+    - the prompt is "Password: " twice if both options -k password and -q password have been specified
+      (e.g. "jacksum -q password -a hmac:sha256 -k password"), the prompt for the key is now
+      "Key (echo off): " to distinguish the input
+    - HMAC does not implement the reset() method correctly, which means that the same hash of the first
+      calculation is always returned
   - encodings (option -E) and encoded output (option -F)
     - the option -F could not be used at all with the algorithms sum_bsd and crc16_minix, because their
       default encoding is an internal one that is not user selectable, and the formatter tried to resolve
@@ -195,6 +210,15 @@ Jacksum 4.0.0, August TBD, 2026
       there was no character at all; an empty string decodes to an empty byte array now
     - the encodings bin, dec, and oct returned "0" rather than an empty string for an empty byte array,
       unlike all other encodings (public API)
+  - base32 and base32hex decoding (options -q and -k)
+    - issue #47: an unpadded base32 or base32hex encoded string was only accepted if its length
+      happened to be a multiple of 5, because the decoder decided between padded and unpadded input
+      by testing the length against 5 instead of the Base32 group size of 8; as a consequence
+      Jacksum could not read back its own base32-nopadding output, e.g. "-q base32:YDPMV7Q" was
+      rejected while "-q base32:YDPMV7Q=" worked
+    - an invalid base32 or base32hex string could terminate Jacksum with an uncaught
+      java.lang.ArrayIndexOutOfBoundsException instead of an error message, e.g.
+      "-q base32:========"; such strings are reported as invalid now
   - styles (options -C/--compat/--style)
     - the styles bsd, openssl-dgst, and solaris-digest-v printed algorithm names that no tool of
       the respective platform uses, because the canonical names of the SHA-1/SHA-2 family in Jacksum
@@ -215,6 +239,37 @@ Jacksum 4.0.0, August TBD, 2026
       terminated Jacksum with an uncaught java.lang.IndexOutOfBoundsException and a stack trace
       while a file was being parsed; such a file is now rejected with an error message that names the
       property. A position that is not an integer is reported with a proper error message as well.
+  - verification, parsing, and output
+    - issue #32: --header not working using --quick
+    - issue #36: if multiple algorithms have been selected and file size is not wanted, Jacksum does not
+      find valid entries
+    - issue #37: parser does not find valid entries if algorithm "none" (no hashing) has been selected
+    - issue #38: if hash values are not wanted by the user, there should be no leading separator character
+      left in the output
+    - issue #40: output style for BSD is not 100% compatible for the cases sha512/224, sha512/256, and
+      skein-512-512
+    - records with the same comments in wanted list files are no longer ignored. While ignoring duplicate
+      file names in check files makes sense for the option --check-file, that setting is suboptimal if the
+      option --wanted-list is used, because file names are treated as comments in wanted lists.
+    - hash values were compared case sensitively by the options -c, -w, and by -e in combination with
+      files, although the documentation of -e promises a tolerant comparison for all encodings but Base64,
+      and although the options -q and --string-list have always been tolerant. As a consequence a check
+      file in SFV format that stores its CRCs in lower case was reported as FAILED although all hash values
+      matched (the SFV parser accepts both cases on purpose), and a wanted list (-w) that stores its hash
+      values in upper case, as many hash lists do, did not match a single file.
+    - the options -g and -G (grouped hash values) could be combined with -c and -w, but grouped hash values
+      cannot be parsed: the first group was taken as the whole hash value and the remaining groups became
+      part of the file name, so all files were reported as MISSING rather than OK or FAILED. Both
+      combinations are rejected with a parameter error now.
+    - the default output format appended the separator (by default a blank) even if there was no
+      file name at all, so a line ended with a trailing blank if a sequence was hashed by the
+      option -q, e.g. "jacksum -q txt:abc -a sha1"; the same happened for an empty line while the
+      option --string-list was being used; if the file name is empty, neither the file name nor the
+      separator in front of it is written now
+  - escape sequences
+    - issue #46: fixed four bugs in the interpretation of escape sequences, they affected the
+      options -q txtf:, -k txtf:, -s, -c, and --file-list; the interpretation happens in one single
+      pass now, and it is no longer implemented multiple times
   - timestamps
     - the token #TIMESTAMP was not replaced at all if the data did not come from a file: the literal
       string "#TIMESTAMP" occurred in the output for standard input, e.g. with the styles full,
@@ -238,56 +293,6 @@ Jacksum 4.0.0, August TBD, 2026
       timestamp cannot be told apart from the fields that follow it; all files were reported as MISSING.
       Such a format is now rejected with a parameter error if it is combined with -c resp. -w. None of
       the predefined formats is affected.
-  - verification, parsing, and output
-    - hash values were compared case sensitively by the options -c, -w, and by -e in combination with
-      files, although the documentation of -e promises a tolerant comparison for all encodings but Base64,
-      and although the options -q and --string-list have always been tolerant. As a consequence a check
-      file in SFV format that stores its CRCs in lower case was reported as FAILED although all hash values
-      matched (the SFV parser accepts both cases on purpose), and a wanted list (-w) that stores its hash
-      values in upper case, as many hash lists do, did not match a single file.
-    - the options -g and -G (grouped hash values) could be combined with -c and -w, but grouped hash values
-      cannot be parsed: the first group was taken as the whole hash value and the remaining groups became
-      part of the file name, so all files were reported as MISSING rather than OK or FAILED. Both
-      combinations are rejected with a parameter error now.
-    - records with the same comments in wanted list files are no longer ignored. While ignoring duplicate
-      file names in check files makes sense for the option --check-file, that setting is suboptimal if the
-      option --wanted-list is used, because file names are treated as comments in wanted lists.
-    - issue #32: --header not working using --quick
-    - the default output format appended the separator (by default a blank) even if there was no
-      file name at all, so a line ended with a trailing blank if a sequence was hashed by the
-      option -q, e.g. "jacksum -q txt:abc -a sha1"; the same happened for an empty line while the
-      option --string-list was being used; if the file name is empty, neither the file name nor the
-      separator in front of it is written now
-    - issue #36: if multiple algorithms have been selected and file size is not wanted, Jacksum does not
-      find valid entries
-    - issue #37: parser does not find valid entries if algorithm "none" (no hashing) has been selected
-    - issue #38: if hash values are not wanted by the user, there should be no leading separator character
-      left in the output
-    - issue #40: output style for BSD is not 100% compatible for the cases sha512/224, sha512/256, and
-      skein-512-512
-  - escape sequences
-    - issue #46: fixed four bugs in the interpretation of escape sequences, they affected the
-      options -q txtf:, -k txtf:, -s, -c, and --file-list; the interpretation happens in one single
-      pass now, and it is no longer implemented multiple times
-  - concurrency (options --threads-hashing and --threads-reading)
-    - issue #30: a java.lang.OutOfMemoryError (e.g. in "Thread-0" or "pool-1-thread-4") can occur if the
-      producer is much faster than the consumer threads
-    - a read error on a file (e.g. a locked file such as NTUSER.DAT on Microsoft Windows) that was hashed
-      with multiple algorithms (--threads-hashing) could be reported as a success with a partially computed,
-      i.e. wrong, hash value. Such errors are now reliably detected and reported.
-    - an unexpected exception while hashing (--threads-hashing) could be silently swallowed and a partially
-      computed hash returned as if it were correct, or it could deadlock the process on large files. Errors
-      are now propagated and no longer silently ignored.
-    - during a parallel directory walk (--threads-reading) an unexpected exception on a single file could
-      make that file silently disappear from the output while the run still reported success. Such files are
-      now reported as an error.
-    - a crash in the file producer, or an interruption of the hashing engine, could leave the parallel
-      directory walk (--threads-reading) hanging forever instead of terminating. Termination is now
-      guaranteed.
-    - the parallel directory walk (--threads-reading) busy-waited for its worker pool to finish, needlessly
-      keeping one CPU core at 100%. It now waits without spinning.
-    - a short read that is not the end of the file is no longer misinterpreted as the last block, which could
-      truncate a hash or block the reader.
 
 - Improved performance
   - the output of --header is buffered and printed at once rather than line by line
