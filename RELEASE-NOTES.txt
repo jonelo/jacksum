@@ -6,39 +6,42 @@ Jacksum 4.0.0, August TBD, 2026
     standard-compliant parameterization according to HMAC for sponge-based hash functions
     (RFC 2104 / FIPS 198-1); in general, an HMAC cannot be formed if the block size of the underlying hash
     function is smaller than its digest size
-  - an HMAC without a key is rejected now: "-a hmac:<algo>" without the option -k exits with an error message
-    that asks for the option -k, rather than with an unspecific error
   - sum64 returns different values now, because the values that have been returned so far were wrong,
-    see also the bug fixes below
-  - public API: the method Parameters.checked() has got an overload called
+    see also the bug fixes below; only input whose sum of all byte values reaches 2^32 is affected,
+    which is impossible for files smaller than 16,843,010 bytes (approx. 16 MiB, a file filled with
+    0xFF bytes only), and in practice the difference starts at approx. 32 MiB for uniformly
+    distributed binary data and even later for text files
+  - the style openssl-dgst now follows the names of OpenSSL 3.x and later; the style openssl111-dgst has been
+    added in order to get the traditional OpenSSL 1.1.1 behavior
+
+- API changes
+  - added the API methods JacksumAPI.getBrokenState() and JacksumAPI.getBrokenDescription() so that
+    programs that use Jacksum as a library can determine whether an algorithm is broken; if many
+    algorithms are queried, JacksumAPI.preloadBrokenStates() builds a cache for all subsequent queries
+  - the method Parameters.checked() has got an overload called
     Parameters.checked(boolean setupStreams) which allows a caller to validate the parameters without setting
     up the output and error streams (requested by HashGarten, issue #12); the parameterless method
     keeps its behavior
-  - the style openssl-dgst follows the names of OpenSSL 3.x and later; the style openssl111-dgst has been
-    added in order to get the traditional OpenSSL 1.1.1 behavior
 
 - New algorithms
   - 97 new algorithms (including their different lengths) have been added;
     Jacksum now supports 586 algorithms!
   - added belt-hash, the hash function of the Belarusian national standard STB 34.101.31
-  - added MD6 (md6-8 to md6-512, in steps of 8); it was submitted by Ronald L. Rivest et al. to
-    round 1 of the NIST SHA-3 competition
-  - added Edon-R (edonr-[224,256,384,512]); it was submitted by Danilo Gligoroski et al. to
-    round 1 of the NIST SHA-3 competition
   - added Romulus-H v1.3 (romulush); it is one of the finalists of the Lightweight Cryptography
     Competition held by NIST
   - added Fugue 2.0 (fugue2-[224,256,384,512]), the tweak of Fugue that IBM published in April 2012
-    after the NIST SHA-3 competition had ended. Section 5.2 of the specification defines all four
-    output lengths, but only the 256-bit variant was ever implemented by its designers.
-  - the new Fugue 2.0 code also provides an alternate implementation (option -A) of the original
-    Fugue, i.e. of fugue[224,256,384,512], which so far had a single implementation only
+    after the NIST SHA-3 competition had ended. The new Fugue 2.0 code also provides an alternate
+    implementation (option -A) of the original Fugue, i.e. of fugue[224,256,384,512]
   - added 5 algorithm families (resp. 21 algorithms) from round 2 of the NIST SHA-3 competition:
     - BlueMidnightWish-[224,256,384,512]
     - SIMD-[224,256,384,512]
     - CubeHash-[224,256,384,512]
     - Hamsi-[224,256,384,512]
     - Shabal-[192,224,256,384,512]
-  - added CRCs
+  - added 2 algorithms from round 1 of the NIS SHA-3 competition:
+    - MD6 (md6-8 to md6-512, in steps of 8)
+    - Edon-R (edonr-[224,256,384,512])    
+  - added 2 CRCs
     - CRC-64 (NVM Express 64b CRC), called crc64_nvme
     - CRC-32 (Go Koopman), called crc32_go-koopman (issue #35)
 
@@ -71,7 +74,7 @@ Jacksum 4.0.0, August TBD, 2026
     - default-utc
     - iso8601utc, with the alias iso-utc
     - added the alias iso for the existing format iso8601
-  - extended the strict check mode (option --check-strict, available since Jacksum 3.0.0)
+  - extended the strict check mode (option --check-strict)
     - in strict check mode, all files must pass the verification process, and no files must have been
       added or removed
     - added strict check output to the verification summary
@@ -83,15 +86,10 @@ Jacksum 4.0.0, August TBD, 2026
       source of truth for it
     - added the keywords "details" and "nodetails" to the option -V/--verbose; "details" makes --info print
       the explanation of the value of "broken:" in addition to the value itself, and it is part of "all"
-    - added the API methods JacksumAPI.getBrokenState() and JacksumAPI.getBrokenDescription() so that
-      programs that use Jacksum as a library can determine whether an algorithm is broken; if many
-      algorithms are queried, JacksumAPI.preloadBrokenStates() builds a cache for all subsequent queries
     - added avalanche effect info to the algorithm info
     - allowed option -q to specify the sequence for the avalanche calculation
     - also added reversed and Koopman representations for the reciprocal polynomial representation if --info
       is set for a CRC
-    - recalculated the weights that determine the entry "Speed: relative rank:" in the output of --info,
-      HMACs are no longer part of that ranking
   - added troubleshooting features
     - added Java Heap Info if the option --info has been set
   - new sequence types for the options -q and -k
@@ -101,8 +99,7 @@ Jacksum 4.0.0, August TBD, 2026
       BubbleBabble was supported for the output (-E bb) only; the decoder verifies the redundancy
       that is part of the BubbleBabble encoding, so invalid strings are rejected rather than
       being decoded to arbitrary bytes; as a consequence the option -e can compare a BubbleBabble
-      encoded hash value byte-wise now (public API: the new method
-      net.loefflmann.sugar.encodings.BubbleBabble.decode(String))
+      encoded hash value byte-wise now
   - improved the diagnostics
     - a file whose name starts with the comment string (by default "#", ";" for the style sfv) produces
       a line that is treated as a comment while the list is being read back, so such a file is silently
@@ -143,16 +140,19 @@ Jacksum 4.0.0, August TBD, 2026
       although an HMAC cannot be formed with an algorithm that is not hash based
     - improved the HMAC constraint: if blocksize < digestsize an HMAC cannot be calculated; that is the
       case for all ascon algorithms, for example
-    - HMAC does not implement the reset() method correctly, which means that the same hash of the first
-      calculation is always returned
+    - an HMAC without a key is rejected now: "-a hmac:<algo>" without the option -k exits with an error message
+      that asks for the option -k, rather than with an unspecific error
     - the prompt is "Password: " twice if both options -k password and -q password have been specified
       (e.g. "jacksum -q password -a hmac:sha256 -k password"), the prompt for the key is now
       "Key (echo off): " to distinguish the input
+    - HMAC does not implement the reset() method correctly, which means that the same hash of the first
+      calculation is always returned
   - algorithms
     - sum64 was truncated to 32 bits and behaved like sum32, because getValue() reduced the accumulator
       modulo 2^32 twice ((value mod 2^32) mod 2^32) instead of keeping the full 64-bit value; the upper
       32 bits of the result were always zero. sum64 now returns the correct 64-bit sum (the Java long
-      already wraps modulo 2^64).
+      already wraps modulo 2^64); see also the compatibility changes above for the input sizes
+      that are affected by the changed values.
     - keccak-384 was not recognized as an alias
     - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC
       definition code if --info has been requested
