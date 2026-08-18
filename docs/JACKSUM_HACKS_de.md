@@ -1206,6 +1206,6 @@ mit denen Jacksum aufgerufen wurde. Nützlich für reproduzierbare Berichte und 
     # invoked on date: 2026-08-16T22:35:01.152+02:00
     #
     # invoked from: /private/tmp/jacksum-hacks-demo
-    # invocation args: --header -q hex:
+    # invocation args: --header -q txt:
     #___________________________________________________________________________________________
     a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a
