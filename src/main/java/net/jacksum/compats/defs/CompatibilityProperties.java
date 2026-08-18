@@ -526,6 +526,7 @@ public class CompatibilityProperties implements Serializable {
             case "gnu-linux":
             case "fciv":
             case "openssl-dgst":
+            case "openssl111-dgst":
             case "openssl-dgst-r":
             case "solaris-digest":
             case "solaris-digest-v":
@@ -564,6 +565,10 @@ public class CompatibilityProperties implements Serializable {
             case "openssl":
             case "openssl-tagged":
                 return "openssl-dgst";
+
+            case "openssl111":
+            case "openssl111-tagged":
+                return "openssl111-dgst";
 
             case "openssl-untagged":
             case "openssl-r":

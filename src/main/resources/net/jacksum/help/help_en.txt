@@ -1575,6 +1575,13 @@ OPTIONS
                     of files (option -c) if that is the only information
                     you are interested in.
 \
+                    Note: the file name is at the beginning of the line in this
+                    style, so a file whose name starts with the comment string
+                    (by default "#") cannot be verified later, because its line
+                    is treated as a comment while the list is being read back.
+                    Jacksum warns while it writes such a line, see also the
+                    option -I.
+\
                     Example:
 \
                     > jacksum --style names-only *.txt
@@ -1782,6 +1789,10 @@ OPTIONS
 \
                     This compatibility file can print and parse the output,
                     like that of the openssl program with dgst parameter.
+                    The algorithm names follow OpenSSL 3.x and later. OpenSSL 3.0
+                    has renamed many digests, e.g. SHA256 became SHA2-256, and
+                    BLAKE2b512 became BLAKE2B-512, while OpenSSL 4.0 kept those
+                    names.
 \
                     The compat file works with any algorithm supported by
                     Jacksum, it even works with concatenated algorithms.
@@ -1792,7 +1803,7 @@ OPTIONS
                     Example (hash truncated to simplify the output):
 \
                     > jacksum -a sha256 --style openssl-dgst *.txt
-                    SHA-256(gpl-3.0.txt)= 3972dc9744f6499f0f9b2dbf76696...
+                    SHA2-256(gpl-3.0.txt)= 3972dc9744f6499f0f9b2dbf76696...
 \
                     Available since version 3.0.0 of Jacksum.
 \
@@ -1821,6 +1832,39 @@ OPTIONS
                     ...6696f2ae7ad8af9b23dde66d6af86c9dfb36986 *gpl-3.0.txt
 \
                     Available since version 3.0.0 of Jacksum.
+\
+\
+                openssl111-dgst
+\
+                    Aliases: openssl111, openssl111-tagged
+\
+                    The same lightweight plain text file format as the style
+                    openssl-dgst, but with the algorithm names that OpenSSL
+                    1.1.1 and earlier print. OpenSSL 3.0 has renamed many
+                    digests, e.g. SHA256 became SHA2-256, BLAKE2b512 became
+                    BLAKE2B-512, and RIPEMD160 became RIPEMD-160, so use this
+                    style if you want to produce output for an environment that
+                    still expects the old names, and the style openssl-dgst
+                    otherwise.
+\
+                    Both styles read the output of any OpenSSL version, because
+                    the algorithm name that is stored in the file is not used to
+                    verify the hash values. There is no separate style for the
+                    untagged format (openssl dgst -r), because that format does
+                    not contain an algorithm name at all.
+\
+                    The compat file works with any algorithm supported by
+                    Jacksum, it even works with concatenated algorithms.
+                    GNU escaping can be disabled; see the option
+                    --gnu-filename-escaping for more information. If you do not
+                    specify -a, the algorithm defaults to sha3-256.
+\
+                    Example (hash truncated to simplify the output):
+\
+                    > jacksum -a sha256 --style openssl111-dgst *.txt
+                    SHA256(gpl-3.0.txt)= 3972dc9744f6499f0f9b2dbf76696...
+\
+                    Available since version 4.0.0 of Jacksum.
 \
 \
                 sizes-and-names
@@ -1861,6 +1905,13 @@ OPTIONS
                     If you do not specify -a, the algorithm defaults to crc32,
                     because that is the algorithm that was used during the
                     original design of the SFV format.
+\
+                    Note: the file name is at the beginning of the line in this
+                    style, so a file whose name starts with the comment string
+                    (";" for this style) cannot be verified later, because its
+                    line is treated as a comment while the list is being read
+                    back. Jacksum warns while it writes such a line, see also
+                    the option -I.
 \
                     Example:
 \
@@ -1909,7 +1960,7 @@ OPTIONS
                     Example (hash truncated to simplify the output):
 \
                     > jacksum -a sha256 --style solaris-digest-v *.txt
-                    sha-256 (gpl-3.0.txt) = 3972dc9744f6499f0f9b2dbf76696...
+                    sha256 (gpl-3.0.txt) = 3972dc9744f6499f0f9b2dbf76696...
 \
                     Available since version 3.0.0 of Jacksum.
 \
@@ -2972,6 +3023,14 @@ OPTIONS
             The value of the option also changes the comment string of the
             option --header.
 \
+            If <string> is not set, the string "#" is used, resp. the string
+            that the style has defined (e.g. ";" for the style sfv). A file
+            whose name starts with that string cannot be verified later, because
+            its line is treated as a comment while the list is being read back.
+            Jacksum warns while it writes such a line; set <string> to a string
+            that does not occur at the beginning of any of your file names to
+            avoid this.
+\
 \
             See also:
 \
@@ -3955,6 +4014,16 @@ OPTIONS
                     1 January 1970).
 \
                     Available since version 3.0.0 of Jacksum.
+\
+\
+            A timestamp is only available if the data comes from a file. If the
+            data comes from standard input or from a sequence (-q), the token
+            #TIMESTAMP is replaced by an empty string.
+\
+            A <format> that contains a space cannot be combined with the options
+            -c and -w, because a timestamp that contains a space cannot be told
+            apart from the fields that follow it. None of the predefined formats
+            above contains a space.
 \
 \
             See also:

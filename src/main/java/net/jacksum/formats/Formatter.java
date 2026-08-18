@@ -230,9 +230,16 @@ public class Formatter {
 
     private static void _replaceTimestampToken(StringBuilder buffer, AbstractChecksum abstractChecksum) {
         // timestamp
-        if (abstractChecksum.isTimestampWanted()) {
-            GeneralString.replaceAllStrings(buffer, "#TIMESTAMP", abstractChecksum.getTimestampFormatted());
+        if (buffer.indexOf("#TIMESTAMP") < 0) {
+            return;
         }
+        // a timestamp is only available if the data comes from a file, so the token
+        // is replaced by an empty string if the data comes from standard input or
+        // from a sequence (-q), rather than keeping the token or printing the epoch
+        GeneralString.replaceAllStrings(buffer, "#TIMESTAMP",
+                abstractChecksum.isTimestampWanted() && abstractChecksum.isTimestampAvailable()
+                        ? abstractChecksum.getTimestampFormatted()
+                        : "");
     }
     
     private static void _replaceSpecialCharTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {

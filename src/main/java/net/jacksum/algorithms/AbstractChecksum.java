@@ -46,6 +46,7 @@ abstract public class AbstractChecksum implements Checksum {
     protected long length;
     protected String filename;
     protected long timestamp;
+    protected boolean timestampAvailable;
     protected String name;
     protected int bitWidth;
     protected int blocksize;
@@ -66,6 +67,7 @@ abstract public class AbstractChecksum implements Checksum {
         filename = null;
         sequence = null;
         timestamp = 0;
+        timestampAvailable = false;
         bitWidth = 0;
         blocksize = 0;
 
@@ -373,10 +375,22 @@ abstract public class AbstractChecksum implements Checksum {
     public void setTimestamp(String filename) {
         File file = new File(filename);
         this.timestamp = file.lastModified();
+        this.timestampAvailable = true;
     }
 
     public long getTimestamp() {
         return timestamp;
+    }
+
+    /**
+     * Determines whether a timestamp is available. A timestamp is only
+     * available if the data comes from a file, but not if it comes from
+     * standard input or from a sequence (option -q).
+     *
+     * @return true if a timestamp is available.
+     */
+    public boolean isTimestampAvailable() {
+        return timestampAvailable;
     }
 
     /**

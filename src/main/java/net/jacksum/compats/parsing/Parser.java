@@ -33,6 +33,7 @@ import java.nio.charset.Charset;
 import java.nio.file.InvalidPathException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.function.IntSupplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -42,6 +43,11 @@ public class Parser {
     CompatibilityProperties props;
     private final ParserStatistics statistics;
     Pattern pattern;
+
+    // the canonical name of the algorithm that has been selected, and the flag that keeps
+    // the check of the algorithm name in the file a one time action, see checkAlgoname()
+    private String expectedAlgoname;
+    private boolean algonameChecked = false;
 
     public Parser(CompatibilityProperties props) throws InvalidParserParameterException {
         this.props = props;
@@ -61,6 +67,17 @@ public class Parser {
             nibbles = props.getHashNibbles();
         }
 
+        // the canonical name of the selected algorithm, in order to be able to compare it
+        // with the algorithm name that is stored in a file of a tagged style, see also
+        // checkAlgoname()
+        try {
+            expectedAlgoname = JacksumAPI.getChecksumInstance(props.getHashAlgorithm()).getName();
+        } catch (NoSuchAlgorithmException | RuntimeException ex) {
+            // e.g. an HMAC, which cannot be instantiated without a key; in that case
+            // the algorithm name that is stored in a file is not checked at all
+            expectedAlgoname = null;
+        }
+
         if (props.getRegexp() != null) {
             props.setRegexp(props.getRegexp().replace("#NIBBLES", Integer.toString(nibbles)));
             props.setRegexp(props.getRegexp().replace("#ALGONAME{uppercase}", props.getHashAlgorithm().toUpperCase(Locale.US)));
@@ -73,8 +90,55 @@ public class Parser {
             } catch (PatternSyntaxException pse) {
                 throw new InvalidParserParameterException(pse.getMessage());
             }
+
+            // a misconfigured parser must not end up in an exception while lines are
+            // being parsed, so all group positions are checked before they are used
+            int groups = pattern.matcher("").groupCount();
+            checkGroupPosition("parser.regexp.hashPos", position("parser.regexp.hashPos", props::getRegexpHashPos), groups);
+            checkGroupPosition("parser.regexp.filenamePos", position("parser.regexp.filenamePos", props::getRegexpFilenamePos), groups);
+            checkGroupPosition("parser.regexp.algonamePos", position("parser.regexp.algonamePos", props::getRegexpAlgonamePos), groups);
+            checkGroupPosition("parser.regexp.filesizePos", position("parser.regexp.filesizePos", props::getRegexpFilesizePos), groups);
+            checkGroupPosition("parser.regexp.timestampPos", position("parser.regexp.timestampPos", props::getRegexpTimestampPos), groups);
+            checkGroupPosition("parser.regexp.permissionsPos", position("parser.regexp.permissionsPos", props::getRegexpPermissionsPos), groups);
+            checkGroupPosition("parser.regexp.gnuEscapingPos", position("parser.regexp.gnuEscapingPos", props::getRegexpGnuEscapingPos), groups);
         } else {
             throw new InvalidParserParameterException(String.format("Regular Expression expected in parser \"%s\"", props.getCompatName()));
+        }
+    }
+
+    /**
+     * Returns the value of a property that determines the position of a group
+     * in the regular expression of the parser.
+     *
+     * @param property the name of the property
+     * @param supplier the supplier that reads the value of the property
+     * @return the value of the property
+     * @throws InvalidParserParameterException if the value is not an integer
+     */
+    private int position(String property, IntSupplier supplier) throws InvalidParserParameterException {
+        try {
+            return supplier.getAsInt();
+        } catch (NumberFormatException nfe) {
+            throw new InvalidParserParameterException(String.format(
+                    "The value of the property %s in parser \"%s\" must be an integer, but %s has been found.",
+                    property, props.getCompatName(), nfe.getMessage().replace("For input string: ", "")));
+        }
+    }
+
+    /**
+     * Checks whether a group position is covered by the regular expression of
+     * the parser.
+     *
+     * @param property the name of the property that determines the position
+     * @param pos the position of the group
+     * @param groups the number of groups in the regular expression
+     * @throws InvalidParserParameterException if the position is out of range
+     */
+    private void checkGroupPosition(String property, int pos, int groups) throws InvalidParserParameterException {
+        if (pos > groups) {
+            throw new InvalidParserParameterException(String.format(
+                    "The property %s in parser \"%s\" refers to the group %s, but the regular expression has %s group(s) only.",
+                    property, props.getCompatName(), pos, groups));
         }
     }
 
@@ -179,11 +243,49 @@ public class Parser {
                 hashEntry.setPermissions(matcher.group(props.getRegexpPermissionsPos()));
             }
 
+            if (!algonameChecked && props.getRegexpAlgonamePos() > 0) {
+                algonameChecked = true;
+                checkAlgoname(matcher.group(props.getRegexpAlgonamePos()));
+            }
+
             return hashEntry;
         } else {
             throw new ImproperlyFormattedLineException();
         }
 
+    }
+
+    /**
+     * Warns if the algorithm name that is stored in a file of a tagged style (e.g. bsd or
+     * openssl-dgst) belongs to an algorithm other than the one that has been selected.
+     *
+     * A hash value of an algorithm with a different length is already rejected by the
+     * regular expression of the parser, but an algorithm with the same length (e.g. sha256
+     * vs. sha3-256) would only be reported as FAILED, as if the file had been altered.
+     *
+     * Only a name that Jacksum can resolve is taken into account, because the name in the
+     * file is the name of the tool that has created it, and the very same algorithm can be
+     * spelled differently by different tools, e.g. SHA256 (OpenSSL 1.1.1), SHA2-256
+     * (OpenSSL 3.x), and sha256 (Solaris).
+     *
+     * @param algonameInFile the algorithm name that has been read from the file
+     */
+    private void checkAlgoname(String algonameInFile) {
+        if (expectedAlgoname == null || algonameInFile == null) {
+            return;
+        }
+        try {
+            // algorithm names are lowercase in Jacksum, while the tools spell them in
+            // various ways, e.g. SHA256, Skein512, and sha256
+            String algonameResolved = JacksumAPI.getChecksumInstance(algonameInFile.toLowerCase(Locale.US)).getName();
+            if (!algonameResolved.equals(expectedAlgoname)) {
+                System.err.printf("Jacksum: Warning: The file has been created with the algorithm \"%s\", but the algorithm \"%s\" has been selected.%n",
+                        algonameInFile, props.getHashAlgorithm());
+            }
+        } catch (NoSuchAlgorithmException | RuntimeException ex) {
+            // Jacksum does not know that name, so it is a name that is specific to the tool
+            // that has created the file, and we cannot tell whether it matches
+        }
     }
 
     /**

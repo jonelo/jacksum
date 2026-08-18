@@ -2284,6 +2284,15 @@ public class Parameters implements
             }
         }
 
+        // a timestamp that contains a space cannot be told apart from the fields that
+        // follow it, so such a timestamp cannot be parsed, see also the parsers of the
+        // styles that support timestamps and DefaultCompatibilityProperties
+        if (isTimestampWanted() && getTimestampFormat().contains(" ")
+                && (getCheckFile() != null || isWantedList())) {
+            throw new ParameterException(String.format("The timestamp format that has been set by %s must not contain a space if %s resp. %s is used, because such a timestamp cannot be parsed.",
+                    _TIMESTAMP, __CHECK_FILE, __WANTED_LIST));
+        }
+
         if (getCheckFile() != null && !getCheckFile().equals("-")) { // the - means: read from stdin
             File f = new File(getCheckFile());
             if (f.isDirectory()) {
@@ -2431,6 +2440,35 @@ public class Parameters implements
                     } else {
                         messenger.print(WARNING, String.format("Ignoring option %s, because the style \"%s\" only supports a hardcoded algorithm.", __ALGORITHM, compatibilityID));
                     }
+                }
+
+                // the style determines the encoding of the hash value, either by the
+                // property formatter.hash.encoding or by the encoding that is part of
+                // the format (e.g. #HASH{hex}), so an encoding that has been set by the
+                // user cannot have an effect. Note: this must happen before
+                // handleWarningsAndImplicitSettings(), because option -g sets -E hex
+                // implicitly and would cause a bogus warning here.
+                if (this.encoding != null) {
+                    Encoding encodingOfStyle = null;
+                    try {
+                        encodingOfStyle = Encoding.string2Encoding(compatibilityProperties.getHashEncoding());
+                    } catch (IllegalArgumentException iae) {
+                        // an invalid encoding in a style file is reported later, when it is being set
+                    }
+                    if (!this.encoding.equals(encodingOfStyle)) {
+                        messenger.print(WARNING, String.format("Ignoring option %s, because the style \"%s\" defines the encoding %s.",
+                                _ENCODING, compatibilityID, compatibilityProperties.getHashEncoding()));
+                    }
+                }
+
+                // a style that stores hash values cannot store one if there is no hash value;
+                // in check mode the combination is fine, it verifies the properties that are
+                // left (e.g. the existence of the files), see also --ignore-hashes
+                if (checkFile == null
+                        && "none".equals(compatibilityProperties.getHashAlgorithm())
+                        && compatibilityProperties.getRegexpHashPos() > 0) {
+                    messenger.print(WARNING, String.format("The style \"%s\" is defined for hash values, but the algorithm \"%s\" does not produce one, so the hash value stays empty.",
+                            compatibilityID, "none"));
                 }
 
                 if (this.isHeaderWantedExplicitlySet()) {

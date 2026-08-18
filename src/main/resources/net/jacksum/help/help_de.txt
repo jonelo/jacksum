@@ -1708,6 +1708,14 @@ OPTIONS
                     die einzige Information ist, an der Sie interessiert
                     sind.
 \
+                    Hinweis: Bei diesem Stil steht der Dateiname am
+                    Zeilenanfang. Eine Datei, deren Name mit der
+                    Kommentarzeichenkette beginnt (standardmäßig "#"),
+                    kann daher später nicht geprüft werden, da ihre Zeile
+                    beim Wiedereinlesen als Kommentar gilt. Jacksum warnt
+                    beim Schreiben einer solchen Zeile, siehe auch die
+                    Option -I.
+\
                     Beispiel:
 \
                     > jacksum --style names-only *.txt
@@ -1946,7 +1954,11 @@ OPTIONS
 \
                     Diese Kompatibilitätsdatei kann die Ausgabe ähnlich
                     zu der des openssl-Programms mit dem Parameter dgst
-                    drucken und parsen.
+                    drucken und parsen. Die Algorithmusnamen folgen
+                    OpenSSL 3.x und neuer. OpenSSL 3.0 hat viele
+                    Hashfunktionen umbenannt, z. B. wurde aus SHA256 dann
+                    SHA2-256 und aus BLAKE2b512 dann BLAKE2B-512;
+                    OpenSSL 4.0 hat diese Namen beibehalten.
 \
                     Die Style-Datei funktioniert mit jedem von Jacksum
                     unterstützten Algorithmus, sie funktioniert sogar mit
@@ -1958,7 +1970,7 @@ OPTIONS
                     Beispiel (Hash zur Vereinfachung der Ausgabe gekürzt):
 \
                     > jacksum -a sha256 --style openssl-dgst *.txt
-                    SHA-256(gpl-3.0.txt)= 3972dc9744f6499f0f9b2dbf76696...
+                    SHA2-256(gpl-3.0.txt)= 3972dc9744f6499f0f9b2dbf76696...
 \
                     Verfügbar seit Version 3.0.0 von Jacksum.
 \
@@ -1990,6 +2002,42 @@ OPTIONS
                     ...6696f2ae7ad8af9b23dde66d6af86c9dfb36986 *gpl-3.0.txt
 \
                     Verfügbar seit Version 3.0.0 von Jacksum.
+\
+\
+                openssl111-dgst
+\
+                    Aliase: openssl111, openssl111-tagged
+\
+                    Dasselbe schlanke Klartextdateiformat wie beim Stil
+                    openssl-dgst, jedoch mit den Algorithmusnamen, die
+                    OpenSSL 1.1.1 und älter ausgeben. OpenSSL 3.0 hat viele
+                    Hashfunktionen umbenannt, z. B. wurde aus SHA256 dann
+                    SHA2-256, aus BLAKE2b512 dann BLAKE2B-512 und aus
+                    RIPEMD160 dann RIPEMD-160. Verwenden Sie diesen Stil
+                    also, wenn Sie eine Ausgabe für eine Umgebung
+                    erzeugen wollen, die noch die alten Namen erwartet,
+                    ansonsten den Stil openssl-dgst.
+\
+                    Beide Stile lesen die Ausgabe jeder OpenSSL-Version,
+                    denn der in der Datei gespeicherte Algorithmusname
+                    wird für die Prüfung der Hashwerte nicht verwendet.
+                    Für das ungetaggte Format (openssl dgst -r) gibt es
+                    keinen eigenen Stil, da dieses Format überhaupt
+                    keinen Algorithmusnamen enthält.
+\
+                    Die Style-Datei funktioniert mit jedem von Jacksum
+                    unterstützten Algorithmus, sie funktioniert sogar mit
+                    verketteten Algorithmen. GNU-Escaping kann
+                    deaktiviert werden; weitere Informationen siehe die
+                    Option --gnu-filename-escaping. Geben Sie -a nicht
+                    an, ist sha3-256 der Standardalgorithmus.
+\
+                    Beispiel (Hash zur Vereinfachung der Ausgabe gekürzt):
+\
+                    > jacksum -a sha256 --style openssl111-dgst *.txt
+                    SHA256(gpl-3.0.txt)= 3972dc9744f6499f0f9b2dbf76696...
+\
+                    Verfügbar seit Version 4.0.0 von Jacksum.
 \
 \
                 sizes-and-names
@@ -2038,6 +2086,14 @@ OPTIONS
                     Standardalgorithmus, da dies der Algorithmus war, der
                     beim ursprünglichen Entwurf des SFV-Formats
                     verwendet wurde.
+\
+                    Hinweis: Bei diesem Stil steht der Dateiname am
+                    Zeilenanfang. Eine Datei, deren Name mit der
+                    Kommentarzeichenkette beginnt (bei diesem Stil ";"),
+                    kann daher später nicht geprüft werden, da ihre Zeile
+                    beim Wiedereinlesen als Kommentar gilt. Jacksum warnt
+                    beim Schreiben einer solchen Zeile, siehe auch die
+                    Option -I.
 \
                     Beispiel:
 \
@@ -2090,7 +2146,7 @@ OPTIONS
                     Beispiel (Hash zur Vereinfachung der Ausgabe gekürzt):
 \
                     > jacksum -a sha256 --style solaris-digest-v *.txt
-                    sha-256 (gpl-3.0.txt) = 3972dc9744f6499f0f9b2dbf76696...
+                    sha256 (gpl-3.0.txt) = 3972dc9744f6499f0f9b2dbf76696...
 \
                     Verfügbar seit Version 3.0.0 von Jacksum.
 \
@@ -3279,6 +3335,15 @@ OPTIONS
             Der Wert der Option ändert auch die Kommentarzeichenkette
             der Option --header.
 \
+            Ist <string> nicht gesetzt, wird "#" verwendet bzw. die
+            Zeichenkette, die der Stil festlegt (z. B. ";" beim Stil
+            sfv). Eine Datei, deren Name mit dieser Zeichenkette
+            beginnt, kann später nicht geprüft werden, da ihre Zeile
+            beim Wiedereinlesen als Kommentar gilt. Jacksum warnt beim
+            Schreiben einer solchen Zeile; setzen Sie <string> auf eine
+            Zeichenkette, die am Anfang keines Ihrer Dateinamen
+            vorkommt, um das zu vermeiden.
+\
 \
             Siehe auch:
 \
@@ -4373,6 +4438,18 @@ OPTIONS
                     1. Januar 1970 verstrichenen Millisekunden).
 \
                     Verfügbar seit Version 3.0.0 von Jacksum.
+\
+\
+            Ein Zeitstempel ist nur verfügbar, wenn die Daten aus einer
+            Datei stammen. Kommen die Daten von der Standardeingabe oder
+            aus einer Sequenz (-q), wird der Token #TIMESTAMP durch eine
+            leere Zeichenkette ersetzt.
+\
+            Ein <format>, das ein Leerzeichen enthält, kann nicht mit den
+            Optionen -c und -w kombiniert werden, da ein Zeitstempel mit
+            Leerzeichen nicht von den nachfolgenden Feldern unterschieden
+            werden kann. Keines der oben genannten vordefinierten Formate
+            enthält ein Leerzeichen.
 \
 \
             Siehe auch:

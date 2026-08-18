@@ -14,6 +14,8 @@ Jacksum 4.0.0, August TBD, 2026
     Parameters.checked(boolean setupStreams) which allows a caller to validate the parameters without setting
     up the output and error streams (requested by HashGarten, issue #12); the parameterless method
     keeps its behavior
+  - the style openssl-dgst follows the names of OpenSSL 3.x and later, openssl111-dgst has been added to get
+    the traditional OpenSSL 1.1.1 behavior.
 
 - New algorithms
   - 97 new algorithms (including their different lengths) have been added,
@@ -59,6 +61,12 @@ Jacksum 4.0.0, August TBD, 2026
     - sizes-and-names
     - timestamps-and-names
     - hash data base (hdb) style which is used by ClamAV's sigtool
+    - openssl111-dgst (aliases openssl111 and openssl111-tagged), it prints the format of
+      "openssl dgst" with the algorithm names of OpenSSL 1.1.1 and earlier, while the style
+      openssl-dgst follows the names of OpenSSL 3.x and later (SHA256 vs. SHA2-256 for example).
+      Both styles read the output of any OpenSSL version. There is no style for the untagged
+      format (openssl dgst -r) of OpenSSL 1.1.1, because that format does not contain an
+      algorithm name at all.
   - new timestamp formats
     - default-utc
     - iso8601utc, with the alias iso-utc
@@ -89,6 +97,25 @@ Jacksum 4.0.0, August TBD, 2026
   - new sequence type for the options -q and -k
     - z-base-32, e.g. "jacksum -q z-base-32:cfz8g75fqeog1h3ygo3y"; so far z-base-32 was supported
       for the output (-E z-base-32) only
+  - improved the diagnostics
+    - a file whose name starts with the comment string (by default "#", ";" for the style sfv) produces
+      a line that is treated as a comment while the list is being read back, so such a file is skipped
+      silently during a check, and the check passes although the file has never been verified. Jacksum
+      warns while it writes such a line now, and names the option -I that can change the string. The
+      styles files-only and sfv are affected, because they put the file name at the beginning of a line.
+    - options that a style overrules are reported consistently now: an encoding that has been set by -E
+      is ignored by every style (the styles define the encoding of the hash value), which was the only
+      case that has been silently ignored so far, while -a, -t, -F, --filesize and
+      --gnu-filename-escaping have always been reported
+    - the combination of "-a none" and a style that stores hash values (e.g. bsd) writes lines with an
+      empty hash value; that is reported now. In check mode the combination stays silent, because it is
+      a valid way to check the properties that are left, e.g. the existence of the files.
+    - if a style stores the algorithm name in the file (bsd, solaris-digest-v, openssl-dgst,
+      openssl111-dgst) and that name belongs to an algorithm other than the selected one, all files were
+      reported as FAILED, as if they had been altered. Jacksum names the cause now, e.g. 'The file has
+      been created with the algorithm "SHA256", but the algorithm "sha3-256" has been selected.'
+      A name that Jacksum cannot resolve is not reported, because tools spell the very same algorithm
+      differently, e.g. SHA256 (OpenSSL 1.1.1), SHA2-256 (OpenSSL 3.x), and sha256 (Solaris).
   - improved the usability
     - hash values that are read by the options -c, -e, and -w are compared without respecting upper and
       lower case now, unless the encoding that has been selected by -E has a case sensitive alphabet
@@ -162,6 +189,37 @@ Jacksum 4.0.0, August TBD, 2026
       there was no character at all; an empty string decodes to an empty byte array now
     - the encodings bin, dec, and oct returned "0" rather than an empty string for an empty byte array,
       unlike all other encodings (public API)
+  - styles (options -C/--compat/--style)
+    - the styles bsd, openssl-dgst, and solaris-digest-v have printed algorithm names that no tool of
+      the respective platform uses, because the canonical names of the SHA-1/SHA-2 family in Jacksum
+      contain a hyphen: "SHA-256 (file) = ..." instead of "SHA256 (file) = ..." for example, so an
+      output of Jacksum was rejected by the tools it claims to be compatible with, e.g.
+      "shasum -a 256 --check" answered "no properly formatted SHA checksum lines found". The output of
+      the style bsd is now identical with the output of md5, shasum --tag, and sha256sum --tag, and
+      the output of the style solaris-digest-v follows the algorithm names of "digest -v" on Solaris.
+      Reading files that have been created by those tools was not affected.
+    - the style openssl-dgst follows the algorithm names of OpenSSL 3.x and later now, its output is
+      identical with the output of "openssl dgst" again, both for hash functions and for HMACs.
+      OpenSSL 3.0 has renamed many digests, e.g. SHA256 became SHA2-256, BLAKE2b512 became
+      BLAKE2B-512, and RIPEMD160 became RIPEMD-160; OpenSSL 4.0 kept those names. Two mappings for
+      HMACs (hmac:sha512-224 and hmac:sha512-256) have never been in effect, because they did not use
+      the canonical algorithm names of Jacksum.
+    - a compatibility file (option -C) with a group position that is not covered by its regular
+      expression (e.g. parser.regexp.filenamePos=9 while the regular expression has two groups only)
+      has terminated Jacksum with an uncaught java.lang.IndexOutOfBoundsException and a stack trace
+      while a file was being parsed; such a file is rejected with an error message that names the
+      property now. A position that is not an integer is reported with a proper error message as well.
+  - timestamps
+    - the token #TIMESTAMP was not replaced at all if the data does not come from a file: the literal
+      string "#TIMESTAMP" occurred in the output for standard input, e.g. with the styles full,
+      without-hashes, without-sizes, and timestamps-and-names, and the resulting line could even start
+      with the comment character, which means that such a line was silently ignored while reading it
+      back. For a sequence (-q) the token was replaced by the epoch (1970-01-01). The token is replaced
+      by an empty string now if no timestamp is available.
+    - a timestamp format (-t) that contains a space produces lines that cannot be parsed, because the
+      timestamp cannot be told apart from the fields that follow it; all files were reported as MISSING.
+      Such a format is rejected with a parameter error in combination with -c resp. -w now. None of the
+      predefined formats is affected.
   - verification, parsing, and output
     - hash values were compared case sensitively by the options -c, -w, and by -e in combination with
       files, although the documentation of -e promises a tolerant comparison for all encodings but Base64,
@@ -235,6 +293,14 @@ Jacksum 4.0.0, August TBD, 2026
   - documented for the options -c, -e, -g, -G, and -w that hash values are compared without respecting
     upper and lower case unless the alphabet of the encoding is case sensitive, and that grouped hash
     values (-g, -G) cannot be verified (English and German)
+  - documented for the option -I and for the styles files-only and sfv that a file whose name starts
+    with the comment string cannot be verified later, because its line is treated as a comment while
+    the list is being read back (English and German)
+  - documented for the option -t that a timestamp is only available if the data comes from a file, and
+    that a format containing a space cannot be combined with -c resp. -w; corrected the examples of the
+    styles openssl-dgst and solaris-digest-v, which showed algorithm names that Jacksum does not print
+    anymore, and documented that the style openssl-dgst follows the algorithm names of OpenSSL 3.x
+    (English and German)
   - added info about the usage of the internal state value for verification of test vectors submitted for
     the NIST competition in the manpage for skein-256.
   - added the "Go API", and Homebrew to the compatibility lists

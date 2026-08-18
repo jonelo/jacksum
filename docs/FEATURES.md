@@ -47,7 +47,7 @@ option, see the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (`jack
     take advantage of multi-core processors and fast SSD storage
   - **Recursive traversal** with depth control, policies to follow symbolic links on files
     and/or folders, and file system cycle detection
-  - **18 predefined styles** for reading and writing check files and wanted lists, plus
+  - **19 predefined styles** for reading and writing check files and wanted lists, plus
     user defined styles
   - **17 encodings** for representing hash values
   - **6 predefined formats** for representing file timestamps, plus freely definable formats
@@ -227,14 +227,15 @@ For worked examples of all of those modes, see
 ## Predefined Styles
 
 Jacksum can not only read and write its own output, it is also able to read output that was
-produced by other tools, and to write output that other tools can read. 18 predefined styles are
+produced by other tools, and to write output that other tools can read. 19 predefined styles are
 available (option `--style`, aka `-C`, aka `--compat`):
 
 | `<style>` | purpose |
 | --- | --- |
 | `bsd`, `bsd-r` | tagged and untagged BSD format, also produced by `md5sum --tag` etc. on GNU/Linux, and by `cksum` of GNU Core Utilities 9.0 and later |
 | `gnu-linux` | the classic `md5sum`/`sha256sum` format |
-| `openssl-dgst`, `openssl-dgst-r` | the format of `openssl dgst` |
+| `openssl-dgst`, `openssl-dgst-r` | the format of `openssl dgst` (OpenSSL 3.x and later) |
+| `openssl111-dgst` | the format of `openssl dgst` with the algorithm names of OpenSSL 1.1.1 and earlier |
 | `sfv` | the Simple File Verification format |
 | `fciv` | the format of Microsoft's "File Checksum Integrity Verifier" |
 | `solaris-digest`, `solaris-digest-v` | the format of Solaris' `digest` command |

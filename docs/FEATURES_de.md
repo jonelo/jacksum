@@ -49,7 +49,7 @@ Option finden Sie in der [Manpage](https://github.com/jonelo/jacksum/wiki/Manpag
     Mehrkernprozessoren und schnelle SSD-Speicher auszunutzen
   - **Rekursive Traversierung** mit Tiefensteuerung, Regeln zum Folgen symbolischer Links auf
     Dateien und/oder Ordner sowie Erkennung von Dateisystem-Zyklen
-  - **18 vordefinierte Styles** zum Lesen und Schreiben von Prüflisten und Fahndungslisten, dazu
+  - **19 vordefinierte Styles** zum Lesen und Schreiben von Prüflisten und Fahndungslisten, dazu
     benutzerdefinierte Styles
   - **17 Kodierungen** zur Darstellung von Hashwerten
   - **6 vordefinierte Formate** zur Darstellung von Datei-Zeitstempeln, dazu frei definierbare
@@ -240,14 +240,15 @@ mit `jacksum -h examples` und im
 
 Jacksum kann nicht nur seine eigene Ausgabe lesen und schreiben, es ist auch in der Lage, Ausgaben
 zu lesen, die von anderen Werkzeugen erzeugt wurden, und Ausgaben zu schreiben, die andere
-Werkzeuge lesen können. 18 vordefinierte Styles stehen zur Verfügung (Option `--style`, auch `-C`,
+Werkzeuge lesen können. 19 vordefinierte Styles stehen zur Verfügung (Option `--style`, auch `-C`,
 auch `--compat`):
 
 | `<style>` | Zweck |
 | --- | --- |
 | `bsd`, `bsd-r` | getaggtes und ungetaggtes BSD-Format, wird unter GNU/Linux auch von `md5sum --tag` usw. sowie von `cksum` der GNU Core Utilities 9.0 und später erzeugt |
 | `gnu-linux` | das klassische `md5sum`/`sha256sum`-Format |
-| `openssl-dgst`, `openssl-dgst-r` | das Format von `openssl dgst` |
+| `openssl-dgst`, `openssl-dgst-r` | das Format von `openssl dgst` (OpenSSL 3.x und neuer) |
+| `openssl111-dgst` | das Format von `openssl dgst` mit den Algorithmusnamen von OpenSSL 1.1.1 und älter |
 | `sfv` | das Simple-File-Verification-Format |
 | `fciv` | das Format des "File Checksum Integrity Verifier" von Microsoft |
 | `solaris-digest`, `solaris-digest-v` | das Format des `digest`-Befehls von Solaris |

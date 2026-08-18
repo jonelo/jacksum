@@ -22,6 +22,7 @@
  */
 package net.jacksum.actions.io.hash;
 
+import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.multicore.manyfiles.Message;
 import net.jacksum.multicore.manyfiles.MessageConsumer;
@@ -29,7 +30,13 @@ import net.jacksum.parameters.Parameters;
 import net.jacksum.statistics.StatisticsForHashedFiles;
 import net.jacksum.statistics.Statistics;
 
+import static net.jacksum.cli.CLIParameters._IGNORE_LINES_STARTING_WITH_STRING;
+
 public class MessageConsumerForHashedFiles extends MessageConsumer {
+
+    // the string that lines start with in order to be ignored while they are being read
+    // back, if the user has not specified one, see also DefaultCompatibilityProperties
+    private final static String DEFAULT_COMMENT_CHARS = "#";
 
     long filesRead, bytesRead, files_matches_expectation, errors;
     
@@ -49,13 +56,13 @@ public class MessageConsumerForHashedFiles extends MessageConsumer {
                  filesRead++;
                  files_matches_expectation++;
                  bytesRead += message.getPayload().getSize();
-                 System.out.printf("%s%s", message.getInfo(), parameters.getLineSeparator());
+                 printLine(message);
                  break;
             case FILE_HASHED:
-                 filesRead++;                
+                 filesRead++;
                  bytesRead += message.getPayload().getSize();
                  if (!parameters.isExpectation()) {
-                     System.out.printf("%s%s", message.getInfo(), parameters.getLineSeparator());
+                     printLine(message);
                  }
                  break;
             case ERROR:
@@ -69,6 +76,32 @@ public class MessageConsumerForHashedFiles extends MessageConsumer {
             default:
                 break;
         }
+    }
+
+    /**
+     * Prints the line that has been formatted for a file, and warns if that line
+     * cannot be read back.
+     *
+     * @param message the message that carries the formatted line
+     */
+    private void printLine(Message message) {
+        String line = message.getInfo();
+
+        // A line that starts with the comment string is treated as a comment while it is
+        // being read back, so such a file would be skipped silently during a check (-c).
+        // That can only happen if the line starts with the file name, which is the case
+        // for the styles files-only and sfv, and for the algorithm none.
+        String commentChars = parameters.getCommentChars() != null
+                ? parameters.getCommentChars()
+                : DEFAULT_COMMENT_CHARS;
+        if (line.startsWith(commentChars)) {
+            System.err.printf("Jacksum: Warning: The line for %s starts with the comment string \"%s\", so this line would be ignored while it is being read back, see also option %s.%n",
+                    message.getPayload().getPath() == null ? AbstractChecksum.getStdinName() : message.getPayload().getPath(),
+                    commentChars,
+                    _IGNORE_LINES_STARTING_WITH_STRING);
+        }
+
+        System.out.printf("%s%s", line, parameters.getLineSeparator());
     }
 
     @Override
