@@ -112,7 +112,7 @@ mit `jacksum -h examples` und im
     Lightweight Cryptography, eXtendable Output Functions (XOF), gebrochene Algorithmen für
     Bildungszwecke und zur Rückwärtskompatibilität sowie die Prüfsummen und CRCs, die in
     Betriebssystemen, Softwareprodukten und Protokollen zu finden sind.
-    Die vollständige Liste finden Sie unter [Algorithmen](https://github.com/jonelo/jacksum/wiki/Algorithms).
+    Die vollständige Liste finden Sie unter [Algorithmen](ALGORITHMS_de.md).
   - Einige Algorithmen haben eine **alternative, reine Java-Implementierung**, die mit der Option
     `-A` ausgewählt werden kann, während die Standardimplementierung diejenige der Java-API ist,
     weil sie üblicherweise vom JVM-Hersteller optimiert wurde.
@@ -533,8 +533,8 @@ Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option
 
 Siehe auch
 
-- [Algorithmen](https://github.com/jonelo/jacksum/wiki/Algorithms)
+- [Algorithmen](ALGORITHMS_de.md)
 - [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage)
 - [Cheat Sheet](https://github.com/jonelo/jacksum/wiki/Cheat-Sheet)
 - [File Format of Styles](https://github.com/jonelo/jacksum/wiki/File-Format-of-Styles)
-- [Jacksum Hacks](https://github.com/jonelo/jacksum/wiki/Jacksum-Hacks)
+- [Jacksum Hacks](JACKSUM_HACKS_de.md)

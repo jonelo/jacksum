@@ -58,7 +58,7 @@ Jacksum covers many types of use cases in which hash values make sense:
   supported algorithms
 
 For details, see the
-[comprehensive list of features](https://github.com/jonelo/jacksum/wiki/Features) in the wiki.
+[comprehensive list of features](docs/FEATURES.md).
 
 
 ## Audience
@@ -116,8 +116,8 @@ Verify a single file against a known hash value:
     Jacksum: Expectation met.
     Jacksum: 1 of the successfully read files matches the expected hash value.
 
-More examples: [Examples](https://github.com/jonelo/jacksum/wiki/Examples), `jacksum -h examples`, and the
-[Jacksum Hacks](https://github.com/jonelo/jacksum/wiki/Jacksum-Hacks) in the wiki.
+More examples: [Examples](docs/EXAMPLES.md), `jacksum -h examples`, and the
+[Jacksum Hacks](docs/JACKSUM_HACKS.md).
 
 
 ## Algorithm support
@@ -128,7 +128,7 @@ authentication using any iterated cryptographic hash function in combination wit
 shared key. It also supports the **"Rocksoft (tm) Model CRC Algorithm"** to describe CRCs, so
 additional 1.0399 * 10^267 customized CRCs can be used.
 
-See [Algorithms](https://github.com/jonelo/jacksum/wiki/Algorithms) in the wiki.
+See [Algorithms](docs/ALGORITHMS.md).
 
 
 ## User interfaces
@@ -167,7 +167,10 @@ ROX-Filer, SpaceFM, Thunar, Xfe, or zzzFM on GNU/Linux. See also [Integrations](
 
 * [https://jacksum.net](https://jacksum.net) - Homepage
 * [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (with many examples)
-* [Features](https://github.com/jonelo/jacksum/wiki/Features)
+* [Features](docs/FEATURES.md)
+* [Algorithms](docs/ALGORITHMS.md)
+* [Examples](docs/EXAMPLES.md)
+* [Jacksum Hacks](docs/JACKSUM_HACKS.md)
 * [Wiki](https://github.com/jonelo/jacksum/wiki)
 * [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) - since 2002!
 * [Developer Guide](https://github.com/jonelo/jacksum/wiki/Developer-Guide)

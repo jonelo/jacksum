@@ -33,7 +33,7 @@ See also
 
 - [All available algorithms with details](https://github.com/jonelo/jacksum/wiki/Manpage#algorithms)
 - Usage Cheat Sheet: [What algorithms are available](https://github.com/jonelo/jacksum/wiki/Cheat-Sheet#what-algorithms-are-available)
-- [Features](https://github.com/jonelo/jacksum/wiki/Features)
+- [Features](FEATURES.md)
 
 
 <a name="standard_algorithms"/>

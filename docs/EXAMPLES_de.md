@@ -83,7 +83,7 @@ Einige Konventionen, die durchgehend verwendet werden:
 
 Siehe auch die [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) für die verbindliche
 Beschreibung jeder Option (`jacksum -h`) und
-[Jacksum Hacks](https://github.com/jonelo/jacksum/wiki/Jacksum-Hacks) für die Dinge, die Jacksum
+[Jacksum Hacks](JACKSUM_HACKS_de.md) für die Dinge, die Jacksum
 kann, die nichts mit Hashing zu tun haben.
 
 <a name="getting_started"/>
@@ -1281,7 +1281,7 @@ bin: 1100101011111110, dec: 51966, oct: 0145376, hex: CAFE
 ```
 
 Die vollständige Sammlung finden Sie auf der Seite
-[Jacksum Hacks](https://github.com/jonelo/jacksum/wiki/Jacksum-Hacks).
+[Jacksum Hacks](JACKSUM_HACKS_de.md).
 
 <a name="crcs"/>
 
@@ -1556,7 +1556,7 @@ jacksum -a all --list
 
 Gibt jede unterstützte Algorithmus-ID aus, die an `-a` übergeben werden kann. Jacksum 4.0.0
 unterstützt **586**; die kommentierte Liste finden Sie auf der Seite
-[Algorithmen](https://github.com/jonelo/jacksum/wiki/Algorithms).
+[Algorithmen](ALGORITHMS_de.md).
 
 ```
 jacksum -a all --list --verbose summary
@@ -1721,10 +1721,10 @@ weil es keine Option gibt, die genau `--path` heißt.
 
 **Siehe auch:**
 [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) ·
-[Algorithmen](https://github.com/jonelo/jacksum/wiki/Algorithms) ·
-[Funktionen](https://github.com/jonelo/jacksum/wiki/Features) ·
+[Algorithmen](ALGORITHMS_de.md) ·
+[Funktionen](FEATURES_de.md) ·
 [Working with CRCs](https://github.com/jonelo/jacksum/wiki/Working-with-CRCs) ·
 [Investigating Algorithms](https://github.com/jonelo/jacksum/wiki/Investigating-Algorithms) ·
-[Jacksum Hacks](https://github.com/jonelo/jacksum/wiki/Jacksum-Hacks) ·
+[Jacksum Hacks](JACKSUM_HACKS_de.md) ·
 [File Format of Styles](https://github.com/jonelo/jacksum/wiki/File-Format-of-Styles) ·
 [Multi-Core Processor Support](https://github.com/jonelo/jacksum/wiki/Multi-Core-Processor-Support)

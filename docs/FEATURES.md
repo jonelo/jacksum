@@ -108,7 +108,7 @@ For worked examples of all of those modes, see
     lightweight cryptography, eXtendable Output Functions (XOF), broken algorithms for
     educational and backwards compatibility purposes, and the checksums and CRCs that can be
     found in operating systems, software products, and protocols.
-    For the complete list see [Algorithms](https://github.com/jonelo/jacksum/wiki/Algorithms).
+    For the complete list see [Algorithms](ALGORITHMS.md).
   - Some algorithms have an **alternative, pure Java implementation** that can be selected with
     the option `-A`, while the default implementation is the one provided by the Java API,
     because it is usually optimized by the JVM vendor.
@@ -507,8 +507,8 @@ The same encodings can be used to specify the input sequence of the option `-q`.
 
 See also
 
-- [Algorithms](https://github.com/jonelo/jacksum/wiki/Algorithms)
+- [Algorithms](ALGORITHMS.md)
 - [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage)
 - [Cheat Sheet](https://github.com/jonelo/jacksum/wiki/Cheat-Sheet)
 - [File Format of Styles](https://github.com/jonelo/jacksum/wiki/File-Format-of-Styles)
-- [Jacksum Hacks](https://github.com/jonelo/jacksum/wiki/Jacksum-Hacks)
+- [Jacksum Hacks](JACKSUM_HACKS.md)

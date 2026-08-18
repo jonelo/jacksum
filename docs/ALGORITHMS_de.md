@@ -36,7 +36,7 @@ Siehe auch
 
 - [Alle verfügbaren Algorithmen mit Details](https://github.com/jonelo/jacksum/wiki/Manpage#algorithms)
 - Usage Cheat Sheet: [Welche Algorithmen verfügbar sind](https://github.com/jonelo/jacksum/wiki/Cheat-Sheet#what-algorithms-are-available)
-- [Funktionen](https://github.com/jonelo/jacksum/wiki/Features)
+- [Funktionen](FEATURES_de.md)
 
 
 <a name="standard_algorithms"/>
