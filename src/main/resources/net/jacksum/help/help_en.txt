@@ -2006,6 +2006,7 @@ OPTIONS
                 hdb                 |  cw |  *  |  -  |  h  |  E  |  -  |  e  |
                 openssl-dgst        |  cw |  *  |  E  |  h  |  -  |  -  |  e  |
                 openssl-dgst-r      |  cw |  *  |  -  |  h  |  -  |  -  |  e  |
+                openssl111-dgst     |  cw |  *  |  E  |  h  |  -  |  -  |  e  |
                 sfv                 |  cw |  *  |  -  |  H  |  -  |  -  |  -  |
                 solaris-digest      |  cw |  *  |  -  |  h  |  -  |  -  |  d  |
                 solaris-digest-v    |  cw |  *  |  E  |  h  |  -  |  -  |  d  |
