@@ -11487,6 +11487,10 @@ OUTPUT FORMAT
                       --path-relative-to. Furthermore the path separator can be
                       specified by -P, and problematic characters in file names
                       can be escaped by setting --gnu-filename-escaping.
+                      If there is no file name at all, for example if a sequence
+                      is being hashed by option -q, neither the file name nor the
+                      separator in front of it is written, so that the line does
+                      not end with a separator.
 \
 \
     Customized output format:

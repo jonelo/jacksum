@@ -241,6 +241,11 @@ Jacksum 4.0.0, August TBD, 2026
       file names in check files makes sense for the option --check-file, that setting is suboptimal if the
       option --wanted-list is used, because file names are treated as comments in wanted lists.
     - issue #32: --header not working using --quick
+    - the default output format appended the separator (by default a blank) even if there was no
+      file name at all, so a line ended with a trailing blank if a sequence was hashed by the
+      option -q, e.g. "jacksum -q txt:abc -a sha1"; the same happened for an empty line while the
+      option --string-list was being used; if the file name is empty, neither the file name nor the
+      separator in front of it is written now
     - issue #36: if multiple algorithms have been selected and file size is not wanted, Jacksum does not
       find valid entries
     - issue #37: parser does not find valid entries if algorithm "none" (no hashing) has been selected

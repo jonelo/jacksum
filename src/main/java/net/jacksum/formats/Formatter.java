@@ -108,7 +108,12 @@ public class Formatter {
         }
 
         // name
-        if (checksum.getFilename() != null) {
+        // An empty name is treated like an absent one, because there is nothing to separate then.
+        // Both cases occur: a name is null if it has never been set, and it is the empty string
+        // if the sequence of the option -q is being hashed (QuickAction sets the empty string
+        // rather than null on purpose, so that the token #FILENAME is still being replaced if
+        // the option -F or --style has been set).
+        if (filenameFormatted != null && !filenameFormatted.isEmpty()) {
             if (hash_da || size_da || timestamp_da) {
                 sb.append(separator);
             }

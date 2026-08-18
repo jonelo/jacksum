@@ -12407,6 +12407,11 @@ OUTPUT FORMAT
                       Pfadtrennzeichen mit -P angegeben werden, und
                       problematische Zeichen in Dateinamen können mit
                       --gnu-filename-escaping escapt werden.
+                      Gibt es überhaupt keinen Dateinamen, zum
+                      Beispiel wenn mit der Option -q eine Sequenz
+                      gehasht wird, werden weder der Dateiname noch
+                      das Trennzeichen davor geschrieben, damit die
+                      Zeile nicht mit einem Trennzeichen endet.
 \
 \
     Benutzerdefiniertes Ausgabeformat:
