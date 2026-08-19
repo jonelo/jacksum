@@ -33,6 +33,8 @@ import net.jacksum.multicore.manyfiles.Message;
 import net.jacksum.multicore.manyfiles.MessageConsumer;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Messenger;
+import static net.jacksum.cli.CLIParameters.__CHECK_STRICT;
+import static net.jacksum.cli.CLIParameters.__LIST_FILTER;
 import static net.jacksum.cli.Messenger.MsgType.ERROR;
 import static net.jacksum.cli.Messenger.MsgType.INFO;
 import static net.jacksum.cli.Messenger.MsgType.WARNING;
@@ -97,13 +99,25 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
 
     private TimestampFormatter timestampFormatter;
 
+    // set if the parameters are inconsistent, see setParameters() and getExitCode()
+    private boolean parameterError;
+
     public void setParameters(CheckConsumerParameters checkConsumerParameters) {
         this.parameters = checkConsumerParameters;
         messenger.setVerbose(parameters.getVerbose());
         if (parameters.isTimestampWanted()) {
              timestampFormatter = new TimestampFormatter(parameters);
         }
-       
+
+        // A strict check has to detect all statuses, but a filter can prevent hashing which would
+        // prevent a reliable detection. Parameters.checkParameters() rejects that combination
+        // before any file is being read, but a program that uses Jacksum as a library could have
+        // skipped that validation, so such a check must not be reported as a success.
+        if (parameters.isCheckStrict() && !parameters.getListFilter().isAll()) {
+            parameterError = true;
+            messenger.print(ERROR, String.format("Option %s requires %s all, because a filter could prevent hashing which could prevent a reliable detection, but %s %s has been set.",
+                    __CHECK_STRICT, __LIST_FILTER, __LIST_FILTER, parameters.getListFilter()));
+        }
     }
 
     // in order to warn only once, and not for every single entry, see warnTimestampNotAvailable()
@@ -318,19 +332,15 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
 
     @Override
     public int getExitCode() {
+        // the parameters don't allow a reliable check at all, see setParameters()
+        if (parameterError) {
+            return ExitCode.PARAMETER_ERROR;
+        }
         // a message that could not be consumed means that a file has not been verified at all
         if (errors > 0 || getUnexpectedErrors() > 0) {
             return ExitCode.IO_ERROR;
         }
-        ListFilter listFilter = parameters.getListFilter();
         if (parameters.isCheckStrict()) {
-            // if --check-strict is set, --list-filter all must be set
-            if (!listFilter.isFilterOk() ||
-                    !listFilter.isFilterFailed() ||
-                    !listFilter.isFilterMissing() ||
-                    !listFilter.isFilterNew()) {
-                return ExitCode.PARAMETER_ERROR;
-            }
             if (mismatches + filesMissing + newFiles > 0) {
                 return ExitCode.EXPECTATION_NOT_MET;
             }

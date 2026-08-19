@@ -2306,6 +2306,15 @@ public class Parameters implements
             }
         }
 
+        // a strict check has to detect all statuses, but a filter can prevent hashing which
+        // would prevent a reliable detection, see also ListFilter.isHashingRequired();
+        // both options have no effect at all if nothing is being verified, so they are only
+        // rejected in verification mode
+        if (isVerifying() && isCheckStrict() && !getListFilter().isAll()) {
+            throw new ParameterException(String.format("Option %s requires %s all, because a filter could prevent hashing which could prevent a reliable detection, but %s %s has been set.",
+                    __CHECK_STRICT, __LIST_FILTER, __LIST_FILTER, getListFilter()));
+        }
+
         // a timestamp that contains a space cannot be told apart from the fields that
         // follow it, so such a timestamp cannot be parsed, see also the parsers of the
         // styles that support timestamps and DefaultCompatibilityProperties

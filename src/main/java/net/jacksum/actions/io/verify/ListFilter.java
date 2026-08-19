@@ -57,6 +57,17 @@ public class ListFilter implements Serializable  {
     }
 
     /**
+     * Determines whether all statuses pass the filter. Only in that case a check can detect
+     * all statuses reliably, because a filter can prevent hashing, see also isHashingRequired()
+     * and the option --check-strict.
+     *
+     * @return true if all statuses pass the filter
+     */
+    public boolean isAll() {
+        return filterOk && filterFailed && filterNew && filterMissing;
+    }
+
+    /**
      * @return the filterOk
      */
     public boolean isFilterOk() {

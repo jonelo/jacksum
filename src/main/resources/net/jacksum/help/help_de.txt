@@ -1502,13 +1502,15 @@ OPTIONS
             Sind alle Eingabezeilen gültig, wird mit einem Status
             ungleich Null beendet, wenn ...
 \
-                - die Option --list-filter nicht auf all gesetzt ist, da
-                  der Filter das Hashen verhindern könnte, was eine
-                  zuverlässige Erkennung verhindern könnte
                 - eine oder mehrere Dateien den Verifizierungsprozess
                   nicht bestanden haben (Abweichung)
                 - eine oder mehrere Dateien hinzugefügt wurden
                 - eine oder mehrere Dateien entfernt wurden
+\
+            Die Option erfordert --list-filter all, was der Standard ist.
+            Jeder andere Filter wird mit einem Parameterfehler abgewiesen,
+            da der Filter das Hashen verhindern könnte, was eine
+            zuverlässige Erkennung verhindern könnte.
 \
             Für eine zuverlässige strikte Prüfung sollten Sie außerdem ...
 \

@@ -1386,11 +1386,13 @@ OPTIONS
 \
             If all input lines are valid, exit with a non-zero status if ...
 \
-                - option --list-filter is not set to all, because the filter
-                  could prevent hashing which could prevent reliable detection
                 - one or more files failed the verification process (mismatch)
                 - one or more files have been added
                 - one or more files have been removed
+\
+            The option requires --list-filter all, which is the default. Any
+            other filter is rejected with a parameter error, because a filter
+            could prevent hashing which could prevent reliable detection.
 \
             For a reliable strict check you also should ...
 \
