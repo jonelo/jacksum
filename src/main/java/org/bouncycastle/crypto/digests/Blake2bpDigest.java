@@ -63,7 +63,8 @@ public class Blake2bpDigest
     public void update(byte[] message, int offset, int len)
     {
         int left = bufferPos;
-        int remainingLength = 8*BLAKE2B_BLOCKBYTES - left;
+        // the buffer is PARALLELISM_DEGREE * BLAKE2B_BLOCKBYTES bytes long
+        int remainingLength = PARALLELISM_DEGREE*BLAKE2B_BLOCKBYTES - left;
 
         if(left != 0 && len >= remainingLength)
         {

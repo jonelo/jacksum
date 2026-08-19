@@ -138,8 +138,16 @@ public class TigerTree extends MessageDigest {
 
         if (bufferOffset > 0) {
             int remaining = BLOCKSIZE - bufferOffset;
+            if (length < remaining) {
+                // not enough data to complete the block, just buffer what we got
+                System.arraycopy(in, offset, buffer, bufferOffset, length);
+                bufferOffset += length;
+                return;
+            }
             System.arraycopy(in, offset, buffer, bufferOffset, remaining);
-            blockUpdate();
+            // the buffer is full now; blockUpdate() would only hash the bytes that
+            // had already been buffered before the array copy above
+            blockUpdate(buffer, 0, BLOCKSIZE);
             bufferOffset = 0;
             length -= remaining;
             offset += remaining;

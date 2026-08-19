@@ -168,7 +168,8 @@ public class PrngHash extends AbstractChecksum implements PrngHashInfo {
 
     @Override
     public void reset() {
-        value = 0;
+        // the initial value is a parameter of the algorithm, it is not necessarily 0
+        value = initValue;
         length = 0;
     }
 

@@ -70,7 +70,9 @@ public class FNV0_Selector extends Selector {
             // no primitive optimization, standard BigInteger implementation
             return new Fnv0_n(bits);
         } else {
-            throw new NoSuchAlgorithmException("There is no alternate implementation available.");
+            // null means "there is no alternate implementation", which makes the caller fall
+            // back to the primary one; an exception would abort the run instead
+            return null;
         }
     }
 

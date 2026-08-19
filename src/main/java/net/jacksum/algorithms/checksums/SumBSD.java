@@ -44,6 +44,7 @@ public class SumBSD extends AbstractChecksum {
     @Override
     public void reset() {
         value = 0;
+        length = 0;
     }
 
     @Override

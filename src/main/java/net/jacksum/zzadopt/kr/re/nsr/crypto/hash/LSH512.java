@@ -240,7 +240,10 @@ public class LSH512 extends Hash {
             throw new IllegalArgumentException("bit level update is not allowed");
         }
 
-        int gap = BLOCKSIZE - rbytes;
+        // the gap is the free space that is left in the block buffer, it must not
+        // depend on the length of the incoming data (the original term went negative
+        // as soon as rbytes exceeded BLOCKSIZE)
+        int gap = BLOCKSIZE - idx;
         if (idx > 0 && rbytes >= gap) {
             System.arraycopy(data, offset, block, idx, gap);
             compress(block, 0);

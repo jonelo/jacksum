@@ -16,6 +16,16 @@ Jacksum 4.0.0, August TBD, 2026
     distributed binary data and even later for text files
   - the style openssl-dgst now follows the names of OpenSSL 3.x and later; the style openssl111-dgst has been
     added in order to get the traditional OpenSSL 1.1.1 behavior
+  - prng returns different values for files now, because the values that have been returned so far were
+    wrong, see also the bug fixes below; the initial value of the algorithm was dropped while a file was
+    being prepared, so "jacksum -a prng <file>" calculated with an initial value of 0 rather than with
+    the documented 0x811c9dc5 and therefore did not even agree with "jacksum -a prng -q <sequence>" on
+    the same data; files of any size are affected, as are all customized definitions (prng:init=...)
+    whose initial value is not 0; aststrsum (aka ast, strsum) is not affected, because its initial
+    value is 0 anyway
+  - fletcher16 returns different values for input larger than 64 KiB now, because the values that have
+    been returned so far were wrong, see also the bug fixes below; input up to 64 KiB is read in one
+    single block and was therefore never affected
 
 - API changes
   - added the API methods JacksumAPI.getBrokenState() and JacksumAPI.getBrokenDescription() so that
@@ -300,6 +310,53 @@ Jacksum 4.0.0, August TBD, 2026
     - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC
       definition code if --info has been requested
     - issue #45: the expected eDonkey test vector hash in the code comments was wrong
+    - fletcher16 restarted its two running sums on every call of update() instead of continuing them, so
+      any input that does not arrive in one single block was calculated wrongly. Files are read in blocks
+      of 64 KiB, so every file larger than that got a wrong value, and so did all input from standard
+      input. A sequence (-q) and files up to 64 KiB were not affected. See also the compatibility
+      changes above.
+    - the algorithms below did not restore their full initial state in reset(). Jacksum resets an
+      algorithm before it reads a file, so the effects were visible on the command line as well, and
+      programs that use Jacksum as a library and reuse an instance were affected in any case.
+      - prng did not restore the initial value of the algorithm, it set the value to 0 instead. All
+        customized definitions (prng:init=...) whose initial value is not 0 are affected as well.
+        See also the compatibility changes above.
+      - cksum_minix did not reset the counter that substitutes an intermediate value of zero, so a
+        second calculation with the same instance could return a wrong hash value
+      - sum_bsd, sum_minix, and xxhash32 did not reset the number of bytes that have been processed,
+        so the file size that is part of their output (#FILESIZE) kept growing from one calculation
+        to the next
+    - the algorithms below did not handle an update() that does not start at offset 0, or that only
+      partially fills their internal block buffer. Jacksum reads files in blocks of 64 KiB, which is a
+      multiple of every block size in question, so hashing a file was never affected; input from
+      standard input, where a read may return fewer bytes than requested, and programs that use Jacksum
+      as a library were affected.
+      - tree:tiger and tree:tiger2 (TigerTree) did not hash the bytes that complete a partially filled
+        1024 byte block: those bytes were copied into the buffer, but the buffer was then hashed up to
+        its old fill mark only, so the hash value was silently wrong. An update() that supplied fewer
+        bytes than the block still needed read beyond the end of the input array and terminated with a
+        java.lang.ArrayIndexOutOfBoundsException.
+      - blake2bp determined the free space of its input buffer against 1024 bytes, although the buffer
+        is 512 bytes long (PARALLELISM_DEGREE * BLAKE2B_BLOCKBYTES), so an update() that completed a
+        partially filled buffer terminated with a java.lang.ArrayIndexOutOfBoundsException. blake2sp
+        was not affected, because for its parameters both terms happen to be equal.
+      - the LSH family (lsh-256-[224,256] and lsh-512-[224,256,384,512]) determined the free space of
+        its block buffer from the length of the incoming data rather than from the fill mark of the
+        buffer, so the value went negative as soon as more than one block arrived at once and the
+        buffer was already partially filled; such an update() terminated with a
+        java.lang.ArrayIndexOutOfBoundsException
+      - blake3 passed the length of the data where java.util.Arrays.copyOfRange() expects an end index,
+        so an update() with an offset other than 0 hashed the wrong bytes or terminated with a
+        java.lang.IllegalArgumentException
+      - crc82_darc ignored the offset that was passed to update() and always started at the beginning
+        of the array
+    - the option -A (alternative implementation) aborted with the parameter error "There is no
+      alternate implementation available." and exit code 2 for the FNV algorithms with a width of
+      128, 256, 512, and 1024 bits (fnv-0_*, fnv-1_*, and fnv-1a_*, 12 algorithms), because their
+      selectors signalled a missing alternative by throwing an exception rather than by returning
+      null. For every other algorithm without an alternative implementation -A is ignored, as it is
+      documented, and the standard implementation is used; that is what happens for those 12
+      algorithms now as well.
   - HMAC
     - improved the HMAC constraint: if blocksize < digestsize an HMAC cannot be calculated; that is the
       case for all ascon algorithms, for example
@@ -352,6 +409,12 @@ Jacksum 4.0.0, August TBD, 2026
     later
   - added info about the usage of the internal state value for verification of test vectors submitted for
     the NIST competition in the manpage for skein-256.
+  - corrected the list of algorithms that have an alternative implementation in the description of the
+    option -A: it named 13 algorithms, while Jacksum actually provides an alternative implementation
+    for 28 of them; crc16, crc32_fddi, crc32c, fnv-0_32, fnv-0_64, fnv-1_32, fnv-1_64, fnv-1a_32,
+    fnv-1a_64, fugue224, fugue256, fugue384, fugue512, sha-512/224, and sha-512/256 were missing.
+    It is documented now as well that -A is ignored for an algorithm that has no alternative
+    implementation.
   - added the "Go API" and Homebrew to the compatibility lists
   - reworked the "broken" field of all cryptographic algorithms in the manpage. Instead
     of a bare "yes" or "no" each entry now states which security property is affected (collision, preimage,

@@ -1205,8 +1205,14 @@ OPTIONS
             If -A is set, Jacksum uses an alternative, pure Java implementation
             of an algorithm, if available. Actually, Jacksum supports
             alternative implementations for the following algorithms:
-            adler32, blake3, crc32, md2, md5, sha-1, sha-256, sha-384, sha-512,
-            sha3-224, sha3-256, sha3-384, sha3-512
+            adler32, blake3, crc16, crc32, crc32_fddi, crc32c, fnv-0_32,
+            fnv-0_64, fnv-1_32, fnv-1_64, fnv-1a_32, fnv-1a_64, fugue224,
+            fugue256, fugue384, fugue512, md2, md5, sha-1, sha-256, sha-384,
+            sha-512, sha-512/224, sha-512/256, sha3-224, sha3-256, sha3-384,
+            sha3-512
+\
+            If an algorithm has no alternative implementation, -A is ignored
+            for it and the standard implementation is used.
 \
 \
             See also:

@@ -111,6 +111,7 @@ public class Cksum_Minix extends AbstractChecksum {
     @Override
     public void reset() {
         value = 0;
+        aux = 0;
         length = 0;
     }
 

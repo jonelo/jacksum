@@ -32,6 +32,9 @@ import net.jacksum.formats.Encoding;
 public class Fletcher16 extends AbstractChecksum {
 
     protected long value;
+    // the two running sums, they have to survive an update() call
+    private long s1;
+    private long s2;
     private static final long BASE = 255L;
 
     public Fletcher16() {
@@ -46,19 +49,23 @@ public class Fletcher16 extends AbstractChecksum {
     @Override
     public void reset() {
         value = 0L;
+        s1 = 0L;
+        s2 = 0L;
         length = 0;
     }
 
     @Override
     public void update(byte[] buffer, int offset, int len) {
-        long s1 = 0;
-        long s2 = 0;
+        long a = s1;
+        long b = s2;
 
         for (int n = offset; n < len + offset; n++) {
-            s1 = (s1 + (buffer[n] & 0xff)) % BASE;
-            s2 = (s2 + s1) % BASE;
+            a = (a + (buffer[n] & 0xff)) % BASE;
+            b = (b + a) % BASE;
         }
 
+        s1 = a;
+        s2 = b;
         value = (s2 << 8) | s1;
         length += len;
     }

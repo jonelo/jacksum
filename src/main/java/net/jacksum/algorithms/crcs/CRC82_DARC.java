@@ -64,7 +64,7 @@ public class CRC82_DARC extends AbstractChecksum implements CrcInfo {
     @Override
     public void update(byte[] bytes, int offset, int length) {
         long cl = crc[0], ch = crc[1] & 0x3ffffL;
-        for (int i = 0; i < length; i++) {
+        for (int i = offset; i < offset + length; i++) {
             cl ^= (int)(bytes[i] & 0xFF);
             for (int k = 0; k < 8; k++) {
                 long low = cl & 1;

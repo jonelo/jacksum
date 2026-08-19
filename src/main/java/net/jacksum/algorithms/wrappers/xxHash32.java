@@ -42,6 +42,7 @@ public class xxHash32 extends AbstractChecksum {
     @Override
     public void reset() {
         hash.reset();
+        length = 0;
     }
 
     @Override

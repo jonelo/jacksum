@@ -77,7 +77,7 @@ public class Blake3Wrapper extends AbstractChecksum {
 
     @Override
     public void update(byte[] bytes, int offset, int length) {
-        hasher.update(Arrays.copyOfRange(bytes, offset, length));
+        hasher.update(Arrays.copyOfRange(bytes, offset, offset + length));
         this.length += length;
     }
 
