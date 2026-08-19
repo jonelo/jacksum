@@ -1272,11 +1272,18 @@ OPTIONS
             If you have used option -F, or if the output of <list> is not in the
             quasi-standard output format like
 \
-                <encoded/formatted hash><blank>[<blank or star>]<filename>
+                <encoded/formatted hash><blank>[<star>]<filename>
 \
             you can specify a parser file by using the --compat option.
             The parser file must have all the necessary definitions to properly
             parse <file>. For more information, see the -C resp. --style option.
+\
+            Note that a second blank is not a marker, it is the first character
+            of the file name, because a file name is allowed to start with a
+            blank and a list that Jacksum has written stays verifiable that way.
+            A tool such as sha256sum writes such a second blank in its text mode
+            (and a star in its binary mode), so use --style gnu-linux to verify
+            a list that has been created by one of those tools.
 \
             If <file> is set to a single dash (-) Jacksum reads from stdin.
             Use option --charset-check-file to specify the character set for

@@ -267,6 +267,8 @@ Jacksum 4.0.0, August TBD, 2026
       formatted line
     - issue #56: -c reports FAILED for sum_bsd, sum_sysv, and sum_minix, because their block count is
       compared against the file size
+    - issue #57: -c on a coreutils check file without --style gnu-linux reports every entry as MISSING
+      without any hint
     - records with the same comments in wanted list files are no longer ignored. While ignoring duplicate
       file names in check files makes sense for the option --check-file, that setting is suboptimal if the
       option --wanted-list is used, because file names are treated as comments in wanted lists.

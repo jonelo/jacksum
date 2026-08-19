@@ -1369,12 +1369,21 @@ OPTIONS
             Wenn Sie die Option -F verwendet haben oder die Ausgabe von
             <list> nicht im quasi-Standard-Ausgabeformat vorliegt wie
 \
-                <encoded/formatted hash><blank>[<blank or star>]<filename>
+                <encoded/formatted hash><blank>[<star>]<filename>
 \
             können Sie mit der Option --compat eine Parser-Datei angeben.
             Die Parser-Datei muss alle notwendigen Definitionen enthalten,
             um <file> korrekt zu parsen. Weitere Informationen finden Sie
             bei der Option -C bzw. --style.
+\
+            Beachten Sie, dass ein zweites Leerzeichen kein Markierungs-
+            zeichen ist, sondern das erste Zeichen des Dateinamens, denn ein
+            Dateiname darf mit einem Leerzeichen beginnen, und so bleibt eine
+            von Jacksum geschriebene Liste verifizierbar. Ein Werkzeug wie
+            sha256sum schreibt ein solches zweites Leerzeichen in seinem
+            Textmodus (und einen Stern im Binärmodus), verwenden Sie daher
+            --style gnu-linux, um eine mit einem solchen Werkzeug erstellte
+            Liste zu verifizieren.
 \
             Ist <file> auf einen einzelnen Bindestrich (-) gesetzt, liest
             Jacksum von stdin. Verwenden Sie die Option
