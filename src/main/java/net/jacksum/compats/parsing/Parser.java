@@ -31,6 +31,7 @@ import net.loefflmann.sugar.io.BOM;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.function.IntSupplier;
@@ -289,6 +290,43 @@ public class Parser {
     }
 
     /**
+     * Returns the key that is used to detect entries which refer to the same file, even if their
+     * paths are spelled differently, e.g. "a.txt" and "./a.txt". It is the very same key that
+     * MessageConsumerOnCheckedFiles uses to look the entries of the check file up, so that both
+     * have the same understanding of what a duplicate is.
+     *
+     * @param filename the file name of an entry of the check file
+     * @return the key for the duplicate detection
+     */
+    private String duplicateDetectionKey(String filename) {
+        // the pseudo name for standard input (e.g. <stdin> or -) does not refer to a file on the
+        // file system, so it must not be resolved against the current working directory
+        if (filename == null || filename.equals(props.getStdinName())) {
+            return filename;
+        }
+        try {
+            return Paths.get(filename).toAbsolutePath().normalize().toString();
+        } catch (InvalidPathException ipe) {
+            return filename;
+        }
+    }
+
+    /**
+     * Determines whether two entries that refer to the same file store different properties, i.e.
+     * whether the entry that is being replaced would produce a different verification result than
+     * the entry that replaces it.
+     *
+     * @param one an entry of the check file
+     * @param other another entry of the check file
+     * @return true if the two entries don't store the same properties
+     */
+    private static boolean differs(HashEntry one, HashEntry other) {
+        return !Objects.equals(one.getHash(), other.getHash())
+                || one.getFilesize() != other.getFilesize()
+                || !Objects.equals(one.getTimestamp(), other.getTimestamp());
+    }
+
+    /**
      * Parses a file that contains entries with hashes that can be checked.
      *
      * @param filename the filename
@@ -323,6 +361,7 @@ public class Parser {
             int properlyFormattedLines = 0;
             int improperlyFormattedLines = 0;
             int ignoredLines = 0;
+            int duplicateEntries = 0;
             Map<String, HashEntry> map = null;
             if (replaceDuplicateFilenames) {
                 map = new LinkedHashMap<>();
@@ -337,10 +376,16 @@ public class Parser {
 
                     HashEntry hashEntry = parseLine(line);
                     if (replaceDuplicateFilenames) {
-                        if (map.containsKey(hashEntry.getFilename())) {
-                            map.replace(hashEntry.getFilename(), hashEntry);
-                        } else {
-                            map.put(hashEntry.getFilename(), hashEntry);
+                        // a LinkedHashMap keeps the position of an entry that is being replaced,
+                        // so the order of the check file is preserved
+                        HashEntry previous = map.put(duplicateDetectionKey(hashEntry.getFilename()), hashEntry);
+                        if (previous != null) {
+                            duplicateEntries++;
+                            // don't drop an entry that would produce a different result silently
+                            if (differs(previous, hashEntry)) {
+                                System.err.printf("Jacksum: Warning: Duplicate entry in line #%d in file \"%s\": \"%s\" and \"%s\" refer to the same file, but they don't store the same properties; the entry in line #%d is used.%n",
+                                        lineNumber, filename, previous.getFilename(), hashEntry.getFilename(), lineNumber);
+                            }
                         }
                     } else {
                         list.add(hashEntry);
@@ -357,6 +402,8 @@ public class Parser {
 
             if (replaceDuplicateFilenames) {
                 list.addAll(map.values());
+                getStatistics().setDuplicateEntriesCounted(true);
+                getStatistics().setDuplicateEntries(duplicateEntries);
             }
             getStatistics().setTotalLines(lineNumber);
             getStatistics().setProperlyFormattedLines(properlyFormattedLines);

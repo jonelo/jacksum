@@ -1276,6 +1276,12 @@ OPTIONS
 \
             If multiple hash values are stored in the check file for a file name
             the last hash value will win that corresponds to that file name.
+            Entries are identified by the file they refer to, and not by the
+            way their path is spelled, so "a.txt" and "./a.txt" are duplicates
+            of each other, and such a file is read and verified exactly once.
+            If an entry that is replaced by a later one stores a different hash
+            value, file size, or timestamp, a warning is printed. The number of
+            duplicates is part of the summary.
 \
             To exclude files from being checked, just remove the lines from the
             list. This can be done with "findstr /V" on Windows, and with

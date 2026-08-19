@@ -33,6 +33,10 @@ public class ParserStatistics extends Statistics {
     private int properlyFormattedLines;
     private int improperlyFormattedLines;
     private int ignoredLines;
+    private int duplicateEntries;
+    // duplicates are only counted if they are replaced at all, see Parser.isReplaceDuplicateFilenames();
+    // a wanted list (--wanted-list) keeps duplicates on purpose, so they are not reported there
+    private boolean duplicateEntriesCounted;
 
     @Override
     public Map<String, Object> build() {
@@ -45,6 +49,9 @@ public class ParserStatistics extends Statistics {
         map.put("total lines in check file", getTotalLines());
         map.put("improperly formatted lines in check file", getImproperlyFormattedLines());
         map.put("properly formatted lines in check file", getProperlyFormattedLines());
+        if (isDuplicateEntriesCounted()) {
+            map.put("duplicate entries in check file", getDuplicateEntries());
+        }
         map.put("ignored lines (empty lines and comments)", getIgnoredLines());
         map.put("correctness of check file", String.format("%.2f %%", percent).replace(',', '.'));
         return map;
@@ -55,6 +62,36 @@ public class ParserStatistics extends Statistics {
     public void reset() {
         totalLines = 0;
         improperlyFormattedLines = 0;
+        duplicateEntries = 0;
+    }
+
+    /**
+     * @return the number of entries that have been replaced by a later entry, because both
+     * entries refer to the same file
+     */
+    public int getDuplicateEntries() {
+        return duplicateEntries;
+    }
+
+    /**
+     * @param duplicateEntries the number of duplicate entries to set
+     */
+    public void setDuplicateEntries(int duplicateEntries) {
+        this.duplicateEntries = duplicateEntries;
+    }
+
+    /**
+     * @return true if duplicate entries are counted at all, see also the option --wanted-list
+     */
+    public boolean isDuplicateEntriesCounted() {
+        return duplicateEntriesCounted;
+    }
+
+    /**
+     * @param duplicateEntriesCounted whether duplicate entries are counted at all
+     */
+    public void setDuplicateEntriesCounted(boolean duplicateEntriesCounted) {
+        this.duplicateEntriesCounted = duplicateEntriesCounted;
     }
     
     /**

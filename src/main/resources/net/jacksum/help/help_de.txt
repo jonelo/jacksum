@@ -1372,7 +1372,15 @@ OPTIONS
 \
             Sind für einen Dateinamen mehrere Hashwerte in der Prüfdatei
             gespeichert, gewinnt der letzte Hashwert, der zu diesem
-            Dateinamen gehört.
+            Dateinamen gehört. Einträge werden dabei über die Datei
+            identifiziert, auf die sie sich beziehen, und nicht über die
+            Schreibweise ihres Pfades; "a.txt" und "./a.txt" sind also
+            Duplikate voneinander, und eine solche Datei wird genau einmal
+            gelesen und geprüft. Speichert ein Eintrag, der von einem
+            späteren ersetzt wird, einen anderen Hashwert, eine andere
+            Dateigröße oder einen anderen Zeitstempel, wird eine Warnung
+            ausgegeben. Die Anzahl der Duplikate ist Teil der
+            Zusammenfassung.
 \
             Um Dateien von der Prüfung auszuschließen, entfernen Sie
             einfach die entsprechenden Zeilen aus der Liste. Dies kann
