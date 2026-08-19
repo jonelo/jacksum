@@ -34,6 +34,10 @@ public abstract class MessageConsumer implements Runnable {
     protected BlockingQueue<Message> queue;
     protected FormatPreferences formatPreferences;
 
+    // the number of messages that could not be consumed, because an unexpected exception occurred
+    // while they were being handled, see also run() and getUnexpectedErrors()
+    private int unexpectedErrors;
+
     public void setFormatPreferences(FormatPreferences formatPreferences) {
         this.formatPreferences = formatPreferences;
     }
@@ -61,7 +65,34 @@ public abstract class MessageConsumer implements Runnable {
     public abstract void handleMessagesFinal();
     
     public abstract int getExitCode();
-    
+
+    /**
+     * Returns the number of messages that could not be consumed, because an unexpected exception
+     * occurred while they were being handled. Implementations of getExitCode() must not report
+     * success if that number is greater than zero.
+     *
+     * @return the number of messages that could not be consumed
+     */
+    public int getUnexpectedErrors() {
+        return unexpectedErrors;
+    }
+
+    /**
+     * Handles an unexpected exception that occurred while a message was being consumed.
+     * Catch everything, not just RuntimeException: an exception that escapes handleMessage()
+     * would otherwise kill this thread silently. Engine.start() joins this thread and returns
+     * normally, so the action would read the counters as if the job had been finished, all
+     * messages that are still on the queue would be lost, and the exit code would signal
+     * success although the job has been aborted. See also WorkerThread which catches
+     * everything for the same reason.
+     *
+     * @param throwable the exception that has been thrown while the message was being handled
+     */
+    private void handleUnexpectedException(Throwable throwable) {
+        unexpectedErrors++;
+        System.err.printf("Jacksum: Error: %s%n", throwable);
+    }
+
     @Override
     public void run() {
         // System.out.println("Message Consumer started.");
@@ -70,14 +101,22 @@ public abstract class MessageConsumer implements Runnable {
             // Consuming messages until exit message is received
             while ((message = queue.take()).getType() != Message.Type.EXIT) {
                 if (message.getType() != null) {
-                    handleMessage(message);
+                    try {
+                        handleMessage(message);
+                    } catch (Throwable throwable) {
+                        handleUnexpectedException(throwable);
+                    }
                 }
                 // logQueue.put(new Message(INFO, "Output Consumer: consumed " + message.getPath()));
             }
-            handleMessagesFinal();
+            try {
+                handleMessagesFinal();
+            } catch (Throwable throwable) {
+                handleUnexpectedException(throwable);
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         // System.out.println("Message Consumer stopped.");
-    }   
+    }
 }

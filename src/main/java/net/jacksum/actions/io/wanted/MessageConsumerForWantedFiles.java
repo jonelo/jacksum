@@ -165,6 +165,11 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
 
     @Override
     public int getExitCode() {
+        // a message that could not be consumed means that a file has not been processed at all,
+        // so this must be checked before any other condition in order not to be masked
+        if (getUnexpectedErrors() > 0) {
+            return ExitCode.IO_ERROR;
+        }
         if (parameters.isExpectation() || parameters.isWantedList()) {
             return exitCode;
         }

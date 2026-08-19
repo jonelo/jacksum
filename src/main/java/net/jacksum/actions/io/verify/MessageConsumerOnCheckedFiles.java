@@ -35,6 +35,7 @@ import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Messenger;
 import static net.jacksum.cli.Messenger.MsgType.ERROR;
 import static net.jacksum.cli.Messenger.MsgType.INFO;
+import static net.jacksum.cli.Messenger.MsgType.WARNING;
 import net.jacksum.formats.TimestampFormatter;
 import net.jacksum.statistics.StatisticsOnCheckedFiles;
 import net.jacksum.statistics.Statistics;
@@ -105,6 +106,24 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
        
     }
 
+    // in order to warn only once, and not for every single entry, see warnTimestampNotAvailable()
+    private boolean timestampNotAvailableWarned = false;
+
+    /**
+     * Warns once that the timestamp of an entry of the check file cannot be verified, because
+     * a timestamp is only available for data that comes from a file.
+     *
+     * @param filename the name of the first entry that is affected
+     */
+    private void warnTimestampNotAvailable(String filename) {
+        if (!timestampNotAvailableWarned) {
+            timestampNotAvailableWarned = true;
+            messenger.print(WARNING, String.format(
+                    "The timestamp of \"%s\" cannot be verified, because a timestamp is not available for that input. Only hash values and file sizes are verified for such entries.",
+                    filename));
+        }
+    }
+
     private void print(boolean output, String status, String filename) {
         if (output) {
             if (parameters.isList()) {
@@ -164,14 +183,20 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
 
                     // check the timestamp if timestamp is available in the map
                     if (cont && !parameters.isIgnoreTimestamps() && map.get(filenameAsKey).getTimestamp() != null) {
-                        String actualTimestampAsString = timestampFormatter.format(message.getPayload().getBasicFileAttributes().lastModifiedTime().to(TimeUnit.MILLISECONDS));
-                        if (!map.get(filenameAsKey).getTimestamp().equals(actualTimestampAsString)) {
-                            print(filter.isFilterFailed(), FAILED, filename);
-                            if (!parameters.isList() && parameters.getVerbose().isInfo()) {
-                                System.err.printf("           [timestamp expected: %s, actual: %s]\n", map.get(filenameAsKey).getTimestamp(), actualTimestampAsString);
+                        // a timestamp is only available if the data comes from a file, so there is
+                        // nothing to compare for standard input or an NTFS alternate data stream
+                        if (timestampFormatter == null || message.getPayload().getBasicFileAttributes() == null) {
+                            warnTimestampNotAvailable(filename);
+                        } else {
+                            String actualTimestampAsString = timestampFormatter.format(message.getPayload().getBasicFileAttributes().lastModifiedTime().to(TimeUnit.MILLISECONDS));
+                            if (!map.get(filenameAsKey).getTimestamp().equals(actualTimestampAsString)) {
+                                print(filter.isFilterFailed(), FAILED, filename);
+                                if (!parameters.isList() && parameters.getVerbose().isInfo()) {
+                                    System.err.printf("           [timestamp expected: %s, actual: %s]\n", map.get(filenameAsKey).getTimestamp(), actualTimestampAsString);
+                                }
+                                mismatches++;
+                                cont = false;
                             }
-                            mismatches++;
-                            cont = false;                            
                         }
                     }
 
@@ -293,7 +318,8 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
 
     @Override
     public int getExitCode() {
-        if (errors > 0) {
+        // a message that could not be consumed means that a file has not been verified at all
+        if (errors > 0 || getUnexpectedErrors() > 0) {
             return ExitCode.IO_ERROR;
         }
         ListFilter listFilter = parameters.getListFilter();

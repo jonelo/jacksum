@@ -157,6 +157,7 @@ Jacksum 4.0.0, August TBD, 2026
       keeping one CPU core at 100%. It now waits without spinning.
     - a short read that is not the end of the file is no longer misinterpreted as the last block, which could
       truncate a hash or block the reader.
+    - issue #49: An unexpected exception in the output consumer aborts the run silently with exit code 0
   - algorithms
     - sum64 was truncated to 32 bits and behaved like sum32, because getValue() reduced the accumulator
       modulo 2^32 twice ((value mod 2^32) mod 2^32) instead of keeping the full 64-bit value; the upper

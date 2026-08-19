@@ -2364,6 +2364,20 @@ public class Parameters implements
     }
 
 
+    /**
+     * Determines whether Jacksum verifies data against a check file resp. a check line
+     * (options -c and --check-line).
+     *
+     * In that mode the timestamp format is not only used to format the output, it is also
+     * required to parse and to compare the timestamps that are stored in the check file, so
+     * it must not be discarded, see also handleWarningsAndImplicitSettings().
+     *
+     * @return true if a check file resp. a check line has been specified
+     */
+    private boolean isVerifying() {
+        return checkFile != null || checkLine != null;
+    }
+
     private void handleWarningsAndImplicitSettings() {
 
         // warnings
@@ -2392,7 +2406,7 @@ public class Parameters implements
         }
 
         // both timestamp and sequence have been specified
-        if (timestampFormat != null && sequence != null) {
+        if (timestampFormat != null && sequence != null && !isVerifying()) {
             // only warn if the user has asked for a timestamp, the format could also come from a style
             if (isTimestampFormatSetByUser()) {
                 messenger.print(WARNING, "A sequence (-q) has been specified, timestamp (-t) will be ignored.");
@@ -2412,7 +2426,7 @@ public class Parameters implements
             messenger.print(INFO, String.format("Option -a has not been given, it is set implicitly to %s. Alternatively set -C <compatibility>.", ALGORITHM_IDENTIFIER_DEFAULT));
         }
 
-        if (stdin && timestampFormat != null) {
+        if (stdin && timestampFormat != null && !isVerifying()) {
             // only warn if the user has asked for a timestamp, the format could also come from a style
             if (isTimestampFormatSetByUser()) {
                 messenger.print(WARNING, String.format("Option %s has been ignored, because standard input is used.", __TIMESTAMP));
