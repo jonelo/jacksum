@@ -261,6 +261,8 @@ Jacksum 4.0.0, August TBD, 2026
     - the options --wanted-list and -e are silently ignored if -c resp. --check-line is specified as well,
       because both jobs cannot be performed by one run; the combination is rejected with a parameter
       error now
+    - issue #54: -c: the status output does not escape file names, so a file name with a newline breaks
+      the output
     - records with the same comments in wanted list files are no longer ignored. While ignoring duplicate
       file names in check files makes sense for the option --check-file, that setting is suboptimal if the
       option --wanted-list is used, because file names are treated as comments in wanted lists.

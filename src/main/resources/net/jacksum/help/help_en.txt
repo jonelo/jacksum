@@ -3150,7 +3150,11 @@ OPTIONS
 \
             If the option -c and --list-filter is set, it will list the
             filenames only without the statuses OK, FAILED, MISSING, ERROR,
-            or NEW.
+            or NEW. A filename that contains a backslash, a newline, or a
+            carriage return is escaped and its line is marked with a leading
+            backslash, unless GNU filename escaping has been disabled, so that
+            one file is always one line and the output can be read back by the
+            option --file-list.
 \
             If options --wanted-list and --wanted-list-filter are set, it lists
             the filenames only without the statuses MATCH or NO MATCH.

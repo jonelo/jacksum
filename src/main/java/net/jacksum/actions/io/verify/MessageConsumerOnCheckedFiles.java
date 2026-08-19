@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.compats.parsing.HashEntry;
 import net.jacksum.formats.Encoding;
 import net.jacksum.formats.EncodingDecoding;
+import net.jacksum.formats.FilenameFormatter;
 import net.jacksum.multicore.manyfiles.Message;
 import net.jacksum.multicore.manyfiles.MessageConsumer;
 import net.jacksum.cli.ExitCode;
@@ -143,10 +144,19 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
 
     private void print(boolean output, String status, String filename) {
         if (output) {
+            // A file name that contains a backslash, a newline, or a carriage return would break
+            // the line oriented output, so it is escaped exactly as it is escaped while a check
+            // file is being written, see FilenameFormatter.
+            String printableFilename = parameters.isGnuEscaping()
+                    ? FilenameFormatter.gnuEscapeProblematicCharsInFilename(filename)
+                    : filename;
             if (parameters.isList()) {
-                System.out.printf("%s\n", filename);                
+                // the escaping is marked by a leading backslash, so that the list of file names
+                // can be read back by option --file-list, which unescapes such a line
+                String escapeTag = printableFilename.length() != filename.length() ? "\\" : "";
+                System.out.printf("%s%s\n", escapeTag, printableFilename);
             } else {
-                System.out.printf("%9s  %s\n", status, filename);
+                System.out.printf("%9s  %s\n", status, printableFilename);
             }
         }
     }

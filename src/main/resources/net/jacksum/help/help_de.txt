@@ -3471,7 +3471,13 @@ OPTIONS
 \
             Sind die Option -c und --list-filter gesetzt, werden nur
             die Dateinamen ohne die Status OK, FAILED, MISSING, ERROR
-            oder NEW aufgelistet.
+            oder NEW aufgelistet. Ein Dateiname, der einen Backslash,
+            einen Zeilenumbruch oder einen Wagenrücklauf enthält, wird
+            escaped und seine Zeile mit einem führenden Backslash
+            markiert, sofern das GNU-Escaping von Dateinamen nicht
+            deaktiviert wurde. So entspricht eine Datei immer genau
+            einer Zeile, und die Ausgabe kann mit der Option --file-list
+            wieder eingelesen werden.
 \
             Sind die Optionen --wanted-list und --wanted-list-filter
             gesetzt, werden nur die Dateinamen ohne die Status MATCH
