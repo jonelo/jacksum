@@ -1324,6 +1324,14 @@ OPTIONS
                    directory is set correctly.
 \
 \
+                ERROR
+\
+                   A file that is stored in <list> is there, but it could not be
+                   verified, for example because it cannot be read, or because a
+                   directory has been found where a file was expected. The
+                   reason is printed to stderr, and the exit code is 4.
+\
+\
                 NEW
 \
                    A new file that cannot be found in the <list>, but on the
@@ -3138,7 +3146,8 @@ OPTIONS
                 > jacksum -a all:32 -l
 \
             If the option -c and --list-filter is set, it will list the
-            filenames only without the statuses OK, FAILED, MISSING or NEW.
+            filenames only without the statuses OK, FAILED, MISSING, ERROR,
+            or NEW.
 \
             If options --wanted-list and --wanted-list-filter are set, it lists
             the filenames only without the statuses MATCH or NO MATCH.
@@ -3159,18 +3168,20 @@ OPTIONS
                 failed          show FAILED files
                 missing         show MISSING files
                 new             show NEW files
+                error           show ERROR files
 \
-                all             <filter> is set to ok,failed,missing,new
+                all             <filter> is set to ok,failed,missing,new,error
                 default         <filter> is set to all
                 none            does not print anything (useful if you are
                                 interested in the summary only) or if you want
                                 to define your own filter
                 good            <filter> is set to none,ok,new
-                bad             <filter> ist set to none,failed,missing
+                bad             <filter> ist set to none,failed,missing,error
 \
             If this option is omitted, the <filter> is set to all.
-            Only if the filter is set to ok, failed or both, hashing
-            occurs. For detecting missing or new files, hashing is not required.
+            Only if the filter is set to ok, failed, error, or a combination of
+            those, hashing occurs. For detecting missing or new files, hashing
+            is not required.
 \
 \
             See also:

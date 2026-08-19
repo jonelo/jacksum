@@ -38,6 +38,7 @@ public class MessagePayload {
     private byte[] digest;
     private long size;
     private BasicFileAttributes basicFileAttributes;
+    private boolean fileNotFound;
 
     public void setPath(Path path) {
         this.path = path;
@@ -53,6 +54,24 @@ public class MessagePayload {
 
     public String getSpecialPath() {
         return specialPath;
+    }
+
+    /**
+     * Determines whether the error that this payload belongs to is that the file cannot be found
+     * at all. It allows a verification (option -c) to tell a file that is missing apart from a
+     * file that exists, but that could not be processed for a different reason.
+     *
+     * @return true if the file cannot be found
+     */
+    public boolean isFileNotFound() {
+        return fileNotFound;
+    }
+
+    /**
+     * @param fileNotFound whether the file cannot be found at all
+     */
+    public void setFileNotFound(boolean fileNotFound) {
+        this.fileNotFound = fileNotFound;
     }
 
     public void setDigest(byte[] digest) {

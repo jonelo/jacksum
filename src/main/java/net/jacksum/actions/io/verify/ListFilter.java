@@ -37,12 +37,10 @@ public class ListFilter implements Serializable  {
     private boolean filterFailed;
     private boolean filterNew;
     private boolean filterMissing;
-    
+    private boolean filterError;
+
     public ListFilter() {
-        filterOk = true;
-        filterFailed = true;
-        filterNew = true;
-        filterMissing = true;
+        enableAll(true);
     }
 
     public void enableAll(boolean bool) {
@@ -50,10 +48,13 @@ public class ListFilter implements Serializable  {
         filterFailed = bool;
         filterNew = bool;
         filterMissing = bool;
+        filterError = bool;
     }
     
     public boolean isHashingRequired() {
-        return filterOk || filterFailed;
+        // a file that exists but that cannot be read is only detected if it is being read,
+        // so the status ERROR requires hashing as well
+        return filterOk || filterFailed || filterError;
     }
 
     /**
@@ -64,7 +65,21 @@ public class ListFilter implements Serializable  {
      * @return true if all statuses pass the filter
      */
     public boolean isAll() {
-        return filterOk && filterFailed && filterNew && filterMissing;
+        return filterOk && filterFailed && filterNew && filterMissing && filterError;
+    }
+
+    /**
+     * @return the filterError
+     */
+    public boolean isFilterError() {
+        return filterError;
+    }
+
+    /**
+     * @param filterError the filterError to set
+     */
+    public void setFilterError(boolean filterError) {
+        this.filterError = filterError;
     }
 
     /**
@@ -124,16 +139,16 @@ public class ListFilter implements Serializable  {
     }
     
     public String toString() {
-        if (filterOk && filterFailed && filterNew && filterMissing) {
+        if (isAll()) {
             return "all";
         }
-        if (!filterOk && !filterFailed && !filterNew && !filterMissing) {
+        if (!filterOk && !filterFailed && !filterNew && !filterMissing && !filterError) {
             return "none";
         }
-        if (filterFailed && filterMissing && !filterOk && !filterNew) {
+        if (filterFailed && filterMissing && filterError && !filterOk && !filterNew) {
             return "bad";
         }
-        if (!filterFailed && !filterMissing && filterOk && filterNew) {
+        if (!filterFailed && !filterMissing && !filterError && filterOk && filterNew) {
             return "good";
         }
         List<String> list = new ArrayList<>();
@@ -148,6 +163,9 @@ public class ListFilter implements Serializable  {
         }
         if (filterMissing) {
             list.add("missing");
+        }
+        if (filterError) {
+            list.add("error");
         }
         return Transformer.list2CsvString(list);
     }
@@ -173,12 +191,14 @@ public class ListFilter implements Serializable  {
                 case "bad":
                    filterFailed = true;
                    filterMissing = true;
+                   filterError = true;
                    filterOk = false;
                    filterNew = false;
                     break;
                 case "good":
                    filterFailed = false;
                    filterMissing = false;
+                   filterError = false;
                    filterOk = true;
                    filterNew = true;
                     break;
@@ -193,6 +213,9 @@ public class ListFilter implements Serializable  {
                     break;
                 case "missing":
                     setFilterMissing(true);
+                    break;
+                case "error":
+                    setFilterError(true);
                     break;
                 default:
                     throw new IllegalArgumentException(String.format("%s is an invalid parameter", token));

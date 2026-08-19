@@ -34,6 +34,7 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     private long mismatches;
     private long newFiles;
     private long missingFiles;
+    private long filesWithErrors;
 
     private ListFilter listFilter;
 
@@ -53,8 +54,11 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
         if (listFilter.isFilterMissing()) {
            map.put("missing files (MISSING)", missingFiles);
         }
-        if (listFilter.isFilterOk() && listFilter.isFilterFailed() && listFilter.isFilterNew() && listFilter.isFilterMissing()) {
-            map.put("strict check", (mismatches + newFiles + missingFiles) == 0 ? "PASSED" : "FAILED");
+        if (listFilter.isFilterError()) {
+           map.put("files with errors (ERROR)", filesWithErrors);
+        }
+        if (listFilter.isAll()) {
+            map.put("strict check", (mismatches + newFiles + missingFiles + filesWithErrors) == 0 ? "PASSED" : "FAILED");
         }
         super.put(map);
         return map;
@@ -67,6 +71,22 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
         mismatches = 0;
         newFiles = 0;
         missingFiles = 0;
+        filesWithErrors = 0;
+    }
+
+    /**
+     * @return the number of files that are listed in the check file and that exist, but that
+     * could not be verified
+     */
+    public long getFilesWithErrors() {
+        return filesWithErrors;
+    }
+
+    /**
+     * @param filesWithErrors the number of files that could not be verified
+     */
+    public void setFilesWithErrors(long filesWithErrors) {
+        this.filesWithErrors = filesWithErrors;
     }
 
     /**

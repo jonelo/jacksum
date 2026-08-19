@@ -48,8 +48,11 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
     private final static String FAILED = "FAILED";
     private final static String MISSING = "MISSING";
     private final static String NEW = "NEW";
+    // the status of a file that is listed in the check file and that exists, but that could not be
+    // verified; the constant is not called ERROR, because that name is taken by Messenger.MsgType
+    private final static String ERROR_STATUS = "ERROR";
 
-    private long filesRead, bytesRead, newFiles;
+    private long filesRead, bytesRead, newFiles, filesWithErrors;
     private CheckConsumerParameters parameters;
     private List<HashEntry> hashEntries;
     private HashMap<String, HashEntry> map;
@@ -298,8 +301,15 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                 }
 
                 if (map.containsKey(filenameAsKey)) {
-                    print(filter.isFilterMissing(), MISSING, filename);
-                    filesMissing++;
+                    if (message.getPayload().isFileNotFound()) {
+                        print(filter.isFilterMissing(), MISSING, filename);
+                        filesMissing++;
+                    } else {
+                        // the file is there, but it could not be verified, e.g. it cannot be read,
+                        // or a directory has been found where a file was expected
+                        print(filter.isFilterError(), ERROR_STATUS, filename);
+                        filesWithErrors++;
+                    }
                 }
 
                 break;
@@ -325,6 +335,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
         ((StatisticsOnCheckedFiles) statistics).setMatches(matches);
         ((StatisticsOnCheckedFiles) statistics).setMismatches(mismatches);
         ((StatisticsOnCheckedFiles) statistics).setMissingFiles(filesMissing);
+        ((StatisticsOnCheckedFiles) statistics).setFilesWithErrors(filesWithErrors);
         ((StatisticsOnCheckedFiles) statistics).setErrors(errors);
         ((StatisticsOnCheckedFiles) statistics).setNewFiles(newFiles);
         return statistics;

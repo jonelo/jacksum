@@ -70,6 +70,20 @@ public class MessageProducer implements Runnable {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Marks an error message as an error that occurred, because the file cannot be found at all.
+     * A verification (option -c) reports such a file as MISSING, while a file that exists but that
+     * cannot be processed for a different reason (e.g. a file that cannot be read, or a directory
+     * that has been found where a file was expected) is reported as ERROR.
+     *
+     * @param message the error message
+     * @return the very same message, marked as a file that cannot be found
+     */
+    private static Message fileNotFound(Message message) {
+        message.getPayload().setFileNotFound(true);
+        return message;
+    }
+
     private void handleFilename(String filename, boolean filenameIsInCheckFile, Message.Type messageTypeForFiles) {
         try {
             Path path = Paths.get(filename);
@@ -111,7 +125,7 @@ public class MessageProducer implements Runnable {
 
                 }
             } else {
-                outputQueue.put(new Message(Type.ERROR, String.format("%s: does not exist.", path), path));
+                outputQueue.put(fileNotFound(new Message(Type.ERROR, String.format("%s: does not exist.", path), path)));
             }
 
         } catch (InvalidPathException e) {
@@ -132,7 +146,7 @@ public class MessageProducer implements Runnable {
                     }
                 } else {
                     try {
-                        outputQueue.put(new Message(Type.ERROR, String.format("%s: not found.", filename), (Path) null));
+                        outputQueue.put(fileNotFound(new Message(Type.ERROR, String.format("%s: not found.", filename), (Path) null)));
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
@@ -140,7 +154,7 @@ public class MessageProducer implements Runnable {
             } else {
                 // POSIX path-names may not contain null characters.
                 try {
-                    outputQueue.put(new Message(Type.ERROR, String.format("%s: not found: %s", filename, e.getMessage()), (Path) null));
+                    outputQueue.put(fileNotFound(new Message(Type.ERROR, String.format("%s: not found: %s", filename, e.getMessage()), (Path) null)));
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                     // Logger.getLogger(MessageProducer.class.getName()).log(Level.SEVERE, null, ex);

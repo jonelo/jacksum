@@ -1430,6 +1430,16 @@ OPTIONS
                    Arbeitsverzeichnis korrekt gesetzt ist.
 \
 \
+                ERROR
+\
+                   Eine Datei, die in <list> gespeichert ist, ist
+                   vorhanden, konnte aber nicht verifiziert werden, zum
+                   Beispiel weil sie nicht gelesen werden kann oder weil
+                   ein Verzeichnis gefunden wurde, wo eine Datei erwartet
+                   wurde. Der Grund wird auf stderr ausgegeben, der
+                   Exit-Code ist 4.
+\
+\
                 NEW
 \
                    Eine neue Datei, die nicht in <list>, aber im
@@ -3456,8 +3466,8 @@ OPTIONS
                 > jacksum -a all:32 -l
 \
             Sind die Option -c und --list-filter gesetzt, werden nur
-            die Dateinamen ohne die Status OK, FAILED, MISSING oder NEW
-            aufgelistet.
+            die Dateinamen ohne die Status OK, FAILED, MISSING, ERROR
+            oder NEW aufgelistet.
 \
             Sind die Optionen --wanted-list und --wanted-list-filter
             gesetzt, werden nur die Dateinamen ohne die Status MATCH
@@ -3479,22 +3489,23 @@ OPTIONS
                 failed          zeigt FAILED-Dateien
                 missing         zeigt MISSING-Dateien
                 new             zeigt NEW-Dateien
+                error           zeigt ERROR-Dateien
 \
-                all             <filter> wird auf ok,failed,missing,new
-                                gesetzt
+                all             <filter> wird auf
+                                ok,failed,missing,new,error gesetzt
                 default         <filter> wird auf all gesetzt
                 none            gibt nichts aus (nützlich, wenn Sie nur
                                 an der Zusammenfassung interessiert
                                 sind, oder wenn Sie Ihren eigenen
                                 Filter definieren möchten)
                 good            <filter> wird auf none,ok,new gesetzt
-                bad             <filter> wird auf none,failed,missing
-                                gesetzt
+                bad             <filter> wird auf
+                                none,failed,missing,error gesetzt
 \
             Wird diese Option weggelassen, wird <filter> auf all
-            gesetzt. Nur wenn der Filter auf ok, failed oder beides
-            gesetzt ist, wird gehasht. Zum Erkennen fehlender oder
-            neuer Dateien ist kein Hashen erforderlich.
+            gesetzt. Nur wenn der Filter auf ok, failed, error oder eine
+            Kombination davon gesetzt ist, wird gehasht. Zum Erkennen
+            fehlender oder neuer Dateien ist kein Hashen erforderlich.
 \
 \
             Siehe auch:

@@ -255,6 +255,8 @@ Jacksum 4.0.0, August TBD, 2026
       entry bypasses the duplicate detection
     - issue #52: --check-strict combined with --list-filter other than all exits with 2 silently, after
       the whole verification has been done
+    - issue #53: -c: every error on an entry of the check file is reported as MISSING, even if the file
+      exists; such a file gets the new status ERROR now, see also --list-filter error
     - records with the same comments in wanted list files are no longer ignored. While ignoring duplicate
       file names in check files makes sense for the option --check-file, that setting is suboptimal if the
       option --wanted-list is used, because file names are treated as comments in wanted lists.
