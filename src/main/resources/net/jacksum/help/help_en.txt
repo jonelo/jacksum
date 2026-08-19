@@ -1261,6 +1261,14 @@ OPTIONS
             except if an encoding with a case sensitive alphabet has been set
             by -E, see also option -e.
 \
+            A file size is compared in the unit that <list> stores it in. The
+            default format of the algorithms sum_bsd, sum_sysv, and sum_minix
+            stores the file size as a number of blocks, exactly as the BSD resp.
+            System V "sum" command does, so for those algorithms the file size
+            is verified block-wise. If you want it to be verified byte-wise,
+            create <list> with a style that stores the file size in bytes,
+            e.g. --style full.
+\
             If you have used option -F, or if the output of <list> is not in the
             quasi-standard output format like
 \

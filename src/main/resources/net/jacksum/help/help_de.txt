@@ -1357,6 +1357,15 @@ OPTIONS
             groß-/kleinschreibungssensitiven Alphabet gesetzt wurde,
             siehe auch die Option -e.
 \
+            Eine Dateigröße wird in der Einheit verglichen, in der <list> sie
+            speichert. Das Standardformat der Algorithmen sum_bsd, sum_sysv
+            und sum_minix speichert die Dateigröße als Anzahl von Blöcken,
+            genau wie der Befehl "sum" unter BSD bzw. System V, sodass die
+            Dateigröße bei diesen Algorithmen blockweise verifiziert wird.
+            Soll sie bytegenau verifiziert werden, erzeugen Sie <list> mit
+            einem Style, der die Dateigröße in Bytes speichert, zum Beispiel
+            mit --style full.
+\
             Wenn Sie die Option -F verwendet haben oder die Ausgabe von
             <list> nicht im quasi-Standard-Ausgabeformat vorliegt wie
 \

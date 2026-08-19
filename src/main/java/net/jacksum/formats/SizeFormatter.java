@@ -33,14 +33,27 @@ public class SizeFormatter implements LengthFormatParameters {
         this.parameters = parameters;
     }
 
-    public String format(long length) {
-        long output;
+    /**
+     * Converts a length in bytes into the unit that a format stores it in. Some algorithms store
+     * the size of a file as a number of blocks rather than as a number of bytes, e.g. sum_bsd,
+     * sum_sysv, and sum_minix, which follow the output of the BSD resp. System V "sum" command.
+     * A verification has to compare the size in the very same unit, see also
+     * MessageConsumerOnCheckedFiles.
+     *
+     * @param length the length in bytes
+     * @param filesizeAsByteBlocks the number of bytes that one block consists of, or -1 if the
+     * size is stored in bytes
+     * @return the length in the unit that the format stores it in
+     */
+    public static long lengthInUnitOfFormat(long length, long filesizeAsByteBlocks) {
+        return filesizeAsByteBlocks == -1
+                ? length
+                : (length + (filesizeAsByteBlocks - 1)) / filesizeAsByteBlocks;
+    }
 
-        if (parameters.getFilesizeAsByteBlocks() != -1) {
-            output = (length + (parameters.getFilesizeAsByteBlocks() - 1)) / parameters.getFilesizeAsByteBlocks();
-        } else {
-            output = length;
-        }
+    public String format(long length) {
+        long output = lengthInUnitOfFormat(length, parameters.getFilesizeAsByteBlocks());
+
         if (parameters.getFilesizeWithPrintfFormatted() != null) {
             return String.format(parameters.getFilesizeWithPrintfFormatted(), output); // e.g. "%5s"
         }

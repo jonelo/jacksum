@@ -30,6 +30,7 @@ import net.jacksum.compats.parsing.HashEntry;
 import net.jacksum.formats.Encoding;
 import net.jacksum.formats.EncodingDecoding;
 import net.jacksum.formats.FilenameFormatter;
+import net.jacksum.formats.SizeFormatter;
 import net.jacksum.multicore.manyfiles.Message;
 import net.jacksum.multicore.manyfiles.MessageConsumer;
 import net.jacksum.cli.ExitCode;
@@ -105,6 +106,21 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
 
     // set if the parameters are inconsistent, see setParameters() and getExitCode()
     private boolean parameterError;
+
+    // the unit that the check file stores the file size in: -1 means bytes, and a positive value
+    // means a number of blocks of that many bytes, see setFilesizeAsByteBlocks()
+    private long filesizeAsByteBlocks = -1;
+
+    /**
+     * Sets the unit that the check file stores the file size in. The default format of some
+     * algorithms stores it as a number of blocks rather than as a number of bytes (e.g. sum_bsd,
+     * sum_sysv, and sum_minix), and a size can only be verified in the unit that it is stored in.
+     *
+     * @param filesizeAsByteBlocks the number of bytes that one block consists of, or -1 for bytes
+     */
+    public void setFilesizeAsByteBlocks(long filesizeAsByteBlocks) {
+        this.filesizeAsByteBlocks = filesizeAsByteBlocks;
+    }
 
     public void setParameters(CheckConsumerParameters checkConsumerParameters) {
         this.parameters = checkConsumerParameters;
@@ -198,11 +214,13 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
 
                     boolean cont = true;
                     
-                    // check if filesize is available in the map
-                    if (!parameters.isIgnoreSizes() && map.get(filenameAsKey).getFilesize() > -1 && map.get(filenameAsKey).getFilesize() != message.getPayload().getSize()) {
+                    // check if filesize is available in the map; the size has to be compared in the
+                    // unit that the check file stores it in, see setFilesizeAsByteBlocks()
+                    long actualFilesize = SizeFormatter.lengthInUnitOfFormat(message.getPayload().getSize(), filesizeAsByteBlocks);
+                    if (!parameters.isIgnoreSizes() && map.get(filenameAsKey).getFilesize() > -1 && map.get(filenameAsKey).getFilesize() != actualFilesize) {
                             print(filter.isFilterFailed(), FAILED, filename);
                             if (!parameters.isList() && parameters.getVerbose().isInfo()) {
-                                System.err.printf("           [filesize expected: %s, actual: %s]\n", map.get(filenameAsKey).getFilesize(), message.getPayload().getSize());
+                                System.err.printf("           [filesize expected: %s, actual: %s]\n", map.get(filenameAsKey).getFilesize(), actualFilesize);
                             }
                             mismatches++;
                             cont = false;

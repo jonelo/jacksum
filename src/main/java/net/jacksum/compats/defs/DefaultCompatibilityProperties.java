@@ -62,6 +62,12 @@ public class DefaultCompatibilityProperties {
             }
         }
 
+        // The default format of an algorithm can store the file size as a number of blocks rather
+        // than as a number of bytes (e.g. sum_bsd, sum_sysv, and sum_minix), so a verification has
+        // to compare the size in that very same unit. A style stores the size in bytes, see the
+        // token #FILESIZE in Formatter, so this is only relevant for the generated parser.
+        parserProperties.setFilesizeAsByteBlocks(ac.getFormatPreferences().getFilesizeAsByteBlocks());
+
         // The regular expression that is generated below cannot constrain the hash value itself,
         // because the alphabet of the hash value depends on the encoding that has been selected by
         // the option -E. Without any constraint almost every line would be a properly formatted

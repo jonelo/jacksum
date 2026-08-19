@@ -63,6 +63,7 @@ public class CompatibilityProperties implements Serializable {
     private final static String REGEXP_GNU_ESCAPING_POS = "parser.regexp.gnuEscapingPos";
     private final static String HASH_NIBBLES = "parser.regexp.nibbles";
     private final static String HASH_LENGTH_CHECK = "parser.hashLengthCheck";
+    private final static String FILESIZE_AS_BYTE_BLOCKS = "parser.filesizeAsByteBlocks";
     private final static String HASH_ALGORITHM = "algorithm.default";
     private final static String HASH_ALGORITHM_USER_SELECTABLE = "algorithm.userSelectable";
     private final static String TIMESTAMP_FORMAT = "timestampFormat.format";
@@ -230,6 +231,30 @@ public class CompatibilityProperties implements Serializable {
      */
     public void setHashLengthCheckWanted(boolean wanted) {
         props.setProperty(HASH_LENGTH_CHECK, wanted ? "true" : "false");
+    }
+
+    /**
+     * Returns the unit that the file size is stored in by the format that this parser reads: the
+     * number of bytes that one block consists of, or -1 if the size is stored in bytes. Some
+     * algorithms store the size as a number of blocks in their default format, e.g. sum_bsd,
+     * sum_sysv, and sum_minix, so a verification has to compare the size in that very same unit,
+     * see also SizeFormatter.lengthInUnitOfFormat().
+     *
+     * @return the number of bytes that one block consists of, or -1 for bytes
+     */
+    public long getFilesizeAsByteBlocks() {
+        try {
+            return Long.parseLong(props.getProperty(FILESIZE_AS_BYTE_BLOCKS, "-1"));
+        } catch (NumberFormatException nfe) {
+            return -1;
+        }
+    }
+
+    /**
+     * @param filesizeAsByteBlocks the number of bytes that one block consists of, or -1 for bytes
+     */
+    public void setFilesizeAsByteBlocks(long filesizeAsByteBlocks) {
+        props.setProperty(FILESIZE_AS_BYTE_BLOCKS, Long.toString(filesizeAsByteBlocks));
     }
 
     public void setGnuEscapingUserSelectable(boolean gnuEscaping) {
