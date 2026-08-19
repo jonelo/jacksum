@@ -915,33 +915,33 @@ OPTION SUPPORT MATRIX
     in columns. If a cell is marked with an "x", it means that the operating
     mode supports the option type.
 \
-                                                                Gather information |
-                                                           Find hash functions |   |
-                                                              Hash strings |   |   |
-                                                 Quick/verify one file |   |   |   |
-                                    Quick/calculate one hash value |   |   |   |   |
-                                                   Wanted list |   |   |   |   |   |
-                                Verify data/file integrity |   |   |   |   |   |   |
-                  Calculate hash values and print them |   |   |   |   |   |   |   |
-                                                   |   |   |   |   |   |   |   |   |
-        | Option Type                              |   |   |   |   |   |   |   |   |
-        -------------------------------------------|---|---|---|---|---|---|---|---|
-        | Common Options                           | x | x | x | x | x | x | x | x |
-        | Security Strength Options                | x | x | x | x | x | x | x | x |
-        | File List Options                        | x | x | x | - | - | - | - | - |
-        | Wanted List Mode Options                 | - | - | x | - | - | - | - | - |
-        | Check/Integrity Verification Mode Options| - | x | - | - | - | - | - | - |
-        | Quick Mode Options                       | - | - | - | x | x | - | x | - |
-        | Hash Strings Mode Options                | - | - | - | - | - | x | - | - |
-        | Information Gathering Mode Options       | - | - | - | - | - | - | - | x |
-        | Directory Traversal Options              | x | x | x | - | - | - | - | - |
-        | Hashing Performance Options              | x | x | x | x | x | x | - | - |
-        | I/O Performance Options                  | x | x | x | - | - | - | - | - |
-        | Path Format Options                      | x | - | - | x | - | - | - | - |
-        | Input Format Options                     | - | x | x | - | x | - | - | - |
-        | Output Format Options                    | x | - | - | x | - | x | - | - |
-        | Output Options                           | x | x | x | x | x | x | x | x |
-        ----------------------------------------------------------------------------
+                                                      Gather information |
+                                                 Find hash functions |   |
+                                                    Hash strings |   |   |
+                                       Quick/verify one file |   |   |   |
+                          Quick/calculate one hash value |   |   |   |   |
+                                         Wanted list |   |   |   |   |   |
+                      Verify data/file integrity |   |   |   |   |   |   |
+        Calculate hash values and print them |   |   |   |   |   |   |   |
+                                         |   |   |   |   |   |   |   |   |
+    | Option Type                        |   |   |   |   |   |   |   |   |
+    -------------------------------------|---|---|---|---|---|---|---|---|
+    | Common Options                     | x | x | x | x | x | x | x | x |
+    | Security Strength Options          | x | x | x | x | x | x | x | x |
+    | File List Options                  | x | x | x | - | - | - | - | - |
+    | Wanted List Mode Options           | - | - | x | - | - | - | - | - |
+    | Integrity Verification Mode Options| - | x | - | - | - | - | - | - |
+    | Quick Mode Options                 | - | - | - | x | x | - | x | - |
+    | Hash Strings Mode Options          | - | - | - | - | - | x | - | - |
+    | Information Gathering Mode Options | - | - | - | - | - | - | - | x |
+    | Directory Traversal Options        | x | x | x | - | - | - | - | - |
+    | Hashing Performance Options        | x | x | x | x | x | x | - | - |
+    | I/O Performance Options            | x | x | x | - | - | - | - | - |
+    | Path Format Options                | x | - | - | x | - | - | - | - |
+    | Input Format Options               | - | x | x | - | x | - | - | - |
+    | Output Format Options              | x | - | - | x | - | x | - | - |
+    | Output Options                     | x | x | x | x | x | x | x | x |
+    ----------------------------------------------------------------------
 
 PARAMETERS
     The following parameters are supported:

@@ -968,33 +968,33 @@ OPTION SUPPORT MATRIX
     in Spalten. Wenn eine Zelle mit einem "x" gekennzeichnet ist, bedeutet dies,
     dass der Betriebsmodus den Optionstyp unterstützt.
 \
-                                                             Informationen sammeln |
-                                                          Finde Hashfunktionen |   |
-                                                       Hashe Zeichenketten |   |   |
-                                       Eine Datei schnell verifizieren |   |   |   |
-                                Schnellberechnen eines Hash-Wertes |   |   |   |   |
-                                               Fahndungslisten |   |   |   |   |   |
-                  Daten- bzw. Dateiintegrität verifizieren |   |   |   |   |   |   |
-                    Berechne Hashwerte und gib sie aus |   |   |   |   |   |   |   |
-                                                   |   |   |   |   |   |   |   |   |
-        | Optionstyp                               |   |   |   |   |   |   |   |   |
-        -------------------------------------------|---|---|---|---|---|---|---|---|
-        | Allgemeine Optionen                      | x | x | x | x | x | x | x | x |
-        | Optionen zur Sicherheitsstärke           | x | x | x | x | x | x | x | x |
-        | Optionen für Dateilisten                 | x | x | x | - | - | - | - | - |
-        | Optionen für Fahndungslisten             | - | - | x | - | - | - | - | - |
-        | Optionen für den Integritätscheck        | - | x | - | - | - | - | - | - |
-        | Optionen für den Schnellmodus            | - | - | - | x | x | - | x | - |
-        | Optionen für das Hashen von Zeichenketten| - | - | - | - | - | x | - | - |
-        | Optionen um Informationen zu erhalten    | - | - | - | - | - | - | - | x |
-        | Optionen für die Verzeichnisdurchquerung | x | x | x | - | - | - | - | - |
-        | Optionen zur Steigerung der Hash-Leistung| x | x | x | x | x | x | - | - |
-        | Optionen zur Steigerung der Leseleistung | x | x | x | - | - | - | - | - |
-        | Optionen für das Pfadformat              | x | - | - | x | - | - | - | - |
-        | Optionen zur Eingabeformatierung         | - | x | x | - | x | - | - | - |
-        | Optionen zur Ausgabeformatierung         | x | - | - | x | - | x | - | - |
-        | Optionen für die Ausgabe                 | x | x | x | x | x | x | x | x |
-        ----------------------------------------------------------------------------
+                                                     Informationen sammeln |
+                                                  Finde Hashfunktionen |   |
+                                               Hashe Zeichenketten |   |   |
+                               Eine Datei schnell verifizieren |   |   |   |
+                        Schnellberechnen eines Hash-Wertes |   |   |   |   |
+                                       Fahndungslisten |   |   |   |   |   |
+          Daten- bzw. Dateiintegrität verifizieren |   |   |   |   |   |   |
+            Berechne Hashwerte und gib sie aus |   |   |   |   |   |   |   |
+                                           |   |   |   |   |   |   |   |   |
+    | Optionstyp                           |   |   |   |   |   |   |   |   |
+    ---------------------------------------|---|---|---|---|---|---|---|---|
+    | Allgemeine Optionen                  | x | x | x | x | x | x | x | x |
+    | Opt. zur Sicherheitsstärke           | x | x | x | x | x | x | x | x |
+    | Opt. für Dateilisten                 | x | x | x | - | - | - | - | - |
+    | Opt. für Fahndungslisten             | - | - | x | - | - | - | - | - |
+    | Opt. für den Integritätscheck        | - | x | - | - | - | - | - | - |
+    | Opt. für den Schnellmodus            | - | - | - | x | x | - | x | - |
+    | Opt. für das Hashen von Zeichenketten| - | - | - | - | - | x | - | - |
+    | Opt. um Informationen zu erhalten    | - | - | - | - | - | - | - | x |
+    | Opt. für die Verzeichnisdurchquerung | x | x | x | - | - | - | - | - |
+    | Opt. zur Steigerung der Hash-Leistung| x | x | x | x | x | x | - | - |
+    | Opt. zur Steigerung der Leseleistung | x | x | x | - | - | - | - | - |
+    | Opt. für das Pfadformat              | x | - | - | x | - | - | - | - |
+    | Opt. zur Eingabeformatierung         | - | x | x | - | x | - | - | - |
+    | Opt. zur Ausgabeformatierung         | x | - | - | x | - | x | - | - |
+    | Opt. für die Ausgabe                 | x | x | x | x | x | x | x | x |
+    ------------------------------------------------------------------------
 
 
 PARAMETERS
