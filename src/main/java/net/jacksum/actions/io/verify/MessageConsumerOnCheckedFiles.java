@@ -21,7 +21,6 @@
 package net.jacksum.actions.io.verify;
 
 import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
@@ -68,22 +67,31 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
 
         // Let's put the hashEntries to a map for an indexed access by filename.
         map = new HashMap<>();
-        /*
-            for (HashEntry hashEntry : hashEntries) {
-            map.put(hashEntry.getFilename(), hashEntry);
-        }*/
-        hashEntries.forEach(hashEntry -> {
+        hashEntries.forEach(hashEntry -> map.put(key(hashEntry.getFilename()), hashEntry));
+    }
 
-            // we need to put the absolute, normalized path to the hash map in order to detect
-            // unique filenames
-            try {
-                Path absolute = Paths.get(hashEntry.getFilename()).toAbsolutePath().normalize();
-                map.put(absolute.toString(), hashEntry);
-            } catch (InvalidPathException ipe) {
-                map.put(hashEntry.getFilename(), hashEntry);
-            }
-
-        });
+    /**
+     * Returns the key that a file name of the check file is stored under in the map.
+     * See also handleMessage() which calculates the very same key for the file name
+     * of a message that has been received.
+     *
+     * @param filename a file name as it occurs in the check file
+     * @return the key for the map
+     */
+    private static String key(String filename) {
+        // The pseudo name for standard input (e.g. <stdin> or -) does not refer to a file on
+        // the file system, so it must not be resolved against the current working directory:
+        // a message for stdin does not carry a path, and it is looked up by that pseudo name.
+        if (filename.equals(AbstractChecksum.getStdinName())) {
+            return filename;
+        }
+        // we need to put the absolute, normalized path to the hash map in order to detect
+        // unique filenames
+        try {
+            return Paths.get(filename).toAbsolutePath().normalize().toString();
+        } catch (InvalidPathException ipe) {
+            return filename;
+        }
     }
 
     private TimestampFormatter timestampFormatter;

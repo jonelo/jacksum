@@ -118,9 +118,12 @@ public class CheckAction implements Action {
                 for (HashEntry hashEntry : parsedHashEntries) {
 
                     // System.err.printf("DEBUG: hash: >%s< filename: >%s<\n", hashEntry.getHash(), hashEntry.getFilename());
-                    if (hashEntry.getFilename().equals(parameters.getStdinName())) {
-                        parameters.setStdinForFilenamesFromArgs(true);
-                    }
+
+                    // Note: an entry for standard input (e.g. <stdin> or -) does not need any special
+                    // treatment here, because MessageProducer detects that pseudo name in the list of
+                    // file names from the check file and reads stdin for it. Setting
+                    // setStdinForFilenamesFromArgs(true) would queue stdin a second time and
+                    // print the status of stdin twice.
                     filenamesInCheckFile.add(hashEntry.getFilename());
                 }
                 parameters.setFilenamesFromCheckFile(filenamesInCheckFile);
