@@ -141,6 +141,7 @@ Jacksum 4.0.0, August TBD, 2026
   - concurrency (options --threads-hashing and --threads-reading)
     - issue #30: a java.lang.OutOfMemoryError (e.g. in "Thread-0" or "pool-1-thread-4") can occur if the
       producer is much faster than the consumer threads
+    - issue #49: An unexpected exception in the output consumer aborts the run silently with exit code 0
     - a read error on a file (e.g. a locked file such as NTUSER.DAT on Microsoft Windows) that was hashed
       with multiple algorithms (--threads-hashing) could be reported as a success with a partially computed,
       i.e. wrong, hash value. Such errors are now reliably detected and reported.
@@ -157,31 +158,77 @@ Jacksum 4.0.0, August TBD, 2026
       keeping one CPU core at 100%. It now waits without spinning.
     - a short read that is not the end of the file is no longer misinterpreted as the last block, which could
       truncate a hash or block the reader.
-    - issue #49: An unexpected exception in the output consumer aborts the run silently with exit code 0
-  - algorithms
-    - sum64 was truncated to 32 bits and behaved like sum32, because getValue() reduced the accumulator
-      modulo 2^32 twice ((value mod 2^32) mod 2^32) instead of keeping the full 64-bit value; the upper
-      32 bits of the result were always zero. sum64 now returns the correct 64-bit sum (the Java long
-      already wraps modulo 2^64); see also the compatibility changes above for the input sizes
-      that are affected by the changed values.
-    - keccak-384 was not recognized as an alias
-    - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC
-      definition code if --info has been requested
-    - issue #45: the expected eDonkey test vector hash in the code comments was wrong
-  - HMAC
-    - improved the HMAC constraint: if blocksize < digestsize an HMAC cannot be calculated; that is the
-      case for all ascon algorithms, for example
-    - a truncated HMAC (hmac:<algo>:<bits>) did not zero the surplus bits if <bits> is not a multiple of 8,
-      although the documentation says so, because the number of surplus bits was never calculated and the
-      masking code was therefore unreachable; "hmac:sha256:155" for example returned the same value as
-      "hmac:sha256:160", see also the compatibility changes above
-    - an HMAC without a key is rejected now: "-a hmac:<algo>" without the option -k exits with an error message
-      that asks for the option -k, rather than with an unspecific error
-    - the prompt is "Password: " twice if both options -k password and -q password have been specified
-      (e.g. "jacksum -q password -a hmac:sha256 -k password"), the prompt for the key is now
-      "Key (echo off): " to distinguish the input
-    - HMAC does not implement the reset() method correctly, which means that the same hash of the first
-      calculation is always returned
+  - verification, parsing, and output
+    - issue #32: --header not working using --quick
+    - issue #36: if multiple algorithms have been selected and file size is not wanted, Jacksum does not
+      find valid entries
+    - issue #37: parser does not find valid entries if algorithm "none" (no hashing) has been selected
+    - issue #38: if hash values are not wanted by the user, there should be no leading separator character
+      left in the output
+    - issue #40: output style for BSD is not 100% compatible for the cases sha512/224, sha512/256, and
+      skein-512-512
+    - issue #48: -c: entries for standard input (<stdin>) are never verified - reported as NEW, exit code 0
+    - issue #50: -c: a check file that lists the same file under two path spellings can mask a mismatch
+    - issue #51: -c combined with --check-line: the statistics of the check file are overwritten and the
+      entry bypasses the duplicate detection
+    - issue #52: --check-strict combined with --list-filter other than all exits with 2 silently, after
+      the whole verification has been done
+    - issue #53: -c: every error on an entry of the check file is reported as MISSING, even if the file
+      exists; such a file gets the new status ERROR now, see also --list-filter error
+    - issue #54: -c: the status output does not escape file names, so a file name with a newline breaks
+      the output
+    - issue #55: The default parser accepts almost any line, so --check-strict never detects an improperly
+      formatted line
+    - issue #56: -c reports FAILED for sum_bsd, sum_sysv, and sum_minix, because their block count is
+      compared against the file size
+    - issue #57: -c on a coreutils check file without --style gnu-linux reports every entry as MISSING
+      without any hint
+    - option --list-filter default is documented, but it is rejected as an invalid parameter
+    - the options --wanted-list and -e are silently ignored if -c resp. --check-line is specified as well,
+      because both jobs cannot be performed by one run; the combination is rejected with a parameter
+      error now
+    - records with the same comments in wanted list files are no longer ignored. While ignoring duplicate
+      file names in check files makes sense for the option --check-file, that setting is suboptimal if the
+      option --wanted-list is used, because file names are treated as comments in wanted lists.
+    - hash values were compared case sensitively by the options -c, -w, and by -e in combination with
+      files, although the documentation of -e promises a tolerant comparison for all encodings but Base64,
+      and although the options -q and --string-list have always been tolerant. As a consequence a check
+      file in SFV format that stores its CRCs in lower case was reported as FAILED although all hash values
+      matched (the SFV parser accepts both cases on purpose), and a wanted list (-w) that stores its hash
+      values in upper case, as many hash lists do, did not match a single file.
+    - the options -g and -G (grouped hash values) could be combined with -c and -w, but grouped hash values
+      cannot be parsed: the first group was taken as the whole hash value and the remaining groups became
+      part of the file name, so all files were reported as MISSING rather than OK or FAILED. Both
+      combinations are rejected with a parameter error now.
+    - the default output format appended the separator (by default a blank) even if there was no
+      file name at all, so a line ended with a trailing blank if a sequence was hashed by the
+      option -q, e.g. "jacksum -q txt:abc -a sha1"; the same happened for an empty line while the
+      option --string-list was being used; if the file name is empty, neither the file name nor the
+      separator in front of it is written now
+  - styles (options -C/--compat/--style)
+    - the styles bsd, openssl-dgst, and solaris-digest-v printed algorithm names that no tool of
+      the respective platform uses, because the canonical names of the SHA-1/SHA-2 family in Jacksum
+      contain a hyphen: "SHA-256 (file) = ..." instead of "SHA256 (file) = ..." for example, so the
+      output of Jacksum was rejected by the tools that it claims to be compatible with, e.g.
+      "shasum -a 256 --check" answered "no properly formatted SHA checksum lines found". The output of
+      the style bsd is now identical to the output of md5, shasum --tag, and sha256sum --tag, and
+      the output of the style solaris-digest-v follows the algorithm names of "digest -v" on Solaris.
+      Reading files that have been created by those tools was not affected.
+    - the style openssl-dgst now follows the algorithm names of OpenSSL 3.x and later, so its output is
+      identical to the output of "openssl dgst" again, both for hash functions and for HMACs.
+      OpenSSL 3.0 has renamed many digests, e.g. SHA256 became SHA2-256, BLAKE2b512 became
+      BLAKE2B-512, and RIPEMD160 became RIPEMD-160; OpenSSL 4.0 kept those names. Two mappings for
+      HMACs (hmac:sha512-224 and hmac:sha512-256) were never in effect, because they did not use
+      the canonical algorithm names of Jacksum.
+    - a compatibility file (option -C) with a group position that is not covered by its regular
+      expression (e.g. parser.regexp.filenamePos=9 while the regular expression has two groups only)
+      terminated Jacksum with an uncaught java.lang.IndexOutOfBoundsException and a stack trace
+      while a file was being parsed; such a file is now rejected with an error message that names the
+      property. A position that is not an integer is reported with a proper error message as well.
+  - escape sequences
+    - issue #46: fixed four bugs in the interpretation of escape sequences, they affected the
+      options -q txtf:, -k txtf:, -s, -c, and --file-list; the interpretation happens in one single
+      pass now, and it is no longer implemented multiple times
   - encodings (option -E) and encoded output (option -F)
     - the option -F could not be used at all with the algorithms sum_bsd and crc16_minix, because their
       default encoding is an internal one that is not user selectable, and the formatter tried to resolve
@@ -220,77 +267,6 @@ Jacksum 4.0.0, August TBD, 2026
     - an invalid base32 or base32hex string could terminate Jacksum with an uncaught
       java.lang.ArrayIndexOutOfBoundsException instead of an error message, e.g.
       "-q base32:========"; such strings are reported as invalid now
-  - styles (options -C/--compat/--style)
-    - the styles bsd, openssl-dgst, and solaris-digest-v printed algorithm names that no tool of
-      the respective platform uses, because the canonical names of the SHA-1/SHA-2 family in Jacksum
-      contain a hyphen: "SHA-256 (file) = ..." instead of "SHA256 (file) = ..." for example, so the
-      output of Jacksum was rejected by the tools that it claims to be compatible with, e.g.
-      "shasum -a 256 --check" answered "no properly formatted SHA checksum lines found". The output of
-      the style bsd is now identical to the output of md5, shasum --tag, and sha256sum --tag, and
-      the output of the style solaris-digest-v follows the algorithm names of "digest -v" on Solaris.
-      Reading files that have been created by those tools was not affected.
-    - the style openssl-dgst now follows the algorithm names of OpenSSL 3.x and later, so its output is
-      identical to the output of "openssl dgst" again, both for hash functions and for HMACs.
-      OpenSSL 3.0 has renamed many digests, e.g. SHA256 became SHA2-256, BLAKE2b512 became
-      BLAKE2B-512, and RIPEMD160 became RIPEMD-160; OpenSSL 4.0 kept those names. Two mappings for
-      HMACs (hmac:sha512-224 and hmac:sha512-256) were never in effect, because they did not use
-      the canonical algorithm names of Jacksum.
-    - a compatibility file (option -C) with a group position that is not covered by its regular
-      expression (e.g. parser.regexp.filenamePos=9 while the regular expression has two groups only)
-      terminated Jacksum with an uncaught java.lang.IndexOutOfBoundsException and a stack trace
-      while a file was being parsed; such a file is now rejected with an error message that names the
-      property. A position that is not an integer is reported with a proper error message as well.
-  - verification, parsing, and output
-    - issue #32: --header not working using --quick
-    - issue #36: if multiple algorithms have been selected and file size is not wanted, Jacksum does not
-      find valid entries
-    - issue #37: parser does not find valid entries if algorithm "none" (no hashing) has been selected
-    - issue #38: if hash values are not wanted by the user, there should be no leading separator character
-      left in the output
-    - issue #40: output style for BSD is not 100% compatible for the cases sha512/224, sha512/256, and
-      skein-512-512
-    - issue #48: -c: entries for standard input (<stdin>) are never verified - reported as NEW, exit code 0
-    - issue #50: -c: a check file that lists the same file under two path spellings can mask a mismatch
-    - issue #51: -c combined with --check-line: the statistics of the check file are overwritten and the
-      entry bypasses the duplicate detection
-    - issue #52: --check-strict combined with --list-filter other than all exits with 2 silently, after
-      the whole verification has been done
-    - issue #53: -c: every error on an entry of the check file is reported as MISSING, even if the file
-      exists; such a file gets the new status ERROR now, see also --list-filter error
-    - option --list-filter default is documented, but it is rejected as an invalid parameter
-    - the options --wanted-list and -e are silently ignored if -c resp. --check-line is specified as well,
-      because both jobs cannot be performed by one run; the combination is rejected with a parameter
-      error now
-    - issue #54: -c: the status output does not escape file names, so a file name with a newline breaks
-      the output
-    - issue #55: The default parser accepts almost any line, so --check-strict never detects an improperly
-      formatted line
-    - issue #56: -c reports FAILED for sum_bsd, sum_sysv, and sum_minix, because their block count is
-      compared against the file size
-    - issue #57: -c on a coreutils check file without --style gnu-linux reports every entry as MISSING
-      without any hint
-    - records with the same comments in wanted list files are no longer ignored. While ignoring duplicate
-      file names in check files makes sense for the option --check-file, that setting is suboptimal if the
-      option --wanted-list is used, because file names are treated as comments in wanted lists.
-    - hash values were compared case sensitively by the options -c, -w, and by -e in combination with
-      files, although the documentation of -e promises a tolerant comparison for all encodings but Base64,
-      and although the options -q and --string-list have always been tolerant. As a consequence a check
-      file in SFV format that stores its CRCs in lower case was reported as FAILED although all hash values
-      matched (the SFV parser accepts both cases on purpose), and a wanted list (-w) that stores its hash
-      values in upper case, as many hash lists do, did not match a single file.
-    - the options -g and -G (grouped hash values) could be combined with -c and -w, but grouped hash values
-      cannot be parsed: the first group was taken as the whole hash value and the remaining groups became
-      part of the file name, so all files were reported as MISSING rather than OK or FAILED. Both
-      combinations are rejected with a parameter error now.
-    - the default output format appended the separator (by default a blank) even if there was no
-      file name at all, so a line ended with a trailing blank if a sequence was hashed by the
-      option -q, e.g. "jacksum -q txt:abc -a sha1"; the same happened for an empty line while the
-      option --string-list was being used; if the file name is empty, neither the file name nor the
-      separator in front of it is written now
-  - escape sequences
-    - issue #46: fixed four bugs in the interpretation of escape sequences, they affected the
-      options -q txtf:, -k txtf:, -s, -c, and --file-list; the interpretation happens in one single
-      pass now, and it is no longer implemented multiple times
   - timestamps
     - the token #TIMESTAMP was not replaced at all if the data did not come from a file: the literal
       string "#TIMESTAMP" occurred in the output for standard input, e.g. with the styles full,
@@ -314,6 +290,30 @@ Jacksum 4.0.0, August TBD, 2026
       timestamp cannot be told apart from the fields that follow it; all files were reported as MISSING.
       Such a format is now rejected with a parameter error if it is combined with -c resp. -w. None of
       the predefined formats is affected.
+  - algorithms
+    - sum64 was truncated to 32 bits and behaved like sum32, because getValue() reduced the accumulator
+      modulo 2^32 twice ((value mod 2^32) mod 2^32) instead of keeping the full 64-bit value; the upper
+      32 bits of the result were always zero. sum64 now returns the correct 64-bit sum (the Java long
+      already wraps modulo 2^64); see also the compatibility changes above for the input sizes
+      that are affected by the changed values.
+    - keccak-384 was not recognized as an alias
+    - a few CRC algorithms (e.g. fcs16, fcs32, crc32c, crc32_mpeg2, crc64) do not print the Jacksum CRC
+      definition code if --info has been requested
+    - issue #45: the expected eDonkey test vector hash in the code comments was wrong
+  - HMAC
+    - improved the HMAC constraint: if blocksize < digestsize an HMAC cannot be calculated; that is the
+      case for all ascon algorithms, for example
+    - a truncated HMAC (hmac:<algo>:<bits>) did not zero the surplus bits if <bits> is not a multiple of 8,
+      although the documentation says so, because the number of surplus bits was never calculated and the
+      masking code was therefore unreachable; "hmac:sha256:155" for example returned the same value as
+      "hmac:sha256:160", see also the compatibility changes above
+    - an HMAC without a key is rejected now: "-a hmac:<algo>" without the option -k exits with an error message
+      that asks for the option -k, rather than with an unspecific error
+    - the prompt is "Password: " twice if both options -k password and -q password have been specified
+      (e.g. "jacksum -q password -a hmac:sha256 -k password"), the prompt for the key is now
+      "Key (echo off): " to distinguish the input
+    - HMAC does not implement the reset() method correctly, which means that the same hash of the first
+      calculation is always returned
 
 - Improved performance
   - the output of --header is buffered and printed at once rather than line by line
@@ -326,62 +326,38 @@ Jacksum 4.0.0, August TBD, 2026
 
 - Updated documentation
   - issue #16: provided a German help file
-  - reworked README.md: corrected all outdated facts, moved the detailed examples,
-    the algorithm list, the feature list, and Jacksum Hacks to docs/.
   - added German translations of the documentation under docs/: ALGORITHMS_de.md,
     EXAMPLES_de.md, FEATURES_de.md, and JACKSUM_HACKS.md. They keep the structure and the anchors of
     their English counterparts (ALGORITHMS.md, EXAMPLES.md, FEATURES.md, JACKSUM_HACKS), so
     both language versions can be maintained in parallel; all commands and program output in
     the examples are unchanged.
+  - reworked README.md: corrected all outdated facts, moved the detailed examples,
+    the algorithm list, the feature list, and Jacksum Hacks to docs/.
   - issue #41: the option -p is no longer supported, but the documentation still referenced it
-  - corrected two alphabets in the description of the option -E in the manpage (English and German):
+  - corrected two alphabets in the description of the option -E in the manpage:
     - the table of the BubbleBabble alphabet was a leftover of the Base64 table; it now documents the six
       vowels, the 16 consonants, the delimiter x, and the separator that BubbleBabble actually uses
     - the last row of the z-base-32 alphabet said "30 - 31: 6 7" (a copy of the row of Base32), while
       z-base-32 uses "6 9" for the values 30 and 31
   - documented for the options -c, -e, -g, -G, and -w that hash values are compared without respecting
     upper and lower case unless the alphabet of the encoding is case sensitive, and that grouped hash
-    values (-g, -G) cannot be verified (English and German)
+    values (-g, -G) cannot be verified
   - documented for the option -I and for the styles files-only and sfv that a file whose name starts
     with the comment string cannot be verified later, because its line is treated as a comment while
-    the list is being read back (English and German)
+    the list is being read back
   - documented for the option -t that a timestamp is only available if the data comes from a file, and
     that a format containing a space cannot be combined with -c resp. -w; corrected the examples of the
     styles openssl-dgst and solaris-digest-v, which showed algorithm names that Jacksum no longer
     prints, and documented that the style openssl-dgst follows the algorithm names of OpenSSL 3.x and
-    later (English and German)
+    later
   - added info about the usage of the internal state value for verification of test vectors submitted for
     the NIST competition in the manpage for skein-256.
   - added the "Go API" and Homebrew to the compatibility lists
-  - reworked the "broken" field of all cryptographic algorithms in the manpage (English and German). Instead
+  - reworked the "broken" field of all cryptographic algorithms in the manpage. Instead
     of a bare "yes" or "no" each entry now states which security property is affected (collision, preimage,
     second-preimage resistance, or the use in a MAC), whether an attack is theoretical or practical, the
     year, and a reference. Sponge constructions and truncated variants now also document whether they are
-    susceptible to length-extension attacks. Along the way several factual errors were corrected:
-    - tiger, tiger128 and tiger160 were marked as broken although there is no collision attack on the full
-      Tiger; the best collision attack reaches 19 of 24 rounds and a pseudo-near-collision of the full
-      function needs about 2^47 (Mendel/Rijmen, ASIACRYPT 2007). This also removed the contradiction with
-      tiger-<length>-4-php, which is a 32-round variant of Tiger and was marked as not broken.
-    - rmd128 cited https://eprint.iacr.org/2004/199.pdf, but that paper breaks the original RIPEMD from 1990,
-      not RIPEMD-128. The entry now cites the results of Landelle/Peyrin (2013) on the full compression
-      function.
-    - streebog256 and streebog512 had their status swapped: the second-preimage attack of
-      https://eprint.iacr.org/2014/675 applies to Streebog-512, not to Streebog-256.
-    - ed2k was marked as not broken although it is built on MD4, whose collisions can be computed in a
-      fraction of a second.
-    - haval said "2004, but 128 bits only", which has been outdated since collisions for the full HAVAL with
-      4 and 5 passes were published in 2006.
-    - whirlpool0 and whirlpool1 were marked as broken although no attack targeting them has been published;
-      they were superseded because of design weaknesses (S-box, diffusion matrix), which is now stated as
-      such.
-    - vsh was marked as not broken although its preimage resistance is broken and its values have
-      multiplicative properties (Saarinen, 2006), which makes it unusable as a general-purpose hash function.
-    - kupyna appended a rebound-attack paper to a plain "no", which read as if the paper supported that
-      verdict.
-    - added the missing "broken" field to blake, tth and tth2.
-    - the "broken" field has also been moved behind the "comment" field, so that the short facts
-      (name, length, type, published, website, standard) come first and both descriptive blocks
-      appear together at the end of each entry.
+    susceptible to length-extension attacks.
 
 
 Jacksum 3.7.0, Aug 26, 2023
