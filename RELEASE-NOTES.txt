@@ -9,13 +9,6 @@ Jacksum 4.0.0, August TBD, 2026
   - a truncated HMAC (hmac:<algo>:<bits>) returns different values now if <bits> is not a multiple of 8,
     because the surplus bits are zeroed as documented, see also the bug fixes below; "hmac:sha256:155"
     for example no longer returns the same value as "hmac:sha256:160"
-  - sum64 returns different values now, because the values that have been returned so far were wrong,
-    see also the bug fixes below; only input whose sum of all byte values reaches 2^32 is affected,
-    which is impossible for files smaller than 16,843,010 bytes (approx. 16 MiB, a file filled with
-    0xFF bytes only), and in practice the difference starts at approx. 32 MiB for uniformly
-    distributed binary data and even later for text files
-  - the style openssl-dgst now follows the names of OpenSSL 3.x and later; the style openssl111-dgst has been
-    added in order to get the traditional OpenSSL 1.1.1 behavior
   - prng returns different values for files now, because the values that have been returned so far were
     wrong, see also the bug fixes below; the initial value of the algorithm was dropped while a file was
     being prepared, so "jacksum -a prng <file>" calculated with an initial value of 0 rather than with
@@ -26,6 +19,13 @@ Jacksum 4.0.0, August TBD, 2026
   - fletcher16 returns different values for input larger than 64 KiB now, because the values that have
     been returned so far were wrong, see also the bug fixes below; input up to 64 KiB is read in one
     single block and was therefore never affected
+  - sum64 returns different values now, because the values that have been returned so far were wrong,
+    see also the bug fixes below; only input whose sum of all byte values reaches 2^32 is affected,
+    which is impossible for files smaller than 16,843,010 bytes (approx. 16 MiB, a file filled with
+    0xFF bytes only), and in practice the difference starts at approx. 32 MiB for uniformly
+    distributed binary data and even later for text files
+  - the style openssl-dgst now follows the names of OpenSSL 3.x and later; the style openssl111-dgst has been
+    added in order to get the traditional OpenSSL 1.1.1 behavior
 
 - API changes
   - added the API methods JacksumAPI.getBrokenState() and JacksumAPI.getBrokenDescription() so that
