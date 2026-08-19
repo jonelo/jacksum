@@ -25,6 +25,8 @@ import net.jacksum.JacksumAPI;
 import net.jacksum.actions.io.verify.NotEvenOneEntryFoundException;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.compats.defs.CompatibilityProperties;
+import net.jacksum.formats.Encoding;
+import net.jacksum.formats.EncodingDecoding;
 import net.jacksum.formats.FilenameFormatter;
 import net.loefflmann.sugar.io.BOM;
 
@@ -49,6 +51,10 @@ public class Parser {
     // the check of the algorithm name in the file a one time action, see checkAlgoname()
     private String expectedAlgoname;
     private boolean algonameChecked = false;
+
+    // the number of characters that an encoded hash value of the selected algorithm consists of,
+    // or 0 if the hash value should not be verified by its length, see determineHashLength()
+    private int expectedHashLength = 0;
 
     public Parser(CompatibilityProperties props) throws InvalidParserParameterException {
         this.props = props;
@@ -79,6 +85,10 @@ public class Parser {
             expectedAlgoname = null;
         }
 
+        if (props.isHashLengthCheckWanted()) {
+            expectedHashLength = determineHashLength();
+        }
+
         if (props.getRegexp() != null) {
             props.setRegexp(props.getRegexp().replace("#NIBBLES", Integer.toString(nibbles)));
             props.setRegexp(props.getRegexp().replace("#ALGONAME{uppercase}", props.getHashAlgorithm().toUpperCase(Locale.US)));
@@ -104,6 +114,35 @@ public class Parser {
             checkGroupPosition("parser.regexp.gnuEscapingPos", position("parser.regexp.gnuEscapingPos", props::getRegexpGnuEscapingPos), groups);
         } else {
             throw new InvalidParserParameterException(String.format("Regular Expression expected in parser \"%s\"", props.getCompatName()));
+        }
+    }
+
+    /**
+     * Determines the number of characters that an encoded hash value of the selected algorithm
+     * consists of. Two hash values of that algorithm's width are encoded for that purpose, one
+     * that consists of 0x00 bytes only and one that consists of 0xFF bytes only. If both have the
+     * same length, that length is the length of every encoded hash value of that algorithm; if
+     * they don't (e.g. the encoding dec, where the length depends on the value), the length is
+     * not deterministic and it must not be used to verify a hash value.
+     *
+     * @return the number of characters of an encoded hash value, or 0 if that number is not
+     * deterministic resp. cannot be determined at all
+     */
+    private int determineHashLength() {
+        try {
+            Encoding encoding = Encoding.string2Encoding(props.getHashEncoding());
+            int bytes = JacksumAPI.getChecksumInstance(props.getHashAlgorithm()).getByteArray().length;
+            if (bytes < 1) {
+                return 0;
+            }
+            byte[] allBitsSet = new byte[bytes];
+            Arrays.fill(allBitsSet, (byte) 0xff);
+            int length = EncodingDecoding.encodeBytes(new byte[bytes], encoding, 0, ' ').length();
+            return length == EncodingDecoding.encodeBytes(allBitsSet, encoding, 0, ' ').length() ? length : 0;
+        } catch (NoSuchAlgorithmException | RuntimeException ex) {
+            // e.g. an HMAC, which cannot be instantiated without a key, or an encoding that the
+            // style defines by a name that is unknown; in that case the length is not verified
+            return 0;
         }
     }
 
@@ -219,7 +258,13 @@ public class Parser {
         if (matcher.find()) {
 
             if (props.getRegexpHashPos() > 0) {
-                hashEntry.setHash(matcher.group(props.getRegexpHashPos()));
+                String hash = matcher.group(props.getRegexpHashPos());
+                // a value that does not have the length of an encoded hash value is not a hash
+                // value, so the line is not a line that stores a hash value at all
+                if (expectedHashLength > 0 && hash.length() != expectedHashLength) {
+                    throw new ImproperlyFormattedLineException();
+                }
+                hashEntry.setHash(hash);
             }
 
             if (props.getRegexpFilenamePos() > 0) {

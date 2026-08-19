@@ -62,6 +62,12 @@ public class DefaultCompatibilityProperties {
             }
         }
 
+        // The regular expression that is generated below cannot constrain the hash value itself,
+        // because the alphabet of the hash value depends on the encoding that has been selected by
+        // the option -E. Without any constraint almost every line would be a properly formatted
+        // line, so the parser verifies the length of the hash value instead, see Parser.
+        parserProperties.setHashLengthCheckWanted(true);
+
         parserProperties.setIgnoreEmptyLines(true);
         if (parameters.getCommentChars() != null) {
             parserProperties.setIgnoreLinesStartingWithString(parameters.getCommentChars());

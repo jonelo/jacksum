@@ -62,6 +62,7 @@ public class CompatibilityProperties implements Serializable {
     private final static String REGEXP_PERMISSIONS_POS = "parser.regexp.permissionsPos";
     private final static String REGEXP_GNU_ESCAPING_POS = "parser.regexp.gnuEscapingPos";
     private final static String HASH_NIBBLES = "parser.regexp.nibbles";
+    private final static String HASH_LENGTH_CHECK = "parser.hashLengthCheck";
     private final static String HASH_ALGORITHM = "algorithm.default";
     private final static String HASH_ALGORITHM_USER_SELECTABLE = "algorithm.userSelectable";
     private final static String TIMESTAMP_FORMAT = "timestampFormat.format";
@@ -209,6 +210,26 @@ public class CompatibilityProperties implements Serializable {
 
     public void setIgnoreEmptyLines(boolean ignore) {
         props.setProperty(LINES_IGNORE_EMPTY_LINES, ignore ? "true" : "false");
+    }
+
+    /**
+     * Determines whether the parser should verify that the hash value of a line has the length that
+     * an encoded hash value of the selected algorithm has. It is required for a parser whose regular
+     * expression does not constrain the hash value itself, which is the case for the parser that is
+     * generated from the parameters, see DefaultCompatibilityProperties. The regular expression of a
+     * predefined style constrains the hash value already, so the property is false by default.
+     *
+     * @return true if the length of the hash value should be verified
+     */
+    public boolean isHashLengthCheckWanted() {
+        return props.getProperty(HASH_LENGTH_CHECK, "false").equals("true");
+    }
+
+    /**
+     * @param wanted whether the length of the hash value should be verified
+     */
+    public void setHashLengthCheckWanted(boolean wanted) {
+        props.setProperty(HASH_LENGTH_CHECK, wanted ? "true" : "false");
     }
 
     public void setGnuEscapingUserSelectable(boolean gnuEscaping) {

@@ -263,6 +263,8 @@ Jacksum 4.0.0, August TBD, 2026
       error now
     - issue #54: -c: the status output does not escape file names, so a file name with a newline breaks
       the output
+    - issue #55: The default parser accepts almost any line, so --check-strict never detects an improperly
+      formatted line
     - records with the same comments in wanted list files are no longer ignored. While ignoring duplicate
       file names in check files makes sense for the option --check-file, that setting is suboptimal if the
       option --wanted-list is used, because file names are treated as comments in wanted lists.
