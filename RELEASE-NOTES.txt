@@ -251,6 +251,8 @@ Jacksum 4.0.0, August TBD, 2026
       skein-512-512
     - issue #48: -c: entries for standard input (<stdin>) are never verified - reported as NEW, exit code 0
     - issue #50: -c: a check file that lists the same file under two path spellings can mask a mismatch
+    - issue #51: -c combined with --check-line: the statistics of the check file are overwritten and the
+      entry bypasses the duplicate detection
     - records with the same comments in wanted list files are no longer ignored. While ignoring duplicate
       file names in check files makes sense for the option --check-file, that setting is suboptimal if the
       option --wanted-list is used, because file names are treated as comments in wanted lists.

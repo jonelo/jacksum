@@ -105,7 +105,9 @@ public class CheckAction implements Action {
                 }
                 HashEntry hashEntry = parser.parseOneLine(parameters.getCheckLine());
                 if (hashEntry != null) {
-                    parsedHashEntries.add(hashEntry);
+                    // the check line can refer to a file that the check file lists as well, so it
+                    // has to pass the duplicate detection like every entry of the check file
+                    parser.addEntry(parsedHashEntries, hashEntry);
                 }
             }
 

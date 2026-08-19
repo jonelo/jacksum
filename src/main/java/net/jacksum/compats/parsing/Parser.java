@@ -164,10 +164,13 @@ public class Parser {
             improperlyFormattedLines++;
             System.err.printf("Jacksum: Warning: Improperly formatted line: %s%n", line);
         }
-        getStatistics().setTotalLines(1);
-        getStatistics().setProperlyFormattedLines(properlyFormattedLines);
-        getStatistics().setImproperlyFormattedLines(improperlyFormattedLines);
-        getStatistics().setIgnoredLines(ignoredLines);
+        // add to the statistics rather than replacing them, because a check line (--check-line)
+        // can be specified in addition to a check file (-c), and the numbers of both must be
+        // covered by the statistics and by the exit code, see also CheckAction
+        getStatistics().setTotalLines(getStatistics().getTotalLines() + 1);
+        getStatistics().setProperlyFormattedLines(getStatistics().getProperlyFormattedLines() + properlyFormattedLines);
+        getStatistics().setImproperlyFormattedLines(getStatistics().getImproperlyFormattedLines() + improperlyFormattedLines);
+        getStatistics().setIgnoredLines(getStatistics().getIgnoredLines() + ignoredLines);
 
         return hashEntry;
     }
@@ -327,6 +330,51 @@ public class Parser {
     }
 
     /**
+     * Counts a duplicate, and warns if the entry that is being replaced stores properties other
+     * than the entry that replaces it, because such an entry must not be dropped silently.
+     *
+     * @param previous the entry that is being replaced
+     * @param hashEntry the entry that replaces it
+     * @param location where the entry that replaces it comes from
+     */
+    private void handleDuplicate(HashEntry previous, HashEntry hashEntry, String location) {
+        getStatistics().setDuplicateEntriesCounted(true);
+        getStatistics().setDuplicateEntries(getStatistics().getDuplicateEntries() + 1);
+        if (differs(previous, hashEntry)) {
+            System.err.printf("Jacksum: Warning: Duplicate entry in %s: \"%s\" and \"%s\" refer to the same file, but they don't store the same properties; the entry that has been read later is used.%n",
+                    location, previous.getFilename(), hashEntry.getFilename());
+        }
+    }
+
+    /**
+     * Adds an entry to a list of entries that have been parsed already. If duplicate file names
+     * are being replaced, see isReplaceDuplicateFilenames(), an entry that refers to the same file
+     * is replaced rather than being added a second time, so that a file is verified exactly once.
+     *
+     * It is used for an entry that does not come from the check file itself, but from a check line
+     * (--check-line), which can be specified in addition to a check file (-c).
+     *
+     * @param list the list of entries that have been parsed so far
+     * @param hashEntry the entry that should be added
+     */
+    public void addEntry(List<HashEntry> list, HashEntry hashEntry) {
+        if (replaceDuplicateFilenames) {
+            String key = duplicateDetectionKey(hashEntry.getFilename());
+            for (int i = 0; i < list.size(); i++) {
+                HashEntry previous = list.get(i);
+                if (Objects.equals(duplicateDetectionKey(previous.getFilename()), key)) {
+                    // the entry that has been read later wins, and it keeps the position of the
+                    // entry that it replaces, exactly as it is done in parseFile()
+                    list.set(i, hashEntry);
+                    handleDuplicate(previous, hashEntry, "the check line");
+                    return;
+                }
+            }
+        }
+        list.add(hashEntry);
+    }
+
+    /**
      * Parses a file that contains entries with hashes that can be checked.
      *
      * @param filename the filename
@@ -361,7 +409,6 @@ public class Parser {
             int properlyFormattedLines = 0;
             int improperlyFormattedLines = 0;
             int ignoredLines = 0;
-            int duplicateEntries = 0;
             Map<String, HashEntry> map = null;
             if (replaceDuplicateFilenames) {
                 map = new LinkedHashMap<>();
@@ -380,12 +427,7 @@ public class Parser {
                         // so the order of the check file is preserved
                         HashEntry previous = map.put(duplicateDetectionKey(hashEntry.getFilename()), hashEntry);
                         if (previous != null) {
-                            duplicateEntries++;
-                            // don't drop an entry that would produce a different result silently
-                            if (differs(previous, hashEntry)) {
-                                System.err.printf("Jacksum: Warning: Duplicate entry in line #%d in file \"%s\": \"%s\" and \"%s\" refer to the same file, but they don't store the same properties; the entry in line #%d is used.%n",
-                                        lineNumber, filename, previous.getFilename(), hashEntry.getFilename(), lineNumber);
-                            }
+                            handleDuplicate(previous, hashEntry, String.format("line #%d in file \"%s\"", lineNumber, filename));
                         }
                     } else {
                         list.add(hashEntry);
@@ -402,13 +444,14 @@ public class Parser {
 
             if (replaceDuplicateFilenames) {
                 list.addAll(map.values());
+                // the duplicates themselves have been counted by handleDuplicate() already
                 getStatistics().setDuplicateEntriesCounted(true);
-                getStatistics().setDuplicateEntries(duplicateEntries);
             }
-            getStatistics().setTotalLines(lineNumber);
-            getStatistics().setProperlyFormattedLines(properlyFormattedLines);
-            getStatistics().setImproperlyFormattedLines(improperlyFormattedLines);
-            getStatistics().setIgnoredLines(ignoredLines);
+            // add to the statistics rather than replacing them, see also parseOneLine()
+            getStatistics().setTotalLines(getStatistics().getTotalLines() + lineNumber);
+            getStatistics().setProperlyFormattedLines(getStatistics().getProperlyFormattedLines() + properlyFormattedLines);
+            getStatistics().setImproperlyFormattedLines(getStatistics().getImproperlyFormattedLines() + improperlyFormattedLines);
+            getStatistics().setIgnoredLines(getStatistics().getIgnoredLines() + ignoredLines);
 
             if (list.isEmpty()) {
                 throw new NotEvenOneEntryFoundException(String.format("Jacksum: Error: not even one valid entry has been found in %s. Are you sure that you have specified the correct style?", filename));
