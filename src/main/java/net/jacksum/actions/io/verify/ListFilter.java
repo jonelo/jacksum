@@ -182,6 +182,7 @@ public class ListFilter implements Serializable  {
         String[] tokens = arg.split(",");
         for (String token : tokens) {
             switch (token.trim()) {
+                case "default":
                 case "all":
                     enableAll(true);
                     break;
