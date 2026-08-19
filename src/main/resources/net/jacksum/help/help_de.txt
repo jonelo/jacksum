@@ -1346,7 +1346,11 @@ OPTIONS
             verwendet worden sein könnten. Die Optionen -a, -E, -t, -d,
             -f, -x, -X können dabei nötig sein; die Option -F wird
             ignoriert. Die Optionen -g und -G werden nicht unterstützt,
-            da gruppierte Hashwerte nicht eingelesen werden können.
+            da gruppierte Hashwerte nicht eingelesen werden können. Die
+            Optionen --wanted-list und -e werden ebenfalls nicht
+            unterstützt, da das Suchen von Dateien anhand gesuchter
+            Hashwerte eine andere Aufgabe ist als das Verifizieren von
+            Dateien gegen eine Liste von Hashwerten.
 \
             Hashwerte werden ohne Beachtung der Groß- und Kleinschreibung
             verglichen, außer wenn mit -E eine Kodierung mit einem

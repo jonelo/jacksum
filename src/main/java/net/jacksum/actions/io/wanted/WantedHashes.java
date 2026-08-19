@@ -35,7 +35,6 @@ import net.loefflmann.sugar.util.ExitException;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 
 public class WantedHashes {
@@ -68,6 +67,10 @@ public class WantedHashes {
         return parser;
     }
 
+    // Note: a check line (--check-line) is not taken into account here, because such a line always
+    // asks for a verification: getActionType() returns ActionType.CHECK if a check line has been
+    // specified, and Parameters.checkParameters() rejects the combination of --check-line and
+    // --wanted-list, so this class is never used for a check line at all.
     public void parse() throws ExitException {
         // parse
         try {
@@ -77,16 +80,6 @@ public class WantedHashes {
             throw new ExitException(ex.getMessage(), ExitCode.IO_ERROR);
         } catch (NotEvenOneEntryFoundException ex) {
             throw new ExitException(ex.getMessage(), ExitCode.CHECKFILE_PARSE_ERROR);
-        }
-
-        if (parameters.getCheckLine() != null) {
-            if (parsedHashEntries == null) {
-                parsedHashEntries = new ArrayList<>();
-            }
-            HashEntry hashEntry = parser.parseOneLine(parameters.getCheckLine());
-            if (hashEntry != null) {
-                parsedHashEntries.add(hashEntry);
-            }
         }
     }
 

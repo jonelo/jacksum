@@ -1252,7 +1252,10 @@ OPTIONS
             You need to set all non-default options that could generate <list>
             again. The options -a, -E, -t, -d, -f, -x, -X may become
             necessary; the option -F is ignored. The options -g and -G are not
-            supported, because grouped hash values cannot be parsed.
+            supported, because grouped hash values cannot be parsed. The options
+            --wanted-list and -e are not supported either, because searching
+            files by wanted hashes is a different job than verifying files
+            against a list of hashes.
 \
             Hash values are compared without respecting upper and lower case,
             except if an encoding with a case sensitive alphabet has been set

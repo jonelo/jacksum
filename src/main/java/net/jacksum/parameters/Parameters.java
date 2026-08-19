@@ -2306,6 +2306,21 @@ public class Parameters implements
             }
         }
 
+        // verifying files against a list of hashes and searching files by wanted hashes are two
+        // different jobs, and getActionType() can only perform one of them: it would silently
+        // ignore the wanted list resp. the expectation, including its exit code
+        if (isVerifying()) {
+            String verifyOption = getCheckFile() != null ? __CHECK_FILE : __CHECK_LINE;
+            if (isWantedList()) {
+                throw new ParameterException(String.format("Options %s and %s cannot be combined, because they ask for two different jobs.",
+                        __WANTED_LIST, verifyOption));
+            }
+            if (isExpectation()) {
+                throw new ParameterException(String.format("Options %s and %s cannot be combined, because they ask for two different jobs.",
+                        _EXPECT_HASH, verifyOption));
+            }
+        }
+
         // a strict check has to detect all statuses, but a filter can prevent hashing which
         // would prevent a reliable detection, see also ListFilter.isHashingRequired();
         // both options have no effect at all if nothing is being verified, so they are only
