@@ -250,12 +250,7 @@ Jacksum 4.0.0, August TBD, 2026
     - issue #40: output style for BSD is not 100% compatible for the cases sha512/224, sha512/256, and
       skein-512-512
     - issue #48: -c: entries for standard input (<stdin>) are never verified - reported as NEW, exit code 0
-    - issue #50: -c: if a check file lists the same file under two different path spellings (e.g. "a.txt"
-      and "./a.txt"), the result depends on the order of the lines and a mismatch can be reported as OK,
-      because duplicates were removed by the raw file name while the check looks the entries up by their
-      absolute path; duplicates are detected by the absolute path now, so the file is verified (and hashed)
-      exactly once, a duplicate that stores different properties is reported by a warning, and the number
-      of duplicates is part of the summary
+    - issue #50: -c: a check file that lists the same file under two path spellings can mask a mismatch
     - records with the same comments in wanted list files are no longer ignored. While ignoring duplicate
       file names in check files makes sense for the option --check-file, that setting is suboptimal if the
       option --wanted-list is used, because file names are treated as comments in wanted lists.
