@@ -107,15 +107,15 @@ später die Datenintegrität prüfen zu können.
 ## Eine Datei hashen
 
 ```
-jacksum ubuntu-22.04-desktop-amd64.iso
+jacksum ubuntu-26.04-desktop-amd64.iso
 ```
 
 Berechnet den SHA3-256-Hashwert (der Standardalgorithmus) einer Datei. Die Ausgabe ist
 `<hash> <filename>`.
 
 ```
-jacksum -a sha3-256 ubuntu-22.04-desktop-amd64.iso
-c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43 ubuntu-22.04-desktop-amd64.iso
+jacksum -a sha3-256 ubuntu-26.04-desktop-amd64.iso
+40822f93d646a7644f24be73f21b2998ee5ffd1ff16cb49a319dcd9d5538c508 ubuntu-26.04-desktop-amd64.iso
 ```
 
 Dasselbe, mit explizit benanntem Algorithmus. Das ist es, was Sie in Skripten wollen.
