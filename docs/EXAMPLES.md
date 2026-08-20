@@ -103,15 +103,15 @@ all later on.
 ## Hash one file
 
 ```
-jacksum ubuntu-22.04-desktop-amd64.iso
+jacksum ubuntu-26.04-desktop-amd64.iso
 ```
 
 Calculates the SHA3-256 hash (the default algorithm) of one file. The output is
 `<hash> <filename>`.
 
 ```
-jacksum -a sha3-256 ubuntu-22.04-desktop-amd64.iso
-c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43 ubuntu-22.04-desktop-amd64.iso
+jacksum -a sha3-256 ubuntu-26.04-desktop-amd64.iso
+40822f93d646a7644f24be73f21b2998ee5ffd1ff16cb49a319dcd9d5538c508 ubuntu-26.04-desktop-amd64.iso
 ```
 
 The same, with the algorithm named explicitly. This is what you want in scripts.
