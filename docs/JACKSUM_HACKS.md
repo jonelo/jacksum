@@ -22,31 +22,31 @@ that touches every single byte without producing a hash value.
 
 - [Part 1 — Encodings and number bases](#part1)
   - [File dumps](#file-dumps)
-  - [Working with strings ...](#working-with-strings-)
-  - [Binary to ...](#binary-to-)
-  - [Octal to ...](#octal-to-)
-  - [Decimal to ...](#decimal-to-)
-  - [Hex to ...](#hex-to-)
-  - [Base32 to ...](#base32-to-)
-  - [Base32hex to ...](#base32hex-to-)
-  - [Base64 to ...](#base64-to-)
-  - [Base64url to ...](#base64url-to-)
-  - [Z85 to ...](#z85-to-)
-  - [z-base-32 to ...](#z-base-32-to-)
-  - [BubbleBabble to ...](#bubblebabble-to-)
-  - [All 19 encodings at a glance](#all-19-encodings-at-a-glance)
+  - [Working with strings ...](#strings)
+  - [Binary to ...](#binary-to)
+  - [Octal to ...](#octal-to)
+  - [Decimal to ...](#decimal-to)
+  - [Hex to ...](#hex-to)
+  - [Base32 to ...](#base32-to)
+  - [Base32hex to ...](#base32hex-to)
+  - [Base64 to ...](#base64-to)
+  - [Base64url to ...](#base64url-to)
+  - [Z85 to ...](#z85-to)
+  - [z-base-32 to ...](#z-base-32-to)
+  - [BubbleBabble to ...](#bubblebabble-to)
+  - [All 19 encodings at a glance](#all-encodings)
   - [Round trips](#round-trips)
 - [Part 2 — Hacks that have nothing to do with hashing nor encoding](#part2)
-  - [Is everything on the medium still readable?](#is-everything-on-the-medium-still-readable)
-  - [Find files (`find`)](#find-files-find)
-  - [Sizes and timestamps (`stat`, `du`, `ls`)](#sizes-and-timestamps-stat-du-ls)
-  - [Snapshot a directory and detect changes later](#snapshot-a-directory-and-detect-changes-later)
-  - [Path tool (`realpath`, `dirname`, `basename`, `cygpath`)](#path-tool-realpath-dirname-basename-cygpath)
-  - [Timestamp tool (`date -r`)](#timestamp-tool-date--r)
-  - [A template engine for file trees](#a-template-engine-for-file-trees)
-  - [Character set converter (`iconv`)](#character-set-converter-iconv)
-  - [Count the bytes of a pipe (`wc -c`)](#count-the-bytes-of-a-pipe-wc--c)
-  - [A searchable reference book](#a-searchable-reference-book)
+  - [Is everything on the medium still readable?](#medium-readable)
+  - [Find files (`find`)](#find-files)
+  - [Sizes and timestamps (`stat`, `du`, `ls`)](#sizes-and-timestamps)
+  - [Snapshot a directory and detect changes later](#snapshot)
+  - [Path tool (`realpath`, `dirname`, `basename`, `cygpath`)](#path-tool)
+  - [Timestamp tool (`date -r`)](#timestamp-tool)
+  - [A template engine for file trees](#template-engine)
+  - [Character set converter (`iconv`)](#charset-converter)
+  - [Count the bytes of a pipe (`wc -c`)](#count-bytes)
+  - [A searchable reference book](#reference-book)
   - [What am I running on?](#what-am-i-running-on)
 
 <a name="part1"></a>
@@ -56,6 +56,8 @@ that touches every single byte without producing a hash value.
 For all examples in this part we set `-a none`, because we are not interested in hashing at all.
 
 The file `myfile.dat` used below contains the seven bytes `Jacksum`.
+
+<a name="file-dumps"></a>
 
 ## File dumps
 
@@ -122,7 +124,7 @@ Safe for URLs and file names, because `+` and `/` are replaced by `-` and `_`.
     $ jacksum -a none -q file:myfile.dat -F "#SEQUENCE{z-base-32}"
     jjosg45uqiso
 
-Since 4.0.0 Jacksum also reads z-base-32 back in, see [z-base-32 to ...](#z-base-32-to-).
+Since 4.0.0 Jacksum also reads z-base-32 back in, see [z-base-32 to ...](#z-base-32-to).
 
 ### BubbleBabble dump
 
@@ -131,7 +133,7 @@ Pronounceable pseudowords, as used by OpenSSH and SSH2.
     $ jacksum -a none -q file:myfile.dat -F "#SEQUENCE{bubblebabble}"
     xidik-comuk-resyl-hyrix
 
-Since 4.0.0 Jacksum also reads BubbleBabble back in, see [BubbleBabble to ...](#bubblebabble-to-).
+Since 4.0.0 Jacksum also reads BubbleBabble back in, see [BubbleBabble to ...](#bubblebabble-to).
 
 ### Decimal, octal and binary dump
 
@@ -155,6 +157,8 @@ The whole file is treated as one big number, not as a list of byte values.
 > `-q file:` keeps the entire file in memory and is therefore limited to 128 MiB. For bigger files,
 > pass the file as a normal parameter instead of using `-q`.
 
+
+<a name="strings"></a>
 
 ## Working with strings ...
 
@@ -232,6 +236,8 @@ for investigating strings and encodings without leaving them in the shell histor
 Requires a real console; it cannot be fed through a pipe or a redirection.
 
 
+<a name="binary-to"></a>
+
 ## Binary to ...
 
 ### Bin to dec
@@ -269,6 +275,8 @@ Requires a real console; it cannot be fed through a pipe or a redirection.
     $ jacksum -a none -q bin:1010101010101010 -F "#SEQUENCE{z85}"
     S&u
 
+
+<a name="octal-to"></a>
 
 ## Octal to ...
 
@@ -315,6 +323,8 @@ Octal input is a list of **byte** values, separated by commas or spaces.
     65672034320a
 
 
+<a name="decimal-to"></a>
+
 ## Decimal to ...
 
 ### Decimal to binary
@@ -352,6 +362,8 @@ Octal input is a list of **byte** values, separated by commas or spaces.
     $ jacksum -a none -q dec:42 -F "#SEQUENCE{z85}"
     dG
 
+
+<a name="hex-to"></a>
 
 ## Hex to ...
 
@@ -416,6 +428,8 @@ Octal input is a list of **byte** values, separated by commas or spaces.
     xubat-vidyz-vexox
 
 
+<a name="base32-to"></a>
+
 ## Base32 to ...
 
 ### Decode Base32 and encode to hex
@@ -444,6 +458,8 @@ Octal input is a list of **byte** values, separated by commas or spaces.
     bin: 11000000110111101100101011111110, dec: 3235826430, oct: 030067545376, hex:C0DECAFE
 
 
+<a name="base32hex-to"></a>
+
 ## Base32hex to ...
 
 ### Decode Base32hex and encode to hex
@@ -466,6 +482,8 @@ Octal input is a list of **byte** values, separated by commas or spaces.
     $ jacksum -a none -q base32hex:O3FCLVG= -F "bin: #SEQUENCE{bin}, dec: #SEQUENCE{dec}, oct: 0#SEQUENCE{oct}, hex:#SEQUENCE{hex-uppercase}"
     bin: 11000000110111101100101011111110, dec: 3235826430, oct: 030067545376, hex:C0DECAFE
 
+
+<a name="base64-to"></a>
 
 ## Base64 to ...
 
@@ -490,6 +508,8 @@ Octal input is a list of **byte** values, separated by commas or spaces.
     C0DECAFE
 
 
+<a name="base64url-to"></a>
+
 ## Base64url to ...
 
 ### Decode base64url and encode to hex
@@ -513,6 +533,8 @@ Octal input is a list of **byte** values, separated by commas or spaces.
     bin: 11000000110111101100101011111110, dec: 3235826430, oct: 030067545376, hex:C0DECAFE
 
 
+<a name="z85-to"></a>
+
 ## Z85 to ...
 
 ### Decode Z85 and encode to hex
@@ -530,6 +552,8 @@ Octal input is a list of **byte** values, separated by commas or spaces.
     $ jacksum -a none -q "z85:Z#0lk" -F "#SEQUENCE{base64url}"
     wN7K_g==
 
+
+<a name="z-base-32-to"></a>
 
 ## z-base-32 to ...
 
@@ -575,6 +599,8 @@ The type is available for `-k` as well, because the secret key of an HMAC uses t
 
     $ jacksum -a hmac:sha256 -k z-base-32:adxci9o myfile.dat
 
+
+<a name="bubblebabble-to"></a>
 
 ## BubbleBabble to ...
 
@@ -671,6 +697,8 @@ BubbleBabble encoded hash value byte-wise now, no matter how it was written:
     Jacksum: 1 of the successfully read files matches the expected hash value.
 
 
+<a name="all-encodings"></a>
+
 ## All 19 encodings at a glance
 
 The same four bytes, `C0DECAFE`, through every encoding Jacksum knows:
@@ -703,6 +731,8 @@ The same 19 values are valid for `-E`, and the input side (`-q <type>:`) underst
 `bin`, `dec`, `oct`, `hex`, `base32`, `base32hex`, `base64`, `base64url`, `z85`, `z-base-32` and
 `bubblebabble` (the last two are new in 4.0.0), `txt`, `txtf` and `file`.
 
+
+<a name="round-trips"></a>
 
 ## Round trips
 
@@ -745,6 +775,8 @@ against this little tree:
     photos/a.jpg          1 byte
     photos/2024/b.jpg     2 bytes
 
+<a name="medium-readable"></a>
+
 ## Is everything on the medium still readable?
 
 This is the one hack that has nothing to do with hashing at all: `-a read` reads every single byte
@@ -786,6 +818,8 @@ Note that `-a none` will **not** find those files, because it never opens them:
 That is exactly the difference: use `-a none` when you only want metadata, use `-a read` when you
 want to know whether the data is still there.
 
+
+<a name="find-files"></a>
 
 ## Find files (`find`)
 
@@ -842,6 +876,8 @@ where things like to hide.
 The resulting list can be fed straight back into Jacksum with `--file-list`.
 
 
+<a name="sizes-and-timestamps"></a>
+
 ## Sizes and timestamps (`stat`, `du`, `ls`)
 
 Three ready-made styles produce hash-free lists. Do **not** combine them with `-a`, they bring their
@@ -886,6 +922,8 @@ And `-V summary` counts files and bytes of a whole tree:
     Jacksum: total bytes read (human readable): 46 bytes
     Jacksum: total file read errors: 0
 
+
+<a name="snapshot"></a>
 
 ## Snapshot a directory and detect changes later
 
@@ -948,6 +986,8 @@ Silence plus exit code 0 means "nothing is missing". As soon as something disapp
 Add `--check-strict` if malformed lines in the list should turn into a nonzero exit code too.
 
 
+<a name="path-tool"></a>
+
 ## Path tool (`realpath`, `dirname`, `basename`, `cygpath`)
 
     $ jacksum -a none --path-absolute -F "#FILENAME" myfile.dat
@@ -989,6 +1029,8 @@ forward slashes for HTML on Windows:
     .\strings.txt
 
 
+<a name="timestamp-tool"></a>
+
 ## Timestamp tool (`date -r`)
 
 `-t` formats the last modification time of a file in any format you like.
@@ -1021,6 +1063,8 @@ Anything Java's `SimpleDateFormat` understands works as well:
     2025-12-24 ./photos/a.jpg
     2026-02-14 ./strings.txt
 
+
+<a name="template-engine"></a>
 
 ## A template engine for file trees
 
@@ -1077,6 +1121,8 @@ Use `-o <file>` (or `-O <file>` to overwrite) if the result should go to a file 
 terminal.
 
 
+<a name="charset-converter"></a>
+
 ## Character set converter (`iconv`)
 
 `--string-list` reads the strings, `--charset-string-list` says how they are encoded, and
@@ -1092,6 +1138,8 @@ terminal.
 `--charset-output-file` does the same for `-o`.
 
 
+<a name="count-bytes"></a>
+
 ## Count the bytes of a pipe (`wc -c`)
 
 `-` reads standard input, `#LENGTH` prints how many bytes came through.
@@ -1099,6 +1147,8 @@ terminal.
     $ printf 'Hello World' | jacksum -a read -F "#LENGTH" -
     11
 
+
+<a name="reference-book"></a>
 
 ## A searchable reference book
 
@@ -1127,6 +1177,8 @@ If nothing matches, the exit code is 1 — so you can test for the existence of 
     $ jacksum --exact -h --nonexistent > /dev/null 2>&1 ; echo $?
     1
 
+
+<a name="what-am-i-running-on"></a>
 
 ## What am I running on?
 

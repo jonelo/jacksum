@@ -32,7 +32,7 @@ if you want to understand where an algorithm comes from and how trustworthy it i
 See also
 
 - [All available algorithms with details](https://github.com/jonelo/jacksum/wiki/Manpage#algorithms)
-- Usage Cheat Sheet: [What algorithms are available](https://github.com/jonelo/jacksum/wiki/Cheat-Sheet#what-algorithms-are-available)
+- [Algorithm Selection Guide](ALGORITHM_SELECTION_GUIDE.md) - which of those algorithms fits your use case
 - [Features](FEATURES.md)
 
 
