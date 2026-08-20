@@ -51,7 +51,7 @@ macht es zu einem Werkzeug, das jedes einzelne Byte anfasst, ohne einen Hashwert
   - [Ein durchsuchbares Nachschlagewerk](#reference-book)
   - [Worauf läuft das hier eigentlich?](#what-am-i-running-on)
 
-<a name="part1"/>
+<a name="part1"></a>
 
 # Teil 1 — Kodierungen und Zahlensysteme
 
@@ -60,7 +60,7 @@ interessiert.
 
 Die unten verwendete Datei `myfile.dat` enthält die sieben Bytes `Jacksum`.
 
-<a name="file-dumps"/>
+<a name="file-dumps"></a>
 
 ## Datei-Dumps
 
@@ -161,7 +161,7 @@ Die ganze Datei wird als eine einzige große Zahl behandelt, nicht als Liste von
 > größere Dateien als normalen Parameter, statt `-q` zu verwenden.
 
 
-<a name="strings"/>
+<a name="strings"></a>
 
 ## Mit Zeichenketten arbeiten ...
 
@@ -240,7 +240,7 @@ hinterlassen.
 Erfordert eine echte Konsole; es kann nicht über eine Pipe oder eine Umleitung gefüttert werden.
 
 
-<a name="binary-to"/>
+<a name="binary-to"></a>
 
 ## Binär nach ...
 
@@ -280,7 +280,7 @@ Erfordert eine echte Konsole; es kann nicht über eine Pipe oder eine Umleitung 
     S&u
 
 
-<a name="octal-to"/>
+<a name="octal-to"></a>
 
 ## Oktal nach ...
 
@@ -327,7 +327,7 @@ Die Oktal-Eingabe ist eine Liste von **Byte**-Werten, getrennt durch Kommas oder
     65672034320a
 
 
-<a name="decimal-to"/>
+<a name="decimal-to"></a>
 
 ## Dezimal nach ...
 
@@ -367,7 +367,7 @@ Die Oktal-Eingabe ist eine Liste von **Byte**-Werten, getrennt durch Kommas oder
     dG
 
 
-<a name="hex-to"/>
+<a name="hex-to"></a>
 
 ## Hex nach ...
 
@@ -432,7 +432,7 @@ Die Oktal-Eingabe ist eine Liste von **Byte**-Werten, getrennt durch Kommas oder
     xubat-vidyz-vexox
 
 
-<a name="base32-to"/>
+<a name="base32-to"></a>
 
 ## Base32 nach ...
 
@@ -462,7 +462,7 @@ Die Oktal-Eingabe ist eine Liste von **Byte**-Werten, getrennt durch Kommas oder
     bin: 11000000110111101100101011111110, dec: 3235826430, oct: 030067545376, hex:C0DECAFE
 
 
-<a name="base32hex-to"/>
+<a name="base32hex-to"></a>
 
 ## Base32hex nach ...
 
@@ -487,7 +487,7 @@ Die Oktal-Eingabe ist eine Liste von **Byte**-Werten, getrennt durch Kommas oder
     bin: 11000000110111101100101011111110, dec: 3235826430, oct: 030067545376, hex:C0DECAFE
 
 
-<a name="base64-to"/>
+<a name="base64-to"></a>
 
 ## Base64 nach ...
 
@@ -512,7 +512,7 @@ Die Oktal-Eingabe ist eine Liste von **Byte**-Werten, getrennt durch Kommas oder
     C0DECAFE
 
 
-<a name="base64url-to"/>
+<a name="base64url-to"></a>
 
 ## Base64url nach ...
 
@@ -537,7 +537,7 @@ Die Oktal-Eingabe ist eine Liste von **Byte**-Werten, getrennt durch Kommas oder
     bin: 11000000110111101100101011111110, dec: 3235826430, oct: 030067545376, hex:C0DECAFE
 
 
-<a name="z85-to"/>
+<a name="z85-to"></a>
 
 ## Z85 nach ...
 
@@ -557,7 +557,7 @@ Die Oktal-Eingabe ist eine Liste von **Byte**-Werten, getrennt durch Kommas oder
     wN7K_g==
 
 
-<a name="z-base-32-to"/>
+<a name="z-base-32-to"></a>
 
 ## z-base-32 nach ...
 
@@ -605,7 +605,7 @@ verwendet wie `-q`:
     $ jacksum -a hmac:sha256 -k z-base-32:adxci9o myfile.dat
 
 
-<a name="bubblebabble-to"/>
+<a name="bubblebabble-to"></a>
 
 ## BubbleBabble nach ...
 
@@ -702,7 +702,7 @@ Und da Jacksum eine BubbleBabble-Zeichenkette wieder in Bytes verwandeln kann, v
     Jacksum: 1 of the successfully read files matches the expected hash value.
 
 
-<a name="all-encodings"/>
+<a name="all-encodings"></a>
 
 ## Alle 19 Kodierungen auf einen Blick
 
@@ -737,7 +737,7 @@ Dieselben 19 Werte sind für `-E` gültig, und die Eingabeseite (`-q <type>:`) v
 `bubblebabble` (die beiden letzten sind neu in 4.0.0), `txt`, `txtf` und `file`.
 
 
-<a name="round-trips"/>
+<a name="round-trips"></a>
 
 ## Hin und zurück
 
@@ -768,7 +768,7 @@ Sie können Umwandlungen also aneinanderreihen:
 > `base64 -d > file.bin` gibt es also keine Entsprechung in Jacksum.
 
 
-<a name="part2"/>
+<a name="part2"></a>
 
 # Teil 2 — Hacks, die weder mit Hashing noch mit Kodierungen zu tun haben
 
@@ -781,7 +781,7 @@ Beispiele laufen gegen diesen kleinen Baum:
     photos/a.jpg          1 byte
     photos/2024/b.jpg     2 bytes
 
-<a name="medium-readable"/>
+<a name="medium-readable"></a>
 
 ## Ist auf dem Medium noch alles lesbar?
 
@@ -826,7 +826,7 @@ Genau das ist der Unterschied: Verwenden Sie `-a none`, wenn Sie nur Metadaten w
 `-a read`, wenn Sie wissen wollen, ob die Daten noch da sind.
 
 
-<a name="find-files"/>
+<a name="find-files"></a>
 
 ## Dateien finden (`find`)
 
@@ -884,7 +884,7 @@ Ort, an dem sich so manches gerne versteckt.
 Die entstehende Liste kann mit `--file-list` direkt wieder in Jacksum hineingegeben werden.
 
 
-<a name="sizes-and-timestamps"/>
+<a name="sizes-and-timestamps"></a>
 
 ## Größen und Zeitstempel (`stat`, `du`, `ls`)
 
@@ -931,7 +931,7 @@ Und `-V summary` zählt Dateien und Bytes eines ganzen Baums:
     Jacksum: total file read errors: 0
 
 
-<a name="snapshot"/>
+<a name="snapshot"></a>
 
 ## Ein Verzeichnis als Momentaufnahme sichern und Änderungen später erkennen
 
@@ -997,7 +997,7 @@ Ergänzen Sie `--check-strict`, wenn auch fehlerhaft formatierte Zeilen in der L
 Exit-Code ungleich null führen sollen.
 
 
-<a name="path-tool"/>
+<a name="path-tool"></a>
 
 ## Pfad-Werkzeug (`realpath`, `dirname`, `basename`, `cygpath`)
 
@@ -1040,7 +1040,7 @@ erzeugen Sie unter Windows Schrägstriche für HTML:
     .\strings.txt
 
 
-<a name="timestamp-tool"/>
+<a name="timestamp-tool"></a>
 
 ## Zeitstempel-Werkzeug (`date -r`)
 
@@ -1075,7 +1075,7 @@ Alles, was Javas `SimpleDateFormat` versteht, funktioniert ebenfalls:
     2026-02-14 ./strings.txt
 
 
-<a name="template-engine"/>
+<a name="template-engine"></a>
 
 ## Eine Template-Engine für Dateibäume
 
@@ -1132,7 +1132,7 @@ Verwenden Sie `-o <file>` (oder `-O <file>` zum Überschreiben), wenn das Ergebn
 statt ins Terminal gehen soll.
 
 
-<a name="charset-converter"/>
+<a name="charset-converter"></a>
 
 ## Zeichensatz-Konverter (`iconv`)
 
@@ -1149,7 +1149,7 @@ unverändert durch — das Einzige, was also passiert, ist eine Zeichensatzumwan
 170 Zeichensätze; `--charset-output-file` macht dasselbe für `-o`.
 
 
-<a name="count-bytes"/>
+<a name="count-bytes"></a>
 
 ## Die Bytes einer Pipe zählen (`wc -c`)
 
@@ -1159,7 +1159,7 @@ unverändert durch — das Einzige, was also passiert, ist eine Zeichensatzumwan
     11
 
 
-<a name="reference-book"/>
+<a name="reference-book"></a>
 
 ## Ein durchsuchbares Nachschlagewerk
 
@@ -1190,7 +1190,7 @@ Passt nichts, ist der Exit-Code 1 — so können Sie in einem Skript prüfen, ob
     1
 
 
-<a name="what-am-i-running-on"/>
+<a name="what-am-i-running-on"></a>
 
 ## Worauf läuft das hier eigentlich?
 

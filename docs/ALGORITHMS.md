@@ -14,7 +14,7 @@
  - [Getting Details about a Particular Algorithm](#getting_details)
  - [Footnotes](#footnotes)
 
-<a name="algorithm_support"/>
+<a name="algorithm_support"></a>
 
 # Algorithm Support
 
@@ -36,12 +36,12 @@ See also
 - [Features](FEATURES.md)
 
 
-<a name="standard_algorithms"/>
-<a name="standard_hash_functions"/>
+<a name="standard_algorithms"></a>
+<a name="standard_hash_functions"></a>
 
 # Standard Algorithms
 
-<a name="standard_hash_functions_sorted_alphabetically"/>
+<a name="standard_hash_functions_sorted_alphabetically"></a>
 
 ## Standard Algorithms, sorted alphabetically
 
@@ -72,11 +72,11 @@ sum [8,16,24,32,40,48,56,64], Tiger, Tiger/128, Tiger/160, Tiger2, TTH (Tiger Tr
 TTH2, VSH-1024, Whirlpool-0, Whirlpool-1 (a.k.a. Whirlpool-T), Whirlpool, Xoodyak, xor8, and
 XXH32.
 
-<a name="standard_hash_functions_sorted_logically"/>
+<a name="standard_hash_functions_sorted_logically"></a>
 
 ## Standard Algorithms, sorted logically
 
-<a name="cryptographic_hash_functions"/>
+<a name="cryptographic_hash_functions"></a>
 
 ### Cryptographic Hash Functions
 
@@ -189,7 +189,7 @@ XXH32.
   - SHA-0 <sup><a href="#broken">broken</a></sup>
   - SHA-1 <sup><a href="#broken">broken</a></sup>
 
-<a name="hash_trees"/>
+<a name="hash_trees"></a>
 
 ### Hash Trees
 
@@ -199,8 +199,8 @@ weakness, so each one is exactly as strong as the underlying hash function.
 - TTH, the Tiger Tree Hash (based on Tiger)
 - TTH2 (based on Tiger2)
 
-<a name="non-cryptographic_hash_functions"/>
-<a name="non_cryptographic_hash_functions"/>
+<a name="non-cryptographic_hash_functions"></a>
+<a name="non_cryptographic_hash_functions"></a>
 
 ### Non-Cryptographic Hash Functions
 
@@ -246,8 +246,8 @@ weakness, so each one is exactly as strong as the underlying hash function.
   - sum [8,16,24,32,40,48,56,64]
   - xor8
 
-<a name="customized_hash_functions"/>
-<a name="customized_algorithms"/>
+<a name="customized_hash_functions"></a>
+<a name="customized_algorithms"></a>
 
 # Customized Algorithms
 
@@ -255,7 +255,7 @@ On top of the 586 standard algorithms, Jacksum lets you build your own. Customiz
 are not listed by `jacksum -a all -l`, but they can be selected and used just like any
 standard algorithm.
 
-<a name="concatenated_algorithms"/>
+<a name="concatenated_algorithms"></a>
 
 ## Concatenated Algorithms
 
@@ -267,7 +267,7 @@ many algorithms have been selected, and each algorithm can run on its own thread
 The filter syntax works here as well, so `-a all:32+all:64` selects every 32-bit and every
 64-bit algorithm at once.
 
-<a name="hmac"/>
+<a name="hmac"></a>
 
 ## HMAC
 
@@ -293,7 +293,7 @@ The remaining 94 algorithms cannot be used, for one of the following reasons:
 Note that an HMAC built on a <a href="#broken">broken</a> hash function is not automatically
 broken itself, and vice versa; see `--info --verbose details` for the specifics.
 
-<a name="truncated_hmac"/>
+<a name="truncated_hmac"></a>
 
 ## Truncated HMAC
 
@@ -304,7 +304,7 @@ The HMAC output can be truncated to a given number of bits by appending `:<bits>
 `jacksum --hmacs -V info` prints, for every algorithm, the recommended minimum length of the
 key and the recommended minimum length of a truncated HMAC.
 
-<a name="customizable_crcs"/>
+<a name="customizable_crcs"></a>
 
 ## Customizable CRCs
 
@@ -323,7 +323,7 @@ Koopman representation, plus the reciprocal polynomial. `jacksum -h crc:` docume
 parameter in detail; see also the
 [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage#algorithms) for worked examples.
 
-<a name="getting_details"/>
+<a name="getting_details"></a>
 
 # Getting Details about a Particular Algorithm
 
@@ -345,11 +345,11 @@ by a substring of the ID:
     $ jacksum -a all:sha -l                   # only the ones whose ID contains "sha"
     $ jacksum --hmacs                         # only the ones that can be used for an HMAC
 
-<a name="footnotes"/>
+<a name="footnotes"></a>
 
 # Footnotes
 
-<a name="broken"/>
+<a name="broken"></a>
 
 **broken / partly broken** — to see the security section with the actual explanation, call
 
@@ -357,21 +357,21 @@ by a substring of the ID:
 jacksum -a <algorithm> --info --verbose details
 ```
 
-<a name="superseded"/>
+<a name="superseded"></a>
 
 **superseded** — no attack targeting the algorithm itself has been published, but the design
 was revised later on. Whirlpool-0 (2000) had its S-box replaced in Whirlpool-1 (2001), and
 Whirlpool-1 still contains the flaw in the diffusion matrix that was corrected only in the
 final Whirlpool (2003).
 
-<a name="iso3309"/>
+<a name="iso3309"></a>
 
 **CRC-64** — this 64-bit CRC (generator polynomial x^64 + x^4 + x^3 + x + 1) is often wrongly
 assumed to be a frame checking sequence defined in ISO 3309. It was used by the SWISS-PROT and
 TrEMBL protein sequence data banks until 2009. Only the 32-bit CRC-32/FCS-32 is actually
 specified in ISO 3309.
 
-<a name="rocksoft"/>
+<a name="rocksoft"></a>
 
 **cksum (Minix) and CRC-16 (Minix)** — despite their names, Jacksum classifies both as
 checksums rather than CRCs, because neither can be described by the Rocksoft (tm) Model: they

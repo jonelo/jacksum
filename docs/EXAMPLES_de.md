@@ -57,7 +57,7 @@
    - [Über das Programm](#info_program)
    - [In der Hilfe navigieren](#info_help)
 
-<a name="before"/>
+<a name="before"></a>
 
 # Bevor Sie beginnen
 
@@ -86,7 +86,7 @@ Beschreibung jeder Option (`jacksum -h`) und
 [Jacksum Hacks](JACKSUM_HACKS_de.md) für die Dinge, die Jacksum
 kann, die nichts mit Hashing zu tun haben.
 
-<a name="getting_started"/>
+<a name="getting_started"></a>
 
 # 1. Erste Schritte
 
@@ -102,7 +102,7 @@ Fingerabdruck der Daten oder Daumenabdruck der Daten genannt.
 Das Berechnen von Hashwerten ist üblicherweise der erste Schritt, den Sie gehen, um überhaupt
 später die Datenintegrität prüfen zu können.
 
-<a name="gs_one_file"/>
+<a name="gs_one_file"></a>
 
 ## Eine Datei hashen
 
@@ -120,7 +120,7 @@ jacksum -a sha3-256 ubuntu-26.04-desktop-amd64.iso
 
 Dasselbe, mit explizit benanntem Algorithmus. Das ist es, was Sie in Skripten wollen.
 
-<a name="gs_many_files"/>
+<a name="gs_many_files"></a>
 
 ## Viele Dateien und Verzeichnisbäume hashen
 
@@ -146,7 +146,7 @@ jacksum -a cksum /mnt/share
 Berechnet einen 32-Bit-CRC mit dem Standard-Unix-Algorithmus `cksum` für alle Dateien unter
 `/mnt/share` und dessen Unterordnern.
 
-<a name="gs_algorithm"/>
+<a name="gs_algorithm"></a>
 
 ## Den Algorithmus auswählen
 
@@ -188,7 +188,7 @@ jacksum -a sha-1+sha-224+sha-256+sha-384+sha-512+sha-512/224+sha-512/256+sha3-22
 Wenn Sie genau die Familien SHA-1, SHA-2 und SHA-3 wollen und nichts anderes, benennen Sie sie
 explizit. `jacksum -a all:sha --list` liefert Ihnen die IDs zum Kopieren.
 
-<a name="gs_encoding"/>
+<a name="gs_encoding"></a>
 
 ## Die Kodierung des Hashwerts auswählen
 
@@ -212,7 +212,7 @@ jacksum -a sha3-256 -E base64 file.dat
 `base64url`, `base64url-nopadding`, `z-base-32`, `z85` und `bb`/`bubblebabble`.
 `jacksum -h -E` dokumentiert jede davon.
 
-<a name="input"/>
+<a name="input"></a>
 
 # 2. Andere Eingaben als Dateien
 
@@ -220,7 +220,7 @@ Jacksum hasht nahezu jede Eingabe: Dateien, Dateibäume, Kommandozeilenargumente
 Zeichenketten, kodierte Zeichenketten, die Konsole, die Standardeingabe, NTFS-ADS, Pipes, Sockets,
 Doors, Partitionen und Datenträger.
 
-<a name="input_stdin"/>
+<a name="input_stdin"></a>
 
 ## Standardeingabe und Pipes
 
@@ -255,7 +255,7 @@ cat fat.iso | jacksum -
 Gibt den SHA3-256 einer Binärdatei unter GNU/Linux und macOS aus. Verwenden Sie unter Microsoft
 Windows `type` anstelle von `cat`.
 
-<a name="input_sequences"/>
+<a name="input_sequences"></a>
 
 ## Sequenzen auf der Kommandozeile
 
@@ -327,7 +327,7 @@ Liest eine Zeile von der Konsole und gibt das Getippte dabei aus. Praktisch zum 
 Zeichenketten und Kodierungen. `-q password` macht dasselbe ohne Ausgabe des Getippten (siehe
 [Reproduzierbare, eindeutige, sichere Passwörter](#beyond_passwords)).
 
-<a name="input_filelist"/>
+<a name="input_filelist"></a>
 
 ## Dateilisten
 
@@ -354,7 +354,7 @@ in Jacksum. `--file-list-format ssv` bedeutet space separated values (Namen, die
 enthalten, werden in doppelte Anführungszeichen eingeschlossen), und `--utf8` bringt Jacksum dazu,
 die Namen in UTF-8 zu lesen.
 
-<a name="input_stringlist"/>
+<a name="input_stringlist"></a>
 
 ## Zeichenkettenlisten
 
@@ -369,14 +369,14 @@ Hasht jede **Zeile** von `words.txt` als Zeichenkette, anstatt die Zeilen als Da
 behandeln. Siehe auch [Zeichenketten finden, die zu einem Hashwert passen](#find_strings) und
 [Große Pseudozufallszahlen](#beyond_random).
 
-<a name="output"/>
+<a name="output"></a>
 
 # 3. Ausgabe und Formate
 
 Jacksum unterstützt 18 vordefinierte Styles zum Lesen und Schreiben von Prüflisten, 17 Kodierungen,
 6 Zeitstempelformate und ein vollständig anpassbares Ausgabeformat.
 
-<a name="output_styles"/>
+<a name="output_styles"></a>
 
 ## Vordefinierte Styles
 
@@ -448,7 +448,7 @@ jacksum -a sha3-256 --style sfv .
 
 SHA3-256-Hashwerte im altbekannten SFV-Layout.
 
-<a name="output_formats"/>
+<a name="output_formats"></a>
 
 ## Benutzerdefinierte Formate
 
@@ -518,7 +518,7 @@ OUTPUT of #ALGONAME{i}:
 
 werden sowohl die Eingabe als auch beide Hashwerte jeweils in drei Kodierungen ausgegeben.
 
-<a name="output_misc"/>
+<a name="output_misc"></a>
 
 ## Zeitstempel, Trenner, Pfade und Gruppierung
 
@@ -549,7 +549,7 @@ jacksum -a none -q "txt:Hello World" -F "#SEQUENCE" -E hex -g 1
 
 `-g <count>` gruppiert die kodierten Bytes; `-G <char>` ändert den Gruppentrenner.
 
-<a name="output_files"/>
+<a name="output_files"></a>
 
 ## Wohin die Ausgabe geht
 
@@ -614,7 +614,7 @@ jacksum -a sha3-256 -U errors.log .
 
 `-u`/`-U` leiten den Fehlerkanal in eine Datei um, sodass stdout eine saubere Hashliste bleibt.
 
-<a name="output_othertools"/>
+<a name="output_othertools"></a>
 
 ## Formate anderer Werkzeuge
 
@@ -668,7 +668,7 @@ urn:tree:tiger:LWPNACQDBZRYXW3VHJVCJ64QBZNGHOHHHZWCLNQ
 Der Wurzel-Hashwert eines Tiger Tree Hash (eine weit verbreitete Form des Merkle-Baums), hier über
 eine leere Eingabe.
 
-<a name="verify"/>
+<a name="verify"></a>
 
 # 4. Datenintegrität überprüfen
 
@@ -680,7 +680,7 @@ Als Werkzeug für Datei-/Datenintegrität kann Jacksum Hashwerte erzeugen, speic
 um Änderungen an Dateien zu erkennen. Es erkennt passende, nicht passende, fehlende und neue
 Dateien.
 
-<a name="verify_one"/>
+<a name="verify_one"></a>
 
 ## Eine Datei gegen einen bekannten Hashwert prüfen
 
@@ -732,7 +732,7 @@ nicht auf allen Plattformen gleich verhält — unter Windows müssen Sie die An
 Leerzeichen weglassen, sonst gibt `echo` diese Zeichen in die Pipe weiter. `--check-line` vermeidet
 das Problem vollständig.
 
-<a name="verify_list"/>
+<a name="verify_list"></a>
 
 ## Eine Hashliste erzeugen und später überprüfen
 
@@ -760,7 +760,7 @@ jacksum -a blake3+ -E base64 -t iso8601 --check-file hashes.list data
 Wenn die Liste mit `-a blake3+ -E base64 -t iso8601` erzeugt wurde, müssen Sie beim Wiedereinlesen
 denselben Algorithmus, dieselbe Kodierung und dasselbe Zeitstempelformat angeben.
 
-<a name="verify_states"/>
+<a name="verify_states"></a>
 
 ## OK, FAILED, MISSING und NEW
 
@@ -805,7 +805,7 @@ Beachten Sie, dass die Prüfliste selbst als `NEW` erscheint, weil sie innerhalb
 Verzeichnisses liegt. Speichern Sie sie außerhalb des Baums (`-O ../checkfile`), wenn Sie das stört
 — für eine strikte Prüfung ist es zwingend erforderlich.
 
-<a name="verify_strict"/>
+<a name="verify_strict"></a>
 
 ## Strikte Überprüfung (Audit)
 
@@ -838,7 +838,7 @@ jacksum -a sha256 --check-file ../.SHA256 --check-strict --scan-ntfs-ads .
 
 Ein vollständiges Audit unter Windows.
 
-<a name="verify_filter"/>
+<a name="verify_filter"></a>
 
 ## Den Bericht filtern
 
@@ -863,7 +863,7 @@ jacksum --check-file my.hashes --list-filter none,missing,new .
 `--list-filter` nimmt eine durch Kommas getrennte Menge auf, sodass Sie genau die Zustände
 kombinieren können, die Sie interessieren.
 
-<a name="verify_foreign"/>
+<a name="verify_foreign"></a>
 
 ## Listen überprüfen, die von anderen Werkzeugen erzeugt wurden
 
@@ -892,7 +892,7 @@ jacksum -a sha3-256 --check-file list --ignore-lines-starting-with-string ";" .
 Überspringt Kommentarzeilen in einem fremden Format (kurz `-I`). `--ignore-empty-lines` und
 `--ignore-hashes` existieren aus demselben Grund.
 
-<a name="verify_exitcodes"/>
+<a name="verify_exitcodes"></a>
 
 ## Exit-Codes
 
@@ -908,7 +908,7 @@ jacksum -a sha3-256 --check-file ../.SHA3 --check-strict -V nosummary data || ec
 
 Das ist es, was Jacksum in Skripten und Cronjobs verwendbar macht.
 
-<a name="find"/>
+<a name="find"></a>
 
 # 5. Objekte finden
 
@@ -917,7 +917,7 @@ Weil ein Hashwert Inhalte unabhängig vom Dateinamen identifiziert, kann Jacksum
 versteckt, Dateien finden, die **nicht** auf einer freigegebenen Liste stehen, oder den Algorithmus
 hinter einem Hashwert finden.
 
-<a name="find_duplicates"/>
+<a name="find_duplicates"></a>
 
 ## Alle Duplikate einer Datei finden
 
@@ -937,7 +937,7 @@ jacksum -a md5 -E hex -F "#FILENAME" -e 9666f5e2632d05b806e782d7d50855e8 .
 Dasselbe, aber nur die Dateinamen werden ausgegeben — bereit, per Pipe an `rm` oder `ln` übergeben
 zu werden.
 
-<a name="find_byhash"/>
+<a name="find_byhash"></a>
 
 ## Eine Datei anhand ihres Hashwerts finden
 
@@ -961,7 +961,7 @@ Jacksum: 1 of the successfully read files matches the expected hash value.
 
 `--threads-reading max` zahlt sich auf SSDs aus, wo nicht der Datenträger der Flaschenhals ist.
 
-<a name="find_wantedlist"/>
+<a name="find_wantedlist"></a>
 
 ## Dateien anhand einer Liste bekannter Hashwerte finden
 
@@ -1014,7 +1014,7 @@ unabhängig davon, wie es auf der Platte umbenannt wurde.
 Siehe auch
 [CVE-2021-44832: Find vulnerable .jar files using Jacksum](https://loefflmann.blogspot.com/2022/06/CVE-2021-44832%20Find%20vulnerable%20.jar%20files%20using%20Jacksum%203.4.0%20or%20later.html)
 
-<a name="find_negative"/>
+<a name="find_negative"></a>
 
 ## Negativer Abgleich
 
@@ -1027,7 +1027,7 @@ Dreht die Frage um: melde alles, was **nicht** auf der freigegebenen Liste steht
 eine Datei in einem Deployment, die sich niemand erklären kann. `--wanted-list-filter` (Alias
 `--match-filter`) akzeptiert `match`/`positive` (der Standardwert) und `nomatch`/`negative`.
 
-<a name="find_strings"/>
+<a name="find_strings"></a>
 
 ## Zeichenketten finden, die zu einem Hashwert passen
 
@@ -1039,7 +1039,7 @@ f0277d92062bd9a41dd26cddbaf2c41d576cf7b0173cbe96c23d5f5a4f92cc8f beta
 Die Kombination von `--string-list` mit `-e` durchsucht eine Wortliste anstelle eines Dateisystems —
 nützlich, wenn Sie wissen, dass ein Hashwert über eine kurze, erratbare Zeichenkette gebildet wurde.
 
-<a name="find_malware"/>
+<a name="find_malware"></a>
 
 ## Schadsoftware anhand von Hashwerten finden
 
@@ -1064,7 +1064,7 @@ Gehen Sie dann damit auf die Jagd:
 jacksum -a sha256 --style hdb --wanted-list malware.sha256.hdb .
 ```
 
-<a name="find_algorithm"/>
+<a name="find_algorithm"></a>
 
 ## Den Algorithmus finden, der einen Hashwert erzeugt hat
 
@@ -1130,7 +1130,7 @@ jacksum -a crc:16,1021,FFFF,false,false,FFFF -E hex -q txt:"Hello World"
 `<bits>` in `unknown:<bits>` darf alles von 1 bis 1024 sein. Siehe auch
 [Investigating Algorithms](https://github.com/jonelo/jacksum/wiki/Investigating-Algorithms).
 
-<a name="hmac"/>
+<a name="hmac"></a>
 
 # 6. HMAC
 
@@ -1138,7 +1138,7 @@ Ein HMAC (Keyed-Hash Message Authentication Code, RFC 2104) belegt nicht nur, da
 sind, sondern auch, dass sie von jemandem kommen, der ein gemeinsames Geheimnis kennt. Jacksum
 unterstützt HMAC für 492 seiner 586 Algorithmen — `jacksum --hmacs` listet sie auf.
 
-<a name="hmac_calculate"/>
+<a name="hmac_calculate"></a>
 
 ## Einen HMAC berechnen
 
@@ -1157,7 +1157,7 @@ jacksum -a hmac:sha3-256 -k file:key.txt message.txt
 Ein HMAC über eine Datei. Alles, was Sie über `-a`, `-E`, `-F`, `--style` und die
 Verzeichnis-Traversierung wissen, funktioniert weiterhin.
 
-<a name="hmac_key"/>
+<a name="hmac_key"></a>
 
 ## Woher der Schlüssel kommt
 
@@ -1175,7 +1175,7 @@ In Mehrbenutzerumgebungen sind nur `file:<file>`, `readline` und `password` rats
 Form hinterlässt das Geheimnis in Prozesslisten und in Ihrer Shell-History. Um Shoulder Surfing zu
 vermeiden, bevorzugen Sie `file:` oder `password` gegenüber `readline`.
 
-<a name="hmac_truncated"/>
+<a name="hmac_truncated"></a>
 
 ## Verkürzte HMACs
 
@@ -1187,7 +1187,7 @@ jacksum -a hmac:sha3-256:160 -k txt:test --info
 verbreitete Praxis — es begrenzt, wie viel Sie vom zugrunde liegenden Hashwert offenlegen. `--info`
 zeigt Ihnen die resultierenden Parameter.
 
-<a name="hmac_verify"/>
+<a name="hmac_verify"></a>
 
 ## Einen HMAC überprüfen
 
@@ -1198,7 +1198,7 @@ jacksum -a hmac:sha256 -q password -k password -e 60273a1e778ed009a6fb32fa11dbb1
 `-e` funktioniert auch im HMAC-Modus, wobei sowohl der Schlüssel als auch die Nachricht von der
 Konsole gelesen werden.
 
-<a name="hmac_interop"/>
+<a name="hmac_interop"></a>
 
 ## Interoperabilität mit anderen Werkzeugen
 
@@ -1213,11 +1213,11 @@ PHP:      hash_hmac('<algo>', '<message>', '<key>');
 
 `jacksum -h hmac:` gibt die vollständige Kompatibilitätsliste aus.
 
-<a name="beyond"/>
+<a name="beyond"></a>
 
 # 7. Mehr als Hashing
 
-<a name="beyond_passwords"/>
+<a name="beyond_passwords"></a>
 
 ## Reproduzierbare, eindeutige, sichere Passwörter
 
@@ -1251,7 +1251,7 @@ wenn Sie auch den Hashwert nicht auf dem Bildschirm sehen möchten.
 
 Die vollständige Begründung finden Sie unter <https://bit.ly/secure-passwords-with-jacksum>.
 
-<a name="beyond_random"/>
+<a name="beyond_random"></a>
 
 ## Große Pseudozufallszahlen
 
@@ -1268,7 +1268,7 @@ wenden Sie einen HMAC an, verkürzen Sie ihn auf die gewünschte Bitbreite und k
 Der HMAC-Schlüssel wirkt als **Startwert (Seed)** für den gesamten Aufruf, die Folge ist also
 reproduzierbar; jede Zeichenkette wirkt als individueller Startwert für eine Zahl.
 
-<a name="beyond_encodings"/>
+<a name="beyond_encodings"></a>
 
 ## Umwandlungen von Kodierungen
 
@@ -1283,7 +1283,7 @@ bin: 1100101011111110, dec: 51966, oct: 0145376, hex: CAFE
 Die vollständige Sammlung finden Sie auf der Seite
 [Jacksum Hacks](JACKSUM_HACKS_de.md).
 
-<a name="crcs"/>
+<a name="crcs"></a>
 
 # 8. CRCs anpassen
 
@@ -1291,7 +1291,7 @@ Die vollständige Sammlung finden Sie auf der Seite
 Breite von 1 bis 64 Bit definieren. Siehe auch
 [Working with CRCs](https://github.com/jonelo/jacksum/wiki/Working-with-CRCs).
 
-<a name="crcs_6"/>
+<a name="crcs_6"></a>
 
 ## 6 Parameter
 
@@ -1312,7 +1312,7 @@ e3069283 9
 
 Dasselbe über seinen eingebauten Alias.
 
-<a name="crcs_7"/>
+<a name="crcs_7"></a>
 
 ## 7 Parameter
 
@@ -1334,7 +1334,7 @@ jacksum -a cksum -x -q txt:123456789
 
 Dasselbe über seinen Alias.
 
-<a name="crcs_8"/>
+<a name="crcs_8"></a>
 
 ## 8 Parameter
 
@@ -1354,7 +1354,7 @@ afcbb09a 9
 
 Dasselbe über seinen Alias.
 
-<a name="performance"/>
+<a name="performance"></a>
 
 # 9. Performance und Steuerung der Traversierung
 
@@ -1407,11 +1407,11 @@ Standardmäßig liest Jacksum reguläre Dateien, Verzeichnisse und symbolische L
 erweitern das auf alle Unix-Dateitypen bzw. auf NTFS Alternate Data Streams — beides relevant für
 eine [strikte Prüfung](#verify_strict).
 
-<a name="info"/>
+<a name="info"></a>
 
 # 10. Informationen sammeln
 
-<a name="info_one_algo"/>
+<a name="info_one_algo"></a>
 
 ## Über einen Algorithmus
 
@@ -1458,7 +1458,7 @@ jacksum -a md5 --info -V details
 ```
 </details>
 
-<a name="info_crc"/>
+<a name="info_crc"></a>
 
 ## CRC-Parameter untersuchen
 
@@ -1546,7 +1546,7 @@ jacksum -a crc64_xz --info
 
 Dasselbe für CRC-64/xz.
 
-<a name="info_many_algos"/>
+<a name="info_many_algos"></a>
 
 ## Über viele Algorithmen
 
@@ -1616,7 +1616,7 @@ fcs16,30313233343536373839,3c16
 ```
 </details>
 
-<a name="info_styles"/>
+<a name="info_styles"></a>
 
 ## Über Styles und Kodierungen
 
@@ -1637,7 +1637,7 @@ jacksum -h parameters
 Die vollständige Dokumentation zu Styles, Kodierungen, der Formatsprache und den
 Programmparametern.
 
-<a name="info_program"/>
+<a name="info_program"></a>
 
 ## Über das Programm
 
@@ -1663,7 +1663,7 @@ jacksum --copyright
 Der vollständige Lizenztext bzw. die Copyrights und Lizenzinformationen für jeden Softwareanteil,
 den Jacksum lizenziert hat.
 
-<a name="info_help"/>
+<a name="info_help"></a>
 
 ## In der Hilfe navigieren
 

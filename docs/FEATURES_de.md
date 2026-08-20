@@ -35,7 +35,7 @@
 Die nachfolgenden Funktionen beschreiben **Jacksum 4.0.0**. Die verbindliche Beschreibung jeder
 Option finden Sie in der [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (`jacksum -h`).
 
-<a name="at_a_glance"/>
+<a name="at_a_glance"></a>
 
 # Auf einen Blick
 
@@ -59,7 +59,7 @@ Option finden Sie in der [Manpage](https://github.com/jonelo/jacksum/wiki/Manpag
   - **10.000+ Zeilen Manpage** mit Beschreibungen, Beispielen und Kompatibilitätslisten für alle
     unterstützten Algorithmen
 
-<a name="use_cases"/>
+<a name="use_cases"></a>
 
 # Anwendungsfälle
 
@@ -98,11 +98,11 @@ Ausgearbeitete Beispiele zu all diesen Modi finden Sie unter
 mit `jacksum -h examples` und im
 [Cheat Sheet](https://github.com/jonelo/jacksum/wiki/Cheat-Sheet).
 
-<a name="algorithms"/>
+<a name="algorithms"></a>
 
 # Algorithmen
 
-<a name="standard_algorithms"/>
+<a name="standard_algorithms"></a>
 
 ## Standardalgorithmen
 
@@ -120,7 +120,7 @@ mit `jacksum -h examples` und im
     arbeiten: `none` liest den Dateiinhalt nicht einmal, `read` liest ihn, aber keiner von beiden
     berechnet einen Hashwert.
 
-<a name="customized_algorithms"/>
+<a name="customized_algorithms"></a>
 
 ## Angepasste Algorithmen
 
@@ -139,7 +139,7 @@ mit `jacksum -h examples` und im
     vollständig unterstützt. Ein erweitertes Modell mit 7 oder 8 Parametern (`incLen`, `xorLen`)
     erlaubt es Ihnen, CRCs anzugeben, die die Länge der Eingabedaten einbeziehen.
 
-<a name="algorithm_selection"/>
+<a name="algorithm_selection"></a>
 
 ## Auswahl der Algorithmen
 
@@ -151,11 +151,11 @@ mit `jacksum -h examples` und im
   - Lassen Sie Jacksum den Algorithmus für Sie finden, wenn Sie sowohl die Eingabe als auch den
     Hashwert kennen (`-a unknown:<bits>`).
 
-<a name="input"/>
+<a name="input"></a>
 
 # Eingabe
 
-<a name="input_files"/>
+<a name="input_files"></a>
 
 ## Dateien, Dateibäume und Dateilisten
 
@@ -169,7 +169,7 @@ mit `jacksum -h examples` und im
     Listen können von `find`, `dir /b`, `dir -n` oder von Jacksum selbst (`--style files-only`)
     erzeugt werden.
 
-<a name="input_sequences"/>
+<a name="input_sequences"></a>
 
 ## Zeichenketten, Sequenzen und Datenströme
 
@@ -185,7 +185,7 @@ mit `jacksum -h examples` und im
     wird in der Ausgabe `<stdin>` genannt; `--legacy-stdin-name` stellt den historischen Namen `-`
     wieder her.
 
-<a name="input_platform"/>
+<a name="input_platform"></a>
 
 ## Plattformspezifische Eingaben
 
@@ -202,7 +202,7 @@ mit `jacksum -h examples` und im
     **NTFS Alternate Data Streams** auf Dateien (`my-file.txt:secret:$DATA`). Verwenden Sie
     `--scan-ntfs-ads`, um NTFS-ADS bei einer rekursiven Traversierung einzubeziehen.
 
-<a name="input_charsets"/>
+<a name="input_charsets"></a>
 
 ## Zeichensätze, Unicode und BOM
 
@@ -216,7 +216,7 @@ mit `jacksum -h examples` und im
   - Ignoriert eine optionale **Byte-Order-Mark (BOM)** in der Eingabe, wenn eine BOM beim gewählten
     Zeichensatz erlaubt, aber nicht erforderlich ist.
 
-<a name="input_correctness"/>
+<a name="input_correctness"></a>
 
 ## Korrektheit der Dateibehandlung
 
@@ -230,11 +230,11 @@ mit `jacksum -h examples` und im
     (= 8.000.000.000 Gibibyte) verarbeiten, vorausgesetzt, dass Ihr Betriebssystem bzw. Ihr
     Dateisystem ebenfalls Large-File-fähig ist.
 
-<a name="output"/>
+<a name="output"></a>
 
 # Ausgabe und Formate
 
-<a name="output_styles"/>
+<a name="output_styles"></a>
 
 ## Vordefinierte Styles
 
@@ -274,7 +274,7 @@ auch `--compat`):
     Ein eigener Style kann dem Header auch einen Text Ihrer Wahl voranstellen
     (`formatter.leadingHeader`).
 
-<a name="output_formats"/>
+<a name="output_formats"></a>
 
 ## Benutzerdefinierte Formate
 
@@ -291,7 +291,7 @@ auch `--compat`):
   - Die Bytes eines Hashwerts können zur besseren Lesbarkeit **gruppiert** und getrennt werden
     (`-g` und `-G`).
 
-<a name="output_encodings"/>
+<a name="output_encodings"></a>
 
 ## Kodierungen
 
@@ -303,7 +303,7 @@ auch `--compat`):
 
 Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option `-q` anzugeben.
 
-<a name="output_timestamps"/>
+<a name="output_timestamps"></a>
 
 ## Zeitstempel
 
@@ -313,7 +313,7 @@ Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option
   - Zusätzlich dazu kann jedes Format frei definiert werden, das Javas `SimpleDateFormat`
     versteht, einschließlich der Token `#SEPARATOR` und `#QUOTE`.
 
-<a name="output_paths"/>
+<a name="output_paths"></a>
 
 ## Pfade und Dateinamen
 
@@ -325,7 +325,7 @@ Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option
   - **GNU-Dateinamen-Escaping** wird unterstützt und kann pro Style aktiviert oder deaktiviert
     werden (`--gnu-filename-escaping`).
 
-<a name="output_files"/>
+<a name="output_files"></a>
 
 ## Wohin die Ausgabe geht
 
@@ -341,7 +341,7 @@ Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option
     Überprüfungsprozesses abhängt, damit Sie den Programmablauf in Ihren eigenen Skripten steuern
     können.
 
-<a name="output_charsets"/>
+<a name="output_charsets"></a>
 
 ## Zeichensätze, Unicode und BOM
 
@@ -353,7 +353,7 @@ Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option
   - Fügt der Ausgabe eine optionale **Byte-Order-Mark (BOM)** hinzu (`--bom`), wenn eine BOM beim
     gewählten Zeichensatz erlaubt, aber nicht erforderlich ist.
 
-<a name="verification"/>
+<a name="verification"></a>
 
 # Überprüfung der Datenintegrität
 
@@ -379,7 +379,7 @@ Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option
   - Robustes Parsen: Leerzeilen können ignoriert werden (`--ignore-empty-lines`), und Zeilen, die
     mit einer bestimmten Zeichenkette beginnen, werden als Kommentare behandelt (`-I`).
 
-<a name="finding"/>
+<a name="finding"></a>
 
 # Objekte finden
 
@@ -398,7 +398,7 @@ Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option
     einen Hashwert zu berechnen, wenn sowohl die Eingabe als auch der Hashwert bekannt sind
     (`-a unknown:<bits> -q <sequence> -e <hash>`).
 
-<a name="performance"/>
+<a name="performance"></a>
 
 # Performance
 
@@ -411,11 +411,11 @@ Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option
     (`--threads-reading`), was sich besonders bei schnellen SATA-SSDs und NVMe-M.2-SSDs auszahlt.
   - Der Benutzer kann die **Anzahl der Threads** für beides **steuern**.
 
-<a name="platforms"/>
+<a name="platforms"></a>
 
 # Plattformen und Integration
 
-<a name="platforms_os"/>
+<a name="platforms_os"></a>
 
 ## Betriebssysteme und Architekturen
 
@@ -433,7 +433,7 @@ Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option
   - **Identisches Verhalten** auf allen unterstützten Plattformen.
   - 2 MiB Speicherplatz.
 
-<a name="platforms_tools"/>
+<a name="platforms_tools"></a>
 
 ## Zusammenspiel mit anderen Werkzeugen
 
@@ -445,7 +445,7 @@ Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option
   - Funktioniert mit der **SendTo-Funktion** vieler Dateibrowser auf allen wichtigen
     Betriebssystemen.
 
-<a name="platforms_ui"/>
+<a name="platforms_ui"></a>
 
 ## Benutzeroberflächen
 
@@ -463,7 +463,7 @@ Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option
     [Jacksum for macOS](https://github.com/jonelo/jacksum-for-macos).
   - **Docker**: [Jacksum auf Docker](https://hub.docker.com/r/jonelo/jacksum).
 
-<a name="information"/>
+<a name="information"></a>
 
 # Informationen, Untersuchung und Lernen
 
@@ -499,7 +499,7 @@ Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option
     `summary` und `details` können einzeln aktiviert und deaktiviert werden, oder über die
     Kurzformen `all`, `default` und `none`.
 
-<a name="developer"/>
+<a name="developer"></a>
 
 # Unterstützung für Entwickler
 
@@ -515,7 +515,7 @@ Dieselben Kodierungen können verwendet werden, um die Eingabesequenz der Option
     verfügbar.
   - Siehe den [Developer Guide](https://github.com/jonelo/jacksum/wiki/Developer-Guide).
 
-<a name="free_software"/>
+<a name="free_software"></a>
 
 # Freie Software, ausgereift und stabil
 

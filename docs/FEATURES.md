@@ -33,7 +33,7 @@
 The features below describe **Jacksum 4.0.0**. For the authoritative description of every
 option, see the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (`jacksum -h`).
 
-<a name="at_a_glance"/>
+<a name="at_a_glance"></a>
 
 # At a Glance
 
@@ -56,7 +56,7 @@ option, see the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (`jack
   - **10,000+ lines of manpage** with descriptions, examples, and compatibility lists for all
     supported algorithms
 
-<a name="use_cases"/>
+<a name="use_cases"></a>
 
 # Use Cases
 
@@ -94,11 +94,11 @@ For worked examples of all of those modes, see
 `jacksum -h examples`, and the
 [Cheat Sheet](https://github.com/jonelo/jacksum/wiki/Cheat-Sheet).
 
-<a name="algorithms"/>
+<a name="algorithms"></a>
 
 # Algorithms
 
-<a name="standard_algorithms"/>
+<a name="standard_algorithms"></a>
 
 ## Standard Algorithms
 
@@ -115,7 +115,7 @@ For worked examples of all of those modes, see
   - The pseudo algorithms `none` and `read` allow you to work with file metadata only: `none`
     does not even read the file content, `read` reads it, but neither of them computes a hash.
 
-<a name="customized_algorithms"/>
+<a name="customized_algorithms"></a>
 
 ## Customized Algorithms
 
@@ -133,7 +133,7 @@ For worked examples of all of those modes, see
     64 bits. An extended model with 7 or 8 parameters (`incLen`, `xorLen`) allows you to specify
     CRCs that incorporate the length of the input data.
 
-<a name="algorithm_selection"/>
+<a name="algorithm_selection"></a>
 
 ## Algorithm Selection
 
@@ -144,11 +144,11 @@ For worked examples of all of those modes, see
   - Let Jacksum find the algorithm for you if you know both the input and the hash value
     (`-a unknown:<bits>`).
 
-<a name="input"/>
+<a name="input"></a>
 
 # Input
 
-<a name="input_files"/>
+<a name="input_files"></a>
 
 ## Files, File Trees, and File Lists
 
@@ -161,7 +161,7 @@ For worked examples of all of those modes, see
     format or as space separated values (`--file-list-format`). Such lists can be produced by
     `find`, `dir /b`, `dir -n`, or by Jacksum itself (`--style files-only`).
 
-<a name="input_sequences"/>
+<a name="input_sequences"></a>
 
 ## Strings, Sequences, and Streams
 
@@ -174,7 +174,7 @@ For worked examples of all of those modes, see
   - Reads from the **standard input stream** if the file name is a hyphen (`-`). The stream is
     named `<stdin>` in the output; `--legacy-stdin-name` restores the historical name `-`.
 
-<a name="input_platform"/>
+<a name="input_platform"></a>
 
 ## Platform Specific Input
 
@@ -190,7 +190,7 @@ For worked examples of all of those modes, see
     **NTFS Alternate Data Streams** on files (`my-file.txt:secret:$DATA`). Use `--scan-ntfs-ads`
     to include NTFS ADS during a recursive traversal.
 
-<a name="input_charsets"/>
+<a name="input_charsets"></a>
 
 ## Character Sets, Unicode, and BOM
 
@@ -204,7 +204,7 @@ For worked examples of all of those modes, see
   - Ignores an optional **Byte-Order-Mark (BOM)** in the input if a BOM is allowed, but not
     required by the selected charset.
 
-<a name="input_correctness"/>
+<a name="input_correctness"></a>
 
 ## Correctness of File Handling
 
@@ -218,11 +218,11 @@ For worked examples of all of those modes, see
     (= 8,000,000,000 Gibibytes), presupposed that your operating system respectively your file
     system is large file aware, too.
 
-<a name="output"/>
+<a name="output"></a>
 
 # Output and Formats
 
-<a name="output_styles"/>
+<a name="output_styles"></a>
 
 ## Predefined Styles
 
@@ -259,7 +259,7 @@ available (option `--style`, aka `-C`, aka `--compat`):
     A custom style can also prepend a text of your choice to the header
     (`formatter.leadingHeader`).
 
-<a name="output_formats"/>
+<a name="output_formats"></a>
 
 ## User Defined Formats
 
@@ -276,7 +276,7 @@ available (option `--style`, aka `-C`, aka `--compat`):
   - Bytes of a hash value can be **grouped** and separated for easier readability (`-g` and
     `-G`).
 
-<a name="output_encodings"/>
+<a name="output_encodings"></a>
 
 ## Encodings
 
@@ -288,7 +288,7 @@ available (option `--style`, aka `-C`, aka `--compat`):
 
 The same encodings can be used to specify the input sequence of the option `-q`.
 
-<a name="output_timestamps"/>
+<a name="output_timestamps"></a>
 
 ## Timestamps
 
@@ -298,7 +298,7 @@ The same encodings can be used to specify the input sequence of the option `-q`.
   - In addition to those, any format that Java's `SimpleDateFormat` understands can be defined
     freely, including the tokens `#SEPARATOR` and `#QUOTE`.
 
-<a name="output_paths"/>
+<a name="output_paths"></a>
 
 ## Paths and File Names
 
@@ -310,7 +310,7 @@ The same encodings can be used to specify the input sequence of the option `-q`.
   - **GNU file name escaping** is supported, and it can be enabled or disabled per style
     (`--gnu-filename-escaping`).
 
-<a name="output_files"/>
+<a name="output_files"></a>
 
 ## Where the Output Goes
 
@@ -324,7 +324,7 @@ The same encodings can be used to specify the input sequence of the option `-q`.
   - Jacksum returns an **exit code** that depends on the result of the calculation respectively
     the verification process, so that you can control the code flow in your own scripts.
 
-<a name="output_charsets"/>
+<a name="output_charsets"></a>
 
 ## Character Sets, Unicode, and BOM
 
@@ -336,7 +336,7 @@ The same encodings can be used to specify the input sequence of the option `-q`.
   - Adds an optional **Byte-Order-Mark (BOM)** to the output (`--bom`) if a BOM is allowed, but
     not required by the selected charset.
 
-<a name="verification"/>
+<a name="verification"></a>
 
 # Data Integrity Verification
 
@@ -359,7 +359,7 @@ The same encodings can be used to specify the input sequence of the option `-q`.
   - Robust parsing: empty lines can be ignored (`--ignore-empty-lines`), and lines that start
     with a particular string are treated as comments (`-I`).
 
-<a name="finding"/>
+<a name="finding"></a>
 
 # Finding Objects
 
@@ -376,7 +376,7 @@ The same encodings can be used to specify the input sequence of the option `-q`.
   - **Find the algorithm that was used** to calculate a given checksum, CRC, or hash, if both
     the input and the hash value are known (`-a unknown:<bits> -q <sequence> -e <hash>`).
 
-<a name="performance"/>
+<a name="performance"></a>
 
 # Performance
 
@@ -389,11 +389,11 @@ The same encodings can be used to specify the input sequence of the option `-q`.
     (`--threads-reading`), which pays off in particular on fast SATA SSDs and NVMe M.2 SSDs.
   - The user can **control the number of threads** for both.
 
-<a name="platforms"/>
+<a name="platforms"></a>
 
 # Platforms and Integration
 
-<a name="platforms_os"/>
+<a name="platforms_os"></a>
 
 ## Operating Systems and Architectures
 
@@ -411,7 +411,7 @@ The same encodings can be used to specify the input sequence of the option `-q`.
   - **Identical behavior** on all supported platforms.
   - 2 MiB disk space.
 
-<a name="platforms_tools"/>
+<a name="platforms_tools"></a>
 
 ## Interaction with Other Tools
 
@@ -421,7 +421,7 @@ The same encodings can be used to specify the input sequence of the option `-q`.
     **AI agents**, and it returns an exit code that reflects the result.
   - Works with the **SendTo feature** of many file browsers on all major operating systems.
 
-<a name="platforms_ui"/>
+<a name="platforms_ui"></a>
 
 ## User Interfaces
 
@@ -439,7 +439,7 @@ The same encodings can be used to specify the input sequence of the option `-q`.
     [Jacksum for macOS](https://github.com/jonelo/jacksum-for-macos).
   - **Docker**: [Jacksum on Docker](https://hub.docker.com/r/jonelo/jacksum).
 
-<a name="information"/>
+<a name="information"></a>
 
 # Information, Investigation, and Learning
 
@@ -473,7 +473,7 @@ The same encodings can be used to specify the input sequence of the option `-q`.
     `summary`, and `details` can be enabled and disabled individually, or by the shortcuts
     `all`, `default`, and `none`.
 
-<a name="developer"/>
+<a name="developer"></a>
 
 # Developer Support
 
@@ -489,7 +489,7 @@ The same encodings can be used to specify the input sequence of the option `-q`.
     releases if available.
   - See the [Developer Guide](https://github.com/jonelo/jacksum/wiki/Developer-Guide).
 
-<a name="free_software"/>
+<a name="free_software"></a>
 
 # Free Software, Mature and Stable
 

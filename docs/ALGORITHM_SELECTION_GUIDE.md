@@ -25,7 +25,7 @@
  - [Footnotes and Further Reading](#footnotes)
 
 
-<a name="what_this_guide_answers"/>
+<a name="what_this_guide_answers"></a>
 
 # What This Guide Answers
 
@@ -64,7 +64,7 @@ See also
 - [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage#algorithms)
 
 
-<a name="vocabulary"/>
+<a name="vocabulary"></a>
 
 # Vocabulary
 
@@ -142,7 +142,7 @@ with the message, but a specific nested scheme (RFC 2104 / FIPS 198-1) whose sec
 different assumptions than plain hashing — which is why it survives some broken hashes.
 
 
-<a name="avalanche"/>
+<a name="avalanche"></a>
 
 # The Avalanche Effect
 
@@ -220,7 +220,7 @@ $ jacksum -a crc64 --info -V details -q txt:"01234567890123456789012345678901234
 ```
 
 
-<a name="three_families"/>
+<a name="three_families"></a>
 
 # Three Families, Three Jobs
 
@@ -262,7 +262,7 @@ by accident?" A cryptographic hash answers "did the data change at all?"** Those
 questions, and only one of them is about security.
 
 
-<a name="crcs"/>
+<a name="crcs"></a>
 
 # Where CRCs Still Belong
 
@@ -316,7 +316,7 @@ one. Never use it as a security control, and never as the primary fingerprint fo
 collection of files — for the reasons in [Tier A](#tier_a).
 
 
-<a name="cryptographic"/>
+<a name="cryptographic"></a>
 
 # What Makes an Algorithm Cryptographic
 
@@ -362,7 +362,7 @@ $ jacksum -h sha3-256 | head -20
 ```
 
 
-<a name="broken_means"/>
+<a name="broken_means"></a>
 
 # What "Broken" Means
 
@@ -426,7 +426,7 @@ full function fell in 2005) while `md4` is `yes` (collisions in a fraction of a 
 belong in [Tier C](#tier_c), but they are not the same statement, and treating `partly` as safe
 is [an anti-pattern](#antipatterns) in its own right.
 
-<a name="length_extension"/>
+<a name="length_extension"></a>
 
 ## Length Extension
 
@@ -455,7 +455,7 @@ authenticate something by prefixing a secret, which is precisely the mistake HMA
 prevent.
 
 
-<a name="scrutiny"/>
+<a name="scrutiny"></a>
 
 # How Much Scrutiny Has the Design Had?
 
@@ -537,7 +537,7 @@ $ jacksum -a has160 --info -V details
 — but "no known attacks" on an obscure design may simply mean nobody has looked.
 
 
-<a name="concatenation"/>
+<a name="concatenation"></a>
 
 # Concatenating Algorithms
 
@@ -649,7 +649,7 @@ search — so the CRC contributes no adversarial security whatsoever. A CRC alon
 useful as a cheap pre-filter for accidental corruption, which is a real but much smaller claim.
 
 
-<a name="speed"/>
+<a name="speed"></a>
 
 # Speed, and Why It Is Usually the Wrong Tie-Breaker
 
@@ -716,7 +716,7 @@ $ for a in crc32c sha-256 sha3-256 blake3 whirlpool; do
 Use a file large enough that JVM startup (roughly 50 ms) is noise — a few hundred MB at least.
 
 
-<a name="implementations"/>
+<a name="implementations"></a>
 
 # Two Implementations Behind One Algorithm ID
 
@@ -795,7 +795,7 @@ before you commit an archive to an algorithm, and implementation correctness sto
 something you have to worry about.
 
 
-<a name="os_constraint"/>
+<a name="os_constraint"></a>
 
 # The Operating System Constraint
 
@@ -873,7 +873,7 @@ Read the rows carefully, because the results are not what reputation suggests:
    record more than one algorithm — see [concatenation](#concatenation).
 
 
-<a name="blacklist"/>
+<a name="blacklist"></a>
 
 # Algorithms Not to Use Any More
 
@@ -884,7 +884,7 @@ functions for teaching. Availability in Jacksum is emphatically not a recommenda
 For fingerprinting a large collection of files, the following should be off your list. They are
 grouped by *why*, because the reasons are entirely different and the remedy differs too.
 
-<a name="tier_a"/>
+<a name="tier_a"></a>
 
 ## Tier A: Too Narrow
 
@@ -938,7 +938,7 @@ The same arithmetic retires several functions that are **not** broken:
 **Do not truncate to save space.** A 32-byte hash for a million files is 32 MB. There is no
 storage argument that justifies giving up collision resistance.
 
-<a name="tier_b"/>
+<a name="tier_b"></a>
 
 ## Tier B: Defective by Construction
 
@@ -1017,7 +1017,7 @@ formatter.format=#FILENAME #CHECKSUM{hex-uppercase}
 
 CRC-32 only, and no file size at all — so it loses even the weak guard above.
 
-<a name="tier_c"/>
+<a name="tier_c"></a>
 
 ## Tier C: Broken Cryptographic Hash Functions
 
@@ -1046,7 +1046,7 @@ algorithms as `yes` or `partly` broken:
 everywhere and still offered by default in far too many tools. To repeat: **"widely available" is
 not an argument**, and as [the speed section](#speed) shows, MD5 is not even fast any more.
 
-<a name="variants"/>
+<a name="variants"></a>
 
 ## Same Name, Different Variant
 
@@ -1080,7 +1080,7 @@ compatibility, legacy interoperability, protocol conformance and teaching — wh
 reason Jacksum offers it.
 
 
-<a name="hmac"/>
+<a name="hmac"></a>
 
 # Why a Broken Algorithm Can Still Be Used: HMAC
 
@@ -1171,7 +1171,7 @@ sponge and XOF constructions), or because they are not plain iterated functions 
 [ALGORITHMS.md](ALGORITHMS.md#hmac) has the details.
 
 
-<a name="decision"/>
+<a name="decision"></a>
 
 # The Decision Procedure
 
@@ -1248,7 +1248,7 @@ buys you a check list that survives one of its algorithms being deprecated.
 | Reading a legacy list | whatever it used | check its limits with `--info -V details`, and re-hash with something current |
 
 
-<a name="workflow"/>
+<a name="workflow"></a>
 
 # Worked Example: Thousands of Files
 
@@ -1406,7 +1406,7 @@ sha-256
 ```
 
 
-<a name="antipatterns"/>
+<a name="antipatterns"></a>
 
 # Anti-Patterns
 
@@ -1461,7 +1461,7 @@ size. See [Tier B](#tier_b).
 the verification, and make the exit code visible to something that will notice.
 
 
-<a name="cheatsheet"/>
+<a name="cheatsheet"></a>
 
 # Cheat Sheet
 
@@ -1510,7 +1510,7 @@ Everything this guide used, in one place.
 | `jacksum -a sha-256 --threads-reading max -r max /data` | parallel reads |
 
 
-<a name="footnotes"/>
+<a name="footnotes"></a>
 
 # Footnotes and Further Reading
 

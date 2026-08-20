@@ -55,7 +55,7 @@
    - [About the program](#info_program)
    - [Navigate the help](#info_help)
 
-<a name="before"/>
+<a name="before"></a>
 
 # Before you start
 
@@ -82,7 +82,7 @@ description of every option (`jacksum -h`), and
 [Jacksum Hacks](JACKSUM_HACKS.md) for the things Jacksum can do
 that have nothing to do with hashing.
 
-<a name="getting_started"/>
+<a name="getting_started"></a>
 
 # 1. Getting started
 
@@ -98,7 +98,7 @@ fingerprint, or data's thumbprint.
 Calculating hash values is usually the first step you take to be able to check data integrity at
 all later on.
 
-<a name="gs_one_file"/>
+<a name="gs_one_file"></a>
 
 ## Hash one file
 
@@ -116,7 +116,7 @@ jacksum -a sha3-256 ubuntu-26.04-desktop-amd64.iso
 
 The same, with the algorithm named explicitly. This is what you want in scripts.
 
-<a name="gs_many_files"/>
+<a name="gs_many_files"></a>
 
 ## Hash many files and directory trees
 
@@ -141,7 +141,7 @@ jacksum -a cksum /mnt/share
 Calculates a 32 bit CRC with the standard Unix `cksum` algorithm of all files under `/mnt/share`
 and its subfolders.
 
-<a name="gs_algorithm"/>
+<a name="gs_algorithm"></a>
 
 ## Select the algorithm
 
@@ -181,7 +181,7 @@ jacksum -a sha-1+sha-224+sha-256+sha-384+sha-512+sha-512/224+sha-512/256+sha3-22
 If you want exactly the SHA-1, SHA-2 and SHA-3 family and nothing else, name them explicitly.
 `jacksum -a all:sha --list` gives you the IDs to copy from.
 
-<a name="gs_encoding"/>
+<a name="gs_encoding"></a>
 
 ## Select the encoding of the hash value
 
@@ -205,14 +205,14 @@ jacksum -a sha3-256 -E base64 file.dat
 `base64url-nopadding`, `z-base-32`, `z85`, and `bb`/`bubblebabble`. `jacksum -h -E` documents each
 of them.
 
-<a name="input"/>
+<a name="input"></a>
 
 # 2. Input other than files
 
 Jacksum hashes almost any input: files, file trees, command line arguments, plain strings, encoded
 strings, the console, standard input, NTFS ADS, pipes, sockets, doors, partitions, and disks.
 
-<a name="input_stdin"/>
+<a name="input_stdin"></a>
 
 ## Standard input and pipes
 
@@ -247,7 +247,7 @@ cat fat.iso | jacksum -
 Prints the SHA3-256 of a binary file on GNU/Linux and macOS. Use `type` rather than `cat` on
 Microsoft Windows.
 
-<a name="input_sequences"/>
+<a name="input_sequences"></a>
 
 ## Sequences on the command line
 
@@ -317,7 +317,7 @@ Reads one line from the console, echoing what you type. Handy for investigating 
 encodings. `-q password` does the same without echoing (see
 [Reproducible, unique, secure passwords](#beyond_passwords)).
 
-<a name="input_filelist"/>
+<a name="input_filelist"></a>
 
 ## File lists
 
@@ -343,7 +343,7 @@ On the Windows `cmd` shell, switch the code page to UTF-8 and pipe file names in
 `--file-list-format ssv` means space separated values (names containing spaces are enclosed in
 double quotes), and `--utf8` makes Jacksum read the names in UTF-8.
 
-<a name="input_stringlist"/>
+<a name="input_stringlist"></a>
 
 ## String lists
 
@@ -358,14 +358,14 @@ Hashes every **line** of `words.txt` as a string, rather than treating the lines
 See also [Find strings that match a hash](#find_strings) and
 [Large pseudo-random numbers](#beyond_random).
 
-<a name="output"/>
+<a name="output"></a>
 
 # 3. Output and formats
 
 Jacksum supports 18 predefined styles for reading and writing check files, 17 encodings, 6
 timestamp formats, and a fully customizable output format.
 
-<a name="output_styles"/>
+<a name="output_styles"></a>
 
 ## Predefined styles
 
@@ -435,7 +435,7 @@ jacksum -a sha3-256 --style sfv .
 
 SHA3-256 hashes in the legacy SFV layout.
 
-<a name="output_formats"/>
+<a name="output_formats"></a>
 
 ## User defined formats
 
@@ -503,7 +503,7 @@ OUTPUT of #ALGONAME{i}:
 
 both the input and both hash values are printed in three encodings each.
 
-<a name="output_misc"/>
+<a name="output_misc"></a>
 
 ## Timestamps, separators, paths, and grouping
 
@@ -534,7 +534,7 @@ jacksum -a none -q "txt:Hello World" -F "#SEQUENCE" -E hex -g 1
 
 `-g <count>` groups the encoded bytes; `-G <char>` changes the group separator.
 
-<a name="output_files"/>
+<a name="output_files"></a>
 
 ## Where the output goes
 
@@ -598,7 +598,7 @@ jacksum -a sha3-256 -U errors.log .
 
 `-u`/`-U` redirect the error channel to a file, so that stdout stays a clean hash list.
 
-<a name="output_othertools"/>
+<a name="output_othertools"></a>
 
 ## Formats of other tools
 
@@ -651,7 +651,7 @@ urn:tree:tiger:LWPNACQDBZRYXW3VHJVCJ64QBZNGHOHHHZWCLNQ
 The root hash of a Tiger Tree Hash (a widely used form of the Merkle tree), here over an empty
 input.
 
-<a name="verify"/>
+<a name="verify"></a>
 
 # 4. Verify data integrity
 
@@ -661,7 +661,7 @@ or accidental manner since they were created, transmitted, or stored.
 As a file/data integrity tool, Jacksum can generate, store, and compare hash values in order to
 detect changes made to files. It detects matching, non-matching, missing, and new files.
 
-<a name="verify_one"/>
+<a name="verify_one"></a>
 
 ## Verify one file against one known hash
 
@@ -709,7 +709,7 @@ echo c396e956a9f52c418397867d1ea5c0cf1a99a49dcf648b086d2fb762330cc88d *ubuntu-22
 behave the same on all platforms — on Windows you have to drop the quotes and the blanks, otherwise
 `echo` passes those characters into the pipe. `--check-line` avoids the whole problem.
 
-<a name="verify_list"/>
+<a name="verify_list"></a>
 
 ## Create a hash list and verify it later
 
@@ -737,7 +737,7 @@ jacksum -a blake3+ -E base64 -t iso8601 --check-file hashes.list data
 If the list was created with `-a blake3+ -E base64 -t iso8601`, you have to specify the same
 algorithm, encoding and timestamp format when you read it back.
 
-<a name="verify_states"/>
+<a name="verify_states"></a>
 
 ## OK, FAILED, MISSING, and NEW
 
@@ -782,7 +782,7 @@ Note that the check file itself shows up as `NEW` because it lives inside the di
 checked. Store it outside the tree (`-O ../checkfile`) if that bothers you — for a strict check it
 is mandatory.
 
-<a name="verify_strict"/>
+<a name="verify_strict"></a>
 
 ## Strict verification (audit)
 
@@ -812,7 +812,7 @@ jacksum -a sha256 --check-file ../.SHA256 --check-strict --scan-ntfs-ads .
 
 A full audit on Windows.
 
-<a name="verify_filter"/>
+<a name="verify_filter"></a>
 
 ## Filter the report
 
@@ -836,7 +836,7 @@ jacksum --check-file my.hashes --list-filter none,missing,new .
 
 `--list-filter` takes a comma separated set, so you can combine exactly the states you care about.
 
-<a name="verify_foreign"/>
+<a name="verify_foreign"></a>
 
 ## Verify lists that were created by other tools
 
@@ -865,7 +865,7 @@ jacksum -a sha3-256 --check-file list --ignore-lines-starting-with-string ";" .
 Skips comment lines in a foreign format (`-I` for short). `--ignore-empty-lines` and
 `--ignore-hashes` exist for the same reason.
 
-<a name="verify_exitcodes"/>
+<a name="verify_exitcodes"></a>
 
 ## Exit codes
 
@@ -881,7 +881,7 @@ jacksum -a sha3-256 --check-file ../.SHA3 --check-strict -V nosummary data || ec
 
 This is what makes Jacksum usable in scripts and cron jobs.
 
-<a name="find"/>
+<a name="find"></a>
 
 # 5. Find objects
 
@@ -889,7 +889,7 @@ Because a hash identifies content independently of the file name, Jacksum can be
 engine over content: find duplicates, find a known file wherever it is hiding, find files that are
 **not** on an approved list, or find the algorithm behind a hash.
 
-<a name="find_duplicates"/>
+<a name="find_duplicates"></a>
 
 ## Find all duplicates of a file
 
@@ -908,7 +908,7 @@ jacksum -a md5 -E hex -F "#FILENAME" -e 9666f5e2632d05b806e782d7d50855e8 .
 
 The same, but only the file names are printed — ready to be piped into `rm` or `ln`.
 
-<a name="find_byhash"/>
+<a name="find_byhash"></a>
 
 ## Find a file by its hash
 
@@ -932,7 +932,7 @@ Jacksum: 1 of the successfully read files matches the expected hash value.
 
 `--threads-reading max` pays off on SSDs, where the bottleneck is not the disk.
 
-<a name="find_wantedlist"/>
+<a name="find_wantedlist"></a>
 
 ## Find files by a list of known hashes
 
@@ -983,7 +983,7 @@ learn *which* known artifact you just found, no matter what it has been renamed 
 See also
 [CVE-2021-44832: Find vulnerable .jar files using Jacksum](https://loefflmann.blogspot.com/2022/06/CVE-2021-44832%20Find%20vulnerable%20.jar%20files%20using%20Jacksum%203.4.0%20or%20later.html)
 
-<a name="find_negative"/>
+<a name="find_negative"></a>
 
 ## Negative matching
 
@@ -996,7 +996,7 @@ Turns the question around: report everything that is **not** on the approved lis
 find the one file in a deployment that nobody can account for. `--wanted-list-filter` (alias
 `--match-filter`) accepts `match`/`positive` (the default) and `nomatch`/`negative`.
 
-<a name="find_strings"/>
+<a name="find_strings"></a>
 
 ## Find strings that match a hash
 
@@ -1008,7 +1008,7 @@ f0277d92062bd9a41dd26cddbaf2c41d576cf7b0173cbe96c23d5f5a4f92cc8f beta
 Combining `--string-list` with `-e` searches a word list rather than a file system — useful when
 you know a hash was taken over a short, guessable string.
 
-<a name="find_malware"/>
+<a name="find_malware"></a>
 
 ## Find malware by hash values
 
@@ -1031,7 +1031,7 @@ Then hunt with it:
 jacksum -a sha256 --style hdb --wanted-list malware.sha256.hdb .
 ```
 
-<a name="find_algorithm"/>
+<a name="find_algorithm"></a>
 
 ## Find the algorithm that generated a hash value
 
@@ -1095,7 +1095,7 @@ jacksum -a crc:16,1021,FFFF,false,false,FFFF -E hex -q txt:"Hello World"
 `<bits>` in `unknown:<bits>` may be anything from 1 to 1024. See also
 [Investigating Algorithms](https://github.com/jonelo/jacksum/wiki/Investigating-Algorithms).
 
-<a name="hmac"/>
+<a name="hmac"></a>
 
 # 6. HMAC
 
@@ -1103,7 +1103,7 @@ An HMAC (Keyed-Hash Message Authentication Code, RFC 2104) proves not only that 
 but that it comes from someone who knows a shared secret. Jacksum supports HMAC for 492 of its
 586 algorithms — `jacksum --hmacs` lists them.
 
-<a name="hmac_calculate"/>
+<a name="hmac_calculate"></a>
 
 ## Calculate an HMAC
 
@@ -1122,7 +1122,7 @@ jacksum -a hmac:sha3-256 -k file:key.txt message.txt
 An HMAC over a file. Everything you know about `-a`, `-E`, `-F`, `--style` and directory traversal
 keeps working.
 
-<a name="hmac_key"/>
+<a name="hmac_key"></a>
 
 ## Where the key comes from
 
@@ -1140,7 +1140,7 @@ In multi-user environments only `file:<file>`, `readline` and `password` are adv
 form leaves the secret in process lists and in your shell history. To avoid shoulder surfing,
 prefer `file:` or `password` over `readline`.
 
-<a name="hmac_truncated"/>
+<a name="hmac_truncated"></a>
 
 ## Truncated HMACs
 
@@ -1152,7 +1152,7 @@ jacksum -a hmac:sha3-256:160 -k txt:test --info
 practice — it limits how much of the underlying hash you reveal. `--info` shows you the resulting
 parameters.
 
-<a name="hmac_verify"/>
+<a name="hmac_verify"></a>
 
 ## Verify an HMAC
 
@@ -1162,7 +1162,7 @@ jacksum -a hmac:sha256 -q password -k password -e 60273a1e778ed009a6fb32fa11dbb1
 
 `-e` works in HMAC mode too, with both the key and the message read from the console.
 
-<a name="hmac_interop"/>
+<a name="hmac_interop"></a>
 
 ## Interoperability with other tools
 
@@ -1177,11 +1177,11 @@ PHP:      hash_hmac('<algo>', '<message>', '<key>');
 
 `jacksum -h hmac:` prints the full compatibility list.
 
-<a name="beyond"/>
+<a name="beyond"></a>
 
 # 7. Beyond hashing
 
-<a name="beyond_passwords"/>
+<a name="beyond_passwords"></a>
 
 ## Reproducible, unique, secure passwords
 
@@ -1214,7 +1214,7 @@ if you would rather not see the hash on screen either.
 
 The full reasoning is at <https://bit.ly/secure-passwords-with-jacksum>.
 
-<a name="beyond_random"/>
+<a name="beyond_random"></a>
 
 ## Large pseudo-random numbers
 
@@ -1231,7 +1231,7 @@ truncate it to the bit width you want, and encode in decimal. The HMAC key acts 
 the whole run, so the sequence is reproducible; each string acts as the individual seed for one
 number.
 
-<a name="beyond_encodings"/>
+<a name="beyond_encodings"></a>
 
 ## Encoding conversions
 
@@ -1246,14 +1246,14 @@ bin: 1100101011111110, dec: 51966, oct: 0145376, hex: CAFE
 The full collection lives on the
 [Jacksum Hacks](JACKSUM_HACKS.md) page.
 
-<a name="crcs"/>
+<a name="crcs"></a>
 
 # 8. Customize CRCs
 
 Beyond the CRCs that ship with names, Jacksum lets you define your own from 1 to 64 bits wide.
 See also [Working with CRCs](https://github.com/jonelo/jacksum/wiki/Working-with-CRCs).
 
-<a name="crcs_6"/>
+<a name="crcs_6"></a>
 
 ## 6 parameters
 
@@ -1274,7 +1274,7 @@ e3069283 9
 
 The same thing through its built-in alias.
 
-<a name="crcs_7"/>
+<a name="crcs_7"></a>
 
 ## 7 parameters
 
@@ -1296,7 +1296,7 @@ jacksum -a cksum -x -q txt:123456789
 
 The same through its alias.
 
-<a name="crcs_8"/>
+<a name="crcs_8"></a>
 
 ## 8 parameters
 
@@ -1316,7 +1316,7 @@ afcbb09a 9
 
 The same through its alias.
 
-<a name="performance"/>
+<a name="performance"></a>
 
 # 9. Performance and traversal control
 
@@ -1367,11 +1367,11 @@ By default Jacksum reads regular files, directories and symbolic links. These op
 all Unix file types resp. to NTFS alternate data streams — both relevant for a
 [strict check](#verify_strict).
 
-<a name="info"/>
+<a name="info"></a>
 
 # 10. Gather information
 
-<a name="info_one_algo"/>
+<a name="info_one_algo"></a>
 
 ## About one algorithm
 
@@ -1418,7 +1418,7 @@ jacksum -a md5 --info -V details
 ```
 </details>
 
-<a name="info_crc"/>
+<a name="info_crc"></a>
 
 ## Investigate CRC parameters
 
@@ -1506,7 +1506,7 @@ jacksum -a crc64_xz --info
 
 The same for CRC-64/xz.
 
-<a name="info_many_algos"/>
+<a name="info_many_algos"></a>
 
 ## About many algorithms
 
@@ -1576,7 +1576,7 @@ fcs16,30313233343536373839,3c16
 ```
 </details>
 
-<a name="info_styles"/>
+<a name="info_styles"></a>
 
 ## About styles and encodings
 
@@ -1596,7 +1596,7 @@ jacksum -h parameters
 
 The full documentation for styles, encodings, the format language, and program parameters.
 
-<a name="info_program"/>
+<a name="info_program"></a>
 
 ## About the program
 
@@ -1622,7 +1622,7 @@ jacksum --copyright
 The full license text, resp. the copyrights and license information for every portion of software
 that Jacksum has licensed.
 
-<a name="info_help"/>
+<a name="info_help"></a>
 
 ## Navigate the help
 

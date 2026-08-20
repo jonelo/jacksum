@@ -27,7 +27,7 @@
  - [Fußnoten und weiterführende Literatur](#footnotes)
 
 
-<a name="what_this_guide_answers"/>
+<a name="what_this_guide_answers"></a>
 
 # Welche Frage diese Anleitung beantwortet
 
@@ -69,7 +69,7 @@ Siehe auch
 - [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage#algorithms)
 
 
-<a name="vocabulary"/>
+<a name="vocabulary"></a>
 
 # Begriffe
 
@@ -154,7 +154,7 @@ Schlüssel und Nachricht aneinandergehängt, sondern ein bestimmtes verschachtel
 es einige gebrochene Hashfunktionen übersteht.
 
 
-<a name="avalanche"/>
+<a name="avalanche"></a>
 
 # Der Lawineneffekt
 
@@ -235,7 +235,7 @@ $ jacksum -a crc64 --info -V details -q txt:"01234567890123456789012345678901234
 ```
 
 
-<a name="three_families"/>
+<a name="three_families"></a>
 
 # Drei Familien, drei Aufgaben
 
@@ -280,7 +280,7 @@ zufällig verändert?" Eine kryptografische Hashfunktion beantwortet "haben sich
 tun.
 
 
-<a name="crcs"/>
+<a name="crcs"></a>
 
 # Wo CRCs weiterhin ihren Platz haben
 
@@ -336,7 +336,7 @@ zusammenzuarbeiten, das einen vorschreibt. Verwenden Sie ihn nie als Sicherheits
 als primären Fingerprint für eine große Dateisammlung — aus den Gründen in [Stufe A](#tier_a).
 
 
-<a name="cryptographic"/>
+<a name="cryptographic"></a>
 
 # Was einen Algorithmus kryptografisch macht
 
@@ -383,7 +383,7 @@ $ jacksum -h sha3-256 | head -20
 ```
 
 
-<a name="broken_means"/>
+<a name="broken_means"></a>
 
 # Was "gebrochen" bedeutet
 
@@ -447,7 +447,7 @@ der vollständigen Funktion fiel 2005), `md4` dagegen `yes` (Kollisionen in eine
 Sekunde). Beide gehören in [Stufe C](#tier_c), aber es sind nicht dieselben Aussagen, und `partly`
 für sicher zu halten ist ein eigenes [Anti-Muster](#antipatterns).
 
-<a name="length_extension"/>
+<a name="length_extension"></a>
 
 ## Length-Extension
 
@@ -477,7 +477,7 @@ Moment, in dem Sie etwas authentifizieren wollen, indem Sie ein Geheimnis vorans
 diesen Fehler soll HMAC verhindern.
 
 
-<a name="scrutiny"/>
+<a name="scrutiny"></a>
 
 # Wie genau wurde das Design geprüft?
 
@@ -564,7 +564,7 @@ hervorragend und gelegentlich schneller — aber "keine bekannten Angriffe" auf 
 Design kann einfach bedeuten, dass niemand hingesehen hat.
 
 
-<a name="concatenation"/>
+<a name="concatenation"></a>
 
 # Algorithmen verketten
 
@@ -681,7 +681,7 @@ keine Sicherheit gegen Angreifer bei. Ein CRC neben einem Hash bleibt als billig
 zufällige Verfälschung nützlich, was eine echte, aber viel kleinere Aussage ist.
 
 
-<a name="speed"/>
+<a name="speed"></a>
 
 # Geschwindigkeit, und warum sie meist das falsche Kriterium ist
 
@@ -751,7 +751,7 @@ Verwenden Sie eine Datei, die groß genug ist, dass der JVM-Start (etwa 50 ms) i
 verschwindet — mindestens einige hundert MB.
 
 
-<a name="implementations"/>
+<a name="implementations"></a>
 
 # Zwei Implementierungen hinter einer Algorithmus-ID
 
@@ -834,7 +834,7 @@ Führen Sie das einmal aus, bevor Sie ein Archiv einem Algorithmus anvertrauen, 
 der Implementierung ist keine Sorge mehr.
 
 
-<a name="os_constraint"/>
+<a name="os_constraint"></a>
 
 # Die Betriebssystem-Einschränkung
 
@@ -918,7 +918,7 @@ Lesen Sie die Zeilen genau, denn die Ergebnisse entsprechen nicht dem Ruf der Al
    [Verketten](#concatenation).
 
 
-<a name="blacklist"/>
+<a name="blacklist"></a>
 
 # Algorithmen, die man nicht mehr verwenden sollte
 
@@ -930,7 +930,7 @@ Für das Fingerprinting einer großen Dateisammlung sollte Folgendes nicht auf I
 Die Gruppierung erfolgt nach dem *Warum*, denn die Gründe sind völlig verschieden und die
 Gegenmaßnahme unterscheidet sich ebenfalls.
 
-<a name="tier_a"/>
+<a name="tier_a"></a>
 
 ## Stufe A: Zu kurz
 
@@ -986,7 +986,7 @@ Dieselbe Rechnung setzt mehrere Funktionen außer Dienst, die **nicht** gebroche
 **Kürzen Sie nicht, um Platz zu sparen.** Ein 32-Byte-Hash für eine Million Dateien sind 32 MB. Es
 gibt kein Speicherplatzargument, das die Aufgabe von Kollisionsresistenz rechtfertigt.
 
-<a name="tier_b"/>
+<a name="tier_b"></a>
 
 ## Stufe B: Konstruktiv defekt
 
@@ -1070,7 +1070,7 @@ formatter.format=#FILENAME #CHECKSUM{hex-uppercase}
 Nur CRC-32, und überhaupt keine Dateigröße — es verliert also sogar die schwache Sicherung von
 oben.
 
-<a name="tier_c"/>
+<a name="tier_c"></a>
 
 ## Stufe C: Gebrochene kryptografische Hashfunktionen
 
@@ -1100,7 +1100,7 @@ sind und noch von viel zu vielen Werkzeugen standardmäßig angeboten werden. Um
 **"weit verbreitet" ist kein Argument**, und wie der [Abschnitt zur Geschwindigkeit](#speed)
 zeigt, ist MD5 nicht einmal mehr schnell.
 
-<a name="variants"/>
+<a name="variants"></a>
 
 ## Gleicher Name, andere Variante
 
@@ -1134,7 +1134,7 @@ Stufe A und Stufe B existiert für Formatkompatibilität, Alt-Interoperabilität
 Protokollkonformität und Lehre — und das ist der einzige Grund, warum Jacksum es anbietet.
 
 
-<a name="hmac"/>
+<a name="hmac"></a>
 
 # Warum ein gebrochener Algorithmus dennoch verwendbar ist: HMAC
 
@@ -1231,7 +1231,7 @@ Schwamm- und XOF-Konstruktionen aus), oder weil sie keine einfachen iterierten F
 (die Baummodi). Details in [ALGORITHMS_de.md](ALGORITHMS_de.md#hmac).
 
 
-<a name="decision"/>
+<a name="decision"></a>
 
 # Das Entscheidungsverfahren
 
@@ -1311,7 +1311,7 @@ Abkündigung eines ihrer Algorithmen übersteht.
 | Eine Altliste lesen | was auch immer sie nutzte | Grenzen mit `--info -V details` prüfen und mit etwas Aktuellem neu hashen |
 
 
-<a name="workflow"/>
+<a name="workflow"></a>
 
 # Durchgerechnetes Beispiel: Tausende von Dateien
 
@@ -1475,7 +1475,7 @@ sha-256
 ```
 
 
-<a name="antipatterns"/>
+<a name="antipatterns"></a>
 
 # Anti-Muster
 
@@ -1535,7 +1535,7 @@ beweist nichts. Planen Sie die Prüfung ein und machen Sie den Exit-Code für et
 bemerkt.
 
 
-<a name="cheatsheet"/>
+<a name="cheatsheet"></a>
 
 # Kurzreferenz
 
@@ -1584,7 +1584,7 @@ Alles, was diese Anleitung verwendet hat, an einer Stelle.
 | `jacksum -a sha-256 --threads-reading max -r max /data` | parallele Lesevorgänge |
 
 
-<a name="footnotes"/>
+<a name="footnotes"></a>
 
 # Fußnoten und weiterführende Literatur
 

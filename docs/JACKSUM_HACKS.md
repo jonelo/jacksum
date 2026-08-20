@@ -49,7 +49,7 @@ that touches every single byte without producing a hash value.
   - [A searchable reference book](#a-searchable-reference-book)
   - [What am I running on?](#what-am-i-running-on)
 
-<a name="part1"/>
+<a name="part1"></a>
 
 # Part 1 — Encodings and number bases
 
@@ -732,7 +732,7 @@ you can chain conversions:
 > but it cannot write raw bytes back to a file — so `base64 -d > file.bin` has no Jacksum equivalent.
 
 
-<a name="part2"/>
+<a name="part2"></a>
 
 # Part 2 — Hacks that have nothing to do with hashing nor encoding
 
