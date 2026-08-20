@@ -390,6 +390,18 @@ Jacksum 4.0.0, August TBD, 2026
     the examples are unchanged.
   - reworked README.md: corrected all outdated facts, moved the detailed examples,
     the algorithm list, the feature list, and Jacksum Hacks to docs/.
+  - added docs/ALGORITHM_SELECTION_GUIDE.md and its German translation
+    docs/ALGORITHM_SELECTION_GUIDE_de.md, a guide that answers which algorithm to pick for a given
+    purpose, e.g. in order to hash thousands of files for a later trustworthy integrity verification.
+    It explains the concepts (hash function, hash value, CRC, avalanche effect, collision and preimage
+    resistance, Merkle-Damgard vs. sponge, length extension), how to decide between a CRC, a classic
+    checksum and a cryptographic hash function, when an algorithm counts as broken and why even a
+    broken one can still be used as an HMAC, how much public cryptanalysis a design has received,
+    when concatenating algorithms (-a <algo1>+<algo2>) is worthwhile, which algorithms should no
+    longer be used at all, and why the choice can be limited by the tools of the operating system on
+    which the check list has to be verified later. Every statement is backed by Jacksum itself, so
+    the guide doubles as a tour of "-a <algo> --info --verbose details", "-h <algo>", "-a all -l",
+    and "--hmacs".
   - issue #41: the option -p is no longer supported, but the documentation still referenced it
   - corrected two alphabets in the description of the option -E in the manpage:
     - the table of the BubbleBabble alphabet was a leftover of the Base64 table; it now documents the six

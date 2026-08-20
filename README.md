@@ -128,7 +128,9 @@ authentication using any iterated cryptographic hash function in combination wit
 shared key. It also supports the **"Rocksoft (tm) Model CRC Algorithm"** to describe CRCs, so
 additional 1.0399 * 10^267 customized CRCs can be used.
 
-See [Algorithms](docs/ALGORITHMS.md).
+See [Algorithms](docs/ALGORITHMS.md) for the full list, and the
+[Algorithm Selection Guide](docs/ALGORITHM_SELECTION_GUIDE.md) to decide which one fits your
+use case.
 
 
 ## User interfaces
@@ -169,6 +171,7 @@ ROX-Filer, SpaceFM, Thunar, Xfe, or zzzFM on GNU/Linux. See also [Integrations](
 * [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) (with many examples)
 * [Features](docs/FEATURES.md)
 * [Algorithms](docs/ALGORITHMS.md)
+* [Algorithm Selection Guide](docs/ALGORITHM_SELECTION_GUIDE.md)
 * [Examples](docs/EXAMPLES.md)
 * [Jacksum Hacks](docs/JACKSUM_HACKS.md)
 * [Wiki](https://github.com/jonelo/jacksum/wiki)
