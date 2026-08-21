@@ -4841,7 +4841,7 @@ ALGORITHMS
                 definiert wurde und dass ein Adler8-, Adler16- oder
                 Adler64-Algorithmus nie von Mark Adler vorgeschlagen
                 wurde. Der in der Literatur auffindbare Adler8 und
-                Adler16 wurden von Maxino/Koopman ("Revisiting Fletcher
+                Adler16 wurden von Maxino ("Revisiting Fletcher
                 and Adler Checksums", 2006) allein zu Vergleichszwecken
                 konstruiert; sie verwenden die größte Primzahl unter
                 2^4 bzw. 2^8 als Modulus (13 und 251). Einen Adler64
@@ -4854,7 +4854,7 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         -
                 - CentOS:          -
-                - DragonFly BSD:   - 
+                - DragonFly BSD:   -
                 - eComStation:     -
                 - FreeBSD:         -
                 - FreeDOS:         -
@@ -4942,8 +4942,17 @@ ALGORITHMS
                 leichtgewichtige 320-Bit-Permutation wie die
                 authentifizierten Verschlüsselungsmodi.
 \
+                Im August 2025 hat die NIST den Standard SP 800-232
+                veröffentlicht, der Ascon-AEAD128, Ascon-Hash256,
+                Ascon-XOF128 und Ascon-CXOF128 festlegt. Diese
+                standardisierten Funktionen unterscheiden sich von
+                dem hier implementierten Ascon v1.2 (andere
+                Wortreihenfolge und andere Anfangswerte), ihre
+                Hashwerte stimmen daher nicht überein. Ascon-Hasha
+                und Ascon-XofA wurden nicht standardisiert.
+\
                 Für sponge-basierte Hashfunktionen gibt es keine standard-
-                konforme Parameterisierung nach HMAC (RFC 2104 / FIPS 198-).
+                konforme Parameterisierung nach HMAC (RFC 2104 / FIPS 198-1).
 \
             gebrochen:
                 nein; die besten veröffentlichten Angriffe erreichen
@@ -5148,7 +5157,7 @@ ALGORITHMS
                 BLAKE-<length>
 \
             Länge:
-                224, 384, 256 oder 512 Bit
+                224, 256, 384 oder 512 Bit
 \
             Typ:
                 kryptografische Hashfunktion
@@ -5159,7 +5168,7 @@ ALGORITHMS
             Website:
                 https://131002.net/blake/
 \
-            Kommentar:     
+            Kommentar:
                 BLAKE ist eine der fünf Hashfunktionen, die es in die
                 Finalrunde des NIST-SHA-3-Wettbewerbs geschafft haben.
                 Dies ist die Implementierung des Beitrags zur dritten
@@ -5573,7 +5582,7 @@ ALGORITHMS
                 Blue Midnight Wish
 \
             Länge:
-                224, 384, 256 oder 512 Bit
+                224, 256, 384 oder 512 Bit
 \
             Typ:
                 kryptografische Hashfunktion
@@ -5815,7 +5824,7 @@ ALGORITHMS
                         false, werden Eingabe-Bytes so verarbeitet,
                         dass Bit 7 als höchstwertiges Bit (MSB) und
                         Bit 0 als niedrigstwertiges Bit behandelt
-                        wird. Ist dieser Parameter false, wird jedes
+                        wird. Ist dieser Parameter true, wird jedes
                         Byte vor der Verarbeitung gespiegelt.
 \
                     <refOut>
@@ -5935,7 +5944,8 @@ ALGORITHMS
                 CRC
 \
             Kommentar:
-                Die Frame Checking Sequence gemäß RFC1331.
+                Die Frame Checking Sequence gemäß RFC 1662,
+                Anhang C.2 (ursprünglich RFC 1331).
                 Die Standardkodierung ist dezimal.
 \
             seit:
@@ -6018,8 +6028,8 @@ ALGORITHMS
 \
             Kommentar:
                 Diese Implementierung der CRC-24 (cyclic redundancy
-                check) wird beispielsweise von Open PGP verwendet
-                (RFC 2440).
+                check) wird beispielsweise von OpenPGP verwendet
+                (RFC 9580, ursprünglich RFC 2440).
                 Die Standardkodierung ist dezimal.
 \
             Kompatibilität:
@@ -6102,7 +6112,7 @@ ALGORITHMS
 
     crc32c, crc-32c
             Algorithmusname:
-                CRC-32c (Castgnoli, iSCSI)
+                CRC-32c (Castagnoli, iSCSI)
 \
             Länge:
                 32 Bit
@@ -6375,17 +6385,19 @@ ALGORITHMS
             Kommentar:
                 Generatorpolynom ist x^64 + x^4 + x^3 + x + 1.
                 Die Standardkodierung ist hexadezimal.
-                Die CRC wurde von den Proteinsequenz-Datenbanken
-                SWISS-PROT und TrEMBL verwendet, bevor die CRC 2009
-                auf eine andere CRC-64 umgestellt wurde, da sich das
-                Polynom eigentlich nicht gut zum Hashen eignet.
+                Die CRC wird von den Proteinsequenz-Datenbanken
+                SWISS-PROT und TrEMBL bzw. von deren Nachfolger
+                UniProt verwendet. Für diesen Zweck wurde ein
+                besseres Polynom vorgeschlagen (David Jones, "An
+                Improved 64-bit Cyclic Redundancy Check for Protein
+                Sequences", 2002), es wurde jedoch nie übernommen.
 \
                 Hinweis:
                 Wikipedia behauptet seit Jahren, dass das Polynom
-                dieser CRC-64 im Standard ISO-33009 definiert sei, und
+                dieser CRC-64 im Standard ISO 3309 definiert sei, und
                 viele Quellen im Web (z. B. golang.org) und sogar
-                Bücher (z. B. "Python Cookbook, 2nd Edition, 2005,
-                O'Reilly, Recipe 2.30. Calculating CRC-64 Cyclic
+                Bücher (z. B. "Python Cookbook, 2nd Edition", 2005,
+                O'Reilly, Recipe 2.30 "Calculating CRC-64 Cyclic
                 Redundancy Checks") scheinen diese Information
                 ungeprüft übernommen zu haben.
 \
@@ -6523,17 +6535,20 @@ ALGORITHMS
 \
             Kommentar:
                 Verwendet in der NVM Express® NVM Command Set
-                Specification, Revision 1d, vom 28. Dezember 2023,
+                Specification, Revision 1.0d, vom 28. Dezember 2023,
                 Seite 81ff, siehe auch https://nvmexpress.org
 \
                 Beachten Sie, dass auf Seite 83 des PDFs der
-                "Check"-Wert 11199E50_6128D175h in Little-Endian-
-                Darstellung abgedruckt ist. In Big-Endian-Darstellung
-                lautet der Wert AE8B1486_0A799888h. Big-Endian ist der
-                Standard für alle von Jacksum berechneten Hashwerte.
+                "Check"-Wert 11199E50_6128D175h in bitgespiegelter
+                Darstellung abgedruckt ist, d. h. ohne die
+                abschließende Spiegelung des Registers. Mit der
+                Spiegelung lautet der Wert AE8B1486_0A799888h.
+                Big-Endian ist der Standard für alle von Jacksum
+                berechneten Hashwerte.
 \
                 Der Algorithmus wird auch von AWS' Amazon S3
-                verwendet. Das AWS SDK berechnet automatisch
+                verwendet, wo er der Standard-Prüfsummenalgorithmus
+                ist. Das AWS SDK berechnet automatisch
                 CRC-basierte Prüfsummen für Uploads, während die
                 Daten über das Netzwerk übertragen werden. Der
                 Rückgabewert wird vom AWS SDK Base64-kodiert. Siehe
@@ -6698,7 +6713,7 @@ ALGORITHMS
                 CubeHash
 \
             Länge:
-                224, 384, 256 oder 512 Bit
+                224, 256, 384 oder 512 Bit
 \
             Typ:
                 kryptografische Hashfunktion
@@ -6786,7 +6801,7 @@ ALGORITHMS
                 ECHO
 \
             Länge:
-                224, 384, 256 oder 512 Bit
+                224, 256, 384 oder 512 Bit
 \
             Typ:
                 kryptografische Hashfunktion
@@ -6863,7 +6878,8 @@ ALGORITHMS
             Kommentar:
                 Dieser Algorithmus wird in eDonkey bzw. eMule
                 verwendet, basiert auf MD4, liefert jedoch für
-                Dateien >= 9500 KB andere Fingerabdrücke.
+                Dateien >= 9500 KiB (9.728.000 Bytes) andere
+                Fingerabdrücke.
                 Die Standardkodierung ist hexadezimal.
 \
             gebrochen:
@@ -6906,7 +6922,7 @@ ALGORITHMS
                 Danilo Gligoroski an der Norwegischen Technisch-
                 Naturwissenschaftlichen Universität (NTNU)
                 entworfen. Anders als die meisten Mitbewerber beruht
-                Edon-R nicht auf einer Merkle-Damgard-
+                Edon-R nicht auf einer Merkle-Damgård-
                 Kompressionsfunktion, sondern auf
                 Quasigruppen-Transformationen ("lateinische
                 Quadrate"), was sie zu einer der schnellsten
@@ -6988,7 +7004,7 @@ ALGORITHMS
                 Sparkle-Suite war einer der 10 Finalisten des NIST
                 Lightweight Cryptography Wettbewerbs (2019-2023).
 \
-                4 von 10 Mitgliedern des Sparkle-Teams stammen von der
+                6 von 10 Mitgliedern des Sparkle-Teams stammen von der
                 Universität Luxemburg, und Esch ist der Name einer
                 Stadt in Luxemburg, die sehr nahe am Campus der
                 Universität Luxemburg liegt.
@@ -7150,7 +7166,7 @@ ALGORITHMS
             Algorithmusname:
                 FNV-1a
 \
-            Länge: 
+            Länge:
                 32, 64, 128, 256, 512 oder 1024 Bit
 \
             Typ:
@@ -7276,7 +7292,7 @@ ALGORITHMS
                 Fugue
 \
             Länge:
-                224, 384, 256 oder 512 Bit
+                224, 256, 384 oder 512 Bit
 \
             Typ:
                 kryptografische Hashfunktion
@@ -7385,9 +7401,10 @@ ALGORITHMS
 \
             Kommentar:
                 "GOsudarstvennyi STandard", russisch für "Staatlicher
-                Standard". 1994 als sowjetischer Standard GOST
-                R-34.11-94 veröffentlicht. Die Standardkodierung ist
-                hexadezimal.
+                Standard". 1994 als russischer Standard GOST
+                R 34.11-94 veröffentlicht (angenommen am 23. Mai
+                1994, in Kraft seit dem 1. Januar 1995). Die
+                Standardkodierung ist hexadezimal.
                 Die Hashfunktion basiert auf der GOST-Blockchiffre
                 GOST 28147-89. Lassen Sie <init> weg oder setzen Sie
                 <init> auf "default", wird die zugrunde liegende
@@ -7455,10 +7472,10 @@ ALGORITHMS
 
     groestl<length>, groestl-<length>
             Algorithmusname:
-                Groestl
+                Grøstl
 \
             Länge:
-                224, 384, 256 oder 512 Bit
+                224, 256, 384 oder 512 Bit
 \
             Typ:
                 kryptografische Hashfunktion
@@ -7470,19 +7487,19 @@ ALGORITHMS
                 http://www.groestl.info/
 \
             Kommentar:
-                Groestl ist eine der fünf Hashfunktionen, die es in
+                Grøstl ist eine der fünf Hashfunktionen, die es in
                 die Finalrunde des NIST-SHA-3-Wettbewerbs (2007-2012)
                 geschafft haben. Dies ist die Implementierung gemäß
                 der dritten und letzten Runde des
                 NIST-SHA-3-Wettbewerbs.
 \
             gebrochen:
-                nein; Groestl war der am gründlichsten analysierte
+                nein; Grøstl war der am gründlichsten analysierte
                 der fünf SHA-3-Finalisten: die besten
                 Kollisionsangriffe auf die Hashfunktion erreichen 3
                 von 10 Runden, der beste Unterscheider 9 von 10
                 Runden der Permutation (2^368, 2012), das
-                vollständige Groestl ist davon nicht betroffen
+                vollständige Grøstl ist davon nicht betroffen
 \
             seit:
                 Jacksum 3.0.0
@@ -7496,7 +7513,7 @@ ALGORITHMS
                 Hamsi
 \
             Länge:
-                224, 384, 256 oder 512 Bit
+                224, 256, 384 oder 512 Bit
 \
             Typ:
                 kryptografische Hashfunktion
@@ -7511,7 +7528,7 @@ ALGORITHMS
             Kommentar:
                 Hamsi ist eine von 14 Hashfunktionen, die es in die
                 zweite Runde des NIST-SHA-3-Wettbewerbs (2007-2012)
-                geschafft haben. Hamsi wurde von Ozgul Kucuk,
+                geschafft haben. Hamsi wurde von Özgül Küçük,
                 Belgien, eingereicht.
                 Hamsi hat die letzte (3.) Runde des
                 NIST-SHA-3-Wettbewerbs nicht bestanden; siehe oben
@@ -7545,12 +7562,12 @@ ALGORITHMS
                 kryptografische Hashfunktion
 \
             veröffentlicht:
-                2000
+                1998
 \
             Kommentar:
                 HAS-160 ist sowohl eine kryptografische Hashfunktion
                 als auch ein koreanischer TTA-Standard
-                (Telecommunications and Technology Association). Die
+                (Telecommunications Technology Association). Die
                 Standardkodierung ist hexadezimal.
 \
             gebrochen:
@@ -7796,7 +7813,7 @@ ALGORITHMS
                 JH
 \
             Länge:
-                224, 384, 256 oder 512 Bit
+                224, 256, 384 oder 512 Bit
 \
             Typ:
                 kryptografische Hashfunktion
@@ -7905,7 +7922,7 @@ ALGORITHMS
                 XOF als kryptografische Hashfunktion mit fester Länge
 \
             veröffentlicht:
-                04/2018
+                2016
 \
             Website:
                 https://keccak.team/kangarootwelve.html
@@ -7995,7 +8012,7 @@ ALGORITHMS
                 XOF als kryptografische Hashfunktion mit fester Länge
 \
             veröffentlicht:
-                04/2018
+                2016
 \
             Website:
                 https://keccak.team/kangarootwelve.html
@@ -8074,14 +8091,14 @@ ALGORITHMS
                 kryptografische Hashfunktion
 \
             veröffentlicht:
-                2012
+                01/2011
 \
             Website:
                 https://keccak.team/
 \
             Kommentar:
                 Keccak (ausgesprochen wie "ketchak") wurde von Guido
-                Bertoni, Joan Daemen, Michael Peeters und Gilles Van
+                Bertoni, Joan Daemen, Michaël Peeters und Gilles Van
                 Assche entworfen.
                 Keccak basiert auf den früheren
                 Hashfunktions-Entwürfen PANAMA und RadioGatún.
@@ -8223,7 +8240,7 @@ ALGORITHMS
                 Luffa v2.0.1
 \
             Länge:
-                224, 384, 256 oder 512 Bit
+                224, 256, 384 oder 512 Bit
 \
             Typ:
                 kryptografische Hashfunktion
@@ -8272,7 +8289,7 @@ ALGORITHMS
                 kryptografische Hashfunktion
 \
             veröffentlicht:
-                1998
+                1989
 \
             Kommentar:
                 Der MD2-Message-Digest-Algorithmus gemäß Definition
@@ -8549,7 +8566,7 @@ ALGORITHMS
                 10/2008 (überarbeitet 01/2009)
 \
             Website:
-                https://groups.csail.mit.edu/cis/md6/
+                https://groups.csail.mit.edu/cis/md6/ (archiviert)
 \
             Kommentar:
                 MD6 wurde von einem Team um Ronald L. Rivest am MIT
@@ -8610,7 +8627,7 @@ ALGORITHMS
                 kryptografische Hashfunktion
 \
             veröffentlicht:
-                1987
+                1988
 \
             Kommentar:
                 Der MDC2-Algorithmus (Modification Detection Code 2)
@@ -8711,12 +8728,12 @@ ALGORITHMS
                 kryptografische Hashfunktion
 \
             veröffentlicht:
-                12/1998
+                03/1998
 \
             Kommentar:
                 PANAMA wurde von Joan Daemen (Belgien) und Craig
-                Clapp (USA) entworfen und 1998 auf der 5.
-                Fast-Software-Encryption-(FSE)-Konferenz in Paris,
+                Clapp (USA) entworfen und im März 1998 auf dem 5.
+                Fast-Software-Encryption-(FSE)-Workshop in Paris,
                 Frankreich, im Papier "Fast Hashing and Stream
                 Encryption with PANAMA" vorgestellt.
                 RadioGatún ist der Nachfolger von PANAMA.
@@ -8918,7 +8935,7 @@ ALGORITHMS
 \
             Kommentar:
                 RadioGatún wurde von Guido Bertoni, Joan Daemen,
-                Michael Peeters und Gilles Van Assche entworfen und
+                Michaël Peeters und Gilles Van Assche entworfen und
                 im August 2006 auf dem Second Cryptographic Hash
                 Workshop in Santa Barbara, CA, USA, vorgestellt.
                 Theoretisch kann <wordlen> 1 bis 64 sein. Tatsächlich
@@ -9131,7 +9148,7 @@ ALGORITHMS
             Typ:
                 kryptografische Hashfunktion
 \
-            veröffentlicht: 
+            veröffentlicht:
                 1996
 \
             Kommentar:
@@ -9275,7 +9292,7 @@ ALGORITHMS
 \
             Kommentar:
                 Romulus-H ist eine kryptografische Hashfunktion, die
-                intern die tweakable Blockchiffre Skinny-128/384+
+                intern die tweakable Blockchiffre Skinny-128-384+
                 verwendet.
 \
                 Romulus (Romulus-H ist ein Teil der
@@ -9318,11 +9335,11 @@ ALGORITHMS
             Kommentar:
                 Der Secure Hash Algorithm, wie 1993 im Federal
                 Information Processing Standard (FIPS PUB 180) des
-                National Institute for Standards and Technology
-                definiert. Er wurde kurz nach der Veröffentlichung von
-                der NSA zurückgezogen und durch die überarbeitete,
-                1995 in FIPS PUB 180-1 veröffentlichte Version
-                ersetzt, die gemeinhin als "SHA-1" bezeichnet wird.
+                National Institute of Standards and Technology
+                definiert. Er wurde 1995 von der NIST zurückgezogen
+                und durch die überarbeitete, 1995 in FIPS PUB 180-1
+                veröffentlichte Version ersetzt, die gemeinhin als
+                "SHA-1" bezeichnet wird.
                 Die Standardkodierung ist hexadezimal.
                 Verwenden Sie die Option "--style openssl", um das
                 openssl-Ausgabeformat zu erhalten.
@@ -9333,7 +9350,7 @@ ALGORITHMS
                 zuerst mit 2^39 Operationen berechnet (Wang et al.,
                 2005) und später in etwa einer Stunde auf einem PC
                 (Manuel und Peyrin, 2008); die NIST hatte SHA-0
-                bereits 1996 zurückgezogen, es wird nur zu
+                bereits 1995 zurückgezogen, es wird nur zu
                 Lehrzwecken unterstützt
 \
             Kompatibilität:
@@ -9379,7 +9396,7 @@ ALGORITHMS
                 gnu.crypto.hash.Sha0 (by jonelo)
 
 
-    sha-1, sha, sha1, sha1sum, sha160, sha-160, dssl
+    sha-1, sha, sha1, sha1sum, sha160, sha-160, dss1
             Algorithmusname:
                 SHA-1
 \
@@ -9398,7 +9415,7 @@ ALGORITHMS
             Kommentar:
                 Der Secure Hash Algorithm, wie 1995 im Federal
                 Information Processing Standard (NIST FIPS 180-1) des
-                National Institute for Standards and Technology
+                National Institute of Standards and Technology
                 definiert.
                 Die Standardkodierung ist hexadezimal.
                 Verwenden Sie -C solaris-tagged oder -C
@@ -9408,8 +9425,9 @@ ALGORITHMS
                 auszugeben.
                 Verwenden Sie -C tagged, um den Stil "cksum -a sha1"
                 aus den GNU Core Utilities 9.0 auszugeben.
-                Der Alias dss1 (Digital Subscriber Signalling System
-                No. 1) wird von OpenSSL verwendet.
+                Der Alias dss1 (SHA-1 in der Verwendung mit dem
+                Digital Signature Standard, DSS) wird von OpenSSL
+                verwendet.
 \
             gebrochen:
                 ja, 02/2017: die erste Kollision mit gleichem Präfix
@@ -9519,7 +9537,7 @@ ALGORITHMS
             Kommentar:
                 Der Secure Hash Algorithm, wie 2004 im Federal
                 Information Processing Standard (NIST FIPS 180-2) des
-                National Institute for Standards and Technology und
+                National Institute of Standards and Technology und
                 in RFC 3874 definiert.
                 SHA-224 basiert auf SHA-256, verwendet jedoch einen
                 anderen Anfangswert, und der finale Hash wird auf 224
@@ -9618,11 +9636,12 @@ ALGORITHMS
                 NIST FIPS 180-2
 \
             Kommentar:
-                Der Secure Hash Algorithm, wie 2001 im Federal
-                Information Processing Standard (NIST FIPS 180-2) des
-                National Institute for Standards and Technology
-                definiert. SHA-256 kann optional vom Dateisystem ZFS
-                verwendet werden.
+                Der Secure Hash Algorithm, erstmals 2001 als Entwurf
+                veröffentlicht und im Federal Information Processing
+                Standard (NIST FIPS 180-2) des National Institute of
+                Standards and Technology vom August 2002 definiert.
+                SHA-256 kann optional vom Dateisystem ZFS verwendet
+                werden.
                 Die Standardkodierung ist hexadezimal.
                 Verwenden Sie -C solaris-tagged oder -C
                 solaris-untagged, um die Solaris-Digest-Stilvarianten
@@ -9638,7 +9657,7 @@ ALGORITHMS
                 praktisch durchführbar (2024), die besten
                 Urbildangriffe erreichen 41 von 64 Schritten; das
                 vollständige SHA-256 ist davon nicht betroffen,
-                erlaubt als Merkle-Damgard-Konstruktion aber
+                erlaubt als Merkle-Damgård-Konstruktion aber
                 Längenerweiterungsangriffe: verwenden Sie dort, wo
                 das zählt, HMAC oder sha-512/256
                 siehe auch https://eprint.iacr.org/2024/349.pdf
@@ -9677,7 +9696,7 @@ ALGORITHMS
                 - Java API:        java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA-256");
                 - Kali Linux:      /usr/bin/sha256sum
-                                   /usr/bin/shasum -a 256                                               
+                                   /usr/bin/shasum -a 256
                 - LibreSSL:        openssl dgst -sha256
                 - Mac OS X:        -
                 - macOS 10.12+:    /usr/bin/shasum -a 256
@@ -9732,10 +9751,10 @@ ALGORITHMS
                 NIST FIPS 180-2
 \
             Kommentar:
-                Der Secure Hash Algorithm, wie 2001 im Federal
-                Information Processing Standard (NIST FIPS 180-2) des
-                National Institute for Standards and Technology
-                definiert.
+                Der Secure Hash Algorithm, erstmals 2001 als Entwurf
+                veröffentlicht und im Federal Information Processing
+                Standard (NIST FIPS 180-2) des National Institute of
+                Standards and Technology vom August 2002 definiert.
                 Die Standardkodierung ist hexadezimal.
                 Verwenden Sie -C solaris-tagged oder -C
                 solaris-untagged, um die Solaris-Digest-Stilvarianten
@@ -9841,10 +9860,10 @@ ALGORITHMS
                 NIST FIPS 180-2
 \
             Kommentar:
-                Der Secure Hash Algorithm, wie 2001 im Federal
-                Information Processing Standard (NIST FIPS 180-2) des
-                National Institute for Standards and Technology
-                definiert.
+                Der Secure Hash Algorithm, erstmals 2001 als Entwurf
+                veröffentlicht und im Federal Information Processing
+                Standard (NIST FIPS 180-2) des National Institute of
+                Standards and Technology vom August 2002 definiert.
                 Die Standardkodierung ist hexadezimal.
                 Verwenden Sie -C solaris-tagged oder -C
                 solaris-untagged, um die Solaris-Digest-Stilvarianten
@@ -9860,7 +9879,7 @@ ALGORITHMS
                 Schritte praktisch durchführbar, die besten
                 Urbildangriffe erreichen 46 von 80 Schritten; das
                 vollständige SHA-512 ist davon nicht betroffen,
-                erlaubt als Merkle-Damgard-Konstruktion aber
+                erlaubt als Merkle-Damgård-Konstruktion aber
                 Längenerweiterungsangriffe: verwenden Sie dort, wo
                 das zählt, HMAC oder sha-512/256
 \
@@ -10001,7 +10020,7 @@ ALGORITHMS
                 - Plan 9:          -
                 - PowerShell:      -
                 - Python:          -
-                - Solaris 11.4+:   /usr/bin/digest -a 512_t -t 224   
+                - Solaris 11.4+:   /usr/bin/digest -a 512_t -t 224
                 - Ubuntu:          /usr/bin/shasum -a 512224
                 - Windows:         -
                 - Wolfram:         -
@@ -10447,13 +10466,13 @@ ALGORITHMS
                 Shabal
 \
             Länge:
-                192, 224, 384, 256 oder 512 Bit
+                192, 224, 256, 384 oder 512 Bit
 \
             Typ:
                 kryptografische Hashfunktion
 \
             veröffentlicht:
-                09/2009
+                10/2008
 \
             Website:
                 https://web.archive.org/web/20161203012059/http://www.shabal.com/
@@ -10461,15 +10480,14 @@ ALGORITHMS
             Kommentar:
                 Shabal ist eine von 14 Hashfunktionen, die es in die
                 zweite Runde des NIST-SHA-3-Wettbewerbs (2007-2012)
-                geschafft haben. Shabal wurde vom französisch
-                geförderten Forschungsprojekt Saphir für den
-                internationalen Hashfunktions-Wettbewerb von NIST
-                eingereicht.
+                geschafft haben. Shabal wurde vom französischen
+                Forschungsprojekt SAPHIR für den internationalen
+                Hashfunktions-Wettbewerb von NIST eingereicht.
                 Shabal hat die letzte (3.) Runde des
                 NIST-SHA-3-Wettbewerbs nicht bestanden; siehe oben
                 "gebrochen". Dies ist die neueste Implementierung
                 gemäß der zweiten Runde des NIST-SHA-3-Wettbewerbs.
-                (Shabal-Spezifikation von Sept. 2009)
+                (Shabal-Spezifikation vom 28. Oktober 2008)
 \
             gebrochen:
                 nein, aber für die zugrunde liegende geschlüsselte
@@ -10697,7 +10715,7 @@ ALGORITHMS
                 SIMD
 \
             Länge:
-                224, 384, 256 oder 512 Bit
+                224, 256, 384 oder 512 Bit
 \
             Typ:
                 kryptografische Hashfunktion
@@ -10711,7 +10729,7 @@ ALGORITHMS
             Kommentar:
                 SIMD ist eine von 14 Hashfunktionen, die es in die
                 zweite Runde des NIST-SHA-3-Wettbewerbs (2007-2012)
-                geschafft haben. SIMD wurde von Gaetan Leurent,
+                geschafft haben. SIMD wurde von Gaëtan Leurent,
                 Frankreich, eingereicht.
                 SIMD hat die letzte (3.) Runde des
                 NIST-SHA-3-Wettbewerbs nicht bestanden; siehe oben
@@ -10834,7 +10852,7 @@ ALGORITHMS
                 Skein-512
 \
             Länge:
-                anpassbar (w > 0 und <length> % 8 = 0),
+                anpassbar (<length> > 0 und <length> % 8 = 0),
                 <length> = 512 Bit, falls <length> nicht angegeben
                 wird
 \
@@ -10928,7 +10946,7 @@ ALGORITHMS
                 Skein-1024
 \
             Länge:
-                anpassbar (w > 0 und <length> % 8 = 0),
+                anpassbar (<length> > 0 und <length> % 8 = 0),
                 <length> = 1024 Bit, falls <length> nicht angegeben
                 wird
 \
@@ -11191,8 +11209,10 @@ ALGORITHMS
                 SM3 ist eine kryptografische Hashfunktion, die im
                 "Chinesischen Nationalen Standard" verwendet wird.
                 Sie wurde am 17. Dezember 2010 von der State
-                Cryptography Administration als GM/T 0004-2012
-                veröffentlicht.
+                Cryptography Administration veröffentlicht und
+                später als GM/T 0004-2012 (herausgegeben am
+                21. März 2012) sowie als nationaler Standard
+                GB/T 32905-2016 standardisiert.
 \
                 Verwenden Sie -C linux-tagged oder -F "SM3 (#FILENAME)
                 = #DIGEST", um das Ausgabeformat "cksum -a sm3" aus
@@ -11203,7 +11223,7 @@ ALGORITHMS
                 erreichen 32 von 64 Schritten (2^254,5),
                 Pseudokollisionen 33 von 64 Schritten, das
                 vollständige SM3 ist davon nicht betroffen; als
-                Merkle-Damgard-Konstruktion erlaubt SM3
+                Merkle-Damgård-Konstruktion erlaubt SM3
                 Längenerweiterungsangriffe, verwenden Sie dort, wo
                 das zählt, also HMAC
                 siehe auch https://eprint.iacr.org/2012/640
@@ -11479,9 +11499,6 @@ ALGORITHMS
             Typ:
                 Prüfsumme
 \
-            veröffentlicht:
-                1985                  
-\
             Kommentar:
                 Das Ausgabeformat entspricht genau dem des nativen
                 Programms sum (Größe in 512-Byte-Blöcken), siehe auch
@@ -11559,7 +11576,7 @@ ALGORITHMS
                 kryptografische Hashfunktion
 \
             veröffentlicht:
-                1995
+                1996
 \
             Kommentar:
                 Der Hashwert sind die ersten 128 Bit des Ergebnisses
@@ -11697,7 +11714,7 @@ ALGORITHMS
                 kryptografische Hashfunktion
 \
             veröffentlicht:
-                1995
+                1996
 \
             Kommentar:
                 Der Hashwert sind die ersten 160 Bit des Ergebnisses
@@ -11835,7 +11852,7 @@ ALGORITHMS
                 kryptografische Hashfunktion
 \
             veröffentlicht:
-                1995
+                1996
 \
             Kommentar:
                 Entwickelt von Ross Anderson und Eli Biham, 1995.
@@ -11974,7 +11991,7 @@ ALGORITHMS
                 kleine Modifikation an Bouncy Castles TigerDigest
 
 
-    tiger2        
+    tiger2
             Algorithmusname:
                 Tiger2
 \
@@ -11988,7 +12005,11 @@ ALGORITHMS
                 2005
 \
             Kommentar:
-                Entwickelt von Ross Anderson und Eli Biham, 2005.
+                Tiger2 ist eine Variante von Tiger derselben Autoren
+                Ross Anderson und Eli Biham, die sich von Tiger nur
+                im Füllbyte unterscheidet. Sie wurde nie als Papier
+                veröffentlicht; ihre offiziellen Testvektoren sind
+                von 2005.
                 Die Standardkodierung ist hexadezimal.
 \
             gebrochen:
@@ -12016,7 +12037,7 @@ ALGORITHMS
                 192 Bit
 \
             veröffentlicht:
-                Der Merkle-Baum wurde 1979 veröffentlicht, Tiger 1995.
+                Der Merkle-Baum wurde 1979 veröffentlicht, Tiger 1996.
 \
             Typ:
                 Hashbaum
@@ -12383,8 +12404,11 @@ ALGORITHMS
             Typ:
                 nicht-kryptografische Hashfunktion
 \
+            veröffentlicht:
+                2012
+\
             Website:
-                http://www.xxhash.com/
+                https://xxhash.com/
 \
             Kommentar:
                 Die Standardausgabe entspricht der des

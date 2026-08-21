@@ -436,6 +436,8 @@ Jacksum 4.0.0, August TBD, 2026
     second-preimage resistance, or the use in a MAC), whether an attack is theoretical or practical, the
     year, and a reference. Sponge constructions and truncated variants now also document whether they are
     susceptible to length-extension attacks.
+  - reviewed the "published" field and the "comment" text of all algorithms in the ALGORITHMS
+    section of the manpage against primary sources and fixed mistakes.
 
 
 Jacksum 3.7.0, Aug 26, 2023
