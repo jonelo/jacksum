@@ -402,9 +402,6 @@ Jacksum 4.0.0, August TBD, 2026
     which the check list has to be verified later. Every statement is backed by Jacksum itself, so
     the guide doubles as a tour of "-a <algo> --info --verbose details", "-h <algo>", "-a all -l",
     and "--hmacs".
-  - docs/ALGORITHMS.md and docs/ALGORITHMS_de.md: replaced the link to the Cheat Sheet in the wiki
-    by a link to the Algorithm Selection Guide (docs/ALGORITHM_SELECTION_GUIDE.md and its German
-    translation) in the "See also" section
   - issue #41: the option -p is no longer supported, but the documentation still referenced it
   - corrected two alphabets in the description of the option -E in the manpage:
     - the table of the BubbleBabble alphabet was a leftover of the Base64 table; it now documents the six
