@@ -25,3 +25,10 @@ hs_err_pid*
 
 # Maven build output
 /target/
+
+# macOS Finder metadata, in every directory
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
