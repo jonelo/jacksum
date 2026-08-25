@@ -152,25 +152,31 @@ Berechnet einen 32-Bit-CRC mit dem Standard-Unix-Algorithmus `cksum` für alle D
 ## Den Algorithmus auswählen
 
 ```
-jacksum -a haval_256_5 .
+jacksum -a sha-256 .
 ```
 
-Berechnet einen 256-Bit-Hashwert mit 5 Runden unter Verwendung des HAVAL-Algorithmus.
+Berechnet 256-Bit-Hashwerte mit dem SHA-256-Algorithmus.
 
 ```
-jacksum -a sha1+crc32 .
+jacksum -a sha-256+sha3-256 .
 ```
 
-Berechnet SHA-1 und CRC-32 in **einem Durchgang über die Daten**. Standardmäßig werden die
+Berechnet SHA-256 und SHA3-256 in **einem Durchgang über die Daten**. Standardmäßig werden die
 einzelnen Hashwerte zu einem Hashwert verkettet, was Integritätsprüfungen über einen einzigen Wert
 einfach macht.
 
 ```
-jacksum -a sha1+crc32 -F "sha1=#HASH{0} crc32=#HASH{1} #FILENAME" .
+jacksum -a sha-256+sha3-256 -F "SHA-256=#HASH{0}  SHA3-256=#HASH{1} #FILENAME" .
 ```
 
 Dieselben zwei Algorithmen, aber getrennt ausgegeben. `{0}` und `{1}` indizieren die Algorithmen in
 der Reihenfolge, in der Sie sie benannt haben.
+
+```
+jacksum -a sha-256+sha3-256 -F "SHA-256=#HASH{sha-256}  SHA3-256=#HASH{sha3-256} #FILENAME" .
+```
+
+Dasselbe, aber mit einem String-Index `{sha-256}` und `{sha3-256}` statt mit Ganzzahlen.
 
 ```
 jacksum -a all:sha -F "#ALGONAME{i}(#FILENAME) = #HASH{i}" .
@@ -188,6 +194,15 @@ jacksum -a sha-1+sha-224+sha-256+sha-384+sha-512+sha-512/224+sha-512/256+sha3-22
 
 Wenn Sie genau die Familien SHA-1, SHA-2 und SHA-3 wollen und nichts anderes, benennen Sie sie
 explizit. `jacksum -a all:sha --list` liefert Ihnen die IDs zum Kopieren.
+
+```
+jacksum -a all:256 \
+        -F "#ALGONAME{i}(#FILENAME) = #HASH{i}" .
+```
+
+Filtern von Algorithmen: `all:<breite>` wählt jeden Algorithmus aus, dessen Ausgabebreite gleich 256
+ist, und iteriert über alle davon. Rufen Sie zuerst `jacksum -a all:256 --list` auf, um zu sehen,
+was Sie erhalten.
 
 <a name="gs_encoding"></a>
 
@@ -1573,10 +1588,10 @@ jacksum -a all:128 --list
 Filtert nach Teilzeichenkette bzw. nach Ausgabebreite in Bits.
 
 ```
-jacksum -a all:8 --list --info
+jacksum -a all:512 --list --info
 ```
 
-Jeder 8-Bit-Algorithmus, jeweils mit seinem vollständigen `--info`-Block.
+Jeder 512-Bit-Algorithmus, jeweils mit seinem vollständigen `--info`-Block.
 
 ```
 jacksum --hmacs
@@ -1647,6 +1662,8 @@ jacksum -v
 jacksum --version
 Jacksum 4.0.0
 ```
+
+Nur der Programmname und die Version gemäß [Semantic Versioning](https://semver.org/).
 
 ```
 jacksum --info

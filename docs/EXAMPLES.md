@@ -170,7 +170,7 @@ you named them.
 jacksum -a sha-256+sha3-256 -F "SHA-256=#HASH{sha-256}  SHA3-256=#HASH{sha3-256} #FILENAME" .
 ```
 
-The same, but with a string index `{sha-256}` and `{sha3-256} rather than integers.
+The same, but with a string index `{sha-256}` and `{sha3-256}` rather than integers.
 
 ```
 jacksum -a all:sha -F "#ALGONAME{i}(#FILENAME) = #HASH{i}" .
@@ -193,8 +193,8 @@ jacksum -a all:256 \
         -F "#ALGONAME{i}(#FILENAME) = #HASH{i}" .
 ```
 
-Algorithm filtering: `all:<width>`selects every algorithm whose width is equal to 256, and iterates
-over all of them. Use `jacksum -a all:256 --list`first to see what you get.
+Algorithm filtering: `all:<width>` selects every algorithm whose width is equal to 256, and iterates
+over all of them. Use `jacksum -a all:256 --list` first to see what you get.
 
 <a name="gs_encoding"></a>
 

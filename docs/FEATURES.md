@@ -93,6 +93,9 @@ For worked examples of all of those modes, see
 [Jacksum by Example](https://github.com/jonelo/jacksum/blob/main/docs/EXAMPLES.md),
 `jacksum -h examples`, and the
 [Cheat Sheet](https://github.com/jonelo/jacksum/wiki/Cheat-Sheet).
+If you would rather start from a problem than from a feature, the
+[Use Cases](USE_CASES.md) cookbook walks through complete, real-world tasks — verifying a
+download, comparing two directory trees, intrusion detection, incremental backups — end to end.
 
 <a name="algorithms"></a>
 

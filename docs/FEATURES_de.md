@@ -97,6 +97,10 @@ Ausgearbeitete Beispiele zu all diesen Modi finden Sie unter
 [Jacksum am Beispiel](https://github.com/jonelo/jacksum/blob/main/docs/EXAMPLES_de.md),
 mit `jacksum -h examples` und im
 [Cheat Sheet](https://github.com/jonelo/jacksum/wiki/Cheat-Sheet).
+Wenn Sie lieber von einem Problem als von einem Feature ausgehen möchten: das Kochbuch
+[Anwendungsfälle](USE_CASES_de.md) führt vollständige Aufgaben aus der Praxis von Anfang bis Ende
+durch — einen Download prüfen, zwei Verzeichnisbäume vergleichen, Einbruchserkennung,
+inkrementelle Backups.
 
 <a name="algorithms"></a>
 
