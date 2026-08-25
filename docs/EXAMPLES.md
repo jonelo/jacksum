@@ -150,7 +150,7 @@ and its subfolders.
 jacksum -a sha-256 .
 ```
 
-Calculates a 256 bit hash with 5 rounds using the SHA-256 algorithm.
+Calculates 256 bit hashes using the SHA-256 algorithm.
 
 ```
 jacksum -a sha-256+sha3-256 .
@@ -187,6 +187,14 @@ jacksum -a sha-1+sha-224+sha-256+sha-384+sha-512+sha-512/224+sha-512/256+sha3-22
 
 If you want exactly the SHA-1, SHA-2 and SHA-3 family and nothing else, name them explicitly.
 `jacksum -a all:sha --list` gives you the IDs to copy from.
+
+```
+jacksum -a all:256 \
+        -F "#ALGONAME{i}(#FILENAME) = #HASH{i}" .
+```
+
+Algorithm filtering: `all:<width>`selects every algorithm whose width is equal to 256, and iterates
+over all of them. Use `jacksum -a all:256 --list`first to see what you get.
 
 <a name="gs_encoding"></a>
 
@@ -1539,10 +1547,10 @@ jacksum -a all:128 --list
 Filter by substring resp. by output width in bits.
 
 ```
-jacksum -a all:8 --list --info
+jacksum -a all:512 --list --info
 ```
 
-Every 8 bit algorithm, each with its full `--info` block.
+Every 512 bit algorithm, each with its full `--info` block.
 
 ```
 jacksum --hmacs
