@@ -5,8 +5,7 @@ Jacksum Next Release TBD
     cookbook: while docs/EXAMPLES.md is organized by feature ("what does this option do"),
     USE_CASES.md is organized by goal ("I want to solve this problem") 
 
-
-Jacksum 4.0.0, August TBD, 2026
+Jacksum 4.0.0, August 22, 2026
 
 - Compatibility changes
   - requires a JRE/JDK that is compatible with Java 21 LTS and later, OpenJDK 25 LTS or later is recommended
