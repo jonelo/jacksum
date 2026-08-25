@@ -37,6 +37,7 @@ Jacksum covers many types of use cases in which hash values make sense:
 - Gathering detailed hash algorithm information, including whether an algorithm is broken
 - Investigating polynomials of CRCs and parameters of HMACs
 
+For details, see the [Use Cases](docs/USE_CASES.md) - a task orientierted cookbook with complete recipes.
 
 ## Key facts
 
@@ -116,8 +117,8 @@ Verify a single file against a known hash value:
     Jacksum: Expectation met.
     Jacksum: 1 of the successfully read files matches the expected hash value.
 
-More examples: [Examples](docs/EXAMPLES.md), `jacksum -h examples`, and the
-[Jacksum Hacks](docs/JACKSUM_HACKS.md).
+More examples: [Examples](docs/EXAMPLES.md), `jacksum -h examples`, the
+[Use Cases](docs/USE_CASES.md), and the [Jacksum Hacks](docs/JACKSUM_HACKS.md).
 
 
 ## Algorithm support
@@ -173,6 +174,7 @@ ROX-Filer, SpaceFM, Thunar, Xfe, or zzzFM on GNU/Linux. See also [Integrations](
 * [Algorithms](docs/ALGORITHMS.md)
 * [Algorithm Selection Guide](docs/ALGORITHM_SELECTION_GUIDE.md)
 * [Examples](docs/EXAMPLES.md)
+* [Use Cases](docs/USE_CASES.md)
 * [Jacksum Hacks](docs/JACKSUM_HACKS.md)
 * [Wiki](https://github.com/jonelo/jacksum/wiki)
 * [Release Notes](https://github.com/jonelo/jacksum/blob/main/RELEASE-NOTES.txt) - since 2002!

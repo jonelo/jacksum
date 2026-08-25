@@ -18,6 +18,10 @@ that touches every single byte without producing a hash value.
 > `Jacksum: Parameter Error: -a none and -E without -F cannot go together.`
 > Either write `-F "#SEQUENCE" -E hex` or use the short form `-F "#SEQUENCE{hex}"`.
 
+See also [Examples](EXAMPLES.md) for what Jacksum does on purpose, and [Use Cases](USE_CASES.md)
+for complete recipes — synchronising directories, building patches, intrusion detection — that
+build on some of the hacks below.
+
 **Table of contents**
 
 - [Part 1 — Encodings and number bases](#part1)

@@ -1,3 +1,11 @@
+Jacksum Next Release TBD
+
+- Updated documentation 
+  - added docs/USE_CASES.md and its German translation docs/USE_CASES_de.md, a task oriented
+    cookbook: while docs/EXAMPLES.md is organized by feature ("what does this option do"),
+    USE_CASES.md is organized by goal ("I want to solve this problem") 
+
+
 Jacksum 4.0.0, August TBD, 2026
 
 - Compatibility changes

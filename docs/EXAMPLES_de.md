@@ -82,7 +82,8 @@ Einige Konventionen, die durchgehend verwendet werden:
   erhalten; verwenden Sie in der Windows-Shell `cmd` doppelte Anführungszeichen.
 
 Siehe auch die [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) für die verbindliche
-Beschreibung jeder Option (`jacksum -h`) und
+Beschreibung jeder Option (`jacksum -h`), [Use Cases](USE_CASES_de.md) für vollständige Rezepte, die
+ein Problem von Anfang bis Ende lösen, und
 [Jacksum Hacks](JACKSUM_HACKS_de.md) für die Dinge, die Jacksum
 kann, die nichts mit Hashing zu tun haben.
 

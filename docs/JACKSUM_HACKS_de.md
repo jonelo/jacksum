@@ -20,6 +20,10 @@ macht es zu einem Werkzeug, das jedes einzelne Byte anfasst, ohne einen Hashwert
 > `Jacksum: Parameter Error: -a none and -E without -F cannot go together.`
 > Schreiben Sie entweder `-F "#SEQUENCE" -E hex` oder die Kurzform `-F "#SEQUENCE{hex}"`.
 
+Siehe auch [Beispiele](EXAMPLES_de.md) für das, was Jacksum mit Absicht tut, und
+[Use Cases](USE_CASES_de.md) für vollständige Rezepte — Verzeichnisse synchronisieren, Patches
+bauen, Einbrüche erkennen — die auf einigen der nachfolgenden Hacks aufbauen.
+
 **Inhaltsverzeichnis**
 
 - [Teil 1 — Kodierungen und Zahlensysteme](#part1)

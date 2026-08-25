@@ -78,7 +78,8 @@ A few conventions used throughout:
   of every character within the quotes; on the Windows `cmd` shell use double quotes.
 
 See also the [Manpage](https://github.com/jonelo/jacksum/wiki/Manpage) for the authoritative
-description of every option (`jacksum -h`), and
+description of every option (`jacksum -h`), [Use Cases](USE_CASES.md) for complete recipes that
+solve one problem end to end, and
 [Jacksum Hacks](JACKSUM_HACKS.md) for the things Jacksum can do
 that have nothing to do with hashing.
 
