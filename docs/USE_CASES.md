@@ -1,5 +1,6 @@
 **Table of Contents**
  - [Before you start](#before)
+   - [If you are on Windows](#windows)
  - [1. Verify a download or a file transfer](#transfer)
  - [2. Compare two directory trees or discs](#compare)
    - [Both trees at hand](#compare_both)
@@ -26,8 +27,14 @@ This document is a **cookbook**. Every section starts with a problem someone act
 with the commands that solve it. If you are looking for what a particular option does, you want
 [Examples](EXAMPLES.md) instead — that document is organized by feature, this one by goal.
 
-All recipes below have been verified against **Jacksum 4.0.0** on macOS with OpenJDK 25; the program
-output shown is copied from those runs.
+All recipes below have been verified against **Jacksum 4.0.0** on three systems — Ubuntu 24.04 with
+OpenJDK 25 and GNU tar 1.35, macOS 26 with OpenJDK 25 and bsdtar 3.5, and Windows 11 build 26200
+with OpenJDK 25 and bsdtar 3.8 — and the program output shown is copied from those runs. Where a
+value differs between platforms, the text says which platform it came from; the recipes themselves
+work everywhere. The Ant build file in [7.3](#patch_ant) is the one thing that was never executed;
+everything else, including the `mkpatch.cmd` of [7.2](#patch_script), was run and produced what it
+claims. The only edit made after that run is the `-P /` in the batch file's step 1, a flag whose
+effect was measured separately.
 
 A few conventions used throughout:
 
@@ -71,9 +78,19 @@ jacksum -a sum_bsd -E hex -F "#HASH" readme.txt
 8908
 ```
 
-The first value is what BSD `sum` prints for the same file. Use `-E hex` when you want hexadecimal
-from an algorithm whose native encoding is not hexadecimal — and leave it out for `sha*`, where it
-is already the default.
+The first value is what BSD `sum` prints for the same file, and on GNU/Linux plain `sum` prints it
+too, because its default *is* the BSD algorithm:
+
+```
+sum readme.txt
+35080     1 readme.txt
+sum -s readme.txt
+1260 1 readme.txt
+```
+
+`sum -s` selects the System V algorithm, and `1260` is exactly what `jacksum -a sum_sysv` returns.
+Use `-E hex` when you want hexadecimal from an algorithm whose native encoding is not hexadecimal,
+and leave it out for `sha*`, where it is already the default.
 
 Most examples run against this little tree:
 
@@ -83,6 +100,127 @@ Most examples run against this little tree:
     docs/changes.txt        16 bytes
     lib/liba.jar            13 bytes
     lib/libb.jar            13 bytes
+
+<a name="windows"></a>
+
+## If you are on Windows
+
+Jacksum itself behaves the same everywhere — same options, same output, same exit codes. What
+differs is everything *around* it: the recipes below pack archives, filter text and count lines, and
+the tools they use for that are not the ones Windows ships. Everything in the right-hand column
+below is part of a stock Windows installation, so none of the recipes needs a single extra download.
+
+| Task | Unix/macOS | Windows |
+|---|---|---|
+| archive from a file list | `tar cf x.tar -T list` | `tar -cf x.tar -T list` |
+| zip from a file list | `zip -@ x.zip < list` | `tar -a -cf x.zip -T list` |
+| gzip-compressed archive | `tar czf x.tar.gz -T list` | `tar -czf x.tar.gz -T list` |
+| bzip2-compress | `bzip2 -9 x.tar` | `tar -cjf x.tar.bz2 -T list`, if `tar --version` lists `bz2lib` |
+| unpack an archive | `bunzip2 -c x.tar.bz2 \| tar xf -` | `tar -xf x.zip`, `tar -xf x.tar.gz` |
+| drop matching lines | `grep -v pattern` | `findstr /V pattern` |
+| count lines | `wc -l < f` | `find /c /v "" < f` |
+| sort lines | `sort` | `sort` (present) |
+| discard stderr | `2>/dev/null` | `2>nul` |
+| discard stdout | `> /dev/null` | `> nul` |
+| exit code of the last command | `$?` | `%ERRORLEVEL%`, in PowerShell `$LASTEXITCODE` |
+| temp / home directory | `/tmp`, `~` | `%TEMP%`, `%USERPROFILE%` |
+| delete every file in a list | `while IFS= read -r f; do rm -- "$f"; done < l` | `for /f "usebackq delims=" %f in ("l") do del "%f"` |
+| hash one file without Jacksum | `shasum -a 256 f` | `certutil -hashfile f SHA256` |
+| verify a hash list without Jacksum | `sha256sum -c list` | nothing built in |
+| fetch a URL | `curl -sSL url` | `curl.exe -sSL url` |
+
+`tar.exe` and `curl.exe` have been part of Windows since Windows 10 build 17063; on anything older
+you have to bring your own. Note that `tar -a -cf x.zip` in the right-hand column works because
+Windows and macOS ship bsdtar — do **not** reach for it on GNU/Linux, where the same command
+silently writes a tar archive under a `.zip` name (see [5](#sync)). The Windows blocks below are
+written for `cmd`, and a `for` loop typed directly at the prompt uses `%f` where a `.cmd`
+script needs `%%f`.
+
+Four things that bite specifically on Windows:
+
+**1. PowerShell pipes are not byte pipes.** When PowerShell pipes one native program into another it
+does not forward bytes — it decodes and re-encodes text through `$OutputEncoding`, which is
+`us-ascii` in PowerShell 5.1. Anything outside ASCII can be replaced, and a replaced byte gives you
+a hash value that belongs to no file on your disk, without a single error message. On top of that,
+`sort` in PowerShell is not `sort.exe` at all but an alias for `Sort-Object`, so a pipe you copy
+from this document does something subtly different there.
+
+This was measured on two Windows 11 systems, both PowerShell 5.1 with `us-ascii` output encoding,
+and they did not agree with each other. On one, the `cmd` pipe and the PowerShell pipe gave the same
+value. On the other they differed — and not only for a payload containing non-ASCII bytes but even
+for a pipe carrying nothing but hexadecimal:
+
+    via cmd pipe     9b2090e4a0403014750cacaddbea740c4fa3880c1e65f335e1f0fa457b9bf272
+    via PowerShell   dec464c4b4683c145eed335ae09cf2073ef65f0c99cca84213867f65ae2515e3
+
+One machine agreeing and another not is the worst possible outcome, because it means you cannot tell
+by looking whether your shell is quietly changing the data. Keep to the safe form: run those pipes
+in `cmd`, or write the intermediate data to a file and hash the file — going through a file
+reproduced the `cmd` value exactly on both machines. Redirection to a file (`>`) is byte-exact in
+both shells.
+
+**2. Check what your `tar.exe` was linked against.** `tar --version` prints the compression
+libraries the build carries, and that decides which archive formats work. On Windows 11 build 26200
+it is generous:
+
+```
+tar --version
+bsdtar 3.8.4 - libarchive 3.8.4 zlib/1.2.13.1-motley liblzma/5.8.1 bz2lib/1.0.8 libzstd/1.5.7 cng/2.0 libb2/bundled
+```
+
+With `bz2lib` present, `tar -cjf x.tar.bz2 -T list` works — so on a current Windows the bzip2 steps
+of the Unix recipes need no substitute at all. Older builds shipped without it, so it is worth a
+glance before you script around it. Independently of compression, `tar -a -cf` picks the *format*
+from the file name extension and `tar -xf` detects the format of an existing archive on its own,
+which is why no separate `bunzip2`/`unzip` step appears in the Windows blocks. Verified: `tar -a -cf
+patch.zip` really does write a zip on Windows — the file starts with the `PK` magic.
+
+**3. NTFS alternate data streams are invisible by default.** An ADS can be attached to any file or
+directory, which makes it a natural hiding place. Jacksum skips them unless you ask for them:
+
+```
+jacksum -a sha3-256 --style linux .
+5152c4efbbc6b48888a73e0c8ef28399468f482d22ae73b84066416911dc54bc *.\file.txt
+
+jacksum -a sha3-256 --style linux --scan-ntfs-ads .
+5152c4efbbc6b48888a73e0c8ef28399468f482d22ae73b84066416911dc54bc *.\file.txt
+4318e51e31e286c1f86a15ea75f7652024bffde6d91e34175801ab05586e9df6 *.\file.txt:hidden:$DATA
+```
+
+The first run does not even hint that a stream is there. For a comparison that is merely informative
+that may be acceptable; for an audit ([2](#compare)) or for intrusion detection ([8](#ids)) it is
+not. Note the shape of the extra entry — a list containing `file.txt:hidden:$DATA` is no longer
+portable to other platforms, so keep the option out of lists you intend to ship.
+
+**4. Non-ASCII file names need the code page.** In `cmd`, switch to UTF-8 with `chcp 65001` and add
+`--utf8` so Jacksum reads and writes the names in UTF-8. See
+[File lists](EXAMPLES.md#input_filelist) for a worked example.
+
+**5. Jacksum writes backslashes, this document prints forward slashes.** Every check list and every
+`--list` output in the recipes below is shown with Unix paths, because that is what the Linux and
+macOS runs produced. On Windows the same commands give you `.\docs\changes.txt` instead:
+
+```
+jacksum -a sha3-256 -O hashes.list .
+type hashes.list
+cc2b01feca9e23a407f40303acd4d65c1720fdbf0e7c6aa9cb38a531dc1f1101 .\docs\changes.txt
+```
+
+`-P /` normalises the separator in the list Jacksum **writes**, and that file is then byte-identical
+to what this document prints. The Windows blocks below therefore create their lists with `-P /` — it
+costs nothing, and the list becomes usable on a non-Windows machine into the bargain, which is the
+normal case for a synchronisation or a patch you ship. Such a list verifies on Windows without
+complaint.
+
+What `-P /` does *not* change is what Jacksum prints to the screen. The check reports and the
+`--list` output shown throughout this document come from the Linux and macOS runs and therefore
+carry forward slashes; on Windows the very same commands print `.\readme.txt`. That is harmless —
+`tar -T` and `del` accept either form — but do not be surprised when your terminal disagrees with
+the page.
+
+Finally, one convenience worth setting up once: put a `jacksum.bat` containing
+`@java -jar C:\path\to\jacksum-4.0.0.jar %*` somewhere on your `PATH`, so that `jacksum` works as
+written below.
 
 <a name="transfer"></a>
 
@@ -124,6 +262,20 @@ hash was computed from* — if an attacker can publish the hash, they can publis
 the hash has to come over a channel you trust (a signed release page, a second mirror). Second, use
 the algorithm the vendor used; if they only offer MD5 or SHA-1, the check still detects transfer
 damage, but it is not evidence against a deliberate forgery.
+
+On Windows you may be used to `certutil -hashfile <file> SHA256` or PowerShell's `Get-FileHash`.
+Both compute a hash, but neither compares it — and `certutil` hands you the value wrapped in two
+lines of prose, localised into the system language:
+
+```
+certutil -hashfile readme.txt SHA256
+SHA256-Hash von readme.txt:
+0df7a0f53c85a97b9e3e08e4ba148b6754d606416fc71a7d8ce853d55c0c6daf
+CertUtil: -hashfile-Befehl wurde erfolgreich ausgefuehrt.
+```
+
+You still have to eyeball two long hex strings, which is exactly where mistakes happen. `-e` and
+`--check-line` do the comparison for you and put the answer in the exit code.
 
 More variants — pipes, BSD-style records, whole lists — are in
 [Verify data integrity](EXAMPLES.md#verify).
@@ -206,6 +358,38 @@ the path separator, so the same list works on both sides:
 jacksum -a sha3-256 -P / -O /tmp/dir1.list .
 ```
 
+Each platform has one option that decides whether the comparison is *complete*. On Windows, add
+`--scan-ntfs-ads` to both commands — an alternate data stream is part of the file system but
+invisible to Jacksum by default (see [If you are on Windows](#windows)). On GNU/Linux and other
+Unix-like systems, add `--scan-all-unix-file-types`, because by default Jacksum reads regular files,
+directories and symbolic links only, and reports anything else as an error rather than hashing it:
+
+```
+jacksum -a sha3-256 --style linux .
+Jacksum: Error: ./queue.fifo: is not a regular file.
+5152c4efbbc6b48888a73e0c8ef28399468f482d22ae73b84066416911dc54bc *./file.txt
+```
+
+Block devices, character devices, FIFOs, sockets and Solaris doors are covered by that option. **Be
+careful with it on a live system:** reading a FIFO that has no writer blocks, and Jacksum will sit
+there forever — which is exactly what you do not want in a cron job. Point it at a data tree, not at
+`/dev` or a directory where services keep their sockets.
+
+Whether you follow symbolic links is the other decision, and `/etc` is full of them. `-f` and `-d`
+turn following off for links to files and to directories:
+
+```
+jacksum -a sha3-256 --style linux -f -d .
+Jacksum: Info: Ignoring "./link.txt", because it is a symlink to a file.
+Jacksum: Info: Ignoring "./linkdir", because it is a symlink to a dir.
+5152c4efbbc6b48888a73e0c8ef28399468f482d22ae73b84066416911dc54bc *./file.txt
+976297646d2ff90f920f00940f2b14927b1d50df3941d3db2da36c2bf793b786 *./sub/target.txt
+```
+
+Without them, a link into a directory is traversed and its contents appear a second time under the
+link's path. Whichever you choose, use the *same* options on both sides — otherwise the two runs are
+not comparable.
+
 <a name="compare_offline"></a>
 
 ## Only one tree at a time
@@ -240,11 +424,11 @@ carry it over, and let the target side tell you what differs.
 **Problem.** You do not want a list, you want *one* value you can write on the sleeve of a DVD or
 paste into a ticket, and compare by eye.
 
-Jacksum 1.5 had an option `-S` for this; it is gone. Build the value from a pipe instead — hash every
-file, sort the hashes, hash the result:
+Jacksum 1.5 had an option `-S` for this; it is gone. Build the value from a pipe instead — hash
+every file, sort the hashes, hash the result:
 
 ```
-jacksum -a sha3-256 --style hexhashes-only . | sort | jacksum -a sha3-256 -
+jacksum -a sha3-256 --style hexhashes-only . | LC_ALL=C sort | jacksum -a sha3-256 -
 258bebd7e2bdf4b72e6a6c422747e1b3c2c3ebe34d13846dfff74713fadcee4e <stdin>
 ```
 
@@ -252,7 +436,7 @@ The same tree at a different path gives the same value, which is the whole point
 
 ```
 cd /elsewhere/copy-of-the-tree
-jacksum -a sha3-256 --style hexhashes-only . | sort | jacksum -a sha3-256 -
+jacksum -a sha3-256 --style hexhashes-only . | LC_ALL=C sort | jacksum -a sha3-256 -
 258bebd7e2bdf4b72e6a6c422747e1b3c2c3ebe34d13846dfff74713fadcee4e <stdin>
 ```
 
@@ -262,21 +446,77 @@ Change a single byte anywhere in the tree and the value changes completely:
 dce61e54592e0ddef7b67c8aa0445f1c2bca3532d419634b712b32d230e3dd37 <stdin>
 ```
 
-`sort` is not decoration. Jacksum does not promise an order in which it walks a tree — in the runs
-above the raw order was `docs/changes.txt`, `docs/manual.txt`, `version.properties`, `lib/libb.jar`,
-`lib/liba.jar`, `readme.txt`, which is neither alphabetical nor depth-first. Without `sort` the same
-data on a different filesystem can produce a different value.
+`sort` is not decoration. Jacksum does not promise an order in which it walks a tree, and the same
+six files really do come back in a different order on different systems:
+
+    macOS 26, APFS   docs/changes.txt docs/manual.txt version.properties lib/libb.jar lib/liba.jar readme.txt
+    Ubuntu 24.04, ext4   readme.txt version.properties lib/liba.jar lib/libb.jar docs/changes.txt docs/manual.txt
+
+Neither is alphabetical, neither is depth-first, and they are not the same. Without `sort` the two
+machines would compute two different fingerprints for identical data.
+
+`LC_ALL=C` is not decoration either, and this one is easy to miss. `sort` collates according to the
+locale, so the *same* list can come out in a different order on two machines whose `LC_COLLATE`
+differs. With `hexhashes-only` that is harmless in practice, because the lines are nothing but hex
+digits. With the name-aware variant below it is not: two files with identical content produce the
+same hash, so the file name breaks the tie, and locale collation orders case and punctuation
+differently from byte order. Measured on Ubuntu 24.04 against a tree holding `Alpha.txt`,
+`alpha.txt` and `ALPHA2.txt`, all with the same content:
+
+    LC_ALL=C            738d840891fcc6424bd042e81fdf449d137ae59f5d493ea635ebd1ee30a9b842
+    LC_ALL=en_US.UTF-8  48e147fe9e816152eb325f8e7ac9af8ca9c2046fc0fe5d4d4346a3d6151ef5d5
+
+Two fingerprints for one tree — in a recipe whose entire purpose is comparing two machines.
+`LC_ALL=C` pins the order to byte order, which is the same everywhere, and none of the values shown
+in this section changes because of it.
+
+A case-insensitive file system hides half of the problem. On macOS with APFS, or on Windows with
+NTFS, `Alpha.txt` and `alpha.txt` are the *same* file, so that tree holds two files instead of three
+and both values come out different from the ones above. The collation effect does not go away, it
+just has fewer names left to disagree about — one more reason to pin the locale rather than to
+reason about it.
+
+**This fingerprint does not travel between Windows and Unix.** Windows `sort.exe` writes CRLF line
+endings where Jacksum wrote LF, so the six sorted lines grow from 390 to 396 bytes and the hash over
+them changes. The same tree therefore gives:
+
+    Ubuntu 24.04, macOS 26   258bebd7e2bdf4b72e6a6c422747e1b3c2c3ebe34d13846dfff74713fadcee4e
+    Windows 11               9b2090e4a0403014750cacaddbea740c4fa3880c1e65f335e1f0fa457b9bf272
+
+Neither value is wrong — hashing the LF form gives the first, hashing the CRLF form gives the
+second, and everything the recipe promises still holds *within* one platform: a changed byte and a
+renamed file are detected exactly as described above. But a single value from a Windows machine
+cannot be compared against one from a Linux machine. For that direction use the list of
+[2.1](#compare_both) instead: it carries one line per file, and with `-P /` it comes out
+byte-identical on all three systems.
 
 `hexhashes-only` throws the file names away, so this variant is blind to renames: rename
 `readme.txt` to `README.md` and the fingerprint stays `258bebd7...`. If names are part of what you
 are comparing, use a style that carries them:
 
 ```
-jacksum -a sha3-256 --style linux . | sort | jacksum -a sha3-256 -
+jacksum -a sha3-256 --style linux . | LC_ALL=C sort | jacksum -a sha3-256 -
 61510463ec3b388476a553cbbaff82283cb1c4740fe662d41f2cab06cbf368a4 <stdin>
 ```
 
 After the same rename this one *does* change, to `a77e39dc...`.
+
+On Windows this pipe works in `cmd` — `sort` is there, and both `jacksum` invocations are the same
+as above. Do **not** run it in PowerShell: the pipe between the two native programs re-encodes the
+text and the resulting value is meaningless. If PowerShell is all you have, write the intermediate
+list to a file and hash the file:
+
+```
+jacksum -a sha3-256 --style hexhashes-only . > ..\unsorted.txt
+sort ..\unsorted.txt > ..\sorted.txt
+jacksum -a sha3-256 -F "#HASH" ..\sorted.txt
+258bebd7e2bdf4b72e6a6c422747e1b3c2c3ebe34d13846dfff74713fadcee4e
+```
+
+Redirection to a file is byte-exact in both shells; only the program-to-program pipe is not. Note
+the `..\` — the intermediate files must land **outside** the tree, otherwise the first command
+hashes its own output file and the value changes. That is the same trap as in [3](#archive), and it
+is easy to walk into here because the pipe version has no file to misplace.
 
 The trade-off against [2.1](#compare_both) is information: one value tells you *whether* two trees
 differ, never *where*. Use it as a cheap tripwire, and keep the full list around for when it fires.
@@ -301,19 +541,19 @@ That produces a plain `sha256sum`-compatible list with a documentation block on 
 ```
 #
 # created by: Jacksum (https://jacksum.net, version: 4.0.0)
-# invoked on JVM: OpenJDK 64-Bit Server VM (vendor: Eclipse Adoptium, version: 25.0.4+7-LTS)
-# invoked on OS: Mac OS X (arch: aarch64, version: 26.6.2)
-# invoked on date: 2026-08-24T22:54:47.708+02:00
+# invoked on JVM: OpenJDK 64-Bit Server VM (vendor: Ubuntu, version: 25.0.3+9-2-24.04.2-Ubuntu)
+# invoked on OS: Linux (arch: amd64, version: 7.0.0-30-generic)
+# invoked on date: 2026-08-25T14:59:09.144+02:00
 #
-# invoked from: /Volumes/ARCHIVE-2026
+# invoked from: /mnt/archive-2026
 # invocation args: -a sha256 --style linux --header -O SHA256SUMS .
 #________________________________________________________________________
+0df7a0f53c85a97b9e3e08e4ba148b6754d606416fc71a7d8ce853d55c0c6daf *./readme.txt
+112773e2a370ee8a61667937e79f4f223ef5fe4db4504cb7ec1a5256060cf975 *./version.properties
+213bb7ff99ae7fd27edfcd55ab5be34c2c8ab79264ac1bce46c50e060e837eee *./lib/liba.jar
+4d8095c96f86709e5c5b9291ac6e2ca77488d0ccfeb3d4fbcac383d5eac5e527 *./lib/libb.jar
 d0e2dc2e66b82a670659736963da9a56feeb25d78d79eda405bcbd84b37d711c *./docs/changes.txt
 0b398916a560e8c357b8d7374bd93dd7865d0c528ed842abc47413d2cfb0bc70 *./docs/manual.txt
-112773e2a370ee8a61667937e79f4f223ef5fe4db4504cb7ec1a5256060cf975 *./version.properties
-4d8095c96f86709e5c5b9291ac6e2ca77488d0ccfeb3d4fbcac383d5eac5e527 *./lib/libb.jar
-213bb7ff99ae7fd27edfcd55ab5be34c2c8ab79264ac1bce46c50e060e837eee *./lib/liba.jar
-0df7a0f53c85a97b9e3e08e4ba148b6754d606416fc71a7d8ce853d55c0c6daf *./readme.txt
 ```
 
 `--header` is what makes this future-proof: the algorithm, the Jacksum version, the platform and the
@@ -321,13 +561,14 @@ date are recorded in plain text, so whoever finds the disc knows what to do with
 starting with `#` are comments, and every `sha256sum`-compatible tool skips them:
 
 ```
-shasum -a 256 -c SHA256SUMS
+sha256sum -c SHA256SUMS         # GNU/Linux
+shasum -a 256 -c SHA256SUMS     # macOS, *BSD
+./readme.txt: OK
+./version.properties: OK
+./lib/liba.jar: OK
+./lib/libb.jar: OK
 ./docs/changes.txt: OK
 ./docs/manual.txt: OK
-./version.properties: OK
-./lib/libb.jar: OK
-./lib/liba.jar: OK
-./readme.txt: OK
 ```
 
 Practical notes:
@@ -335,6 +576,12 @@ Practical notes:
 - **Pick a boring algorithm.** `sha256` is the safe bet for archives, precisely because it is
   implemented everywhere. `sha3-256` is the better hash function, but in 2041 you may be holding the
   disc and a machine that only has `sha256sum`. Nothing stops you from writing both lists.
+- **On Windows, burn `jacksum.jar` onto the disc as well.** The argument above — pick a format that
+  outlives the tool — only half applies on Windows, because Windows has never shipped a hash *list*
+  verifier. `certutil -hashfile` and `Get-FileHash` handle one file at a time and cannot read a
+  `SHA256SUMS` file at all, so on a bare Windows machine there is nothing to hand the list to.
+  Jacksum is a single self-contained JAR; adding it to the medium costs a few megabytes and removes
+  the problem. A `README.txt` next to it naming the command to run is worth the two lines.
 - **Burn the list onto the disc *and* keep a copy elsewhere.** On the disc it travels with the data;
   off the disc it is still readable when the disc is not.
 - **Use relative paths** (`cd` into the tree, pass `.`), and `-P /` if the disc will also be read on
@@ -426,19 +673,31 @@ bzip2 -9 /tmp/patch.tar
 
 On Solaris and older BSD `tar`, the option for "read the file names from this file" is `-I` rather
 than `-T`. Be careful: in GNU `tar`, `-I` means *use this compression program*, so the two are not
-interchangeable. If you prefer a zip archive:
+interchangeable. `tar` itself is on every system worth the name; `zip` and `bzip2` are **not** part
+of a minimal GNU/Linux install (Debian netinst, Alpine, RHEL-minimal all leave them out), so on a
+container or a freshly provisioned box `tar -czf` is the variant that just works. If you prefer a
+zip archive:
 
 ```
 cd good
 zip -@ /tmp/patch.zip < /tmp/files.list
 ```
 
-On Windows, the same step reads:
+On Windows, do the whole step with the bundled `tar`, which writes zip archives directly — there is
+no `zip` command to pipe into:
 
 ```
 cd good
-type files.list | zip -@ patch.zip
+jacksum -a sha3-256 -P / -O %TEMP%\hashes.list .
+tar -a -cf %TEMP%\patch.zip -T %TEMP%\files.list
 ```
+
+The `-P /` in the first line is what makes `%TEMP%\hashes.list` look like the listing above. It does
+not affect `files.list`, which comes from `--list` and keeps native separators — `tar -T` reads it
+either way.
+
+`-a` picks the format from the `.zip` extension. Use `.tar.gz` with `tar -czf` instead if you prefer
+a tarball; `.tar.bz2` is likely unavailable, see [If you are on Windows](#windows).
 
 **Step 4 — on the faulty machine, unpack over the tree.**
 
@@ -446,6 +705,30 @@ type files.list | zip -@ patch.zip
 cd bad
 bunzip2 -c /tmp/patch.tar.bz2 | tar xf -
 ```
+
+On Windows, one command does it — `tar -xf` recognises zip, gzip and tar archives on its own, so
+neither `bunzip2` nor `unzip` is needed:
+
+```
+cd bad
+tar -xf %TEMP%\patch.zip
+```
+
+That works because Windows and macOS ship bsdtar. **GNU `tar` has no zip support at all**, so on a
+GNU/Linux box the same command fails:
+
+```
+tar -xf patch.zip
+tar: This does not look like a tar archive
+tar: Exiting with failure status due to previous errors
+```
+
+Use `unzip patch.zip` there instead. Creating is worse, because it fails *silently*: `tar -a -cf
+patch.zip -T files.list` writes a zip with bsdtar, but GNU `tar`'s `-a` only chooses between gzip,
+bzip2 and xz — it does not know the zip format, so it hands you a plain tar archive that merely
+happens to be called `.zip`, and it exits 0 without a word of warning. `file patch.zip` then says
+`POSIX tar archive (GNU)`. If the two sides of your synchronisation run different operating systems,
+`.tar.gz` is the format both understand without an extra package.
 
 The archive contains the good versions of every modified file and every file that had gone missing,
 with their relative paths, so extracting it in place repairs both cases at once.
@@ -473,6 +756,16 @@ the two trees identical:
 cd bad
 while IFS= read -r f; do rm -- "$f"; done < /tmp/obsolete.list
 ```
+
+On Windows:
+
+```
+cd bad
+for /f "usebackq delims=" %f in ("%TEMP%\obsolete.list") do del "%f"
+```
+
+Double the percent signs (`%%f`) if you put that line into a `.cmd` file rather than typing it at
+the prompt.
 
 **Step 6 — confirm.**
 
@@ -509,9 +802,9 @@ side is the truth, it is a very small and very portable one.
 actually changed since the last one.
 
 The usual approach is `find -newer`, which trusts modification times. Jacksum compares *content*,
-which catches three things timestamps do not: files that were changed and then had their mtime reset,
-files that were touched without being changed (and would be backed up for nothing), and silent data
-corruption, where the bytes rot while the metadata stays pristine.
+which catches three things timestamps do not: files that were changed and then had their mtime
+reset, files that were touched without being changed (and would be backed up for nothing), and
+silent data corruption, where the bytes rot while the metadata stays pristine.
 
 **Once — the full backup and the baseline.**
 
@@ -553,6 +846,22 @@ Pack those, then update the baseline so tomorrow's run compares against today:
 tar czf /backup/inc-$(date +%Y%m%d).tar.gz -T /backup/changed.list
 jacksum -a sha3-256 -O /backup/base.list .
 ```
+
+The Windows equivalent of the whole run, with `2>nul` in place of `2>/dev/null`:
+
+```
+cd data
+jacksum -a sha3-256 -c C:\backup\base.list --list-filter failed,new --list . > C:\backup\changed.list 2>nul
+for /f %d in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd"') do set STAMP=%d
+tar -a -cf C:\backup\inc-%STAMP%.zip -T C:\backup\changed.list
+jacksum -a sha3-256 -P / -O C:\backup\base.list .
+```
+
+The detour through PowerShell is there because `%DATE%` is formatted according to the machine's
+locale. On a German Windows it comes out as `25.08.2026` — dots in a file name, and it sorts by day
+rather than by year. `Get-Date -Format yyyyMMdd` gives `20260825` regardless of locale. To check
+whether anything changed at all, `find /c /v "" < C:\backup\changed.list` replaces `wc -l`; it
+prints `0` for an empty list and `2` for the two changed files above.
 
 Note the `-O`: the baseline is rewritten on every run, so `-o` (which refuses to overwrite) would
 fail on day two.
@@ -619,6 +928,24 @@ On Solaris and older BSD `tar`, use `-I` instead of `-T` (and see the warning in
 cd ~/newversion
 zip -@ /tmp/patch.zip < /tmp/files.list
 ```
+
+On Windows, the same three steps are:
+
+```
+cd %USERPROFILE%\newversion
+jacksum -a sha3-256 -P / -O %TEMP%\new.list .
+
+cd %USERPROFILE%\oldversion
+jacksum -a sha3-256 -c %TEMP%\new.list --list-filter bad --list . > %TEMP%\files.list 2>nul
+
+cd %USERPROFILE%\newversion
+tar -a -cf %TEMP%\patch.zip -T %TEMP%\files.list
+```
+
+A zip is the friendlier choice for customers on Windows anyway: Explorer opens it without any extra
+software, and `tar -xf patch.zip` works from the command line. For customers on GNU/Linux ship
+`.tar.gz` instead — GNU `tar` cannot read a zip, so a zip would force them to install `unzip`, while
+`tar -xzf` needs nothing.
 
 Your customers unpack that over their installation. What they should run afterwards is the list from
 step 1, which you may as well ship inside the patch:
@@ -688,6 +1015,84 @@ mkpatch.sh: 3 file(s) packed into /tmp/out/patch.tar.gz
 
 The `|| true` on step 2 is the part people get wrong. With `set -e` and without it, the script dies
 on the very command that is supposed to find differences.
+
+The same thing as a `.cmd` file for Windows:
+
+```bat
+@echo off
+rem mkpatch.cmd -- create a patch that upgrades OLDDIR to the state of NEWDIR.
+rem usage: mkpatch.cmd OLDDIR NEWDIR OUTDIR [ALGORITHM]
+setlocal
+set OLD=%~f1
+set NEW=%~f2
+set OUT=%~f3
+set ALGO=%4
+if "%ALGO%"=="" set ALGO=sha3-256
+if not exist "%OLD%\" goto usage
+if not exist "%NEW%\" goto usage
+if not exist "%OUT%\" goto usage
+
+rem 1. fingerprint the new version
+del "%OUT%\new.list" 2>nul
+pushd "%NEW%"
+call jacksum -a %ALGO% -P / -O "%OUT%\new.list" .
+popd
+rem Do not trust the exit code alone: if the launcher itself fails -- missing jar, no java on the
+rem PATH -- it exits with 1, which "if errorlevel 2" would wave through. Check the artefact instead.
+if not exist "%OUT%\new.list" (
+    echo %~nx0: could not fingerprint "%NEW%" -- is jacksum on the PATH? >&2
+    exit /b 1
+)
+
+rem 2. ask the old version which files differ or are missing.
+rem    Exit code 1 or 4 is the expected outcome here, so it is not checked.
+pushd "%OLD%"
+call jacksum -a %ALGO% -c "%OUT%\new.list" --list-filter bad --list . > "%OUT%\files.list" 2>"%OUT%\check.log"
+popd
+
+for %%F in ("%OUT%\files.list") do if %%~zF EQU 0 (
+    echo %~nx0: the two versions are identical, no patch needed.
+    exit /b 0
+)
+
+rem 3. pack those files -- taken from the NEW version
+pushd "%NEW%"
+tar -a -cf "%OUT%\patch.zip" -T "%OUT%\files.list"
+popd
+echo %~nx0: patch written to %OUT%\patch.zip
+exit /b 0
+
+:usage
+echo usage: %~nx0 OLDDIR NEWDIR OUTDIR [ALGORITHM] >&2
+exit /b 2
+```
+
+`cmd` has no `set -e`, so the error handling is explicit and inverted compared to the shell version:
+step 1 is checked with `if errorlevel 2` (which is true for 2 and above, letting the harmless codes
+through), while step 2 is deliberately left unchecked. The `%%~zF` trick reads the size of
+`files.list` and stands in for `[ ! -s ... ]`.
+
+Two details here were learned the hard way, and both produce a *silent* wrong result, which is the
+worst kind.
+
+**The `call` in front of both `jacksum` lines is not decoration.** If `jacksum` on your `PATH` is
+the `jacksum.bat` launcher suggested in [If you are on Windows](#windows), then it is itself a batch
+file — and a batch file that invokes another batch file *without* `call` hands over control and
+never gets it back. The script ends at its first `jacksum` line: no file list, no archive, no
+message, and an exit code of `0` because nothing failed. `tar` needs no `call`, being a real
+executable.
+
+**Checking `errorlevel` is not enough after step 1.** If the launcher itself cannot start — a jar
+path that no longer resolves after `pushd`, or no `java` on the `PATH` — it exits with `1`, and
+`if errorlevel 2` waves that through. The script then finds an empty `files.list`, concludes that
+the two versions are identical and exits `0`, having done nothing. Testing for the artefact instead
+of the exit code catches it, which is why step 1 ends with `if not exist "%OUT%\new.list"`. If you
+write your own launcher, give it an **absolute** path to the jar: `pushd` changes the working
+directory under it.
+
+The `-P /` in step 1 is there for the same reason as in [7.1](#patch_manual): `new.list` travels
+with the patch, and a customer on GNU/Linux cannot verify a list full of backslashes. It costs
+nothing on Windows, where such a list verifies just as well.
 
 <a name="patch_ant"></a>
 
@@ -794,8 +1199,8 @@ jacksum --style full -a sha3-256 -O /secure/baseline.txt .
 ```
 #
 # created by: Jacksum (https://jacksum.net, version: 4.0.0)
-# invoked on JVM: OpenJDK 64-Bit Server VM (vendor: Eclipse Adoptium, version: 25.0.4+7-LTS)
-# invoked on OS: Mac OS X (arch: aarch64, version: 26.6.2)
+# invoked on JVM: OpenJDK 64-Bit Server VM (vendor: Ubuntu, version: 25.0.3+9-2-24.04.2-Ubuntu)
+# invoked on OS: Linux (arch: amd64, version: 7.0.0-30-generic)
 # invoked on date: 2026-08-24T22:54:10.338+02:00
 #
 # invoked from: /etc
@@ -835,10 +1240,36 @@ Details that make the difference between a working tripwire and a false sense of
 - **The baseline is the crown jewel.** Store it off the monitored machine, or at minimum outside the
   monitored tree and on read-only media. An attacker who can rewrite the baseline can make the check
   pass for anything.
+- **On GNU/Linux, run it as `root` — or know what you are missing.** A tree like `/etc` holds files
+  that only `root` may read (`shadow`, `sudoers`, `ssl/private`). As an ordinary user Jacksum
+  reports the error and exits with `4`, but the more dangerous part is quiet: the unreadable file is
+  simply **absent** from the baseline, so it is never monitored at all.
+
+  ```
+  jacksum --style full -a sha3-256 -O /secure/baseline.txt .
+  Jacksum: Error: ./shadow (Permission denied)
+  ```
+
+  The baseline that this produced contains `passwd` and no `shadow`. Run the baseline and the check
+  with the same privileges, and use `-u <file>` to collect what could not be read so that the gap is
+  on record instead of invisible.
+- **On GNU/Linux, decide about `--scan-all-unix-file-types` and `-f`/`-d`.** Both are explained in
+  [2.1](#compare_both). For an audit the file types matter — a new FIFO or device node in a
+  monitored directory is exactly the kind of thing you want to hear about — but mind the warning
+  there about FIFOs blocking, and prefer `-f -d` on trees like `/etc` so that a symlink cannot pull
+  half the file system into your baseline.
+- **On Windows, add `--scan-ntfs-ads` to both the baseline and the check.** An alternate data stream
+  can carry a payload while the file it hangs off looks untouched, and Jacksum does not look for
+  them unless asked. For intrusion detection that is the difference between a tripwire and a
+  decoration. Keep the option identical in both runs, or every stream shows up as `NEW` the first
+  time you switch it on.
 - **Exit codes drive the alerting.** `0` means clean, `1` means at least one mismatch, `4` means
-  something could not be read. In a cron job, `jacksum ... || alert` is the whole integration.
-- **For an audit, add `--check-strict`.** It also fails on malformed lines in the baseline, and exits
-  with `6`:
+  something could not be read. In a cron job, `jacksum ... || alert` is the whole integration; on a
+  systemd distribution a timer unit plus `OnFailure=` gives you the same thing with logging in
+  `journalctl`; on Windows, register the check with `schtasks /create` and let the wrapper `.cmd`
+  test `%ERRORLEVEL%`.
+- **For an audit, add `--check-strict`.** It also fails on malformed lines in the baseline, and
+  exits with `6`:
 
   ```
   jacksum --style full -a sha3-256 -c /secure/baseline.txt --no-header --check-strict -V nosummary,noinfo .
@@ -852,6 +1283,16 @@ Details that make the difference between a working tripwire and a false sense of
 - **Timestamps only go so far.** Someone with write access can restore a timestamp as easily as they
   can change it; what they cannot do is restore the content hash. The metadata is a convenience, the
   hash is the evidence.
+- **Know what this does not cover.** `--style full` records content, timestamp, size and name — and
+  nothing else. Permissions, owner, group, ACLs and extended attributes are outside it, so
+  `chmod 777 /etc/shadow` or a `chown` on a binary passes the check as `OK`, although either is a
+  first-rate indicator of a compromise. On Linux that is the line between Jacksum and a dedicated
+  host IDS: AIDE and Tripwire were built to watch those attributes and to keep their database
+  signed. Jacksum's strength here is that it is one portable JAR with no database and no
+  installation, which makes it excellent for an ad-hoc check, a locked-down box, or a second
+  opinion — and a good companion to AIDE rather than a replacement. If you want the attributes as
+  well, capture them separately (`stat`, `getfacl`) into a list of their own and compare that the
+  same way.
 
 If you want change detection *without* hashing — much faster on large trees, much weaker as
 evidence — `--style without-hashes` gives you the same workflow on timestamps and sizes alone. See
@@ -861,8 +1302,8 @@ evidence — `--style without-hashes` gives you the same workflow on timestamps 
 
 # 9. Website content change detection
 
-**Problem.** You want to be told when a page changes: a vendor's security advisories, a release-notes
-page, a licence text, a competitor's pricing.
+**Problem.** You want to be told when a page changes: a vendor's security advisories, a
+release-notes page, a licence text, a competitor's pricing.
 
 Fetch and hash in one pipe — no temporary file needed:
 
@@ -870,6 +1311,11 @@ Fetch and hash in one pipe — no temporary file needed:
 curl -sSL https://example.org/page.html | jacksum -a sha3-256 -F "#HASH" -
 b7cd39e7ec6c22c24e0938098d66516e1dcefe3a59457aed834717bc157a63d5
 ```
+
+Neither `curl` nor `wget` is guaranteed on a minimal GNU/Linux install or in a slim container image;
+which of the two is present depends on the distribution and the image. A desktop Ubuntu has both.
+`wget -qO- https://example.org/page.html` writes the same bytes to standard output as
+`curl -sSL`, so whichever you find feeds the same pipe.
 
 Store that value, and from then on compare against it:
 
@@ -887,6 +1333,19 @@ Exit code `0` means unchanged, `6` means the expectation was not met — so a cr
 curl -sSL "$URL" | jacksum -a sha3-256 -e "$KNOWN" -V nosummary - \
     || mail -s "$URL changed" me@example.org < /dev/null
 ```
+
+On Windows, download to a file instead of piping. `curl.exe` is there, but a pipe into another
+native program is not byte-safe under PowerShell, and an HTML page is exactly the kind of input that
+contains non-ASCII bytes:
+
+```
+curl.exe -sSL %URL% -o %TEMP%\page.html
+jacksum -a sha3-256 -e %KNOWN% -V nosummary %TEMP%\page.html
+if errorlevel 1 echo %URL% changed
+```
+
+Hashing the file rather than the stream is the more robust form on every platform, and it leaves you
+with the changed page on disk so you can look at what actually moved.
 
 **The catch: most pages change on every request.** A visitor counter, a rotating ad, a rendered
 timestamp, a CSRF token — any of those makes the hash different every time and turns your monitor
@@ -924,6 +1383,20 @@ Jacksum: 0 of the successfully read files match the expected hash value.
 `grep -v` is the crude version; `sed` on a line, or piping through a text extractor, filters more
 precisely. Whatever you choose, apply the *same* filter when you take the baseline and when you
 check, or every run will differ.
+
+Windows has no `grep`, but `findstr /V` does the same job, and going through files keeps it
+byte-safe:
+
+```
+curl.exe -sSL %URL% -o %TEMP%\page.html
+findstr /V "Visitor counter" %TEMP%\page.html > %TEMP%\filtered.html
+jacksum -a sha3-256 -e %KNOWN% -V nosummary %TEMP%\filtered.html
+```
+
+`findstr` matches literal text by default and `/V` inverts the match, so this drops every line
+containing `Visitor counter`. Add `/R` for a regular expression, and `/I` to ignore case. Unlike
+`sort.exe` in [2.3](#compare_onehash), `findstr` leaves the line endings alone: the filtered page
+hashes to `00efe6ae...` on Windows too, the same value as on Linux and macOS.
 
 **Watching several pages at once.** Save the downloads under stable names and keep one list, exactly
 as in section 2:
@@ -1007,6 +1480,14 @@ can always recompute and never need to write down:
 jacksum -a sha3-512 -E base64 -q txt:"my-master-secret:github.com"
 J3NkKwWpP9/vTb34xSOHDB1fIGGqo1RL0Pruond/qyJTjGyv5EP634wwOro5YnNPwPgCotEJwgsMk0M3fbQ1lw==
 ```
+
+In `cmd` the quoting is different: there are no single quotes, so write
+`jacksum -a sha3-512 -E base64 -q txt:"my-master-secret:github.com"` with double quotes. A `%` in
+the secret survives a typed command line unchanged — measured, `-q txt:"a%b"` produces the hash of
+the three bytes `a%b`. What you must not do is double it there: `-q txt:"a%%b"` hashes something
+else entirely. The doubling rule belongs to `.cmd` **files**, where `%` introduces a parameter and
+`%%` is how you write a literal one. Same secret, different result depending on where you typed it —
+which is a good reason to keep `%` out of a secret you use on Windows at all.
 
 Change the site name and you get an unrelated value; lose the output and you regenerate it from the
 same two pieces. The obvious warning applies: this is only as strong as the master secret, the
