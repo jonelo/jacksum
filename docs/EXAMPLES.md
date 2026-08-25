@@ -147,24 +147,30 @@ and its subfolders.
 ## Select the algorithm
 
 ```
-jacksum -a haval_256_5 .
+jacksum -a sha-256 .
 ```
 
-Calculates a 256 bit hash with 5 rounds using the HAVAL algorithm.
+Calculates a 256 bit hash with 5 rounds using the SHA-256 algorithm.
 
 ```
-jacksum -a sha1+crc32 .
+jacksum -a sha-256+sha3-256 .
 ```
 
-Calculates SHA-1 and CRC-32 in **one pass over the data**. By default the individual hash values
+Calculates the SHA-256 and SHA3-256 in **one pass over the data**. By default the individual hash values
 are concatenated to one hash value, which makes integrity checks on a single value easy.
 
 ```
-jacksum -a sha1+crc32 -F "sha1=#HASH{0} crc32=#HASH{1} #FILENAME" .
+jacksum -a sha-256+sha3-256 -F "SHA-256=#HASH{0}  SHA3-256=#HASH{1} #FILENAME" .
 ```
 
 The same two algorithms, but printed separately. `{0}` and `{1}` index the algorithms in the order
 you named them.
+
+```
+jacksum -a sha-256+sha3-256 -F "SHA-256=#HASH{sha-256}  SHA3-256=#HASH{sha3-256} #FILENAME" .
+```
+
+The same, but with a string index `{sha-256}` and `{sha3-256} rather than integers.
 
 ```
 jacksum -a all:sha -F "#ALGONAME{i}(#FILENAME) = #HASH{i}" .
@@ -1606,6 +1612,8 @@ jacksum -v
 jacksum --version
 Jacksum 4.0.0
 ```
+
+Only the program name and version in accordance with [Semantic Versioning](https://semver.org/).
 
 ```
 jacksum --info
