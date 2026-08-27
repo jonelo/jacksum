@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 4.0.0 - a checksum/hash tool written in Java
+  Jacksum 4.0.1 - a checksum/hash tool written in Java
   Copyright (c) 2001-2026 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -263,6 +263,9 @@ public class Parameters implements
 
     // --path-relative-to-entry
     private int pathRelativeToEntry = 0;
+    // true if pathRelativeToAsString has been derived from pathRelativeToEntry by resolvePathRelativeTo()
+    // and hence is not a path that has been set by the user resp. by the API
+    private boolean pathRelativeToDerivedFromEntry = false;
 
     // --threads-hashing
     private int threadsHashing = ThreadControl.getThreadsHashing();
@@ -931,6 +934,8 @@ public class Parameters implements
 
     public void setPathRelativeToAsString(String pathRelativeToAsString) {
         this.pathRelativeToAsString = pathRelativeToAsString;
+        // a path that is set explicitly is not a derived one
+        this.pathRelativeToDerivedFromEntry = false;
     }
 
     public Path getPathRelativeTo() {
@@ -969,6 +974,10 @@ public class Parameters implements
 
     public void setPathRelativeToEntry(int number) {
         this.pathRelativeToEntry = number;
+        if (number == 0) {
+            // without an entry a path that has been derived from it stands on its own
+            this.pathRelativeToDerivedFromEntry = false;
+        }
     }
 
 
@@ -2062,6 +2071,9 @@ public class Parameters implements
         // validity check for --path-relative-to-entry
         if (isPathRelativeToEntry() && getFilenamesFromFilelist().size() > 0) {
             setPathRelativeToAsString(getFilenamesFromFilelist().get(getPathRelativeToEntry()-1));
+            // remember that this path has been derived, and not been set by the user resp. by the API,
+            // so that a subsequent call of checked() does not report a conflict of path options
+            pathRelativeToDerivedFromEntry = true;
         }
 
         // validity check for --path-relative-to, and set the value for the Path called pathRelativeTo
@@ -2353,7 +2365,9 @@ public class Parameters implements
         if (isPathAbsolute()) {
             pathOptions++;
         }
-        if (getPathRelativeToAsString() != null) {
+        // a path that resolvePathRelativeTo() has derived from --path-relative-to-entry does not count,
+        // otherwise calling checked() more than once on the same object would fail
+        if (getPathRelativeToAsString() != null && !pathRelativeToDerivedFromEntry) {
             pathOptions++;
         }
         if (isNoPath()) {

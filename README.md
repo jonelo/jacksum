@@ -1,7 +1,7 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/jonelo/jacksum?color=blue)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/jonelo/jacksum?color=blue)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/jonelo/jacksum?color=green)
-![GitHub downloads latest](https://img.shields.io/github/downloads/jonelo/jacksum/v4.0.0/total?color=green)
+![GitHub downloads latest](https://img.shields.io/github/downloads/jonelo/jacksum/v4.0.1/total?color=green)
 ![GitHub](https://img.shields.io/github/license/jonelo/jacksum?color=green)
 ![GitHub top language](https://img.shields.io/github/languages/top/jonelo/jacksum?color=green)
 ![GitHub downloads](https://img.shields.io/github/downloads/jonelo/jacksum/total?color=green)
@@ -86,7 +86,7 @@ Download the latest .jar (or .zip) file from
 https://github.com/jonelo/jacksum/releases/latest, open a terminal, and start Jacksum by typing
 
 ```
-java -jar jacksum-4.0.0.jar
+java -jar jacksum-4.0.1.jar
 ```
 
 The .zip file also contains simple scripts to call Jacksum on Windows, GNU/Linux, and macOS

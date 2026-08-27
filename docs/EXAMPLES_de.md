@@ -68,7 +68,7 @@ Referenzmaterial, das Sie nachschlagen, wenn Sie es brauchen.
 Einige Konventionen, die durchgehend verwendet werden:
 
 - Kommandos werden als `jacksum ...` geschrieben. Wenn Sie kein Startskript in Ihren `PATH` gelegt
-  haben, ersetzen Sie `jacksum` überall durch `java -jar jacksum-4.0.0.jar`.
+  haben, ersetzen Sie `jacksum` überall durch `java -jar jacksum-4.0.1.jar`.
 - **Der Standardalgorithmus ist SHA3-256.** Er wird immer dann verwendet, wenn `-a` weggelassen
   wird. In Skripten sollten Sie den Algorithmus immer explizit benennen, weil sich der
   Standardwert in einem künftigen Release ändern kann.

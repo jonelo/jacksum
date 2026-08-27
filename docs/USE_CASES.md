@@ -39,7 +39,7 @@ effect was measured separately.
 A few conventions used throughout:
 
 - Commands are written as `jacksum ...`. If you have not put a launcher script on your `PATH`,
-  replace `jacksum` with `java -jar jacksum-4.0.0.jar` everywhere.
+  replace `jacksum` with `java -jar jacksum-4.0.1.jar` everywhere.
 - Most recipes use `sha3-256`, which is the default algorithm of Jacksum 4. `sha256` is used where
   a list has to be readable by `sha256sum`/`shasum` as well. Always name the algorithm explicitly in
   scripts, because the default may change in a future release.
@@ -219,7 +219,7 @@ carry forward slashes; on Windows the very same commands print `.\readme.txt`. T
 the page.
 
 Finally, one convenience worth setting up once: put a `jacksum.bat` containing
-`@java -jar C:\path\to\jacksum-4.0.0.jar %*` somewhere on your `PATH`, so that `jacksum` works as
+`@java -jar C:\path\to\jacksum-4.0.1.jar %*` somewhere on your `PATH`, so that `jacksum` works as
 written below.
 
 <a name="transfer"></a>
@@ -1168,7 +1168,7 @@ with `build.properties`:
 distro.old.dir=/home/user/project/version1/
 distro.new.dir=/home/user/project/version2/
 patch.dir.home=/home/user/project/patch/
-jacksum.jar.file=/usr/local/jacksum/jacksum-4.0.0.jar
+jacksum.jar.file=/usr/local/jacksum/jacksum-4.0.1.jar
 ```
 
 Two changes are worth calling out. `--list-filter bad` in step 2 is not optional — without it,

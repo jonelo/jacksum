@@ -66,7 +66,7 @@ need it.
 A few conventions used throughout:
 
 - Commands are written as `jacksum ...`. If you have not put a launcher script on your `PATH`,
-  replace `jacksum` with `java -jar jacksum-4.0.0.jar` everywhere.
+  replace `jacksum` with `java -jar jacksum-4.0.1.jar` everywhere.
 - **The default algorithm is SHA3-256.** It is used whenever `-a` is omitted. In scripts you
   should always name the algorithm explicitly, because the default may change in a future release.
 - Short and long option names are equivalent: `-a`/`--algorithm`, `-c`/`--check-file`,

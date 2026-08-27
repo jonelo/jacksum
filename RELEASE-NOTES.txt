@@ -1,4 +1,13 @@
-Jacksum Next Release TBD
+Jacksum 4.0.1, TBD
+
+- Bug fixes
+  - Parameters.checked() can be called more than once on the same Parameters object again if
+    --path-relative-to-entry has been used: the first call derived the path for --path-relative-to
+    from the entry without clearing --path-relative-to-entry, so every subsequent call rejected the
+    object with "Only one of the following options is allowed: --no-path, --path-absolute,
+    --path-relative-to, or --path-relative-to-entry"; a path that has been derived that way is no
+    longer counted as a second path option, while an actual conflict of path options that has been
+    specified by the user resp. by the API is still reported (found by HashGarten, issue #14)
 
 - Updated documentation 
   - added docs/USE_CASES.md and its German translation docs/USE_CASES_de.md, a task oriented

@@ -43,7 +43,7 @@ Wirkung separat gemessen wurde.
 Einige Konventionen, die durchgehend verwendet werden:
 
 - Kommandos werden als `jacksum ...` geschrieben. Wenn Sie kein Startskript in Ihren `PATH` gelegt
-  haben, ersetzen Sie `jacksum` überall durch `java -jar jacksum-4.0.0.jar`.
+  haben, ersetzen Sie `jacksum` überall durch `java -jar jacksum-4.0.1.jar`.
 - Die meisten Rezepte verwenden `sha3-256`, den Standardalgorithmus von Jacksum 4. `sha256` wird
   dort verwendet, wo eine Liste auch von `sha256sum`/`shasum` gelesen werden können muss. Benennen
   Sie den Algorithmus in Skripten immer explizit, weil sich der Standardwert in einem künftigen
@@ -232,7 +232,7 @@ Schrägstriche; unter Windows geben dieselben Kommandos `.\readme.txt` aus. Das 
 Seite abweicht.
 
 Zum Schluss eine Bequemlichkeit, die man einmal einrichtet: legen Sie eine `jacksum.bat` mit dem
-Inhalt `@java -jar C:\pfad\zu\jacksum-4.0.0.jar %*` irgendwo in Ihren `PATH`, damit `jacksum` so
+Inhalt `@java -jar C:\pfad\zu\jacksum-4.0.1.jar %*` irgendwo in Ihren `PATH`, damit `jacksum` so
 funktioniert wie unten geschrieben.
 
 <a name="transfer"></a>
@@ -1219,7 +1219,7 @@ mit `build.properties`:
 distro.old.dir=/home/user/project/version1/
 distro.new.dir=/home/user/project/version2/
 patch.dir.home=/home/user/project/patch/
-jacksum.jar.file=/usr/local/jacksum/jacksum-4.0.0.jar
+jacksum.jar.file=/usr/local/jacksum/jacksum-4.0.1.jar
 ```
 
 Zwei Änderungen verdienen eine besondere Erwähnung. `--list-filter bad` in Schritt 2 ist nicht
