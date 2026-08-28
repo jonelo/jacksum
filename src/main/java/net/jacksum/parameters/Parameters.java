@@ -2649,9 +2649,11 @@ public class Parameters implements
         } else { // -C hasn't been set, we want to use the default output formatter
 
             // on Linux and Unix: enable GNU filename escaping for the default output formatter
-            // if the user didn't make a selection explicitly on GNU filename escaping
+            // if the user didn't make a selection explicitly on GNU filename escaping.
+            // Assign the field directly, so that the platform default does not mark GNU file
+            // name escaping as being set by the user, see also timestampFormat above.
             if (!OSControl.isWindows() && !this.isGnuEscapingSetByUser()) {
-                setGnuEscaping(true);
+                gnuEscaping = true;
             }
         }
     }

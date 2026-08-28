@@ -100,9 +100,13 @@ public class FormatPreferences implements FormatParameters {
         if (parameters.getPathRelativeTo() != null) {
             setPathRelativeTo(parameters.getPathRelativeTo());
         }
-        if (parameters.isGnuEscapingSetByUser()) {
-            setGnuEscaping(parameters.isGnuEscaping());
-        }
+        // The value is always the effective one, no matter whether it comes from the platform
+        // default, from a style (formatter.gnuescaping.enabled), or from the option
+        // --gnu-filename-escaping, so it is always adopted. Assign the fields directly rather
+        // than calling setGnuEscaping(), because that setter would mark the value as being set
+        // by the user; that flag stays reserved for an explicit choice of the user.
+        gnuEscaping = parameters.isGnuEscaping();
+        gnuEscapingSet = parameters.isGnuEscapingSetByUser();
     }
 
 

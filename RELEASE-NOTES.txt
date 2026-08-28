@@ -1,6 +1,17 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
+  - styles that switch GNU file name escaping on (formatter.gnuescaping.enabled=true) did not
+    escape file names, because FormatPreferences adopted that value only if the user had set
+    the option --gnu-filename-escaping explicitly; 14 of the 19 predefined styles were
+    affected, and a file name containing a backslash, newline or carriage return was written
+    raw, which made such an entry unverifiable; with --style bsd the entry was even skipped
+    silently while Jacksum exited with 0 (issue #59)
+  - Parameters.checked() marked GNU file name escaping as being set by the user although the
+    user had not set it, because the platform default was applied by calling setGnuEscaping();
+    a second call on the same object could therefore overwrite the setting of a style or warn
+    about an option that was never given; this affects the API only, because the CLI validates
+    once per run (issue #59, same class of defect as HashGarten issue #14)
   - the options -o/-O and -u/-U opened their target file before Jacksum checked whether it
     already exists, and opening a file for writing truncates it: "-o <file> -u <file>" emptied
     that file before the run was aborted, and "-o <new> -u <existing>" left <new> behind as an
