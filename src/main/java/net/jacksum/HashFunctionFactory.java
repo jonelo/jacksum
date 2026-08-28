@@ -135,8 +135,15 @@ public class HashFunctionFactory {
                     }
                     return checksum;
                 }
+            } catch (IllegalArgumentException ex) {
+                // The implementation of the algorithm has thrown this itself in order to
+                // explain what is wrong with the request, e.g. that the algorithm cannot
+                // be used with HMAC. That is the precise diagnosis, so it must reach the
+                // caller instead of being logged and replaced by the generic message
+                // about an unknown algorithm below.
+                throw new NoSuchAlgorithmException(ex.getMessage(), ex);
             } catch (NoSuchMethodException | SecurityException | InstantiationException
-                    | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                    | IllegalAccessException | InvocationTargetException ex) {
                 Logger.getLogger(JacksumAPI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

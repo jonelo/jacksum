@@ -1,6 +1,8 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #75: An HMAC over an algorithm that does not support HMAC prints a Java stack trace and
+    then a wrong message
   - issue #74: #CHECKSUM{<algo>,<encoding>} needs the canonical algorithm name when one algorithm is
     selected, but the name as typed when several are
   - issue #73: Jacksum keeps run specific state in static fields, so one run influences the next one
