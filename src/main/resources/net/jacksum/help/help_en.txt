@@ -3239,10 +3239,13 @@ OPTIONS
             The option -L <textfile> can go in addition to file parameters.
             Wildcards are not supported in the <textfile>.
 \
+            Empty lines in <textfile> are always ignored. Use the option -I in
+            order to ignore all lines that start with a particular string.
+\
 \
             See also:
 \
-                options --file-list-format, --file-list-charset
+                options -I, --file-list-format, --file-list-charset
 
             Available since:
 \
@@ -3453,10 +3456,13 @@ OPTIONS
     --relative-to-entry <number>
 \
             If this option is set, the option --path-relative-to <path> is
-            set, where <number> is the line number that is stored in the file
-            list, specified by --file-list. <number> starts at 1 and must be
-            greater than 0. This option requires the option --file-list. If
-            file list is empty, this option is ignored.
+            set, where <number> selects an entry of the file list that has
+            been specified by --file-list: 1 is the first entry, 2 the
+            second, and so on. Comments and empty lines do not count as
+            entries, and with --file-list-format ssv a single line can hold
+            several entries. <number> must be greater than 0 and must not
+            exceed the number of entries. This option requires the option
+            --file-list. If the file list is empty, this option is ignored.
 \
             See also:
 \

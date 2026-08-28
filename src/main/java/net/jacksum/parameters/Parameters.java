@@ -2067,7 +2067,16 @@ public class Parameters implements
 
     private void resolvePathRelativeTo() throws ParameterException {
         // validity check for --path-relative-to-entry
+        // an empty file list means that the option is ignored, as documented
         if (isPathRelativeToEntry() && getFilenamesFromFilelist().size() > 0) {
+            // the entry has to exist, otherwise the access below would end up in an
+            // IndexOutOfBoundsException rather than in a parameter error
+            if (getPathRelativeToEntry() > getFilenamesFromFilelist().size()) {
+                throw new ParameterException(String.format(
+                        "Option %s %s is out of range, the file list that has been specified by %s contains %s entries only.",
+                        __PATH_RELATIVE_TO_ENTRY, getPathRelativeToEntry(), __FILE_LIST,
+                        getFilenamesFromFilelist().size()));
+            }
             setPathRelativeToAsString(getFilenamesFromFilelist().get(getPathRelativeToEntry()-1));
             // remember that this path has been derived, and not been set by the user resp. by the API,
             // so that a subsequent call of checked() does not report a conflict of path options

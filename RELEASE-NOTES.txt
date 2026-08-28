@@ -1,6 +1,16 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
+  - option --path-relative-to-entry <number> died with an uncaught
+    java.lang.IndexOutOfBoundsException and a stack trace if <number> was larger than the
+    number of entries in the file list, and the JVM exited with code 1, which is the code
+    for a failed verification; the option now reports a parameter error that names both
+    numbers and exits with code 2, as it already did for a <number> of 0 or less
+  - the help text for --path-relative-to-entry described <number> as "the line number that
+    is stored in the file list", which is not what the option does: the number selects the
+    n-th entry after comments and empty lines have been removed, and with
+    --file-list-format ssv a single line can hold several entries; the text now describes
+    entries, and it also documents that <number> must not exceed their number
   - an HMAC did not count the bytes it processed, so getLength() always returned 0 and
     everything that reads it reported 0 for every hmac:* algorithm: the tokens #FILESIZE and
     #LENGTH, the option --filesize, the size column of a style that stores it, and "total
@@ -38,6 +48,9 @@ Jacksum 4.0.1, TBD
     specified by the user resp. by the API is still reported (found by HashGarten, issue #14)
 
 - Updated documentation 
+  - the help text for -L/--file-list now mentions that empty lines in the file list are
+    always ignored, and it refers to the option -I for ignoring lines that start with a
+    particular string; both are documented in help_en.txt and help_de.txt
   - added docs/USE_CASES.md and its German translation docs/USE_CASES_de.md, a task oriented
     cookbook: while docs/EXAMPLES.md is organized by feature ("what does this option do"),
     USE_CASES.md is organized by goal ("I want to solve this problem") 

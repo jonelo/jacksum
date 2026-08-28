@@ -3574,10 +3574,14 @@ OPTIONS
             angegeben werden. Platzhalter werden in <textfile> nicht
             unterstützt.
 \
+            Leerzeilen in <textfile> werden immer ignoriert. Mit der
+            Option -I können Sie alle Zeilen ignorieren, die mit einer
+            bestimmten Zeichenkette beginnen.
+\
 \
             Siehe auch:
 \
-                Optionen --file-list-format, --file-list-charset
+                Optionen -I, --file-list-format, --file-list-charset
 
             Verfügbar seit:
 \
@@ -3810,10 +3814,14 @@ OPTIONS
     --relative-to-entry <number>
 \
             Ist diese Option gesetzt, wird die Option
-            --path-relative-to <path> gesetzt, wobei <number> die in
-            der mit --file-list angegebenen Dateiliste gespeicherte
-            Zeilennummer ist. <number> beginnt bei 1 und muss größer
-            als 0 sein. Diese Option erfordert die Option
+            --path-relative-to <path> gesetzt, wobei <number> einen
+            Eintrag der mit --file-list angegebenen Dateiliste
+            auswählt: 1 ist der erste Eintrag, 2 der zweite und so
+            weiter. Kommentare und Leerzeilen zählen nicht als
+            Einträge, und mit --file-list-format ssv kann eine
+            einzige Zeile mehrere Einträge enthalten. <number> muss
+            größer als 0 sein und darf die Anzahl der Einträge nicht
+            überschreiten. Diese Option erfordert die Option
             --file-list. Ist die Dateiliste leer, wird diese Option
             ignoriert.
 \
