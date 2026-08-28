@@ -114,16 +114,19 @@ public class HashStringsAction implements Action {
                     ignoredLines++;
                 } else {
 
-                    // calc checksum from the line
-                    checksum.update(line.getBytes());
+                    // calc checksum from the line; the bytes of the line are the bytes of
+                    // the charset that the list has been read with, see --charset-string-list,
+                    // and they are handed over to the sequence as well, so that the token
+                    // #SEQUENCE renders exactly the data that has been hashed
+                    byte[] message = line.getBytes(charset);
+                    checksum.update(message);
                     statistics.addBytes(checksum.getLength());
-                    parameters.setSequence(new Sequence(Sequence.Type.TXT, line));
+                    parameters.setSequence(new Sequence(Sequence.Type.TXT, line, message));
                     checksum.setParameters(parameters);
                     // set the line as the filename
                     checksum.setFilename(line);
                     // print out checksum
 
-                    boolean match;
                     if (parameters.isExpectation()) {
                         compareAndReturnResult.perform();
                         if (compareAndReturnResult.getLastResult()) {

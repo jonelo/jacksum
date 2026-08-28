@@ -68,6 +68,23 @@ public class Sequence implements Serializable {
         setSequence(type, payload);
     }
 
+    /**
+     * Constructs a Sequence whose byte representation is given explicitly.
+     *
+     * It is used for a text whose bytes cannot be derived from the text alone, because
+     * they depend on a character set that only the caller knows, see --string-list and
+     * --charset-string-list. The payload keeps the text, so that asString() and the
+     * output of a file name resp. a message stay unchanged.
+     *
+     * @param type the type of the sequence
+     * @param payload the text of the sequence
+     * @param bytes the byte representation of that text
+     */
+    public Sequence(Type type, String payload, byte[] bytes) {
+        setSequence(type, payload);
+        this.bytes = bytes;
+    }
+
     public Sequence(Type type, byte[] payload) {
         setSequence(type, payload);
     }
@@ -79,6 +96,9 @@ public class Sequence implements Serializable {
     }
 
     public byte[] asBytes() {
+        if (bytes != null) { // the bytes have been given explicitly
+            return bytes;
+        }
         if (type.equals(Type.PASSWORD) || type.equals(Type.READLINE)) {
             //return new byte[]{};
             return enteredFromConsole;
@@ -96,6 +116,10 @@ public class Sequence implements Serializable {
     }
 
     private byte[] enteredFromConsole;
+
+    // the byte representation of the sequence, if it has been given explicitly
+    private byte[] bytes;
+
     private void setSequence(Type type, byte[] payload) throws IllegalArgumentException {
         if (!type.equals(Type.PASSWORD) && !type.equals(Type.READLINE)) throw new IllegalArgumentException("Internal error: only type password or readline are allowed.");
         this.type = type;

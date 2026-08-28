@@ -1,6 +1,15 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
+  - option --string-list hashed every line with the character set of the JVM instead of the
+    one that has been specified by --charset-string-list: the list was read with the given
+    charset, but the line was re-encoded with the JVM default before it was hashed, so the
+    option had no effect on the result and the result depended on -Dfile.encoding; the
+    token #SEQUENCE was affected in the same way, through the Sequence of type txt that the
+    action stores for it. Both now derive the bytes from the given charset, so the option
+    takes effect and the result no longer depends on the JVM. Values change for a list that
+    is read with a charset other than the JVM default; a UTF-8 list on a JVM whose default
+    is UTF-8 (the default since Java 18) keeps its values (issue#64)
   - the error message for a rejected argument of the options --filesize and
     --gnu-filename-escaping was concatenated into the format string of String.format
     instead of being passed as an argument, and the argument the user had typed is part of
