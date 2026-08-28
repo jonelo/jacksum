@@ -27,7 +27,6 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.StringTokenizer;
 
 public class ByteSequences {
 
@@ -61,32 +60,48 @@ public class ByteSequences {
     }
 
     public static byte[] octText2Bytes(String text) throws IllegalArgumentException {
+        return numberText2Bytes(text, 8, " is not an octal number.");
+    }
+
+    /**
+     * Transforms a text that contains numbers of the given radix, separated by commas
+     * and/or whitespace, to a byte array.
+     *
+     * An empty value keeps its position and becomes a 0 byte, and a separator at the end
+     * of the text does not add a byte, exactly as hexText2Bytes() and binText2Bytes()
+     * handle it.
+     *
+     * @param text the text with the numbers
+     * @param radix the radix of the numbers, e.g. 10 for decimal or 8 for octal
+     * @param notANumberMessage the message that is appended to a token which is not a
+     *                          number of that radix
+     * @return the byte array
+     * @throws IllegalArgumentException if a value is not a number of that radix, or if it
+     *                                  is out of the range of one byte
+     */
+    private static byte[] numberText2Bytes(String text, int radix, String notANumberMessage)
+            throws IllegalArgumentException {
         if (text.length() == 0) {
             return new byte[0]; // empty byte array with 0 members
         }
-        text = text.replaceAll("\\s*,\\s*", ",").replaceAll("\\s+", ",");
-        byte[] bytes;
-        if (text.length() == 0) {
-            bytes = text.getBytes();
-        } else {
-            int count = GeneralString.countChar(text, ',');
-            bytes = new byte[count + 1];
-            StringTokenizer st = new StringTokenizer(text, ",");
-            int x = 0;
-            while (st.hasMoreTokens()) {
-                int temp;
-                String stemp = null;
-                try {
-                    stemp = st.nextToken();
-                    temp = Integer.parseInt(stemp,8);
-                } catch (NumberFormatException nfe) {
-                    throw new IllegalArgumentException(stemp + " is not an octal number.");
-                }
-                if (temp < 0 || temp > 255) {
-                    throw new IllegalArgumentException("The number " + temp + " is out of range.");
-                }
-                bytes[x++] = (byte) temp;
+        String[] tokens = text.replaceAll("\\s*,\\s*", ",").replaceAll("\\s+", ",").split(",");
+        byte[] bytes = new byte[tokens.length];
+        for (int i = 0; i < tokens.length; i++) {
+            String token = tokens[i];
+            if (token.length() == 0) { // a missing value keeps its position
+                bytes[i] = 0;
+                continue;
             }
+            int value;
+            try {
+                value = Integer.parseInt(token, radix);
+            } catch (NumberFormatException nfe) {
+                throw new IllegalArgumentException(token + notANumberMessage);
+            }
+            if (value < 0 || value > 255) {
+                throw new IllegalArgumentException("The number " + value + " is out of range.");
+            }
+            bytes[i] = (byte) value;
         }
         return bytes;
     }
@@ -155,34 +170,7 @@ public class ByteSequences {
     }
 
     public static byte[] decText2Bytes(String text) throws IllegalArgumentException {
-        if (text.length() == 0) {
-            return new byte[0]; // empty byte array with 0 members
-        }
-        text = text.replaceAll("\\s*,\\s*", ",").replaceAll("\\s+", ",");
-        byte[] bytes;
-        if (text.length() == 0) {
-            bytes = text.getBytes();
-        } else {
-            int count = GeneralString.countChar(text, ',');
-            bytes = new byte[count + 1];
-            StringTokenizer st = new StringTokenizer(text, ",");
-            int x = 0;
-            while (st.hasMoreTokens()) {
-                int temp;
-                String stemp = null;
-                try {
-                    stemp = st.nextToken();
-                    temp = Integer.parseInt(stemp);
-                } catch (NumberFormatException nfe) {
-                    throw new IllegalArgumentException(stemp + " is not a decimal number.");
-                }
-                if (temp < 0 || temp > 255) {
-                    throw new IllegalArgumentException("The number " + temp + " is out of range.");
-                }
-                bytes[x++] = (byte) temp;
-            }
-        }
-        return bytes;
+        return numberText2Bytes(text, 10, " is not a decimal number.");
     }
 
     public static String hexformat(long value, int nibbles) {

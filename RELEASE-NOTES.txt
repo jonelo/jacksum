@@ -1,16 +1,24 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
+  - the sequence types dec: and oct: of the option -q resp. -k appended 0x00 bytes at the end
+    of the sequence instead of honouring the position of an empty value, because the array was
+    dimensioned by the number of separators while it was filled with a StringTokenizer, which
+    drops empty tokens: "dec:65,66," returned three bytes instead of two, "dec:65,,66" and
+    "dec:,65" put the 0x00 at the end rather than in place, and a text without any number
+    such as "dec:," returned 0x00 bytes; both types now behave like hex: and bin:, so an
+    empty value keeps its position and a separator at the end adds nothing. Values change
+    for such malformed sequences only; well formed sequences keep their values (issue #62)
   - option --path-relative-to-entry <number> died with an uncaught
     java.lang.IndexOutOfBoundsException and a stack trace if <number> was larger than the
     number of entries in the file list, and the JVM exited with code 1, which is the code
     for a failed verification; the option now reports a parameter error that names both
-    numbers and exits with code 2, as it already did for a <number> of 0 or less
+    numbers and exits with code 2, as it already did for a <number> of 0 or less (issue #61)
   - the help text for --path-relative-to-entry described <number> as "the line number that
     is stored in the file list", which is not what the option does: the number selects the
     n-th entry after comments and empty lines have been removed, and with
     --file-list-format ssv a single line can hold several entries; the text now describes
-    entries, and it also documents that <number> must not exceed their number
+    entries, and it also documents that <number> must not exceed their number (issue #61)
   - an HMAC did not count the bytes it processed, so getLength() always returned 0 and
     everything that reads it reported 0 for every hmac:* algorithm: the tokens #FILESIZE and
     #LENGTH, the option --filesize, the size column of a style that stores it, and "total
