@@ -12519,11 +12519,26 @@ OUTPUT FORMAT
 EXIT STATUS
     Wenn sich Jacksum beendet, spiegelt der Exit-Code Folgendes wider:
 \
-    0  - alles ist OK
-    1  - es gab mindestens eine Abweichung während des
-         Verifizierungsprozesses, oder die Suche einer exakten Hilfe
-         (--exact -h <word>) war nicht erfolgreich
-    >1 - im Falle eines Parameter-, .jacksum- oder E/A-Fehlers
+    0  - alles ist OK: alle Hashwerte wurden berechnet, alle Dateien
+         wurden erfolgreich verifiziert, die Erwartung wurde erfüllt,
+         oder ein gesuchter Hashwert wurde gefunden
+    1  - mindestens eine Datei wich beim Verifizieren ab (-c), die
+         Sequenz entsprach nicht dem erwarteten Hashwert (-q zusammen
+         mit -e), die Suche einer exakten Hilfe (--exact -h <word>) war
+         nicht erfolgreich, oder es wurde kein Algorithmus gefunden
+         (-a unknown:<width>)
+    2  - ein Parameterfehler
+    3  - die Prüfliste bzw. die Suchliste konnte nicht gelesen werden:
+         es wurde kein einziger gültiger Eintrag gefunden, oder
+         --check-strict wurde gesetzt und die Liste enthält fehlerhaft
+         formatierte Zeilen
+    4  - ein E/A-Fehler, z.B. eine Datei ist nicht lesbar, eine
+         Ausgabedatei existiert bereits, oder ein Zeichensatz wird nicht
+         unterstützt
+    5  - es wurde keine Datei mit einem gesuchten Hashwert gefunden (-w)
+    6  - die Erwartung wurde nicht erfüllt (-e zusammen mit
+         Dateiparametern), oder --check-strict wurde gesetzt und
+         mindestens eine Datei ist FAILED, MISSING oder NEW
 
 
 EXAMPLES

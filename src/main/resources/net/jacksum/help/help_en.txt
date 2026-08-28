@@ -3716,9 +3716,9 @@ OPTIONS
 \
                 txt
 \
-                    Text, unformatted.  If <type> is only specified as "txt",
-                    the default character set of the platform used to represent
-                    the <sequence>.
+                    Text, unformatted. If <type> is only specified as "txt",
+                    the default character set of the platform is used to
+                    represent the <sequence>.
                     For unformatted text, the \n is NOT interpreted as one
                     character (new line), but rather as two separate characters
                     (backslash and "n"). Accordingly, the sequence above
@@ -11583,12 +11583,26 @@ OUTPUT FORMAT
 
 
 EXIT STATUS
-    If Jacksum exists, the exit code reflects the following:
+    If Jacksum exits, the exit code reflects the following:
 \
-    0  - everything is OK
-    1  - there was at least one mismatch during the verification process, or
-         the search of an exact help (--exact -h <word>) was unsuccessful
-    >1 - in case of a parameter-, .jacksum- or I/O-error
+    0  - everything is OK: all hashes have been computed, all files
+         have been verified successfully, the expectation has been met,
+         or a wanted hash value has been found
+    1  - at least one file did not match during the verification process
+         (-c), the sequence did not match the expected hash value (-q
+         together with -e), the search of an exact help (--exact -h
+         <word>) was unsuccessful, or no algorithm has been found
+         (-a unknown:<width>)
+    2  - a parameter error
+    3  - the check list resp. the wanted list could not be parsed: not
+         even one valid entry has been found, or --check-strict has been
+         set and the list contains improperly formatted lines
+    4  - an I/O error, e.g. a file cannot be read, an output file exists
+         already, or a character set is not supported
+    5  - no file with a wanted hash value has been found (-w)
+    6  - the expectation has not been met (-e together with file
+         parameters), or --check-strict has been set and at least one
+         file is FAILED, MISSING or NEW
 
 
 EXAMPLES
