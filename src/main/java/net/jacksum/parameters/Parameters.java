@@ -38,7 +38,6 @@ import net.jacksum.actions.io.verify.CheckActionParameters;
 import net.jacksum.actions.io.verify.CheckConsumerParameters;
 import net.jacksum.actions.io.verify.ListFilter;
 import net.jacksum.actions.io.wanted.MatchFilter;
-import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Messenger;
 import net.jacksum.cli.Verbose;
@@ -954,8 +953,10 @@ public class Parameters implements
     }
 
     public void setThreadsHashing(int threadsHashing) {
+        // Deliberately no write back to ThreadControl: the static field is the default
+        // for a new Parameters object only, this object is the authority for this run,
+        // and the classes that need the value get it from here.
         this.threadsHashing = threadsHashing;
-        ThreadControl.setThreadsHashing(threadsHashing);
     }
 
     public int getThreadsReading() {
@@ -963,8 +964,8 @@ public class Parameters implements
     }
 
     public void setThreadsReading(int threadsReading) {
+        // Deliberately no write back to ThreadControl, see setThreadsHashing().
         this.threadsReading = threadsReading;
-        ThreadControl.setThreadsReading(threadsReading);
     }
 
     public int getPathRelativeToEntry() {
@@ -2152,6 +2153,11 @@ public class Parameters implements
                 }
             }
             HashFunctionFactory.setKey(getKey().asBytes());
+        } else {
+            // This run has no key, so it must not use the key of an earlier run in the
+            // same JVM: without this, an HMAC would silently be initialized with a secret
+            // that has never been given for this run.
+            HashFunctionFactory.wipeKey();
         }
     }
     private static String decodeQuote(String format) {
@@ -2595,7 +2601,7 @@ public class Parameters implements
 
         if (this.getCompatibilityID() != null) {
             try {
-                compatibilityProperties = new CompatibilityProperties(this.getCompatibilityID());
+                compatibilityProperties = new CompatibilityProperties(this.getCompatibilityID(), this.getStdinName());
 
                 if (this.algorithm != null) {
                     // if the style allows overwriting the algorithm and the algorithm has been set using -a ...
@@ -2706,8 +2712,6 @@ public class Parameters implements
                 // assign the field directly, so that the style does not mark the timestamp format
                 // as being set by the user, see also gnuEscaping a few lines above
                 timestampFormat = compatibilityProperties.getTimestampFormat();
-
-                AbstractChecksum.setStdinName(compatibilityProperties.getStdinName());
 
             } catch (IOException | InvalidCompatibilityPropertiesException ex) {
                 throw new ExitException("Jacksum: " + ex.getMessage(), ExitCode.IO_ERROR);

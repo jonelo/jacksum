@@ -132,7 +132,7 @@ public class CheckAction implements Action {
 
             }
 
-            consumer = new MessageConsumerOnCheckedFiles(parsedHashEntries);
+            consumer = new MessageConsumerOnCheckedFiles(parsedHashEntries, parameters.getStdinName());
             // the format of the check file determines the unit that a file size is stored in
             consumer.setFilesizeAsByteBlocks(parserProperties.getFilesizeAsByteBlocks());
             consumer.setParameters(parameters);

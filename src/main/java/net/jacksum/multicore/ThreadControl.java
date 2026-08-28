@@ -20,6 +20,16 @@
 */
 package net.jacksum.multicore;
 
+/**
+ * The process wide defaults for the number of threads.
+ *
+ * <p>The values are the starting point for a new
+ * {@link net.jacksum.parameters.Parameters} object only. A run is described by its
+ * Parameters object, and that object is the authority for the run: it does not write
+ * its values back here, so a run cannot change the defaults of a later run in the same
+ * JVM. A program that embeds Jacksum can set the defaults for all of its runs here,
+ * before it creates its first Parameters object.</p>
+ */
 public class ThreadControl {
     private static final int THREADS_MAX = Runtime.getRuntime().availableProcessors();
     private static int threadsHashing = THREADS_MAX;

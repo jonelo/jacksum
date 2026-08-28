@@ -22,6 +22,7 @@
  */
 package net.jacksum.cli;
 
+import net.jacksum.HashFunctionFactory;
 import net.jacksum.actions.Actions;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
@@ -50,6 +51,9 @@ public class Main {
         } catch (ParameterException | IllegalArgumentException e) {
             throw new ExitException(String.format("%s%nExit.", e.getMessage()),
                     ExitCode.PARAMETER_ERROR);
+        } finally {
+            // the run is over, so the secret must not stay in the Java heap
+            HashFunctionFactory.wipeKey();
         }
         Actions.printStatistics(statistics, parameters);
         throw new ExitException(exitCode);

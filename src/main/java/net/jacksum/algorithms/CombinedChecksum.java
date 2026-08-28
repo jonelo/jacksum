@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
 
 import net.loefflmann.sugar.util.GeneralString;
 import net.jacksum.JacksumAPI;
+import net.jacksum.multicore.ThreadControl;
 import net.jacksum.multicore.manyalgos.ConcurrentHasher;
 import net.jacksum.multicore.manyalgos.HashAlgorithm;
 import net.jacksum.formats.Encoding;
@@ -71,6 +72,21 @@ public class CombinedChecksum extends AbstractChecksum {
     }
 
     private List<AbstractChecksum> algorithms;
+
+    // the number of threads that this instance may use in order to compute its
+    // algorithms concurrently; a Parameters object overwrites it, see setParameters()
+    private int threadsHashing = ThreadControl.getThreadsHashing();
+
+    /**
+     * Sets the parameters for this instance.
+     *
+     * @param parameters the parameters of the run
+     */
+    @Override
+    public void setParameters(net.jacksum.parameters.combined.ChecksumParameters parameters) {
+        super.setParameters(parameters);
+        this.threadsHashing = parameters.getThreadsHashing();
+    }
 
     /**
      * Creates a new instance of CombinedChecksum
@@ -463,7 +479,7 @@ public class CombinedChecksum extends AbstractChecksum {
             // new ConcurrentHasher().updateHashes(file, hashAlgorithms);
             // File.length() returns 0 bytes on disks and partitions like /dev/sda, /dev/sda1 on Linux,
             // resp. \\.\c: on Windows, so we have to store the total bytes that have been read
-            ConcurrentHasher concurrentHasher = new ConcurrentHasher();
+            ConcurrentHasher concurrentHasher = new ConcurrentHasher(threadsHashing);
             concurrentHasher.updateHashes(new File(filename), hashAlgorithms);
             this.length += concurrentHasher.getTotalRead();
 

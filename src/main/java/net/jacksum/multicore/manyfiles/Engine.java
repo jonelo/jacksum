@@ -26,7 +26,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import net.jacksum.multicore.ThreadControl;
 import net.jacksum.parameters.combined.ProducerConsumerParameters;
 
 public class Engine {
@@ -51,7 +50,7 @@ public class Engine {
         outputQueue = new ArrayBlockingQueue<>(1024);
                 
         fileProducer = new MessageProducer(parameters, inputQueue, outputQueue);
-        fileConsumer = new MessageWorker(parameters, ThreadControl.getThreadsReading(), algoPool, inputQueue, outputQueue);
+        fileConsumer = new MessageWorker(parameters, parameters.getThreadsReading(), algoPool, inputQueue, outputQueue);
         //outputConsumer = new MessageConsumerStandard(parameters, outputQueue);
         
         outputConsumer = consumer;

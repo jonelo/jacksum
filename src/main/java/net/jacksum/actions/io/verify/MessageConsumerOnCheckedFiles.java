@@ -25,7 +25,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.compats.parsing.HashEntry;
 import net.jacksum.formats.Encoding;
 import net.jacksum.formats.EncodingDecoding;
@@ -69,13 +68,20 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
         // notRemovedFilesSet = new HashSet<>();
     }
 
-    public MessageConsumerOnCheckedFiles(List<HashEntry> list) {
+    /**
+     * Creates a consumer for the entries of a check file.
+     *
+     * @param list the entries of the check file
+     * @param stdinName the name that represents the standard input stream, it is needed
+     *                  before the parameters are set, because the map is built here
+     */
+    public MessageConsumerOnCheckedFiles(List<HashEntry> list, String stdinName) {
         this();
         this.hashEntries = list;
 
         // Let's put the hashEntries to a map for an indexed access by filename.
         map = new HashMap<>();
-        hashEntries.forEach(hashEntry -> map.put(key(hashEntry.getFilename()), hashEntry));
+        hashEntries.forEach(hashEntry -> map.put(key(hashEntry.getFilename(), stdinName), hashEntry));
     }
 
     /**
@@ -86,11 +92,11 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
      * @param filename a file name as it occurs in the check file
      * @return the key for the map
      */
-    private static String key(String filename) {
+    private static String key(String filename, String stdinName) {
         // The pseudo name for standard input (e.g. <stdin> or -) does not refer to a file on
         // the file system, so it must not be resolved against the current working directory:
         // a message for stdin does not carry a path, and it is looked up by that pseudo name.
-        if (filename.equals(AbstractChecksum.getStdinName())) {
+        if (filename.equals(stdinName)) {
             return filename;
         }
         // we need to put the absolute, normalized path to the hash map in order to detect
@@ -217,7 +223,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                 // set the filename
                 if (message.getPayload().getPath() == null) {
                     if (message.getPayload().getSpecialPath() == null) {
-                        filename = AbstractChecksum.getStdinName();
+                        filename = parameters.getStdinName();
                     } else {
                         filename = message.getPayload().getSpecialPath();
                     }
@@ -313,7 +319,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                 if (message.getPayload().getPath() == null) {
 
                     if (message.getPayload().getSpecialPath() == null) {
-                        filename = AbstractChecksum.getStdinName();
+                        filename = parameters.getStdinName();
                     } else {
                         filename = message.getPayload().getSpecialPath();
                     }
@@ -338,7 +344,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
                 filenameAsKey = null;
                 if (message.getPayload().getPath() == null) {
                     if (message.getPayload().getSpecialPath() == null) {
-                        filename = AbstractChecksum.getStdinName();
+                        filename = parameters.getStdinName();
                     } else {
                         filename = message.getPayload().getSpecialPath();
                     }

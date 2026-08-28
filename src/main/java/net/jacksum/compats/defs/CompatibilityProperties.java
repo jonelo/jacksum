@@ -85,7 +85,7 @@ public class CompatibilityProperties implements Serializable {
      */
     public CompatibilityProperties() {
         props = new Properties();
-        addRequiredPropertiesIfAbsent();
+        addRequiredPropertiesIfAbsent(AbstractChecksum.getStdinName());
     }
 
     @Override
@@ -106,6 +106,19 @@ public class CompatibilityProperties implements Serializable {
      * @throws InvalidCompatibilityPropertiesException if the version of the compat file is incompatible with the expected version.
      */
     public CompatibilityProperties(String compatFilename) throws IOException, InvalidCompatibilityPropertiesException {
+        this(compatFilename, AbstractChecksum.getStdinName());
+    }
+
+    /**
+     * Reads compatibility properties.
+     *
+     * @param compatFilename the id of a predefined style, or the name of a file
+     * @param defaultStdinName the name for the standard input stream that is used if the
+     *                         style does not define one of its own
+     * @throws IOException if the file cannot be read
+     * @throws InvalidCompatibilityPropertiesException if the file is not a valid style
+     */
+    public CompatibilityProperties(String compatFilename, String defaultStdinName) throws IOException, InvalidCompatibilityPropertiesException {
         String compatFilenameResolved = resolveAlias(compatFilename);
         if (isParserSupported(compatFilenameResolved)) {
             props = readFromJarFile(String.format("/net/jacksum/compats/defs/%s.properties", compatFilenameResolved));
@@ -128,11 +141,11 @@ public class CompatibilityProperties implements Serializable {
             // does not look like a valid property file
             throw new InvalidCompatibilityPropertiesException(String.format("The file \"%s\" does not look like a valid compatibility file. The property called compat.syntaxVersion is expected, but it hasn't been found in the file.", compatFilename));
         }
-        addRequiredPropertiesIfAbsent();
+        addRequiredPropertiesIfAbsent(defaultStdinName);
     }
 
-    private void addRequiredPropertiesIfAbsent() {
-        props.putIfAbsent(STDIN_NAME, AbstractChecksum.getStdinName());
+    private void addRequiredPropertiesIfAbsent(String defaultStdinName) {
+        props.putIfAbsent(STDIN_NAME, defaultStdinName);
     }
 
     public Properties getProperties() {

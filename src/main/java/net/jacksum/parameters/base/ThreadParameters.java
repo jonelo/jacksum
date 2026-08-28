@@ -17,16 +17,26 @@
 
   You should have received a copy of the GNU General Public License along with
   this program. If not, see <https://www.gnu.org/licenses/>.
-
-
  */
-package net.jacksum.multicore.manyfiles;
+package net.jacksum.parameters.base;
 
-import net.jacksum.parameters.base.CustomizedFormatParameters;
-import net.jacksum.parameters.combined.FormatParameters;
-import net.jacksum.parameters.base.PathParameters;
-import net.jacksum.parameters.base.StdinParameters;
+/**
+ * The number of threads that a run is allowed to use.
+ */
+public interface ThreadParameters {
 
-public interface ConsumerParameters extends PathParameters, CustomizedFormatParameters, FormatParameters, StdinParameters {
-    
+    /**
+     * Gets the number of threads that are used to calculate hashes.
+     *
+     * @return the number of threads for hashing
+     */
+    int getThreadsHashing();
+
+    /**
+     * Gets the number of threads that are used to read files.
+     *
+     * @return the number of threads for reading
+     */
+    int getThreadsReading();
+
 }

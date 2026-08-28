@@ -26,6 +26,8 @@ package net.jacksum.parameters.combined;
 
 import net.jacksum.parameters.base.AlgorithmParameters;
 import net.jacksum.parameters.base.SequenceParameters;
+import net.jacksum.parameters.base.StdinParameters;
+import net.jacksum.parameters.base.ThreadParameters;
 
 /**
  * ChecksumParameters
@@ -33,5 +35,7 @@ import net.jacksum.parameters.base.SequenceParameters;
 public interface ChecksumParameters extends
         AlgorithmParameters,
         FormatParameters,
-        SequenceParameters {   
+        SequenceParameters,
+        StdinParameters,
+        ThreadParameters {
 }

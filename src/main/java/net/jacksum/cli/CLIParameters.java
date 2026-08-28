@@ -23,7 +23,6 @@
 package net.jacksum.cli;
 
 import net.jacksum.actions.info.help.Help;
-import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 import net.jacksum.multicore.ThreadControl;
 import net.jacksum.parameters.ParameterException;
@@ -487,7 +486,6 @@ public class CLIParameters {
 
                 } else if (arg.equals(__LEGACY_STDIN_NAME)) {
                     parameters.setStdinName("-");
-                    AbstractChecksum.setStdinName("-");
 
                 } else if (arg.equals(_FILE_LIST) || arg.equals(__FILE_LIST)) {
                     if (firstfile < args.length) {

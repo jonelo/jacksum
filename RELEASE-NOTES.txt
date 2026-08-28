@@ -1,6 +1,8 @@
 Jacksum 4.0.1, TBD
 
-- Bug fixes
+- Bug fixes    
+  - issue #73: Jacksum keeps run specific state in static fields, so one run influences the next one
+    in the same JVM, and an HMAC key stays in the heap
   - issue #72: DefaultCompatibilityProperties sets a property that nothing reads
   - issue #71: Reading standard input closes System.in, although the code says it must not
   - issue #70: A reused Parameters object compares against a stale expectation and cannot be

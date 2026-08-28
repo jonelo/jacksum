@@ -23,6 +23,7 @@
 package net.jacksum.multicore.manyfiles;
 
 import net.jacksum.actions.io.verify.ListFilter;
+import net.jacksum.parameters.base.StdinParameters;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
  *
  * @author Johann
  */
-public interface ProducerParameters {
+public interface ProducerParameters extends StdinParameters {
     List<String> getFilenamesFromArgs();
     List<String> getFilenamesFromFilelist();
     List<String> getFilenamesFromCheckFile();
@@ -39,7 +40,6 @@ public interface ProducerParameters {
     int getDepth();
     boolean isDontFollowSymlinksToFiles();
     boolean isDontFollowSymlinksToDirectories();
-    String getStdinName();
     ListFilter getListFilter();
     boolean isOutputFile();
     String getOutputFile();

@@ -39,12 +39,42 @@ public class HashFunctionFactory {
 
     private static byte[] key;
 
+    /**
+     * Sets the key that is used to initialize an HMAC instance.
+     *
+     * <p>The key is process wide, because a hash function is requested by its name
+     * alone. A copy of the array is stored, so the caller stays the owner of the array
+     * that it passes in. Call {@link #wipeKey()} when the key is not needed any
+     * longer.</p>
+     *
+     * @param key the secret, or null in order to remove the key
+     */
     public static void setKey(byte[] key) {
-        HashFunctionFactory.key = key;
+        wipeKey();
+        HashFunctionFactory.key = key == null ? null : key.clone();
     }
 
+    /**
+     * Gets the key that is used to initialize an HMAC instance.
+     *
+     * @return the secret, or null if no key has been set
+     */
     public static byte[] getKey() {
         return key;
+    }
+
+    /**
+     * Overwrites the stored key in the Java heap and forgets it.
+     *
+     * <p>Call this when a run is over. As long as a key is stored, an HMAC that is
+     * requested afterwards without a key of its own would silently be initialized with
+     * it, and the secret would stay in the heap for the lifetime of the JVM.</p>
+     */
+    public static void wipeKey() {
+        if (key != null) {
+            java.util.Arrays.fill(key, (byte) 0x00);
+            key = null;
+        }
     }
 
     private static final Map<String, Class> cacheOfSelectorClasses = new HashMap<>();

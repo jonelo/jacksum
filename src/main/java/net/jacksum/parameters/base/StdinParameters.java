@@ -17,16 +17,19 @@
 
   You should have received a copy of the GNU General Public License along with
   this program. If not, see <https://www.gnu.org/licenses/>.
-
-
  */
-package net.jacksum.multicore.manyfiles;
+package net.jacksum.parameters.base;
 
-import net.jacksum.parameters.base.CustomizedFormatParameters;
-import net.jacksum.parameters.combined.FormatParameters;
-import net.jacksum.parameters.base.PathParameters;
-import net.jacksum.parameters.base.StdinParameters;
+/**
+ * The name that represents the standard input stream in the output.
+ */
+public interface StdinParameters {
 
-public interface ConsumerParameters extends PathParameters, CustomizedFormatParameters, FormatParameters, StdinParameters {
-    
+    /**
+     * Gets the name that is printed resp. expected for the standard input stream.
+     *
+     * @return the name for the standard input stream, e.g. "&lt;stdin&gt;" or "-"
+     */
+    String getStdinName();
+
 }

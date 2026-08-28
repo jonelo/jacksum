@@ -34,6 +34,26 @@ import net.jacksum.parameters.base.AlgorithmParameters;
  * This is the Main Application Program Interface (API). Use this API to get an
  * instance of an algorithm and to determine both the available algorithms and
  * the available encodings to represent hash values.
+ *
+ * <p><strong>State that is shared by the whole process.</strong> A run is described by
+ * its {@link net.jacksum.parameters.Parameters} object, and that object is the authority
+ * for the run. A few values are process wide nonetheless, because they are read where no
+ * parameters object is at hand. They are defaults for the objects that are created after
+ * they have been set, and Jacksum itself does not write to them while it is running:</p>
+ *
+ * <ul>
+ * <li>{@link net.jacksum.multicore.ThreadControl} holds the default number of threads for
+ * hashing and for reading. A new Parameters object starts from these values.</li>
+ * <li>{@link net.jacksum.algorithms.AbstractChecksum#setStdinName(String)} sets the default
+ * name that represents the standard input stream. An instance that gets a parameters
+ * object uses the name of that object instead.</li>
+ * <li>{@link net.jacksum.HashFunctionFactory#setKey(byte[])} holds the key for HMAC,
+ * because a hash function is requested by its name alone. Call
+ * {@link net.jacksum.HashFunctionFactory#wipeKey()} when the key is not needed any longer:
+ * as long as a key is stored, an HMAC that is requested without a key of its own would
+ * silently be initialized with it, and the secret would stay in the Java heap. The command
+ * line interface wipes the key when a run is over.</li>
+ * </ul>
  */
 public class JacksumAPI {
 

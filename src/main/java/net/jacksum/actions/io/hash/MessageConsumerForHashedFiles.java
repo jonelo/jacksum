@@ -22,7 +22,6 @@
  */
 package net.jacksum.actions.io.hash;
 
-import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.multicore.manyfiles.Message;
 import net.jacksum.multicore.manyfiles.MessageConsumer;
@@ -96,7 +95,7 @@ public class MessageConsumerForHashedFiles extends MessageConsumer {
                 : DEFAULT_COMMENT_CHARS;
         if (line.startsWith(commentChars)) {
             System.err.printf("Jacksum: Warning: The line for %s starts with the comment string \"%s\", so this line would be ignored while it is being read back, see also option %s.%n",
-                    message.getPayload().getPath() == null ? AbstractChecksum.getStdinName() : message.getPayload().getPath(),
+                    message.getPayload().getPath() == null ? parameters.getStdinName() : message.getPayload().getPath(),
                     commentChars,
                     _IGNORE_LINES_STARTING_WITH_STRING);
         }

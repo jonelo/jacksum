@@ -61,8 +61,24 @@ import java.util.concurrent.*;
 public class ConcurrentHasher {
 
     private static final int QUEUE_CAPACITY = 1024;
-    private static int THREAD_COUNT = ThreadControl.getThreadsHashing();
+    private final int threadCount;
     private long totalRead = 0L;
+
+    /**
+     * Creates a ConcurrentHasher that uses the process wide default number of threads.
+     */
+    public ConcurrentHasher() {
+        this(ThreadControl.getThreadsHashing());
+    }
+
+    /**
+     * Creates a ConcurrentHasher.
+     *
+     * @param threadCount the maximum number of threads that are used for hashing
+     */
+    public ConcurrentHasher(int threadCount) {
+        this.threadCount = threadCount;
+    }
 
     public long getTotalRead() {
         return totalRead;
@@ -80,7 +96,7 @@ public class ConcurrentHasher {
 
     public void updateHashes(File src, List<HashAlgorithm> hashes) throws IOException {
 
-        final int workingThreads = Math.max(1, Math.min(THREAD_COUNT, hashes.size()));
+        final int workingThreads = Math.max(1, Math.min(threadCount, hashes.size()));
 
         // One queue per worker
         final List<BlockingQueue<DataUnit>> queues =
@@ -101,7 +117,7 @@ public class ConcurrentHasher {
 
         // LPT-Algorithm (Longest Processing Time)
         // https://en.wikipedia.org/wiki/Multiprocessor_scheduling
-        if (THREAD_COUNT > 1) {
+        if (threadCount > 1) {
             Collections.sort(hashes);
         }
         try {

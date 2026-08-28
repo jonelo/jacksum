@@ -57,7 +57,13 @@ abstract public class AbstractChecksum implements Checksum {
     protected FormatPreferences formatPreferences;
     protected Formatter formatter;
 
+    // The process wide default for the name that represents the standard input stream.
+    // It is the starting point for a new instance only, a Parameters object overwrites it
+    // for its own instances, see setParameters(). Jacksum itself does not write here.
     protected static String stdinName = "<stdin>";
+
+    // the name that this instance prints for the standard input stream
+    private String stdinNameForOutput = stdinName;
 
     /**
      * Creates an AbstractChecksum.
@@ -80,6 +86,7 @@ abstract public class AbstractChecksum implements Checksum {
     // interface. It sets the values only if they are non-default
     public void setParameters(ChecksumParameters parameters) {
 //        this.checksumParameters = parameters;
+        this.stdinNameForOutput = parameters.getStdinName();
         formatPreferences.overwritePreferences(parameters);
         formatter = new Formatter(formatPreferences);
         if (parameters.isSequence()) {
@@ -509,16 +516,47 @@ abstract public class AbstractChecksum implements Checksum {
         return readStdin(true);
     }
 
+    /**
+     * Sets the process wide default for the name that represents the standard input
+     * stream. It only applies to instances that are created afterwards and that do not
+     * get a name of their own, see {@link #setStdinNameForOutput(String)}.
+     *
+     * @param stdinName the default name, e.g. "&lt;stdin&gt;" or "-"
+     */
     public static void setStdinName(String stdinName) {
         AbstractChecksum.stdinName = stdinName;
     }
 
+    /**
+     * Gets the process wide default for the name that represents the standard input
+     * stream.
+     *
+     * @return the default name
+     */
     public static String getStdinName() {
         return stdinName;
     }
 
+    /**
+     * Sets the name that this instance prints for the standard input stream.
+     *
+     * @param stdinNameForOutput the name, e.g. "&lt;stdin&gt;" or "-"
+     */
+    public void setStdinNameForOutput(String stdinNameForOutput) {
+        this.stdinNameForOutput = stdinNameForOutput;
+    }
+
+    /**
+     * Gets the name that this instance prints for the standard input stream.
+     *
+     * @return the name
+     */
+    public String getStdinNameForOutput() {
+        return stdinNameForOutput;
+    }
+
     public long readStdin(boolean reset) throws IOException {
-        this.filename = stdinName;
+        this.filename = stdinNameForOutput;
         long lengthBackup;
 
         // The buffering stream is deliberately not closed: closing it would close
