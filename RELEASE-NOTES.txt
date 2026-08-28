@@ -8,7 +8,7 @@ Jacksum 4.0.1, TBD
     truncated the message ("--filesize %n"), replaced it by the text of a Java formatter
     exception ("--filesize %d" printed "d != [Ljava.lang.String;"), or printed the option
     name resp. an array identity where the user's value belonged ("--filesize %1$s" and
-    "--filesize %s"); the message now always quotes the value verbatim
+    "--filesize %s"); the message now always quotes the value verbatim (issue #63)
   - the sequence types dec: and oct: of the option -q resp. -k appended 0x00 bytes at the end
     of the sequence instead of honouring the position of an empty value, because the array was
     dimensioned by the number of separators while it was filled with a StringTokenizer, which
