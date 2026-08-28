@@ -1,6 +1,16 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
+  - a value that had been substituted into a format (option -F, and therefore every style as
+    well) was searched again by the substitutions that followed it, so a file name that
+    contains a token was replaced rather than being printed: a file named "#QUOTE" appeared
+    as a quotation mark, one named "#TIMESTAMP-file" as "-file", and a check list that was
+    written for such a file could not be verified afterwards, the entry was reported as
+    MISSING. The same applied to a separator (option -s) that contains #QUOTE while the
+    format contains #SEPARATOR. Every value is now protected until all tokens have been
+    resolved, without changing the order in which they are resolved. The default output
+    (without -F) never had that problem and is unchanged; a check list that has been written
+    for a file name containing a token has to be created again (issue #65)
   - option --string-list hashed every line with the character set of the JVM instead of the
     one that has been specified by --charset-string-list: the list was read with the given
     charset, but the line was re-encoded with the JVM default before it was hashed, so the

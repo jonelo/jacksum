@@ -56,11 +56,25 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
      * @param regex must define 2 groups, the entire token itself and the encoding, example: <code>"(#CHECKSUM\\{" + i + ",([^}]+)\\})"</code>
      */
     public static void resolveEncoding(StringBuilder buf, AbstractChecksum checksum, String regex) {
+        resolveEncoding(buf, checksum, regex, null);
+    }
+
+    /**
+     * Resolves the encoding of a hash value token. The hash value is a value, not a token,
+     * so it is protected by the store if one is given, see TokenValueStore.
+     *
+     * @param buf the buffer with the format
+     * @param checksum the checksum that provides the hash value
+     * @param regex the regular expression of the token
+     * @param store the store that protects the value, or null in order to insert it directly
+     */
+    public static void resolveEncoding(StringBuilder buf, AbstractChecksum checksum, String regex, TokenValueStore store) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(buf.toString());
         try {
             while (matcher.find()) {
-                GeneralString.replaceAllStrings(buf, matcher.group(1), checksum.getValueFormatted(Encoding.string2Encoding(matcher.group(2))));
+                String value = checksum.getValueFormatted(Encoding.string2Encoding(matcher.group(2)));
+                GeneralString.replaceAllStrings(buf, matcher.group(1), store == null ? value : store.protect(value));
             }
         } catch (IllegalArgumentException e) {
             System.err.println(e);

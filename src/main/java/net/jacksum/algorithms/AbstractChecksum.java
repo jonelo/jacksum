@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.zip.Checksum;
 import net.jacksum.formats.Encoding;
 import net.jacksum.formats.Formatter;
+import net.jacksum.formats.TokenValueStore;
 import net.jacksum.parameters.Sequence;
 import net.jacksum.parameters.combined.ChecksumParameters;
 
@@ -347,11 +348,30 @@ abstract public class AbstractChecksum implements Checksum {
         Formatter.replaceAliases(format);
     }
 
+    /**
+     * Customizes the format before its tokens are replaced, protecting every value that is
+     * being substituted by the given store, see TokenValueStore.
+     *
+     * The default implementation only replaces aliases, which is a token by token
+     * replacement, so it does not need the store at all. CombinedChecksum overrides this
+     * method, because it substitutes values for the plural tokens.
+     *
+     * @param format the format
+     * @param store the store that protects the substituted values
+     */
+    public void preFormat(StringBuilder format, TokenValueStore store) {
+        preFormat(format);
+    }
+
     // will be triggered by the CLI option --format
     public String format(String format) {
-        StringBuilder stringBuilder = new StringBuilder(format);
-        preFormat(stringBuilder);
-        return Formatter.format(stringBuilder, this, sequence);
+        TokenValueStore store = new TokenValueStore();
+        // a format must not be able to forge a placeholder of the store
+        StringBuilder stringBuilder = new StringBuilder(TokenValueStore.sanitize(format));
+        preFormat(stringBuilder, store);
+        Formatter.format(stringBuilder, this, sequence, store);
+        store.resolve(stringBuilder);
+        return stringBuilder.toString();
     }
 
     /**

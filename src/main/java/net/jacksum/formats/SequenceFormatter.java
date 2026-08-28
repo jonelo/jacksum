@@ -34,11 +34,20 @@ import net.loefflmann.sugar.util.GeneralString;
 public class SequenceFormatter {
 
     public static void resolveEncoding(StringBuilder buf, byte[] bytes, int grouping, Character groupChar, String regex) {
+        resolveEncoding(buf, bytes, grouping, groupChar, regex, null);
+    }
+
+    /**
+     * Resolves the encoding of a sequence token. The encoded sequence is a value, not a
+     * token, so it is protected by the store if one is given, see TokenValueStore.
+     */
+    public static void resolveEncoding(StringBuilder buf, byte[] bytes, int grouping, Character groupChar, String regex, TokenValueStore store) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(buf.toString());
         try {
             while (matcher.find()) {
-                GeneralString.replaceAllStrings(buf, matcher.group(1), EncodingDecoding.encodeBytes(bytes, Encoding.string2Encoding(matcher.group(2)), grouping, groupChar));
+                String value = EncodingDecoding.encodeBytes(bytes, Encoding.string2Encoding(matcher.group(2)), grouping, groupChar);
+                GeneralString.replaceAllStrings(buf, matcher.group(1), store == null ? value : store.protect(value));
             }
         } catch (IllegalArgumentException e) {
             System.err.println(e);

@@ -128,53 +128,54 @@ public class Formatter {
     }
 
     
-    private static void _replaceFingerprintTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
+    private static void _replaceFingerprintTokens(StringBuilder buffer, AbstractChecksum abstractChecksum, TokenValueStore store) {
+        // these three are normalizations, they replace a token by another token
         GeneralString.replaceAllStrings(buffer, "#CHECKSUM{i}", "#CHECKSUM");
         GeneralString.replaceAllStrings(buffer, "#CHECKSUM{0}", "#CHECKSUM");
         GeneralString.replaceAllStrings(buffer, "#CHECKSUM{" + abstractChecksum.getName() + "}", "#CHECKSUM" );
-        FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{i,([^}]+)\\})");
-        FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{0,([^}]+)\\})");
-        FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{"+abstractChecksum.getName()+",([^}]+)\\})");
-        FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{([^}]+)\\})");
-        GeneralString.replaceAllStrings(buffer, "#CHECKSUM", abstractChecksum.getValueFormatted());
+        FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{i,([^}]+)\\})", store);
+        FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{0,([^}]+)\\})", store);
+        FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{"+abstractChecksum.getName()+",([^}]+)\\})", store);
+        FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{([^}]+)\\})", store);
+        GeneralString.replaceAllStrings(buffer, "#CHECKSUM", store.protect(abstractChecksum.getValueFormatted()));
     }
     
-    private static void _replaceAlgorithmTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
-        // algorithm names        
+    private static void _replaceAlgorithmTokens(StringBuilder buffer, AbstractChecksum abstractChecksum, TokenValueStore store) {
+        // algorithm names: the first six are normalizations, they replace a token by another token
         GeneralString.replaceAllStrings(buffer, "#ALGONAME{i}", "#ALGONAME");
         GeneralString.replaceAllStrings(buffer, "#ALGONAME{i,uppercase}", "#ALGONAME{uppercase}");
         GeneralString.replaceAllStrings(buffer, "#ALGONAME{i,lowercase}", "#ALGONAME{lowercase}");
         GeneralString.replaceAllStrings(buffer, "#ALGONAME{0}", "#ALGONAME");
         GeneralString.replaceAllStrings(buffer, "#ALGONAME{0,uppercase}", "#ALGONAME{uppercase}");
         GeneralString.replaceAllStrings(buffer, "#ALGONAME{0,lowercase}", "#ALGONAME{lowercase}");
-        GeneralString.replaceAllStrings(buffer, "#ALGONAME{uppercase}", abstractChecksum.getName().toUpperCase(Locale.US));
-        GeneralString.replaceAllStrings(buffer, "#ALGONAME{lowercase}", abstractChecksum.getName().toLowerCase(Locale.US));
-        GeneralString.replaceAllStrings(buffer, "#ALGONAME", abstractChecksum.getName());
+        GeneralString.replaceAllStrings(buffer, "#ALGONAME{uppercase}", store.protect(abstractChecksum.getName().toUpperCase(Locale.US)));
+        GeneralString.replaceAllStrings(buffer, "#ALGONAME{lowercase}", store.protect(abstractChecksum.getName().toLowerCase(Locale.US)));
+        GeneralString.replaceAllStrings(buffer, "#ALGONAME", store.protect(abstractChecksum.getName()));
     }
     
-    private static void _replaceSequenceTokens(StringBuilder buffer, AbstractChecksum abstractChecksum, byte[] sequence) {
+    private static void _replaceSequenceTokens(StringBuilder buffer, AbstractChecksum abstractChecksum, byte[] sequence, TokenValueStore store) {
         if (buffer.indexOf("#SEQUENCE") < 0) {
             return;
         }
         // replace all "#SEQUENCE{<encoding>}"
         SequenceFormatter.resolveEncoding(buffer, sequence, abstractChecksum.getFormatPreferences().getGrouping(),
-                abstractChecksum.getFormatPreferences().getGroupChar(), "(#SEQUENCE\\{([^}]+)\\})");
+                abstractChecksum.getFormatPreferences().getGroupChar(), "(#SEQUENCE\\{([^}]+)\\})", store);
 
         // just in case we have only a "#SEQUENCE", encode the sequence with the encoding
         // of the hash value (an encoding is not necessarily user selectable, so we must
         // not take a detour by resolving "#SEQUENCE{<encoding>}" here)
         GeneralString.replaceAllStrings(buffer, "#SEQUENCE",
-                EncodingDecoding.encodeBytes(sequence,
+                store.protect(EncodingDecoding.encodeBytes(sequence,
                         abstractChecksum.getFormatPreferences().getEncoding(),
                         abstractChecksum.getFormatPreferences().getGrouping(),
-                        abstractChecksum.getFormatPreferences().getGroupChar()));
+                        abstractChecksum.getFormatPreferences().getGroupChar())));
     }
     
-    private static void _replaceFilesizeToken(StringBuilder buffer, AbstractChecksum abstractChecksum) {
-        GeneralString.replaceAllStrings(buffer, "#FILESIZE", Long.toString(abstractChecksum.getLength()));        
+    private static void _replaceFilesizeToken(StringBuilder buffer, AbstractChecksum abstractChecksum, TokenValueStore store) {
+        GeneralString.replaceAllStrings(buffer, "#FILESIZE", store.protect(Long.toString(abstractChecksum.getLength())));
     }
     
-    private static void _replaceFilenameTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
+    private static void _replaceFilenameTokens(StringBuilder buffer, AbstractChecksum abstractChecksum, TokenValueStore store) {
 
         if (abstractChecksum.getFilename() == null) return;
         FilenameFormatter filenameFormatter = new FilenameFormatter(abstractChecksum.getFormatPreferences());
@@ -182,7 +183,7 @@ public class Formatter {
 
         boolean escape = abstractChecksum.getFormatPreferences().isGnuEscaping();
         boolean escaped = filenameFormatter.didTheFormatMethodChangeProblematicChars();
-        GeneralString.replaceAllStrings(buffer, "#ESCAPETAG", escape && escaped ? "\\" : "");
+        GeneralString.replaceAllStrings(buffer, "#ESCAPETAG", store.protect(escape && escaped ? "\\" : ""));
 
         if (buffer.toString().contains("#FILENAME{")) {
 
@@ -203,12 +204,12 @@ public class Formatter {
             }
 
             GeneralString.replaceAllStrings(buffer, "#FILENAME{name}",
-                    escape ? FilenameFormatter.gnuEscapeProblematicCharsInFilename(name) : name);
+                    store.protect(escape ? FilenameFormatter.gnuEscapeProblematicCharsInFilename(name) : name));
             if (directory == null) directory = "";
             GeneralString.replaceAllStrings(buffer, "#FILENAME{path}",
-                    escape ? FilenameFormatter.gnuEscapeProblematicCharsInFilename(directory) : directory);
+                    store.protect(escape ? FilenameFormatter.gnuEscapeProblematicCharsInFilename(directory) : directory));
         }
-        GeneralString.replaceAllStrings(buffer, "#FILENAME", formattedFilename);
+        GeneralString.replaceAllStrings(buffer, "#FILENAME", store.protect(formattedFilename));
 
 /*
         if (buffer.toString().contains("#FILENAME{")) {
@@ -237,7 +238,7 @@ public class Formatter {
         */
     }
 
-    private static void _replaceTimestampToken(StringBuilder buffer, AbstractChecksum abstractChecksum) {
+    private static void _replaceTimestampToken(StringBuilder buffer, AbstractChecksum abstractChecksum, TokenValueStore store) {
         // timestamp
         if (buffer.indexOf("#TIMESTAMP") < 0) {
             return;
@@ -246,32 +247,53 @@ public class Formatter {
         // is replaced by an empty string if the data comes from standard input or
         // from a sequence (-q), rather than keeping the token or printing the epoch
         GeneralString.replaceAllStrings(buffer, "#TIMESTAMP",
-                abstractChecksum.isTimestampWanted() && abstractChecksum.isTimestampAvailable()
+                store.protect(abstractChecksum.isTimestampWanted() && abstractChecksum.isTimestampAvailable()
                         ? abstractChecksum.getTimestampFormatted()
-                        : "");
+                        : ""));
     }
     
-    private static void _replaceSpecialCharTokens(StringBuilder buffer, AbstractChecksum abstractChecksum) {
+    private static void _replaceSpecialCharTokens(StringBuilder buffer, AbstractChecksum abstractChecksum, TokenValueStore store) {
         // special chars: separator
-        GeneralString.replaceAllStrings(buffer, "#SEPARATOR", abstractChecksum.getFormatPreferences().getSeparator());
-        
+        GeneralString.replaceAllStrings(buffer, "#SEPARATOR", store.protect(abstractChecksum.getFormatPreferences().getSeparator()));
+
         // special chars: quotes
-        GeneralString.replaceAllStrings(buffer, "#QUOTE", "\"");        
+        GeneralString.replaceAllStrings(buffer, "#QUOTE", store.protect("\""));
     }
 
-    private static void _replaceBintagToken(StringBuilder buffer, AbstractChecksum abstractChecksum) {
-        GeneralString.replaceAllStrings(buffer, "#BINTAG", OSControl.isWindows() ? "*": " ");
+    private static void _replaceBintagToken(StringBuilder buffer, AbstractChecksum abstractChecksum, TokenValueStore store) {
+        GeneralString.replaceAllStrings(buffer, "#BINTAG", store.protect(OSControl.isWindows() ? "*": " "));
     }
     
     public static String format(StringBuilder buffer, AbstractChecksum abstractChecksum, byte[] sequence) {
-        _replaceBintagToken(buffer, abstractChecksum);
-        _replaceFingerprintTokens(buffer, abstractChecksum);
-        _replaceAlgorithmTokens(buffer, abstractChecksum);
-        _replaceSequenceTokens(buffer, abstractChecksum, sequence);
-        _replaceFilesizeToken(buffer, abstractChecksum);
-        _replaceFilenameTokens(buffer, abstractChecksum);
-        _replaceTimestampToken(buffer, abstractChecksum);
-        _replaceSpecialCharTokens(buffer, abstractChecksum);       
+        TokenValueStore store = new TokenValueStore();
+        format(buffer, abstractChecksum, sequence, store);
+        // the store has been created here, so it is resolved here as well
+        store.resolve(buffer);
+        return buffer.toString();
+    }
+
+    /**
+     * Replaces all tokens of the buffer, protecting every value that is being substituted
+     * by the given store. The caller owns the store and has to call its resolve() method
+     * once all substitutions are done, see TokenValueStore.
+     *
+     * The order of the steps below is load bearing and must not be changed.
+     *
+     * @param buffer the buffer with the format
+     * @param abstractChecksum the checksum that provides the values
+     * @param sequence the sequence for the token #SEQUENCE
+     * @param store the store that protects the substituted values
+     * @return the content of the buffer, still with the placeholders of the store
+     */
+    public static String format(StringBuilder buffer, AbstractChecksum abstractChecksum, byte[] sequence, TokenValueStore store) {
+        _replaceBintagToken(buffer, abstractChecksum, store);
+        _replaceFingerprintTokens(buffer, abstractChecksum, store);
+        _replaceAlgorithmTokens(buffer, abstractChecksum, store);
+        _replaceSequenceTokens(buffer, abstractChecksum, sequence, store);
+        _replaceFilesizeToken(buffer, abstractChecksum, store);
+        _replaceFilenameTokens(buffer, abstractChecksum, store);
+        _replaceTimestampToken(buffer, abstractChecksum, store);
+        _replaceSpecialCharTokens(buffer, abstractChecksum, store);
         return buffer.toString();
     }
 
