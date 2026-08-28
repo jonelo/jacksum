@@ -1,6 +1,18 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
+  - an HMAC did not count the bytes it processed, so getLength() always returned 0 and
+    everything that reads it reported 0 for every hmac:* algorithm: the tokens #FILESIZE and
+    #LENGTH, the option --filesize, the size column of a style that stores it, and "total
+    bytes read" of --verbose summary; hash values were not affected. Note that a check file
+    which stores file sizes and has been written with an hmac:* algorithm by an earlier
+    version stores 0 for every entry and now reports FAILED, because that 0 is compared
+    against the real size; such a list has to be created again (issue #60)
+  - an HMAC kept returning the previously computed value if update() was called again after
+    the HMAC had been taken, because getByteArray() caches its result and only reset()
+    invalidated that cache; such an update() now starts a new message, so the returned value
+    and the number of processed bytes always belong together; the CLI was not affected,
+    because it resets the algorithm before every message (issue #60)
   - styles that switch GNU file name escaping on (formatter.gnuescaping.enabled=true) did not
     escape file names, because FormatPreferences adopted that value only if the user had set
     the option --gnu-filename-escaping explicitly; 14 of the 19 predefined styles were

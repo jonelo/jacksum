@@ -158,17 +158,31 @@ public class HMAC extends AbstractChecksum  {
 	}
 
 	/**
+	 * Initializes the hash function and updates it with i_key_pad, so that the next
+	 * message can be processed. In contrast to reset() it does not touch the number of
+	 * processed bytes, because getByteArray() uses it to re-prime the hash function
+	 * after the HMAC has been computed, and the caller still has to be able to read
+	 * that number afterwards.
+	 */
+	private void initDigest() {
+		digest.reset();
+		digest.update(i_key_pad);
+	}
+
+	/**
 	 * Initialize the hash function and update the hash function with i_key_pad.
 	 */
 	public void reset() {
-		digest.reset();
-		digest.update(i_key_pad);
+		initDigest();
+		length = 0;
 		virgin = true;
 	}
 
 	@Override
 	public void update(byte[] bytes, int offset, int length) {
+		startNewMessageIfRequired();
 		digest.update(bytes, offset, length);
+		this.length += length;
 	}
 
 	/**
@@ -179,7 +193,24 @@ public class HMAC extends AbstractChecksum  {
 			return;
 		}
 
+		startNewMessageIfRequired();
 		digest.update(message);
+		this.length += message.length;
+	}
+
+	/**
+	 * Starts a new message if the HMAC of the previous one has been computed already.
+	 *
+	 * getByteArray() consumes the state of the hash function in order to compute the
+	 * outer hash, so the intermediate state of a message is gone once its HMAC has been
+	 * taken. An update() after that therefore begins a new message rather than extending
+	 * the previous one: without this, getByteArray() would keep returning the cached HMAC
+	 * of the previous message while the number of processed bytes kept growing.
+	 */
+	private void startNewMessageIfRequired() {
+		if (!virgin) {
+			reset();
+		}
 	}
 
 
@@ -195,7 +226,7 @@ public class HMAC extends AbstractChecksum  {
 			digest.update(o_key_pad);
 			digest.update(result);
 			result = digest.getByteArray();
-			reset();
+			initDigest();
 			virgin = false;
 		}
 
