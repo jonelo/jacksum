@@ -3024,7 +3024,10 @@ OPTIONS
                 #HASH{<algo>}            das Token wird durch den
                                          anhand seines Algorithmusnamens
                                          identifizierten Hash ersetzt.
-                                         (3.0)
+                                         Verstanden werden sowohl der mit
+                                         der Option -a eingegebene Name als
+                                         auch der kanonische Name, den
+                                         #ALGONAME ausgibt. (3.0)
 \
                 #HASH{<i>,<encoding>}    wie #HASH{<i>}, aber mit
                                          expliziter Kodierung (3.0)

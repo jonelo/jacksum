@@ -133,9 +133,17 @@ public class Formatter {
         GeneralString.replaceAllStrings(buffer, "#CHECKSUM{i}", "#CHECKSUM");
         GeneralString.replaceAllStrings(buffer, "#CHECKSUM{0}", "#CHECKSUM");
         GeneralString.replaceAllStrings(buffer, "#CHECKSUM{" + abstractChecksum.getName() + "}", "#CHECKSUM" );
+        // the algorithm answers to a second name as well, e.g. sha256 besides sha-256
+        String nameAlias = abstractChecksum.getNameAlias();
+        if (nameAlias != null) {
+            GeneralString.replaceAllStrings(buffer, "#CHECKSUM{" + nameAlias + "}", "#CHECKSUM" );
+        }
         FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{i,([^}]+)\\})", store);
         FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{0,([^}]+)\\})", store);
         FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{"+abstractChecksum.getName()+",([^}]+)\\})", store);
+        if (nameAlias != null) {
+            FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{"+nameAlias+",([^}]+)\\})", store);
+        }
         FingerprintFormatter.resolveEncoding(buffer, abstractChecksum, "(#CHECKSUM\\{([^}]+)\\})", store);
         GeneralString.replaceAllStrings(buffer, "#CHECKSUM", store.protect(abstractChecksum.getValueFormatted()));
     }

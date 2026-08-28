@@ -49,6 +49,14 @@ abstract public class AbstractChecksum implements Checksum {
     protected long timestamp;
     protected boolean timestampAvailable;
     protected String name;
+
+    // A second name that this instance also answers to while a format addresses a hash
+    // value by the name of its algorithm, e.g. #CHECKSUM{<name>,<encoding>}. It carries
+    // the name that getName() does not carry: the name as the user has typed it if
+    // getName() is the canonical one, and the canonical one if getName() is the name as
+    // typed. It is null if both names are the same. See also B26 resp. the format of a
+    // combination of algorithms in CombinedChecksum.
+    private String nameAlias;
     protected int bitWidth;
     protected int blocksize;
     private byte[] sequence;
@@ -118,6 +126,26 @@ abstract public class AbstractChecksum implements Checksum {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Sets a second name that this instance also answers to while a format addresses a
+     * hash value by the name of its algorithm.
+     *
+     * @param nameAlias the second name, or null if there is none
+     */
+    public void setNameAlias(String nameAlias) {
+        this.nameAlias = nameAlias != null && nameAlias.equals(name) ? null : nameAlias;
+    }
+
+    /**
+     * Returns the second name that this instance also answers to while a format addresses
+     * a hash value by the name of its algorithm.
+     *
+     * @return the second name, or null if the algorithm is known by one name only
+     */
+    public String getNameAlias() {
+        return nameAlias;
     }
 
     /**

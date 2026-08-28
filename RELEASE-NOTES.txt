@@ -1,6 +1,8 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #74: #CHECKSUM{<algo>,<encoding>} needs the canonical algorithm name when one algorithm is
+    selected, but the name as typed when several are
   - issue #73: Jacksum keeps run specific state in static fields, so one run influences the next one
     in the same JVM, and an HMAC key stays in the heap
   - issue #72: DefaultCompatibilityProperties sets a property that nothing reads

@@ -115,6 +115,9 @@ public class HashFunctionFactory {
                     AbstractChecksum checksum = selector.getImplementation(alternate);
                     checksum.setActualAlternateImplementationUsed(selector.isActualAlternateImplementationUsed());
                     checksum.setName(selector.getName());
+                    // the name as the user has typed it, so that a format can address the
+                    // hash value by that name as well, and not only by the canonical one
+                    checksum.setNameAlias(algorithm);
 
                     if (cacheOfSelectorClassesEnabled) {
                         // fill the cache with the algorithm that we have just found

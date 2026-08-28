@@ -2742,7 +2742,10 @@ OPTIONS
 \
                 #HASH{<algo>}            the token will be replaced with the
                                          hash identified by its algorithm
-                                         name. (3.0)
+                                         name. Both the name as it has been
+                                         typed with the option -a and the
+                                         canonical name that #ALGONAME prints
+                                         are understood. (3.0)
 \
                 #HASH{<i>,<encoding>}    like #HASH{<i>}, but with an explicit
                                          encoding (3.0)

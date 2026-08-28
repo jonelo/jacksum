@@ -107,7 +107,12 @@ public class CombinedChecksum extends AbstractChecksum {
 
     public void addAlgorithm(String algorithm, boolean alternate) throws NoSuchAlgorithmException {
         AbstractChecksum checksum = JacksumAPI.getChecksumInstance(algorithm, alternate);
+        // The name as the user has typed it, because #ALGONAME and #ALGONAMES print the
+        // names of a combination the way they have been specified. The canonical name
+        // becomes the alias, so that a format can address the hash value by that name too.
+        String canonicalName = checksum.getName();
         checksum.setName(algorithm);
+        checksum.setNameAlias(canonicalName);
         addAlgorithm(checksum);
     }
 
@@ -334,6 +339,12 @@ public class CombinedChecksum extends AbstractChecksum {
                 GeneralString.replaceAllStrings(buf, "#CHECKSUM{" + algorithm.getName() + "}", store.protect(algorithm.getValueFormatted()) );
                 // replace all "#CHECKSUM{<name>,<encoding>}" with "#CHECKSUM{<index>,<encoding>}"
                 FingerprintFormatter.resolveEncoding(buf, algorithm, "(#CHECKSUM\\{" + algorithm.getName() + ",\\s*([^}]+)\\})", store);
+                // the algorithm answers to a second name as well, e.g. sha-256 besides sha256
+                String nameAlias = algorithm.getNameAlias();
+                if (nameAlias != null) {
+                    GeneralString.replaceAllStrings(buf, "#CHECKSUM{" + nameAlias + "}", store.protect(algorithm.getValueFormatted()) );
+                    FingerprintFormatter.resolveEncoding(buf, algorithm, "(#CHECKSUM\\{" + nameAlias + ",\\s*([^}]+)\\})", store);
+                }
             }
         }
         
