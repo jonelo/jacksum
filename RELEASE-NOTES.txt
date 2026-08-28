@@ -1,6 +1,14 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
+  - the error message for a rejected argument of the options --filesize and
+    --gnu-filename-escaping was concatenated into the format string of String.format
+    instead of being passed as an argument, and the argument the user had typed is part of
+    that message: a percent sign in it was therefore interpreted as a conversion, which
+    truncated the message ("--filesize %n"), replaced it by the text of a Java formatter
+    exception ("--filesize %d" printed "d != [Ljava.lang.String;"), or printed the option
+    name resp. an array identity where the user's value belonged ("--filesize %1$s" and
+    "--filesize %s"); the message now always quotes the value verbatim
   - the sequence types dec: and oct: of the option -q resp. -k appended 0x00 bytes at the end
     of the sequence instead of honouring the position of an empty value, because the array was
     dimensioned by the number of separators while it was filled with a StringTokenizer, which

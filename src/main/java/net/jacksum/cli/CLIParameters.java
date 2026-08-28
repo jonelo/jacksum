@@ -180,9 +180,23 @@ public class CLIParameters {
         throw new ParameterException(String.format("Option %s requires a valid parameter.", userArg));
     }
 
-    private void handleParamError(String helpString, String formattedMessage, String... values) throws ParameterException {
+    /**
+     * Prints the help for an option and throws a ParameterException that quotes the message
+     * of the parser which has rejected the option's argument.
+     *
+     * The message is passed as an argument of String.format rather than being concatenated
+     * into its format string, because it contains the argument the user has typed: a percent
+     * sign in that argument would be interpreted as a conversion otherwise, which would
+     * truncate, mangle, or even replace the whole message.
+     *
+     * @param helpString the option, in order to print its help and to name it in the message
+     * @param message the message of the parser that has rejected the argument
+     * @throws ParameterException always, that is the purpose of this method
+     */
+    private void handleParamError(String helpString, String message) throws ParameterException {
         Help.printHelp("en", helpString, true);
-        throw new ParameterException(String.format("for option \"%s\": "+formattedMessage+ " For syntax on this option see above.", helpString, values));
+        throw new ParameterException(String.format(
+                "for option \"%s\": %s For syntax on this option see above.", helpString, message));
     }
 
 
@@ -336,7 +350,7 @@ public class CLIParameters {
                         try {
                             parameters.setFilesizeWanted(GeneralString.parseBoolean(arg));
                         } catch (IllegalArgumentException iae) {
-                            handleParamError(__FILESIZE, iae.getMessage(), arg);
+                            handleParamError(__FILESIZE, iae.getMessage());
                         }
                     } else {
                         handleUserParamError(arg, __FILESIZE);
@@ -349,7 +363,7 @@ public class CLIParameters {
                         try {
                             parameters.setGnuEscaping(GeneralString.parseBoolean(arg));
                         } catch (IllegalArgumentException iae) {
-                            handleParamError(__GNU_FILENAME_ESCAPING, iae.getMessage(), arg);
+                            handleParamError(__GNU_FILENAME_ESCAPING, iae.getMessage());
                         }
 
                     } else {
