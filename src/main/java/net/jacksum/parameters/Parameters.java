@@ -606,7 +606,9 @@ public class Parameters implements
         try {
             setGrouping(Integer.parseInt(grouping));
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            // only a value that is not a number at all ends up here; a value that is a
+            // number but out of range is rejected by setGrouping(int) with its own message
+            throw new IllegalArgumentException(String.format("%s is not a decimal number.", grouping));
         }
     }
 
@@ -617,7 +619,8 @@ public class Parameters implements
 
     public void setGroupChar(String string) throws IllegalArgumentException {
         if (string.length() != 1) {
-            throw new IllegalArgumentException(string + "is longer than one character");
+            throw new IllegalArgumentException(String.format(
+                    "Exactly one character is required, but \"%s\" has been given.", string));
         } else {
             setGroupChar(string.charAt(0));
         }
@@ -2185,6 +2188,27 @@ public class Parameters implements
         }
     }
 
+    /**
+     * Determines whether two character set names denote the same character set. The names
+     * are case insensitive, and a character set can be named by an alias as well, so
+     * "utf-8", "UTF-8" and "utf8" all denote the same one.
+     *
+     * @param one a character set name
+     * @param other another character set name
+     * @return true if both names denote the same character set
+     */
+    private static boolean isSameCharset(String one, String other) {
+        if (one.equalsIgnoreCase(other)) {
+            return true;
+        }
+        try {
+            return Charset.forName(one).equals(Charset.forName(other));
+        } catch (IllegalArgumentException iae) {
+            // an unsupported or an illegal name is reported later, when the stream is set up
+            return false;
+        }
+    }
+
     private void handleCharsetsAndSetupStreams() throws ParameterException, ExitException {
         if (isUtf8()) {
             setCharsetStdout(UTF_8);
@@ -2196,7 +2220,7 @@ public class Parameters implements
             try {
                 System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, getCharsetStdout()));
             } catch (UnsupportedEncodingException e) {
-                throw new ExitException(String.format("Encoding %s for stdout is not supported by your JVM or OS.", getCharsetStdout()), ExitCode.IO_ERROR);
+                throw new ExitException(String.format("Jacksum: Error: Encoding %s for stdout is not supported by your JVM or OS.", getCharsetStdout()), ExitCode.IO_ERROR);
             }
         }
 
@@ -2205,7 +2229,7 @@ public class Parameters implements
             try {
                 System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err), true, getCharsetStderr()));
             } catch (UnsupportedEncodingException e) {
-                throw new ExitException(String.format("Encoding %s for stdout is not supported by your JVM or OS.", getCharsetStderr()), ExitCode.IO_ERROR);
+                throw new ExitException(String.format("Jacksum: Error: Encoding %s for stderr is not supported by your JVM or OS.", getCharsetStderr()), ExitCode.IO_ERROR);
             }
         }
 
@@ -2217,7 +2241,7 @@ public class Parameters implements
             outputFileAndErrorFileAreEqual = outputFilePath.equals(errorFilePath);
         }
 
-        if (outputFileAndErrorFileAreEqual && !charsetOutputFile.equals(charsetErrorFile)) {
+        if (outputFileAndErrorFileAreEqual && !isSameCharset(charsetOutputFile, charsetErrorFile)) {
             throw new ParameterException("Output and error file are the same, but character sets for output and error file have been set differently.");
         }
 
@@ -2231,8 +2255,13 @@ public class Parameters implements
             try {
                 streamShared = new PrintStream(new FileOutputStream(getOutputFile()), true, getCharsetOutputFile());
                 isShared = true;
-            } catch (UnsupportedEncodingException | FileNotFoundException e) {
-                throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
+            } catch (UnsupportedEncodingException e) {
+                throw new ExitException(String.format(
+                        "Jacksum: Error: Encoding %s for the output file is not supported by your JVM or OS.",
+                        getCharsetOutputFile()), ExitCode.IO_ERROR);
+            } catch (FileNotFoundException e) {
+                // the message of the exception already names the file and the reason
+                throw new ExitException(String.format("Jacksum: Error: %s", e.getMessage()), ExitCode.IO_ERROR);
             }
         }
 
@@ -2246,8 +2275,13 @@ public class Parameters implements
                     //PrintStream tee = new TeeStream(System.out, out);
                     System.setOut(out);
                 }
-            } catch (UnsupportedEncodingException | FileNotFoundException e) {
-                throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
+            } catch (UnsupportedEncodingException e) {
+                throw new ExitException(String.format(
+                        "Jacksum: Error: Encoding %s for the output file is not supported by your JVM or OS.",
+                        getCharsetOutputFile()), ExitCode.IO_ERROR);
+            } catch (FileNotFoundException e) {
+                // the message of the exception already names the file and the reason
+                throw new ExitException(String.format("Jacksum: Error: %s", e.getMessage()), ExitCode.IO_ERROR);
             }
         }
 
@@ -2261,8 +2295,13 @@ public class Parameters implements
                     //PrintStream tee = new TeeStream(System.out, err);
                     System.setErr(err);
                 }
-            } catch (UnsupportedEncodingException | FileNotFoundException e) {
-                throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
+            } catch (UnsupportedEncodingException e) {
+                throw new ExitException(String.format(
+                        "Jacksum: Error: Encoding %s for the error file is not supported by your JVM or OS.",
+                        getCharsetErrorFile()), ExitCode.IO_ERROR);
+            } catch (FileNotFoundException e) {
+                // the message of the exception already names the file and the reason
+                throw new ExitException(String.format("Jacksum: Error: %s", e.getMessage()), ExitCode.IO_ERROR);
             }
         }
 
@@ -2421,7 +2460,10 @@ public class Parameters implements
                     timestampFormatter.format(new Date());
             }
         } catch (IllegalArgumentException e) {
-            throw new ExitException(e.getMessage(), ExitCode.PARAMETER_ERROR);
+            // a ParameterException prefixes the message with "Jacksum: Parameter Error: ",
+            // and Main answers it with the very same exit code, see also the -t branch of
+            // CLIParameters, which words the same error that way already
+            throw new ParameterException(String.format("Option %s is wrong (\"%s\")", _TIMESTAMP, e.getMessage()));
         }
 
         if (isPathRelativeToEntry() && getFilelistFilename() == null) {
@@ -2479,12 +2521,6 @@ public class Parameters implements
                 messenger.print(WARNING, "A sequence (-q) has been specified, timestamp (-t) will be ignored.");
             }
             setTimestampFormat(null);
-        }
-
-        // verification mode, but format has been set using -F <format>
-        if (checkFile != null && format != null) {
-            format = null;
-            messenger.print(WARNING, "Ignoring -F, because -c has been specified.");
         }
 
         // verification mode, no compat file has been given, and no algorithm id

@@ -384,7 +384,8 @@ public class CLIParameters {
                         try {
                             parameters.setGrouping(arg);
                         } catch (IllegalArgumentException e) {
-                            throw new ParameterException(String.format("%s is not a decimal number.", arg));
+                            // pass the message on, it states the actual reason
+                            throw new ParameterException(e.getMessage());
                         }
                     } else {
                         handleUserParamError(arg, __GROUP_BYTES);

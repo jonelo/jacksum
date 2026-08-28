@@ -1,6 +1,8 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
+  - issue #66: Several parameter errors are reported with a wrong, malformed or unprefixed
+    message, one check is dead code
   - issue #65: Values substituted into a -F format are scanned again, so a file name
     like #QUOTE is replaced in the output
   - issue #64: --string-list ignores --charset-string-list when hashing, so the result
