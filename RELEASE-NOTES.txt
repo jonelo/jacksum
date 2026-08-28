@@ -1,6 +1,7 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
+  - Reading standard input closes System.in, although the code says it must not
   - issue #70: A reused Parameters object compares against a stale expectation and cannot be
     turned back into a complete command line
   - issue #69: An invalid encoding in a format aborts the resolution of all following tokens

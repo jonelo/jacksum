@@ -519,27 +519,22 @@ abstract public class AbstractChecksum implements Checksum {
 
     public long readStdin(boolean reset) throws IOException {
         this.filename = stdinName;
-        InputStream stdin;
-        InputStream stdin_buffered = null;
         long lengthBackup;
 
-        try {
-            stdin = System.in;
-            stdin_buffered = new BufferedInputStream(stdin);
+        // The buffering stream is deliberately not closed: closing it would close
+        // System.in as well, and a program that uses Jacksum as a library has to be able
+        // to read standard input again. It holds no resource of its own that would have
+        // to be released, only the buffer, which the garbage collector takes care of.
+        InputStream stdin_buffered = new BufferedInputStream(System.in);
 
-            if (reset) {
-                reset();
-            }
-            byte[] buffer = new byte[BUFFERSIZE];
-            lengthBackup = length;
-            int len;
-            while ((len = stdin_buffered.read(buffer)) > -1) {
-                update(buffer, 0, len);
-            }
-        } finally { // don't close stdin, only stdin_buffered
-            if (stdin_buffered != null) {
-                stdin_buffered.close();
-            }
+        if (reset) {
+            reset();
+        }
+        byte[] buffer = new byte[BUFFERSIZE];
+        lengthBackup = length;
+        int len;
+        while ((len = stdin_buffered.read(buffer)) > -1) {
+            update(buffer, 0, len);
         }
 
         return length - lengthBackup;

@@ -160,32 +160,25 @@ public class GeneralIO {
             boolean linesContainNormalAndQuotedStringsSeparatedByWhiteSpaceChars) throws IOException {
         List<String> lines = new ArrayList<>();
 
-        BufferedReader bufferedReader = null;
-        InputStreamReader inputStreamReader;
-        
-        try {
-            // don't use try-with-resources here, because we only want to close the BufferedReader,
-            // but we don't want to close System.in
-            inputStreamReader = new InputStreamReader(System.in, charset);
-            bufferedReader = new BufferedReader(inputStreamReader);
+        // The reader is deliberately neither closed nor wrapped in try-with-resources:
+        // closing it would close System.in as well, and standard input has to stay readable
+        // for a further read in the same process. It holds no resource of its own that would
+        // have to be released, only the buffer, which the garbage collector takes care of.
+        InputStreamReader inputStreamReader = new InputStreamReader(System.in, charset);
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                if (ignoreEmptyLines && line.trim().length() == 0) {
-                    continue;
-                }
-                if (ignorePrefix != null && line.startsWith(ignorePrefix)) {
-                    continue;
-                }
-                if (linesContainNormalAndQuotedStringsSeparatedByWhiteSpaceChars) {                                    
-                    lines.addAll(GeneralString.tokenize(line));
-                } else {
-                    lines.add(line);
-                }
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            if (ignoreEmptyLines && line.trim().length() == 0) {
+                continue;
             }
-        } finally {
-            if (bufferedReader != null) {
-                bufferedReader.close();
+            if (ignorePrefix != null && line.startsWith(ignorePrefix)) {
+                continue;
+            }
+            if (linesContainNormalAndQuotedStringsSeparatedByWhiteSpaceChars) {
+                lines.addAll(GeneralString.tokenize(line));
+            } else {
+                lines.add(line);
             }
         }
         return lines;
