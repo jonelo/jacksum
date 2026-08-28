@@ -1,6 +1,7 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
+  - issue #67: A custom CRC accepts an xorOut value that is wider than the CRC
   - issue #66: Several parameter errors are reported with a wrong, malformed or unprefixed
     message, one check is dead code
   - issue #65: Values substituted into a -F format are scanned again, so a file name

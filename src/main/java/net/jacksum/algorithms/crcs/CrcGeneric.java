@@ -147,6 +147,10 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
         if (model.getInit() != (model.getInit() & maskAllBits)) {
             throw new NoSuchAlgorithmException(String.format("Error: invalid init value for the %s bit CRC.", model.getWidth()));
         }
+
+        if (model.getXorOut() != (model.getXorOut() & maskAllBits)) {
+            throw new NoSuchAlgorithmException(String.format("Error: invalid xor value for the %s bit CRC.", model.getWidth()));
+        }
     }
 
 
