@@ -71,8 +71,6 @@ import java.nio.file.Paths;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static net.jacksum.cli.CLIParameters.*;
 import static net.jacksum.cli.Messenger.MsgType.INFO;
@@ -2147,6 +2145,37 @@ public class Parameters implements
         restoreStdErr();
     }
 
+    /**
+     * Checks whether the output file (option -o) resp. the error file (option -u) already
+     * exists, before any of them is opened.
+     *
+     * The check has to happen before opening, because opening a file for writing truncates
+     * it: if both options point to the same file, the shared stream used to be created
+     * before the check, so the file was already emptied when the check aborted the run; and
+     * if only the error file existed, the output file had already been created before the
+     * run was aborted.
+     *
+     * @throws ExitException if a file exists while overwriting it has not been allowed
+     */
+    private void checkOutputTargets() throws ExitException {
+        if (isOutputFile() && !isOutputFileOverwrite()) {
+            File file = new File(getOutputFile());
+            if (file.exists()) {
+                throw new ExitException(String.format(
+                        "Jacksum: Error: the file %s already exists. Specify the file by -O to overwrite it.", file),
+                        ExitCode.IO_ERROR);
+            }
+        }
+        if (isErrorFile() && !isErrorFileOverwrite()) {
+            File file = new File(getErrorFile());
+            if (file.exists()) {
+                throw new ExitException(String.format(
+                        "Jacksum: Error: the file %s already exists. Specify the file by -U to overwrite it.", file),
+                        ExitCode.IO_ERROR);
+            }
+        }
+    }
+
     private void handleCharsetsAndSetupStreams() throws ParameterException, ExitException {
         if (isUtf8()) {
             setCharsetStdout(UTF_8);
@@ -2183,6 +2212,10 @@ public class Parameters implements
             throw new ParameterException("Output and error file are the same, but character sets for output and error file have been set differently.");
         }
 
+        // both files have to be checked before any of them is opened for writing,
+        // because opening truncates, see checkOutputTargets()
+        checkOutputTargets();
+
         PrintStream streamShared = null;
         boolean isShared = false;
         if (outputFileAndErrorFileAreEqual) {
@@ -2190,18 +2223,12 @@ public class Parameters implements
                 streamShared = new PrintStream(new FileOutputStream(getOutputFile()), true, getCharsetOutputFile());
                 isShared = true;
             } catch (UnsupportedEncodingException | FileNotFoundException e) {
-                //Logger.getLogger(Parameters.class.getName()).log(Level.SEVERE, null, e);
                 throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
             }
         }
 
         if (isOutputFile()) {
             try {
-                File f = new File(getOutputFile());
-                if (!isOutputFileOverwrite() && f.exists()) {
-                    throw new ExitException(String.format("Jacksum: Error: the file %s already exists. Specify the file by -O to overwrite it.", f), ExitCode.IO_ERROR);
-                }
-
                 if (isShared) {
                     System.setOut(streamShared);
                 } else {
@@ -2210,19 +2237,13 @@ public class Parameters implements
                     //PrintStream tee = new TeeStream(System.out, out);
                     System.setOut(out);
                 }
-            } catch (UnsupportedEncodingException | FileNotFoundException | ExitException e) {
-                // Logger.getLogger(Parameters.class.getName()).log(Level.SEVERE, null, e);
+            } catch (UnsupportedEncodingException | FileNotFoundException e) {
                 throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
             }
         }
 
         if (isErrorFile()) {
             try {
-                File f = new File(getErrorFile());
-                if (!isErrorFileOverwrite() && f.exists()) {
-                    throw new ExitException(String.format("Jacksum: Error: the file %s already exists. Specify the file by -U to overwrite it.", f), ExitCode.IO_ERROR);
-                }
-
                 if (isShared) {
                     System.setErr(streamShared);
                 } else {
@@ -2231,8 +2252,7 @@ public class Parameters implements
                     //PrintStream tee = new TeeStream(System.out, err);
                     System.setErr(err);
                 }
-            } catch (UnsupportedEncodingException | FileNotFoundException | ExitException e) {
-                Logger.getLogger(Parameters.class.getName()).log(Level.SEVERE, null, e);
+            } catch (UnsupportedEncodingException | FileNotFoundException e) {
                 throw new ExitException(e.getMessage(), ExitCode.IO_ERROR);
             }
         }

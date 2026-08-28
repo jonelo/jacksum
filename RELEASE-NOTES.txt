@@ -1,6 +1,11 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
+  - the options -o/-O and -u/-U opened their target file before Jacksum checked whether it
+    already exists, and opening a file for writing truncates it: "-o <file> -u <file>" emptied
+    that file before the run was aborted, and "-o <new> -u <existing>" left <new> behind as an
+    empty file; both files are now checked before any of them is opened. Additionally the -u/-U
+    code path no longer logs the aborting exception with a stack trace (issue #58)
   - Parameters.checked() can be called more than once on the same Parameters object again if
     --path-relative-to-entry has been used: the first call derived the path for --path-relative-to
     from the entry without clearing --path-relative-to-entry, so every subsequent call rejected the
