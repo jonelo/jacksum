@@ -81,9 +81,11 @@ public class DefaultCompatibilityProperties {
             parserProperties.setIgnoreLinesStartingWithString("#");
         }
 
-        if (parameters.isGnuEscapingSetByUser()) {
-            parserProperties.setGnuEscapingEnabled(parameters.isGnuEscaping());
-        }
+        // Note: the generated parser always understands an escaped line, because
+        // parser.regexp.gnuEscapingPos is set to 1 in every variant of the regular
+        // expression below, and Parser decides by that position alone. The property
+        // formatter.gnuescaping.enabled is only read for a style, see Parameters,
+        // so it is deliberately not set here.
 
         // regular expression
         String regexp;

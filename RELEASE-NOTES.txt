@@ -1,7 +1,8 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
-  - Reading standard input closes System.in, although the code says it must not
+  - issue #72: DefaultCompatibilityProperties sets a property that nothing reads
+  - issue #71: Reading standard input closes System.in, although the code says it must not
   - issue #70: A reused Parameters object compares against a stale expectation and cannot be
     turned back into a complete command line
   - issue #69: An invalid encoding in a format aborts the resolution of all following tokens
@@ -33,6 +34,9 @@ Jacksum 4.0.1, TBD
     specified by the user resp. by the API is still reported (found by HashGarten, issue #14)
 
 - Updated documentation 
+  - the help text for --gnu-filename-escaping now states that the option controls the
+    writing of file names only, and that a check list resp. a wanted list is recognized as
+    escaped by the backslash such a line starts with, no matter how the option is set
   - issue #68: The EXIT STATUS section is incomplete, has a typo, and refers to a file that
     no longer exists; one sentence about -q txt: is broken
   - the description of the sequence type "txt" of option -q was missing its predicate

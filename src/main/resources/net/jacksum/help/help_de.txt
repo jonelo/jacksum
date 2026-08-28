@@ -3169,6 +3169,14 @@ OPTIONS
             die problematischen Zeichen im Dateinamen werden mit einem
             Backslash escapt.
 \
+            Diese Option steuert nur das Schreiben von Dateinamen. Beim
+            Lesen einer Prüfliste bzw. einer Suchliste (Optionen -c und
+            -w) erkennt Jacksum eine escapte Zeile an dem Backslash, mit
+            dem eine solche Zeile beginnt, unabhängig davon, wie diese
+            Option gesetzt ist. Eine Liste lässt sich daher immer
+            verifizieren, gleich ob sie mit oder ohne Escaping
+            geschrieben wurde.
+\
 \
             Siehe auch:
 \

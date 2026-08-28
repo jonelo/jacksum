@@ -2866,6 +2866,13 @@ OPTIONS
             starts with a backslash, and the problematic characters in the file
             name are escaped with a backslash.
 \
+            This option controls the writing of file names only. While a check
+            list resp. a wanted list is being read (options -c and -w), Jacksum
+            recognizes an escaped line by the backslash that such a line starts
+            with, no matter how this option has been set. A list can therefore
+            always be verified, whether it has been written with escaping or
+            without it.
+\
 \
             See also:
 \
