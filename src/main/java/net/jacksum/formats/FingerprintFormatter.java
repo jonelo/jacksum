@@ -71,13 +71,15 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
     public static void resolveEncoding(StringBuilder buf, AbstractChecksum checksum, String regex, TokenValueStore store) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(buf.toString());
-        try {
-            while (matcher.find()) {
+        while (matcher.find()) {
+                // the try block encloses one match only, so an unknown encoding leaves
+                // just that token unresolved rather than aborting the whole loop
+            try {
                 String value = checksum.getValueFormatted(Encoding.string2Encoding(matcher.group(2)));
                 GeneralString.replaceAllStrings(buf, matcher.group(1), store == null ? value : store.protect(value));
+            } catch (IllegalArgumentException e) {
+                System.err.printf("Jacksum: Error: %s%n", e.getMessage());
             }
-        } catch (IllegalArgumentException e) {
-            System.err.println(e);
         }
     }
 

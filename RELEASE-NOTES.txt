@@ -1,6 +1,7 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
+  - issue #69: An invalid encoding in a format aborts the resolution of all following tokens
   - issue #67: A custom CRC accepts an xorOut value that is wider than the CRC
   - issue #66: Several parameter errors are reported with a wrong, malformed or unprefixed
     message, one check is dead code
@@ -29,13 +30,8 @@ Jacksum 4.0.1, TBD
     specified by the user resp. by the API is still reported (found by HashGarten, issue #14)
 
 - Updated documentation 
-  - the section EXIT STATUS documented three of the seven exit codes that Jacksum returns;
-    the codes 3 (a check list resp. a wanted list could not be parsed), 5 (no file with a
-    wanted hash value has been found) and 6 (an expectation has not been met) were missing
-    although a script that evaluates the exit status needs them. All seven are listed
-    individually now, together with what triggers them. The section also said "If Jacksum
-    exists" instead of "exits", and it attributed exit codes greater than 1 to a
-    ".jacksum-error", which refers to a configuration file that no longer exists
+  - issue #68: The EXIT STATUS section is incomplete, has a typo, and refers to a file that
+    no longer exists; one sentence about -q txt: is broken
   - the description of the sequence type "txt" of option -q was missing its predicate
     ("the default character set of the platform used to represent the <sequence>")
   - the help text for -L/--file-list now mentions that empty lines in the file list are

@@ -44,13 +44,15 @@ public class SequenceFormatter {
     public static void resolveEncoding(StringBuilder buf, byte[] bytes, int grouping, Character groupChar, String regex, TokenValueStore store) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(buf.toString());
-        try {
-            while (matcher.find()) {
+        while (matcher.find()) {
+                // the try block encloses one match only, so an unknown encoding leaves
+                // just that token unresolved rather than aborting the whole loop
+            try {
                 String value = EncodingDecoding.encodeBytes(bytes, Encoding.string2Encoding(matcher.group(2)), grouping, groupChar);
                 GeneralString.replaceAllStrings(buf, matcher.group(1), store == null ? value : store.protect(value));
+            } catch (IllegalArgumentException e) {
+                System.err.printf("Jacksum: Error: %s%n", e.getMessage());
             }
-        } catch (IllegalArgumentException e) {
-            System.err.println(e);
         }
     }
     

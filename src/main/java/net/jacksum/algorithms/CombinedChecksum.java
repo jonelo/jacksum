@@ -359,9 +359,10 @@ public class CombinedChecksum extends AbstractChecksum {
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(buf.toString());
-        try {
-            while (matcher.find()) {
-
+        while (matcher.find()) {
+                // the try block encloses one match only, so an unknown encoding leaves
+                // just that token unresolved rather than aborting the whole loop
+            try {
                 StringBuilder sb = new StringBuilder();
                 int i;
                 for (i = 0; i < algorithms.size() - 1; i++) {
@@ -372,9 +373,9 @@ public class CombinedChecksum extends AbstractChecksum {
 
                 GeneralString.replaceAllStrings(buf, matcher.group(1),
                         store == null ? sb.toString() : store.protect(sb.toString()));
+            } catch (IllegalArgumentException e) {
+                System.err.printf("Jacksum: Error: %s%n", e.getMessage());
             }
-        } catch (IllegalArgumentException e) {
-            System.err.println(e);
         }
     }
 
