@@ -1,79 +1,22 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
-  - a value that had been substituted into a format (option -F, and therefore every style as
-    well) was searched again by the substitutions that followed it, so a file name that
-    contains a token was replaced rather than being printed: a file named "#QUOTE" appeared
-    as a quotation mark, one named "#TIMESTAMP-file" as "-file", and a check list that was
-    written for such a file could not be verified afterwards, the entry was reported as
-    MISSING. The same applied to a separator (option -s) that contains #QUOTE while the
-    format contains #SEPARATOR. Every value is now protected until all tokens have been
-    resolved, without changing the order in which they are resolved. The default output
-    (without -F) never had that problem and is unchanged; a check list that has been written
-    for a file name containing a token has to be created again (issue #65)
-  - option --string-list hashed every line with the character set of the JVM instead of the
-    one that has been specified by --charset-string-list: the list was read with the given
-    charset, but the line was re-encoded with the JVM default before it was hashed, so the
-    option had no effect on the result and the result depended on -Dfile.encoding; the
-    token #SEQUENCE was affected in the same way, through the Sequence of type txt that the
-    action stores for it. Both now derive the bytes from the given charset, so the option
-    takes effect and the result no longer depends on the JVM. Values change for a list that
-    is read with a charset other than the JVM default; a UTF-8 list on a JVM whose default
-    is UTF-8 (the default since Java 18) keeps its values (issue#64)
-  - the error message for a rejected argument of the options --filesize and
-    --gnu-filename-escaping was concatenated into the format string of String.format
-    instead of being passed as an argument, and the argument the user had typed is part of
-    that message: a percent sign in it was therefore interpreted as a conversion, which
-    truncated the message ("--filesize %n"), replaced it by the text of a Java formatter
-    exception ("--filesize %d" printed "d != [Ljava.lang.String;"), or printed the option
-    name resp. an array identity where the user's value belonged ("--filesize %1$s" and
-    "--filesize %s"); the message now always quotes the value verbatim (issue #63)
-  - the sequence types dec: and oct: of the option -q resp. -k appended 0x00 bytes at the end
-    of the sequence instead of honouring the position of an empty value, because the array was
-    dimensioned by the number of separators while it was filled with a StringTokenizer, which
-    drops empty tokens: "dec:65,66," returned three bytes instead of two, "dec:65,,66" and
-    "dec:,65" put the 0x00 at the end rather than in place, and a text without any number
-    such as "dec:," returned 0x00 bytes; both types now behave like hex: and bin:, so an
-    empty value keeps its position and a separator at the end adds nothing. Values change
-    for such malformed sequences only; well formed sequences keep their values (issue #62)
-  - option --path-relative-to-entry <number> died with an uncaught
-    java.lang.IndexOutOfBoundsException and a stack trace if <number> was larger than the
-    number of entries in the file list, and the JVM exited with code 1, which is the code
-    for a failed verification; the option now reports a parameter error that names both
-    numbers and exits with code 2, as it already did for a <number> of 0 or less (issue #61)
-  - the help text for --path-relative-to-entry described <number> as "the line number that
-    is stored in the file list", which is not what the option does: the number selects the
-    n-th entry after comments and empty lines have been removed, and with
-    --file-list-format ssv a single line can hold several entries; the text now describes
-    entries, and it also documents that <number> must not exceed their number (issue #61)
-  - an HMAC did not count the bytes it processed, so getLength() always returned 0 and
-    everything that reads it reported 0 for every hmac:* algorithm: the tokens #FILESIZE and
-    #LENGTH, the option --filesize, the size column of a style that stores it, and "total
-    bytes read" of --verbose summary; hash values were not affected. Note that a check file
-    which stores file sizes and has been written with an hmac:* algorithm by an earlier
-    version stores 0 for every entry and now reports FAILED, because that 0 is compared
-    against the real size; such a list has to be created again (issue #60)
-  - an HMAC kept returning the previously computed value if update() was called again after
-    the HMAC had been taken, because getByteArray() caches its result and only reset()
-    invalidated that cache; such an update() now starts a new message, so the returned value
-    and the number of processed bytes always belong together; the CLI was not affected,
-    because it resets the algorithm before every message (issue #60)
-  - styles that switch GNU file name escaping on (formatter.gnuescaping.enabled=true) did not
-    escape file names, because FormatPreferences adopted that value only if the user had set
-    the option --gnu-filename-escaping explicitly; 14 of the 19 predefined styles were
-    affected, and a file name containing a backslash, newline or carriage return was written
-    raw, which made such an entry unverifiable; with --style bsd the entry was even skipped
-    silently while Jacksum exited with 0 (issue #59)
-  - Parameters.checked() marked GNU file name escaping as being set by the user although the
-    user had not set it, because the platform default was applied by calling setGnuEscaping();
-    a second call on the same object could therefore overwrite the setting of a style or warn
-    about an option that was never given; this affects the API only, because the CLI validates
-    once per run (issue #59, same class of defect as HashGarten issue #14)
-  - the options -o/-O and -u/-U opened their target file before Jacksum checked whether it
-    already exists, and opening a file for writing truncates it: "-o <file> -u <file>" emptied
-    that file before the run was aborted, and "-o <new> -u <existing>" left <new> behind as an
-    empty file; both files are now checked before any of them is opened. Additionally the -u/-U
-    code path no longer logs the aborting exception with a stack trace (issue #58)
+  - issue #65: Values substituted into a -F format are scanned again, so a file name
+    like #QUOTE is replaced in the output
+  - issue #64: --string-list ignores --charset-string-list when hashing, so the result
+    depends on the JVM default charset
+  - issue #63: Error messages for option arguments are used as a format string, so an
+    argument containing % destroys the message
+  - issue #62: -q dec: and -q oct: append 0x00 bytes at the end instead of honouring
+    the position of an empty value
+  - issue #61: --path-relative-to-entry with a number beyond the file list throws an
+    uncaught IndexOutOfBoundsException
+  - issue #60: HMAC ignores the number of processed bytes, and returns the previous
+    HMAC when update() is called after the value has been taken
+  - issue #59: Styles do not apply formatter.gnuescaping.enabled, and checked() marks
+    GNU file name escaping as user-set although it is not
+  - issue #58: -o and -u truncate or create their target file before the "file already
+    exists" check aborts the run
   - Parameters.checked() can be called more than once on the same Parameters object again if
     --path-relative-to-entry has been used: the first call derived the path for --path-relative-to
     from the entry without clearing --path-relative-to-entry, so every subsequent call rejected the
