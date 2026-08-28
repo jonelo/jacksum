@@ -1,8 +1,8 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes
-  - A reused Parameters object compares against a stale expectation and cannot be turned
-    back into a complete command line
+  - issue #70: A reused Parameters object compares against a stale expectation and cannot be
+    turned back into a complete command line
   - issue #69: An invalid encoding in a format aborts the resolution of all following tokens
   - issue #67: A custom CRC accepts an xorOut value that is wider than the CRC
   - issue #66: Several parameter errors are reported with a wrong, malformed or unprefixed
