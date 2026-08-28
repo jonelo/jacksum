@@ -724,6 +724,8 @@ public class Parameters implements
 
     public void setExpected(String expected) {
         this.expected = expected;
+        // the decoded value belongs to the old expectation, see getExpectedBytes()
+        this.expectedAsBytes = null;
     }
 
     @Override
@@ -1726,9 +1728,6 @@ public class Parameters implements
             list.add(__CHECK_LINE);
             list.add(checkLine);
         }
-        if (checkStrict) {
-            list.add(__CHECK_STRICT);
-        }
         if (ignoreHashes) {
             list.add(__IGNORE_HASHES);
         }
@@ -1750,9 +1749,9 @@ public class Parameters implements
                 list.add(_IGNORE_LINES_STARTING_WITH_STRING);
                 list.add(getCommentChars());
             }
-            if (ignoreEmptyLines) {
-                list.add(__IGNORE_EMPTY_LINES);
-            }
+        }
+        if (ignoreEmptyLines) {
+            list.add(__IGNORE_EMPTY_LINES);
         }
 
         if (compatibilityID != null) {
@@ -1825,9 +1824,23 @@ public class Parameters implements
             list.add(__LIST_FILTER);
             list.add(listFilter.toString());
         }
+        if (wantedList != null) {
+            list.add(_WANTED_LIST);
+            list.add(wantedList);
+        }
         if (wantedListFilter.isFilterHasBeenSet()) {
             list.add(__WANTED_LIST_FILTER);
             list.add(wantedListFilter.toString());
+        }
+        if (isHMACsWanted()) {
+            list.add(__HMACS);
+        }
+        if (isGnuEscapingSetByUser()) {
+            list.add(__GNU_FILENAME_ESCAPING);
+            list.add(isGnuEscaping() ? "true" : "false");
+        }
+        if (isOutputFileReplaceTokens()) {
+            list.add(__OUTPUT_FILE_REPLACE_TOKENS);
         }
         if (filelistFilename != null) {
             list.add(__FILE_LIST);
@@ -1935,6 +1948,14 @@ public class Parameters implements
         if (!charsetOutputFile.equalsIgnoreCase(UTF_8)) {
             list.add(__CHARSET_OUTPUT_FILE);
             list.add(charsetOutputFile);
+        }
+        if (!charsetWantedList.equalsIgnoreCase(UTF_8)) {
+            list.add(__CHARSET_WANTED_LIST);
+            list.add(charsetWantedList);
+        }
+        if (!charsetConsole.equalsIgnoreCase(UTF_8)) {
+            list.add(__CHARSET_CONSOLE);
+            list.add(charsetConsole);
         }
         if (charsetStdout != null) {
             list.add(__CHARSET_STDOUT);
