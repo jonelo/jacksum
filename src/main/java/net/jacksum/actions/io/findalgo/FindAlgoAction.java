@@ -62,7 +62,7 @@ public class FindAlgoAction implements Action {
         if (matcher.find() && matcher.groupCount() == 1) {
             int width = Integer.valueOf(matcher.group(1));
             /*if (width < 8 || (width % 8 > 0)) {
-                throw new ParameterException("Bit width must be a multiple of 8. Selected bit with " + width + " does not match that criteria.");
+                throw new ParameterException("Bit width must be a multiple of 8. Selected bit width " + width + " does not meet that requirement.");
             }*/
 
             List<FindAlgoEngine> engines = new ArrayList<>(3);

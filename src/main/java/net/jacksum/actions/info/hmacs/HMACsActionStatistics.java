@@ -30,7 +30,7 @@ public class HMACsActionStatistics extends Statistics {
     @Override
     public Map<String, Object> build() {
         Map<String, Object> map = new LinkedHashMap<>();
-        map.put("number of HMACSs", getHMACsCount());
+        map.put("number of HMACs", getHMACsCount());
         return map;
     }
 

@@ -2452,7 +2452,7 @@ public class Parameters implements
                 throw new ParameterException(String.format("Parameter -c %s is a directory, but a filename was expected.", getCheckFile()));
             }
             if (!f.exists()) {
-                throw new ExitException(String.format("Jacksum: %s: No such file or directory. Exit.", getCheckFile()), ExitCode.IO_ERROR);
+                throw new ExitException(String.format("Jacksum: Error: %s: No such file or directory.", getCheckFile()), ExitCode.IO_ERROR);
             }
         }
 

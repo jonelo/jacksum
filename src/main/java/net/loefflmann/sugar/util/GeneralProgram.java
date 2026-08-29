@@ -37,9 +37,9 @@ public final class GeneralProgram {
             // no java check under non J2SE-compatible VMs
             if (isJ2SEcompatible() && (ver.compareTo(version) < 0)) {
                 System.out.println("ERROR: a newer Java VM is required."
-                        + "\nVendor of your Java VM:        " + System.getProperty("java.vm.vendor")
-                        + "\nVersion of your Java VM:       " + ver
-                        + "\nRequired minimum J2SE version: " + version);
+                        + "\nVendor of your Java VM:           " + System.getProperty("java.vm.vendor")
+                        + "\nVersion of your Java VM:          " + ver
+                        + "\nRequired minimum Java SE version: " + version);
 
                 // let's shut down the entire VM
                 // no suitable Java VM has been found

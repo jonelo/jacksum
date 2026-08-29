@@ -62,7 +62,7 @@ public class FindDocumentedAlgorithms implements FindAlgoEngine {
             try {
                 checksum = JacksumAPI.getChecksumInstance(entry.getKey());
             } catch (NoSuchAlgorithmException e) {
-                throw new ParameterException("Error: No such algorithm: " + entry.getKey());
+                throw new ParameterException("No such algorithm: " + entry.getKey());
             }
             checksum.setParameters(parameters);
             checksum.update(parameters.getSequence().asBytes());

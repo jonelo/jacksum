@@ -44,6 +44,9 @@ Jacksum 4.0.1, TBD
     specified by the user resp. by the API is still reported (found by HashGarten, issue #14)
 
 - Updated documentation 
+  - some messages carried a duplicated prefix, shouted in capitals, or contained a typo,
+    among them the GPL sentence that Jacksum prints without arguments: it said "(at your
+    opinion)" instead of "(at your option)"
   - the help text for --gnu-filename-escaping now states that the option controls the
     writing of file names only, and that a check list resp. a wanted list is recognized as
     escaped by the backslash such a line starts with, no matter how the option is set

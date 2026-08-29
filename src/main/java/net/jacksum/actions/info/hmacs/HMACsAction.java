@@ -68,7 +68,9 @@ public class HMACsAction implements Action {
             } catch (NoSuchAlgorithmException e) {
                 // should not happen
                 e.printStackTrace();
-                throw new RuntimeException("INTERNAL ERROR");
+                throw new RuntimeException(String.format(
+                        "Internal error in JacksumAPI.getAvailableHMACs(): the algorithm %s could not be instantiated.",
+                        entry.getKey()));
             }
         }
         System.out.print(buffer);

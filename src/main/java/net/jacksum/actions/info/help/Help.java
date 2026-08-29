@@ -78,7 +78,7 @@ public class Help {
             // A note for maintainers of platform specific packages:
             // please keep the help file, don't remove it. The help file is important, because the
             // error system and --help options of Jacksum relies on it.
-            throw new FileNotFoundException(String.format("FATAL: help file %s is not bundled with .jar file. Please file a bug for the maintainer of this package.%n", filename));
+            throw new FileNotFoundException(String.format("FATAL: help file %s is not bundled with the .jar file. Please file a bug for the maintainer of this package.%n", filename));
         } catch (IOException ioe) {
             throw new IOException(String.format("FATAL: problem while reading help file %s.%n", filename));
         }

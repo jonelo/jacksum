@@ -201,7 +201,7 @@ public class HashFunctionFactory {
             } catch (NoSuchAlgorithmException e) {
                 // should not happen
                 e.printStackTrace();
-                throw new RuntimeException("INTERNAL ERROR in JacksumAPI.getAvailableAlgorithms(int width)");
+                throw new RuntimeException("Internal error in JacksumAPI.getAvailableAlgorithms(int width).");
             }
             if (checksum != null && checksum.getSize() == width) {
                 mapFiltered.put(entry.getKey(), entry.getValue());
@@ -223,7 +223,7 @@ public class HashFunctionFactory {
             } catch (NoSuchAlgorithmException e) {
                 // should not happen
                 e.printStackTrace();
-                throw new RuntimeException("INTERNAL ERROR in JacksumAPI.getAvailableHMACs()");
+                throw new RuntimeException("Internal error in JacksumAPI.getAvailableHMACs().");
             }
             if (checksum != null && checksum.getBlockSize() > 0 && checksum.getBlockSize() >= checksum.getSize()/8) {
                 mapFiltered.put(String.format("hmac:%s", entry.getKey()), String.format("%s (HMAC)", entry.getValue()));

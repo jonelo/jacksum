@@ -94,7 +94,7 @@ public class AllAlgorithms_Selector extends Selector {
             if (matcher.find() && matcher.groupCount() == 1) {
                 width = Integer.valueOf(matcher.group(1));
                 if (width < 8 || (width % 8 > 0)) {
-                    throw new NoSuchAlgorithmException(String.format("Bit width must be a multiple of 8. Selected bit with %d does not match that criteria.",  width));
+                    throw new NoSuchAlgorithmException(String.format("Bit width must be a multiple of 8. Selected bit width %d does not meet that requirement.",  width));
                 }
                 map = JacksumAPI.getAvailableAlgorithms(width);
                 if (map.isEmpty()) {

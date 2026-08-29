@@ -66,7 +66,7 @@ public class VersionAction implements Action {
         System.out.printf(
                   "    This program is free software: you can redistribute it and/or modify it%n"
                 + "    under the terms of the GNU General Public License as published by the Free%n"
-                + "    Software Foundation, either version 3 of the License, or (at your opinion)%n"
+                + "    Software Foundation, either version 3 of the License, or (at your option)%n"
                 + "    any later version.%n%n"
                         
                 + "    This program is distributed in the hope that it will be useful, but%n"

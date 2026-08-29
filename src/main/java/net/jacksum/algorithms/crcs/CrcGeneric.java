@@ -137,19 +137,19 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
      */
     private void check() throws NoSuchAlgorithmException {
         if (model.getWidth() < 1 || model.getWidth() > 64) {
-            throw new NoSuchAlgorithmException("Error: CRC parameter width has to be in range [1..64].");
+            throw new NoSuchAlgorithmException("The CRC parameter width has to be in the range [1..64].");
         }
 
         if (model.getPoly() != (model.getPoly() & maskAllBits)) {
-            throw new NoSuchAlgorithmException(String.format("Error: invalid polynomial for the %s bit CRC.", model.getWidth()));
+            throw new NoSuchAlgorithmException(String.format("Invalid polynomial for the %s-bit CRC.", model.getWidth()));
         }
 
         if (model.getInit() != (model.getInit() & maskAllBits)) {
-            throw new NoSuchAlgorithmException(String.format("Error: invalid init value for the %s bit CRC.", model.getWidth()));
+            throw new NoSuchAlgorithmException(String.format("Invalid init value for the %s-bit CRC.", model.getWidth()));
         }
 
         if (model.getXorOut() != (model.getXorOut() & maskAllBits)) {
-            throw new NoSuchAlgorithmException(String.format("Error: invalid xor value for the %s bit CRC.", model.getWidth()));
+            throw new NoSuchAlgorithmException(String.format("Invalid xor value for the %s-bit CRC.", model.getWidth()));
         }
     }
 
