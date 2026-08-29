@@ -109,7 +109,7 @@ public class MatchFilter implements Serializable  {
                     filterNoMatch = true;
                     break;
                 default:
-                    throw new IllegalArgumentException(String.format("%s is an invalid parameter", token));
+                    throw new IllegalArgumentException(String.format("%s is an invalid parameter.", token));
             }
         }
     }

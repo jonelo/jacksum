@@ -65,7 +65,7 @@ public class Blake3Wrapper extends AbstractChecksum {
             }
         }
 
-        throw new NoSuchAlgorithmException(input + " is an invalid id for Blake3.");
+        throw new NoSuchAlgorithmException(input + " is an invalid ID for Blake3.");
     }
 
     @Override

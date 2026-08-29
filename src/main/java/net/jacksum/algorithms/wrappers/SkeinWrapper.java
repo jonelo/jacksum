@@ -82,7 +82,7 @@ public class SkeinWrapper extends MDbouncycastle {
             }
         }
 
-        throw new NoSuchAlgorithmException(input + " is an invalid description for Skein. Must be in format skein-<256|512|1024>[-<length>]");
+        throw new NoSuchAlgorithmException(input + " is an invalid ID for Skein. It must be in the format skein-<256|512|1024>[-<length>].");
     }
 
     private int initStateSize(int stateSize) {

@@ -81,7 +81,7 @@ public class Blake2sWrapper extends MDbouncycastle {
             }
         }
 
-        throw new NoSuchAlgorithmException(input + " is an invalid id for blake2s. Must be in format blake2s-<n>");
+        throw new NoSuchAlgorithmException(input + " is an invalid ID for Blake2s. It must be in the format blake2s-<n>.");
     }
 
 }

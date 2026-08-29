@@ -386,7 +386,7 @@ public class Parser {
         getStatistics().setDuplicateEntriesCounted(true);
         getStatistics().setDuplicateEntries(getStatistics().getDuplicateEntries() + 1);
         if (differs(previous, hashEntry)) {
-            System.err.printf("Jacksum: Warning: Duplicate entry in %s: \"%s\" and \"%s\" refer to the same file, but they don't store the same properties; the entry that has been read later is used.%n",
+            System.err.printf("Jacksum: Warning: Duplicate entry in %s: \"%s\" and \"%s\" refer to the same file, but they do not store the same properties; the entry that has been read later is used.%n",
                     location, previous.getFilename(), hashEntry.getFilename());
         }
     }

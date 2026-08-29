@@ -139,7 +139,7 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
 
             System.err.printf("Jacksum: %d of the successfully read files %s the expected hash value.%s",
                     checkAgainst,
-                    filter.isFilterMatch() ?  (checkAgainst == 1 ? "matches": "match") : (checkAgainst == 1 ? "doesn't match" : "don't match"),
+                    filter.isFilterMatch() ?  (checkAgainst == 1 ? "matches": "match") : (checkAgainst == 1 ? "does not match" : "do not match"),
                     parameters.getLineSeparator());
         }
 

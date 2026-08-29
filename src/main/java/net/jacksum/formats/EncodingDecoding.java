@@ -152,7 +152,7 @@ public class EncodingDecoding {
                     Path p = Path.of(sequence);
                     if (Files.exists(p)) {
                         if (Files.size(p) > 128 * 1024 * 1024) {
-                            throw new IllegalArgumentException(String.format("File %s is greater than 128 MiB which exceeds the limit for option -q file:<file>", sequence));
+                            throw new IllegalArgumentException(String.format("File %s is greater than 128 MiB, which exceeds the limit for option -q file:<file>.", sequence));
                         }
                         bytes = Files.readAllBytes(p);
                     } else {
@@ -163,7 +163,7 @@ public class EncodingDecoding {
                 }
                 break;
             default:
-                throw new IllegalArgumentException(String.format("Unknown sequence type: %s", type));
+                throw new IllegalArgumentException(String.format("Unknown sequence type: %s.", type));
         }
         return bytes;
     }

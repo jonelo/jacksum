@@ -94,7 +94,7 @@ public class CrcModel {
             refOut = array[4].equalsIgnoreCase("true");
             xorOut = new java.math.BigInteger(array[5], 16).longValue();
         } catch (NumberFormatException e) {
-            throw new NoSuchAlgorithmException("Unknown algorithm: invalid parameter. " + e);
+            throw new NoSuchAlgorithmException("Unknown algorithm: invalid parameter. " + e.getMessage());
         } catch (IllegalArgumentException iae) {
             throw new NoSuchAlgorithmException("Unknown algorithm: invalid parameter. "+iae.getMessage());
         }

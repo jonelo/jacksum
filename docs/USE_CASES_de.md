@@ -402,7 +402,7 @@ Die zweite Entscheidung ist, ob Sie symbolischen Links folgen, und `/etc` ist vo
 ```
 jacksum -a sha3-256 --style linux -f -d .
 Jacksum: Info: Ignoring "./link.txt", because it is a symlink to a file.
-Jacksum: Info: Ignoring "./linkdir", because it is a symlink to a dir.
+Jacksum: Info: Ignoring "./linkdir", because it is a symlink to a directory.
 5152c4efbbc6b48888a73e0c8ef28399468f482d22ae73b84066416911dc54bc *./file.txt
 976297646d2ff90f920f00940f2b14927b1d50df3941d3db2da36c2bf793b786 *./sub/target.txt
 ```

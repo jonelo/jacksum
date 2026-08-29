@@ -44,6 +44,9 @@ Jacksum 4.0.1, TBD
     specified by the user resp. by the API is still reported (found by HashGarten, issue #14)
 
 - Updated documentation 
+  - messages were inconsistent in capitalization, final punctuation, hyphenation and
+    terminology, e.g. "the file x already exists", "Option -P requires / or \", "symlink
+    to a dir", "HMAC id", "Default Charset", and contractions such as "won't be hashed"
   - several messages were not correct English: comma splices, a wrong comparison
     ("less or equal than"), missing articles, and wording such as "allow to enable" or
     "not even one valid entry"

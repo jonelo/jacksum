@@ -855,7 +855,7 @@ Genau das ist der Unterschied: Verwenden Sie `-a none`, wenn Sie nur Metadaten w
 folgen:
 
     $ jacksum --style names-only -d -f .
-    Jacksum: Info: Ignoring "./photolink", because it is a symlink to a dir.
+    Jacksum: Info: Ignoring "./photolink", because it is a symlink to a directory.
     Jacksum: Info: Ignoring "./link.txt", because it is a symlink to a file.
     ./myfile.dat
     ./readme.txt

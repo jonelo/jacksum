@@ -78,7 +78,7 @@ public class LSHWrapper extends AbstractChecksum {
                 if (map.containsKey(key)) {
                     lshHash = Hash.getInstance(map.get(key));
                 } else {
-                    throw new NoSuchAlgorithmException(input + " is an invalid id for LSH.");
+                    throw new NoSuchAlgorithmException(input + " is an invalid ID for LSH.");
                 }
                 bitWidth = width;
                 blocksize = lshHash.getBlockSize();
@@ -88,7 +88,7 @@ public class LSHWrapper extends AbstractChecksum {
             }
         }
 
-        throw new NoSuchAlgorithmException(input + " is an invalid id for LSH. Must be in format lsh-<n>-<m>");
+        throw new NoSuchAlgorithmException(input + " is an invalid ID for LSH. It must be in the format lsh-<n>-<m>.");
     }
 
     @Override

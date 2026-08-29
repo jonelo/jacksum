@@ -162,7 +162,7 @@ public class ConcurrentHasher {
 
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
-            throw new IOException("Hashing was interrupted", ex);
+            throw new IOException("Hashing was interrupted.", ex);
         } catch (ExecutionException ex) {
             Throwable cause = ex.getCause() != null ? ex.getCause() : ex;
             throw new IOException("Hashing failed: " + cause.getMessage(), cause);

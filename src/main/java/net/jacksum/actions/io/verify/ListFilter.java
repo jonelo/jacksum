@@ -219,7 +219,7 @@ public class ListFilter implements Serializable  {
                     setFilterError(true);
                     break;
                 default:
-                    throw new IllegalArgumentException(String.format("%s is an invalid parameter", token));
+                    throw new IllegalArgumentException(String.format("%s is an invalid parameter.", token));
             }
         }
     }

@@ -195,7 +195,7 @@ public class CLIParameters {
     private void handleParamError(String helpString, String message) throws ParameterException {
         Help.printHelp("en", helpString, true);
         throw new ParameterException(String.format(
-                "for option \"%s\": %s For syntax on this option see above.", helpString, message));
+                "For option \"%s\": %s For syntax on this option see above.", helpString, message));
     }
 
 
@@ -250,7 +250,7 @@ public class CLIParameters {
                         try {
                             int number = Integer.parseInt(arg);
                             if (number < 1) {
-                                throw new ParameterException("line number has to be > 0.");
+                                throw new ParameterException("The line number has to be > 0.");
                             }
                             parameters.setPathRelativeToEntry(number);
                         } catch (NumberFormatException nfe) {
@@ -561,7 +561,7 @@ public class CLIParameters {
                             try {
                                 int depth = Integer.parseInt(arg);
                                 if (depth < 1) {
-                                    throw new ParameterException("depth value has to be > 0.");
+                                    throw new ParameterException("The depth value has to be > 0.");
                                 }
                                 parameters.setDepth(depth);
                                 parameters.setRecursive(true);
@@ -601,7 +601,7 @@ public class CLIParameters {
                             try {
                                 int value = Integer.parseInt(arg);
                                 if (value < 1) {
-                                    throw new ParameterException("threads value has to be > 0.");
+                                    throw new ParameterException("The threads value has to be > 0.");
                                 }
                                 parameters.setThreadsHashing(value);
                             } catch (NumberFormatException nfe) {
@@ -621,7 +621,7 @@ public class CLIParameters {
                             try {
                                 int value = Integer.parseInt(arg);
                                 if (value < 1) {
-                                    throw new ParameterException("threads value has to be > 0.");
+                                    throw new ParameterException("The threads value has to be > 0.");
                                 }
                                 parameters.setThreadsReading(value);
                             } catch (NumberFormatException nfe) {
@@ -637,7 +637,7 @@ public class CLIParameters {
                         try {
                             parameters.setTimestampFormat(args[firstfile++]);
                         } catch (IllegalArgumentException e) {
-                            throw new ParameterException(String.format("Option -t is wrong (\"%s\")", e.getMessage()));
+                            throw new ParameterException(String.format("Option -t is wrong (\"%s\").", e.getMessage()));
                         }
                     } else {
                         handleUserParamError(arg, __TIMESTAMP);

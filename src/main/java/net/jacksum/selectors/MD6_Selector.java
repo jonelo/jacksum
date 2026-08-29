@@ -94,7 +94,7 @@ public class MD6_Selector extends Selector {
             return Integer.parseInt(id.substring(ID_PREFIX.length()));
         } catch (NumberFormatException | IndexOutOfBoundsException nfe) {
             throw new NoSuchAlgorithmException(
-                    id + " is an invalid id for MD6. Must be in format md6-<n>");
+                    id + " is an invalid ID for MD6. It must be in the format md6-<n>.");
         }
     }
 

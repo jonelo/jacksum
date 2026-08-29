@@ -135,7 +135,7 @@ public class FileWalker {
 
             if (!followSymlinksToDirs && Files.isSymbolicLink(path) && Files.isDirectory(path)) {
                 addMessageToQueue(new Message(Message.Type.INFO,
-                        String.format("Ignoring \"%s\", because it is a symlink to a dir.", path), path));
+                        String.format("Ignoring \"%s\", because it is a symlink to a directory.", path), path));
                 return CONTINUE;
             }
 
@@ -156,13 +156,13 @@ public class FileWalker {
 
             if (outputFile != null && Files.isRegularFile(path) && path.toAbsolutePath().normalize().equals(outputFile)) {
                 addMessageToQueue(new Message(Message.Type.INFO,
-                        String.format("\"%s\", won't be hashed, because it is the file where hashes will be stored.", path), path));
+                        String.format("\"%s\" will not be hashed, because it is the file where hashes will be stored.", path), path));
                 return CONTINUE;
             }
 
             if (errorFile != null && Files.isRegularFile(path) && path.toAbsolutePath().normalize().equals(errorFile)) {
                 addMessageToQueue(new Message(Message.Type.INFO,
-                        String.format("\"%s\", won't be hashed, because it is the file where errors will be stored.", path), path));
+                        String.format("\"%s\" will not be hashed, because it is the file where errors will be stored.", path), path));
                 return CONTINUE;
             }
 
@@ -209,7 +209,7 @@ public class FileWalker {
         @Override
         public FileVisitResult visitFileFailed(Path path, IOException exc) {
             if (exc instanceof FileSystemLoopException) {
-                addMessageToQueue(new Message(Message.Type.ERROR, String.format("File System Cycle detected, ignoring: %s", path), path));
+                addMessageToQueue(new Message(Message.Type.ERROR, String.format("File system cycle detected, ignoring: %s", path), path));
             } else {
                 addMessageToQueue(new Message(Message.Type.ERROR, String.format("Unable to process: \"%s\": %s", path, exc), path));
             }

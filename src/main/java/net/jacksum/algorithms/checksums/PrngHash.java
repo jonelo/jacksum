@@ -76,9 +76,9 @@ public class PrngHash extends AbstractChecksum implements PrngHashInfo {
     }
 
     private void checkValues() throws IllegalArgumentException {
-        if ((initValue & 0xFFFFFFFFL) != initValue) throw new IllegalArgumentException("The init value of PRNG Hash is larger than 32 bit.");
-        if ((multiplier & 0xFFFFFFFFL) != multiplier) throw new IllegalArgumentException("The multiplier value of PRNG Hash is larger than 32 bit.");
-        if ((add & 0xFFFFFFFFL) != add) throw new IllegalArgumentException("The add value of the PRNG hash is larger than 32 bit.");
+        if ((initValue & 0xFFFFFFFFL) != initValue) throw new IllegalArgumentException("The init value of the PRNG Hash is larger than 32 bits.");
+        if ((multiplier & 0xFFFFFFFFL) != multiplier) throw new IllegalArgumentException("The multiplier value of the PRNG Hash is larger than 32 bits.");
+        if ((add & 0xFFFFFFFFL) != add) throw new IllegalArgumentException("The add value of the PRNG Hash is larger than 32 bits.");
     }
 
     private long parse(String input, String id, long defaultValue) throws IllegalArgumentException {

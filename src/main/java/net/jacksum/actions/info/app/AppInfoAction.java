@@ -162,7 +162,7 @@ public class AppInfoAction implements Action {
 
         System.out.println();
         System.out.printf("Supported character sets: %s\n\n", charsets.size());
-        System.out.printf("Default Charset: %s\n\n", Charset.defaultCharset());
+        System.out.printf("Default charset: %s\n\n", Charset.defaultCharset());
     }
 
     public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {

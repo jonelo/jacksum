@@ -847,7 +847,7 @@ want to know whether the data is still there.
 `-d` and `-f` stop Jacksum from following symbolic links to directories resp. to files:
 
     $ jacksum --style names-only -d -f .
-    Jacksum: Info: Ignoring "./photolink", because it is a symlink to a dir.
+    Jacksum: Info: Ignoring "./photolink", because it is a symlink to a directory.
     Jacksum: Info: Ignoring "./link.txt", because it is a symlink to a file.
     ./myfile.dat
     ./readme.txt

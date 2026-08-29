@@ -287,7 +287,7 @@ abstract public class AbstractChecksum implements Checksum {
     // overwrite getValue() for those classes who require this method
     @Override
     public long getValue() {
-        throw new UnsupportedOperationException("Operation not supported for bit width " + bitWidth);
+        throw new UnsupportedOperationException(String.format("Operation not supported for bit width %s.", bitWidth));
     }
 
     /**

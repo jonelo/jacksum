@@ -47,7 +47,7 @@ public class HMACsAction implements Action {
         StringBuilder buffer = new StringBuilder();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         if (parameters.getVerbose().isInfo()) {
-            buffer.append(String.format("# %-20s     %4s  %3s  %3s  %3s%n", "HMAC id", "l", "B", "L", "T"));
+            buffer.append(String.format("# %-20s     %4s  %3s  %3s  %3s%n", "HMAC ID", "l", "B", "L", "T"));
         }
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();

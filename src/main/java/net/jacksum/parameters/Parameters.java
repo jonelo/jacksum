@@ -651,7 +651,7 @@ public class Parameters implements
 
     public void setPathChar(String arg) throws IllegalArgumentException {
         if (arg.length() != 1) {
-            throw new IllegalArgumentException("Exactly one character is required");
+            throw new IllegalArgumentException("Exactly one character is required.");
         } else {
             setPathChar(arg.charAt(0));
         }
@@ -661,7 +661,7 @@ public class Parameters implements
         if (arg == '/' || arg == '\\') {
             pathChar = arg;
         } else {
-            throw new IllegalArgumentException("Option -P requires / or \\");
+            throw new IllegalArgumentException("Option -P requires \"/\" or \"\\\".");
         }
     }
 
@@ -2201,7 +2201,7 @@ public class Parameters implements
             File file = new File(getOutputFile());
             if (file.exists()) {
                 throw new ExitException(String.format(
-                        "Jacksum: Error: the file %s already exists. Specify the file by -O to overwrite it.", file),
+                        "Jacksum: Error: The file %s already exists. Specify the file by -O to overwrite it.", file),
                         ExitCode.IO_ERROR);
             }
         }
@@ -2209,7 +2209,7 @@ public class Parameters implements
             File file = new File(getErrorFile());
             if (file.exists()) {
                 throw new ExitException(String.format(
-                        "Jacksum: Error: the file %s already exists. Specify the file by -U to overwrite it.", file),
+                        "Jacksum: Error: The file %s already exists. Specify the file by -U to overwrite it.", file),
                         ExitCode.IO_ERROR);
             }
         }
@@ -2389,13 +2389,13 @@ public class Parameters implements
 
         if (findAlgorithm) {
             if (sequence == null) {
-                throw new ParameterException("Option -a unknown:<width> requires option -q");
+                throw new ParameterException("Option -a unknown:<width> requires option -q.");
             }
             if (expected == null) {
-                throw new ParameterException("Option -a unknown:<width> requires option -e");
+                throw new ParameterException("Option -a unknown:<width> requires option -e.");
             }
             if (encoding == null) {
-                throw new ParameterException("Option -a unknown:<width> requires option -E");
+                throw new ParameterException("Option -a unknown:<width> requires option -E.");
             }
         }
 
@@ -2472,7 +2472,7 @@ public class Parameters implements
             pathOptions++;
         }
         if (pathOptions > 1) {
-            throw new ParameterException(String.format("Only one of the following options is allowed: %s, %s, %s, or %s",
+            throw new ParameterException(String.format("Only one of the following options is allowed: %s, %s, %s, or %s.",
                     __NO_PATH, __PATH_ABSOLUTE, __PATH_RELATIVE_TO, __PATH_RELATIVE_TO_ENTRY));
         }
 
@@ -2490,11 +2490,11 @@ public class Parameters implements
             // a ParameterException prefixes the message with "Jacksum: Parameter Error: ",
             // and Main answers it with the very same exit code, see also the -t branch of
             // CLIParameters, which words the same error that way already
-            throw new ParameterException(String.format("Option %s is wrong (\"%s\")", _TIMESTAMP, e.getMessage()));
+            throw new ParameterException(String.format("Option %s is wrong (\"%s\").", _TIMESTAMP, e.getMessage()));
         }
 
         if (isPathRelativeToEntry() && getFilelistFilename() == null) {
-            throw new ParameterException(String.format("Option %s requires option %s", __PATH_RELATIVE_TO_ENTRY, __FILE_LIST));
+            throw new ParameterException(String.format("Option %s requires option %s.", __PATH_RELATIVE_TO_ENTRY, __FILE_LIST));
         }
 
     }

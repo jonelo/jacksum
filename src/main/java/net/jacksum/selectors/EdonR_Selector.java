@@ -93,8 +93,8 @@ public class EdonR_Selector extends Selector {
             }
         }
         throw new NoSuchAlgorithmException(
-                id + " is an invalid id for Edon-R. Must be in format edonr<n> "
-                + "where n is 224, 256, 384 or 512");
+                id + " is an invalid ID for Edon-R. It must be in the format edonr<n>, "
+                + "where n is 224, 256, 384 or 512.");
     }
 
 }

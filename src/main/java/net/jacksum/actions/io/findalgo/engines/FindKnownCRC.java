@@ -61,7 +61,7 @@ public class FindKnownCRC implements FindAlgoEngine {
             // read the table
             lines = GeneralIO.readLinesFromJarFile(String.format("/net/jacksum/actions/findalgo/engines/%s", "crc-catalogue.txt"), Charset.forName("UTF-8"), true, "#");
         } catch (IOException ex) {
-            throw new ParameterException(String.format("internal error: %s in .jar file not found", "crc-catalogue.txt"));
+            throw new ParameterException(String.format("Internal error: %s has not been found in the .jar file.", "crc-catalogue.txt"));
         }
 
         List<Entry> entries = new ArrayList<>();
