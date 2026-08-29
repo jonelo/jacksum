@@ -451,7 +451,7 @@ public class CLIParameters {
                         try {
                             parameters.setKey(arg);
                         } catch (IllegalArgumentException e) {
-                            throw new ParameterException(e.getMessage());
+                            throw new ParameterException(String.format("Option %s: %s", _KEY, e.getMessage()));
                         }
                     } else {
                         handleUserParamError(arg, __KEY);
@@ -545,7 +545,7 @@ public class CLIParameters {
                         try {
                             parameters.setSequence(arg);
                         } catch (IllegalArgumentException e) {
-                            throw new ParameterException(e.getMessage());
+                            throw new ParameterException(String.format("Option %s: %s", _QUICK, e.getMessage()));
                         }
                     } else {
                         handleUserParamError(arg, __QUICK);

@@ -682,8 +682,8 @@ The three examples from the BubbleBabble specification, in both directions:
 > [!NOTE]
 > Unlike z-base-32, BubbleBabble input is **case insensitive**, so `XIDIK-COMUK-RESYL-HYRIX` is
 > accepted as well. The empty input is `xexax`, not the empty string. For `-q` and `-k` the long
-> form `bubblebabble:` is the only valid indicator; `bb:` is not a type and ends up in the hex
-> fallback (`Not a hex number.`). Wherever an *encoding* is expected, `bb` is fine: `-E bb`,
+> form `bubblebabble:` is the only valid indicator; `bb:` is not a type and is rejected
+> (`"bb" is not a known sequence type.`). Wherever an *encoding* is expected, `bb` is fine: `-E bb`,
 > `#SEQUENCE{bb}`.
 
 The type is available for `-k` as well, because the secret key of an HMAC uses the same syntax as

@@ -1989,6 +1989,7 @@ public class Parameters implements
             handleCharsetsAndSetupStreams();
         }
         checkForNonsenseParameterCombinations();
+        validateSequence(); // -q
         handleKey();
         handleCompatibility();
         validateAlgorithm(); // --algorithm
@@ -2127,6 +2128,31 @@ public class Parameters implements
         }
     }
 
+    /**
+     * Decodes the sequence of option -q once, so that a malformed sequence is reported as
+     * a parameter error before any work is done.
+     *
+     * <p>The sequence is decoded lazily by {@link Sequence#asBytes()}, which is called
+     * from several places while the run is already under way. An exception from there
+     * would travel to Main and would be printed without the prefix that every other
+     * message of Jacksum carries, and without naming the option that is at fault. The
+     * decoded bytes are kept by the Sequence object, so nothing is decoded twice.</p>
+     *
+     * @throws ParameterException if the sequence cannot be decoded
+     */
+    private void validateSequence() throws ParameterException {
+        if (isSequence()
+                && !getSequence().getType().equals(Sequence.Type.READLINE)
+                && !getSequence().getType().equals(Sequence.Type.PASSWORD)) {
+            // readline and password are read from the console later, see QuickAction
+            try {
+                getSequence().asBytes();
+            } catch (IllegalArgumentException e) {
+                throw new ParameterException(String.format("Option %s: %s", _QUICK, e.getMessage()));
+            }
+        }
+    }
+
     // if --key is set to readline or password, input is read from the console to set the key for the parameter object
     private void handleKey() throws ParameterException, ExitException {
         if (isKey()) {
@@ -2152,7 +2178,15 @@ public class Parameters implements
                     }
                 }
             }
-            HashFunctionFactory.setKey(getKey().asBytes());
+            try {
+                HashFunctionFactory.setKey(getKey().asBytes());
+            } catch (IllegalArgumentException e) {
+                // The sequence of the key is decoded here for the first time, so this is
+                // the place where a malformed one has to be reported. Without this, the
+                // exception would travel to Main and would be printed without the prefix
+                // that every other message of Jacksum carries.
+                throw new ParameterException(String.format("Option %s: %s", _KEY, e.getMessage()));
+            }
         } else {
             // This run has no key, so it must not use the key of an earlier run in the
             // same JVM: without this, an HMAC would silently be initialized with a secret

@@ -3882,14 +3882,19 @@ OPTIONS
                 - Eingabe über die Konsole, sichtbar oder verborgen
 \
             Ist <type> nicht gesetzt, wird erwartet, dass die Sequenz
-            in Hex-Form vorliegt.
+            in Hex-Form vorliegt. Ein <type>, der keiner der unten
+            aufgeführten Werte ist, wird zurückgewiesen und nicht als
+            Hex gelesen.
             Folgende Werte für <type> werden unterstützt:
 \
 \
                 bubblebabble
 \
                     Eine BubbleBabble-kodierte Zeichenkette. Weitere
-                    Informationen siehe auch die Option -E.
+                    Informationen siehe auch die Option -E. Die Kurzform bb
+                    ist nur ein Alias der Kodierung, siehe Option -E; als
+                    <type> für -q und -k wird sie nicht unterstützt, dort
+                    muss die Langform bubblebabble verwendet werden.
 \
                     Beispiel:
                         > jacksum -q bubblebabble:xesef-disof-gytuf-katof-movif-baxux

@@ -688,7 +688,8 @@ Die drei Beispiele aus der BubbleBabble-Spezifikation, in beiden Richtungen:
 > Anders als bei z-base-32 wird bei der BubbleBabble-Eingabe **die Groß- und Kleinschreibung nicht
 > unterschieden**, `XIDIK-COMUK-RESYL-HYRIX` wird also ebenfalls akzeptiert. Die leere Eingabe ist
 > `xexax`, nicht die leere Zeichenkette. Für `-q` und `-k` ist die Langform `bubblebabble:` der
-> einzige gültige Indikator; `bb:` ist kein Typ und landet im Hex-Rückfall (`Not a hex number.`).
+> einzige gültige Indikator; `bb:` ist kein Typ und wird zurückgewiesen
+> (`"bb" is not a known sequence type.`).
 > Überall dort, wo eine *Kodierung* erwartet wird, ist `bb` in Ordnung: `-E bb`, `#SEQUENCE{bb}`.
 
 Der Typ steht auch für `-k` zur Verfügung, weil der geheime Schlüssel eines HMAC dieselbe Syntax

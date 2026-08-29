@@ -20,6 +20,8 @@
 package net.jacksum.parameters;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import net.jacksum.formats.EncodingDecoding;
@@ -96,14 +98,19 @@ public class Sequence implements Serializable {
     }
 
     public byte[] asBytes() {
-        if (bytes != null) { // the bytes have been given explicitly
+        if (bytes != null) { // given explicitly, or kept by an earlier call
             return bytes;
         }
         if (type.equals(Type.PASSWORD) || type.equals(Type.READLINE)) {
             //return new byte[]{};
             return enteredFromConsole;
         } else {
-            return EncodingDecoding.sequence2bytes(type, payload);
+            // The result is kept, because the payload cannot change without
+            // setSequence() being called, and because the parameter check decodes the
+            // sequence once in order to report a malformed one before any work is done.
+            // Without this, a sequence of the type file: would be read twice.
+            bytes = EncodingDecoding.sequence2bytes(type, payload);
+            return bytes;
         }
     }
 
@@ -128,6 +135,7 @@ public class Sequence implements Serializable {
 
     private void setSequence(Type type, String payload) throws IllegalArgumentException {
         this.payload = payload;
+        this.bytes = null; // a new payload invalidates what asBytes() has kept
         // is it a valid type?
         for (Type t : Type.values()) {
             if (t.equals(type)) {
@@ -136,6 +144,31 @@ public class Sequence implements Serializable {
             }
         }
         this.type = Type.HEX;
+    }
+
+    /**
+     * Returns the types that are written as a prefix, e.g. "txt, txtf, dec, ... and file".
+     *
+     * <p>The types readline and password are left out, because they are given on their own
+     * and not as a prefix in front of a sequence.</p>
+     *
+     * @return the supported types, for a message
+     */
+    private static String supportedTypes() {
+        StringBuilder sb = new StringBuilder();
+        List<String> codes = new ArrayList<>();
+        for (Type t : Type.values()) {
+            if (!t.equals(Type.READLINE) && !t.equals(Type.PASSWORD)) {
+                codes.add(t.getCode());
+            }
+        }
+        for (int i = 0; i < codes.size(); i++) {
+            if (i > 0) {
+                sb.append(i == codes.size() - 1 ? " and " : ", ");
+            }
+            sb.append(codes.get(i));
+        }
+        return sb.toString();
     }
 
     public void setSequence(String sequence) throws IllegalArgumentException {
@@ -153,6 +186,21 @@ public class Sequence implements Serializable {
                     setSequence(t, sequence.substring(code.length()+1));
                     return;
                 }
+            }
+            // A sequence without a type is read as hex, as documented. A hex sequence
+            // consists of the digits 0-9 and a-f only, so it can never contain a colon:
+            // an input of the form <word>:<rest> that has not matched any type above is
+            // therefore a type that has been mistyped, and not a hex value.
+            int colon = indicator.indexOf(':');
+            if (colon == 0) {
+                throw new IllegalArgumentException(String.format(
+                        "A sequence type is expected in front of the colon. Supported types are %s.",
+                        supportedTypes()));
+            }
+            if (colon > 0) {
+                throw new IllegalArgumentException(String.format(
+                        "\"%s\" is not a known sequence type. Supported types are %s.",
+                        sequence.substring(0, colon), supportedTypes()));
             }
             // hex is the default
             setSequence(Type.HEX, sequence);

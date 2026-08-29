@@ -1,6 +1,13 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #79: a mistyped sequence type of -q resp. -k was silently read as hex, so the
+    error message talked about hex instead of about the unknown type; such a type is now
+    rejected by name, while a sequence without a type is still read as hex, as documented
+  - issue #78: every decoding error of -q and -k reached the user without the
+    "Jacksum: Parameter Error: " prefix, and without naming the option that was at fault;
+    the sequence is now decoded while the parameters are checked, so a malformed sequence
+    is reported before any work is done
   - issue #77: the error message for an algorithm that cannot be used depends on the action, and an
     empty algorithm name produces a message that starts with a space
   - issue #76: -c and -w die with an uncaught NullPointerException if the algorithm cannot be

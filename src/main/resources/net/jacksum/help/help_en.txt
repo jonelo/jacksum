@@ -3517,14 +3517,18 @@ OPTIONS
                 - one file (max. 128 MiB)
                 - input from the console visible or hidden
 \
-            If <type> is not set, the sequence is expected to be in hex form.
+            If <type> is not set, the sequence is expected to be in hex form. A
+            <type> that is not one of the values below is rejected rather than
+            read as hex.
             The following values for <type> are supported:
 \
 \
                 bubblebabble
 \
                     A BubbleBabble encoded string. For more information see also
-                    option -E.
+                    option -E. The abbreviation bb is an alias of the encoding
+                    only, see option -E; as a <type> for -q and -k it is not
+                    supported, the long form bubblebabble has to be used.
 \
                     Example:
                         > jacksum -q bubblebabble:xesef-disof-gytuf-katof-movif-baxux
