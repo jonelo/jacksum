@@ -42,6 +42,7 @@ import net.jacksum.algorithms.BrokenStateRegistry;
 import net.jacksum.algorithms.CombinedChecksum;
 import net.jacksum.algorithms.crcs.CrcGeneric;
 import net.jacksum.cli.ExitCode;
+import net.jacksum.parameters.ParameterException;
 import net.jacksum.multicore.manyalgos.HashAlgorithm;
 
 public class AlgoInfoAction implements Action {
@@ -243,7 +244,7 @@ public class AlgoInfoAction implements Action {
 
     }
 
-    private int singleView(StringBuilder buffer) throws ExitException {
+    private int singleView(StringBuilder buffer) throws ExitException, ParameterException {
         try {
             AbstractChecksum checksum = JacksumAPI.getInstance(parameters);
             buffer.append(String.format("  Algorithm:%n"));
@@ -261,11 +262,11 @@ public class AlgoInfoAction implements Action {
             algorithms++;
             return ExitCode.OK;
         } catch (NoSuchAlgorithmException nsae) {
-            throw new ExitException(nsae.getMessage(), ExitCode.PARAMETER_ERROR);
+            throw ParameterException.forAlgorithm(nsae.getMessage());
         }
     }
 
-    private int listView(StringBuilder buffer) throws ExitException {
+    private int listView(StringBuilder buffer) throws ExitException, ParameterException {
         AbstractChecksum checksum;
         try {
             checksum = JacksumAPI.getInstance(parameters);
@@ -297,20 +298,20 @@ public class AlgoInfoAction implements Action {
                 return singleView(buffer);
             }
         } catch (NoSuchAlgorithmException ex) {
-            throw new ExitException(ex.getMessage(), ExitCode.PARAMETER_ERROR);
+            throw ParameterException.forAlgorithm(ex.getMessage());
         }
         return 0;
     }
 
     @Override
-    public int perform() throws ExitException {
+    public int perform() throws ExitException, ParameterException {
         StringBuilder buffer = new StringBuilder();
         int exitCode = perform(buffer);
         System.out.print(buffer);
         return exitCode;
     }
 
-    public int perform(StringBuilder buffer) throws ExitException {
+    public int perform(StringBuilder buffer) throws ExitException, ParameterException {
 
         allSupportedAlgorithmsCount = JacksumAPI.getAvailableAlgorithms().size(); // + JacksumAPI.getAvailableHMACs().size();
         int exitCode = parameters.isList() ? listView(buffer) : singleView(buffer);

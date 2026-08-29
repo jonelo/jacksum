@@ -42,4 +42,22 @@ public class ParameterException extends Exception {
     public ParameterException(String message) {
         super("Jacksum: Parameter Error: "+message);
     }
+
+    /**
+     * Constructs a {@code ParameterException} for an algorithm that cannot be used,
+     * together with the hints that help to find a valid algorithm ID.
+     *
+     * <p>Every place that resolves the algorithm uses this, so that the same problem is
+     * reported in the same way, no matter which action is being performed.</p>
+     *
+     * @param message the message of the algorithm lookup, e.g. why it has failed
+     * @return the exception to be thrown
+     */
+    public static ParameterException forAlgorithm(String message) {
+        return new ParameterException(message
+                + "\nUse -a <code> to specify a valid algorithm ID."
+                + "\nType \"jacksum -a all -l\" to list all supported algorithm IDs."
+                + "\nType \"jacksum -a all:<string> -l\" to list all algorithms that contain a particular string."
+                + "\nType \"jacksum -a all:<length> -l\" to list all algorithms that produce output of a particular bit length.");
+    }
 }

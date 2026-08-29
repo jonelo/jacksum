@@ -51,7 +51,7 @@ public class HashFilesAction implements Action {
             Engine engine = new Engine(parameters, consumer);
             engine.start();
         } catch (NoSuchAlgorithmException nsae) {
-            throw new ParameterException(nsae.getMessage());
+            throw ParameterException.forAlgorithm(nsae.getMessage());
         }
         
         if (parameters.getVerbose().isSummary()) {

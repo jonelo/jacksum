@@ -94,6 +94,13 @@ public class HashFunctionFactory {
      */
     public static AbstractChecksum getHashFunction(String algorithm, boolean alternate) throws NoSuchAlgorithmException {
 
+        // An empty name would be reported as "<empty> is an unknown algorithm.", which is
+        // a message that starts with a space and does not say what is wrong. It happens
+        // with -a "" and with a prefix that carries nothing, e.g. -a hmac:
+        if (algorithm == null || algorithm.trim().isEmpty()) {
+            throw new NoSuchAlgorithmException("No algorithm has been specified.");
+        }
+
         // construct an array of classes so that we can iterate over it
         Class<?>[] arrayOfSelectorClasses;
         if (cacheOfSelectorClasses.containsKey(algorithm)) {

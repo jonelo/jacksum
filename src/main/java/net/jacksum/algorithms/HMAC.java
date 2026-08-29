@@ -71,7 +71,8 @@ public class HMAC extends AbstractChecksum  {
 		if (blocksize <= 0 || blocksize < digestsize) {
 			// blocksize < digestsize: ascon-xof is such an example, see FIPS 198-1
 			throw new IllegalArgumentException(String.format(
-					"Algorithm %s does not support hash-based message authentication code (HMAC).", algorithm));
+					"Algorithm %s does not support hash-based message authentication code (HMAC), "
+					+ "see also the option --hmacs.", algorithm));
 		}
 
 		i_key_pad = new byte[blocksize];

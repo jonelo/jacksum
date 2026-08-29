@@ -48,7 +48,7 @@ public class DefaultCompatibilityProperties {
             // The exception has to be thrown, everything below this line needs the
             // algorithm, and a caller that keeps going would run into a
             // NullPointerException.
-            throw new ParameterException(e.getMessage());
+            throw ParameterException.forAlgorithm(e.getMessage());
         }
 
         if (parameters.getEncoding() != null) {

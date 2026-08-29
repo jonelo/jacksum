@@ -1,6 +1,8 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #77: the error message for an algorithm that cannot be used depends on the action, and an
+    empty algorithm name produces a message that starts with a space
   - issue #76: -c and -w die with an uncaught NullPointerException if the algorithm cannot be
     instantiated
   - issue #75: An HMAC over an algorithm that does not support HMAC prints a Java stack trace and
