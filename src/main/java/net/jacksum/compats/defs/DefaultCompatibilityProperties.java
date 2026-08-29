@@ -45,7 +45,10 @@ public class DefaultCompatibilityProperties {
             ac = JacksumAPI.getInstance(parameters);
             ac.setParameters(parameters);
         } catch (java.security.NoSuchAlgorithmException e) {
-            new ParameterException(e.getMessage());
+            // The exception has to be thrown, everything below this line needs the
+            // algorithm, and a caller that keeps going would run into a
+            // NullPointerException.
+            throw new ParameterException(e.getMessage());
         }
 
         if (parameters.getEncoding() != null) {
