@@ -44,6 +44,9 @@ Jacksum 4.0.1, TBD
     specified by the user resp. by the API is still reported (found by HashGarten, issue #14)
 
 - Updated documentation 
+  - several messages were not correct English: comma splices, a wrong comparison
+    ("less or equal than"), missing articles, and wording such as "allow to enable" or
+    "not even one valid entry"
   - some messages carried a duplicated prefix, shouted in capitals, or contained a typo,
     among them the GPL sentence that Jacksum prints without arguments: it said "(at your
     opinion)" instead of "(at your option)"

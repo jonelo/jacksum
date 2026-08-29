@@ -141,7 +141,7 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
         // skipped that validation, so such a check must not be reported as a success.
         if (parameters.isCheckStrict() && !parameters.getListFilter().isAll()) {
             parameterError = true;
-            messenger.print(ERROR, String.format("Option %s requires %s all, because a filter could prevent hashing which could prevent a reliable detection, but %s %s has been set.",
+            messenger.print(ERROR, String.format("Option %s requires %s all, because a filter could prevent hashing, which could prevent a reliable detection, but %s %s has been set.",
                     __CHECK_STRICT, __LIST_FILTER, __LIST_FILTER, parameters.getListFilter()));
         }
     }

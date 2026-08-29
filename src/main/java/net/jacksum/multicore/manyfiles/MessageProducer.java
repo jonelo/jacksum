@@ -96,7 +96,7 @@ public class MessageProducer implements Runnable {
 
                 if (Files.isDirectory(path)) {
                     if (filenameIsInCheckFile) {
-                        outputQueue.put(new Message(Type.ERROR, String.format("%s: directory found in check file, but a filename was expected.", path), path));
+                        outputQueue.put(new Message(Type.ERROR, String.format("%s: a directory has been found in the check file, but a file name is expected.", path), path));
                     } else {
                         FileWalker fileWalker = new FileWalker(
                                 messageTypeForFiles,

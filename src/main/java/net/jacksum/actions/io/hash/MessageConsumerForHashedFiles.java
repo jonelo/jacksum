@@ -94,7 +94,7 @@ public class MessageConsumerForHashedFiles extends MessageConsumer {
                 ? parameters.getCommentChars()
                 : DEFAULT_COMMENT_CHARS;
         if (line.startsWith(commentChars)) {
-            System.err.printf("Jacksum: Warning: The line for %s starts with the comment string \"%s\", so this line would be ignored while it is being read back, see also option %s.%n",
+            System.err.printf("Jacksum: Warning: The line for %s starts with the comment string \"%s\", so this line would be ignored while it is being read back. See also option %s.%n",
                     message.getPayload().getPath() == null ? parameters.getStdinName() : message.getPayload().getPath(),
                     commentChars,
                     _IGNORE_LINES_STARTING_WITH_STRING);

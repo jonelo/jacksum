@@ -78,10 +78,10 @@ public class CrcModel {
     public CrcModel(String props) throws NoSuchAlgorithmException {
         String[] array = props.split(",");
         if (array.length < 6) {
-            throw new NoSuchAlgorithmException("Can't create the algorithm, at least 6 parameters are expected.");
+            throw new NoSuchAlgorithmException("Cannot create the algorithm. At least 6 parameters are expected.");
         }
         if (array.length > 8) {
-            throw new NoSuchAlgorithmException("Can't create the algorithm, no more than 8 parameters are allowed.");
+            throw new NoSuchAlgorithmException("Cannot create the algorithm. No more than 8 parameters are allowed.");
         }
         if (props.startsWith("crc:")) {
             array[0] = array[0].substring(4);

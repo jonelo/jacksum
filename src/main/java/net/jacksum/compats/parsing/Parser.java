@@ -113,7 +113,7 @@ public class Parser {
             checkGroupPosition("parser.regexp.permissionsPos", position("parser.regexp.permissionsPos", props::getRegexpPermissionsPos), groups);
             checkGroupPosition("parser.regexp.gnuEscapingPos", position("parser.regexp.gnuEscapingPos", props::getRegexpGnuEscapingPos), groups);
         } else {
-            throw new InvalidParserParameterException(String.format("Regular Expression expected in parser \"%s\"", props.getCompatName()));
+            throw new InvalidParserParameterException(String.format("A regular expression is expected in parser \"%s\".", props.getCompatName()));
         }
     }
 
@@ -499,7 +499,7 @@ public class Parser {
             getStatistics().setIgnoredLines(getStatistics().getIgnoredLines() + ignoredLines);
 
             if (list.isEmpty()) {
-                throw new NotEvenOneEntryFoundException(String.format("Jacksum: Error: not even one valid entry has been found in %s. Are you sure that you have specified the correct style?", filename));
+                throw new NotEvenOneEntryFoundException(String.format("Jacksum: Error: No valid entry has been found in %s. Are you sure that you have specified the correct style?", filename));
             }
 
         } finally {

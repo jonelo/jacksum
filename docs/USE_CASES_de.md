@@ -1513,7 +1513,7 @@ jacksum -a sha3-256 --wanted-list wanted.list --style linux --threads-reading ma
 Der Treffer wird mit dem Namen aus der *Wanted-Liste* in Klammern gemeldet, Sie erfahren also,
 welches bekannte Artefakt Sie gefunden haben, egal in was es auf der Platte umbenannt wurde.
 Beachten Sie, dass die Wanted-Liste vollständige Prüflisten-Zeilen braucht, keine nackten Hashwerte
-— eine Datei mit blanken Hashwerten wird mit `not even one valid entry has been found` abgewiesen.
+— eine Datei mit blanken Hashwerten wird mit `No valid entry has been found` abgewiesen.
 Bauen Sie die Liste also mit Jacksum und nicht von Hand.
 
 Drehen Sie die Frage mit `--wanted-list-filter negative` um, um alles zu melden, was **nicht** auf

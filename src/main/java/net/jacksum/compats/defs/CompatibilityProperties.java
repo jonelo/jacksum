@@ -131,11 +131,11 @@ public class CompatibilityProperties implements Serializable {
             try {
                 version = Integer.parseInt(getCompatSyntaxVersion().trim());
             } catch (NumberFormatException nfe) {
-                throw new InvalidCompatibilityPropertiesException(String.format("value of property compat.syntaxVersion must be an integer, but I found the value \"%s\" in \"%s\"", getCompatSyntaxVersion(), compatFilename));
+                throw new InvalidCompatibilityPropertiesException(String.format("The value of the property compat.syntaxVersion must be an integer, but \"%s\" has been found in \"%s\".", getCompatSyntaxVersion(), compatFilename));
             }
             // does it have the right version?
             if (version < CURRENT_COMPAT_SYNTAX_VERSION) {
-                throw new InvalidCompatibilityPropertiesException(String.format("value of property compat.syntaxVersion must be %s or higher, but I found \"%s\" in \"%s\"", CURRENT_COMPAT_SYNTAX_VERSION, getCompatSyntaxVersion(), compatFilename));
+                throw new InvalidCompatibilityPropertiesException(String.format("The value of the property compat.syntaxVersion must be %s or higher, but \"%s\" has been found in \"%s\".", CURRENT_COMPAT_SYNTAX_VERSION, getCompatSyntaxVersion(), compatFilename));
             }
         } else {
             // does not look like a valid property file

@@ -1450,7 +1450,7 @@ jacksum -a sha3-256 --wanted-list wanted.list --style linux --threads-reading ma
 The match is reported with the name from the *wanted list* in parentheses, so you learn which known
 artifact you found no matter what it has been renamed to on disk. Note that the wanted list needs
 complete check-list lines, not bare hash values — a file of naked hashes is rejected with
-`not even one valid entry has been found`, so build the list with Jacksum rather than by hand.
+`No valid entry has been found`, so build the list with Jacksum rather than by hand.
 
 Turn the question around with `--wanted-list-filter negative` to report everything that is **not**
 on the approved list — that is how you find the one file in a deployment nobody can account for:

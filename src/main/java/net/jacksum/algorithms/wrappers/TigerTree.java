@@ -103,10 +103,10 @@ public class TigerTree extends MessageDigest {
         algo = JacksumAPI.getChecksumInstance(name);
         int algoSize = algo.getSize();
         if (algoSize == 0) {
-            throw new NoSuchAlgorithmException("The Tree Hash requires an algorithm that supports the implementation of getSize()");
+            throw new NoSuchAlgorithmException("The Tree Hash requires an algorithm that implements getSize().");
         }
         if (algoSize % 8 != 0) {
-            throw new NoSuchAlgorithmException("The Tree Hash requires an algorithm with a length of 8 bit multiples.");
+            throw new NoSuchAlgorithmException("The Tree Hash requires an algorithm whose length is a multiple of 8 bits.");
         }
         HASHSIZE = algoSize / 8;
         nodes = new ArrayList<>();

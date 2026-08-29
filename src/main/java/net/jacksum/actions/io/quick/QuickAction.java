@@ -53,7 +53,7 @@ public class QuickAction implements Action {
 
         // the sequence parameter is required
         if (!parameters.isSequence()) {
-            throw new ParameterException("A sequence has to be set by option -q.");
+            throw new ParameterException("A sequence must be specified with option -q.");
         }
 
         if (parameters.isHeaderWanted()) {

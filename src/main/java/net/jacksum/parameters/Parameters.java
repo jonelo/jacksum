@@ -596,7 +596,7 @@ public class Parameters implements
     // -g
     public void setGrouping(int grouping) throws IllegalArgumentException {
         if (grouping < 0) {
-            throw new IllegalArgumentException("Grouping is out of range, must be >= 0");
+            throw new IllegalArgumentException("Grouping is out of range. A value >= 0 is expected.");
         }
         this.groupcount = grouping;
     }
@@ -2085,7 +2085,7 @@ public class Parameters implements
                 throw new ParameterException(String.format("The algorithm %s must not contain ++.", algorithm));
             }
             if (algorithm.contains("hmac:") && !isKey()) {
-                throw new ParameterException(String.format("The HMAC algorithm %s requires a key, this is specified using the -k option.", algorithm));
+                throw new ParameterException(String.format("The HMAC algorithm %s requires a key. It is specified with the -k option.", algorithm));
             }
         }
     }
@@ -2098,7 +2098,7 @@ public class Parameters implements
             // IndexOutOfBoundsException rather than in a parameter error
             if (getPathRelativeToEntry() > getFilenamesFromFilelist().size()) {
                 throw new ParameterException(String.format(
-                        "Option %s %s is out of range, the file list that has been specified by %s contains %s entries only.",
+                        "Option %s %s is out of range. The file list that has been specified by %s contains %s entries only.",
                         __PATH_RELATIVE_TO_ENTRY, getPathRelativeToEntry(), __FILE_LIST,
                         getFilenamesFromFilelist().size()));
             }
@@ -2433,7 +2433,7 @@ public class Parameters implements
         // both options have no effect at all if nothing is being verified, so they are only
         // rejected in verification mode
         if (isVerifying() && isCheckStrict() && !getListFilter().isAll()) {
-            throw new ParameterException(String.format("Option %s requires %s all, because a filter could prevent hashing which could prevent a reliable detection, but %s %s has been set.",
+            throw new ParameterException(String.format("Option %s requires %s all, because a filter could prevent hashing, which could prevent a reliable detection, but %s %s has been set.",
                     __CHECK_STRICT, __LIST_FILTER, __LIST_FILTER, getListFilter()));
         }
 
@@ -2449,7 +2449,7 @@ public class Parameters implements
         if (getCheckFile() != null && !getCheckFile().equals("-")) { // the - means: read from stdin
             File f = new File(getCheckFile());
             if (f.isDirectory()) {
-                throw new ParameterException(String.format("Parameter -c %s is a directory, but a filename was expected.", getCheckFile()));
+                throw new ParameterException(String.format("Parameter -c %s is a directory, but a file name is expected.", getCheckFile()));
             }
             if (!f.exists()) {
                 throw new ExitException(String.format("Jacksum: Error: %s: No such file or directory.", getCheckFile()), ExitCode.IO_ERROR);
@@ -2572,7 +2572,7 @@ public class Parameters implements
 
         // implicit settings
         if (isRecursive() && getFilenamesFromArgs().isEmpty() && getFilenamesFromFilelist().isEmpty()) {
-            messenger.print(WARNING, "Option -r has been set, but no files have been given, reading files recursively, starting with current working directory ...");
+            messenger.print(WARNING, "Option -r has been set, but no files have been given, reading files recursively, starting with the current working directory ...");
             filenamesFromArgs.add(".");
         }
 
@@ -2591,7 +2591,7 @@ public class Parameters implements
                 && stringList == null
                 && !list
                 && !versionWanted) {
-            messenger.print(WARNING, "No files have been specified, reading from standard input stream (stdin) ...");
+            messenger.print(WARNING, "No files have been specified, reading from the standard input stream (stdin) ...");
             stdin = true;
         }
 
@@ -2654,7 +2654,7 @@ public class Parameters implements
                         // ... we overwrite the default in the compatibilityProperties object ...
                         compatibilityProperties.setGnuEscapingEnabled(this.isGnuEscaping());
                     } else {
-                        messenger.print(WARNING, String.format("Ignoring option %s, because the style \"%s\" doesn't support or allow to enable GNU escaping.", __GNU_FILENAME_ESCAPING, compatibilityID));
+                        messenger.print(WARNING, String.format("Ignoring option %s, because the style \"%s\" does not support GNU escaping or does not allow it to be enabled.", __GNU_FILENAME_ESCAPING, compatibilityID));
                     }
                 }
 

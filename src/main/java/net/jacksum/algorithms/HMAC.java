@@ -50,7 +50,7 @@ public class HMAC extends AbstractChecksum  {
 	public HMAC(String algorithm, int outputLengthInBits) throws NoSuchAlgorithmException {
 		this(algorithm);
 		if (outputLengthInBits > digest.getSize()) {
-			throw new IllegalArgumentException("HMAC: requested output length in bits must be less or equal than the original output length of the selected algorithm.");
+			throw new IllegalArgumentException("HMAC: the requested output length in bits must be less than or equal to the original output length of the selected algorithm.");
 		}
 		this.outputLengthInBits = outputLengthInBits;
 	}
