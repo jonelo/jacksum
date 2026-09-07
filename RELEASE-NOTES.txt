@@ -59,6 +59,13 @@ Jacksum 4.0.1, TBD
     longer counted as a second path option, while an actual conflict of path options that has been
     specified by the user resp. by the API is still reported (found by HashGarten, issue #14)
 
+- Improved performance
+  - issue #82: significant performance improvement for the CRC brute forcer of
+    -a unknown:<length> by building the CRC table only twice per polynomial rather than 16
+    times, by deriving the remaining init/refOut/xorOut combinations arithmetically, and by
+    creating a checksum object only for a candidate that matches (approx. 4x faster); the
+    reported algorithms are unchanged
+
 - Updated documentation 
   - messages were inconsistent in capitalization, final punctuation, hyphenation and
     terminology, e.g. "the file x already exists", "Option -P requires / or \", "symlink
