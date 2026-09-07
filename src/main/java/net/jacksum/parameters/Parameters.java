@@ -266,9 +266,15 @@ public class Parameters implements
 
     // --threads-hashing
     private int threadsHashing = ThreadControl.getThreadsHashing();
+    // true if the value above has been set by the user resp. by the API rather than
+    // being the default of ThreadControl; the value itself cannot answer that question,
+    // because a user is free to ask for exactly the value that is the default anyway
+    private boolean threadsHashingSet = false;
 
     // --threads-reading
     private int threadsReading = ThreadControl.getThreadsReading();
+    // true if the value above has been set by the user resp. by the API, see threadsHashingSet
+    private boolean threadsReadingSet = false;
 
     private final Messenger messenger;
 
@@ -953,6 +959,15 @@ public class Parameters implements
     }
 
     /**
+     * Returns whether the number of hashing threads has been set explicitly.
+     *
+     * @return true if the number of hashing threads has been set by the user resp. by the API
+     */
+    public boolean isThreadsHashingSet() {
+        return threadsHashingSet;
+    }
+
+    /**
      * Sets the number of hashing threads for this run.
      *
      * @param threadsHashing the number of threads
@@ -961,6 +976,7 @@ public class Parameters implements
      */
     public void setThreadsHashing(int threadsHashing) {
         ThreadControl.checkRange(threadsHashing);
+        this.threadsHashingSet = true;
         // Deliberately no write back to ThreadControl: the static field is the default
         // for a new Parameters object only, this object is the authority for this run,
         // and the classes that need the value get it from here.
@@ -972,6 +988,15 @@ public class Parameters implements
     }
 
     /**
+     * Returns whether the number of reading threads has been set explicitly.
+     *
+     * @return true if the number of reading threads has been set by the user resp. by the API
+     */
+    public boolean isThreadsReadingSet() {
+        return threadsReadingSet;
+    }
+
+    /**
      * Sets the number of reading threads for this run.
      *
      * @param threadsReading the number of threads
@@ -980,6 +1005,7 @@ public class Parameters implements
      */
     public void setThreadsReading(int threadsReading) {
         ThreadControl.checkRange(threadsReading);
+        this.threadsReadingSet = true;
         // Deliberately no write back to ThreadControl, see setThreadsHashing().
         this.threadsReading = threadsReading;
     }
@@ -1666,10 +1692,10 @@ public class Parameters implements
         if (newParameters.isSeparatorSet()) {
             this.setSeparator(newParameters.getSeparatorRaw());
         }
-        if (newParameters.getThreadsHashing() != ThreadControl.getThreadsMax()) {
+        if (newParameters.isThreadsHashingSet()) {
             this.setThreadsHashing(newParameters.getThreadsHashing());
         }
-        if (newParameters.getThreadsReading() > 1) {
+        if (newParameters.isThreadsReadingSet()) {
             this.setThreadsReading(newParameters.getThreadsReading());
         }
         if (newParameters.isFilesizeWantedSet()) {
@@ -1931,11 +1957,11 @@ public class Parameters implements
             list.add(_SEPARATOR);
             list.add(getSeparatorRaw());
         }
-        if (getThreadsHashing() != ThreadControl.getThreadsMax()) {
+        if (isThreadsHashingSet()) {
             list.add(__THREADS_HASHING);
             list.add(String.valueOf(getThreadsHashing()));
         }
-        if (getThreadsReading() > 1) {
+        if (isThreadsReadingSet()) {
             list.add(__THREADS_READING);
             list.add(String.valueOf(getThreadsReading()));
         }

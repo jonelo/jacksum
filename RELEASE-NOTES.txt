@@ -1,6 +1,12 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #87: Parameters.update() and the command line that Parameters rebuilds for the header of
+    an output file decide whether --threads-hashing resp. --threads-reading has been set by
+    comparing the value against a default, so an explicit --threads-hashing <number of processors>
+    and an explicit --threads-reading 1 count as "not set" and get lost, which matters as soon as a
+    program that embeds Jacksum has changed those defaults with ThreadControl beforehand; both
+    options now remember whether they have been set, the way every other option of that class does
   - issue #86: the special value "max" of -r, --threads-hashing and --threads-reading is only
     recognized in lower case, so -r MAX reports a value that is not a number rather than the depth
     the user has asked for; the value is now accepted whatever case it is typed in, and both error
