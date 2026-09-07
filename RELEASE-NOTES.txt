@@ -1,6 +1,11 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #84: the bit width range of -a unknown:<length> that -h documents, 1 to 1024, is not
+    enforced, so -a unknown:0, -a unknown:2048 or -a unknown:2147483647 start a session that
+    cannot find anything and report two errors about the internal CRC engines instead of one
+    error about the value that has been specified; such a width is now rejected before any
+    engine is started, and the -a section of the help names the range as well
   - issue #83: -a unknown:<length> with a length that does not fit into an int, e.g.
     -a unknown:99999999999, reports the message of a Java NumberFormatException, so the user
     sees neither the "Jacksum: Parameter Error: " prefix nor the accepted range; such a

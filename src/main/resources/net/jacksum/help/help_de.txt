@@ -1248,7 +1248,8 @@ OPTIONS
                 herausfinden möchten, welcher Algorithmus zur Erzeugung
                 der Ausgabe verwendet wurde, können Sie <algo> auf
                 unknown:<length> setzen und <length> durch die Länge des
-                Digests in Bit ersetzen.
+                Digests in Bit ersetzen. <length> kann eine Ganzzahl von
+                1 bis 1024 sein.
 \
                 In diesem Fall werden alle unterstützten Algorithmen
                 getestet, um zu sehen, ob einer davon die erwartete

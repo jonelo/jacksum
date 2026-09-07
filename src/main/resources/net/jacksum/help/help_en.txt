@@ -1165,7 +1165,8 @@ OPTIONS
                 If you only know the input and the output, and you want to know
                 the algorithm that has been used to produce the output,
                 you can set <algo> to unknown:<length>, replacing <length>
-                with the length of the digest in bits.
+                with the length of the digest in bits. <length> can be an
+                integer from 1 to 1024.
 \
                 In that case, all supported algorithms will be tested to see if
                 there is one that can produce the expected output. Additionally,

@@ -41,6 +41,12 @@ import net.jacksum.statistics.Statistics;
 
 public class FindAlgoAction implements Action {
 
+    // the range of the width in bits that -a unknown:<length> supports, as documented by -h:
+    // the widest algorithm that Jacksum supports is 1024 bits wide, while a customizable CRC
+    // can be as narrow as 1 bit
+    private static final int MIN_WIDTH = 1;
+    private static final int MAX_WIDTH = 1024;
+
     private final Parameters parameters;
     private int found;
     private BigInteger searched;
@@ -65,9 +71,10 @@ public class FindAlgoAction implements Action {
                 width = Integer.parseInt(matcher.group(1));
             } catch (NumberFormatException nfe) {
                 // the regex only matches digits, so the value is simply too large for an int
-                throw new ParameterException(String.format(
-                        "Bit width %s is too large, the supported range is [1..1024].",
-                        matcher.group(1)));
+                throw unsupportedWidth(matcher.group(1));
+            }
+            if (width < MIN_WIDTH || width > MAX_WIDTH) {
+                throw unsupportedWidth(matcher.group(1));
             }
 
             List<FindAlgoEngine> engines = new ArrayList<>(3);
@@ -101,6 +108,18 @@ public class FindAlgoAction implements Action {
         } else {
             return ExitCode.OK;
         }
+    }
+
+    /**
+     * Returns the exception for a width that -a unknown:&lt;length&gt; does not support.
+     *
+     * @param width the width in bits, as it has been specified by the user
+     * @return the exception to be thrown
+     */
+    private static ParameterException unsupportedWidth(String width) {
+        return new ParameterException(String.format(
+                "Bit width %s is not supported, the supported range is [%s..%s].",
+                width, MIN_WIDTH, MAX_WIDTH));
     }
 
 }
