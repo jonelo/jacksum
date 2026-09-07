@@ -1259,7 +1259,9 @@ OPTIONS
                 gesetzt, während refIn und refOut für alle möglichen
                 Polynome der angegebenen Länge auf true oder false gesetzt
                 werden). Bitte haben Sie etwas Geduld bei einer
-                Brute-Force Session!
+                Brute-Force Session! Die Prüfung gegen bekannte CRCs
+                unterstützt eine Länge von 1 bis 64 Bit, die Brute-Force
+                unterstützt eine Länge von 1 bis 63 Bit.
 \
                 Beide Optionen, -q und -e, sind in diesem Fall
                 erforderlich. Siehe auch -V, -e, -E und -q.

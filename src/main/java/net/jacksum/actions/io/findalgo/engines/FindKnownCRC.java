@@ -53,8 +53,10 @@ public class FindKnownCRC implements FindAlgoEngine {
 
     @Override
     public void find(int width) throws ParameterException {
-        if (width < 8 || width > 64) { // || (width % 8 > 0)) {
-            throw new ParameterException("Bit width " + width + " is not supported by the CRC finder.");
+        if (width < 1 || width > 64) {
+            throw new ParameterException(String.format(
+                    "Bit width %s is not supported by the CRC finder, the supported range is [1..64].",
+                    width));
         }
         List<String> lines;
         try {
@@ -70,7 +72,7 @@ public class FindKnownCRC implements FindAlgoEngine {
             for (String line : lines) {
                 String[] entry = line.split(";");
                 int w = Integer.valueOf(entry[1].substring(4, entry[1].indexOf(',')));
-                if (w >= 8 && w <= 64 && width == w) {
+                if (w >= 1 && w <= 64 && width == w) {
                     entries.add(new Entry(entry[1], entry[0]));
                 }
 

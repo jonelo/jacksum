@@ -1,6 +1,11 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #81: the CRC finder and the CRC brute forcer of -a unknown:<length> reject a length
+    below 8 bits, although Jacksum can compute a CRC that is 1 to 64 bits wide, so the 15
+    well-known CRCs of the catalogue that are shorter than 8 bits, e.g. CRC-5/USB or
+    CRC-7/MMC, can never be found; the finder now supports a length of 1 to 64 bits and the
+    brute forcer a length of 1 to 63 bits
   - issue #80: -a unknown:63 never ends its brute-force session because the loop over all
     polynomials wraps around instead of stopping; in addition the number of tested algorithms
     is reported one too high, the message for an unsupported bit width does not name the

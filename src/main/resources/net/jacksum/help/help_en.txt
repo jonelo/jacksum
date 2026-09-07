@@ -1174,7 +1174,9 @@ OPTIONS
                 set to either all bits zero or all bits one while refIn and
                 refOut are set to either true or false for all potential
                 polynomials of the given length). Please be patient in case
-                of a brute-force session.
+                of a brute-force session. The check against well-known CRCs
+                supports a length of 1 to 64 bits, the brute force supports a
+                length of 1 to 63 bits.
 \
                 Both options, -q and -e, are required in this case.
                 See also -V, -e, -E, and -q.

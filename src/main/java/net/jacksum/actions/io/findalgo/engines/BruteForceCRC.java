@@ -57,9 +57,9 @@ public class BruteForceCRC implements FindAlgoEngine {
     @Override
     public void find(int width) throws ParameterException {
 
-        if (width < 8 || width > 63) {
+        if (width < 1 || width > 63) {
             throw new ParameterException(String.format(
-                    "Bit width %s is not supported by the CRC brute forcer, the supported range is [8..63].",
+                    "Bit width %s is not supported by the CRC brute forcer, the supported range is [1..63].",
                     width));
         }
         if (parameters.getVerbose().isInfo()) {
