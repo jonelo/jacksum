@@ -121,6 +121,10 @@ public class CLIParameters {
     public static final String _SEPARATOR = "-s";
     public static final String __SEPARATOR = "--separator";
     public static final String __STRING_LIST = "--string-list";
+    // the special value that -r, --threads-hashing and --threads-reading accept
+    // instead of a number; it is compared without regard to case, because no
+    // number can be confused with it
+    public static final String MAX = "max";
     public static final String __THREADS_HASHING = "--threads-hashing";
     public static final String __THREADS_READING =  "--threads-reading";
     public static final String _TIMESTAMP = "-t";
@@ -212,7 +216,7 @@ public class CLIParameters {
      * that is out of range
      */
     private int parseThreads(String value, String option) throws ParameterException {
-        if (value.equals("max")) {
+        if (value.equalsIgnoreCase(MAX)) {
             return ThreadControl.getThreadsMax();
         }
         int threads;
@@ -220,8 +224,8 @@ public class CLIParameters {
             threads = Integer.parseInt(value);
         } catch (NumberFormatException nfe) {
             throw new ParameterException(String.format(
-                    "Option %s: \"%s\" is not a valid number of threads. A value between %d and %d, or \"max\", is required.",
-                    option, value, ThreadControl.getThreadsMin(), ThreadControl.getThreadsLimit()));
+                    "Option %s: \"%s\" is not a valid number of threads. A value between %d and %d, or \"%s\", is required.",
+                    option, value, ThreadControl.getThreadsMin(), ThreadControl.getThreadsLimit(), MAX));
         }
         // an out of range value would not just be pointless, it would stop the engine
         // from working at all, see net.jacksum.multicore.manyfiles.MessageWorker
@@ -229,8 +233,8 @@ public class CLIParameters {
             ThreadControl.checkRange(threads);
         } catch (IllegalArgumentException iae) {
             throw new ParameterException(String.format(
-                    "Option %s requires a value between %d and %d, or the value \"max\".",
-                    option, ThreadControl.getThreadsMin(), ThreadControl.getThreadsLimit()));
+                    "Option %s requires a value between %d and %d, or the value \"%s\".",
+                    option, ThreadControl.getThreadsMin(), ThreadControl.getThreadsLimit(), MAX));
         }
         return threads;
     }
@@ -590,21 +594,28 @@ public class CLIParameters {
 
                 } else if (arg.equals(_RECURSIVE) || arg.equals(__RECURSIVE)) {
                     if (firstfile < args.length) {
+                        // the option as the user has typed it, in order to name it in a message
+                        String option = arg;
                         arg = args[firstfile++];
-                        if (arg.equals("max")) {
+                        if (arg.equalsIgnoreCase(MAX)) {
                             parameters.setDepth(Integer.MAX_VALUE);
                             parameters.setRecursive(true);
-                        } else
+                        } else {
+                            int depth;
                             try {
-                                int depth = Integer.parseInt(arg);
-                                if (depth < 1) {
-                                    throw new ParameterException("The depth value has to be > 0.");
-                                }
-                                parameters.setDepth(depth);
-                                parameters.setRecursive(true);
+                                depth = Integer.parseInt(arg);
                             } catch (NumberFormatException nfe) {
-                                throw new ParameterException(nfe.getMessage());
+                                throw new ParameterException(String.format(
+                                        "Option %s: \"%s\" is not a valid depth. A value of 1 or above, or \"%s\", is required.",
+                                        option, arg, MAX));
                             }
+                            if (depth < 1) {
+                                throw new ParameterException(String.format(
+                                        "Option %s requires a value of 1 or above, or the value \"%s\".", option, MAX));
+                            }
+                            parameters.setDepth(depth);
+                            parameters.setRecursive(true);
+                        }
                     } else {
                         handleUserParamError(arg, __RECURSIVE);
                     }

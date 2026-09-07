@@ -1,6 +1,11 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #86: the special value "max" of -r, --threads-hashing and --threads-reading is only
+    recognized in lower case, so -r MAX reports a value that is not a number rather than the depth
+    the user has asked for; the value is now accepted whatever case it is typed in, and both error
+    messages of -r name the option and the accepted range, like the messages of the other options
+    do since issue #83 and issue #85
   - issue #85: the value range of --threads-hashing and --threads-reading is not enforced, only a
     value below 1 is rejected, so --threads-reading 21474837 or any larger value overflows the
     calculation of the work queue's capacity, the worker thread dies before it can send its exit
