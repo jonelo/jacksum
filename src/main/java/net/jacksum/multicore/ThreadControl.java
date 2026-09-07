@@ -31,9 +31,31 @@ package net.jacksum.multicore;
  * before it creates its first Parameters object.</p>
  */
 public class ThreadControl {
+    private static final int THREADS_MIN = 1;
+    private static final int THREADS_LIMIT = 65536;
     private static final int THREADS_MAX = Runtime.getRuntime().availableProcessors();
     private static int threadsHashing = THREADS_MAX;
     private static int threadsReading = 1; // OSControl.isMacOS() ? THREADS_MAX : 1;
+
+    /**
+     * Returns the smallest number of threads that is supported.
+     *
+     * @return the smallest number of threads that is supported
+     */
+    public static int getThreadsMin() {
+        return THREADS_MIN;
+    }
+
+    /**
+     * Returns the largest number of threads that is supported. More threads than
+     * that cannot improve the throughput on any machine, but they can exhaust the
+     * memory of the JVM, so a larger value is rejected rather than honored.
+     *
+     * @return the largest number of threads that is supported
+     */
+    public static int getThreadsLimit() {
+        return THREADS_LIMIT;
+    }
 
     public static int getThreadsMax() {
         return THREADS_MAX;
@@ -43,7 +65,16 @@ public class ThreadControl {
         return threadsHashing;
     }
 
+    /**
+     * Sets the default number of hashing threads for all Parameters objects that
+     * are created after this call.
+     *
+     * @param threadsHashing the number of threads
+     * @throws IllegalArgumentException if the value is not in the range that
+     * {@link #getThreadsMin()} and {@link #getThreadsLimit()} describe
+     */
     public static void setThreadsHashing(int threadsHashing) {
+        checkRange(threadsHashing);
         ThreadControl.threadsHashing = threadsHashing;
     }
 
@@ -51,7 +82,33 @@ public class ThreadControl {
         return threadsReading;
     }
 
+    /**
+     * Sets the default number of reading threads for all Parameters objects that
+     * are created after this call.
+     *
+     * @param threadsReading the number of threads
+     * @throws IllegalArgumentException if the value is not in the range that
+     * {@link #getThreadsMin()} and {@link #getThreadsLimit()} describe
+     */
     public static void setThreadsReading(int threadsReading) {
+        checkRange(threadsReading);
         ThreadControl.threadsReading = threadsReading;
+    }
+
+    /**
+     * Checks whether a number of threads is supported. A value outside the range
+     * would not just be pointless, it would stop the engine from working at all,
+     * see net.jacksum.multicore.manyfiles.MessageWorker.
+     *
+     * @param threads the number of threads
+     * @throws IllegalArgumentException if the value is not in the range that
+     * {@link #getThreadsMin()} and {@link #getThreadsLimit()} describe
+     */
+    public static void checkRange(int threads) {
+        if (threads < THREADS_MIN || threads > THREADS_LIMIT) {
+            throw new IllegalArgumentException(
+                    String.format("The number of threads has to be a value between %d and %d, but it is %d.",
+                            THREADS_MIN, THREADS_LIMIT, threads));
+        }
     }
 }

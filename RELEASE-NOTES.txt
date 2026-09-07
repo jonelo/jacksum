@@ -1,6 +1,14 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #85: the value range of --threads-hashing and --threads-reading is not enforced, only a
+    value below 1 is rejected, so --threads-reading 21474837 or any larger value overflows the
+    calculation of the work queue's capacity, the worker thread dies before it can send its exit
+    message, and Jacksum waits forever; through the API even --threads-reading 0 reaches that dead
+    end, because neither ThreadControl nor Parameters check what they are given; both options now
+    accept 1 to 65536 or "max" only, the setters of the API reject anything else with an
+    IllegalArgumentException, the worker can no longer lose its exit message, and both options name
+    the accepted range in their error messages and in the help
   - issue #84: the bit width range of -a unknown:<length> that -h documents, 1 to 1024, is not
     enforced, so -a unknown:0, -a unknown:2048 or -a unknown:2147483647 start a session that
     cannot find anything and report two errors about the internal CRC engines instead of one

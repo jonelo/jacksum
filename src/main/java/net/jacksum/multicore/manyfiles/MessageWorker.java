@@ -35,6 +35,11 @@ import net.jacksum.parameters.base.CustomizedFormatParameters;
 
 public class MessageWorker implements Runnable {
 
+    // the largest work queue that is allocated, whatever number of threads is requested;
+    // without that cap the multiplication below would overflow the int range, and a
+    // negative capacity would be rejected by the queue
+    private static final int MAX_QUEUE_CAPACITY = 1024 * 1024;
+
     private final int cores;
     private final AlgorithmPool algorithmPool;
     private final BlockingQueue<Message> inputQueue;
@@ -71,21 +76,29 @@ public class MessageWorker implements Runnable {
     public void run() {
         //System.out.println("File Consumer started.");        
 
-        // potential fix for issue #30
-        int capacity = cores * 100; // or a memory-based calculation
-        ExecutorService executorService = new ThreadPoolExecutor(
-            cores, cores, 0L, TimeUnit.MILLISECONDS, 
-            new LinkedBlockingQueue<Runnable>(capacity)
-        );
-        /*
-        ExecutorService executorService = Executors.newFixedThreadPool(cores);
-        // The producer thread will be employed to run the task it just submitted. This is effective back pressure.
-        // If the caller is running the task itself, it can't produce another tasks until it is done with its current task.
-        */
-        ((ThreadPoolExecutor)executorService).setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
-
         boolean interrupted = false;
+        // The thread pool is set up inside the try block, because everything that could
+        // stop this thread before the finally block is reached would keep the EXIT
+        // message from ever being sent, and the consumer downstream would wait for it
+        // forever, see the finally block below.
+        ExecutorService executorService = null;
         try {
+            // a number of threads that the parameters cannot deliver could still reach
+            // this class through the API, and a pool of 0 threads would be rejected
+            int threads = Math.max(1, cores);
+            // potential fix for issue #30
+            int capacity = (int) Math.min((long) threads * 100L, MAX_QUEUE_CAPACITY); // or a memory-based calculation
+            executorService = new ThreadPoolExecutor(
+                threads, threads, 0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>(capacity)
+            );
+            /*
+            ExecutorService executorService = Executors.newFixedThreadPool(cores);
+            // The producer thread will be employed to run the task it just submitted. This is effective back pressure.
+            // If the caller is running the task itself, it can't produce another tasks until it is done with its current task.
+            */
+            ((ThreadPoolExecutor)executorService).setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+
             Message message;
             // consuming messages until the exit message is received
             while ((message = inputQueue.take()).getType() != Type.EXIT) {
@@ -114,16 +127,18 @@ public class MessageWorker implements Runnable {
             // Wait until all submitted WorkerThreads have finished. Block on
             // awaitTermination instead of spinning on isTerminated() (the old
             // busy-wait pinned a full CPU core).
-            executorService.shutdown();
-            while (true) {
-                try {
-                    if (executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS)) {
+            if (executorService != null) {
+                executorService.shutdown();
+                while (true) {
+                    try {
+                        if (executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS)) {
+                            break;
+                        }
+                    } catch (InterruptedException e) {
+                        interrupted = true;
+                        executorService.shutdownNow();
                         break;
                     }
-                } catch (InterruptedException e) {
-                    interrupted = true;
-                    executorService.shutdownNow();
-                    break;
                 }
             }
             // Always send the EXIT poison pill downstream, even on the exceptional

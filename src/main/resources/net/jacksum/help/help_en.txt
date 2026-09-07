@@ -3967,6 +3967,9 @@ OPTIONS
             than the number of threads actually needed, only the required number
             of threads will be started.
 \
+            The value of <threads> has to be a number between 1 and 65536, or
+            the value "max". A value outside that range is rejected.
+\
 \
             See also:
 \
@@ -3990,6 +3993,9 @@ OPTIONS
             system can affect the speed of each thread. If <threads> is set to
             the value "max", it is set to the number of available processors.
 \
+            The value of <threads> has to be a number between 1 and 65536, or
+            the value "max". A value outside that range is rejected.
+\
             Recommendations:
 \
                 - Set <threads> to a large value, or even to "max" if you want
@@ -4004,7 +4010,7 @@ OPTIONS
                   drives do not benefit from multiple readers. In fact, a larger
                   value for <threads> can significantly reduce read performance
                   in these cases.
-                  Set <threads> to 1 if if you want the output in a predictable
+                  Set <threads> to 1 if you want the output in a predictable
                   order.
 \
 \

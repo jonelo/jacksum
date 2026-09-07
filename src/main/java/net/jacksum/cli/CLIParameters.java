@@ -200,6 +200,43 @@ public class CLIParameters {
 
 
     /**
+     * Parses the argument of an option that takes a number of threads.
+     *
+     * The value the user has typed is passed as an argument of String.format rather than
+     * being concatenated into its format string, see handleParamError().
+     *
+     * @param value the argument the user has typed
+     * @param option the option, in order to name it in the message
+     * @return the number of threads, a value that ThreadControl accepts
+     * @throws ParameterException if the argument is not a number, or if it is a number
+     * that is out of range
+     */
+    private int parseThreads(String value, String option) throws ParameterException {
+        if (value.equals("max")) {
+            return ThreadControl.getThreadsMax();
+        }
+        int threads;
+        try {
+            threads = Integer.parseInt(value);
+        } catch (NumberFormatException nfe) {
+            throw new ParameterException(String.format(
+                    "Option %s: \"%s\" is not a valid number of threads. A value between %d and %d, or \"max\", is required.",
+                    option, value, ThreadControl.getThreadsMin(), ThreadControl.getThreadsLimit()));
+        }
+        // an out of range value would not just be pointless, it would stop the engine
+        // from working at all, see net.jacksum.multicore.manyfiles.MessageWorker
+        try {
+            ThreadControl.checkRange(threads);
+        } catch (IllegalArgumentException iae) {
+            throw new ParameterException(String.format(
+                    "Option %s requires a value between %d and %d, or the value \"max\".",
+                    option, ThreadControl.getThreadsMin(), ThreadControl.getThreadsLimit()));
+        }
+        return threads;
+    }
+
+
+    /**
      * Parses the CLI Parameters and returns a Parameters object
      *
      * @return a Parameters objects
@@ -594,40 +631,14 @@ public class CLIParameters {
 
                 } else if (arg.equals(__THREADS_HASHING)) {
                     if (firstfile < args.length) {
-                        arg = args[firstfile++];
-                        if (arg.equals("max")) {
-                            parameters.setThreadsHashing(ThreadControl.getThreadsMax());
-                        } else {
-                            try {
-                                int value = Integer.parseInt(arg);
-                                if (value < 1) {
-                                    throw new ParameterException("The threads value has to be > 0.");
-                                }
-                                parameters.setThreadsHashing(value);
-                            } catch (NumberFormatException nfe) {
-                                throw new ParameterException(nfe.getMessage());
-                            }
-                        }
+                        parameters.setThreadsHashing(parseThreads(args[firstfile++], __THREADS_HASHING));
                     } else {
                         handleUserParamError(arg, __THREADS_HASHING);
                     }
 
                 } else if (arg.equals(__THREADS_READING)) {
                     if (firstfile < args.length) {
-                        arg = args[firstfile++];
-                        if (arg.equals("max")) {
-                            parameters.setThreadsReading(ThreadControl.getThreadsMax());
-                        } else {
-                            try {
-                                int value = Integer.parseInt(arg);
-                                if (value < 1) {
-                                    throw new ParameterException("The threads value has to be > 0.");
-                                }
-                                parameters.setThreadsReading(value);
-                            } catch (NumberFormatException nfe) {
-                                throw new ParameterException(nfe.getMessage());
-                            }
-                        }
+                        parameters.setThreadsReading(parseThreads(args[firstfile++], __THREADS_READING));
                     } else {
                         handleUserParamError(arg, __THREADS_READING);
                     }

@@ -4393,6 +4393,10 @@ OPTIONS
             benötigte Anzahl an Threads, wird nur die erforderliche
             Anzahl an Threads gestartet.
 \
+            Der Wert von <threads> muss eine Zahl zwischen 1 und 65536
+            sein, oder der Wert "max". Ein Wert außerhalb dieses
+            Bereichs wird abgelehnt.
+\
 \
             Siehe auch:
 \
@@ -4418,6 +4422,10 @@ OPTIONS
             Threads beeinflussen kann. Ist <threads> auf den Wert
             "max" gesetzt, wird es auf die Anzahl der verfügbaren
             Prozessoren gesetzt.
+\
+            Der Wert von <threads> muss eine Zahl zwischen 1 und 65536
+            sein, oder der Wert "max". Ein Wert außerhalb dieses
+            Bereichs wird abgelehnt.
 \
             Empfehlungen:
 \

@@ -952,7 +952,15 @@ public class Parameters implements
         return threadsHashing;
     }
 
+    /**
+     * Sets the number of hashing threads for this run.
+     *
+     * @param threadsHashing the number of threads
+     * @throws IllegalArgumentException if the value is not in the range that
+     * {@link ThreadControl#getThreadsMin()} and {@link ThreadControl#getThreadsLimit()} describe
+     */
     public void setThreadsHashing(int threadsHashing) {
+        ThreadControl.checkRange(threadsHashing);
         // Deliberately no write back to ThreadControl: the static field is the default
         // for a new Parameters object only, this object is the authority for this run,
         // and the classes that need the value get it from here.
@@ -963,7 +971,15 @@ public class Parameters implements
         return threadsReading;
     }
 
+    /**
+     * Sets the number of reading threads for this run.
+     *
+     * @param threadsReading the number of threads
+     * @throws IllegalArgumentException if the value is not in the range that
+     * {@link ThreadControl#getThreadsMin()} and {@link ThreadControl#getThreadsLimit()} describe
+     */
     public void setThreadsReading(int threadsReading) {
+        ThreadControl.checkRange(threadsReading);
         // Deliberately no write back to ThreadControl, see setThreadsHashing().
         this.threadsReading = threadsReading;
     }
