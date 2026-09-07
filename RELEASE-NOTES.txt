@@ -1,55 +1,25 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
-  - issue #88: the constructor Parameters(String[] args) of the API ignores the arguments it is
-    given, so a program that embeds Jacksum and follows its javadoc gets an object that describes
-    nothing but the defaults, and it gets it without an error, although the constructor declares a
-    ParameterException; the arguments are now parsed the way the command line interface parses
-    them, and a malformed command line is reported by that exception
-  - issue #87: Parameters.update() and the command line that Parameters rebuilds for the header of
-    an output file decide whether --threads-hashing resp. --threads-reading has been set by
-    comparing the value against a default, so an explicit --threads-hashing <number of processors>
-    and an explicit --threads-reading 1 count as "not set" and get lost, which matters as soon as a
-    program that embeds Jacksum has changed those defaults with ThreadControl beforehand; both
-    options now remember whether they have been set, the way every other option of that class does
-  - issue #86: the special value "max" of -r, --threads-hashing and --threads-reading is only
-    recognized in lower case, so -r MAX reports a value that is not a number rather than the depth
-    the user has asked for; the value is now accepted whatever case it is typed in, and both error
-    messages of -r name the option and the accepted range, like the messages of the other options
-    do since issue #83 and issue #85
-  - issue #85: the value range of --threads-hashing and --threads-reading is not enforced, only a
-    value below 1 is rejected, so --threads-reading 21474837 or any larger value overflows the
-    calculation of the work queue's capacity, the worker thread dies before it can send its exit
-    message, and Jacksum waits forever; through the API even --threads-reading 0 reaches that dead
-    end, because neither ThreadControl nor Parameters check what they are given; both options now
-    accept 1 to 65536 or "max" only, the setters of the API reject anything else with an
-    IllegalArgumentException, the worker can no longer lose its exit message, and both options name
-    the accepted range in their error messages and in the help
+  - issue #88: new Parameters(String[] args) ignores the arguments it is given
+  - issue #87: an explicitly set number of threads is lost when a Parameters object is merged
+    or turned back into a command line
+  - issue #86: the value "max" is only recognized in lower case, and the errors of -r do not
+    name the option
+  - issue #85: the value range of --threads-hashing and --threads-reading is not enforced, and
+    a large value for --threads-reading hangs Jacksum forever
   - issue #84: the bit width range of -a unknown:<length> that -h documents, 1 to 1024, is not
-    enforced, so -a unknown:0, -a unknown:2048 or -a unknown:2147483647 start a session that
-    cannot find anything and report two errors about the internal CRC engines instead of one
-    error about the value that has been specified; such a width is now rejected before any
-    engine is started, and the -a section of the help names the range as well
-  - issue #83: -a unknown:<length> with a length that does not fit into an int, e.g.
-    -a unknown:99999999999, reports the message of a Java NumberFormatException, so the user
-    sees neither the "Jacksum: Parameter Error: " prefix nor the accepted range; such a
-    length is now reported as a regular parameter error
+    enforced
+  - issue #83: -a unknown:<length> with a length that does not fit into an int reports the
+    message of a Java NumberFormatException
   - issue #81: the CRC finder and the CRC brute forcer of -a unknown:<length> reject a length
-    below 8 bits, although Jacksum can compute a CRC that is 1 to 64 bits wide, so the 15
-    well-known CRCs of the catalogue that are shorter than 8 bits, e.g. CRC-5/USB or
-    CRC-7/MMC, can never be found; the finder now supports a length of 1 to 64 bits and the
-    brute forcer a length of 1 to 63 bits
-  - issue #80: -a unknown:63 never ends its brute-force session because the loop over all
-    polynomials wraps around instead of stopping; in addition the number of tested algorithms
-    is reported one too high, the message for an unsupported bit width does not name the
-    supported range, and the reason why a candidate cannot be instantiated is dropped
-  - issue #79: a mistyped sequence type of -q resp. -k was silently read as hex, so the
-    error message talked about hex instead of about the unknown type; such a type is now
-    rejected by name, while a sequence without a type is still read as hex, as documented
-  - issue #78: every decoding error of -q and -k reached the user without the
-    "Jacksum: Parameter Error: " prefix, and without naming the option that was at fault;
-    the sequence is now decoded while the parameters are checked, so a malformed sequence
-    is reported before any work is done
+    below 8 bits, so 15 well-known CRCs of the catalogue can never be found
+  - issue #80: -a unknown:63 never ends its brute-force session, because the loop over all
+    polynomials wraps around instead of stopping
+  - issue #79: a mistyped sequence type of -q resp. -k is silently read as hex, so the error
+    message talks about hex instead of about the unknown type
+  - issue #78: every decoding error of -q and -k reaches the user without the "Jacksum:
+    Parameter Error: " prefix, and without naming the option that was at fault
   - issue #77: the error message for an algorithm that cannot be used depends on the action, and an
     empty algorithm name produces a message that starts with a space
   - issue #76: -c and -w die with an uncaught NullPointerException if the algorithm cannot be
@@ -84,13 +54,8 @@ Jacksum 4.0.1, TBD
     GNU file name escaping as user-set although it is not
   - issue #58: -o and -u truncate or create their target file before the "file already
     exists" check aborts the run
-  - Parameters.checked() can be called more than once on the same Parameters object again if
-    --path-relative-to-entry has been used: the first call derived the path for --path-relative-to
-    from the entry without clearing --path-relative-to-entry, so every subsequent call rejected the
-    object with "Only one of the following options is allowed: --no-path, --path-absolute,
-    --path-relative-to, or --path-relative-to-entry"; a path that has been derived that way is no
-    longer counted as a second path option, while an actual conflict of path options that has been
-    specified by the user resp. by the API is still reported (found by HashGarten, issue #14)
+  - Parameters.checked() rejects a Parameters object on every call after the first if
+    --path-relative-to-entry has been used (found by HashGarten, issue #14)
 
 - Improved performance
   - issue #82: significant performance improvement for the CRC brute forcer of
