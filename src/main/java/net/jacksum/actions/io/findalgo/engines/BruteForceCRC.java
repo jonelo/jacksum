@@ -37,8 +37,17 @@ import net.jacksum.parameters.Parameters;
  */
 public class BruteForceCRC implements FindAlgoEngine {
 
+    // the number of parameter combinations that are tried for each polynomial:
+    // init, refIn, refOut and xorOut are varied over two values each
+    private static final int COMBINATIONS_PER_POLY = 16;
+
+    // the number of polynomials after which the polynomial counter is transferred
+    // to searched, so that the counter cannot overflow
+    private static final long FLUSH_AT = 1L << 40;
+
     private final Parameters parameters;
-    private BigInteger searched = BigInteger.ONE;
+    private BigInteger searched = BigInteger.ZERO;
+    private long polysDone;
     private long found;
     
     public BruteForceCRC(Parameters parameters) {
@@ -48,8 +57,10 @@ public class BruteForceCRC implements FindAlgoEngine {
     @Override
     public void find(int width) throws ParameterException {
 
-        if (width < 8 || width > 63) { // || (width % 8 > 0)) {
-            throw new ParameterException("Bit width " + width + " is not supported by the CRC brute forcer.");
+        if (width < 8 || width > 63) {
+            throw new ParameterException(String.format(
+                    "Bit width %s is not supported by the CRC brute forcer, the supported range is [8..63].",
+                    width));
         }
         if (parameters.getVerbose().isInfo()) {
             System.err.printf("Trying all CRC algorithms with a width of %s bits by brute force (be patient!) ...\n", width);
@@ -58,57 +69,64 @@ public class BruteForceCRC implements FindAlgoEngine {
         AbstractChecksum checksum;
 
         long maskAllBits = ~0L >>> (64 - width); // stores the value (2 ^ width) - 1
-        //long maskAllBits = width < 64 ? (1L << width) - 1 : ~0L; 
 
         boolean[] boolarray = {false, true};
         long[] inittab = {0L, maskAllBits};
         long[] xortab = {0L, maskAllBits};
 
-        long poly;
         int init;
         int refin;
         int refout;
         int xor;
 
         try {
-            if (width < 64) {
-                for (poly = 0L; poly <= maskAllBits; poly++) {
-                    for (init = 0; init < 2; init++) {
-                        for (refin = 0; refin < 2; refin++) {
-                            for (refout = 0; refout < 2; refout++) {
-                                for (xor = 0; xor < 2; xor++) {
-                                    checksum = new CrcGeneric(width,
-                                            poly,
-                                            inittab[init],
-                                            boolarray[refin],
-                                            boolarray[refout],
-                                            xortab[xor]);
-                                    checksum.setParameters(parameters);
-                                    checksum.update(parameters.getSequence().asBytes());
+            // the loop condition must not be poly <= maskAllBits, because for a width of 63
+            // maskAllBits is Long.MAX_VALUE, so poly++ would wrap around instead of ending
+            for (long poly = 0L;; poly++) {
+                for (init = 0; init < 2; init++) {
+                    for (refin = 0; refin < 2; refin++) {
+                        for (refout = 0; refout < 2; refout++) {
+                            for (xor = 0; xor < 2; xor++) {
+                                checksum = new CrcGeneric(width,
+                                        poly,
+                                        inittab[init],
+                                        boolarray[refin],
+                                        boolarray[refout],
+                                        xortab[xor]);
+                                checksum.setParameters(parameters);
+                                checksum.update(parameters.getSequence().asBytes());
 
-                                    CompareAndFindAlgo action = new CompareAndFindAlgo(checksum, parameters);
-                                    action.perform();
-                                    found += action.getPositives();
-                                    searched = getSearched().add(BigInteger.ONE);
-                                }
+                                CompareAndFindAlgo action = new CompareAndFindAlgo(checksum, parameters);
+                                action.perform();
+                                found += action.getPositives();
                             }
                         }
                     }
                 }
-
-            } else {
-                //  throw new UnsupportedOperationException(""));
-                // TODO: not yet implemented, because Java doesn't support 64 bit unsinged long
-                // we have to do it using BigInteger for width == 64
+                if (++polysDone == FLUSH_AT) {
+                    searched = searched.add(polysAsCandidates());
+                    polysDone = 0;
+                }
+                if (poly == maskAllBits) {
+                    break;
+                }
             }
         } catch (NoSuchAlgorithmException e) {
-            throw new ParameterException("No such algorithm.");
+            throw new ParameterException(e.getMessage());
         }
     }
     
     /**
+     * @return the number of candidates that the polynomials counted in polysDone stand for
+     */
+    private BigInteger polysAsCandidates() {
+        return BigInteger.valueOf(polysDone).multiply(BigInteger.valueOf(COMBINATIONS_PER_POLY));
+    }
+
+    /**
      * @return the found
      */
+    @Override
     public long getFound() {
         return found;
     }
@@ -118,7 +136,7 @@ public class BruteForceCRC implements FindAlgoEngine {
      */
     @Override
     public BigInteger getSearched() {
-        return searched;
+        return searched.add(polysAsCandidates());
     }
 
 

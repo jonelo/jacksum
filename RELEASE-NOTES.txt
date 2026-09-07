@@ -1,6 +1,10 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #80: -a unknown:63 never ends its brute-force session because the loop over all
+    polynomials wraps around instead of stopping; in addition the number of tested algorithms
+    is reported one too high, the message for an unsupported bit width does not name the
+    supported range, and the reason why a candidate cannot be instantiated is dropped
   - issue #79: a mistyped sequence type of -q resp. -k was silently read as hex, so the
     error message talked about hex instead of about the unknown type; such a type is now
     rejected by name, while a sequence without a type is still read as hex, as documented
