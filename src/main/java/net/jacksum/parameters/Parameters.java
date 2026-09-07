@@ -38,6 +38,7 @@ import net.jacksum.actions.io.verify.CheckActionParameters;
 import net.jacksum.actions.io.verify.CheckConsumerParameters;
 import net.jacksum.actions.io.verify.ListFilter;
 import net.jacksum.actions.io.wanted.MatchFilter;
+import net.jacksum.cli.CLIParameters;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Messenger;
 import net.jacksum.cli.Verbose;
@@ -316,13 +317,16 @@ public class Parameters implements
     }
 
     /**
-     * Parameters Constructor.
+     * Parameters Constructor. The arguments are parsed the way the command line
+     * interface parses them, but they are not checked for combinations that make no
+     * sense, call {@link #checked()} for that.
      *
      * @param args all arguments
      * @throws ParameterException if a parameter error occurs
      */
     public Parameters(String[] args) throws ParameterException {
         this();
+        new CLIParameters(args).parse(this);
     }
 
     // ************************************** public methods *********************************************************

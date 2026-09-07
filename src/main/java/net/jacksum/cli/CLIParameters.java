@@ -247,7 +247,18 @@ public class CLIParameters {
      * @throws ParameterException if parameters are invalid
      */
     public Parameters parse() throws ParameterException {
-        Parameters parameters = new Parameters();
+        return parse(new Parameters());
+    }
+
+    /**
+     * Parses the CLI Parameters into the Parameters object that is given, so that a
+     * Parameters object can parse a command line in its own constructor.
+     *
+     * @param parameters the object that is filled, expected to be a new one
+     * @return the object that has been given, filled with the parsed parameters
+     * @throws ParameterException if parameters are invalid
+     */
+    public Parameters parse(Parameters parameters) throws ParameterException {
         parameters.setCLIParameters(args);
 
         boolean dashdash = false;

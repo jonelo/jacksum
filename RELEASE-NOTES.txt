@@ -1,6 +1,11 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #88: the constructor Parameters(String[] args) of the API ignores the arguments it is
+    given, so a program that embeds Jacksum and follows its javadoc gets an object that describes
+    nothing but the defaults, and it gets it without an error, although the constructor declares a
+    ParameterException; the arguments are now parsed the way the command line interface parses
+    them, and a malformed command line is reported by that exception
   - issue #87: Parameters.update() and the command line that Parameters rebuilds for the header of
     an output file decide whether --threads-hashing resp. --threads-reading has been set by
     comparing the value against a default, so an explicit --threads-hashing <number of processors>
