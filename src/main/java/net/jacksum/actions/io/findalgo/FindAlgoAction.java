@@ -60,10 +60,15 @@ public class FindAlgoAction implements Action {
         Matcher matcher = pattern.matcher(parameters.getAlgorithmIdentifier());
 
         if (matcher.find() && matcher.groupCount() == 1) {
-            int width = Integer.valueOf(matcher.group(1));
-            /*if (width < 8 || (width % 8 > 0)) {
-                throw new ParameterException("Bit width must be a multiple of 8. Selected bit width " + width + " does not meet that requirement.");
-            }*/
+            int width;
+            try {
+                width = Integer.parseInt(matcher.group(1));
+            } catch (NumberFormatException nfe) {
+                // the regex only matches digits, so the value is simply too large for an int
+                throw new ParameterException(String.format(
+                        "Bit width %s is too large, the supported range is [1..1024].",
+                        matcher.group(1)));
+            }
 
             List<FindAlgoEngine> engines = new ArrayList<>(3);
             engines.add(new FindDocumentedAlgorithms(parameters));

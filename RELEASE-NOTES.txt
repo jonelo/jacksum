@@ -1,6 +1,10 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #83: -a unknown:<length> with a length that does not fit into an int, e.g.
+    -a unknown:99999999999, reports the message of a Java NumberFormatException, so the user
+    sees neither the "Jacksum: Parameter Error: " prefix nor the accepted range; such a
+    length is now reported as a regular parameter error
   - issue #81: the CRC finder and the CRC brute forcer of -a unknown:<length> reject a length
     below 8 bits, although Jacksum can compute a CRC that is 1 to 64 bits wide, so the 15
     well-known CRCs of the catalogue that are shorter than 8 bits, e.g. CRC-5/USB or
