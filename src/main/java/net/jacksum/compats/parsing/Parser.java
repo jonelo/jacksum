@@ -368,6 +368,23 @@ public class Parser {
      * @param other another entry of the check file
      * @return true if the two entries don't store the same properties
      */
+    /**
+     * Returns the hint that an entry deserves whose file name starts with a space. That is what a
+     * list looks like which has been created by a tool such as sha256sum in text mode: it stores a
+     * hash value, a space, and a marker character that is a space in text mode resp. an asterisk in
+     * binary mode. The parser that is generated from the parameters tolerates the asterisk, but it
+     * cannot tolerate the space of the text mode, because a file name is allowed to start with a
+     * space, and a list that Jacksum has written must stay verifiable.
+     *
+     * @param filename the name of the entry that starts with a space
+     * @param listNoun the noun for the list that has been read, e.g. "check file"
+     * @return the hint, to be printed as an info
+     */
+    public static String getStyleHint(String filename, String listNoun) {
+        return String.format("The file name of the entry \"%s\" starts with a space. If the %s has been created by a tool such as sha256sum in text mode, use the option --style gnu-linux to read it.",
+                filename, listNoun);
+    }
+
     private static boolean differs(HashEntry one, HashEntry other) {
         return !Objects.equals(one.getHash(), other.getHash())
                 || one.getFilesize() != other.getFilesize()

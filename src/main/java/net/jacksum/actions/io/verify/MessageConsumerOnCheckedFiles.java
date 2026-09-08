@@ -34,6 +34,7 @@ import net.jacksum.multicore.manyfiles.Message;
 import net.jacksum.multicore.manyfiles.MessageConsumer;
 import net.jacksum.cli.ExitCode;
 import net.jacksum.cli.Messenger;
+import net.jacksum.compats.parsing.Parser;
 import static net.jacksum.cli.CLIParameters.__CHECK_STRICT;
 import static net.jacksum.cli.CLIParameters.__LIST_FILTER;
 import static net.jacksum.cli.Messenger.MsgType.ERROR;
@@ -168,21 +169,15 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
     private boolean styleHinted = false;
 
     /**
-     * Hints once at the style gnu-linux if a file that cannot be found has a name that starts with a
-     * space. That is what a check file looks like which has been created by a tool such as sha256sum
-     * in text mode: it stores a hash value, a space, and a marker character that is a space in text
-     * mode resp. an asterisk in binary mode. The parser that is generated from the parameters
-     * tolerates the asterisk, but it cannot tolerate the space of the text mode, because a file name
-     * is allowed to start with a space, and a list that Jacksum has written must stay verifiable.
+     * Hints once at the style gnu-linux if a file that cannot be found has a name that starts with
+     * a space, see Parser.getStyleHint() for the reason.
      *
      * @param filename the name of the file that cannot be found
      */
     private void hintStyleIfFilenameStartsWithSpace(String filename) {
         if (!styleHinted && filename.startsWith(" ")) {
             styleHinted = true;
-            messenger.print(INFO, String.format(
-                    "The file name of the entry \"%s\" starts with a space. If the check file has been created by a tool such as sha256sum in text mode, use the option --style gnu-linux to read it.",
-                    filename));
+            messenger.print(INFO, Parser.getStyleHint(filename, "check file"));
         }
     }
 

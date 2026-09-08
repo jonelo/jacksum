@@ -24,6 +24,7 @@ package net.jacksum.actions.io.wanted;
 
 import net.jacksum.actions.io.verify.NotEvenOneEntryFoundException;
 import net.jacksum.cli.ExitCode;
+import net.jacksum.cli.Messenger;
 import net.jacksum.compats.defs.CompatibilityProperties;
 import net.jacksum.compats.defs.DefaultCompatibilityProperties;
 import net.jacksum.compats.parsing.HashEntry;
@@ -37,14 +38,18 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import static net.jacksum.cli.Messenger.MsgType.INFO;
+
 public class WantedHashes {
     private Parameters parameters;
     private CompatibilityProperties compatibilityProperties;
     private Parser parser;
+    private final Messenger messenger;
     List<HashEntry> parsedHashEntries = null;
 
     public WantedHashes(Parameters parameters) throws ParameterException {
         this.parameters = parameters;
+        this.messenger = new Messenger(parameters.getVerbose());
 
         // get the Parser's properties
         if (parameters.isWantedList()) {
@@ -84,6 +89,23 @@ public class WantedHashes {
             throw new ExitException(String.format("Jacksum: Error: %s", ex.getMessage()), ExitCode.IO_ERROR);
         } catch (NotEvenOneEntryFoundException ex) {
             throw new ExitException(ex.getMessage(), ExitCode.CHECKFILE_PARSE_ERROR);
+        }
+        hintStyleIfFilenameStartsWithSpace();
+    }
+
+    /**
+     * Hints once at the style gnu-linux if the wanted list stores an entry whose file name starts
+     * with a space, see Parser.getStyleHint() for the reason. A wanted list is searched by hash
+     * value and never opens the names it stores, so unlike a check file it cannot detect that case
+     * by a file that is missing; the entries have to be inspected after they have been parsed.
+     */
+    private void hintStyleIfFilenameStartsWithSpace() {
+        for (HashEntry hashEntry : parsedHashEntries) {
+            String filename = hashEntry.getFilename();
+            if (filename != null && filename.startsWith(" ")) {
+                messenger.print(INFO, Parser.getStyleHint(filename, parser.getStatistics().getListNoun()));
+                return; // hint once, and not for every single entry
+            }
         }
     }
 

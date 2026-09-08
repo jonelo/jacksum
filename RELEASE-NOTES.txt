@@ -1,6 +1,10 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #94: a wanted list (-w) in the text mode format of a tool such as sha256sum is
+    read silently, so the leading space of such a line ends up in the name that is printed
+    in brackets, without the hint at the style gnu-linux that -c gives; the text of that
+    hint has one source now, Parser.getStyleHint()
   - issue #93: a wanted list (-w) that stores the same hash value more than once reports
     only the name of the entry that has been read last, although such duplicates are kept
     on purpose and the name in brackets is what the mode is for; the summary counted the
