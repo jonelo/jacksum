@@ -33,6 +33,9 @@ import net.jacksum.multicore.manyfiles.MessageConsumer;
 import net.jacksum.parameters.Parameters;
 import net.jacksum.statistics.Statistics;
 
+import static net.jacksum.cli.Messenger.MsgType.ERROR;
+import static net.jacksum.cli.Messenger.MsgType.INFO;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,11 +115,12 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
                  break;
             case ERROR:
                  errors++;
-                 System.err.printf("Jacksum: Error: %s%n", message.getInfo());
+                 // the messenger honours the settings of option -V, e.g. "noerrors"
+                 messenger.print(ERROR, message.getInfo());
                  break;
             case INFO:
             case INFO_DIR_IGNORED:
-                System.err.printf("Jacksum: Info: %s%n", message.getInfo());
+                messenger.print(INFO, message.getInfo());
                 break;
             default:
                 break;

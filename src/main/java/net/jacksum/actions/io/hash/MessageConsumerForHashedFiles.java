@@ -23,6 +23,7 @@
 package net.jacksum.actions.io.hash;
 
 import net.jacksum.cli.ExitCode;
+import net.jacksum.cli.Messenger;
 import net.jacksum.multicore.manyfiles.Message;
 import net.jacksum.multicore.manyfiles.MessageConsumer;
 import net.jacksum.parameters.Parameters;
@@ -30,6 +31,8 @@ import net.jacksum.statistics.StatisticsForHashedFiles;
 import net.jacksum.statistics.Statistics;
 
 import static net.jacksum.cli.CLIParameters._IGNORE_LINES_STARTING_WITH_STRING;
+import static net.jacksum.cli.Messenger.MsgType.ERROR;
+import static net.jacksum.cli.Messenger.MsgType.INFO;
 
 public class MessageConsumerForHashedFiles extends MessageConsumer {
 
@@ -41,10 +44,12 @@ public class MessageConsumerForHashedFiles extends MessageConsumer {
     
     private final Parameters parameters;
     private final Statistics statistics;
-    
+    private final Messenger messenger;
+
     public MessageConsumerForHashedFiles(Parameters parameters) {
         this.parameters = parameters;
         statistics = new StatisticsForHashedFiles();
+        messenger = new Messenger(parameters.getVerbose());
     }
 
     @Override
@@ -66,11 +71,12 @@ public class MessageConsumerForHashedFiles extends MessageConsumer {
                  break;
             case ERROR:
                  errors++;
-                 System.err.printf("Jacksum: Error: %s%n", message.getInfo());
+                 // the messenger honours the settings of option -V, e.g. "noerrors"
+                 messenger.print(ERROR, message.getInfo());
                  break;
             case INFO:
             case INFO_DIR_IGNORED:
-                System.err.printf("Jacksum: Info: %s%n", message.getInfo());
+                messenger.print(INFO, message.getInfo());
                 break;
             default:
                 break;

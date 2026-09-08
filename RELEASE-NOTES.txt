@@ -1,6 +1,10 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #91: the options -V noerrors and -V noinfo (and therefore -V none) have no effect
+    while files are being searched by wanted hashes (-w resp. -e) or hashed, because both
+    of those message consumers write to standard error directly rather than through the
+    Messenger, which is the class that applies the settings of option -V
   - issue #90: the wanted list (-w) is not validated like a check list (-c), so a list that
     is a directory or that does not exist is reported by the raw message of a Java
     exception, without the "Jacksum: Error: " prefix and without naming the option; the
