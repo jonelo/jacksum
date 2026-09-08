@@ -1,6 +1,12 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #95: a wrong value for --style resp. --compat is reported by the raw message of a
+    Java exception, without saying what kind of failure it is, and a mistyped keyword is
+    reported as a file that is missing, because --style accepts a file name as well; such a
+    value is a parameter error (exit code 2) now, and so is a file that is not a valid style
+    or whose compat.syntaxVersion is too old, while a genuine I/O problem at an existing
+    file keeps the exit code 4
   - issue #94: a wanted list (-w) in the text mode format of a tool such as sha256sum is
     read silently, so the leading space of such a line ends up in the name that is printed
     in brackets, without the hint at the style gnu-linux that -c gives; the text of that

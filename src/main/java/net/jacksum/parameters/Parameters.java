@@ -2696,7 +2696,7 @@ public class Parameters implements
         }
     }
 
-    private void handleCompatibility() throws ExitException {
+    private void handleCompatibility() throws ParameterException, ExitException {
 
         if (this.getCompatibilityID() != null) {
             try {
@@ -2812,8 +2812,13 @@ public class Parameters implements
                 // as being set by the user, see also gnuEscaping a few lines above
                 timestampFormat = compatibilityProperties.getTimestampFormat();
 
-            } catch (IOException | InvalidCompatibilityPropertiesException ex) {
-                throw new ExitException("Jacksum: " + ex.getMessage(), ExitCode.IO_ERROR);
+            } catch (InvalidCompatibilityPropertiesException ex) {
+                // the value of the option is wrong, which is no I/O problem at all
+                throw new ParameterException(ex.getMessage());
+            } catch (IOException ex) {
+                // the file exists, but it cannot be read; the message of the exception has no
+                // context, so it needs the prefix that every other error of the application carries
+                throw new ExitException(String.format("Jacksum: Error: %s", ex.getMessage()), ExitCode.IO_ERROR);
             }
         } else { // -C hasn't been set, we want to use the default output formatter
 

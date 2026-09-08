@@ -24,6 +24,7 @@ import net.jacksum.JacksumAPI;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.loefflmann.sugar.util.Support;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -115,14 +116,23 @@ public class CompatibilityProperties implements Serializable {
      * @param compatFilename the id of a predefined style, or the name of a file
      * @param defaultStdinName the name for the standard input stream that is used if the
      *                         style does not define one of its own
-     * @throws IOException if the file cannot be read
-     * @throws InvalidCompatibilityPropertiesException if the file is not a valid style
+     * @throws IOException if the file exists, but it cannot be read
+     * @throws InvalidCompatibilityPropertiesException if the value is neither a predefined style
+     * nor an existing file, or if the file is not a valid style
      */
     public CompatibilityProperties(String compatFilename, String defaultStdinName) throws IOException, InvalidCompatibilityPropertiesException {
         String compatFilenameResolved = resolveAlias(compatFilename);
         if (isParserSupported(compatFilenameResolved)) {
             props = readFromJarFile(String.format("/net/jacksum/compats/defs/%s.properties", compatFilenameResolved));
         } else {
+            // A value that is neither a predefined style nor an existing file is a mistake in the
+            // parameters rather than an I/O problem, and a mistyped keyword must not be reported as
+            // a file that is missing, because the user has not asked for a file at all.
+            if (!new File(compatFilenameResolved).exists()) {
+                throw new InvalidCompatibilityPropertiesException(String.format(
+                        "\"%s\" is neither a predefined style nor a file that can be read.%nType \"jacksum -h --style\" to get a list of all predefined styles.",
+                        compatFilename));
+            }
             props = readFromLocalFile(compatFilenameResolved);
         }
         if (getCompatSyntaxVersion() != null) {
