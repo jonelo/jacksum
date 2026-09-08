@@ -1,6 +1,10 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #90: the wanted list (-w) is not validated like a check list (-c), so a list that
+    is a directory or that does not exist is reported by the raw message of a Java
+    exception, without the "Jacksum: Error: " prefix and without naming the option; the
+    same unprefixed message could show up for a check list that cannot be read
   - issue #89: the exit code of the wanted list mode (-w resp. -e together with file
     parameters) does not reflect the result: a run that reads not even one file reports
     success, read errors never reach the exit code, an empty --match-filter turns the

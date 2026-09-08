@@ -77,7 +77,9 @@ public class WantedHashes {
             parsedHashEntries = parser.parseFile(parameters.getWantedList(),
                         Charset.forName(parameters.getCharsetWantedList()));
         } catch (IOException ex) {
-            throw new ExitException(ex.getMessage(), ExitCode.IO_ERROR);
+            // the message of the exception has no context at all, so it needs the prefix that
+            // every other error of the application carries
+            throw new ExitException(String.format("Jacksum: Error: %s", ex.getMessage()), ExitCode.IO_ERROR);
         } catch (NotEvenOneEntryFoundException ex) {
             throw new ExitException(ex.getMessage(), ExitCode.CHECKFILE_PARSE_ERROR);
         }

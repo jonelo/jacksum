@@ -2526,15 +2526,10 @@ public class Parameters implements
                     _TIMESTAMP, __CHECK_FILE, __WANTED_LIST));
         }
 
-        if (getCheckFile() != null && !getCheckFile().equals("-")) { // the - means: read from stdin
-            File f = new File(getCheckFile());
-            if (f.isDirectory()) {
-                throw new ParameterException(String.format("Parameter -c %s is a directory, but a file name is expected.", getCheckFile()));
-            }
-            if (!f.exists()) {
-                throw new ExitException(String.format("Jacksum: Error: %s: No such file or directory.", getCheckFile()), ExitCode.IO_ERROR);
-            }
-        }
+        // a check list and a wanted list are both read by the same parser, so both of them are
+        // checked the same way, before the run starts
+        checkListArgument(_CHECK_FILE, getCheckFile());
+        checkListArgument(_WANTED_LIST, getWantedList());
 
         int pathOptions = 0;
         if (isPathAbsolute()) {
@@ -2675,6 +2670,30 @@ public class Parameters implements
             stdin = true;
         }
 
+    }
+
+    /**
+     * Checks the argument of an option that expects the name of a list that Jacksum reads, such as
+     * -c resp. -w. A list that is a directory is a mistake in the parameters rather than an I/O
+     * problem, and a list that does not exist is worth a message that names it, because the parser
+     * would only pass the message of a Java exception on, without any context.
+     *
+     * @param option the option the list belongs to, used for the error message
+     * @param filename the argument of that option, null if the option has not been set
+     * @throws ParameterException if the argument is a directory
+     * @throws ExitException if the argument does not exist
+     */
+    private void checkListArgument(String option, String filename) throws ParameterException, ExitException {
+        if (filename == null || filename.equals("-")) { // the - means: read from stdin
+            return;
+        }
+        File f = new File(filename);
+        if (f.isDirectory()) {
+            throw new ParameterException(String.format("Parameter %s %s is a directory, but a file name is expected.", option, filename));
+        }
+        if (!f.exists()) {
+            throw new ExitException(String.format("Jacksum: Error: %s: No such file or directory.", filename), ExitCode.IO_ERROR);
+        }
     }
 
     private void handleCompatibility() throws ExitException {
