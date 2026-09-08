@@ -2545,12 +2545,19 @@ OPTIONS
             Dateien mit demselben Hashwert finden können. Sie können mit
             der Option --match-filter steuern, was ausgegeben wird, und
             mit der Option --list nur die Pfade ausgeben lassen.
-            Wurde die Erwartung erfüllt, d. h. die Option
-            --match-filter ist auf match oder all gesetzt und es gibt
-            mindestens eine Übereinstimmung, ODER die Option
-            --match-filter ist auf nomatch gesetzt und es gibt
-            mindestens eine Nicht-Übereinstimmung, ist der Exit-Code 0,
-            andernfalls ist der Exit-Code > 1.
+            Die Erwartung ist erfüllt, wenn die Option --match-filter
+            auf nomatch bzw. negative gesetzt ist und es mindestens eine
+            Nicht-Übereinstimmung gibt, oder wenn sie auf etwas anderes
+            gesetzt ist und es mindestens eine Übereinstimmung gibt. Das
+            Schlüsselwort none ist kein eigener Filter, sondern setzt
+            zurück; ein leerer Filter gibt daher nichts aus, behält aber
+            die Erwartung des Standards, also die von positive.
+            Wurde die Erwartung erfüllt, ist der Exit-Code 0. Wurde sie
+            nicht erfüllt, ist der Exit-Code 5, wenn die Option -w
+            gesetzt wurde, und 6, wenn nur die Option -e gesetzt wurde;
+            er ist 4, wenn mindestens eine Datei nicht gelesen werden
+            konnte, da "nichts gefunden" dann keine verlässliche Antwort
+            ist.
 \
             Beispiel:
                 > jacksum -a sha256 -E base64
@@ -12561,7 +12568,9 @@ EXIT STATUS
          formatierte Zeilen
     4  - ein E/A-Fehler, z.B. eine Datei ist nicht lesbar, eine
          Ausgabedatei existiert bereits, oder ein Zeichensatz wird nicht
-         unterstützt
+         unterstützt; dieser Code hat auch Vorrang vor 5 und 6, wenn
+         nichts gefunden wurde und mindestens eine Datei nicht gelesen
+         werden konnte
     5  - es wurde keine Datei mit einem gesuchten Hashwert gefunden (-w)
     6  - die Erwartung wurde nicht erfüllt (-e zusammen mit
          Dateiparametern), oder --check-strict wurde gesetzt und

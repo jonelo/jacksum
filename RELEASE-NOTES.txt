@@ -1,6 +1,12 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #89: the exit code of the wanted list mode (-w resp. -e together with file
+    parameters) does not reflect the result: a run that reads not even one file reports
+    success, read errors never reach the exit code, an empty --match-filter turns the
+    verdict upside down, and -e together with -w overwrites the exit code of the
+    expectation; an unreachable branch that returned an undocumented exit code for an
+    expectation has been removed from MessageConsumerForHashedFiles
   - issue #88: new Parameters(String[] args) ignores the arguments it is given
   - issue #87: an explicitly set number of threads is lost when a Parameters object is merged
     or turned back into a command line

@@ -127,27 +127,36 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
     @Override
     public void handleMessagesFinal() {
 
-        // expectation is met if it matches (or not matches) at least one file
-        if (parameters.isExpectation() && filesRead > 0) {
-            long checkAgainst = filter.isFilterMatch() ? found : notfound;
+        // Only a filter that is exclusively negative asks for a non-match, see also the option
+        // --match-filter and the exit code rule that "jacksum -h -e" documents. The keyword "none"
+        // is a reset rather than a mode ("positive" is documented as "none,match"), so an empty
+        // filter prints nothing, but it keeps the verdict of the default, which is "positive".
+        boolean negative = filter.isFilterNoMatch() && !filter.isFilterMatch();
+        long checkAgainst = negative ? notfound : found;
 
+        // The expectation is met if at least one file matches resp. does not match, dependent on
+        // the filter. A run that could not read even one file gets its verdict as well, so that
+        // a script is not told that everything is fine although nothing has been searched.
+        if (parameters.isExpectation()) {
             System.err.printf("%sJacksum: Expectation %s.%s",
                     parameters.getLineSeparator(),
                     checkAgainst > 0 ? "met" : "not met",
                     parameters.getLineSeparator());
-            exitCode = checkAgainst > 0 ? ExitCode.EXPECTATION_MET : ExitCode.EXPECTATION_NOT_MET;
 
-            System.err.printf("Jacksum: %d of the successfully read files %s the expected hash value.%s",
+            // HashFilesWantedAction merges the hash of option -e into the wanted hashes, so if a
+            // wanted list has been specified as well, the counter covers both of them
+            System.err.printf("Jacksum: %d of the successfully read files %s %s hash value.%s",
                     checkAgainst,
-                    filter.isFilterMatch() ?  (checkAgainst == 1 ? "matches": "match") : (checkAgainst == 1 ? "does not match" : "do not match"),
+                    negative ? (checkAgainst == 1 ? "does not match" : "do not match")
+                             : (checkAgainst == 1 ? "matches" : "match"),
+                    parameters.isWantedList() ? "a wanted" : "the expected",
                     parameters.getLineSeparator());
         }
 
-        if (parameters.isWantedList() && filesRead > 0) {
-            long checkAgainst = filter.isFilterMatch() ? found : notfound;
-            exitCode = checkAgainst > 0 ? ExitCode.OK: ExitCode.WANTED_NOTFOUND;
-        }
-
+        // One single verdict, so that neither of both options can overwrite the exit code of the
+        // other one if they are combined; ExitCode.EXPECTATION_MET and ExitCode.OK are the same.
+        exitCode = checkAgainst > 0 ? ExitCode.OK
+                : parameters.isWantedList() ? ExitCode.WANTED_NOTFOUND : ExitCode.EXPECTATION_NOT_MET;
     }
 
     @Override
@@ -171,7 +180,12 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
             return ExitCode.IO_ERROR;
         }
         if (parameters.isExpectation() || parameters.isWantedList()) {
-            return exitCode;
+            // a hash value that has been found is a definite result, even if some files could not
+            // be read, but "nothing has been found" is not a reliable answer in that case
+            if (exitCode == ExitCode.OK) {
+                return ExitCode.OK;
+            }
+            return errors > 0 ? ExitCode.IO_ERROR : exitCode;
         }
         if (errors > 0) {
             return ExitCode.IO_ERROR;

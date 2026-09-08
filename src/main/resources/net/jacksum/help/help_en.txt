@@ -2322,11 +2322,17 @@ OPTIONS
             you can find all duplicates of files that have the same hash. You
             can adjust what is being printed out by the --match-filter option,
             and use the --list option to just print out the paths.
-            If the expectation was met, that is
-            --match-filter option is set to match or all, and there is at least
-            one match OR --match-filter option is set to nomatch, and there is
-            at least one no match, the exit code is 0, otherwise the exit code
-            is > 1.
+            The expectation is met if the --match-filter option is set to
+            nomatch resp. negative and there is at least one no match, or if
+            it is set to anything else and there is at least one match. The
+            keyword none is a reset rather than a filter of its own, so an
+            empty filter prints nothing, but it keeps the expectation of the
+            default, which is positive.
+            If the expectation was met, the exit code is 0. If it was not met,
+            the exit code is 5 if option -w has been set, and 6 if only option
+            -e has been set, and it is 4 if at least one file could not be
+            read, because "nothing has been found" is not a reliable answer
+            then.
 \
             Example:
                 > jacksum -a sha256 -E base64
@@ -11621,7 +11627,9 @@ EXIT STATUS
          even one valid entry has been found, or --check-strict has been
          set and the list contains improperly formatted lines
     4  - an I/O error, e.g. a file cannot be read, an output file exists
-         already, or a character set is not supported
+         already, or a character set is not supported; this code also
+         takes precedence over 5 and 6 if nothing has been found and at
+         least one file could not be read
     5  - no file with a wanted hash value has been found (-w)
     6  - the expectation has not been met (-e together with file
          parameters), or --check-strict has been set and at least one

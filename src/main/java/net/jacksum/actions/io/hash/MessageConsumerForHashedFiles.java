@@ -125,9 +125,11 @@ public class MessageConsumerForHashedFiles extends MessageConsumer {
         if (getUnexpectedErrors() > 0) {
             return ExitCode.IO_ERROR;
         }
-        if (parameters.isExpectation()) {
-            return files_matches_expectation > 0 ? ExitCode.OK: ExitCode.CHECK_MISMATCH;
-        }
+        // Note: an expectation cannot be judged here, because Parameters.getActionType() dispatches
+        // file parameters together with option -e to ActionType.WANTED_LIST, which is served by
+        // MessageConsumerForWantedFiles. The branch that used to be here was unreachable, and it
+        // returned ExitCode.CHECK_MISMATCH, which is not the exit code that -h documents for an
+        // expectation that has not been met.
         if (errors > 0) {
             return ExitCode.IO_ERROR;
         }
