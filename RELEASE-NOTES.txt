@@ -1,6 +1,10 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #93: a wanted list (-w) that stores the same hash value more than once reports
+    only the name of the entry that has been read last, although such duplicates are kept
+    on purpose and the name in brackets is what the mode is for; the summary counted the
+    entries rather than the hash values as the "total number of wanted hashes"
   - issue #92: the summary of a wanted list run (-w) calls the list a "check file", because
     ParserStatistics hardcodes that noun although the same parser reads a check list and a
     wanted list; option -e alone reports a number of wanted hashes and files that match

@@ -4777,9 +4777,11 @@ OPTIONS
 \
             Übereinstimmende Dateinamen werden mit dem in der
             Wanted-Hash-Liste angegebenen Namen in Klammern
-            ausgegeben. Nicht übereinstimmende Dateinamen werden mit
-            dem Hash in Klammern ausgegeben, da der Hash nicht in der
-            Wanted-Hash-Liste gefunden wurde.
+            ausgegeben. Sind in dieser Liste zu demselben Hashwert
+            mehrere Namen gespeichert, werden alle diese Namen
+            ausgegeben, durch Komma getrennt. Nicht übereinstimmende
+            Dateinamen werden mit dem Hash in Klammern ausgegeben, da
+            der Hash nicht in der Wanted-Hash-Liste gefunden wurde.
             Wird diese Option weggelassen, wird <filter> auf
             "positive" gesetzt. Unabhängig vom gesetzten Filter wird
             in jedem Fall gehasht.

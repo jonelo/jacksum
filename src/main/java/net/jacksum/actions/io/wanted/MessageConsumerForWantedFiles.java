@@ -36,6 +36,7 @@ import net.jacksum.statistics.Statistics;
 import static net.jacksum.cli.Messenger.MsgType.ERROR;
 import static net.jacksum.cli.Messenger.MsgType.INFO;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,7 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
     private Parameters parameters;
     private Statistics statistics;
     private List<HashEntry> hashEntries;
-    private Map<String, HashEntry> map;
+    private Map<String, List<HashEntry>> map;
     private Messenger messenger;
     private long found = 0;
     private long notfound = 0;
@@ -74,9 +75,13 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
      * hash values: if the alphabet of the encoding is case-insensitive, the
      * lookup is case-insensitive as well, see also Encoding.hashesAreEqual().
      *
+     * A hash value is mapped to every entry that stores it, because a wanted list keeps
+     * duplicates on purpose, see Parser.setReplaceDuplicateFilenames() and WantedHashes,
+     * and each of those entries can carry a file name of its own.
+     *
      * @return the wanted hashes, mapped for an indexed access by hash
      */
-    private Map<String, HashEntry> getWantedHashes() {
+    private Map<String, List<HashEntry>> getWantedHashes() {
         if (map == null) {
             Encoding encoding = formatPreferences == null ? null : formatPreferences.getEncoding();
             map = (encoding == null || encoding.isCaseSensitive())
@@ -85,12 +90,31 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
             if (hashEntries != null) {
                 hashEntries.forEach(hashEntry -> {
                     if (hashEntry.getHash() != null) {
-                        map.put(hashEntry.getHash(), hashEntry);
+                        map.computeIfAbsent(hashEntry.getHash(), key -> new ArrayList<>()).add(hashEntry);
                     }
                 });
             }
         }
         return map;
+    }
+
+    /**
+     * Returns the file names that the wanted list stores for a hash value, separated by a comma.
+     * Identical names are reported once, and null is returned if not even one entry stores a
+     * name at all, which happens e.g. if the style is "hexhashes-only".
+     *
+     * @param hash the hash value, as it is stored in the wanted list
+     * @return the file names that are stored for that hash value, null if there is no name
+     */
+    private String wantedFilenames(String hash) {
+        List<String> filenames = new ArrayList<>();
+        for (HashEntry hashEntry : getWantedHashes().get(hash)) {
+            String wantedFilename = hashEntry.getFilename();
+            if (wantedFilename != null && !filenames.contains(wantedFilename)) {
+                filenames.add(wantedFilename);
+            }
+        }
+        return filenames.isEmpty() ? null : String.join(", ", filenames);
     }
 
     @Override
@@ -107,7 +131,7 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
 
                  if (getWantedHashes().containsKey(hash)) {
                      found++;
-                     print(filter.isFilterMatch(), "MATCH", filename, getWantedHashes().get(hash).getFilename());
+                     print(filter.isFilterMatch(), "MATCH", filename, wantedFilenames(hash));
                  } else {
                      notfound++;
                      print(filter.isFilterNoMatch(), "NO MATCH", filename, hash);
@@ -170,8 +194,10 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
         ((StatisticsForHashedFiles)statistics).setBytesRead(bytesRead);
         if (parameters.isWantedList()) {
             // only a wanted list brings a number of wanted hashes with it; the single hash value
-            // of option -e is no list, see also HashFilesWantedAction
-            ((StatisticsForHashedFiles)statistics).setTotalNumberOfWantedHashes(hashEntries.size());
+            // of option -e is no list, see also HashFilesWantedAction. The map is keyed by hash
+            // value, so it answers how many different hashes are being searched for, while the
+            // number of lines is a matter of the parser statistics.
+            ((StatisticsForHashedFiles)statistics).setTotalNumberOfWantedHashes(getWantedHashes().size());
         } else {
             ((StatisticsForHashedFiles)statistics).setWantedHashesNoun("the expected hash");
         }

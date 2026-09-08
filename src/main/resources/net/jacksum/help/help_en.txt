@@ -4305,7 +4305,9 @@ OPTIONS
                 negative        <filter> ist set to none,nomatch
 \
             Matching file names are being printed with the name in brackets
-            that is given in the wanted hash list.
+            that is given in the wanted hash list. If that list stores more
+            than one name for the same hash value, all of those names are
+            printed, separated by a comma.
             Non-matching file names are being printed with the hash in brackets,
             because the hash was not found in the wanted hash list.
             If this option is omitted, the <filter> is set to "positive".
