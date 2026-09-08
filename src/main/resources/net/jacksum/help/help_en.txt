@@ -4243,7 +4243,8 @@ OPTIONS
             If you set one of the following options, <control set> is set to
             "all", because usually you do not want to miss any information for
             these operations:
-            --check-file, --check-line, or -a unknown:<length>
+            --check-file, --check-line, --wanted-list, or
+            -a unknown:<length>
             If you set option --version, <control set> ist set to "none".
             If you set option --info, <control set> is set to "info".
 \

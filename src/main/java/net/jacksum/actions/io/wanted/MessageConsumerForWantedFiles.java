@@ -168,7 +168,13 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
         ((StatisticsForHashedFiles)statistics).setFilesRead(filesRead);
         ((StatisticsForHashedFiles)statistics).setErrors(errors);
         ((StatisticsForHashedFiles)statistics).setBytesRead(bytesRead);
-        ((StatisticsForHashedFiles)statistics).setTotalNumberOfWantedHashes(hashEntries.size());
+        if (parameters.isWantedList()) {
+            // only a wanted list brings a number of wanted hashes with it; the single hash value
+            // of option -e is no list, see also HashFilesWantedAction
+            ((StatisticsForHashedFiles)statistics).setTotalNumberOfWantedHashes(hashEntries.size());
+        } else {
+            ((StatisticsForHashedFiles)statistics).setWantedHashesNoun("the expected hash");
+        }
         if (parameters.isWantedList() || parameters.isExpectation()) {
             ((StatisticsForHashedFiles)statistics).setFilesMatchesWanted(found);
             ((StatisticsForHashedFiles)statistics).setFilesNoMatchesWanted(notfound);

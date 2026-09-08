@@ -1,6 +1,12 @@
 Jacksum 4.0.1, TBD
 
 - Bug fixes    
+  - issue #92: the summary of a wanted list run (-w) calls the list a "check file", because
+    ParserStatistics hardcodes that noun although the same parser reads a check list and a
+    wanted list; option -e alone reports a number of wanted hashes and files that match
+    wanted hashes although no wanted list has been read; ParserStatistics.reset() does not
+    reset three of its fields, so a second run in the same JVM starts with the numbers of
+    the first one; and -h -V does not mention that -w sets the verbose control set to "all"
   - issue #91: the options -V noerrors and -V noinfo (and therefore -V none) have no effect
     while files are being searched by wanted hashes (-w resp. -e) or hashed, because both
     of those message consumers write to standard error directly rather than through the

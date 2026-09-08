@@ -32,6 +32,11 @@ public class StatisticsForHashedFiles extends CommonHashStatistics {
     private long totalNumberOfWantedHashes = -1;
     private long filesMatchesWanted = -1;
     private long filesNoMatchesWanted = -1;
+    // option -e alone puts Jacksum in wanted list mode as well, but then there is no wanted list
+    // and there are no wanted hashes, there is just the one hash value that has been expected,
+    // see also setWantedHashesNoun()
+    private final static String DEFAULT_WANTED_HASHES_NOUN = "wanted hashes";
+    private String wantedHashesNoun = DEFAULT_WANTED_HASHES_NOUN;
 
     @Override
     public Map<String, Object> build() {
@@ -44,10 +49,10 @@ public class StatisticsForHashedFiles extends CommonHashStatistics {
             map.put("total number of wanted hashes", totalNumberOfWantedHashes);
         }
         if (filesMatchesWanted > -1) {
-            map.put("files matching wanted hashes (MATCH)", filesMatchesWanted);
+            map.put(String.format("files matching %s (MATCH)", wantedHashesNoun), filesMatchesWanted);
         }
         if (filesNoMatchesWanted > -1) {
-            map.put("files not matching wanted hashes (NO MATCH)", filesNoMatchesWanted);
+            map.put(String.format("files not matching %s (NO MATCH)", wantedHashesNoun), filesNoMatchesWanted);
         }
         super.put(map);
         return map;
@@ -60,6 +65,25 @@ public class StatisticsForHashedFiles extends CommonHashStatistics {
         totalNumberOfWantedHashes = -1;
         filesMatchesWanted = -1;
         filesNoMatchesWanted = -1;
+        wantedHashesNoun = DEFAULT_WANTED_HASHES_NOUN;
+    }
+
+    /**
+     * Sets the noun that the labels of both match counters use, e.g. "the expected hash" if the
+     * hash value comes from option -e rather than from a wanted list. The default is
+     * "wanted hashes".
+     *
+     * @param wantedHashesNoun the noun for the hashes the files have been searched by
+     */
+    public void setWantedHashesNoun(String wantedHashesNoun) {
+        this.wantedHashesNoun = wantedHashesNoun;
+    }
+
+    /**
+     * @return the noun that the labels of both match counters use
+     */
+    public String getWantedHashesNoun() {
+        return wantedHashesNoun;
     }
 
     /**

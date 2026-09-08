@@ -37,6 +37,10 @@ public class ParserStatistics extends Statistics {
     // duplicates are only counted if they are replaced at all, see Parser.isReplaceDuplicateFilenames();
     // a wanted list (--wanted-list) keeps duplicates on purpose, so they are not reported there
     private boolean duplicateEntriesCounted;
+    // the same parser reads a check file (-c) and a wanted list (-w), so the labels have to name
+    // the list that has actually been read, see also setListNoun()
+    private final static String DEFAULT_LIST_NOUN = "check file";
+    private String listNoun = DEFAULT_LIST_NOUN;
 
     @Override
     public Map<String, Object> build() {
@@ -46,14 +50,14 @@ public class ParserStatistics extends Statistics {
         // considered to be a correct file
         double percent = (getProperlyFormattedLines()+getImproperlyFormattedLines() == 0) ?
                 100 : getProperlyFormattedLines() * 100.0 / (getProperlyFormattedLines()+getImproperlyFormattedLines());
-        map.put("total lines in check file", getTotalLines());
-        map.put("improperly formatted lines in check file", getImproperlyFormattedLines());
-        map.put("properly formatted lines in check file", getProperlyFormattedLines());
+        map.put(String.format("total lines in %s", listNoun), getTotalLines());
+        map.put(String.format("improperly formatted lines in %s", listNoun), getImproperlyFormattedLines());
+        map.put(String.format("properly formatted lines in %s", listNoun), getProperlyFormattedLines());
         if (isDuplicateEntriesCounted()) {
-            map.put("duplicate entries in check file", getDuplicateEntries());
+            map.put(String.format("duplicate entries in %s", listNoun), getDuplicateEntries());
         }
         map.put("ignored lines (empty lines and comments)", getIgnoredLines());
-        map.put("correctness of check file", String.format("%.2f %%", percent).replace(',', '.'));
+        map.put(String.format("correctness of %s", listNoun), String.format("%.2f %%", percent).replace(',', '.'));
         return map;
     }
 
@@ -61,8 +65,29 @@ public class ParserStatistics extends Statistics {
     @Override
     public void reset() {
         totalLines = 0;
+        properlyFormattedLines = 0;
         improperlyFormattedLines = 0;
+        ignoredLines = 0;
         duplicateEntries = 0;
+        duplicateEntriesCounted = false;
+        listNoun = DEFAULT_LIST_NOUN;
+    }
+
+    /**
+     * Sets the noun that the labels use for the list that has been read, e.g. "wanted list".
+     * The default is "check file".
+     *
+     * @param listNoun the noun for the list that has been read
+     */
+    public void setListNoun(String listNoun) {
+        this.listNoun = listNoun;
+    }
+
+    /**
+     * @return the noun that the labels use for the list that has been read
+     */
+    public String getListNoun() {
+        return listNoun;
     }
 
     /**

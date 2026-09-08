@@ -4703,7 +4703,8 @@ OPTIONS
             Setzen Sie eine der folgenden Optionen, wird <control set>
             auf "all" gesetzt, da Sie bei diesen Operationen
             üblicherweise keine Informationen verpassen möchten:
-            --check-file, --check-line oder -a unknown:<length>
+            --check-file, --check-line, --wanted-list oder
+            -a unknown:<length>
             Setzen Sie die Option --version, wird <control set> auf
             "none" gesetzt.
             Setzen Sie die Option --info, wird <control set> auf

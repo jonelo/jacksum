@@ -57,6 +57,8 @@ public class WantedHashes {
         try {
             parser = new Parser(compatibilityProperties);
             parser.setReplaceDuplicateFilenames(false);
+            // the parser serves both -c and -w, so its statistics have to be told what it reads
+            parser.getStatistics().setListNoun("wanted list");
         } catch (InvalidParserParameterException pe) {
             throw new ParameterException(pe.getMessage());
         }
