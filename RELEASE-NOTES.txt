@@ -1,4 +1,4 @@
-Jacksum 4.0.1, TBD
+Jacksum 4.0.1, Oct 4, 2026
 
 - Bug fixes    
   - issue #95: a wrong value for --style resp. --compat is reported by the raw message of a
