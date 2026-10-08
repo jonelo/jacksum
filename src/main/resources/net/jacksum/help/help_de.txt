@@ -4,7 +4,7 @@ NAME
 
 
 VERSION
-    4.0.1
+    4.0.2
 
 
 SYNOPSIS
@@ -3217,6 +3217,9 @@ OPTIONS
                   siehe auch https://www.iso.org/iso-8601-date-and-time-format.html
                 - Arbeitsverzeichnis des Aufrufs
                 - Aufrufargumente
+                  (der Wert der Option -k wird als "password" angezeigt,
+                  außer es ist eine file:-Sequenz, damit der Schlüssel
+                  nicht preisgegeben wird)
 \
 \
             Siehe auch:

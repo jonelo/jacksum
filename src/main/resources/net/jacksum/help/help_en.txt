@@ -3,7 +3,7 @@ NAME
 
 
 VERSION
-    4.0.1
+    4.0.2
 
 
 SYNOPSIS
@@ -2911,6 +2911,8 @@ OPTIONS
                   see also https://www.iso.org/iso-8601-date-and-time-format.html
                 - Working directory of invocation
                 - Invocation arguments
+                  (the value of option -k is shown as "password", unless it
+                  is a file: sequence, so that the key does not leak)
 \
 \
             See also:
