@@ -1,3 +1,14 @@
+Jacksum 4.0.2, Oct 9, 2026
+
+- Bug fixes
+  - the header (--header) prints the key of an HMAC (-k resp. --key) in plain text in the
+    line "invocation args", both for a command line and for parameters that have been set
+    by the API (e.g. by a GUI); since files with a header are often kept or shared as check
+    files, the secret leaked along with them; the key is shown as "password" now, which is
+    how a key entered at the console is shown already, and which makes Jacksum ask for the
+    key if the line is run again; the name of a key file (file:) is kept
+
+
 Jacksum 4.0.1, Oct 4, 2026
 
 - Bug fixes    

@@ -1,7 +1,7 @@
 /*
 
 
-  Jacksum 4.0.1 - a checksum/hash tool written in Java
+  Jacksum 4.0.2 - a checksum/hash tool written in Java
   Copyright (c) 2001-2026 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -454,7 +454,17 @@ public class Parameters implements
         // the original args passed to the app aren't valid anymore, we need to
         // build the args by the values of the current parameter object values.
         String[] source = parameterModifiedByAPI ? this.toStringArrayList().toArray(new String[0]) : cliParameters;
+        String previous = null;
         for (String param : source) {
+            // the key of an HMAC is a secret, it must not end up in the header, so it is
+            // replaced by "password", which is how a key entered at the console is shown,
+            // and which makes Jacksum ask for the key if the line is run again;
+            // the name of a key file is not a secret and is kept
+            if ((_KEY.equals(previous) || __KEY.equals(previous))
+                    && !param.toLowerCase(Locale.US).startsWith(Sequence.Type.FILE.getCode() + ":")) {
+                param = Sequence.Type.PASSWORD.getCode();
+            }
+            previous = param;
             // the hash-sign acts as a comment on many GNU/Linux shells, it needs to be quoted
             if (param.contains(" ") || param.startsWith("#")) {
                 list.add(String.format("\"%s\"", param));
