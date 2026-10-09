@@ -27,6 +27,7 @@ import net.jacksum.formats.Encoding;
 import net.jacksum.multicore.ThreadControl;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
+import net.jacksum.parameters.Sequence;
 import net.loefflmann.sugar.util.GeneralString;
 
 import java.util.Locale;
@@ -503,7 +504,11 @@ public class CLIParameters {
                         try {
                             parameters.setKey(arg);
                         } catch (IllegalArgumentException e) {
-                            throw new ParameterException(String.format("Option %s: %s", _KEY, e.getMessage()));
+                            // the message of the exception may quote parts of the value,
+                            // but the value of a key is a secret, so it must not be printed
+                            throw new ParameterException(String.format(
+                                    "Option %s: the key does not start with a known sequence type. Supported types are %s, as well as readline and password. The value is not shown, because it is a secret.",
+                                    _KEY, Sequence.supportedTypes()));
                         }
                     } else {
                         handleUserParamError(arg, __KEY);

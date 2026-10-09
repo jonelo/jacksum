@@ -2241,7 +2241,14 @@ public class Parameters implements
                 // the place where a malformed one has to be reported. Without this, the
                 // exception would travel to Main and would be printed without the prefix
                 // that every other message of Jacksum carries.
-                throw new ParameterException(String.format("Option %s: %s", _KEY, e.getMessage()));
+                // The message of the exception may quote parts of the key, so it is passed on
+                // only for the type file, whose messages are about the file and not the key.
+                if (getKey().getType().equals(Sequence.Type.FILE)) {
+                    throw new ParameterException(String.format("Option %s: %s", _KEY, e.getMessage()));
+                }
+                throw new ParameterException(String.format(
+                        "Option %s: the key is not a valid sequence of the type %s. The value is not shown, because it is a secret.",
+                        _KEY, getKey().getType().getCode()));
             }
         } else {
             // This run has no key, so it must not use the key of an earlier run in the

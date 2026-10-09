@@ -154,7 +154,7 @@ public class Sequence implements Serializable {
      *
      * @return the supported types, for a message
      */
-    private static String supportedTypes() {
+    public static String supportedTypes() {
         StringBuilder sb = new StringBuilder();
         List<String> codes = new ArrayList<>();
         for (Type t : Type.values()) {

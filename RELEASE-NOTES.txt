@@ -7,6 +7,11 @@ Jacksum 4.0.2, Oct 9, 2026
     files, the secret leaked along with them; the key is shown as "password" now, which is
     how a key entered at the console is shown already, and which makes Jacksum ask for the
     key if the line is run again; the name of a key file (file:) is kept
+  - a key (-k resp. --key) that cannot be decoded is quoted by the error message, either
+    in full (dec:, oct:, bin:, z-base-32:) or in part (the first characters of hex:, or the
+    part in front of a colon, if the key has no known type); the message names the type
+    only now and says that the value is not shown; the messages for a key file (file:)
+    and for option -q are unchanged
 
 
 Jacksum 4.0.1, Oct 4, 2026
