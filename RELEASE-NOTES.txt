@@ -77,6 +77,9 @@ Jacksum 4.0.2, Oct 10, 2026
   - the origin (Apache Commons Codec 1.15) and the license of the adopted XXHash32 class are
     documented in net/jacksum/zzadopt/org/apache/README.md; --copyright includes the attribution
     of Commons Codec's NOTICE file now, as the Apache License 2.0 requires
+  - the help names the class that Jacksum's MDC2 is derived from (org.kapott.cryptalgs.MDC2 of
+    HBCI4Java) rather than its former name org.kapott.hbci.security.MDC2; the origin, license and
+    modifications of the adopted MDC2 class are documented in net/jacksum/zzadopt/org/kapott/README.md
 
 
 Jacksum 4.0.1, Oct 4, 2026

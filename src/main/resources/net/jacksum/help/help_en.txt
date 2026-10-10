@@ -8039,7 +8039,7 @@ ALGORITHMS
                 Jacksum 3.0.0
 \
             implementation:
-                org.kapott.hbci.security.MDC2
+                org.kapott.cryptalgs.MDC2
 
 
     none
