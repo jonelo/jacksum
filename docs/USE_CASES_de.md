@@ -650,6 +650,21 @@ durch — die beantwortet "lesbar *und* unverändert" in einem Durchgang. Verwen
 es keine Liste gibt, oder wenn Sie ein Medium sichten wollen, bevor Sie Zeit in den Vergleich
 stecken.
 
+**Stellen Sie sicher, dass das Medium gelesen wird und nicht der Cache.** Das Betriebssystem hält
+kürzlich gelesene oder geschriebene Daten in seinem Page Cache. Eine Prüfung direkt nach dem Brennen
+oder Kopieren, oder ein zweiter Durchlauf von `-a read` oder `-c`, kann dann aus dem RAM beantwortet
+werden, ohne das Medium überhaupt anzufassen — schnell, aber es beweist nichts über das Medium.
+Leeren Sie den Cache vor dem Durchlauf, auf den es ankommt:
+
+```
+# alle Plattformen: Medium aushängen/auswerfen und wieder einhängen/einlegen
+sync; echo 3 | sudo tee /proc/sys/vm/drop_caches   # GNU/Linux
+sudo purge                                         # macOS
+```
+
+Unter Microsoft Windows starten Sie den Rechner neu, oder verwenden Sie "Empty Standby List" des
+Sysinternals-Werkzeugs RAMMap.
+
 `-u <Datei>` sammelt die beschädigten Dateien in einer Liste, mit der Sie weiterarbeiten können.
 Details unter [Ist auf dem Medium noch alles lesbar?](JACKSUM_HACKS_de.md#medium-readable).
 

@@ -1294,6 +1294,20 @@ OPTIONS
             (and a star in its binary mode), so use --style gnu-linux to verify
             a list that has been created by one of those tools.
 \
+            Note that the operating system keeps data that has been read or
+            written recently in its page cache (RAM). A check right after the
+            files have been written or read, e.g. a second run, may therefore
+            be served from memory without reading the medium at all. In order
+            to really test the data on the medium, empty the cache before the
+            check: eject a removable medium and insert it again, resp.
+            unmount a partition and mount it again (all platforms), or run
+\
+                sync; echo 3 | sudo tee /proc/sys/vm/drop_caches  (GNU/Linux)
+                sudo purge                                        (macOS)
+\
+            On Microsoft Windows, restart the computer, or use "Empty Standby
+            List" of the Sysinternals tool RAMMap.
+\
             If <file> is set to a single dash (-) Jacksum reads from stdin.
             Use option --charset-check-file to specify the character set for
             <file>.

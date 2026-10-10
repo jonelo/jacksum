@@ -13,6 +13,11 @@ Jacksum 4.0.2, Oct 9, 2026
     only now and says that the value is not shown; the messages for a key file (file:)
     and for option -q are unchanged
 
+- Documentation
+  - the help of option -c and the use case "Is the medium still readable?" explain that a
+    check right after a write, or a second run, may be served from the page cache of the
+    operating system rather than from the medium, and how to empty that cache.
+
 
 Jacksum 4.0.1, Oct 4, 2026
 

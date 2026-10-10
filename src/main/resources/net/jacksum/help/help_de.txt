@@ -1394,6 +1394,23 @@ OPTIONS
             --style gnu-linux, um eine mit einem solchen Werkzeug erstellte
             Liste zu verifizieren.
 \
+            Beachten Sie, dass das Betriebssystem kürzlich gelesene oder
+            geschriebene Daten in seinem Page Cache (RAM) hält. Eine Prüfung
+            direkt nachdem die Dateien geschrieben oder gelesen wurden, z. B.
+            ein zweiter Durchlauf, kann daher aus dem Speicher bedient
+            werden, ohne dass das Medium überhaupt gelesen wird. Um die Daten
+            auf dem Medium wirklich zu prüfen, leeren Sie den Cache vor der
+            Prüfung: werfen Sie ein Wechselmedium aus und legen Sie es
+            wieder ein, bzw. hängen Sie eine Partition aus und wieder ein
+            (alle Plattformen), oder führen Sie
+\
+                sync; echo 3 | sudo tee /proc/sys/vm/drop_caches  (GNU/Linux)
+                sudo purge                                        (macOS)
+\
+            aus. Unter Microsoft Windows starten Sie den Rechner neu, oder
+            verwenden Sie "Empty Standby List" des Sysinternals-Werkzeugs
+            RAMMap.
+\
             Ist <file> auf einen einzelnen Bindestrich (-) gesetzt, liest
             Jacksum von stdin. Verwenden Sie die Option
             --charset-check-file, um den Zeichensatz für <file> anzugeben.

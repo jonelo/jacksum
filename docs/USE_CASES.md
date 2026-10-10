@@ -617,6 +617,20 @@ If you also have a hash list from section 3, run the check instead — that answ
 unchanged" in one pass. Use `-a read` when there is no list, or when you want to survey a medium
 before spending time on the comparison.
 
+**Make sure the medium is read, not the cache.** The operating system keeps data that has been read
+or written recently in its page cache. A check right after burning or copying, or a second run of
+`-a read` or `-c`, may then be answered from RAM without touching the medium at all — fast, but it
+proves nothing about the medium. Empty the cache before the run that counts:
+
+```
+# all platforms: unmount/eject the medium and mount/insert it again
+sync; echo 3 | sudo tee /proc/sys/vm/drop_caches   # GNU/Linux
+sudo purge                                         # macOS
+```
+
+On Microsoft Windows, restart the computer, or use "Empty Standby List" of the Sysinternals tool
+RAMMap.
+
 `-u <file>` collects the damaged files into a list you can act on. See
 [Is everything on the medium still readable?](JACKSUM_HACKS.md#medium-readable) for the details.
 
