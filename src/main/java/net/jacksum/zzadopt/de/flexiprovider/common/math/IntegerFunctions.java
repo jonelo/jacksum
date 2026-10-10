@@ -17,7 +17,7 @@ import net.jacksum.zzadopt.de.flexiprovider.common.exceptions.NoQuadraticResidue
  * <code>int</code>'s or <code>FlexiBigInt</code> objects.
  * 
  * @author Ralf-P. Weinmann
- * @author Martin D�ring
+ * @author Martin Döring
  */
 public final class IntegerFunctions {
 

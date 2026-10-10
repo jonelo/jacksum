@@ -59,6 +59,12 @@ Jacksum 4.0.2, Oct 10, 2026
     operating system rather than from the medium, and how to empty that cache.
   - the API documentation (Javadoc) is complete for Jacksum's own packages now; the build
     reports a missing comment there again, while the adopted third-party code is not checked
+  - --copyright names the correct license of the adopted FlexiProvider classes (LGPL-2.1 or
+    later, as in FlexiProvider's own COPYING files, rather than GPL-2.0 or later) and DHA-256
+    rather than "DSH-256"
+  - the origin, the license and all modifications of the adopted FlexiProvider classes are
+    documented in net/jacksum/zzadopt/de/flexiprovider/README.md; the names of their authors
+    Martin Döring and Johannes Müller are spelled correctly again
 
 
 Jacksum 4.0.1, Oct 4, 2026

@@ -5,7 +5,7 @@ import net.jacksum.zzadopt.de.flexiprovider.api.SecureRandom;
 /**
  * FlexiAPI wrapper for the default PRNG obtained via JCA.
  * 
- * @author Martin D�ring
+ * @author Martin Döring
  */
 public class DefaultPRNG extends SecureRandom {
 

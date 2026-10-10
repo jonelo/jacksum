@@ -14,8 +14,8 @@ import net.jacksum.zzadopt.de.flexiprovider.common.util.DefaultPRNG;
  * registrations of algorithms and methods for instantiating registered
  * algorithms.
  *
- * @author Johannes M�ller
- * @author Martin D�ring
+ * @author Johannes Müller
+ * @author Martin Döring
  */
 public abstract class Registry {
 

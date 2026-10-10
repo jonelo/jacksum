@@ -5,7 +5,7 @@ package net.jacksum.zzadopt.de.flexiprovider.api.exceptions;
  * {@link net.jacksum.zzadopt.de.flexiprovider.api.Registry Registry} class). Since this exception
  * is thrown during static initialization, it extends {@link RuntimeException}.
  * 
- * @author Martin D�ring
+ * @author Martin Döring
  */
 public class RegistrationException extends RuntimeException {
 

@@ -34,7 +34,7 @@ import net.jacksum.zzadopt.de.flexiprovider.core.md.FORK256;
 import net.jacksum.zzadopt.de.flexiprovider.core.md.VSH;
 
 /**
- * A wrapper class that can be used to compute DSH-256, FORK-256, and VSH
+ * A wrapper class that can be used to compute DHA-256, FORK-256, and VSH
  * (provided by flexiprovider.de (abandoned)).
  */
 public class MDflexiprovider extends AbstractChecksum {
