@@ -80,6 +80,8 @@ Jacksum 4.0.2, Oct 10, 2026
   - the help names the class that Jacksum's MDC2 is derived from (org.kapott.cryptalgs.MDC2 of
     HBCI4Java) rather than its former name org.kapott.hbci.security.MDC2; the origin, license and
     modifications of the adopted MDC2 class are documented in net/jacksum/zzadopt/org/kapott/README.md
+  - the origin, license and modifications of the adopted BLAKE3 class (io.github.rctcwyvrn.blake3)
+    are documented in net/jacksum/zzadopt/io/README.md
 
 
 Jacksum 4.0.1, Oct 4, 2026
