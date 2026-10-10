@@ -14,6 +14,7 @@ import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.digests.SkeinDigest;
 import org.bouncycastle.crypto.digests.SkeinEngine;
 import org.bouncycastle.crypto.macs.SkeinMac;
+import org.bouncycastle.util.Exceptions;
 import org.bouncycastle.util.Integers;
 
 /**
@@ -94,7 +95,6 @@ public class SkeinParameters
 
     /**
      * Obtains a map of type (Integer) to value (byte[]) for the parameters tracked in this object.
-     * @return a Hashtable.
      */
     public Hashtable getParameters()
     {
@@ -104,7 +104,6 @@ public class SkeinParameters
     /**
      * Obtains the value of the {@link #PARAM_TYPE_KEY key parameter}, or <code>null</code> if not
      * set.
-     * @return a byte array.
      */
     public byte[] getKey()
     {
@@ -114,7 +113,6 @@ public class SkeinParameters
     /**
      * Obtains the value of the {@link #PARAM_TYPE_PERSONALISATION personalisation parameter}, or
      * <code>null</code> if not set.
-     * @return a byte array.
      */
     public byte[] getPersonalisation()
     {
@@ -124,7 +122,6 @@ public class SkeinParameters
     /**
      * Obtains the value of the {@link #PARAM_TYPE_PUBLIC_KEY public key parameter}, or
      * <code>null</code> if not set.
-     * @return a byte array.
      */
     public byte[] getPublicKey()
     {
@@ -134,7 +131,6 @@ public class SkeinParameters
     /**
      * Obtains the value of the {@link #PARAM_TYPE_KEY_IDENTIFIER key identifier parameter}, or
      * <code>null</code> if not set.
-     * @return a byte array.
      */
     public byte[] getKeyIdentifier()
     {
@@ -144,7 +140,6 @@ public class SkeinParameters
     /**
      * Obtains the value of the {@link #PARAM_TYPE_NONCE nonce parameter}, or <code>null</code> if
      * not set.
-     * @return a byte array.
      */
     public byte[] getNonce()
     {
@@ -217,8 +212,6 @@ public class SkeinParameters
 
         /**
          * Sets the {@link #PARAM_TYPE_KEY} parameter.
-         * @param key a byte array.
-         * @return Builder.
          */
         public Builder setKey(byte[] key)
         {
@@ -227,8 +220,6 @@ public class SkeinParameters
 
         /**
          * Sets the {@link #PARAM_TYPE_PERSONALISATION} parameter.
-         * @param personalisation a byte array.
-         * @return a Builder.
          */
         public Builder setPersonalisation(byte[] personalisation)
         {
@@ -253,7 +244,7 @@ public class SkeinParameters
             {
                 final ByteArrayOutputStream bout = new ByteArrayOutputStream();
                 final OutputStreamWriter out = new OutputStreamWriter(bout, "UTF-8");
-                final DateFormat format = new SimpleDateFormat("YYYYMMDD");
+                final DateFormat format = new SimpleDateFormat("yyyyMMdd");
                 out.write(format.format(date));
                 out.write(" ");
                 out.write(emailAddress);
@@ -264,7 +255,7 @@ public class SkeinParameters
             }
             catch (IOException e)
             {
-                throw new IllegalStateException("Byte I/O failed: " + e);
+                throw Exceptions.illegalStateException("Byte I/O failed", e);
             }
         }
 
@@ -288,7 +279,7 @@ public class SkeinParameters
              {
                  final ByteArrayOutputStream bout = new ByteArrayOutputStream();
                  final OutputStreamWriter out = new OutputStreamWriter(bout, "UTF-8");
-                 final DateFormat format = new SimpleDateFormat("YYYYMMDD", dateLocale);
+                 final DateFormat format = new SimpleDateFormat("yyyyMMdd", dateLocale);
                  out.write(format.format(date));
                  out.write(" ");
                  out.write(emailAddress);
@@ -299,14 +290,12 @@ public class SkeinParameters
              }
              catch (IOException e)
              {
-                 throw new IllegalStateException("Byte I/O failed: " + e);
+                 throw Exceptions.illegalStateException("Byte I/O failed", e);
              }
          }
 
         /**
          * Sets the {@link SkeinParameters#PARAM_TYPE_KEY_IDENTIFIER} parameter.
-         * @param publicKey a byte array.
-         * @return a Builder.
          */
         public Builder setPublicKey(byte[] publicKey)
         {
@@ -315,8 +304,6 @@ public class SkeinParameters
 
         /**
          * Sets the {@link SkeinParameters#PARAM_TYPE_KEY_IDENTIFIER} parameter.
-         * @param keyIdentifier a byte array.
-         * @return a Builder.
          */
         public Builder setKeyIdentifier(byte[] keyIdentifier)
         {
@@ -325,8 +312,6 @@ public class SkeinParameters
 
         /**
          * Sets the {@link SkeinParameters#PARAM_TYPE_NONCE} parameter.
-         * @param nonce a byte array.
-         * @return Builder.
          */
         public Builder setNonce(byte[] nonce)
         {
@@ -336,7 +321,6 @@ public class SkeinParameters
         /**
          * Constructs a new {@link SkeinParameters} instance with the parameters provided to this
          * builder.
-         * @return an instance of SkeinParameters.
          */
         public SkeinParameters build()
         {

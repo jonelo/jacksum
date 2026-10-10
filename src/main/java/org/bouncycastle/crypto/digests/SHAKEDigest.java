@@ -1,6 +1,10 @@
 package org.bouncycastle.crypto.digests;
 
+import org.bouncycastle.crypto.CryptoServiceProperties;
+import org.bouncycastle.crypto.CryptoServicePurpose;
+import org.bouncycastle.crypto.SavableDigest;
 import org.bouncycastle.crypto.Xof;
+import org.bouncycastle.util.Memoable;
 
 
 /**
@@ -10,17 +14,17 @@ import org.bouncycastle.crypto.Xof;
  */
 public class SHAKEDigest
     extends KeccakDigest
-    implements Xof
+    implements Xof, SavableDigest
 {
-    private static int checkBitLength(int bitLength)
+    private static int checkBitLength(int bitStrength)
     {
-        switch (bitLength)
+        switch (bitStrength)
         {
         case 128:
         case 256:
-            return bitLength;
+            return bitStrength;
         default:
-            throw new IllegalArgumentException("'bitLength' " + bitLength + " not supported for SHAKE");
+            throw new IllegalArgumentException("'bitStrength' " + bitStrength + " not supported for SHAKE");
         }
     }
 
@@ -29,14 +33,30 @@ public class SHAKEDigest
         this(128);
     }
 
+    public SHAKEDigest(CryptoServicePurpose purpose)
+    {
+        this(128, purpose);
+    }
+
     /**
      * Base constructor.
      *
-     * @param bitLength the security strength in bits of the XOF.
+     * @param bitStrength the security strength in bits of the XOF.
      */
-    public SHAKEDigest(int bitLength)
+    public SHAKEDigest(int bitStrength)
     {
-        super(checkBitLength(bitLength));
+        super(checkBitLength(bitStrength), CryptoServicePurpose.ANY);
+    }
+
+    /**
+     * Base constructor.
+     *
+     * @param bitStrength the security strength in bits of the XOF.
+     * @param purpose the purpose of the digest will be used for.
+     */
+    public SHAKEDigest(int bitStrength, CryptoServicePurpose purpose)
+    {
+        super(checkBitLength(bitStrength), purpose);
     }
 
     /**
@@ -47,6 +67,11 @@ public class SHAKEDigest
     public SHAKEDigest(SHAKEDigest source)
     {
         super(source);
+    }
+
+    public SHAKEDigest(byte[] encodedState)
+    {
+         super(encodedState);
     }
 
     public String getAlgorithmName()
@@ -123,5 +148,31 @@ public class SHAKEDigest
         reset();
 
         return outLen;
+    }
+
+    protected CryptoServiceProperties cryptoServiceProperties()
+    {
+        return Utils.getDefaultProperties(this, purpose);
+    }
+
+    public byte[] getEncodedState()
+    {
+        byte[] encState = new byte[state.length * 8 + dataQueue.length + 12 + 2];
+
+        super.getEncodedState(encState);
+
+        return encState;
+    }
+
+    public Memoable copy()
+    {
+        return new SHAKEDigest(this);
+    }
+
+    public void reset(Memoable other)
+    {
+        SHAKEDigest d = (SHAKEDigest)other;
+
+        copyIn(d);
     }
 }

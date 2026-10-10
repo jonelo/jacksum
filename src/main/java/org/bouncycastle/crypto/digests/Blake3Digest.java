@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Stack;
 
 import org.bouncycastle.crypto.CryptoServicePurpose;
-//import org.bouncycastle.crypto.CryptoServicesRegistrar;
+import org.bouncycastle.crypto.CryptoServicesRegistrar;
 import org.bouncycastle.crypto.ExtendedDigest;
 import org.bouncycastle.crypto.OutputLengthException;
 import org.bouncycastle.crypto.Xof;
@@ -18,7 +18,7 @@ import org.bouncycastle.util.Pack;
  * Blake3 implementation.
  */
 public class Blake3Digest
-        implements ExtendedDigest, Memoable, Xof
+    implements ExtendedDigest, Memoable, Xof
 {
     /**
      * Already outputting error.
@@ -169,7 +169,7 @@ public class Blake3Digest
      * Blake3 Initialization Vector.
      */
     private static final int[] IV = {
-            0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
+        0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
     };
 
     /**
@@ -287,7 +287,7 @@ public class Blake3Digest
         this.purpose = purpose;
         theDigestLen = pDigestSize / 8;
 
-//        CryptoServicesRegistrar.checkConstraints(Utils.getDefaultProperties(this, getDigestSize() * 8, purpose));
+        CryptoServicesRegistrar.checkConstraints(Utils.getDefaultProperties(this, getDigestSize() * 8, purpose));
 
         init(null);
     }
@@ -486,7 +486,7 @@ public class Blake3Digest
 
         /* Reject if there is insufficient Xof remaining */
         if (pOutLen < 0
-                || (outputAvailable >= 0 && pOutLen > outputAvailable))
+            || (outputAvailable >= 0 && pOutLen > outputAvailable))
         {
             throw new IllegalArgumentException("Insufficient bytes remaining");
         }
@@ -844,8 +844,8 @@ public class Blake3Digest
         theV[COUNT1] = (int)(theCounter >> Integers.SIZE);
         theV[DATALEN] = pDataLen;
         theV[FLAGS] = theMode
-                + (theCurrBytes == 0 ? CHUNKSTART : 0)
-                + (pFinal ? CHUNKEND : 0);
+            + (theCurrBytes == 0 ? CHUNKSTART : 0)
+            + (pFinal ? CHUNKEND : 0);
 
         /* * Adjust block count */
         theCurrBytes += pDataLen;

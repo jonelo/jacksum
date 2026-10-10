@@ -8,6 +8,40 @@ public class Integers
     public static final int BYTES = 4;
     public static final int SIZE = Integer.SIZE;
 
+    public static int bitCount(int i)
+    {
+        return Integer.bitCount(i);
+    }
+
+    public static int bitLength(int i)
+    {
+        return SIZE - numberOfLeadingZeros(i);
+    }
+
+    public static int compare(int x, int y)
+    {
+        // @since 1.7
+//        return Integer.compare(x, y);
+        return x < y ? -1 : x == y ? 0 : 1;
+    }
+
+    public static int compareUnsigned(int x, int y)
+    {
+        // @since 1.8
+//        return Integer.compareUnsigned(x, y);
+        return compare(x + Integer.MIN_VALUE, y + Integer.MIN_VALUE);
+    }
+
+    public static int highestOneBit(int i)
+    {
+        return Integer.highestOneBit(i);
+    }
+
+    public static int lowestOneBit(int i)
+    {
+        return Integer.lowestOneBit(i);
+    }
+
     public static int numberOfLeadingZeros(int i)
     {
         return Integer.numberOfLeadingZeros(i);

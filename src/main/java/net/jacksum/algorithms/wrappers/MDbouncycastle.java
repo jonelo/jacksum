@@ -25,8 +25,10 @@ import java.security.NoSuchAlgorithmException;
 
 import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.ExtendedDigest;
+import org.bouncycastle.crypto.Xof;
 import org.bouncycastle.crypto.digests.*;
 import org.bouncycastle.crypto.engines.GOST28147Engine;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.TigerDigest_192_4_PHP_version;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 //import org.bouncycastle.crypto.digests.Haraka256Digest;
@@ -46,6 +48,8 @@ public class MDbouncycastle extends AbstractChecksum {
     /** The computed digest, or null if it has not been computed yet. */
     protected byte[] digest = null;
     private int newDigestWidthInBits = -1;
+    /** The output length in bytes of an XOF that is used with a fixed output length, or -1 if not set. */
+    private int xofOutputLengthInBytes = -1;
     
     /**
      * Creates a new instance without a digest; intended for subclasses that
@@ -149,11 +153,13 @@ public class MDbouncycastle extends AbstractChecksum {
         } else
 
         if (arg.equalsIgnoreCase("kangarootwelve")) { // 128-bit security strength
-            md = new Kangaroo.KangarooTwelve(32); // parameter in bytes, not bits
+            md = new Kangaroo.KangarooTwelve();
+            xofOutputLengthInBytes = 32;
         } else
 
         if (arg.equalsIgnoreCase("marsupilamifourteen")) { // 256-bit security strength
-            md = new Kangaroo.MarsupilamiFourteen(64); // parameter in bytes, not bits
+            md = new Kangaroo.MarsupilamiFourteen();
+            xofOutputLengthInBytes = 64;
         } else
 
         if (arg.equalsIgnoreCase("tiger-192-4-php")) {
@@ -208,6 +214,8 @@ public class MDbouncycastle extends AbstractChecksum {
         throw new NoSuchAlgorithmException(arg + " is an unknown algorithm.");
         if (newDigestWidthInBits > 0) {
             bitWidth = newDigestWidthInBits;
+        } else if (xofOutputLengthInBytes > 0) {
+            bitWidth = xofOutputLengthInBytes * 8;
         } else {
             bitWidth = md.getDigestSize() * 8;
         }
@@ -250,8 +258,15 @@ public class MDbouncycastle extends AbstractChecksum {
     @Override
     public byte[] getByteArray() {
         if (virgin) {
-            digest = new byte[md.getDigestSize()];
-            md.doFinal(digest, 0);
+            if (xofOutputLengthInBytes > 0) {
+                // since BC 1.71 the Kangaroo constructors ignore the requested output length,
+                // so we request the output length explicitly from the XOF
+                digest = new byte[xofOutputLengthInBytes];
+                ((Xof)md).doFinal(digest, 0, xofOutputLengthInBytes);
+            } else {
+                digest = new byte[md.getDigestSize()];
+                md.doFinal(digest, 0);
+            }
             virgin = false;
         }
         // we don't expose internal representations

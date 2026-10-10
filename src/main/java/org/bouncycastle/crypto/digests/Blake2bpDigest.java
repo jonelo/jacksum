@@ -5,7 +5,7 @@ import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.Pack;
 
 public class Blake2bpDigest
-        implements ExtendedDigest
+    implements ExtendedDigest
 {
 
     private int bufferPos = 0; // a value from 0 up to BLOCK_LENGTH_BYTES
@@ -63,7 +63,7 @@ public class Blake2bpDigest
     public void update(byte[] message, int offset, int len)
     {
         int left = bufferPos;
-        // the buffer is PARALLELISM_DEGREE * BLAKE2B_BLOCKBYTES bytes long
+        // JACKSUM-MOD: the buffer is PARALLELISM_DEGREE * BLAKE2B_BLOCKBYTES (4 * 128) bytes long, not 8 * 128
         int remainingLength = PARALLELISM_DEGREE*BLAKE2B_BLOCKBYTES - left;
 
         if(left != 0 && len >= remainingLength)

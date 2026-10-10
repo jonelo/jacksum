@@ -1,5 +1,8 @@
 package org.bouncycastle.crypto.digests;
 
+import org.bouncycastle.crypto.CryptoServiceProperties;
+import org.bouncycastle.crypto.CryptoServicePurpose;
+import org.bouncycastle.crypto.CryptoServicesRegistrar;
 import org.bouncycastle.crypto.ExtendedDigest;
 import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.Pack;
@@ -18,6 +21,7 @@ public class KeccakDigest
         0x000000008000808bL, 0x800000000000008bL, 0x8000000000008089L, 0x8000000000008003L, 0x8000000000008002L,
         0x8000000000000080L, 0x000000000000800aL, 0x800000008000000aL, 0x8000000080008081L, 0x8000000000008080L,
         0x0000000080000001L, 0x8000000080008008L };
+    protected CryptoServicePurpose purpose;
 
     protected long[] state = new long[25];
     protected byte[] dataQueue = new byte[192];
@@ -25,25 +29,101 @@ public class KeccakDigest
     protected int bitsInQueue;
     protected int fixedOutputLength;
     protected boolean squeezing;
+    // Number of bytes of the current squeeze block already materialised into dataQueue
+    // (always a multiple of 8). KeccakExtract permutes but defers the long->byte packing;
+    // squeeze() materialises only the lanes it actually consumes. Consumers that squeeze
+    // less than a full rate block (SHA3-256, the many N-byte SLH-DSA tweakable hashes,
+    // small cSHAKE/KMAC outputs) avoid packing the discarded tail of the block.
+    private int queuePacked;
 
     public KeccakDigest()
     {
-        this(288);
+        this(288, CryptoServicePurpose.ANY);
+    }
+
+    public KeccakDigest(CryptoServicePurpose purpose)
+    {
+        this(288, purpose);
     }
 
     public KeccakDigest(int bitLength)
     {
+        this(bitLength, CryptoServicePurpose.ANY);
+    }
+
+    public KeccakDigest(int bitLength, CryptoServicePurpose purpose)
+    {
+        this.purpose = purpose;
         init(bitLength);
+
+        CryptoServicesRegistrar.checkConstraints(cryptoServiceProperties());
     }
 
     public KeccakDigest(KeccakDigest source)
     {
+        this.purpose = source.purpose;
         System.arraycopy(source.state, 0, this.state, 0, source.state.length);
         System.arraycopy(source.dataQueue, 0, this.dataQueue, 0, source.dataQueue.length);
         this.rate = source.rate;
         this.bitsInQueue = source.bitsInQueue;
         this.fixedOutputLength = source.fixedOutputLength;
         this.squeezing = source.squeezing;
+        this.queuePacked = source.queuePacked;
+
+        CryptoServicesRegistrar.checkConstraints(cryptoServiceProperties());
+    }
+
+    protected KeccakDigest(byte[] encodedState)
+    {
+        purpose = getCryptoServicePurpose(encodedState[0]);
+
+        int encOff = 1;
+        Pack.bigEndianToLong(encodedState, encOff, state, 0, state.length);
+        encOff += state.length * 8;
+        System.arraycopy(encodedState, encOff, dataQueue, 0, dataQueue.length);
+        encOff += dataQueue.length;
+        rate = Pack.bigEndianToInt(encodedState, encOff);
+        encOff += 4;
+        bitsInQueue = Pack.bigEndianToInt(encodedState, encOff);
+        encOff += 4;
+        fixedOutputLength = Pack.bigEndianToInt(encodedState, encOff);
+        encOff += 4;
+        squeezing = encodedState[encOff] != 0;
+        // getEncodedState fully materialises dataQueue before serialising, so the restored
+        // queue is complete for the current block.
+        queuePacked = rate >>> 3;
+    }
+
+    protected KeccakDigest(byte[] encodedState, CryptoServicePurpose purpose)
+    {
+        this(encodedState);
+        if (!this.purpose.equals(purpose))
+        {
+            throw new IllegalStateException("digest encoded for a different purpose");
+        }
+    }
+
+    private static CryptoServicePurpose getCryptoServicePurpose(byte b)
+    {
+        return CryptoServicePurpose.forCode(b);
+    }
+
+    protected void copyIn(KeccakDigest source)
+    {
+        if (this.purpose != source.purpose)
+        {
+            throw new IllegalArgumentException("attempt to copy digest of different purpose");
+        }
+
+        System.arraycopy(source.state, 0, this.state, 0, source.state.length);
+        System.arraycopy(source.dataQueue, 0, this.dataQueue, 0, source.dataQueue.length);
+        this.rate = source.rate;
+        this.bitsInQueue = source.bitsInQueue;
+        this.fixedOutputLength = source.fixedOutputLength;
+        this.squeezing = source.squeezing;
+        this.queuePacked = source.queuePacked;
+
+        CryptoServicesRegistrar.checkConstraints(cryptoServiceProperties());
     }
 
     public String getAlgorithmName()
@@ -138,6 +218,7 @@ public class KeccakDigest
         }
         Arrays.fill(this.dataQueue, (byte)0);
         this.bitsInQueue = 0;
+        this.queuePacked = 0;
         this.squeezing = false;
         this.fixedOutputLength = (1600 - rate) / 2;
     }
@@ -275,9 +356,30 @@ public class KeccakDigest
                 KeccakExtract();
             }
             int partialBlock = (int)Math.min((long)bitsInQueue, outputLength - i);
-            System.arraycopy(dataQueue, (rate - bitsInQueue) / 8, output, offset + (int)(i / 8), partialBlock / 8);
+            int srcOff = (rate - bitsInQueue) / 8;
+            int nBytes = partialBlock / 8;
+            ensureQueuePacked(srcOff + nBytes);
+            System.arraycopy(dataQueue, srcOff, output, offset + (int)(i / 8), nBytes);
             bitsInQueue -= partialBlock;
             i += partialBlock;
+        }
+    }
+
+    /**
+     * Materialise (little-endian) the state lanes covering the first {@code needBytes} bytes of
+     * the current squeeze block into dataQueue, picking up where a previous call left off. Always
+     * packs whole lanes, so consumers reading less than a full rate block skip packing the
+     * discarded tail. Reads the (squeeze-stable) state, so the produced bytes are identical to
+     * eagerly packing the whole block.
+     */
+    private void ensureQueuePacked(int needBytes)
+    {
+        if (queuePacked < needBytes)
+        {
+            int startLong = queuePacked >>> 3;
+            int endLong = (needBytes + 7) >>> 3;
+            Pack.longToLittleEndian(state, startLong, endLong - startLong, dataQueue, queuePacked);
+            queuePacked = endLong << 3;
         }
     }
 
@@ -301,8 +403,8 @@ public class KeccakDigest
 
         KeccakPermutation();
 
-        Pack.longToLittleEndian(state, 0, rate >>> 6, dataQueue, 0);
-
+        // Defer packing state -> dataQueue until squeeze() knows how many lanes it will read.
+        this.queuePacked = 0;
         this.bitsInQueue = rate;
     }
 
@@ -414,5 +516,42 @@ public class KeccakDigest
         A[10] = a10; A[11] = a11; A[12] = a12; A[13] = a13; A[14] = a14;
         A[15] = a15; A[16] = a16; A[17] = a17; A[18] = a18; A[19] = a19;
         A[20] = a20; A[21] = a21; A[22] = a22; A[23] = a23; A[24] = a24;
+    }
+
+    protected CryptoServiceProperties cryptoServiceProperties()
+    {
+        return Utils.getDefaultProperties(this, getDigestSize() * 8, purpose);
+    }
+
+    protected byte[] getEncodedState(byte[] encState)
+    {
+        // The serialised format carries the full dataQueue; materialise any lanes that lazy
+        // packing has so far deferred so a digest saved mid-squeeze round-trips byte-identically.
+        if (squeezing)
+        {
+            ensureQueuePacked(rate >>> 3);
+        }
+
+        encState[0] = (byte)purpose.getCode();
+
+        int sOff = 1;
+        for (int i = 0; i != state.length; i++)
+        {
+            Pack.longToBigEndian(state[i], encState, sOff);
+            sOff += 8;
+        }
+        
+        System.arraycopy(dataQueue, 0, encState, sOff, dataQueue.length);
+
+        sOff += dataQueue.length;
+        Pack.intToBigEndian(rate, encState, sOff);
+        sOff += 4;
+        Pack.intToBigEndian(bitsInQueue, encState, sOff);
+        sOff += 4;
+        Pack.intToBigEndian(fixedOutputLength, encState, sOff);
+        sOff += 4;
+        encState[sOff] = squeezing ? (byte)1 : (byte)0;
+
+        return encState;
     }
 }

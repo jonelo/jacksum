@@ -59,7 +59,6 @@ public interface Mac
      * @param outOff the offset into the out buffer the output is to start at.
      * @exception DataLengthException if there isn't enough space in out.
      * @exception IllegalStateException if the MAC is not initialised.
-     * @return an int.
      */
     public int doFinal(byte[] out, int outOff)
         throws DataLengthException, IllegalStateException;

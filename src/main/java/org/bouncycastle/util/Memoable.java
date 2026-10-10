@@ -2,7 +2,7 @@ package org.bouncycastle.util;
 
 /**
  * Interface for Memoable objects. Memoable objects allow the taking of a snapshot of their internal state
- * via the copy() method and then reseting the object back to that state later using the reset() method.
+ * via the copy() method and then resetting the object back to that state later using the reset() method.
  */
 public interface Memoable
 {
@@ -11,7 +11,6 @@ public interface Memoable
      * <p>
      * The returned object may be used simply to store the state, or may be used as a similar object
      * starting from the copied state.
-     * @return an instance of Memoable.
      */
     Memoable copy();
 

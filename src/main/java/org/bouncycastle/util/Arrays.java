@@ -1,6 +1,7 @@
 package org.bouncycastle.util;
 
 import java.math.BigInteger;
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 
 /**
@@ -11,6 +12,21 @@ public final class Arrays
     private Arrays()
     {
         // static class, hide constructor
+    }
+
+    /**
+     * Sort an array using the given comparator, delegating to {@code java.util.Arrays.sort}.
+     * <p>
+     * Wrapped here for the same reason as the other BC platform wrappers: it gives the legacy
+     * distributions one place to substitute an implementation if their runtime lacks it. The sort
+     * is stable, so elements that compare equal keep their relative order.
+     *
+     * @param a the array to sort, in place.
+     * @param c the comparator determining the order.
+     */
+    public static void sort(Object[] a, Comparator c)
+    {
+        java.util.Arrays.sort(a, c);
     }
 
     public static boolean areAllZeroes(byte[] buf, int off, int len)
@@ -147,6 +163,108 @@ public final class Arrays
             d |= (a[aOff + i] ^ b[bOff + i]);
         }
         return 0 == d;
+    }
+
+    public static boolean constantTimeAreEqual(int len, long[] a, int aOff, long[] b, int bOff)
+    {
+        if (null == a)
+        {
+            throw new NullPointerException("'a' cannot be null");
+        }
+        if (null == b)
+        {
+            throw new NullPointerException("'b' cannot be null");
+        }
+        if (len < 0)
+        {
+            throw new IllegalArgumentException("'len' cannot be negative");
+        }
+        if (aOff > (a.length - len))
+        {
+            throw new IndexOutOfBoundsException("'aOff' value invalid for specified length");
+        }
+        if (bOff > (b.length - len))
+        {
+            throw new IndexOutOfBoundsException("'bOff' value invalid for specified length");
+        }
+
+        long d = 0;
+        for (int i = 0; i < len; ++i)
+        {
+            d |= (a[aOff + i] ^ b[bOff + i]);
+        }
+        return 0L == d;
+    }
+
+    /**
+     * A constant time equals comparison - does not terminate early if
+     * comparison fails. For best results always pass the expected value
+     * as the first parameter.
+     *
+     * @param expected first array
+     * @param supplied second array
+     * @return true if arrays equal, false otherwise.
+     */
+    public static boolean constantTimeAreEqual(
+        char[] expected,
+        char[] supplied)
+    {
+        if (expected == null || supplied == null)
+        {
+            return false;
+        }
+
+        if (expected == supplied)
+        {
+            return true;
+        }
+
+        int len = Math.min(expected.length, supplied.length);
+
+        int nonEqual = expected.length ^ supplied.length;
+
+        // do the char-wise comparison
+        for (int i = 0; i != len; i++)
+        {
+            nonEqual |= (expected[i] ^ supplied[i]);
+        }
+        // If supplied is longer than expected, iterate over rest of supplied with NOPs
+        for (int i = len; i < supplied.length; i++)
+        {
+            nonEqual |= ((byte)supplied[i] ^ (byte)~supplied[i]);
+        }
+
+        return nonEqual == 0;
+    }
+
+    public static boolean constantTimeAreEqual(
+        long[]  expected,
+        long[]  supplied)
+    {
+        if (expected == null || supplied == null)
+        {
+            return false;
+        }
+
+        if (expected == supplied)
+        {
+            return true;
+        }
+
+        int len = (expected.length < supplied.length) ? expected.length : supplied.length;
+
+        long nonEqual = expected.length ^ supplied.length;
+
+        for (int i = 0; i != len; i++)
+        {
+            nonEqual |= (expected[i] ^ supplied[i]);
+        }
+        for (int i = len; i < supplied.length; i++)
+        {
+            nonEqual |= (supplied[i] ^ ~supplied[i]);
+        }
+
+        return nonEqual == 0;
     }
 
     public static int compareUnsigned(byte[] a, byte[] b)
@@ -762,9 +880,7 @@ public final class Arrays
         int newLength = to - from;
         if (newLength < 0)
         {
-            StringBuffer sb = new StringBuffer(from);
-            sb.append(" > ").append(to);
-            throw new IllegalArgumentException(sb.toString());
+            throw new IllegalArgumentException(from + " > " + to);
         }
         return newLength;
     }
@@ -1031,6 +1147,15 @@ public final class Arrays
         return result;
     }
 
+    public static void reverse(byte[] input, byte[] output)
+    {
+        int last = input.length - 1;
+        for (int i = 0; i <= last; ++i)
+        {
+            output[i] = input[last - i];
+        }
+    }
+
     public static byte[] reverseInPlace(byte[] a)
     {
         if (null == a)
@@ -1042,6 +1167,35 @@ public final class Arrays
         while (p1 < p2)
         {
             byte t1 = a[p1], t2 = a[p2];
+            a[p1++] = t2;
+            a[p2--] = t1;
+        }
+
+        return a;
+    }
+
+    public static void reverseInPlace(byte[] a, int aOff, int aLen)
+    {
+        int p1 = aOff, p2 = aOff + aLen - 1;
+        while (p1 < p2)
+        {
+            byte t1 = a[p1], t2 = a[p2];
+            a[p1++] = t2;
+            a[p2--] = t1;
+        }
+    }
+
+    public static short[] reverseInPlace(short[] a)
+    {
+        if (null == a)
+        {
+            return null;
+        }
+
+        int p1 = 0, p2 = a.length - 1;
+        while (p1 < p2)
+        {
+            short t1 = a[p1], t2 = a[p2];
             a[p1++] = t2;
             a[p2--] = t1;
         }
@@ -1132,6 +1286,27 @@ public final class Arrays
         }
     }
 
+    public static void clear(long[] data)
+    {
+        if (null != data)
+        {
+            java.util.Arrays.fill(data, 0);
+        }
+    }
+
+    /**
+     * Fill input array by zeros
+     *
+     * @param data input array
+     */
+    public static void clear(char[] data)
+    {
+        if (null != data)
+        {
+            java.util.Arrays.fill(data, (char)0x00);
+        }
+    }
+
     public static boolean isNullOrContainsNull(Object[] array)
     {
         if (null == array)
@@ -1162,5 +1337,39 @@ public final class Arrays
     public static boolean isNullOrEmpty(Object[] array)
     {
         return null == array || array.length < 1;
+    }
+
+    public static boolean segmentsOverlap(int aOff, int aLen, int bOff, int bLen)
+    {
+        return aLen > 0
+            && bLen > 0
+            && aOff - bOff < bLen
+            && bOff - aOff < aLen;
+    }
+
+    public static void validateRange(byte[] buf, int from, int to)
+    {
+        if (buf == null)
+        {
+            throw new NullPointerException("'buf' cannot be null");
+        }
+        if ((from | (buf.length - from) | (to - from) | (buf.length - to)) < 0)
+        {
+            throw new IndexOutOfBoundsException("buf.length: " + buf.length + ", from: " + from + ", to: " + to);
+        }
+    }
+
+    public static void validateSegment(byte[] buf, int off, int len)
+    {
+        if (buf == null)
+        {
+            throw new NullPointerException("'buf' cannot be null");
+        }
+        int available = buf.length - off;
+        int remaining = available - len;
+        if ((off | len | available | remaining) < 0)
+        {
+            throw new IndexOutOfBoundsException("buf.length: " + buf.length + ", off: " + off + ", len: " + len);
+        }
     }
 }

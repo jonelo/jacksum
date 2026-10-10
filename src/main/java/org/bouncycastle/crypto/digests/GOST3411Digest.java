@@ -1,6 +1,9 @@
 package org.bouncycastle.crypto.digests;
 
 import org.bouncycastle.crypto.BlockCipher;
+import org.bouncycastle.crypto.CryptoServiceProperties;
+import org.bouncycastle.crypto.CryptoServicePurpose;
+import org.bouncycastle.crypto.CryptoServicesRegistrar;
 import org.bouncycastle.crypto.ExtendedDigest;
 import org.bouncycastle.crypto.engines.GOST28147Engine;
 import org.bouncycastle.crypto.params.KeyParameter;
@@ -16,6 +19,8 @@ public class GOST3411Digest
     implements ExtendedDigest, Memoable
 {
     private static final int    DIGEST_LENGTH = 32;
+
+    private final CryptoServicePurpose purpose;
 
     private byte[]   H = new byte[32], L = new byte[32],
                      M = new byte[32], Sum = new byte[32];
@@ -33,6 +38,15 @@ public class GOST3411Digest
      */
     public GOST3411Digest()
     {
+        this(CryptoServicePurpose.ANY);
+    }
+
+    public GOST3411Digest(CryptoServicePurpose purpose)
+    {
+        this.purpose = purpose;
+
+        CryptoServicesRegistrar.checkConstraints(cryptoServiceProperties());
+
         sBox = GOST28147Engine.getSBox("D-A");
         cipher.init(true, new ParametersWithSBox(null, sBox));
 
@@ -42,10 +56,22 @@ public class GOST3411Digest
     /**
      * Constructor to allow use of a particular sbox with GOST28147
      * @see GOST28147Engine#getSBox(String)
-     * @param sBoxParam a byte array.
      */
     public GOST3411Digest(byte[] sBoxParam)
     {
+        this(sBoxParam, CryptoServicePurpose.ANY);
+    }
+
+    /**
+     * Constructor to allow use of a particular sbox with GOST28147
+     * @see GOST28147Engine#getSBox(String)
+     */
+    public GOST3411Digest(byte[] sBoxParam, CryptoServicePurpose purpose)
+    {
+        this.purpose = purpose;
+
+        CryptoServicesRegistrar.checkConstraints(cryptoServiceProperties());
+
         sBox = Arrays.clone(sBoxParam);
         cipher.init(true, new ParametersWithSBox(null, sBox));
 
@@ -55,10 +81,13 @@ public class GOST3411Digest
     /**
      * Copy constructor.  This will copy the state of the provided
      * message digest.
-     * @param t an instance of a GOST3411Digest
      */
     public GOST3411Digest(GOST3411Digest t)
     {
+        this.purpose = t.purpose;
+
+        CryptoServicesRegistrar.checkConstraints(cryptoServiceProperties());
+
         reset(t);
     }
 
@@ -93,7 +122,7 @@ public class GOST3411Digest
             len--;
         }
 
-        while (len > xBuf.length)
+        while (len >= xBuf.length)
         {
             System.arraycopy(in, inOff, xBuf, 0, xBuf.length);
 
@@ -358,6 +387,11 @@ public class GOST3411Digest
 
         this.xBufOff = t.xBufOff;
         this.byteCount = t.byteCount;
+    }
+
+    protected CryptoServiceProperties cryptoServiceProperties()
+    {
+        return Utils.getDefaultProperties(this, 256, purpose);
     }
 }
 

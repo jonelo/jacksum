@@ -1,0 +1,17 @@
+JACKSUM-MOD: Blake2bpDigest computes the remaining space of its buffer with 8 * BLAKE2B_BLOCKBYTES,
+but the buffer is only PARALLELISM_DEGREE * BLAKE2B_BLOCKBYTES (4 * 128 = 512) bytes long.
+Messages > 512 bytes that are fed in pieces cause an ArrayIndexOutOfBoundsException or a wrong hash value.
+Upstream: still present in BC 1.73 .. 1.86 | Remove when: fixed upstream (patch no longer applies or is a no-op)
+
+--- a/org/bouncycastle/crypto/digests/Blake2bpDigest.java
++++ b/org/bouncycastle/crypto/digests/Blake2bpDigest.java
+@@ -63,7 +63,8 @@
+     public void update(byte[] message, int offset, int len)
+     {
+         int left = bufferPos;
+-        int remainingLength = 8*BLAKE2B_BLOCKBYTES - left;
++        // JACKSUM-MOD: the buffer is PARALLELISM_DEGREE * BLAKE2B_BLOCKBYTES (4 * 128) bytes long, not 8 * 128
++        int remainingLength = PARALLELISM_DEGREE*BLAKE2B_BLOCKBYTES - left;
+ 
+         if(left != 0 && len >= remainingLength)
+         {

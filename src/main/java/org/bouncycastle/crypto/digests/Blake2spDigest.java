@@ -5,7 +5,7 @@ import org.bouncycastle.util.Arrays;
 import org.bouncycastle.util.Pack;
 
 public class Blake2spDigest
-        implements ExtendedDigest
+    implements ExtendedDigest
 {
     private int bufferPos = 0; // a value from 0 up to BLOCK_LENGTH_BYTES
 
@@ -95,15 +95,10 @@ public class Blake2spDigest
         }
 
         offset += len - len % ( PARALLELISM_DEGREE * BLAKE2S_BLOCKBYTES );
-        len %= (PARALLELISM_DEGREE * BLAKE2S_BLOCKBYTES);
+        len %= PARALLELISM_DEGREE * BLAKE2S_BLOCKBYTES;
 
         if(len > 0)
         {
-            // System.out.printf("offset=%s, left=%s, len=%s%n", offset, left, len);
-            // test case: a message length of 1007 bytes results in the following error message:
-            // offset=512, left=0, len=495
-            // Exception in thread "pool-1-thread-1" java.lang.ArrayIndexOutOfBoundsException: arraycopy: last destination index 495 out of bounds for byte[256]
-            // => workaround: increase the buffer of 256 bytes to 512 bytes.
             System.arraycopy(message, offset, buffer, left, len);
         }
 
