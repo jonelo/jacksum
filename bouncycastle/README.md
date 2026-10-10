@@ -44,9 +44,13 @@ What `update-bc.sh` does:
 3. compiles all of `src/main/java/net` with `javac -implicit:class -sourcepath overlay:patched-upstream`.
    javac reads exactly the BC source files that are needed transitively, so there is **no list of
    required classes to maintain**: a new BC algorithm used in `MDbouncycastle` brings its dependencies
-   along automatically. The script also warns about overlay files that are no longer used;
+   along automatically. The script also warns about overlay files that are no longer used. If javac fails
+   because BC has removed a class that Jacksum still needs, the script names the class and prints the
+   commands to pin it (see below);
 4. stops if heavy BC infrastructure (`asn1`, `math/ec`, `jcajce`, `jce`, `pqc`) shows up, which usually
-   means that a new upstream dependency must be covered by the overlay (see `CryptoServicesRegistrar` below);
+   means that a new upstream dependency must be covered by the overlay (see `CryptoServicesRegistrar` below).
+   It also prints a `NOTE` for every needed upstream class that is deprecated, because such a class will
+   probably be removed some day (currently `AsconDigest` and `AsconXof`, see below);
 5. runs the official LWC hash known answer tests (`verify/LwcKat.java`, test vectors from
    [bc-test-data](https://github.com/bcgit/bc-test-data), downloaded at the commit in `bc.properties`)
    for Ascon, Esch (Sparkle), PHOTON-Beetle and Xoodyak. **The tree is replaced only if all vectors pass**;
@@ -57,6 +61,31 @@ What `update-bc.sh` does:
 block boundaries, more than 64 KiB, 1 MiB), a few HMACs, `--info` of the BC based XOFs/LWC hashes and the
 `--hmacs` list with both jars and diffs the output. Any difference must be understood before you
 release.
+
+### When BC removes a class that Jacksum still needs
+
+Example: BC has deprecated `AsconDigest` and `AsconXof` (Ascon v1.2), Jacksum uses them on purpose (see
+below). If a future BC version removes them, `update-bc.sh` stops in step 3 and prints something like
+
+```
+These classes have been removed in BC 1.xx, but Jacksum still needs them:
+    org/bouncycastle/crypto/digests/AsconXof.java
+Either adapt Jacksum's code, or pin each class from the current tree into the overlay:
+    mkdir -p bouncycastle/overlay/org/bouncycastle/crypto/digests && cp src/main/java/org/bouncycastle/crypto/digests/AsconXof.java bouncycastle/overlay/org/bouncycastle/crypto/digests/AsconXof.java
+```
+
+The current tree still holds the old version at that point, because it is replaced only in step 6. To pin a
+class:
+
+1. run the printed commands;
+2. add a `JACKSUM-MOD:` header to the pinned file (from which BC version it is, why it is pinned);
+3. run the update again. If javac then misses further classes (e.g. package-private base classes such as
+   `AsconBaseDigest` or `AsconXofBase`, or classes whose API has changed incompatibly), pin them in the same
+   way;
+4. add the pinned files to the table of modifications below.
+
+The known answer tests in step 5 cover Ascon-Hash, Ascon-HashA, Ascon-XOF and Ascon-XOFa, so a pinned Ascon
+class is verified automatically.
 
 After an update, also:
 
@@ -82,6 +111,7 @@ Modifications that are **outside** of the generated tree, in Jacksum's own code:
 | Where | What | Why |
 |---|---|---|
 | `src/main/java/net/jacksum/algorithms/md/TigerDigest_192_4_PHP_version.java` | copy of BC 1.71's `TigerDigest` with extra rounds and a register swap in `processBlock()` (marked `<BEGIN>`/`<END>`) | PHP's `tiger192,4`, `tiger160,4`, `tiger128,4`. It is Jacksum's own variant, so it does not belong in the generated tree |
+| `src/main/java/net/jacksum/algorithms/wrappers/MDbouncycastle.java` | `createAsconV12()` uses the deprecated `AsconDigest` and `AsconXof` on purpose, with `@SuppressWarnings("deprecation")` | ascon-hash, ascon-hasha, ascon-xof and ascon-xofa are Ascon v1.2. Their BC successors `AsconHash256`, `AsconXof128` and `AsconCXof128` (NIST SP 800-232) are different algorithms (little-endian, different padding and IVs) with different hash values, and HashA/XofA have no successor. If BC removes the classes, pin them (see above) |
 | `src/main/java/net/jacksum/algorithms/wrappers/MDbouncycastle.java` | KangarooTwelve and MarsupilamiFourteen are finalized with `Xof.doFinal(out, 0, 32 / 64)` | since BC 1.71 the `Kangaroo` constructors ignore the requested output length (the default is 16 / 32 bytes). Up to Jacksum 4.0.1 `Kangaroo.java` was pinned to BC 1.69 for that reason |
 
 ## History: modifications that are no longer needed

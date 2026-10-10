@@ -28,8 +28,6 @@ import java.util.regex.Pattern;
 import java.security.NoSuchAlgorithmException;
 import net.jacksum.formats.Encoding;
 import org.bouncycastle.crypto.digests.Blake2bpDigest;
-import org.bouncycastle.crypto.digests.Blake2sDigest;
-import org.bouncycastle.crypto.digests.Blake2spDigest;
 
 /**
  * A wrapper for the BLAKE2bp implementation of Bouncy Castle.

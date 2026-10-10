@@ -71,7 +71,28 @@ find "$ROOT/src/main/java/net" -name '*.java' > "$WORK/net-sources.txt"
 mkdir -p "$WORK/classes"
 "${JAVAC[@]}" --release 21 -nowarn -Xlint:none -proc:none -implicit:class -verbose \
     -sourcepath "$HERE/overlay:$WORK/patched" -d "$WORK/classes" @"$WORK/net-sources.txt" \
-    > "$WORK/javac.log" 2>&1 || { tail -30 "$WORK/javac.log"; die "Jacksum does not compile against BC $VERSION (see $WORK/javac.log)"; }
+    > "$WORK/javac.log" 2>&1 || {
+    # a class that javac cannot find, but that is in the current tree (it is replaced in step 6 only),
+    # has been removed upstream while Jacksum still needs it
+    removed=""
+    for name in $(sed -nE 's/^ *symbol: +class ([A-Za-z0-9_]+).*/\1/p' "$WORK/javac.log" | sort -u); do
+        [ -d "$TARGET_TREE" ] || break
+        for rel in $(cd "$ROOT/src/main/java" && find org/bouncycastle -name "$name.java"); do
+            [ -f "$HERE/overlay/$rel" ] || [ -f "$WORK/patched/$rel" ] || removed="$removed $rel"
+        done
+    done
+    if [ -n "$removed" ]; then
+        echo "These classes have been removed in BC $VERSION, but Jacksum still needs them:"
+        for rel in $removed; do echo "    $rel"; done
+        echo "Either adapt Jacksum's code, or pin each class from the current tree into the overlay:"
+        for rel in $removed; do
+            echo "    mkdir -p bouncycastle/overlay/$(dirname "$rel") && cp src/main/java/$rel bouncycastle/overlay/$rel"
+        done
+        echo "add a JACKSUM-MOD: header to each pinned file and run the update again. If javac then misses further"
+        echo "(e.g. package-private base) classes, pin them in the same way. See bouncycastle/README.md."
+        die "Jacksum does not compile against BC $VERSION, because of removed classes (see $WORK/javac.log)"
+    fi
+    tail -30 "$WORK/javac.log"; die "Jacksum does not compile against BC $VERSION (see $WORK/javac.log)"; }
 
 # every source file that javac has parsed from the overlay or the patched upstream tree is required,
 # javac logs them as "[parsing started DirectoryFileObject[<sourcepath-dir>:<relative-path>]]"
@@ -104,6 +125,12 @@ fi
 while read -r origin rel; do
     if unzip -l "$JAR" "META-INF/versions/*/$rel" > /dev/null 2>&1; then
         echo "WARNING: $rel has a multi-release variant in META-INF/versions, only the base version is used"
+    fi
+    # a deprecated class will probably be removed upstream some day (overlay files are pinned on purpose)
+    if [ "$origin" != overlay ] && awk '/@deprecated|@Deprecated/ { d = 1 }
+            /^(public |abstract |final )*(class|interface|enum) / { exit }
+            END { exit d ? 0 : 1 }' "$WORK/patched/$rel"; then
+        echo "NOTE: Jacksum uses the deprecated BC class $rel, it may be removed in a future BC version (see bouncycastle/README.md)"
     fi
 done < "$WORK/files.txt"
 

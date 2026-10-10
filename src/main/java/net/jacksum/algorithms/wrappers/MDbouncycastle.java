@@ -180,20 +180,9 @@ public class MDbouncycastle extends AbstractChecksum {
             md = new Blake3Digest(256);
         } else
 
-        if (arg.equalsIgnoreCase("ascon-hash")) {
-            md = new AsconDigest(AsconDigest.AsconParameters.AsconHash);
-        } else
-
-        if (arg.equalsIgnoreCase("ascon-hasha")) {
-            md = new AsconDigest(AsconDigest.AsconParameters.AsconHashA);
-        } else
-
-        if (arg.equalsIgnoreCase("ascon-xof")) {
-            md = new AsconXof(AsconXof.AsconParameters.AsconXof);
-        } else
-
-        if (arg.equalsIgnoreCase("ascon-xofa")) {
-            md = new AsconXof(AsconXof.AsconParameters.AsconXofA);
+        if (arg.equalsIgnoreCase("ascon-hash") || arg.equalsIgnoreCase("ascon-hasha")
+                || arg.equalsIgnoreCase("ascon-xof") || arg.equalsIgnoreCase("ascon-xofa")) {
+            md = createAsconV12(arg);
         } else
 
         if (arg.equalsIgnoreCase("esch256")) {
@@ -221,6 +210,30 @@ public class MDbouncycastle extends AbstractChecksum {
         }
     }
 
+
+    /*
+     * Ascon v1.2 (final round of the NIST lightweight cryptography competition).
+     * Bouncy Castle has deprecated AsconDigest and AsconXof in favor of AsconHash256 and AsconXof128
+     * (NIST SP 800-232), but those are different algorithms (different byte order, padding and IVs)
+     * with different hash values, and Ascon-HashA and Ascon-XofA have no successor at all.
+     * Therefore the v1.2 classes are used on purpose, see bouncycastle/README.md.
+     */
+    @SuppressWarnings("deprecation")
+    private static Digest createAsconV12(String arg) {
+        if (arg.equalsIgnoreCase("ascon-hash")) {
+            return new AsconDigest(AsconDigest.AsconParameters.AsconHash);
+        }
+        if (arg.equalsIgnoreCase("ascon-hasha")) {
+            return new AsconDigest(AsconDigest.AsconParameters.AsconHashA);
+        }
+        if (arg.equalsIgnoreCase("ascon-xof")) {
+            return new AsconXof(AsconXof.AsconParameters.AsconXof);
+        }
+        if (arg.equalsIgnoreCase("ascon-xofa")) {
+            return new AsconXof(AsconXof.AsconParameters.AsconXofA);
+        }
+        return null;
+    }
 
     @Override
     public void reset() {
