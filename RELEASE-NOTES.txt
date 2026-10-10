@@ -74,6 +74,9 @@ Jacksum 4.0.2, Oct 10, 2026
     net/jacksum/zzadopt/fr/cryptohash/README.md
   - the comments of the adopted LSH classes (kr.re.nsr.crypto) are completely in English now; their
     origin, license and modifications are documented in net/jacksum/zzadopt/kr/README.md
+  - the origin (Apache Commons Codec 1.15) and the license of the adopted XXHash32 class are
+    documented in net/jacksum/zzadopt/org/apache/README.md; --copyright includes the attribution
+    of Commons Codec's NOTICE file now, as the Apache License 2.0 requires
 
 
 Jacksum 4.0.1, Oct 4, 2026
