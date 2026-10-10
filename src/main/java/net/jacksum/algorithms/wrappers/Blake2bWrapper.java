@@ -27,8 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.security.NoSuchAlgorithmException;
 import net.jacksum.formats.Encoding;
-//import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.Blake2bDigest;
-import org.bouncycastle.crypto.digests.Blake2bDigest;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.Blake2bDigest;
 
 /**
  * A wrapper for the BLAKE2b implementation of Bouncy Castle that supports a configurable

@@ -3,12 +3,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bouncycastle.crypto.Digest;
-import org.bouncycastle.crypto.digests.AsconDigest;
-import org.bouncycastle.crypto.digests.AsconXof;
-import org.bouncycastle.crypto.digests.PhotonBeetleDigest;
-import org.bouncycastle.crypto.digests.SparkleDigest;
-import org.bouncycastle.crypto.digests.XoodyakDigest;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.Digest;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.AsconDigest;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.AsconXof;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.PhotonBeetleDigest;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.SparkleDigest;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.XoodyakDigest;
 
 /**
  * Checks the stripped Bouncy Castle tree against the official LWC hash known answer tests

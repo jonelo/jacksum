@@ -27,7 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.security.NoSuchAlgorithmException;
 import net.jacksum.formats.Encoding;
-import org.bouncycastle.crypto.digests.SkeinDigest;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.SkeinDigest;
 
 /**
  * A wrapper for the Skein hash functions with a configurable state size and

@@ -141,7 +141,8 @@ Portions of this software (MDC2) are licensed under the LGPL-2.1 or later versio
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 
-Portions of this software (org.bouncycastle: see net.jacksum.algorithms.wrappers.MDbouncycastle)
+Portions of this software (org.bouncycastle, relocated to net.jacksum.zzadopt.org.bouncycastle:
+see net.jacksum.algorithms.wrappers.MDbouncycastle)
 are licensed under the MIT license
 
   Copyright (c) 2000 - 2023 The Legion of the Bouncy Castle Inc. (https://www.bouncycastle.org)

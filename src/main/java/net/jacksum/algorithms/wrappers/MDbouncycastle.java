@@ -23,16 +23,16 @@ package net.jacksum.algorithms.wrappers;
 
 import java.security.NoSuchAlgorithmException;
 
-import org.bouncycastle.crypto.Digest;
-import org.bouncycastle.crypto.ExtendedDigest;
-import org.bouncycastle.crypto.Xof;
-import org.bouncycastle.crypto.digests.*;
-import org.bouncycastle.crypto.engines.GOST28147Engine;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.Digest;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.ExtendedDigest;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.Xof;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.*;
+import net.jacksum.zzadopt.org.bouncycastle.crypto.engines.GOST28147Engine;
 import net.jacksum.algorithms.md.TigerDigest_192_4_PHP_version;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
-//import org.bouncycastle.crypto.digests.Haraka256Digest;
-//import org.bouncycastle.crypto.digests.Haraka512Digest;
+//import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.Haraka256Digest;
+//import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.Haraka512Digest;
 
 /**
  * A wrapper class that can be used to compute GOST, RIPEMD256 and RIPEMD320, etc.

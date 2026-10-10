@@ -28,9 +28,13 @@ Jacksum 4.0.2, Oct 9, 2026
 
 - Updates
   - updated the bundled Bouncy Castle from 1.71/1.73 to 1.86 (digests only); the stripped copy
-    in org.bouncycastle is generated now by bouncycastle/update-bc.sh from the pristine sources
+    is generated now by bouncycastle/update-bc.sh from the pristine sources
     plus a documented overlay and patch queue (see bouncycastle/README.md), it contains only the
     80 classes that Jacksum needs (it was 106); all hash values are unchanged
+  - the bundled Bouncy Castle has been relocated from org.bouncycastle to
+    net.jacksum.zzadopt.org.bouncycastle, so that it no longer clashes with a Bouncy Castle on the
+    same classpath when Jacksum is used as a library (duplicate classes, split package); API users
+    who used org.bouncycastle classes from the Jacksum jar must use their own Bouncy Castle now
   - Xoodyak and PHOTON-Beetle stay on Bouncy Castle 1.73's implementation, because Bouncy Castle
     1.86 fails the official LWC known answer tests for the empty message (Xoodyak) and for a
     16-byte message (PHOTON-Beetle)
