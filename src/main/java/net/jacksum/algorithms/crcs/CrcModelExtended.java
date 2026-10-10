@@ -119,13 +119,18 @@ public class CrcModelExtended extends CrcModel {
     }
 
     /**
-     * Creates a new model with the parameters of the given model. The new model always
-     * includes the length and XORs it with the XOR length array of the given model.
+     * Creates a copy of the given model, including the settings for the length
+     * (whether it is included, its byte order, and whether and with what it is XOR'ed).
      *
-     * @param model the model whose parameters are taken
+     * @param model the model that is copied
      */
     public CrcModelExtended(CrcModelExtended model) {
-        this(model.getWidth(), model.getPoly(), model.getInit(), model.isRefIn(), model.isRefOut(), model.getXorOut(), model.isIncludeLength(), model.getXorLengthArray());
+        super(model.getWidth(), model.getPoly(), model.getInit(), model.isRefIn(), model.isRefOut(), model.getXorOut());
+        includeLength = model.isIncludeLength();
+        includeLengthMSOfirst = model.isIncludeLengthMSOfirst();
+        xorLength = model.isXorLength();
+        byte[] array = model.getXorLengthArray();
+        xorLengthArray = array == null ? null : array.clone();
     }
 
 

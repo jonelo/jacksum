@@ -126,8 +126,7 @@ public class GeneralIO {
      * are not tokenized.
      *
      * @param filename the absolute path of the resource in the jar file
-     * @param charset the character set (note: the implementation currently decodes
-     *        with the platform's default charset)
+     * @param charset the character set that is used to decode the resource
      * @return the lines that have been read
      * @throws IOException if an I/O error occurs or the resource has not been found
      */
@@ -140,8 +139,7 @@ public class GeneralIO {
      * No lines are ignored because of a prefix; the lines are not tokenized.
      *
      * @param filename the absolute path of the resource in the jar file
-     * @param charset the character set (note: the implementation currently decodes
-     *        with the platform's default charset)
+     * @param charset the character set that is used to decode the resource
      * @param ignoreEmptyLines if true, lines that are empty or contain only whitespace are ignored
      * @return the lines that have been read
      * @throws IOException if an I/O error occurs or the resource has not been found
@@ -155,8 +153,7 @@ public class GeneralIO {
      * The lines are not tokenized.
      *
      * @param filename the absolute path of the resource in the jar file
-     * @param charset the character set (note: the implementation currently decodes
-     *        with the platform's default charset)
+     * @param charset the character set that is used to decode the resource
      * @param ignoreEmptyLines if true, lines that are empty or contain only whitespace are ignored
      * @param ignorePrefix lines that start with this prefix are ignored, can be null
      * @return the lines that have been read
@@ -225,8 +222,7 @@ public class GeneralIO {
      * Reads all lines from a resource in the jar file.
      *
      * @param filename the absolute path of the resource in the jar file
-     * @param charset the character set (note: the implementation currently decodes
-     *        with the platform's default charset)
+     * @param charset the character set that is used to decode the resource
      * @param ignoreEmptyLines if true, lines that are empty or contain only whitespace are ignored
      * @param ignorePrefix lines that start with this prefix are ignored, can be null
      * @param linesContainNormalAndQuotedStringsSeparatedByWhiteSpaceChars if true, each line is split into normal and
@@ -238,14 +234,14 @@ public class GeneralIO {
     public static List<String> readLinesFromJarFile(String filename, Charset charset, boolean ignoreEmptyLines, String ignorePrefix,
             boolean linesContainNormalAndQuotedStringsSeparatedByWhiteSpaceChars) throws IOException {
         List<String> lines = new ArrayList<>();
-        
-        try (InputStream is = GeneralIO.class.getResourceAsStream(filename);
-             InputStreamReader isr = new InputStreamReader(is);
-             BufferedReader bufferedReader = new BufferedReader(isr)
-        ) {
-            if (is == null) {
-                throw new IOException(String.format("%s not found.", filename));
-            }
+
+        // the check must come before the reader is created, because an InputStreamReader
+        // cannot be created for a null stream
+        InputStream is = GeneralIO.class.getResourceAsStream(filename);
+        if (is == null) {
+            throw new IOException(String.format("%s not found.", filename));
+        }
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is, charset))) {
             
             String line;
             while ((line = bufferedReader.readLine()) != null) {

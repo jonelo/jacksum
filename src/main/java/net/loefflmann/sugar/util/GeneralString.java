@@ -587,26 +587,24 @@ public class GeneralString {
         return s;
     }
 
-    /* remove leading whitespace */
     /**
-     * Removes leading whitespace (despite the name of the method).
-     *
-     * @param string a String.
-     * @return the String without leading whitespace.
-     */
-    public static String trimRight(String string) {
-        return string.replaceAll("^\\s+", "");
-    }
-
-    /* remove trailing whitespace */
-    /**
-     * Removes trailing whitespace (despite the name of the method).
+     * Removes trailing whitespace, i.e. whitespace on the right side.
      *
      * @param string a String.
      * @return the String without trailing whitespace.
      */
-    public static String trimLeft(String string) {
+    public static String trimRight(String string) {
         return string.replaceAll("\\s+$", "");
+    }
+
+    /**
+     * Removes leading whitespace, i.e. whitespace on the left side.
+     *
+     * @param string a String.
+     * @return the String without leading whitespace.
+     */
+    public static String trimLeft(String string) {
+        return string.replaceAll("^\\s+", "");
     }
 
     /**

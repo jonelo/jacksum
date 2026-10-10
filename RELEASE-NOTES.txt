@@ -12,6 +12,19 @@ Jacksum 4.0.2, Oct 9, 2026
     part in front of a colon, if the key has no known type); the message names the type
     only now and says that the value is not shown; the messages for a key file (file:)
     and for option -q are unchanged
+  - the license (--license), the copyright (--copyright), the CRC catalogue and the help
+    (-h) are read with the platform's default charset rather than with UTF-8, so umlauts
+    such as in the German help or in the copyright come out garbled if the default charset
+    is not UTF-8 (e.g. -Dfile.encoding=COMPAT); GeneralIO.readLinesFromJarFile() ignored
+    its charset parameter, and it threw a NullPointerException rather than the intended
+    IOException for a resource that does not exist
+  - GeneralString.trimRight() removed the leading whitespace and trimLeft() the trailing
+    whitespace, i.e. the opposite of what their names say; they do what their names say
+    now, which changes the behavior for API callers that relied on the old one
+  - the copy constructor of CrcModelExtended passed the "include length" flag where the
+    byte order of the length belongs, and it always switched on the inclusion of the
+    length and its XOR, even if the model it copies has neither
+  - the algorithm list of --info names SHA-384 as "SHA-2 familiy" instead of "SHA-2 family"
 
 - Documentation
   - the help of option -c and the use case "Is the medium still readable?" explain that a

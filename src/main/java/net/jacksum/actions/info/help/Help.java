@@ -23,6 +23,7 @@
 package net.jacksum.actions.info.help;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 import net.jacksum.actions.info.version.VersionAction;
@@ -197,7 +198,8 @@ public class Help {
             if (is == null) {
                 throw new FileNotFoundException(filename);
             }
-            isr = new InputStreamReader(is);
+            // the help files are encoded in UTF-8, independent of the platform's default charset
+            isr = new InputStreamReader(is, StandardCharsets.UTF_8);
             br = new BufferedReader(isr);
 
             String line;

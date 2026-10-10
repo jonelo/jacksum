@@ -291,7 +291,6 @@ public class TigerTree extends MessageDigest {
         nodes.add(data);
     }
 
-    // calculates the next n with 2^n > number
     /**
      * Calculates the smallest n with 2^n &gt;= number, i.e. the ceiling of the binary
      * logarithm of number.
