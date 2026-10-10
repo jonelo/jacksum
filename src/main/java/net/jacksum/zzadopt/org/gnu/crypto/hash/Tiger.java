@@ -1,4 +1,4 @@
-package net.jacksum.zzadopt.gnu.crypto.hash;
+package net.jacksum.zzadopt.org.gnu.crypto.hash;
 
 // --------------------------------------------------------------------------
 // $Id: Tiger.java,v 1.2 2005/10/06 04:24:14 rsdio Exp $
@@ -44,8 +44,8 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 //
 // --------------------------------------------------------------------------
 
-import net.jacksum.zzadopt.gnu.crypto.Registry;
-import net.jacksum.zzadopt.gnu.crypto.util.Util;
+import net.jacksum.zzadopt.org.gnu.crypto.Registry;
+import net.jacksum.zzadopt.org.gnu.crypto.util.Util;
 
 /**
  * The Tiger message digest. Tiger was designed by Ross Anderson and Eli

@@ -1,6 +1,6 @@
 # Adopted GNU Crypto
 
-`net.jacksum.zzadopt.gnu.crypto` is a copy of the hash functions of
+`net.jacksum.zzadopt.org.gnu.crypto` is a copy of the hash functions of
 [GNU Crypto](https://www.gnu.org/software/gnu-crypto/), relocated from `gnu.crypto`, and extended by
 Jacksum. Jacksum uses it in `net.jacksum.algorithms.wrappers.MDgnu`, `net.jacksum.algorithms.md.Edonkey`
 and in about 20 selectors, mostly as the alternate implementation (`-A`) of the algorithms the JDK provides.
@@ -52,7 +52,7 @@ Modified upstream files:
 | `Registry.java` | reduced to the names of the hash functions, plus the names of Jacksum's algorithms. Not updated to the constants that 2.1.0 adds (SASL, EAX, TLS/SSL padding, Fortuna, OMAC, ...) | Jacksum uses only the hash functions |
 | `hash/Tiger.java` | `HASH_SIZE`, `BLOCK_SIZE`, `valid` and the registers `a`, `b`, `c` are `protected` instead of `private` | used by the subclasses `Tiger2`, `Tiger128`, `Tiger160` |
 | all upstream files | `@Override`; `new Boolean(...)`/`booleanValue()` replaced by autoboxing; `private static final synchronized` becomes `private static synchronized`; `MD5.getResult()` returns directly; Javadoc fixes (`<tt>` becomes `<code>`, `@param`/`@return` added, broken `</a>` in `Tiger`, "SHA2-1" becomes "SHA2" in `Sha256`) | compiler warnings with current JDKs |
-| all files | package `net.jacksum.zzadopt.gnu.crypto` instead of `gnu.crypto` | no clash with another GNU Crypto or GNU Classpath on the classpath |
+| all files | package `net.jacksum.zzadopt.org.gnu.crypto` instead of `gnu.crypto` (up to Jacksum 4.0.1: `net.jacksum.zzadopt.gnu.crypto`; the adopted code is sorted by the top level domain of its project, like `org.bouncycastle` or `de.flexiprovider`) | no clash with another GNU Crypto or GNU Classpath on the classpath |
 
 ## Why not GNU Classpath
 

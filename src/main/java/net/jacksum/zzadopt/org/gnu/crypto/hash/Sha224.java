@@ -1,4 +1,4 @@
-package net.jacksum.zzadopt.gnu.crypto.hash;
+package net.jacksum.zzadopt.org.gnu.crypto.hash;
 
 // Sha224 is derived form the Sha256.java
 // written by Johann N. Loefflmann, jonelo@jonelo.de using the description at
@@ -47,8 +47,8 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 // do so, delete this exception statement from your version.
 // ----------------------------------------------------------------------------
 
-import net.jacksum.zzadopt.gnu.crypto.Registry;
-import net.jacksum.zzadopt.gnu.crypto.util.Util;
+import net.jacksum.zzadopt.org.gnu.crypto.Registry;
+import net.jacksum.zzadopt.org.gnu.crypto.util.Util;
 
 /**
  * <p>Implementation of SHA2 [SHA-224] per the IETF Draft Specification.</p>

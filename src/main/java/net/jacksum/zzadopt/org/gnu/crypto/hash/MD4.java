@@ -1,4 +1,4 @@
-package net.jacksum.zzadopt.gnu.crypto.hash;
+package net.jacksum.zzadopt.org.gnu.crypto.hash;
 
 // ----------------------------------------------------------------------------
 // $Id: MD4.java,v 1.6 2005/10/06 04:24:14 rsdio Exp $
@@ -43,13 +43,13 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 // do so, delete this exception statement from your version.
 // ----------------------------------------------------------------------------
 
-import net.jacksum.zzadopt.gnu.crypto.Registry;
-import net.jacksum.zzadopt.gnu.crypto.util.Util;
+import net.jacksum.zzadopt.org.gnu.crypto.Registry;
+import net.jacksum.zzadopt.org.gnu.crypto.util.Util;
 
 /**
  * <p>An implementation of Ron Rivest's MD4 message digest algorithm.</p>
  *
- * <p>MD4 was the precursor to the stronger {@link net.jacksum.zzadopt.gnu.crypto.hash.MD5}
+ * <p>MD4 was the precursor to the stronger {@link net.jacksum.zzadopt.org.gnu.crypto.hash.MD5}
  * algorithm, and while not considered cryptograpically secure itself, MD4 is
  * in use in various applications. It is slightly faster than MD5.</p>
  *

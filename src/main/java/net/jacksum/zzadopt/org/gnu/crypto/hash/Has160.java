@@ -1,4 +1,4 @@
-package net.jacksum.zzadopt.gnu.crypto.hash;
+package net.jacksum.zzadopt.org.gnu.crypto.hash;
 // ----------------------------------------------------------------------------
 // This file is not part of GNU Crypto
 //
@@ -6,8 +6,8 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 // and it has been developed by jonelo.
 // ----------------------------------------------------------------------------
 
-import net.jacksum.zzadopt.gnu.crypto.Registry;
-import net.jacksum.zzadopt.gnu.crypto.util.Util;
+import net.jacksum.zzadopt.org.gnu.crypto.Registry;
+import net.jacksum.zzadopt.org.gnu.crypto.util.Util;
 
 public class Has160 extends BaseHash {
 

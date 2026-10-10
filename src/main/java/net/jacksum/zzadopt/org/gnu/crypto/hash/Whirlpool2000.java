@@ -1,4 +1,4 @@
-package net.jacksum.zzadopt.gnu.crypto.hash;
+package net.jacksum.zzadopt.org.gnu.crypto.hash;
 
 // ----------------------------------------------------------------------------
 // This file is not part of GNU Crypto
@@ -7,8 +7,8 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 // and has been developed by jonelo.
 // ----------------------------------------------------------------------------
 
-import net.jacksum.zzadopt.gnu.crypto.Registry;
-import net.jacksum.zzadopt.gnu.crypto.util.Util;
+import net.jacksum.zzadopt.org.gnu.crypto.Registry;
+import net.jacksum.zzadopt.org.gnu.crypto.util.Util;
 
 /**
  * <p>Whirlpool2000, a new 512-bit hashing function operating on messages less than

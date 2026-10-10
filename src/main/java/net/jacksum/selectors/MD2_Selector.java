@@ -68,6 +68,6 @@ public class MD2_Selector extends Selector {
 
     @Override
     public AbstractChecksum getAlternateImplementation() throws NoSuchAlgorithmException {
-        return new MDgnu(net.jacksum.zzadopt.gnu.crypto.Registry.MD2_HASH);
+        return new MDgnu(net.jacksum.zzadopt.org.gnu.crypto.Registry.MD2_HASH);
     }
 }

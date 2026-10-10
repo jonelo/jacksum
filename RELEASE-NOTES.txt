@@ -49,9 +49,12 @@ Jacksum 4.0.2, Oct 10, 2026
   - --info prints the block size (16 bytes) of esch256 and esch384 now
   - updated the adopted GNU Crypto classes from 2.0.1 to 2.1.0, the final release of GNU Crypto;
     Jacksum's own algorithms and modifications are kept and documented in
-    net/jacksum/zzadopt/gnu/README.md; all hash values are unchanged
+    net/jacksum/zzadopt/org/gnu/README.md; all hash values are unchanged
   - removed the unused copy of GNU Classpath's gnu.java.security hash functions
     (net.jacksum.zzadopt.gnu.java.security)
+  - the adopted GNU Crypto classes have been moved from net.jacksum.zzadopt.gnu.crypto to
+    net.jacksum.zzadopt.org.gnu.crypto, like the other adopted code that is sorted by the top
+    level domain of its project; API users who used these classes directly must adapt their imports
 
 - Documentation
   - the help of option -c and the use case "Is the medium still readable?" explain that a

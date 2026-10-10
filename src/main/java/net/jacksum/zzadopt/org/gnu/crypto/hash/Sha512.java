@@ -1,7 +1,7 @@
-package net.jacksum.zzadopt.gnu.crypto.hash;
+package net.jacksum.zzadopt.org.gnu.crypto.hash;
 
 // ----------------------------------------------------------------------------
-// $Id: Sha384.java,v 1.2 2005/10/06 04:24:14 rsdio Exp $
+// $Id: Sha512.java,v 1.2 2005/10/06 04:24:14 rsdio Exp $
 //
 // Copyright (C) 2003 Free Software Foundation, Inc.
 //
@@ -43,11 +43,11 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 // do so, delete this exception statement from your version.
 // ----------------------------------------------------------------------------
 
-import net.jacksum.zzadopt.gnu.crypto.Registry;
-import net.jacksum.zzadopt.gnu.crypto.util.Util;
+import net.jacksum.zzadopt.org.gnu.crypto.Registry;
+import net.jacksum.zzadopt.org.gnu.crypto.util.Util;
 
 /**
- * <p>Implementation of SHA2-2 [SHA-384] per the IETF Draft Specification.</p>
+ * <p>Implementation of SHA2-3 [SHA-512] per the IETF Draft Specification.</p>
  *
  * <p>References:</p>
  * <ol>
@@ -58,7 +58,7 @@ import net.jacksum.zzadopt.gnu.crypto.util.Util;
  *
  * @version $Revision: 1.2 $
  */
-public class Sha384 extends BaseHash {
+public class Sha512 extends BaseHash {
 
    // Constants and variables
    // -------------------------------------------------------------------------
@@ -89,8 +89,8 @@ public class Sha384 extends BaseHash {
    private static final int BLOCK_SIZE = 128; // inner block size in bytes
 
    private static final String DIGEST0 =
-         "CB00753F45A35E8BB5A03D699AC65007272C32AB0EDED1631A8B605A43FF5BED" +
-         "8086072BA1E7CC2358BAECA134C825A7";
+         "DDAF35A193617ABACC417349AE20413112E6FA4E89A97EA20A9EEEE64B55D39A"+
+         "2192992A274FC1A836BA3C23A3FEEBBD454D4423643CE80E2A9AC94FA54CA49F";
 
    private static final long[] w = new long[80];
 
@@ -104,8 +104,8 @@ public class Sha384 extends BaseHash {
    // -------------------------------------------------------------------------
 
    /** Trivial 0-arguments constructor. */
-   public Sha384() {
-      super(Registry.SHA384_HASH, 48, BLOCK_SIZE);
+   public Sha512() {
+      super(Registry.SHA512_HASH, 64, BLOCK_SIZE);
    }
 
    /**
@@ -113,7 +113,7 @@ public class Sha384 extends BaseHash {
     *
     * @param md the instance to clone.
     */
-   private Sha384(Sha384 md) {
+   private Sha512(Sha512 md) {
       this();
 
       this.h0 = md.h0;
@@ -143,7 +143,7 @@ public class Sha384 extends BaseHash {
 
    @Override
    public Object clone() {
-      return new Sha384(this);
+      return new Sha512(this);
    }
 
    // Implementation of concrete methods in BaseHash --------------------------
@@ -201,32 +201,32 @@ public class Sha384 extends BaseHash {
          (byte)(h4 >>> 56), (byte)(h4 >>> 48), (byte)(h4 >>> 40), (byte)(h4 >>> 32),
          (byte)(h4 >>> 24), (byte)(h4 >>> 16), (byte)(h4 >>>  8), (byte) h4,
          (byte)(h5 >>> 56), (byte)(h5 >>> 48), (byte)(h5 >>> 40), (byte)(h5 >>> 32),
-         (byte)(h5 >>> 24), (byte)(h5 >>> 16), (byte)(h5 >>>  8), (byte) h5
-//         (byte)(h6 >>> 56), (byte)(h6 >>> 48), (byte)(h6 >>> 40), (byte)(h6 >>> 32),
-//         (byte)(h6 >>> 24), (byte)(h6 >>> 16), (byte)(h6 >>>  8), (byte) h6,
-//         (byte)(h7 >>> 56), (byte)(h7 >>> 48), (byte)(h7 >>> 40), (byte)(h7 >>> 32),
-//         (byte)(h7 >>> 24), (byte)(h7 >>> 16), (byte)(h7 >>>  8), (byte) h7
+         (byte)(h5 >>> 24), (byte)(h5 >>> 16), (byte)(h5 >>>  8), (byte) h5,
+         (byte)(h6 >>> 56), (byte)(h6 >>> 48), (byte)(h6 >>> 40), (byte)(h6 >>> 32),
+         (byte)(h6 >>> 24), (byte)(h6 >>> 16), (byte)(h6 >>>  8), (byte) h6,
+         (byte)(h7 >>> 56), (byte)(h7 >>> 48), (byte)(h7 >>> 40), (byte)(h7 >>> 32),
+         (byte)(h7 >>> 24), (byte)(h7 >>> 16), (byte)(h7 >>>  8), (byte) h7
       };
    }
 
    @Override
    protected void resetContext() {
-      // magic SHA-384 initialisation constants
-      h0 = 0xcbbb9d5dc1059ed8L;
-      h1 = 0x629a292a367cd507L;
-      h2 = 0x9159015a3070dd17L;
-      h3 = 0x152fecd8f70e5939L;
-      h4 = 0x67332667ffc00b31L;
-      h5 = 0x8eb44a8768581511L;
-      h6 = 0xdb0c2e0d64f98fa7L;
-      h7 = 0x47b5481dbefa4fa4L;
+      // magic SHA-512 initialisation constants
+      h0 = 0x6a09e667f3bcc908L;
+      h1 = 0xbb67ae8584caa73bL;
+      h2 = 0x3c6ef372fe94f82bL;
+      h3 = 0xa54ff53a5f1d36f1L;
+      h4 = 0x510e527fade682d1L;
+      h5 = 0x9b05688c2b3e6c1fL;
+      h6 = 0x1f83d9abfb41bd6bL;
+      h7 = 0x5be0cd19137e2179L;
    }
 
 
    @Override
    public boolean selfTest() {
       if (valid == null) {
-         Sha384 md = new Sha384();
+         Sha512 md = new Sha512();
          md.update((byte) 0x61); // a
          md.update((byte) 0x62); // b
          md.update((byte) 0x63); // c
@@ -268,9 +268,7 @@ public class Sha384 extends BaseHash {
       }
 
       for (r = 0; r < 80; r++) {
-
          T = H + (((E >>> 14) | (E << 50)) ^ ((E >>> 18) | (E << 46)) ^ ((E >>> 41) | (E << 23))) + ((E & F) ^ ((~E) & G)) + k[r] + w[r];
-         // T IS INCORRECT SOMEHOW
          T2 = (((A >>> 28) | (A << 36)) ^ ((A >>> 34) | (A << 30)) ^ ((A >>> 39) | (A << 25))) + ((A & B) ^ (A & C) ^ (B & C));
          H = G;
          G = F;

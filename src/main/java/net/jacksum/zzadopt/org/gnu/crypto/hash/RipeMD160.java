@@ -1,7 +1,7 @@
-package net.jacksum.zzadopt.gnu.crypto.hash;
+package net.jacksum.zzadopt.org.gnu.crypto.hash;
 
 // ----------------------------------------------------------------------------
-// $Id: RipeMD128.java,v 1.8 2005/10/06 04:24:14 rsdio Exp $
+// $Id: RipeMD160.java,v 1.8 2005/10/06 04:24:14 rsdio Exp $
 //
 // Copyright (C) 2001, 2002, Free Software Foundation, Inc.
 //
@@ -43,11 +43,11 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 // do so, delete this exception statement from your version.
 // ----------------------------------------------------------------------------
 
-import net.jacksum.zzadopt.gnu.crypto.Registry;
-import net.jacksum.zzadopt.gnu.crypto.util.Util;
+import net.jacksum.zzadopt.org.gnu.crypto.Registry;
+import net.jacksum.zzadopt.org.gnu.crypto.util.Util;
 
 /**
- * <p>RIPEMD-128 is a 128-bit message digest.</p>
+ * <p>RIPEMD-160 is a 160-bit message digest.</p>
  *
  * <p>References:</p>
  *
@@ -59,29 +59,30 @@ import net.jacksum.zzadopt.gnu.crypto.util.Util;
  *
  * @version $Revision: 1.8 $
  */
-public class RipeMD128 extends BaseHash {
+public class RipeMD160 extends BaseHash {
 
    // Constants and variables
    // -------------------------------------------------------------------------
 
    private static final int BLOCK_SIZE = 64; // inner block size in bytes
 
-   private static final String DIGEST0 = "CDF26213A150DC3ECB610F18F6B38B46";
+   private static final String DIGEST0 = "9C1185A5C5E9FC54612808977EE8F548B2258D31";
 
-   /** Constants for the transform method. */
    // selection of message word
    private static final int[] R  = {
       0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
       7,  4, 13,  1, 10,  6, 15,  3, 12,  0,  9,  5,  2, 14, 11,  8,
       3, 10, 14,  4,  9, 15,  8,  1,  2,  7,  0,  6, 13, 11,  5, 12,
-      1,  9, 11, 10,  0,  8, 12,  4, 13,  3,  7, 15, 14,  5,  6,  2
+      1,  9, 11, 10,  0,  8, 12,  4, 13,  3,  7, 15, 14,  5,  6,  2,
+      4,  0,  5,  9,  7, 12,  2, 10, 14,  1,  3,  8, 11,  6, 15, 13
    };
 
    private static final int[] Rp = {
        5, 14,  7,  0,  9,  2, 11,  4, 13,  6, 15,  8,  1, 10,  3, 12,
        6, 11,  3,  7,  0, 13,  5, 10, 14, 15,  8, 12,  4,  9,  1,  2,
       15,  5,  1,  3,  7, 14,  6,  9, 11,  8, 12,  2, 10,  0,  4, 13,
-       8,  6,  4,  1,  3, 11, 15,  0,  5, 12,  2, 13,  9,  7, 10, 14
+       8,  6,  4,  1,  3, 11, 15,  0,  5, 12,  2, 13,  9,  7, 10, 14,
+      12, 15, 10,  4,  1,  5,  8,  7,  6,  2, 13, 14,  0,  3,  9, 11
    };
 
    // amount for rotate left (rol)
@@ -89,21 +90,23 @@ public class RipeMD128 extends BaseHash {
       11, 14, 15, 12,  5,  8,  7,  9, 11, 13, 14, 15,  6,  7,  9,  8,
        7,  6,  8, 13, 11,  9,  7, 15,  7, 12, 15,  9, 11,  7, 13, 12,
       11, 13,  6,  7, 14,  9, 13, 15, 14,  8, 13,  6,  5, 12,  7,  5,
-      11, 12, 14, 15, 14, 15,  9,  8,  9, 14,  5,  6,  8,  6,  5, 12
+      11, 12, 14, 15, 14, 15,  9,  8,  9, 14,  5,  6,  8,  6,  5, 12,
+       9, 15,  5, 11,  6,  8, 13, 12,  5, 12, 13, 14, 11,  8,  5,  6
    };
 
    private static final int[] Sp = {
        8,  9,  9, 11, 13, 15, 15,  5,  7,  7,  8, 11, 14, 14, 12,  6,
        9, 13, 15,  7, 12,  8,  9, 11,  7,  7, 12,  7,  6, 15, 13, 11,
        9,  7, 15, 11,  8,  6,  6, 14, 12, 13,  5, 14, 13, 13,  7,  5,
-      15,  5,  8, 11, 14, 14,  6, 14,  6,  9, 12,  9, 12,  5, 15,  8
+      15,  5,  8, 11, 14, 14,  6, 14,  6,  9, 12,  9, 12,  5, 15,  8,
+       8,  5, 12,  9, 12,  5, 14,  6,  8, 13,  6,  5, 15, 13, 11, 11
    };
 
    /** caches the result of the correctness test, once executed. */
    private static Boolean valid;
 
-   /** 128-bit h0, h1, h2, h3 (interim result) */
-   private int h0, h1, h2, h3;
+   /** 160-bit h0, h1, h2, h3, h4 (interim result) */
+   private int h0, h1, h2, h3, h4;
 
    /** 512 bits work buffer = 16 x 32-bit words */
    private int[] X = new int[16];
@@ -112,8 +115,8 @@ public class RipeMD128 extends BaseHash {
    // -------------------------------------------------------------------------
 
    /** Trivial 0-arguments constructor. */
-   public RipeMD128() {
-      super(Registry.RIPEMD128_HASH, 16, BLOCK_SIZE);
+   public RipeMD160() {
+      super(Registry.RIPEMD160_HASH, 20, BLOCK_SIZE);
    }
 
    /**
@@ -121,13 +124,14 @@ public class RipeMD128 extends BaseHash {
     *
     * @param md the instance to clone.
     */
-   private RipeMD128(RipeMD128 md) {
+   private RipeMD160(RipeMD160 md) {
       this();
 
       this.h0 = md.h0;
       this.h1 = md.h1;
       this.h2 = md.h2;
       this.h3 = md.h3;
+      this.h4 = md.h4;
       this.count = md.count;
       this.buffer = (byte[]) md.buffer.clone();
    }
@@ -142,17 +146,16 @@ public class RipeMD128 extends BaseHash {
 
    @Override
    public Object clone() {
-      return new RipeMD128(this);
+      return (new RipeMD160(this));
    }
 
    // Implementation of concrete methods in BaseHash --------------------------
 
    @Override
    protected void transform (byte[] in, int offset) {
-      int A, B, C, D, Ap, Bp, Cp, Dp, T, s, i;
+      int A, B, C, D, E, Ap, Bp, Cp, Dp, Ep, T, s, i;
 
-      // encode 64 bytes from input block into an array of 16 unsigned
-      // integers.
+      // encode 64 bytes from input block into an array of 16 unsigned integers
       for (i = 0; i < 16; i++) {
          X[i] = (in[offset++] & 0xFF)       |
                 (in[offset++] & 0xFF) <<  8 |
@@ -164,51 +167,73 @@ public class RipeMD128 extends BaseHash {
       B = Bp = h1;
       C = Cp = h2;
       D = Dp = h3;
+      E = Ep = h4;
 
       for (i = 0; i < 16; i++) { // rounds 0...15
          s = S[i];
          T = A + (B ^ C ^ D) + X[i];
-         A = D; D = C; C = B; B = T << s | T >>> (32 - s);
+         A = E; E = D; D = C << 10 | C >>> 22; C = B;
+         B = (T << s | T >>> (32 - s)) + A;
 
          s = Sp[i];
-         T = Ap + ((Bp & Dp) | (Cp & ~Dp)) + X[Rp[i]] + 0x50A28BE6;
-         Ap = Dp; Dp = Cp; Cp = Bp; Bp = T << s | T >>> (32 - s);
+         T = Ap + (Bp ^ (Cp | ~Dp)) + X[Rp[i]] + 0x50A28BE6;
+         Ap = Ep; Ep = Dp; Dp = Cp << 10 | Cp >>> 22; Cp = Bp;
+         Bp = (T << s | T >>> (32 - s)) + Ap;
       }
 
       for ( ; i < 32; i++) { // rounds 16...31
          s = S[i];
          T = A + ((B & C) | (~B & D)) + X[R[i]] + 0x5A827999;
-         A = D; D = C; C = B; B = T << s | T >>> (32 - s);
+         A = E; E = D; D = C << 10 | C >>> 22; C = B;
+         B = (T << s | T >>> (32 - s)) + A;
 
          s = Sp[i];
-         T = Ap + ((Bp | ~Cp) ^ Dp) + X[Rp[i]] + 0x5C4DD124;
-         Ap = Dp; Dp = Cp; Cp = Bp; Bp = T << s | T >>> (32 - s);
+         T = Ap + ((Bp & Dp) | (Cp & ~Dp)) + X[Rp[i]] + 0x5C4DD124;
+         Ap = Ep; Ep = Dp; Dp = Cp << 10 | Cp >>> 22; Cp = Bp;
+         Bp = (T << s | T >>> (32 - s)) + Ap;
       }
 
       for ( ; i < 48; i++) { // rounds 32...47
          s = S[i];
          T = A + ((B | ~C) ^ D) + X[R[i]] + 0x6ED9EBA1;
-         A = D; D = C; C = B; B = T << s | T >>> (32 - s);
+         A = E; E = D; D = C << 10 | C >>> 22; C = B;
+         B = (T << s | T >>> (32 - s)) + A;
 
          s = Sp[i];
-         T = Ap + ((Bp & Cp) | (~Bp & Dp)) + X[Rp[i]] + 0x6D703EF3;
-         Ap = Dp; Dp = Cp; Cp = Bp; Bp = T << s | T >>> (32 - s);
+         T = Ap + ((Bp | ~Cp) ^ Dp) + X[Rp[i]] + 0x6D703EF3;
+         Ap = Ep; Ep = Dp; Dp = Cp << 10 | Cp >>> 22; Cp = Bp;
+         Bp = (T << s | T >>> (32 - s)) + Ap;
       }
 
       for ( ; i < 64; i++) { // rounds 48...63
          s = S[i];
          T = A + ((B & D) | (C & ~D)) + X[R[i]] + 0x8F1BBCDC;
-         A = D; D = C; C = B; B = T << s | T >>> (32 - s);
+         A = E; E = D; D = C << 10 | C >>> 22; C = B;
+         B = (T << s | T >>> (32 - s)) + A;
+
+         s = Sp[i];
+         T = Ap + ((Bp & Cp) | (~Bp & Dp)) + X[Rp[i]] + 0x7A6D76E9;
+         Ap = Ep; Ep = Dp; Dp = Cp << 10 | Cp >>> 22; Cp = Bp;
+         Bp = (T << s | T >>> (32 - s)) + Ap;
+      }
+
+      for ( ; i < 80; i++) { // rounds 64...79
+         s = S[i];
+         T = A + (B ^ (C | ~D)) + X[R[i]] + 0xA953FD4E;
+         A = E; E = D; D = C << 10 | C >>> 22; C = B;
+         B = (T << s | T >>> (32 - s)) + A;
 
          s = Sp[i];
          T = Ap + (Bp ^ Cp ^ Dp) + X[Rp[i]];
-         Ap = Dp; Dp = Cp; Cp = Bp; Bp = T << s | T >>> (32 - s);
+         Ap = Ep; Ep = Dp; Dp = Cp << 10 | Cp >>> 22; Cp = Bp;
+         Bp = (T << s | T >>> (32 - s)) + Ap;
       }
 
       T =  h1 + C + Dp;
-      h1 = h2 + D + Ap;
-      h2 = h3 + A + Bp;
-      h3 = h0 + B + Cp;
+      h1 = h2 + D + Ep;
+      h2 = h3 + E + Ap;
+      h3 = h4 + A + Bp;
+      h4 = h0 + B + Cp;
       h0 = T;
    }
 
@@ -241,7 +266,8 @@ public class RipeMD128 extends BaseHash {
          (byte) h0, (byte)(h0 >>> 8), (byte)(h0 >>> 16), (byte)(h0 >>> 24),
          (byte) h1, (byte)(h1 >>> 8), (byte)(h1 >>> 16), (byte)(h1 >>> 24),
          (byte) h2, (byte)(h2 >>> 8), (byte)(h2 >>> 16), (byte)(h2 >>> 24),
-         (byte) h3, (byte)(h3 >>> 8), (byte)(h3 >>> 16), (byte)(h3 >>> 24)
+         (byte) h3, (byte)(h3 >>> 8), (byte)(h3 >>> 16), (byte)(h3 >>> 24),
+         (byte) h4, (byte)(h4 >>> 8), (byte)(h4 >>> 16), (byte)(h4 >>> 24)
       };
 
       return result;
@@ -249,17 +275,18 @@ public class RipeMD128 extends BaseHash {
 
    @Override
    protected void resetContext() {
-      // magic RIPEMD128 initialisation constants
+      // magic RIPEMD160 initialisation constants
       h0 = 0x67452301;
       h1 = 0xEFCDAB89;
       h2 = 0x98BADCFE;
       h3 = 0x10325476;
+      h4 = 0xC3D2E1F0;
    }
 
    @Override
    public boolean selfTest() {
       if (valid == null) {
-         valid = DIGEST0.equals(Util.toString(new RipeMD128().digest()));
+         valid = DIGEST0.equals(Util.toString(new RipeMD160().digest()));
       }
       return valid;
    }

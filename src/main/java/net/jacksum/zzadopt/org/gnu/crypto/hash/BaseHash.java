@@ -1,4 +1,4 @@
-package net.jacksum.zzadopt.gnu.crypto.hash;
+package net.jacksum.zzadopt.org.gnu.crypto.hash;
 
 // ----------------------------------------------------------------------------
 // $Id: BaseHash.java,v 1.10 2005/10/06 04:24:14 rsdio Exp $

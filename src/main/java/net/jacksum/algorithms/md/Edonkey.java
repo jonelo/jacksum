@@ -32,8 +32,8 @@ package net.jacksum.algorithms.md;
 
 import java.security.NoSuchAlgorithmException;
 import net.jacksum.algorithms.AbstractChecksum;
-import net.jacksum.zzadopt.gnu.crypto.hash.HashFactory;
-import net.jacksum.zzadopt.gnu.crypto.hash.IMessageDigest;
+import net.jacksum.zzadopt.org.gnu.crypto.hash.HashFactory;
+import net.jacksum.zzadopt.org.gnu.crypto.hash.IMessageDigest;
 import net.jacksum.formats.Encoding;
 
 /**

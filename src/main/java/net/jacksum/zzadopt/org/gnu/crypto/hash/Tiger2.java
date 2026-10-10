@@ -1,4 +1,4 @@
-package net.jacksum.zzadopt.gnu.crypto.hash;
+package net.jacksum.zzadopt.org.gnu.crypto.hash;
 
 // ----------------------------------------------------------------------------
 // This file is not part of GNU Crypto
@@ -10,8 +10,8 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 // http://www.prevalent.de/index.pl?site=2&subsite=5&fileid=9009
 
 
-import net.jacksum.zzadopt.gnu.crypto.Registry;
-import net.jacksum.zzadopt.gnu.crypto.util.Util;
+import net.jacksum.zzadopt.org.gnu.crypto.Registry;
+import net.jacksum.zzadopt.org.gnu.crypto.util.Util;
 
 /**
  * The Tiger2 message digest. Tiger2 was designed by Ross Anderson and Eli

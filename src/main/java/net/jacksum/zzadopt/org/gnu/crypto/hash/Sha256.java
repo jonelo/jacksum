@@ -1,4 +1,4 @@
-package net.jacksum.zzadopt.gnu.crypto.hash;
+package net.jacksum.zzadopt.org.gnu.crypto.hash;
 
 // ----------------------------------------------------------------------------
 // $Id: Sha256.java,v 1.2 2005/10/06 04:24:14 rsdio Exp $
@@ -43,8 +43,8 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 // do so, delete this exception statement from your version.
 // ----------------------------------------------------------------------------
 
-import net.jacksum.zzadopt.gnu.crypto.Registry;
-import net.jacksum.zzadopt.gnu.crypto.util.Util;
+import net.jacksum.zzadopt.org.gnu.crypto.Registry;
+import net.jacksum.zzadopt.org.gnu.crypto.util.Util;
 
 /**
  * <p>Implementation of SHA2 [SHA-256] per the IETF Draft Specification.</p>

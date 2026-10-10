@@ -60,6 +60,6 @@ public class SHA2_224_Selector extends Selector {
     
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
-        return new MDgnu(net.jacksum.zzadopt.gnu.crypto.Registry.SHA224_HASH);
+        return new MDgnu(net.jacksum.zzadopt.org.gnu.crypto.Registry.SHA224_HASH);
     }
 }

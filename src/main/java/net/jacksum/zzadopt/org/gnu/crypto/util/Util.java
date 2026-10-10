@@ -1,4 +1,4 @@
-package net.jacksum.zzadopt.gnu.crypto.util;
+package net.jacksum.zzadopt.org.gnu.crypto.util;
 
 // ----------------------------------------------------------------------------
 // $Id: Util.java,v 1.11 2005/10/06 04:24:19 rsdio Exp $

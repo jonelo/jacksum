@@ -1,54 +1,17 @@
-package net.jacksum.zzadopt.gnu.crypto.hash;
+package net.jacksum.zzadopt.org.gnu.crypto.hash;
 
 // ----------------------------------------------------------------------------
-// $Id: Whirlpool2001.java,v 1.10 2005/10/06 04:24:14 rsdio Exp $
-// Jacksum: renamed from Whirlpool, see net/jacksum/zzadopt/gnu/README.md
+// This file is not part of GNU Crypto
 //
-// Copyright (C) 2001, 2002, Free Software Foundation, Inc.
-//
-// This file is part of GNU Crypto.
-//
-// GNU Crypto is free software; you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
-//
-// GNU Crypto is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; see the file COPYING.  If not, write to the
-//
-//    Free Software Foundation Inc.,
-//    51 Franklin Street, Fifth Floor,
-//    Boston, MA 02110-1301
-//    USA
-//
-// Linking this library statically or dynamically with other modules is
-// making a combined work based on this library.  Thus, the terms and
-// conditions of the GNU General Public License cover the whole
-// combination.
-//
-// As a special exception, the copyright holders of this library give
-// you permission to link this library with independent modules to
-// produce an executable, regardless of the license terms of these
-// independent modules, and to copy and distribute the resulting
-// executable under terms of your choice, provided that you also meet,
-// for each linked independent module, the terms and conditions of the
-// license of that module.  An independent module is a module which is
-// not derived from or based on this library.  If you modify this
-// library, you may extend this exception to your version of the
-// library, but you are not obligated to do so.  If you do not wish to
-// do so, delete this exception statement from your version.
+// Whirlpool2003 has been derived from the Whirlpool class in GNU Crypto,
+// and has been developed by jonelo.
 // ----------------------------------------------------------------------------
 
-import net.jacksum.zzadopt.gnu.crypto.Registry;
-import net.jacksum.zzadopt.gnu.crypto.util.Util;
+import net.jacksum.zzadopt.org.gnu.crypto.Registry;
+import net.jacksum.zzadopt.org.gnu.crypto.util.Util;
 
 /**
- * <p>Whirlpool2001, a new 512-bit hashing function operating on messages less than
+ * <p>Whirlpool2003, a new 512-bit hashing function operating on messages less than
  * 2 ** 256 bits in length. The function structure is designed according to the
  * Wide Trail strategy and permits a wide variety of implementation trade-offs.
  * </p>
@@ -58,15 +21,15 @@ import net.jacksum.zzadopt.gnu.crypto.util.Util;
  * <p>References:</p>
  *
  * <ol>
- *    <li><a href="http://planeta.terra.com.br/informatica/paulobarreto/WhirlpoolPage.html">
+ *    <li><a href="http://planeta.terra.com.br/informatica/paulobarreto/Whirlpool2003Page.html">
  *    The WHIRLPOOL Hashing Function</a>.<br>
  *    <a href="mailto:paulo.barreto@terra.com.br">Paulo S.L.M. Barreto</a> and
  *    <a href="mailto:vincent.rijmen@esat.kuleuven.ac.be">Vincent Rijmen</a>.</li>
  * </ol>
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.9 $
  */
-public final class Whirlpool2001 extends BaseHash {
+public final class Whirlpool2003 extends BaseHash {
 
    // Debugging methods and variables
    // -------------------------------------------------------------------------
@@ -81,8 +44,8 @@ public final class Whirlpool2001 extends BaseHash {
 
    /** The digest of the 0-bit long message. */
    private static final String DIGEST0 =
-         "470F0409ABAA446E49667D4EBE12A14387CEDBD10DD17B8243CAD550A089DC0F"+
-         "EEA7AA40F6C2AAAB71C6EBD076E43C7CFCA0AD32567897DCB5969861049A0F5A";
+         "19FA61D75522A4669B44E39C1D2E1726C530232130D407F89AFEE0964997F7A7"+
+         "3E83BE698B288FEBCF88E3E03C4F0757EA8964E59B63D93708B138CC42A66EB3";
 
    private static final int R = 10; // default number of rounds
 
@@ -162,8 +125,8 @@ public final class Whirlpool2001 extends BaseHash {
          s9 = s8 ^ s;
 
          S[i] = (byte) s;
-         T0[i] = t = s  << 56 | s  << 48 | s3 << 40 | s  << 32 |
-                     s5 << 24 | s8 << 16 | s9 <<  8 | s5;
+         T0[i] = t = s  << 56 | s  << 48 | s4 << 40 | s  << 32 |
+                     s8 << 24 | s5 << 16 | s2 <<  8 | s9;
          T1[i] = t >>>  8 | t << 56;
          T2[i] = t >>> 16 | t << 48;
          T3[i] = t >>> 24 | t << 40;
@@ -270,8 +233,8 @@ public final class Whirlpool2001 extends BaseHash {
    // -------------------------------------------------------------------------
 
    /** Trivial 0-arguments constructor. */
-   public Whirlpool2001() {
-      super(Registry.WHIRLPOOL2001_HASH, 64, BLOCK_SIZE);
+   public Whirlpool2003() {
+      super(Registry.WHIRLPOOL2003_HASH, 64, BLOCK_SIZE);
    }
 
    /**
@@ -279,7 +242,7 @@ public final class Whirlpool2001 extends BaseHash {
     *
     * @param md the instance to clone.
     */
-   private Whirlpool2001(Whirlpool2001 md) {
+   private Whirlpool2003(Whirlpool2003 md) {
       this();
 
       this.H0 = md.H0;
@@ -304,7 +267,7 @@ public final class Whirlpool2001 extends BaseHash {
 
    @Override
    public Object clone() {
-      return (new Whirlpool2001(this));
+      return (new Whirlpool2003(this));
    }
 
    // Implementation of concrete methods in BaseHash --------------------------
@@ -550,7 +513,7 @@ public final class Whirlpool2001 extends BaseHash {
    @Override
    public boolean selfTest() {
       if (valid == null) {
-         valid = DIGEST0.equals(Util.toString(new Whirlpool2001().digest()));
+         valid = DIGEST0.equals(Util.toString(new Whirlpool2003().digest()));
       }
       return valid;
    }

@@ -59,6 +59,6 @@ public class Tiger160_Selector extends Selector {
 
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
-        return new MDgnu(net.jacksum.zzadopt.gnu.crypto.Registry.TIGER160_HASH);
+        return new MDgnu(net.jacksum.zzadopt.org.gnu.crypto.Registry.TIGER160_HASH);
     }
 }

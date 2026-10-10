@@ -70,6 +70,6 @@ public class Whirlpool2_Selector extends Selector {
     
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
-        return new MDgnu(net.jacksum.zzadopt.gnu.crypto.Registry.WHIRLPOOL2003_HASH);
+        return new MDgnu(net.jacksum.zzadopt.org.gnu.crypto.Registry.WHIRLPOOL2003_HASH);
     }
 }

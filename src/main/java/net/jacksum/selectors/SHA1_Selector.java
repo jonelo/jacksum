@@ -71,6 +71,6 @@ public class SHA1_Selector extends Selector {
 
     @Override
     public AbstractChecksum getAlternateImplementation() throws NoSuchAlgorithmException {
-        return new MDgnu(net.jacksum.zzadopt.gnu.crypto.Registry.SHA160_HASH);
+        return new MDgnu(net.jacksum.zzadopt.org.gnu.crypto.Registry.SHA160_HASH);
     }
 }

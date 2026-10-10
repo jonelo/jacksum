@@ -1,25 +1,87 @@
-package net.jacksum.zzadopt.gnu.crypto.hash;
+package net.jacksum.zzadopt.org.gnu.crypto.hash;
 
 // ----------------------------------------------------------------------------
-// This file is not part of GNU Crypto
+// $Id: Sha160.java,v 1.10 2005/10/06 04:24:14 rsdio Exp $
 //
-// Sha0 has been derived from the Sha160 class in GNU Crypto,
-// and has been developed by jonelo.
+// Copyright (C) 2001, 2002, Free Software Foundation, Inc.
+//
+// This file is part of GNU Crypto.
+//
+// GNU Crypto is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2, or (at your option)
+// any later version.
+//
+// GNU Crypto is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; see the file COPYING.  If not, write to the
+//
+//    Free Software Foundation Inc.,
+//    51 Franklin Street, Fifth Floor,
+//    Boston, MA 02110-1301
+//    USA
+//
+// Linking this library statically or dynamically with other modules is
+// making a combined work based on this library.  Thus, the terms and
+// conditions of the GNU General Public License cover the whole
+// combination.
+//
+// As a special exception, the copyright holders of this library give
+// you permission to link this library with independent modules to
+// produce an executable, regardless of the license terms of these
+// independent modules, and to copy and distribute the resulting
+// executable under terms of your choice, provided that you also meet,
+// for each linked independent module, the terms and conditions of the
+// license of that module.  An independent module is a module which is
+// not derived from or based on this library.  If you modify this
+// library, you may extend this exception to your version of the
+// library, but you are not obligated to do so.  If you do not wish to
+// do so, delete this exception statement from your version.
 // ----------------------------------------------------------------------------
-// tests can be done with
-// openssl dgst -sha file1.bin file2.bin
 
-import net.jacksum.zzadopt.gnu.crypto.Registry;
-import net.jacksum.zzadopt.gnu.crypto.util.Util;
+import net.jacksum.zzadopt.org.gnu.crypto.Registry;
+import net.jacksum.zzadopt.org.gnu.crypto.util.Util;
 
-public class Sha0 extends BaseHash {
+/**
+ * <p>The Secure Hash Algorithm (SHA-1) is required for use with the Digital
+ * Signature Algorithm (DSA) as specified in the Digital Signature Standard
+ * (DSS) and whenever a secure hash algorithm is required for federal
+ * applications. For a message of length less than 2^64 bits, the SHA-1
+ * produces a 160-bit condensed representation of the message called a message
+ * digest. The message digest is used during generation of a signature for the
+ * message. The SHA-1 is also used to compute a message digest for the received
+ * version of the message during the process of verifying the signature. Any
+ * change to the message in transit will, with very high probability, result in
+ * a different message digest, and the signature will fail to verify.</p>
+ *
+ * <p>The SHA-1 is designed to have the following properties: it is
+ * computationally infeasible to find a message which corresponds to a given
+ * message digest, or to find two different messages which produce the same
+ * message digest.</p>
+ *
+ * <p>References:</p>
+ *
+ * <ol>
+ *    <li><a href="http://www.itl.nist.gov/fipspubs/fip180-1.htm">SECURE HASH
+ *    STANDARD</a><br>
+ *    Federal Information, Processing Standards Publication 180-1, 1995 April 17.
+ *    </li>
+ * </ol>
+ *
+ * @version $Revision: 1.10 $
+ */
+public class Sha160 extends BaseHash {
 
    // Constants and variables
    // -------------------------------------------------------------------------
 
    private static final int BLOCK_SIZE = 64; // inner block size in bytes
 
-   private static final String DIGEST0 = "0164B8A914CD2A5E74C4F7FF082C4D97F1EDF880";
+   private static final String DIGEST0 = "A9993E364706816ABA3E25717850C26C9CD0D89D";
 
    private static final int[] w = new int[80];
 
@@ -33,8 +95,8 @@ public class Sha0 extends BaseHash {
    // -------------------------------------------------------------------------
 
    /** Trivial 0-arguments constructor. */
-   public Sha0() {
-      super(Registry.SHA0_HASH, 20, BLOCK_SIZE);
+   public Sha160() {
+      super(Registry.SHA160_HASH, 20, BLOCK_SIZE);
    }
 
    /**
@@ -42,7 +104,7 @@ public class Sha0 extends BaseHash {
     *
     * @param md the instance to clone.
     */
-   private Sha0(Sha0 md) {
+   private Sha160(Sha160 md) {
       this();
 
       this.h0 = md.h0;
@@ -59,6 +121,20 @@ public class Sha0 extends BaseHash {
 
    public static final int[]
    G(int hh0, int hh1, int hh2, int hh3, int hh4, byte[] in, int offset) {
+//      int[] w = new int[80];
+//      int i, T;
+//      for (i = 0; i < 16; i++) {
+//         w[i] = in[offset++]         << 24 |
+//               (in[offset++] & 0xFF) << 16 |
+//               (in[offset++] & 0xFF) <<  8 |
+//               (in[offset++] & 0xFF);
+//      }
+//      for (i = 16; i < 80; i++) {
+//         T = w[i-3] ^ w[i-8] ^ w[i-14] ^ w[i-16];
+//         w[i] = T << 1 | T >>> 31;
+//      }
+
+//      return sha(hh0, hh1, hh2, hh3, hh4, in, offset, w);
       return sha(hh0, hh1, hh2, hh3, hh4, in, offset);
    }
 
@@ -69,13 +145,26 @@ public class Sha0 extends BaseHash {
 
    @Override
    public Object clone() {
-      return new Sha0(this);
+      return new Sha160(this);
    }
 
    // Implementation of concrete methods in BaseHash --------------------------
 
    @Override
    protected void transform(byte[] in, int offset) {
+//      int i, T;
+//      for (i = 0; i < 16; i++) {
+//         W[i] = in[offset++]         << 24 |
+//               (in[offset++] & 0xFF) << 16 |
+//               (in[offset++] & 0xFF) <<  8 |
+//               (in[offset++] & 0xFF);
+//      }
+//      for (i = 16; i < 80; i++) {
+//         T = W[i-3] ^ W[i-8] ^ W[i-14] ^ W[i-16];
+//         W[i] = T << 1 | T >>> 31;
+//      }
+
+//      int[] result = sha(h0, h1, h2, h3, h4, in, offset, W);
       int[] result = sha(h0, h1, h2, h3, h4, in, offset);
 
       h0 = result[0];
@@ -123,7 +212,7 @@ public class Sha0 extends BaseHash {
 
    @Override
    protected void resetContext() {
-      // magic SHA-0/SHA-1 initialisation constants
+      // magic SHA-1/RIPEMD160 initialisation constants
       h0 = 0x67452301;
       h1 = 0xEFCDAB89;
       h2 = 0x98BADCFE;
@@ -134,7 +223,7 @@ public class Sha0 extends BaseHash {
    @Override
    public boolean selfTest() {
       if (valid == null) {
-         Sha0 md = new Sha0();
+         Sha160 md = new Sha160();
          md.update((byte) 0x61); // a
          md.update((byte) 0x62); // b
          md.update((byte) 0x63); // c
@@ -162,9 +251,10 @@ public class Sha0 extends BaseHash {
                (in[offset++] & 0xFF) <<  8 |
                (in[offset++] & 0xFF);
       }
-      // SHA0 only
-      for (r = 16; r < 80; r++)
-         w[r] = w[r-3] ^ w[r-8] ^ w[r-14] ^ w[r-16];
+      for (r = 16; r < 80; r++) {
+         T = w[r-3] ^ w[r-8] ^ w[r-14] ^ w[r-16];
+         w[r] = T << 1 | T >>> 31;
+      }
 
       // rounds 0-19
       for (r = 0; r < 20; r++) {

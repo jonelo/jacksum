@@ -1,9 +1,9 @@
-package net.jacksum.zzadopt.gnu.crypto;
+package net.jacksum.zzadopt.org.gnu.crypto;
 
 // ----------------------------------------------------------------------------
 // $Id: Registry.java.in,v 1.4 2005/10/06 04:24:13 rsdio Exp $
 // Jacksum: reduced to the names of the hash functions, extended by Jacksum's algorithms,
-// see net/jacksum/zzadopt/gnu/README.md
+// see net/jacksum/zzadopt/org/gnu/README.md
 //
 // Copyright (C) 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 //
