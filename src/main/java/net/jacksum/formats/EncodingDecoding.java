@@ -32,7 +32,27 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
 
+/**
+ * Encodes bytes into strings, and decodes sequences into bytes.
+ */
 public class EncodingDecoding {
+
+    /**
+     * Creates a new EncodingDecoding. All methods are static, so an instance is not required.
+     */
+    public EncodingDecoding() {
+    }
+
+    /**
+     * Encodes bytes using the given encoding.
+     *
+     * @param bytes the bytes to be encoded, can be null
+     * @param encoding the encoding
+     * @param grouping the number of bytes in a group, 0 for no grouping; it applies to the
+     * encodings {@code HEX} and {@code HEX_UPPERCASE} only
+     * @param groupChar the character that separates the groups
+     * @return the encoded bytes, or an empty string if bytes is null
+     */
     public static String encodeBytes(byte[] bytes, Encoding encoding, int grouping, Character groupChar) {
         if (bytes == null) {
             // there is nothing to encode, e.g. #SEQUENCE in a format string while option -q has not been set
@@ -98,6 +118,16 @@ public class EncodingDecoding {
         }
     }
 
+    /**
+     * Decodes a sequence of the given type into bytes. For the type FILE, the sequence is
+     * the name of a file whose content (at most 128 MiB) is read.
+     *
+     * @param type the type of the sequence
+     * @param sequence the sequence
+     * @return the bytes represented by the sequence
+     * @throws IllegalArgumentException if the sequence is invalid for the type, or if the
+     * file cannot be read
+     */
     public static byte[] sequence2bytes(Sequence.Type type, String sequence)
             throws IllegalArgumentException {
         byte[] bytes;

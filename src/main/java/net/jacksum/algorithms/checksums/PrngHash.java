@@ -27,14 +27,20 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A 32 bit PRNG (pseudo random number generator) hash with customizable
+ * init, multiplier, and add values.
+ */
 public class PrngHash extends AbstractChecksum implements PrngHashInfo {
 
+    /** The current hash value. */
     protected long value;
 
     public long getMultiplier() {
         return multiplier;
     }
 
+    /** The multiplier (32 bits). */
     protected long multiplier;
 
     public long getInitValue() {
@@ -45,7 +51,9 @@ public class PrngHash extends AbstractChecksum implements PrngHashInfo {
         return add;
     }
 
+    /** The init value (32 bits). */
     protected long initValue;
+    /** The value that is added (32 bits). */
     protected long add;
 
     private final static long DEFAULT_INIT = 0x811c9dc5L;
@@ -59,10 +67,22 @@ public class PrngHash extends AbstractChecksum implements PrngHashInfo {
         formatPreferences.setSeparator(" ");
     }
 
+    /**
+     * Creates a new PrngHash with the default parameters
+     * (init=0x811c9dc5, multiplier=0x01000193, add=0).
+     */
     public PrngHash() {
         this(DEFAULT_INIT, DEFAULT_MULTIPLIER, DEFAULT_ADD);
     }
 
+    /**
+     * Creates a new PrngHash with the given parameters.
+     *
+     * @param initValue the init value (32 bits)
+     * @param multiplier the multiplier (32 bits)
+     * @param add the value that is added (32 bits)
+     * @throws IllegalArgumentException if a value is larger than 32 bits
+     */
     public PrngHash(long initValue, long multiplier, long add) throws IllegalArgumentException{
         super();
         sharedInit();

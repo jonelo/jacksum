@@ -33,6 +33,10 @@ import net.jacksum.parameters.combined.GatheringParameters;
 import net.jacksum.parameters.combined.ProducerConsumerParameters;
 import net.jacksum.parameters.base.CustomizedFormatParameters;
 
+/**
+ * Takes messages from the input queue, lets a thread pool hash the requested files, and
+ * forwards the resulting messages to the output queue.
+ */
 public class MessageWorker implements Runnable {
 
     // the largest work queue that is allocated, whatever number of threads is requested;
@@ -47,6 +51,15 @@ public class MessageWorker implements Runnable {
     private final CustomizedFormatParameters formatParameters;
     private final GatheringParameters gatheringParameters;
 
+    /**
+     * Creates a new message worker.
+     *
+     * @param parameters the parameters for formatting and gathering
+     * @param cores the number of threads that hash files concurrently
+     * @param algorithmPool the pool that provides the algorithm instances
+     * @param inputQueue the queue to take the messages from
+     * @param outputQueue the queue to put the processed messages to
+     */
     public MessageWorker(ProducerConsumerParameters parameters, int cores, AlgorithmPool algorithmPool, BlockingQueue<Message> inputQueue, BlockingQueue<Message> outputQueue) {
         this.cores = cores;
         this.algorithmPool = algorithmPool;

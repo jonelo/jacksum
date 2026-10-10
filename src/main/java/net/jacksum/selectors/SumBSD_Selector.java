@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.SumBSD;
 
 /**
+ * Selects the implementation(s) of the algorithm sum (BSD Unix).
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class SumBSD_Selector extends Selector {
     
     private static final String ID = "sum_bsd";
     
+    /**
+     * Creates a new selector for the algorithm sum (BSD Unix).
+     */
+    public SumBSD_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

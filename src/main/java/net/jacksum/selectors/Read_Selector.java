@@ -29,11 +29,18 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.primitive.Read;
 
 /**
+ * Selects the implementation(s) of the algorithm Read.
  *
  * @author johann
  */
 public class Read_Selector extends Selector {
     
+    /**
+     * Creates a new Read_Selector.
+     */
+    public Read_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

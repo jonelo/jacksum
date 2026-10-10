@@ -27,6 +27,9 @@ import net.jacksum.parameters.combined.FormatParameters;
 import net.jacksum.parameters.base.PathParameters;
 import net.jacksum.parameters.base.StdinParameters;
 
+/**
+ * The parameters that a message consumer requires.
+ */
 public interface ConsumerParameters extends PathParameters, CustomizedFormatParameters, FormatParameters, StdinParameters {
     
 }

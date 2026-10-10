@@ -46,6 +46,10 @@ import net.jacksum.JacksumAPI;
 import net.jacksum.algorithms.AbstractChecksum;
 
 /**
+ * An algorithm together with its weight, that is its relative computational
+ * cost, which is used to balance the load among different worker threads.
+ * Instances are ordered by descending weight.
+ *
  * @author Federico Tello Gentile
  * contributor: Johann N. Loefflmann
  */
@@ -1054,6 +1058,12 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         return st / 1000000;
     }
 
+    /**
+     * Returns the weight (relative computational cost) of an algorithm.
+     *
+     * @param name the name or alias of the algorithm
+     * @return the weight, or 1 if there is no weight for the algorithm
+     */
     public static int getWeight(String name) {
         Integer answer = WEIGHTS.get(name);
         if (answer == null) {
@@ -1065,6 +1075,13 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         return answer;
     }
 
+    /**
+     * Returns the rank of an algorithm by weight, that is 1 plus the number
+     * of algorithms with a lower weight (the fastest algorithms have rank 1).
+     *
+     * @param name the name or alias of the algorithm
+     * @return the rank
+     */
     public static int getRank(String name) {
         int rank = 1;
         int reference = getWeight(name);
@@ -1076,6 +1093,11 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         return rank;
     }
 
+    /**
+     * Returns the highest weight of all algorithms.
+     *
+     * @return the maximum weight
+     */
     public static int getMaxWeight() {
         int max = 0;
         for (int weight : WEIGHTS.values()) {
@@ -1088,6 +1110,13 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
     }
 
 
+    /**
+     * Creates a HashAlgorithm for the given checksum instance, with the
+     * weight that belongs to its name.
+     *
+     * @param cs the checksum instance
+     * @return the HashAlgorithm
+     */
     public static HashAlgorithm getAlgorithm(AbstractChecksum cs) {
         String name = cs.getName();
         return new HashAlgorithm(name, cs);
@@ -1110,14 +1139,29 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         this.cs = cs;
     }
 
+    /**
+     * Returns the name of the algorithm.
+     *
+     * @return the name of the algorithm
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the weight (relative computational cost) of the algorithm.
+     *
+     * @return the weight, 1 if there is no weight for the algorithm
+     */
     public int getWeight() {
         return weight;
     }
 
+    /**
+     * Returns the checksum instance.
+     *
+     * @return the checksum instance
+     */
     public AbstractChecksum getChecksum() {
         return this.cs;
     }

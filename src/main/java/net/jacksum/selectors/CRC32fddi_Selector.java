@@ -31,6 +31,7 @@ import net.jacksum.algorithms.checksums.SumPlan9;
 import net.jacksum.algorithms.crcs.CrcGeneric;
 
 /**
+ * Selects the implementation(s) of the algorithm CRC-32 (FDDI).
  *
  * @author Johann N. Löfflmann
  */
@@ -38,6 +39,12 @@ public class CRC32fddi_Selector extends Selector {
 
     private static final String ID = "crc32_fddi";
     
+    /**
+     * Creates a new CRC32fddi_Selector.
+     */
+    public CRC32fddi_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

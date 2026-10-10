@@ -28,6 +28,10 @@ import java.util.concurrent.BlockingQueue;
 
 import net.jacksum.parameters.combined.ProducerConsumerParameters;
 
+/**
+ * Wires a producer that walks the file tree, a worker that hashes the files,
+ * and a consumer that processes the results, connected by blocking queues.
+ */
 public class Engine {
 
     private final MessageProducer fileProducer;
@@ -39,6 +43,13 @@ public class Engine {
 
 
 
+    /**
+     * Creates a new Engine.
+     *
+     * @param parameters the parameters for the producer and the worker
+     * @param consumer the consumer that processes the hashed files
+     * @throws NoSuchAlgorithmException if a requested algorithm is not supported
+     */
     public Engine(ProducerConsumerParameters parameters, MessageConsumer consumer)
             throws NoSuchAlgorithmException {
     //    this.parameters = parameters;
@@ -57,6 +68,10 @@ public class Engine {
         outputConsumer.setQueue(outputQueue);
     }
 
+    /**
+     * Starts the producer, the worker and the consumer in separate threads,
+     * and waits until the consumer has finished.
+     */
     public void start() {
         // Starting producer to produce messages for the inputQueue
         new Thread(fileProducer).start();

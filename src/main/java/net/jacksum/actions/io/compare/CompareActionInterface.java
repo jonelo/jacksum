@@ -23,11 +23,32 @@
 
 package net.jacksum.actions.io.compare;
 
+/**
+ * The parameters for an action that compares a computed hash value with an expected one.
+ */
 public interface CompareActionInterface {
 
+    /**
+     * Gets the expected hash value as it has been specified by the user.
+     *
+     * @return the expected hash value as a string
+     */
     String getExpectedString();
 
+    /**
+     * Gets the expected hash value decoded to bytes.
+     * Implementations may throw an {@code UnsupportedOperationException} if the
+     * expected value cannot be decoded to bytes (e.g. because of the encoding), in which
+     * case the string representation must be compared instead.
+     *
+     * @return the expected hash value as a byte array
+     */
     byte[] getExpectedBytes();
 
+    /**
+     * Gets the format for the output.
+     *
+     * @return the format, or null if none has been set
+     */
     String getFormat();
 }

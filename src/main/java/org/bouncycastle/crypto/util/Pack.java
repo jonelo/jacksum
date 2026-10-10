@@ -3,6 +3,7 @@ package org.bouncycastle.crypto.util;
 /**
  * @deprecated use org.bouncycastle.util.pack
  */
+@Deprecated
 public abstract class Pack
 {
     public static int bigEndianToInt(byte[] bs, int off)

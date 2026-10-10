@@ -27,8 +27,17 @@ import java.security.NoSuchAlgorithmException;
 import net.jacksum.algorithms.crcs.CrcGeneric;
 
 
+/**
+ * A class that can be used to compute the checksum of the Plan 9 sum command,
+ * a 32 bit CRC that also processes the data length.
+ */
 public class SumPlan9 extends CrcGeneric {
 
+    /**
+     * Creates a new SumPlan9 checksum object.
+     *
+     * @throws NoSuchAlgorithmException if the underlying CRC parameters are invalid
+     */
     public SumPlan9() throws NoSuchAlgorithmException{
        super (32, 0x04C11DB7, 0, true, true, 0);      
     }

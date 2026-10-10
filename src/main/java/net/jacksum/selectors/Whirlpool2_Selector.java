@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithm Whirlpool.
  *
  * @author johann
  */
@@ -50,6 +51,12 @@ public class Whirlpool2_Selector extends Selector {
     }    
     
     
+    /**
+     * Creates a new Whirlpool2_Selector.
+     */
+    public Whirlpool2_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         return availableAlgorithms;

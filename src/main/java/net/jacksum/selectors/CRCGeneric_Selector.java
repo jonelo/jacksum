@@ -29,10 +29,17 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.crcs.CrcGeneric;
 
 /**
+ * Selects the implementation(s) of the customizable CRC algorithms (IDs starting with {@code crc:}).
  *
  * @author johann
  */
 public class CRCGeneric_Selector extends Selector {
+
+    /**
+     * Creates a new CRCGeneric_Selector.
+     */
+    public CRCGeneric_Selector() {
+    }
 
     @Override
     public boolean doesMatch(String name) {

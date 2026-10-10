@@ -23,10 +23,17 @@
 
 package net.jacksum.algorithms.checksums;
 
+/**
+ * The 32-bit FNV-1 hash function (Fowler/Noll/Vo).
+ */
 public class Fnv1_32 extends Fnv0_32 {  
 
+    /** The FNV-1 32-bit offset basis, the initial value of the hash. */
     protected final int INIT = 0x811c9dc5;
 
+    /**
+     * Creates a new FNV-1 32-bit hash, initialized with the offset basis.
+     */
     public Fnv1_32() {
         super();
         bitWidth = 32;

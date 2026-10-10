@@ -39,6 +39,10 @@ import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
 import net.jacksum.statistics.Statistics;
 
+/**
+ * Tries to find the algorithm that produced a given hash value (option {@code -a unknown:<width>}),
+ * by checking documented algorithms, known CRCs and by brute-forcing CRC parameters.
+ */
 public class FindAlgoAction implements Action {
 
     // the range of the width in bits that -a unknown:<length> supports, as documented by -h:
@@ -52,6 +56,11 @@ public class FindAlgoAction implements Action {
     private BigInteger searched;
     private final Statistics statistics;
 
+    /**
+     * Creates a new action that finds the algorithm behind a hash value.
+     *
+     * @param parameters the parameters, incl. the algorithm identifier {@code unknown:<width>} and the expected hash value
+     */
     public FindAlgoAction(Parameters parameters) {
         this.found = 0;
         this.searched = BigInteger.ZERO;

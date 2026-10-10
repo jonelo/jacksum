@@ -21,6 +21,9 @@
 package net.jacksum.compats.parsing;
 
 
+/**
+ * Signals that a parser has been configured with an invalid parameter.
+ */
 public class InvalidParserParameterException extends Exception {
 
     /**

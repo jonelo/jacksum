@@ -40,6 +40,9 @@ import net.jacksum.parameters.Parameters;
 import net.jacksum.cli.ExitCode;
 
 // checking files in the checkfile
+/**
+ * The action that verifies files against the hash values stored in a check file.
+ */
 public class CheckAction implements Action {
 
     private final Parameters parameters;

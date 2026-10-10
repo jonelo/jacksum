@@ -23,8 +23,14 @@
 
 package net.jacksum.algorithms.checksums;
 
+/**
+ * A simple additive checksum that adds all bytes and returns the sum modulo 2^40.
+ */
 public class Sum40 extends Sum8 {
     
+    /**
+     * Creates a new Sum40 instance.
+     */
     public Sum40() {
         super();
         bitWidth = 40;

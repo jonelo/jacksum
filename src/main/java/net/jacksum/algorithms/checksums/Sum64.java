@@ -23,8 +23,14 @@
 
 package net.jacksum.algorithms.checksums;
 
+/**
+ * The 64 bit sum of all bytes (modulo 2^64).
+ */
 public class Sum64 extends Sum8 {
 
+    /**
+     * Creates a new Sum64 instance.
+     */
     public Sum64() {
         super();
         bitWidth = 64;

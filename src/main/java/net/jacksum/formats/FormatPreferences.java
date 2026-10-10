@@ -28,6 +28,8 @@ import java.nio.file.Path;
 import net.jacksum.parameters.combined.FormatParameters;
 
 /**
+ * Holds the preferences that control how a hash value and its file information are
+ * formatted (separator, encoding, grouping, timestamp, file size, path handling).
  *
  * @author johann
  */
@@ -53,6 +55,9 @@ public class FormatPreferences implements FormatParameters {
     private boolean gnuEscaping = false;
     private boolean gnuEscapingSet = false;
 
+    /**
+     * Creates new FormatPreferences with default values.
+     */
     public FormatPreferences() {
         setDefaults();
     }
@@ -70,6 +75,12 @@ public class FormatPreferences implements FormatParameters {
         gnuEscapingSet = false;
     }
 
+    /**
+     * Overwrites these preferences with the values that have been set in the specified
+     * parameters. The GNU filename escaping is always adopted.
+     *
+     * @param parameters the parameters that overwrite the preferences
+     */
     public void overwritePreferences(FormatParameters parameters) {
         setTimestampWanted(parameters.isTimestampWanted());
 
@@ -111,6 +122,8 @@ public class FormatPreferences implements FormatParameters {
 
 
     /**
+     * Gets the separator between the fields of an output line.
+     *
      * @return the separator
      */
     @Override
@@ -119,6 +132,8 @@ public class FormatPreferences implements FormatParameters {
     }
 
     /**
+     * Sets the separator between the fields of an output line.
+     *
      * @param separator the separator to set
      */
     public void setSeparator(String separator) {
@@ -136,6 +151,8 @@ public class FormatPreferences implements FormatParameters {
     }
 
     /**
+     * Sets the encoding of the hash value.
+     *
      * @param encoding the encoding to set
      */
     public void setHashEncoding(Encoding encoding) {
@@ -241,6 +258,8 @@ public class FormatPreferences implements FormatParameters {
     }
     
     /**
+     * Sets whether a timestamp is wanted in the output.
+     *
      * @param timestampWanted the timestampWanted to set
      */
     public void setTimestampWanted(boolean timestampWanted) {
@@ -248,6 +267,8 @@ public class FormatPreferences implements FormatParameters {
     }
 
     /**
+     * Tells whether the file size is wanted in the output.
+     *
      * @return the filesizeWanted
      */
     public boolean isFilesizeWanted() {
@@ -255,6 +276,8 @@ public class FormatPreferences implements FormatParameters {
     }
 
     /**
+     * Sets whether the file size is wanted in the output.
+     *
      * @param filesizeWanted the filesizeWanted to set
      */
     public void setFilesizeWanted(boolean filesizeWanted) {
@@ -268,6 +291,8 @@ public class FormatPreferences implements FormatParameters {
     }
 
     /**
+     * Sets the character that separates the elements of a path in the output.
+     *
      * @param pathChar the pathChar to set
      */
     public void setPathChar(Character pathChar) {
@@ -280,11 +305,18 @@ public class FormatPreferences implements FormatParameters {
         return noPath;
     }
 
+    /**
+     * Sets whether the path should be omitted from the file name in the output.
+     *
+     * @param noPath true if the path should be omitted
+     */
     public void setNoPath(boolean noPath) {
         this.noPath = noPath;
     }
 
     /**
+     * Gets the size of the blocks in which the file size is expressed.
+     *
      * @return the filesizeAsByteBlocks
      */
     @Override
@@ -293,6 +325,8 @@ public class FormatPreferences implements FormatParameters {
     }
 
     /**
+     * Sets the size of the blocks in which the file size is expressed.
+     *
      * @param filesizeAsByteBlocks the filesizeAsByteBlocks to set
      */
     public void setSizeAsByteBlocks(long filesizeAsByteBlocks) {
@@ -300,6 +334,8 @@ public class FormatPreferences implements FormatParameters {
     }
 
     /**
+     * Gets the printf format for the file size.
+     *
      * @return the filesizeWithPrintfFormatted
      */
     @Override
@@ -314,6 +350,8 @@ public class FormatPreferences implements FormatParameters {
 
 
     /**
+     * Sets the printf format for the file size.
+     *
      * @param filesizeWithPrintfFormatted the filesizeWithPrintfFormatted to set
      */
     public void setSizeWithPrintfFormatted(String filesizeWithPrintfFormatted) {
@@ -325,6 +363,11 @@ public class FormatPreferences implements FormatParameters {
         return pathRelativeTo;
     }
 
+    /**
+     * Sets the path that file paths in the output are relative to.
+     *
+     * @param pathRelativeTo the path, or null for no relative paths
+     */
     public void setPathRelativeTo(Path pathRelativeTo) {
         this.pathRelativeTo = pathRelativeTo;
     }
@@ -339,6 +382,12 @@ public class FormatPreferences implements FormatParameters {
         return gnuEscapingSet;
     }
 
+    /**
+     * Sets whether file names are escaped in the GNU style, and marks the value as being
+     * set by the user.
+     *
+     * @param gnuEscaping true if file names should be escaped in the GNU style
+     */
     public void setGnuEscaping(boolean gnuEscaping) {
         this.gnuEscaping = gnuEscaping;
         this.gnuEscapingSet = true;

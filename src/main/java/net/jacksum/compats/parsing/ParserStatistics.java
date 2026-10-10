@@ -26,6 +26,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import net.jacksum.statistics.Statistics;
 
+/**
+ * Statistics about parsing a hash list (a check file or a wanted list), e.g.
+ * the number of properly and improperly formatted lines.
+ */
 public class ParserStatistics extends Statistics {
 
     
@@ -41,6 +45,12 @@ public class ParserStatistics extends Statistics {
     // the list that has actually been read, see also setListNoun()
     private final static String DEFAULT_LIST_NOUN = "check file";
     private String listNoun = DEFAULT_LIST_NOUN;
+
+    /**
+     * Creates a new {@code ParserStatistics} with all counters set to zero.
+     */
+    public ParserStatistics() {
+    }
 
     @Override
     public Map<String, Object> build() {
@@ -84,6 +94,8 @@ public class ParserStatistics extends Statistics {
     }
 
     /**
+     * Gets the noun that the labels use for the list that has been read.
+     *
      * @return the noun that the labels use for the list that has been read
      */
     public String getListNoun() {
@@ -91,6 +103,8 @@ public class ParserStatistics extends Statistics {
     }
 
     /**
+     * Gets the number of duplicate entries.
+     *
      * @return the number of entries that have been replaced by a later entry, because both
      * entries refer to the same file
      */
@@ -99,6 +113,8 @@ public class ParserStatistics extends Statistics {
     }
 
     /**
+     * Sets the number of duplicate entries.
+     *
      * @param duplicateEntries the number of duplicate entries to set
      */
     public void setDuplicateEntries(int duplicateEntries) {
@@ -106,6 +122,8 @@ public class ParserStatistics extends Statistics {
     }
 
     /**
+     * Tells whether duplicate entries are counted.
+     *
      * @return true if duplicate entries are counted at all, see also the option --wanted-list
      */
     public boolean isDuplicateEntriesCounted() {
@@ -113,6 +131,8 @@ public class ParserStatistics extends Statistics {
     }
 
     /**
+     * Sets whether duplicate entries are counted.
+     *
      * @param duplicateEntriesCounted whether duplicate entries are counted at all
      */
     public void setDuplicateEntriesCounted(boolean duplicateEntriesCounted) {
@@ -120,6 +140,8 @@ public class ParserStatistics extends Statistics {
     }
     
     /**
+     * Gets the total number of lines that have been read.
+     *
      * @return the totalLines
      */
     public int getTotalLines() {
@@ -127,6 +149,8 @@ public class ParserStatistics extends Statistics {
     }
 
     /**
+     * Sets the total number of lines that have been read.
+     *
      * @param totalLines the totalLines to set
      */
     public void setTotalLines(int totalLines) {
@@ -134,6 +158,8 @@ public class ParserStatistics extends Statistics {
     }
 
     /**
+     * Gets the number of improperly formatted lines.
+     *
      * @return the improperlyFormattedLines
      */
     public int getImproperlyFormattedLines() {
@@ -141,6 +167,8 @@ public class ParserStatistics extends Statistics {
     }
 
     /**
+     * Sets the number of improperly formatted lines.
+     *
      * @param improperlyFormattedLines the improperlyFormattedLines to set
      */
     public void setImproperlyFormattedLines(int improperlyFormattedLines) {
@@ -148,6 +176,8 @@ public class ParserStatistics extends Statistics {
     }
 
     /**
+     * Gets the number of properly formatted lines.
+     *
      * @return the properlyFormattedLines
      */
     public int getProperlyFormattedLines() {
@@ -155,6 +185,8 @@ public class ParserStatistics extends Statistics {
     }
 
     /**
+     * Sets the number of properly formatted lines.
+     *
      * @param properlyFormattedLines the properlyFormattedLines to set
      */
     public void setProperlyFormattedLines(int properlyFormattedLines) {
@@ -162,6 +194,8 @@ public class ParserStatistics extends Statistics {
     }
 
     /**
+     * Gets the number of ignored lines (empty lines and comments).
+     *
      * @return the ignoredLines
      */
     public int getIgnoredLines() {
@@ -169,6 +203,8 @@ public class ParserStatistics extends Statistics {
     }
 
     /**
+     * Sets the number of ignored lines (empty lines and comments).
+     *
      * @param ignoredLines the ignoredLines to set
      */
     public void setIgnoredLines(int ignoredLines) {

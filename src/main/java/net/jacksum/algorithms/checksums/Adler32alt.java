@@ -41,9 +41,13 @@ import net.jacksum.formats.Encoding;
 
 public class Adler32alt extends AbstractChecksum {
 
+    /** The current Adler-32 value (s2*65536 + s1). */
     protected long value;
     private static final long BASE = 65521L; // largest prime smaller than 65536 (2^16)
 
+    /**
+     * Creates a new Adler32alt instance.
+     */
     public Adler32alt() {
         super();
         bitWidth = 32;

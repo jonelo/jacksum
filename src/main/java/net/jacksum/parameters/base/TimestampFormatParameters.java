@@ -22,9 +22,22 @@
  */
 package net.jacksum.parameters.base;
 
+/**
+ * The parameters that control whether and how a timestamp is printed.
+ */
 public interface TimestampFormatParameters {
 
+    /**
+     * Tells whether a timestamp is wanted in the output.
+     *
+     * @return true if a timestamp is wanted
+     */
     boolean isTimestampWanted();
 
+    /**
+     * Returns the format of the timestamp.
+     *
+     * @return the timestamp format
+     */
     String getTimestampFormat();
 }

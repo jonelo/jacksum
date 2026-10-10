@@ -30,13 +30,19 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- *
+ * Selects the implementation(s) of the algorithm SIMD-256.
  * @author johann
  */
 public class SIMD256_Selector extends Selector {
 
     private static final String ID = "simd256";
     
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public SIMD256_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

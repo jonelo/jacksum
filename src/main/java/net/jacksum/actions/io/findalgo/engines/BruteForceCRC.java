@@ -37,6 +37,8 @@ import net.jacksum.parameters.Parameters;
 import net.jacksum.zzadopt.com.github.snksoft.crc.CRC;
 
 /**
+ * An engine that finds a CRC algorithm by brute force, i.e. by trying all polynomials
+ * of a given bit width, each with several combinations of init, refIn, refOut, and xorOut.
  *
  * @author Johann N. Löfflmann
  */
@@ -55,6 +57,11 @@ public class BruteForceCRC implements FindAlgoEngine {
     private long polysDone;
     private long found;
     
+    /**
+     * Creates a new brute force engine for CRC algorithms.
+     *
+     * @param parameters the parameters
+     */
     public BruteForceCRC(Parameters parameters) {
         this.parameters = parameters;
     }

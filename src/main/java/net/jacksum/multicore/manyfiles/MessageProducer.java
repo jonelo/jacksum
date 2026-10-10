@@ -36,6 +36,10 @@ import net.jacksum.multicore.OSControl;
 import net.jacksum.multicore.manyfiles.Message.Type;
 import net.loefflmann.sugar.io.NtfsAdsFinder;
 
+/**
+ * Determines all files that need to be processed (from the command line, a file list,
+ * or a check file, and by walking file trees) and puts the corresponding messages onto the queues.
+ */
 public class MessageProducer implements Runnable {
 
     private final BlockingQueue<Message> inputQueue;
@@ -44,6 +48,13 @@ public class MessageProducer implements Runnable {
     private final List<String> allFiles;
     private final static boolean onWindows = OSControl.isWindows();
 
+    /**
+     * Creates a new message producer.
+     *
+     * @param producerParameters the parameters that determine the files to be processed
+     * @param inputQueue the queue for the files to be processed by the consumers
+     * @param outputQueue the queue for messages that do not need to be hashed, e.g. errors
+     */
     public MessageProducer(
             ProducerParameters producerParameters,
             BlockingQueue<Message> inputQueue,
@@ -176,6 +187,13 @@ public class MessageProducer implements Runnable {
         }
     }
 
+    /**
+     * Tells whether a special file on Microsoft Windows exists and can be read, e.g. a file
+     * with an NTFS alternate data stream or a partition.
+     *
+     * @param filename the name of the file
+     * @return true if the file exists and can be opened for reading
+     */
     public static boolean specialWindowsFileExists(String filename) {
 
         File file = new File(filename);

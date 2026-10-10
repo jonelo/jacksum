@@ -26,11 +26,18 @@ package net.jacksum.algorithms.checksums;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
+/**
+ * The 64-bit Fowler-Noll-Vo hash function FNV-0 (offset basis 0).
+ */
 public class Fnv0_64 extends AbstractChecksum {
 
     // protected final long PRIME = 0x100000001b3L;
+    /** The current hash value. */
     protected long value;
 
+    /**
+     * Creates a new Fnv0_64 instance.
+     */
     public Fnv0_64() {
         super();
         bitWidth = 64;

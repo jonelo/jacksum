@@ -21,7 +21,16 @@ package net.jacksum.algorithms.crcs;
 
 import net.loefflmann.sugar.util.ByteSequences;
 
+/**
+ * Utility methods for CRC algorithms.
+ */
 public class CrcUtils {
+
+    /**
+     * Creates a new CrcUtils. All methods are static, so an instance is not required.
+     */
+    public CrcUtils() {
+    }
 
     /**
      * Formats a poly dependent on width as a math expression
@@ -117,6 +126,14 @@ public class CrcUtils {
     }
 
 
+    /**
+     * Converts a string of hex digits to bytes.
+     *
+     * @param text a string with an even number of hex digits
+     * @return the bytes represented by the text
+     * @throws IllegalArgumentException if the number of hex digits is odd, or if the text
+     * is not a hex number
+     */
     public static byte[] hextext2bytes(String text) throws IllegalArgumentException {
         byte[] bytes;
         // by default, a hex sequence is expected

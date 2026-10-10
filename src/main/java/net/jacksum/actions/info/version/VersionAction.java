@@ -27,10 +27,19 @@ import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.actions.Action;
 import net.jacksum.cli.ExitCode;
 
+/**
+ * The action that prints the version of Jacksum, and with verbose info
+ * enabled, also the URI, copyright and a short license statement.
+ */
 public class VersionAction implements Action {
 
     private final VersionActionParameters parameters;
 
+    /**
+     * Creates a new VersionAction.
+     *
+     * @param parameters the parameters for the version action
+     */
     public VersionAction(VersionActionParameters parameters) {
         this.parameters = parameters;
     }
@@ -52,16 +61,25 @@ public class VersionAction implements Action {
         System.out.printf("%s %s%n", JacksumAPI.NAME, JacksumAPI.VERSION);
     }
 
+    /**
+     * Prints the program version and the project URI on standard output.
+     */
     public static void printAppVersionAndURI() {
         System.out.printf("%s %s, <%s>%n", JacksumAPI.NAME, JacksumAPI.VERSION, JacksumAPI.URI);
     }
 
+    /**
+     * Prints the OSI certification statement on standard output.
+     */
     public static void printOSIStatement() {
         System.out.printf(
                 "    This software is OSI Certified Open Source Software.%n"
                 + "    OSI Certified is a certification mark of the Open Source Initiative.%n");
     }
     
+    /**
+     * Prints a short GPL license statement on standard output.
+     */
     public static void printShortLicense() {
         System.out.printf(
                   "    This program is free software: you can redistribute it and/or modify it%n"
@@ -75,10 +93,17 @@ public class VersionAction implements Action {
                         
     }
 
+    /**
+     * Prints the copyright header on standard output.
+     */
     public static void printCopyrightHeader() {
         System.out.println(JacksumAPI.COPYRIGHT);
     }
 
+    /**
+     * Prints the program version, URI, copyright, OSI statement and a short
+     * license statement on standard output.
+     */
     public static void printAppVersionFull() {
         printAppVersionAndURI();
         printCopyrightHeader();

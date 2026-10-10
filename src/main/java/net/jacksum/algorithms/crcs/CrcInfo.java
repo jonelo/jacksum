@@ -19,12 +19,49 @@
 
 package net.jacksum.algorithms.crcs;
 
+/**
+ * Provides the parameters of a CRC (as in the Rocksoft model).
+ */
 public interface CrcInfo {
+    /**
+     * Gets the generator polynomial as a big-endian byte array.
+     *
+     * @return the polynomial as bytes
+     */
     public byte[] getPolyAsBytes();
 
+    /**
+     * Gets the width of the CRC.
+     *
+     * @return the width in bits
+     */
     public int getWidth();
+
+    /**
+     * Gets the initial value of the CRC register.
+     *
+     * @return the initial value
+     */
     public long getInitialValue();
+
+    /**
+     * Tells whether the input bytes are reflected.
+     *
+     * @return true if the input bytes are reflected
+     */
     public boolean isRefIn();
+
+    /**
+     * Tells whether the final CRC value is reflected before the final XOR.
+     *
+     * @return true if the output is reflected
+     */
     public boolean isRefOut();
+
+    /**
+     * Gets the value that is XORed to the final CRC value.
+     *
+     * @return the final XOR value
+     */
     public long getXorOut();
 }

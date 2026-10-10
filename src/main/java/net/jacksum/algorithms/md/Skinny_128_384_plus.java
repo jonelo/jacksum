@@ -42,6 +42,10 @@ package net.jacksum.algorithms.md;
  * This file includes only the encryption function of SKINNY-128-384+ as required by Romulus-v1.3
  */
 
+/**
+ * The encryption function of the tweakable block cipher SKINNY-128-384+
+ * (128-bit block, 384-bit tweakey, 40 rounds) as required by Romulus v1.3.
+ */
 public class Skinny_128_384_plus {
 
     private static final boolean DEBUG = false;
@@ -107,6 +111,12 @@ public class Skinny_128_384_plus {
             (byte) 0x1C, (byte) 0x38, (byte) 0x31, (byte) 0x23, (byte) 0x06, (byte) 0x0D, (byte) 0x1B, (byte) 0x36, (byte) 0x2D, (byte) 0x1A
     };
 
+    /**
+     * Creates a new Skinny_128_384_plus instance.
+     */
+    public Skinny_128_384_plus() {
+    }
+
     // debug
     private static void displayMatrix(byte[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
@@ -117,6 +127,12 @@ public class Skinny_128_384_plus {
     }
 
     // debug
+    /**
+     * Prints the internal state and the tweakey states to standard output (for debugging).
+     *
+     * @param state the 4x4 internal state
+     * @param keyCells the three 4x4 tweakey states
+     */
     public static void displayCipherState(byte[][] state, byte[][][] keyCells) {
         System.out.print("S = ");
         displayMatrix(state);
@@ -128,6 +144,14 @@ public class Skinny_128_384_plus {
 
 
     // Extract and apply the subtweakey to the internal state (must be the two top rows XORed together), then update the tweakey state
+    /**
+     * Applies the subtweakey (the two top rows of the three tweakey states XORed together)
+     * to the internal state, then updates the tweakey states with the tweakey permutation and the LFSRs.
+     * Both arrays are modified in place.
+     *
+     * @param state the 4x4 internal state
+     * @param keyCells the three 4x4 tweakey states
+     */
     public static void addKey(byte[][] state, byte[][][] keyCells) {
         int i, j, k;
         byte pos;
@@ -175,6 +199,12 @@ public class Skinny_128_384_plus {
     }
 
     // Apply the constants: using a LFSR counter on 6 bits, we XOR the 6 bits to the first 6 bits of the internal state
+    /**
+     * Applies the round constants to the internal state (in place).
+     *
+     * @param state the 4x4 internal state
+     * @param r the round number (0 to 39)
+     */
     public static void addConstants(byte[][] state, int r) {
         state[0][0] ^= (RC[r] & 0xF);
         state[1][0] ^= ((RC[r] >> 4) & 0x3);
@@ -182,6 +212,11 @@ public class Skinny_128_384_plus {
     }
 
     // apply the 8-bit Sbox
+    /**
+     * Applies the 8-bit S-box to every cell of the internal state (in place).
+     *
+     * @param state the 4x4 internal state
+     */
     public static void subCell8(byte[][] state) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -191,6 +226,11 @@ public class Skinny_128_384_plus {
     }
 
     // Apply the ShiftRows function
+    /**
+     * Applies the ShiftRows permutation to the internal state (in place).
+     *
+     * @param state the 4x4 internal state
+     */
     public static void shiftRows(byte[][] state) {
         byte[][] stateTmp = new byte[4][4];
         for (int i = 0; i < 4; i++) {
@@ -214,6 +254,11 @@ public class Skinny_128_384_plus {
     // 1 0 0 0
     // 0 1 1 0
     // 1 0 1 0
+    /**
+     * Applies the linear diffusion matrix (MixColumns) to the internal state (in place).
+     *
+     * @param state the 4x4 internal state
+     */
     public static void mixColumn(byte[][] state) {
         for (int j = 0; j < 4; j++) {
             state[1][j] ^= state[2][j];
@@ -229,6 +274,12 @@ public class Skinny_128_384_plus {
     }
 
     // encryption function of Skinny-128-384+
+    /**
+     * Encrypts a 128-bit block with SKINNY-128-384+. The result is written back to {@code input}.
+     *
+     * @param input the 16-byte block to be encrypted; it is overwritten with the ciphertext
+     * @param userkey the 48-byte (384-bit) tweakey
+     */
     public static void enc(byte[] input, byte[] userkey) {
         byte[][] state = new byte[4][4];
         byte[][][] keyCells = new byte[3][4][4];

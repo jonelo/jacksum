@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Cksum;
 
 /**
+ * Selects the implementation(s) of the algorithm cksum (Unix).
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class Cksum_Selector extends Selector {
 
     private static final String ID = "cksum";
     
+    /**
+     * Creates a new selector for the algorithm cksum (Unix).
+     */
+    public Cksum_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

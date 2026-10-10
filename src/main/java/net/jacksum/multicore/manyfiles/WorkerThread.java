@@ -34,6 +34,10 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.parameters.combined.GatheringParameters;
 import net.jacksum.parameters.base.CustomizedFormatParameters;
 
+/**
+ * Hashes the file or standard input that a message refers to with an algorithm
+ * from the pool and puts the resulting message into the output queue.
+ */
 public class WorkerThread implements Runnable {
 
     private final Message message;
@@ -57,6 +61,15 @@ public class WorkerThread implements Runnable {
 
     private static final ThreadID threadID = new ThreadID();
 
+    /**
+     * Creates a new worker for one message.
+     *
+     * @param message the message that refers to the data to hash
+     * @param formatParameters the parameters that control the output format
+     * @param algorithmPool the pool that provides the algorithm instances
+     * @param outputQueue the queue that receives the resulting message
+     * @param gatheringParameters the parameters that control what to gather, e.g. an expected hash
+     */
     public WorkerThread(Message message, CustomizedFormatParameters formatParameters, AlgorithmPool algorithmPool, BlockingQueue<Message> outputQueue, GatheringParameters gatheringParameters) {
         this.message = message;
         this.formatParameters = formatParameters;

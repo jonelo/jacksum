@@ -31,6 +31,7 @@ import net.jacksum.algorithms.wrappers.MD;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithm SHA-1 (SHA-160).
  *
  * @author johann
  */
@@ -38,6 +39,12 @@ public class SHA1_Selector extends Selector {
     
     private static final String ID = "sha-1";
     
+    /**
+     * Creates a new SHA1_Selector.
+     */
+    public SHA1_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

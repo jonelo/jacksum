@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
+ * Selects the implementation(s) of the algorithm SHAKE128 (SHA-3 family).
  *
  * @author johann
  */
 public class SHAKE128_Selector extends Selector {
 
     
+    /**
+     * Creates a new selector for the algorithm SHAKE128 (SHA-3 family).
+     */
+    public SHAKE128_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

@@ -22,7 +22,21 @@
  */
 package net.jacksum.parameters.base;
 
+/**
+ * Parameters that control the format of an output line.
+ */
 public interface LineFormatParameters {
+        /**
+         * Tells whether a separator has been set (-s).
+         *
+         * @return true if a separator has been set
+         */
         boolean isSeparatorSet();
+        /**
+         * Returns the separator that is printed between the elements of an output line (-s),
+         * with escape sequences already translated.
+         *
+         * @return the separator
+         */
         String getSeparator();
 }

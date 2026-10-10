@@ -21,6 +21,7 @@
 package net.jacksum.compats.parsing;
 
 /**
+ * Thrown if a line cannot be parsed because it is not properly formatted.
  *
  * @author Johann N. Loefflmann
  */

@@ -34,6 +34,10 @@ import static net.jacksum.cli.CLIParameters._IGNORE_LINES_STARTING_WITH_STRING;
 import static net.jacksum.cli.Messenger.MsgType.ERROR;
 import static net.jacksum.cli.Messenger.MsgType.INFO;
 
+/**
+ * Consumes the messages that are produced while files are hashed, prints the formatted
+ * lines on standard output, and collects the statistics.
+ */
 public class MessageConsumerForHashedFiles extends MessageConsumer {
 
     // the string that lines start with in order to be ignored while they are being read
@@ -46,6 +50,11 @@ public class MessageConsumerForHashedFiles extends MessageConsumer {
     private final Statistics statistics;
     private final Messenger messenger;
 
+    /**
+     * Creates a new MessageConsumerForHashedFiles.
+     *
+     * @param parameters the parameters
+     */
     public MessageConsumerForHashedFiles(Parameters parameters) {
         this.parameters = parameters;
         statistics = new StatisticsForHashedFiles();

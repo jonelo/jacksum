@@ -31,11 +31,20 @@ import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
 import net.jacksum.multicore.manyfiles.MessageConsumer;
 
+/**
+ * The action that computes hash values of files (and directory trees)
+ * and prints them in the requested format.
+ */
 public class HashFilesAction implements Action {
 
     private final Parameters parameters;
     private final MessageConsumer consumer;
     
+    /**
+     * Creates a new HashFilesAction.
+     *
+     * @param parameters the parameters that control this action
+     */
     public HashFilesAction(Parameters parameters) {
         this.parameters = parameters;
         this.consumer = new MessageConsumerForHashedFiles(parameters);

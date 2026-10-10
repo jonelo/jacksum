@@ -25,25 +25,53 @@ package net.jacksum.cli;
 
 import java.io.Serializable;
 
+/**
+ * Prints info, warning, and error messages to standard error, depending
+ * on the verbosity settings.
+ */
 public class Messenger implements Serializable {
 
     private static final long serialVersionUID = 6273013117713291439L;
 
+    /**
+     * The type of a message.
+     */
     public enum MsgType {
-        INFO, WARNING, ERROR
+        /** An informational message. */
+        INFO,
+        /** A warning message. */
+        WARNING,
+        /** An error message. */
+        ERROR
     }
 
+    /** The verbosity settings that control which messages are printed. */
     private Verbose verbose;
 
+    /**
+     * Creates a new Messenger with the given verbosity settings.
+     *
+     * @param verbose the verbosity settings
+     */
     public Messenger(Verbose verbose) {
         this.verbose = verbose;
     }
     
+    /**
+     * Creates a new Messenger with the default verbosity settings.
+     */
     public Messenger() {
         this.verbose = new Verbose();
     }
 
     
+    /**
+     * Prints a message to standard error if the verbosity settings allow
+     * messages of that type.
+     *
+     * @param msgType the type of the message
+     * @param msg the message
+     */
     public void print(MsgType msgType, String msg) {
         String template = null;
         switch (msgType) {
@@ -64,6 +92,8 @@ public class Messenger implements Serializable {
     
 
     /**
+     * Returns the verbosity settings.
+     *
      * @return the verbose
      */
     public Verbose getVerbose() {
@@ -71,6 +101,8 @@ public class Messenger implements Serializable {
     }
 
     /**
+     * Sets the verbosity settings.
+     *
      * @param verbose the verbose to set
      */
     public void setVerbose(Verbose verbose) {

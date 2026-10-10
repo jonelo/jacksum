@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Sum16;
 
 /**
+ * Selects the implementation(s) of the algorithm sum 16.
  *
  * @author johann
  */
 public class Sum16_Selector extends Selector {
 
     private static final String ID = "sum16";
+
+    /**
+     * Creates a new Sum16_Selector.
+     */
+    public Sum16_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

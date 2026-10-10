@@ -24,8 +24,26 @@ package net.jacksum.parameters.base;
 
 import java.util.List;
 
+/**
+ * Parameters for walking the file tree.
+ */
 public interface FileWalkerParameters {
+    /**
+     * Returns the file names that have been specified as command line arguments.
+     *
+     * @return the list of file names from the command line arguments
+     */
     List<String> getFilenamesFromArgs();
+    /**
+     * Tells whether directories are processed recursively.
+     *
+     * @return true if directories are processed recursively
+     */
     boolean isRecursive();
+    /**
+     * Tells whether symbolic links to files are not followed.
+     *
+     * @return true if symbolic links to files are not followed
+     */
     boolean isDontFollowSymlinksToFiles();
 }

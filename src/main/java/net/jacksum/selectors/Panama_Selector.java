@@ -29,13 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDCryptohashSphlib3;
 
 /**
- *
+ * Selects the implementation(s) of the algorithm PANAMA.
  * @author johann
  */
 public class Panama_Selector extends Selector {
 
     private static final String ID = "panama";
     
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public Panama_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

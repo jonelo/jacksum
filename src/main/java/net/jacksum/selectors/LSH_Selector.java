@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.LSHWrapper;
 
 /**
+ * Selects the implementation(s) of the algorithms LSH-256-224, LSH-256-256, LSH-512-224, LSH-512-256, LSH-512-384, and LSH-512-512.
  *
  * @author johann
  */
 public class LSH_Selector extends Selector {
 
     private static Map<String, String> map = null;
+
+    /**
+     * Creates a new LSH_Selector.
+     */
+    public LSH_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

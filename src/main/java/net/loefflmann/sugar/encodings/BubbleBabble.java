@@ -63,6 +63,18 @@ public class BubbleBabble {
     private static final char[] CONSONANTS = {'b', 'c', 'd', 'f', 'g', 'h', 'k', 'l', 'm',
         'n', 'p', 'r', 's', 't', 'v', 'z', 'x'};
 
+    /**
+     * Creates a new BubbleBabble.
+     */
+    public BubbleBabble() {
+    }
+
+    /**
+     * Encodes a byte array in the Bubble Babble format.
+     *
+     * @param raw the bytes to encode
+     * @return the Bubble Babble encoded string, e.g. {@code xexax} for an empty array
+     */
     public static String encode(byte[] raw) {
 
         int seed = 1;

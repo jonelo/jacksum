@@ -23,8 +23,14 @@
 
 package net.jacksum.algorithms.checksums;
 
+/**
+ * The FNV-1a hash algorithm with a width of 32 bits.
+ */
 public class Fnv1a_32 extends Fnv1_32 {
 
+    /**
+     * Creates a new FNV-1a (32 bits) instance.
+     */
     public Fnv1a_32() {
         super();
         bitWidth = 32;

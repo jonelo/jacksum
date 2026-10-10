@@ -29,5 +29,10 @@ import net.jacksum.statistics.StatisticsBytes;
  * @author Johann N. Löfflmann
  */
 public class QuickActionStatistics extends StatisticsBytes {
-    
+
+    /**
+     * Creates a new QuickActionStatistics.
+     */
+    public QuickActionStatistics() {
+    }
 }

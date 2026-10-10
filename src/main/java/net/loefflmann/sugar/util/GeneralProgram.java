@@ -23,7 +23,16 @@
  */
 package net.loefflmann.sugar.util;
 
+/**
+ * Helper methods that check the Java runtime environment.
+ */
 public final class GeneralProgram {
+
+    /**
+     * Creates a new GeneralProgram.
+     */
+    public GeneralProgram() {
+    }
 
     /**
      * Exits if the JVM does not fulfil the requirements, does nothing under a
@@ -51,12 +60,25 @@ public final class GeneralProgram {
         }
     }
 
+    /**
+     * Determines whether the Java version is at least the given version. Under
+     * a JVM that is not J2SE compatible, false is returned.
+     *
+     * @param version Java version (e. g. "1.3.1")
+     * @return true if the Java version is equal to or newer than the given version
+     */
     public static boolean isSupportFor(String version) {
         return isJ2SEcompatible()
                 ? (System.getProperty("java.version").compareTo(version) >= 0)
                 : false;
     }
 
+    /**
+     * Determines whether the JVM is J2SE compatible, which is not the case for
+     * the free JVMs gij, Kaffe and CACAO.
+     *
+     * @return true if the JVM is J2SE compatible
+     */
     public static boolean isJ2SEcompatible() {
         String vendor = System.getProperty("java.vm.vendor");
         if ( // gij (http://www.gnu.org/software/classpath)

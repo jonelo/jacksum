@@ -17,6 +17,8 @@ Jacksum 4.0.2, Oct 9, 2026
   - the help of option -c and the use case "Is the medium still readable?" explain that a
     check right after a write, or a second run, may be served from the page cache of the
     operating system rather than from the medium, and how to empty that cache.
+  - the API documentation (Javadoc) is complete for Jacksum's own packages now; the build
+    reports a missing comment there again, while the adopted third-party code is not checked
 
 
 Jacksum 4.0.1, Oct 4, 2026

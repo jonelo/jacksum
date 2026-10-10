@@ -30,6 +30,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithm Whirlpool-0.
  *
  * @author johann
  */
@@ -48,6 +49,12 @@ public class Whirlpool0_Selector extends Selector {
         
         availableAliases = new LinkedHashMap<>(2); // ceil(1/0.75)
         availableAliases.put("whirlpool-0", ID);
+    }
+
+    /**
+     * Creates a new Whirlpool0_Selector.
+     */
+    public Whirlpool0_Selector() {
     }
 
     @Override

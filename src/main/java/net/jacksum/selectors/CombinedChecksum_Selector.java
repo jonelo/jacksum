@@ -29,12 +29,20 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.CombinedChecksum;
 
 /**
+ * Selects the implementation of a combined checksum, i.e. of several
+ * algorithms whose names are separated by {@code +}.
  *
  * @author johann
  */
 public class CombinedChecksum_Selector extends Selector {
 
   
+    /**
+     * Creates a new selector for combined checksums.
+     */
+    public CombinedChecksum_Selector() {
+    }
+
     @Override
     public boolean doesMatch(String name) {
         return (name.contains("+"));

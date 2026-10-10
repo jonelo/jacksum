@@ -31,6 +31,11 @@ import net.loefflmann.sugar.util.ByteSequences;
 
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * An extension of the Rocksoft^tm Model CRC Algorithm that can optionally include the
+ * (optionally XOR'ed) message length in the CRC, e.g. to describe the POSIX cksum or
+ * the FDDI CRC (Plan 9's sum).
+ */
 public class CrcModelExtended extends CrcModel {
     private boolean includeLength = false; // include the length
     private boolean includeLengthMSOfirst = true; // include the length with the most significant octet first
@@ -51,12 +56,37 @@ public class CrcModelExtended extends CrcModel {
         super(width, poly, init, refIn, refOut, xorOut);
     }
 
+    /**
+     * Constructor with all parameters as defined in the Rocksoft^tm Model CRC
+     * Algorithm, plus the inclusion of the message length.
+     * @param width width in bits
+     * @param poly The algorithm's polynomial (without the highest bit)
+     * @param init the initial register value
+     * @param refIn Reflect input bytes?
+     * @param refOut Reflect output CRC?
+     * @param xorOut XOR this to output CRC
+     * @param includeLengthLTR true if the length is included with the most significant
+     * octet first, false if with the least significant octet first
+     */
     public CrcModelExtended(int width, long poly, long init, boolean refIn, boolean refOut, long xorOut,
                             boolean includeLengthLTR) {
         super(width, poly, init, refIn, refOut, xorOut);
         includeLengthInit(includeLengthLTR);
     }
 
+    /**
+     * Constructor with all parameters as defined in the Rocksoft^tm Model CRC
+     * Algorithm, plus the inclusion of the message length which is XOR'ed.
+     * @param width width in bits
+     * @param poly The algorithm's polynomial (without the highest bit)
+     * @param init the initial register value
+     * @param refIn Reflect input bytes?
+     * @param refOut Reflect output CRC?
+     * @param xorOut XOR this to output CRC
+     * @param includeLengthLTR true if the length is included with the most significant
+     * octet first, false if with the least significant octet first
+     * @param xorLengthArray the bytes the length is XOR'ed with
+     */
     public CrcModelExtended(int width, long poly, long init, boolean refIn, boolean refOut, long xorOut,
                             boolean includeLengthLTR,  byte[] xorLengthArray) {
         super(width, poly, init, refIn, refOut, xorOut);
@@ -64,6 +94,16 @@ public class CrcModelExtended extends CrcModel {
         xorLengthArrayInit(xorLengthArray);
     }
 
+    /**
+     * Constructor with a String parameter.
+     *
+     * @param props the parameters width, poly, init, refIn, refOut and xorOut
+     * separated by a comma (optionally prefixed by {@code crc:}), optionally followed
+     * by includeLengthMSOfirst (true or false) and by the hex value the length is
+     * XOR'ed with
+     * @throws NoSuchAlgorithmException if the number of parameters is wrong, or if a
+     * parameter is invalid
+     */
     public CrcModelExtended(String props) throws NoSuchAlgorithmException {
         super(props);
         String[] array = props.split(",");
@@ -78,6 +118,12 @@ public class CrcModelExtended extends CrcModel {
         }
     }
 
+    /**
+     * Creates a new model with the parameters of the given model. The new model always
+     * includes the length and XORs it with the XOR length array of the given model.
+     *
+     * @param model the model whose parameters are taken
+     */
     public CrcModelExtended(CrcModelExtended model) {
         this(model.getWidth(), model.getPoly(), model.getInit(), model.isRefIn(), model.isRefOut(), model.getXorOut(), model.isIncludeLength(), model.getXorLengthArray());
     }
@@ -108,18 +154,38 @@ public class CrcModelExtended extends CrcModel {
         this.xorLengthArray = xorLengthArray;
     }
 
+    /**
+     * Tells whether the message length is included in the CRC.
+     *
+     * @return true if the length is included
+     */
     public boolean isIncludeLength() {
         return includeLength;
     }
 
+    /**
+     * Tells whether the included message length is XOR'ed.
+     *
+     * @return true if the length is XOR'ed
+     */
     public boolean isXorLength() {
         return xorLength;
     }
 
+    /**
+     * Tells whether the length is included with the most significant octet first.
+     *
+     * @return true if the most significant octet comes first
+     */
     public boolean isIncludeLengthMSOfirst() {
         return includeLengthMSOfirst;
     }
 
+    /**
+     * Returns the bytes the included message length is XOR'ed with.
+     *
+     * @return the XOR length array, or null if the length is not XOR'ed
+     */
     public byte[] getXorLengthArray() {
         if (xorLength) {
             return xorLengthArray;

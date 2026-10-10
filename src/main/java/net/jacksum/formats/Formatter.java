@@ -32,6 +32,11 @@ import net.jacksum.multicore.OSControl;
 import net.loefflmann.sugar.util.GeneralString;
 import net.jacksum.algorithms.AbstractChecksum;
 
+/**
+ * Formats the output line of a checksum, either in the default layout (hash,
+ * size, timestamp and file name) or by a customized format with tokens such as
+ * {@code #CHECKSUM} or {@code #FILENAME}.
+ */
 public class Formatter {
 
     private FormatPreferences formatPreferences;
@@ -43,6 +48,11 @@ public class Formatter {
     
   
     
+    /**
+     * Creates a new Formatter.
+     *
+     * @param formatPreferences the format preferences
+     */
     public Formatter(FormatPreferences formatPreferences) {
 
         this.formatPreferences = formatPreferences;
@@ -58,6 +68,15 @@ public class Formatter {
     }
 
     
+    /**
+     * Formats the checksum in the default layout: hash, size, timestamp and
+     * file name, each present only if wanted and available, joined by the
+     * separator. A leading backslash flags a file name with problematic
+     * characters if GNU escaping is enabled.
+     *
+     * @param checksum the checksum to format
+     * @return the formatted line
+     */
     public String format(AbstractChecksum checksum) {
         String separator = lineFormatter.getParameters().getSeparator();
         String fingerprint = fingerprintFormatter.format(checksum.getByteArray());
@@ -272,6 +291,15 @@ public class Formatter {
         GeneralString.replaceAllStrings(buffer, "#BINTAG", store.protect(OSControl.isWindows() ? "*": " "));
     }
     
+    /**
+     * Replaces all tokens of the buffer by the values of the checksum and
+     * returns the result.
+     *
+     * @param buffer the buffer with the format, it will be modified
+     * @param abstractChecksum the checksum that provides the values
+     * @param sequence the sequence for the token #SEQUENCE
+     * @return the formatted content of the buffer
+     */
     public static String format(StringBuilder buffer, AbstractChecksum abstractChecksum, byte[] sequence) {
         TokenValueStore store = new TokenValueStore();
         format(buffer, abstractChecksum, sequence, store);
@@ -305,45 +333,92 @@ public class Formatter {
         return buffer.toString();
     }
 
+    /**
+     * Replaces the alias tokens of the format by their canonical tokens.
+     *
+     * @param format the format, it will be modified
+     */
     public static void replaceAliases(StringBuilder format) {
         FingerprintFormatter.replaceAliases(format);
         SizeFormatter.replaceAliases(format);
         FilenameFormatter.replaceAliases(format);
     }
 
+    /**
+     * Returns the fingerprint formatter.
+     *
+     * @return the fingerprint formatter
+     */
     public FingerprintFormatter getFingerprintFormatter() {
         return fingerprintFormatter;
     }
 
+    /**
+     * Sets the fingerprint formatter.
+     *
+     * @param fingerprintFormatter the fingerprint formatter
+     */
     public void setFingerprintFormatter(FingerprintFormatter fingerprintFormatter) {
         this.fingerprintFormatter = fingerprintFormatter;
     }
 
+    /**
+     * Returns the size formatter.
+     *
+     * @return the size formatter
+     */
     public SizeFormatter getSizeFormatter() {
         return sizeFormatter;
     }
 
+    /**
+     * Sets the size formatter.
+     *
+     * @param sizeFormatter the size formatter
+     */
     public void setSizeFormatter(SizeFormatter sizeFormatter) {
         this.sizeFormatter = sizeFormatter;
     }
 
+    /**
+     * Returns the timestamp formatter.
+     *
+     * @return the timestamp formatter
+     */
     public TimestampFormatter getTimestampFormatter() {
         return timestampFormatter;
     }
 
+    /**
+     * Sets the timestamp formatter.
+     *
+     * @param timestampFormatter the timestamp formatter
+     */
     public void setTimestampFormatter(TimestampFormatter timestampFormatter) {
         this.timestampFormatter = timestampFormatter;
     }
 
+    /**
+     * Returns the file name formatter.
+     *
+     * @return the file name formatter
+     */
     public FilenameFormatter getFilenameFormatter() {
         return sharedFilenameFormatter;
     }
 
+    /**
+     * Sets the file name formatter.
+     *
+     * @param filenameFormatter the file name formatter
+     */
     public void setFilenameFormatter(FilenameFormatter filenameFormatter) {
         this.sharedFilenameFormatter = filenameFormatter;
     }
 
     /**
+     * Returns the line formatter.
+     *
      * @return the lineFormatter
      */
     public LineFormatter getLineFormatter() {
@@ -351,6 +426,8 @@ public class Formatter {
     }
 
     /**
+     * Sets the line formatter.
+     *
      * @param lineFormatter the lineFormatter to set
      */
     public void setLineFormatter(LineFormatter lineFormatter) {

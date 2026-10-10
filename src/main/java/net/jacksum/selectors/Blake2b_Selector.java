@@ -29,13 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.Blake2bWrapper;
 
 /**
- *
+ * Selects the implementation(s) of the algorithms BLAKE2b-8 to BLAKE2b-512 (in steps of 8 bits).
  * @author johann
  */
 public class Blake2b_Selector extends Selector {
 
     private static Map<String, String> algos;
     private static Map<String, String> aliases;
+
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public Blake2b_Selector() {
+    }
 
     private static void _fillMap(Map<String, String> map, String keyPrefix, String valuePrefix) {
         for (int i = 8; i <= 512; i += 8) {

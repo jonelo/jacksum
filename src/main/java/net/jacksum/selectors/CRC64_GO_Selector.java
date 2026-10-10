@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.crcs.CRC64_GO_ISO;
 
 /**
+ * Selects the implementation(s) of the algorithm CRC-64 (prog lang GO, const ISO).
  *
  * @author johann
  */
 public class CRC64_GO_Selector extends Selector {
 
     private static final String ID = "crc64_go-iso";
+
+    /**
+     * Creates a new CRC64_GO_Selector.
+     */
+    public CRC64_GO_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

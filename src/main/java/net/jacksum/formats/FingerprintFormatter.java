@@ -30,6 +30,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Formats fingerprints (hash values) by the encoding and grouping of the fingerprint format parameters.
  *
  * @author Johann N. Loefflmann
  */
@@ -37,14 +38,32 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
     
     private final FingerprintFormatParameters parameters;
 
+    /**
+     * Creates a new fingerprint formatter.
+     *
+     * @param fingerprintFormatParameters the parameters that define encoding and grouping
+     */
     public FingerprintFormatter(FingerprintFormatParameters fingerprintFormatParameters) {
         this.parameters = fingerprintFormatParameters;
     }
     
+    /**
+     * Formats a fingerprint by the encoding, grouping and group character of the parameters.
+     *
+     * @param fingerprint the fingerprint as a byte array
+     * @return the formatted fingerprint
+     */
     public String format(byte[] fingerprint) {
         return EncodingDecoding.encodeBytes(fingerprint, parameters.getEncoding(), parameters.getGrouping(), parameters.getGroupChar());
     }
 
+    /**
+     * Formats a fingerprint by the given encoding and the grouping and group character of the parameters.
+     *
+     * @param fingerprint the fingerprint as a byte array
+     * @param encoding the encoding to use instead of the encoding of the parameters
+     * @return the formatted fingerprint
+     */
     public String format(byte[] fingerprint, Encoding encoding) {
         return EncodingDecoding.encodeBytes(fingerprint, encoding, parameters.getGrouping(), parameters.getGroupChar());
     }
@@ -83,6 +102,13 @@ public class FingerprintFormatter implements FingerprintFormatParameters {
         }
     }
 
+    /**
+     * Replaces the aliases of the hash value token in a format ({@code #HASHES}, {@code #ALGONAMES},
+     * {@code #HASH}, {@code #FINGERPRINT}, {@code #DIGEST}) by their canonical names
+     * ({@code #CHECKSUM}, {@code #ALGONAME}).
+     *
+     * @param format the format, modified in place
+     */
     public static void replaceAliases(StringBuilder format) {
         GeneralString.replaceAllStrings(format, "#HASHES", "#CHECKSUM"); // just in case the user specifies just only one algorithm
         GeneralString.replaceAllStrings(format, "#ALGONAMES", "#ALGONAME"); // just in case the user specifies just only one algorithm

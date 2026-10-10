@@ -26,8 +26,18 @@ package net.jacksum.actions.io.compare;
 
 import net.jacksum.algorithms.AbstractChecksum;
 
+/**
+ * A compare action that remembers the result of the last comparison,
+ * and counts positive and negative results.
+ */
 public class CompareAndReturnResult extends CompareAction {
 
+    /**
+     * Creates a new CompareAndReturnResult.
+     *
+     * @param checksum the algorithm
+     * @param parameters the compare parameters
+     */
     public CompareAndReturnResult(AbstractChecksum checksum,
                                  CompareActionInterface parameters) {
         this.checksum = checksum;
@@ -36,6 +46,12 @@ public class CompareAndReturnResult extends CompareAction {
 
     boolean lastResult = false;
 
+    /**
+     * Returns the result of the last comparison.
+     *
+     * @return true if the last comparison was successful, false otherwise
+     *         (also false if no comparison has been performed yet)
+     */
     public boolean getLastResult() {
         return lastResult;
     }

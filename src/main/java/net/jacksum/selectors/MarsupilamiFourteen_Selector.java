@@ -29,13 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
- *
+ * Selects the implementation(s) of the algorithm MarsupilamiFourteen (M14).
  * @author johann
  */
 public class MarsupilamiFourteen_Selector extends Selector {
 
     private static final String ID = "marsupilamifourteen";
     private static Map<String, String> map = null;
+
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public MarsupilamiFourteen_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

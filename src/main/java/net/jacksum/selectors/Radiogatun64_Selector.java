@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDCryptohashSphlib3;
 
 /**
+ * Selects the implementation(s) of the algorithm RadioGatún[64].
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class Radiogatun64_Selector extends Selector {
     
     private static final String ID = "radiogatun:64";
     
+    /**
+     * Creates a new Radiogatun64_Selector.
+     */
+    public Radiogatun64_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

@@ -29,12 +29,18 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
- *
+ * Selects the implementation(s) of the algorithm GOST R 34.11-94 (test params).
  * @author johann
  */
 public class GostDefault_Selector extends Selector {
 
     private static final String ID = "gost";
+
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public GostDefault_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

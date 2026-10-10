@@ -21,6 +21,8 @@
 package net.jacksum.compats.parsing;
 
 /**
+ * Signals that a line of a hash file has to be ignored by the parser, because it is
+ * empty or starts with a string that marks lines to be ignored.
  *
  * @author Johann
  */

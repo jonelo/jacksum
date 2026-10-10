@@ -96,11 +96,15 @@ public class Parameters implements
         VerboseParameters, CompatibilityParameters, HeaderParameters, StringListParameters, ConsoleParameters {
 
 
+    /** The algorithm identifier that is used if no algorithm has been specified. */
     public static final String ALGORITHM_IDENTIFIER_DEFAULT = "sha3-256";
     private static final long serialVersionUID = -4396148871815058931L;
 
+    /** The lower case identifier of the algorithm. */
     private String algorithmIdentifier = ALGORITHM_IDENTIFIER_DEFAULT;
+    /** The original command line arguments. */
     private String[] cliParameters;
+    /** The name of the UTF-8 charset. */
     public static final String UTF_8 = "UTF-8";
 
     final transient private PrintStream stdOutBackup = System.out;
@@ -108,198 +112,287 @@ public class Parameters implements
 
 
     // -a
+    /** The algorithm (-a). */
     private String algorithm = null;
     // -a unknown:
+    /** Whether the algorithm should be found (-a unknown:). */
     private boolean findAlgorithm = false;
     // -A
+    /** Whether the alternate implementation is wanted (-A). */
     private boolean alternate = false;
     // -c <file>
+    /** The check file (-c). */
     private String checkFile = null;
     // --check-line <line>
+    /** The line to be checked (--check-line). */
     private String checkLine = null;
     // --check-strict
+    /** Whether the check is strict (--check-strict). */
     private boolean checkStrict = false;
     // -C <compatibility>
+    /** The ID of the style (-C). */
     private String compatibilityID = null;
+    /** The properties of the style (-C). */
     private CompatibilityProperties compatibilityProperties = null;
 
     // --charset-check-file <charset>
+    /** The charset of the check file (--charset-check-file). */
     private String charsetCheckFile = UTF_8;
     // --charset-file-list <charset>
+    /** The charset of the file list (--charset-file-list). */
     private String charsetFileList = UTF_8;
     // --charset-error-file <charset>
+    /** The charset of the error file (--charset-error-file). */
     private String charsetErrorFile = UTF_8;
     // --charset-output-file <charset>
+    /** The charset of the output file (--charset-output-file). */
     private String charsetOutputFile = UTF_8;
     // --charset-wanted-list <charset>
+    /** The charset of the wanted list (--charset-wanted-list). */
     private String charsetWantedList = UTF_8;
     // --charset-string-list <list>
+    /** The charset of the string list (--charset-string-list). */
     private String charsetStringList = UTF_8;
     // --charset-console <charset>
+    /** The charset of the console (--charset-console). */
     private String charsetConsole = UTF_8;
     // --charset-stdout <charset>
+    /** The charset of stdout (--charset-stdout). */
     private String charsetStdout = null;
     // --charset-stderr <charset>
+    /** The charset of stderr (--charset-stderr). */
     private String charsetStderr = null;
     // -d
+    /** Whether symbolic links to directories are not followed (-d). */
     private boolean dontFollowSymlinksToDirectories = false;
     // -e <text>
+    /** The expected hash value (-e). */
     private String expected = null;
+    /** The expected hash value decoded to bytes, cached by getExpectedBytes(). */
     byte[] expectedAsBytes = null;
     // -E default
+    /** The encoding of the hash value (-E). */
     private Encoding encoding = null;
     // -f
+    /** Whether symbolic links to files are not followed (-f). */
     private boolean dontFollowSymlinksToFiles = false;
     // -F
+    /** The customized output format (-F). */
     private String format = null;
     // -g
+    /** The number of characters in a group of the hash value (-g). */
     private int groupcount = 0;
     // -G
+    /** The character that separates the groups (-G). */
     private Character groupingChar = null;
     // --exact
+    /** Whether an exact match is required (--exact). */
     private boolean exact = false;
     // -h
+    /** Whether the help is wanted (-h). */
     private boolean help = false;
     // -h lang
+    /** The language of the help (-h lang). */
     private String helpLanguage = null;
     // -h [lang] search
+    /** The string to search for in the help (-h [lang] search). */
     private String helpSearchString = null;
     // --hmacs
+    /** Whether the list of HMACs is wanted (--hmacs). */
     private boolean HMACsWanted = false;
     // --info
+    /** Whether the info mode is enabled (--info). */
     private boolean infoMode = false;
     // -I
+    /** The characters that mark comment lines (-I). */
     private String commentChars = null;
     // -l, --list
+    /** Whether the list mode is enabled (-l, --list). */
     private boolean list = false;
     // --list-filter
+    /** The filter for the list output (--list-filter). */
     private ListFilter listFilter;
     // --list-filter-wanted
+    /** The filter for the wanted list output (--list-filter-wanted). */
     private MatchFilter wantedListFilter;
     // --legacy-stdin-name
+    /** The name of the standard input stream in the output. */
     private String stdinName = "<stdin>";
     // -L <file>
+    /** The name of the file list (-L). */
     private String filelistFilename = null;
     // keeps all the filenames that have been specified by -L
+    /** The filenames that have been specified by the file list (-L). */
     private List<String> filenamesFromFilelist = new ArrayList<>();
     // --file-list-format
+    /** The format of the file list (--file-list-format). */
     private String filelistFormat = null;
     // -O/-o
+    /** The output file (-O/-o). */
     private String outputFile = null;
     // --output-file-replace-tokens
+    /** Whether tokens in the output filename are replaced (--output-file-replace-tokens). */
     private boolean outputFileReplaceTokens = false;
+    /** The output filename before tokens have been replaced. */
     private String outputFileRaw = null;
     // -U/-u
+    /** The error file (-U/-u). */
     private String errorFile = null;
     // -O
+    /** Whether an existing output file may be overwritten (-O). */
     private boolean outputFileOverwrite = false;
     // -U
+    /** Whether an existing error file may be overwritten (-U). */
     private boolean errorFileOverwrite = false;
     // -P
+    /** The path separator character (-P). */
     private Character pathChar = File.separatorChar;
     // -q
+    /** The sequence to be hashed (-q). */
     private Sequence sequence = null;
     // -k
+    /** The key for the HMAC (-k). */
     private Sequence key = null;
     // -r
+    /** Whether directories are processed recursively (-r). */
     private boolean recursive = false;
     // -r <depth>
+    /** The maximum depth for recursion (-r). */
     private int depth = Integer.MAX_VALUE;
     // -s
+    /** The separator with translated escape sequences (-s). */
     private String separator = null;
     // -t
+    /** The timestamp format (-t). */
     private String timestampFormat = null;
+    /** Whether the timestamp format has been set by the user. */
     private boolean timestampFormatSetByUser = false;
     // -v
+    /** Whether the version is wanted (-v). */
     private boolean versionWanted = false;
 
     // -V
+    /** The verbosity settings (-V). */
     private Verbose verbose;
     // -w
+    /** The wanted list (-w). */
     private String wantedList = null;
     // -
+    /** Whether the standard input stream is read (-). */
     private boolean stdin = false;
     // --utf8
+    /** Whether UTF-8 is used for stdout and stderr (--utf8). */
     private boolean utf8 = false;
     // --line-separator
+    /** The line separator (--line-separator). */
     private String lineSeparator = System.lineSeparator();
 
     // --license
+    /** Whether the license is wanted (--license). */
     private boolean licenseWanted = false;
 
     // --copyright
+    /** Whether the copyright is wanted (--copyright). */
     private boolean copyrightWanted = false;
 
     // --header
+    /** Whether a header is written (--header). */
     private boolean headerWanted = false;
+    /** Whether --header or --no-header has been specified explicitly. */
     private boolean headerWantedExplicitlySet = false;
 
     // only settable by a style
+    /** The header line written before the regular header, only settable by a style. */
     private String leadingHeader = null;
 
     // --bom
+    /** Whether a byte order mark is written (--bom). */
     private boolean bom = false;
 
     // --scan-all-unix-file-types
+    /** Whether all Unix file types are scanned (--scan-all-unix-file-types). */
     private boolean scanAllUnixFileTypes = false;
 
     // --scan-ntfs-ads
+    /** Whether NTFS alternate data streams are scanned (--scan-ntfs-ads). */
     private boolean scanNtfsAds = false;
 
     // keeps all the filenames that have been specified at the command line
+    /** The filenames that have been specified at the command line. */
     private List<String> filenamesFromArgs;
 
     // --no-path
+    /** Whether paths are omitted (--no-path). */
     private boolean noPath = false;
 
     // --path-absolute
+    /** Whether absolute paths are written (--path-absolute). */
     private boolean pathAbsolute = false;
 
     // --path-relative-to
+    /** The path that output paths are relative to (--path-relative-to). */
     private Path pathRelativeTo = null;
+    /** The path that output paths are relative to, as a string. */
     private String pathRelativeToAsString = null;
 
     // --path-relative-to-entry
+    /** The file list entry that sets the relative path (--path-relative-to-entry), 0 if not set. */
     private int pathRelativeToEntry = 0;
     // true if pathRelativeToAsString has been derived from pathRelativeToEntry by resolvePathRelativeTo()
     // and hence is not a path that has been set by the user resp. by the API
+    /** Whether pathRelativeToAsString has been derived from pathRelativeToEntry. */
     private boolean pathRelativeToDerivedFromEntry = false;
 
     // --threads-hashing
+    /** The number of hashing threads (--threads-hashing). */
     private int threadsHashing = ThreadControl.getThreadsHashing();
     // true if the value above has been set by the user resp. by the API rather than
     // being the default of ThreadControl; the value itself cannot answer that question,
     // because a user is free to ask for exactly the value that is the default anyway
+    /** Whether the number of hashing threads has been set explicitly. */
     private boolean threadsHashingSet = false;
 
     // --threads-reading
+    /** The number of reading threads (--threads-reading). */
     private int threadsReading = ThreadControl.getThreadsReading();
     // true if the value above has been set by the user resp. by the API, see threadsHashingSet
+    /** Whether the number of reading threads has been set explicitly. */
     private boolean threadsReadingSet = false;
 
+    /** The messenger for warnings and errors. */
     private final Messenger messenger;
 
+    /** Whether the file size is wanted: 1 yes, 0 no, -1 not set. */
     private int filesizeWanted = -1;
 
     // --gnu-filename-escaping
+    /** Whether GNU filename escaping is enabled (--gnu-filename-escaping). */
     private boolean gnuEscaping = !OSControl.isWindows(); // enabled by default on non-Windows systems
+    /** Whether GNU filename escaping has been set by the user. */
     private boolean gnuEscapingSetByUser = false;
 
     // implicit parameters
 
     // keeps all the filenames that have been specified by -c
+    /** The filenames that have been specified by the check file (-c). */
     private List<String> filenamesFromCheckFile = null;
 
+    /** Whether this object has been modified by the API. */
     private boolean parameterModifiedByAPI = false;
 
+    /** The string list (--string-list). */
     private String stringList = null;
 
+    /** Whether empty lines are ignored. */
     private boolean ignoreEmptyLines = false;
 
+    /** Whether hash values are ignored. */
     private boolean ignoreHashes = false;
 
+    /** Whether file sizes are ignored. */
     private boolean ignoreSizes = false;
 
+    /** Whether timestamps are ignored. */
     private boolean ignoreTimestamps = false;
 
 
@@ -343,16 +436,35 @@ public class Parameters implements
         return this;
     }
 
+    /**
+     * Checks the parameters and returns this object.
+     *
+     * @param setupStreams true if the standard output and error streams should be set up as well
+     * @return this Parameters object, but checked
+     * @throws ParameterException if parameter combinations are invalid or if a parameter error occurs
+     * @throws ExitException if an exit should happen
+     */
     public Parameters checked(boolean setupStreams) throws ParameterException, ExitException {
         checkParameters(setupStreams);
         return this;
     }
 
 
+    /**
+     * Returns this object without checking the parameters.
+     *
+     * @return this Parameters object, unchecked
+     */
     public Parameters unchecked() {
         return this;
     }
 
+    /**
+     * Sets up the standard output and error streams according to the charset options.
+     *
+     * @throws ParameterException if a charset is not supported
+     * @throws ExitException if an exit should happen
+     */
     public void setupStreams() throws ParameterException, ExitException {
         handleCharsetsAndSetupStreams();
     }
@@ -421,6 +533,8 @@ public class Parameters implements
     }
 
     /**
+     * Returns the format of the file list (option --file-list-format).
+     *
      * @return the filelistFormat
      */
     public String getFilelistFormat() {
@@ -428,6 +542,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets the format of the file list (option --file-list-format).
+     *
      * @param filelistFormat the filelistFormat to set
      */
     public void setFilelistFormat(String filelistFormat) {
@@ -435,6 +551,11 @@ public class Parameters implements
     }
 
 
+    /**
+     * Sets the original command line arguments.
+     *
+     * @param args the command line arguments
+     */
     public void setCLIParameters(String[] args) {
         this.cliParameters = args;
     }
@@ -444,6 +565,11 @@ public class Parameters implements
         return cliParameters;
     }
 
+    /**
+     * Sets whether this object has been modified by the API, in which case the command line arguments are rebuilt from the current values.
+     *
+     * @param parameterModifiedByAPI true if this object has been modified by the API
+     */
     public void setParameterModifiedByAPI(boolean parameterModifiedByAPI) {
         this.parameterModifiedByAPI = parameterModifiedByAPI;
     }
@@ -486,10 +612,20 @@ public class Parameters implements
         return filenamesFromArgs;
     }
 
+    /**
+     * Sets the filenames that have been specified at the command line.
+     *
+     * @param filenamesFromArgs the filenames
+     */
     public void setFilenamesFromArgs(List<String> filenamesFromArgs) {
         this.filenamesFromArgs = filenamesFromArgs;
     }
 
+    /**
+     * Sets the characters that mark comment lines (option -I).
+     *
+     * @param commentChars the characters that mark comment lines
+     */
     public void setCommentChars(String commentChars) {
         this.commentChars = commentChars;
     }
@@ -498,6 +634,11 @@ public class Parameters implements
         return commentChars;
     }
 
+    /**
+     * Sets the verbosity settings.
+     *
+     * @param verbose the verbosity settings
+     */
     public void setVerbose(Verbose verbose) {
         this.verbose = verbose;
     }
@@ -513,12 +654,18 @@ public class Parameters implements
         return separator;
     }
 
+    /** The separator as it has been specified (-s). */
     private String separatorRaw = null;
 
     private String getSeparatorRaw() {
         return separatorRaw;
     }
 
+    /**
+     * Sets the separator (option -s); escape sequences are translated.
+     *
+     * @param separator the separator, may contain escape sequences
+     */
     public void setSeparator(String separator) {
         this.separatorRaw = separator;
         this.separator = net.loefflmann.sugar.util.GeneralString.translateEscapeSequences(separator);
@@ -536,6 +683,11 @@ public class Parameters implements
     }
 
     // -f
+    /**
+     * Sets whether symbolic links to files are not followed (option -f).
+     *
+     * @param dontFollowSymlinksToFiles true if symbolic links to files should not be followed
+     */
     public void setDontFollowSymlinksToFiles(boolean dontFollowSymlinksToFiles) {
         this.dontFollowSymlinksToFiles = dontFollowSymlinksToFiles;
     }
@@ -547,6 +699,11 @@ public class Parameters implements
     }
 
     // -r
+    /**
+     * Sets whether directories are processed recursively (option -r).
+     *
+     * @param recursive true if directories should be processed recursively
+     */
     public void setRecursive(boolean recursive) {
         this.recursive = recursive;
     }
@@ -556,6 +713,11 @@ public class Parameters implements
         return stdin;
     }
 
+    /**
+     * Sets whether the standard input stream is read (filename -).
+     *
+     * @param stdin true if the standard input stream should be read
+     */
     public void setStdinForFilenamesFromArgs(boolean stdin) {
         this.stdin = stdin;
     }
@@ -567,10 +729,21 @@ public class Parameters implements
     }
 
     // -x, -X, -E <encoding>
+    /**
+     * Sets the encoding of the hash value (options -x, -X, -E).
+     *
+     * @param encoding the encoding
+     */
     public void setEncoding(Encoding encoding) {
         this.encoding = encoding;
     }
 
+    /**
+     * Sets the encoding of the hash value by its name (option -E).
+     *
+     * @param encoding the name of the encoding
+     * @throws IllegalArgumentException if the encoding is not supported
+     */
     public void setEncoding(String encoding) throws IllegalArgumentException {
         this.encoding = Encoding.string2Encoding(encoding);
     }
@@ -585,6 +758,11 @@ public class Parameters implements
         return sequence;
     }
 
+    /**
+     * Sets the sequence to be hashed (option -q).
+     *
+     * @param string the sequence string
+     */
     public void setSequence(String string) {
         sequence = new Sequence(string);
     }
@@ -593,6 +771,11 @@ public class Parameters implements
         this.sequence = sequence;
     }
 
+    /**
+     * Sets the key for the HMAC (option -k).
+     *
+     * @param key the key as a sequence string
+     */
     public void setKey(String key) {
         this.key = new Sequence(key);
     }
@@ -614,6 +797,12 @@ public class Parameters implements
     }
 
     // -g
+    /**
+     * Sets the number of characters in a group of the hash value (option -g).
+     *
+     * @param grouping the number of characters in a group, 0 disables grouping
+     * @throws IllegalArgumentException if the value is negative
+     */
     public void setGrouping(int grouping) throws IllegalArgumentException {
         if (grouping < 0) {
             throw new IllegalArgumentException("Grouping is out of range. A value >= 0 is expected.");
@@ -621,6 +810,12 @@ public class Parameters implements
         this.groupcount = grouping;
     }
 
+    /**
+     * Sets the number of characters in a group of the hash value (option -g).
+     *
+     * @param grouping the number of characters in a group as a decimal number
+     * @throws IllegalArgumentException if the value is not a decimal number or if it is negative
+     */
     public void setGrouping(String grouping) throws IllegalArgumentException {
         try {
             setGrouping(Integer.parseInt(grouping));
@@ -636,6 +831,12 @@ public class Parameters implements
         return groupcount > 0;
     }
 
+    /**
+     * Sets the character that separates the groups of the hash value (option -G).
+     *
+     * @param string a string that consists of exactly one character
+     * @throws IllegalArgumentException if the string does not consist of exactly one character
+     */
     public void setGroupChar(String string) throws IllegalArgumentException {
         if (string.length() != 1) {
             throw new IllegalArgumentException(String.format(
@@ -645,6 +846,11 @@ public class Parameters implements
         }
     }
 
+    /**
+     * Sets the character that separates the groups of the hash value (option -G).
+     *
+     * @param c the group character
+     */
     public void setGroupChar(char c) {
         groupingChar = c;
     }
@@ -669,6 +875,12 @@ public class Parameters implements
         return noPath;
     }
 
+    /**
+     * Sets the path separator character (option -P).
+     *
+     * @param arg a string that consists of exactly one character, either / or \
+     * @throws IllegalArgumentException if the string does not consist of exactly one character, or if the character is neither / nor \
+     */
     public void setPathChar(String arg) throws IllegalArgumentException {
         if (arg.length() != 1) {
             throw new IllegalArgumentException("Exactly one character is required.");
@@ -677,6 +889,12 @@ public class Parameters implements
         }
     }
 
+    /**
+     * Sets the path separator character (option -P).
+     *
+     * @param arg the path separator, either / or \
+     * @throws IllegalArgumentException if the character is neither / nor \
+     */
     public void setPathChar(Character arg) throws IllegalArgumentException {
         if (arg == '/' || arg == '\\') {
             pathChar = arg;
@@ -700,6 +918,11 @@ public class Parameters implements
         return format != null;
     }
 
+    /**
+     * Sets the customized output format (option -F).
+     *
+     * @param format the format
+     */
     public void setFormat(String format) {
         this.format = format;
     }
@@ -709,6 +932,11 @@ public class Parameters implements
         return checkFile;
     }
 
+    /**
+     * Sets the check file (option -c).
+     *
+     * @param checkFile the name of the check file
+     */
     public void setCheckFile(String checkFile) {
         this.checkFile = checkFile;
     }
@@ -741,6 +969,11 @@ public class Parameters implements
         return expectedAsBytes;
     }
 
+    /**
+     * Sets the expected hash value (option -e) and discards any previously decoded expected bytes.
+     *
+     * @param expected the expected hash value
+     */
     public void setExpected(String expected) {
         this.expected = expected;
         // the decoded value belongs to the old expectation, see getExpectedBytes()
@@ -757,6 +990,11 @@ public class Parameters implements
         return timestampFormat;
     }
 
+    /**
+     * Sets the timestamp format (option -t); a non-null value marks it as set by the user.
+     *
+     * @param timestampFormat the timestamp format, or null to discard it
+     */
     public void setTimestampFormat(String timestampFormat) {
         this.timestampFormat = timestampFormat;
         // null discards the format and with it the fact that the user has set it
@@ -790,6 +1028,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets the language of the help (option -h [lang]).
+     *
      * @param helpLanguage the language of the help
      */
     public void setHelpLanguage(String helpLanguage) {
@@ -801,6 +1041,11 @@ public class Parameters implements
         return helpSearchString;
     }
 
+    /**
+     * Sets the string to search for in the help (option -h [lang] search).
+     *
+     * @param helpSearchString the search string
+     */
     public void setHelpSearchString(String helpSearchString) {
         this.helpSearchString = helpSearchString;
     }
@@ -810,6 +1055,11 @@ public class Parameters implements
         return alternate;
     }
 
+    /**
+     * Sets whether the alternate implementation of the algorithm is wanted (option -A).
+     *
+     * @param alternate true if the alternate implementation is wanted
+     */
     public void setAlternateImplementationWanted(boolean alternate) {
         this.alternate = alternate;
     }
@@ -819,15 +1069,30 @@ public class Parameters implements
         return algorithmIdentifier;
     }
 
+    /**
+     * Determines whether the algorithm has been set by the user (option -a).
+     *
+     * @return true if the algorithm has been set
+     */
     public boolean isAlgorithmSetByUser() {
         return algorithm != null;
     }
 
+    /**
+     * Returns the algorithm as it has been specified (option -a).
+     *
+     * @return the algorithm, or null if it has not been set
+     */
     public String getAlgorithm() {
         return algorithm;
     }
 
 
+    /**
+     * Sets the algorithm (option -a). A null value selects the default algorithm, and an algorithm starting with {@code unknown:} enables finding the algorithm and all verbose output.
+     *
+     * @param algorithm the algorithm, or null
+     */
     public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
         if (algorithm == null) {
@@ -847,6 +1112,11 @@ public class Parameters implements
         return list;
     }
 
+    /**
+     * Sets whether the list mode is enabled (option -l resp. --list).
+     *
+     * @param list true if the list mode should be enabled
+     */
     public void setList(boolean list) {
         this.list = list;
     }
@@ -856,6 +1126,11 @@ public class Parameters implements
         return dontFollowSymlinksToDirectories;
     }
 
+    /**
+     * Sets whether symbolic links to directories are not followed (option -d).
+     *
+     * @param dontFollowSymlinksToDirectories true if symbolic links to directories should not be followed
+     */
     public void setDontFollowSymlinksToDirectories(boolean dontFollowSymlinksToDirectories) {
         this.dontFollowSymlinksToDirectories = dontFollowSymlinksToDirectories;
     }
@@ -864,6 +1139,11 @@ public class Parameters implements
         return outputFile;
     }
 
+    /**
+     * Sets the output file (option -o resp. -O).
+     *
+     * @param outputFile the name of the output file
+     */
     public void setOutputFile(String outputFile) {
         this.outputFile = outputFile;
     }
@@ -882,18 +1162,38 @@ public class Parameters implements
         return scanNtfsAds;
     }
 
+    /**
+     * Sets whether NTFS alternate data streams are scanned (option --scan-ntfs-ads).
+     *
+     * @param scanNtfsAds true if NTFS alternate data streams should be scanned
+     */
     public void setScanNtfsAds(boolean scanNtfsAds) {
         this.scanNtfsAds = scanNtfsAds;
     }
 
+    /**
+     * Sets whether all Unix file types are scanned (option --scan-all-unix-file-types).
+     *
+     * @param scanAllUnixFileTypes true if all Unix file types should be scanned
+     */
     public void setScanAllUnixFileTypes(boolean scanAllUnixFileTypes) {
         this.scanAllUnixFileTypes = scanAllUnixFileTypes;
     }
 
+    /**
+     * Sets the error file (option -u resp. -U).
+     *
+     * @param errorFile the name of the error file
+     */
     public void setErrorFile(String errorFile) {
         this.errorFile = errorFile;
     }
 
+    /**
+     * Sets the maximum depth for the recursive processing of directories (option -r).
+     *
+     * @param depth the maximum depth
+     */
     public void setDepth(int depth) {
         this.depth = depth;
     }
@@ -907,14 +1207,29 @@ public class Parameters implements
         return lineSeparator;
     }
 
+    /**
+     * Sets the line separator (option --line-separator).
+     *
+     * @param lineSeparator the line separator
+     */
     public void setLineSeparator(String lineSeparator) {
         this.lineSeparator = lineSeparator;
     }
 
+    /**
+     * Returns whether a byte order mark is written (option --bom).
+     *
+     * @return true if a byte order mark is written
+     */
     public boolean isBom() {
         return bom;
     }
 
+    /**
+     * Sets whether a byte order mark is written (option --bom).
+     *
+     * @param bom true if a byte order mark should be written
+     */
     public void setBom(boolean bom) {
         this.bom = bom;
     }
@@ -923,17 +1238,32 @@ public class Parameters implements
         return headerWanted;
     }
 
+    /**
+     * Sets whether a header is written (option --header).
+     *
+     * @param headerWanted true if a header should be written
+     */
     public void setHeaderWanted(boolean headerWanted) {
         this.headerWanted = headerWanted;
     }
 
     // by default the flag headerWantedExplicitlySet is false,
     // it becomes true if the user explicitly set --header or --no-header
+    /**
+     * Sets whether the user has specified --header or --no-header explicitly.
+     *
+     * @param headerWantedExplicitlySet true if --header or --no-header has been specified explicitly
+     */
     public void setHeaderWantedExplicitlySet(boolean headerWantedExplicitlySet) {
         this.headerWantedExplicitlySet = headerWantedExplicitlySet;
     }
 
     // did the user specify explicitly --header or --no-header ?
+    /**
+     * Determines whether the user has specified --header or --no-header explicitly.
+     *
+     * @return true if --header or --no-header has been specified explicitly
+     */
     public boolean isHeaderWantedExplicitlySet() {
         return headerWantedExplicitlySet;
     }
@@ -942,18 +1272,38 @@ public class Parameters implements
         return pathAbsolute;
     }
 
+    /**
+     * Sets whether absolute paths are written (option --path-absolute).
+     *
+     * @param pathAbsolute true if absolute paths should be written
+     */
     public void setPathAbsolute(boolean pathAbsolute) {
         this.pathAbsolute = pathAbsolute;
     }
 
+    /**
+     * Sets whether paths are omitted in the output (option --no-path).
+     *
+     * @param noPath true if paths should be omitted
+     */
     public void setNoPath(boolean noPath) {
         this.noPath = noPath;
     }
 
+    /**
+     * Returns the path that the output paths are relative to (option --path-relative-to).
+     *
+     * @return the path as a string, or null if it has not been set
+     */
     public String getPathRelativeToAsString() {
         return pathRelativeToAsString;
     }
 
+    /**
+     * Sets the path that the output paths are relative to (option --path-relative-to); the path is not regarded as derived from a file list entry.
+     *
+     * @param pathRelativeToAsString the path as a string
+     */
     public void setPathRelativeToAsString(String pathRelativeToAsString) {
         this.pathRelativeToAsString = pathRelativeToAsString;
         // a path that is set explicitly is not a derived one
@@ -964,6 +1314,11 @@ public class Parameters implements
         return pathRelativeTo;
     }
 
+    /**
+     * Sets the path that the output paths are relative to.
+     *
+     * @param pathRelativeTo the path
+     */
     public void setPathRelativeTo(Path pathRelativeTo) {
         this.pathRelativeTo = pathRelativeTo;
     }
@@ -1024,14 +1379,29 @@ public class Parameters implements
         this.threadsReading = threadsReading;
     }
 
+    /**
+     * Returns the number of the file list entry that sets the path the output paths are relative to (option --path-relative-to-entry).
+     *
+     * @return the number of the entry, starting with 1, or 0 if it has not been set
+     */
     public int getPathRelativeToEntry() {
         return pathRelativeToEntry;
     }
 
+    /**
+     * Determines whether a file list entry sets the path the output paths are relative to (option --path-relative-to-entry).
+     *
+     * @return true if an entry number greater than 0 has been set
+     */
     public boolean isPathRelativeToEntry() {
         return pathRelativeToEntry > 0;
     }
 
+    /**
+     * Sets the number of the file list entry that sets the path the output paths are relative to (option --path-relative-to-entry).
+     *
+     * @param number the number of the entry, starting with 1, or 0 to unset it
+     */
     public void setPathRelativeToEntry(int number) {
         this.pathRelativeToEntry = number;
         if (number == 0) {
@@ -1041,18 +1411,36 @@ public class Parameters implements
     }
 
 
+    /**
+     * Sets whether the file size is wanted (option --filesize).
+     *
+     * @param filesizeWanted 1 if the file size is wanted, 0 if it is not wanted, -1 if it has not been set
+     */
     public void setFilesizeWanted(int filesizeWanted) {
         this.filesizeWanted = filesizeWanted;
     }
 
+    /**
+     * Returns whether the file size is wanted (option --filesize).
+     *
+     * @return 1 if the file size is wanted, 0 if it is not wanted, -1 if it has not been set
+     */
     public int getFilesizeWanted() {
         return filesizeWanted;
     }
 
+    /**
+     * Sets whether the file size is wanted (option --filesize).
+     *
+     * @param filesizeWanted true if the file size is wanted
+     */
     public void setFilesizeWanted(boolean filesizeWanted) {
         this.filesizeWanted = filesizeWanted ? 1 : 0;
     }
 
+    /**
+     * Resets the file size setting to not set.
+     */
     public void unsetFilesizeWanted() {
         this.filesizeWanted = -1;
     }
@@ -1073,40 +1461,83 @@ public class Parameters implements
         return gnuEscapingSetByUser;
     }
 
+    /**
+     * Sets whether GNU filename escaping is enabled (option --gnu-filename-escaping) and marks it as set by the user.
+     *
+     * @param gnuEscaping true if GNU filename escaping should be enabled
+     */
     public void setGnuEscaping(boolean gnuEscaping) {
         this.gnuEscaping = gnuEscaping;
         this.gnuEscapingSetByUser = true;
     }
 
+    /**
+     * Resets the GNU filename escaping to the platform default (enabled on non-Windows systems) and marks it as not set by the user.
+     */
     public void setGnuEscapingToDefault() {
         this.gnuEscaping = !OSControl.isWindows();
         this.gnuEscapingSetByUser = false;
     }
 
+    /**
+     * Returns the wanted list (option -w resp. --wanted-list).
+     *
+     * @return the wanted list, or null if it has not been set
+     */
     public String getWantedList() {
         return wantedList;
     }
 
+    /**
+     * Determines whether a wanted list has been set (option -w resp. --wanted-list).
+     *
+     * @return true if a wanted list has been set
+     */
     public boolean isWantedList() {
         return wantedList != null;
     }
 
+    /**
+     * Sets the wanted list (option -w resp. --wanted-list).
+     *
+     * @param wantedList the wanted list
+     */
     public void setWantedList(String wantedList) {
         this.wantedList = wantedList;
     }
 
+    /**
+     * Returns the charset of the wanted list (option --charset-wanted-list).
+     *
+     * @return the charset of the wanted list
+     */
     public String getCharsetWantedList() {
         return charsetWantedList;
     }
 
+    /**
+     * Sets the charset of the wanted list (option --charset-wanted-list).
+     *
+     * @param charsetWantedList the charset of the wanted list
+     */
     public void setCharsetWantedList(String charsetWantedList) {
         this.charsetWantedList = charsetWantedList;
     }
 
+    /**
+     * Returns the filter for the wanted list output (option --list-filter-wanted).
+     *
+     * @return the filter for the wanted list output
+     */
     public MatchFilter getWantedListFilter() {
         return wantedListFilter;
     }
 
+    /**
+     * Sets the filter for the wanted list output (option --list-filter-wanted).
+     *
+     * @param wantedListFilter the filter for the wanted list output
+     */
     public void setWantedListFilter(MatchFilter wantedListFilter) {
         this.wantedListFilter = wantedListFilter;
     }
@@ -1127,6 +1558,11 @@ public class Parameters implements
         return charsetStringList;
     }
 
+    /**
+     * Sets the charset of the string list (option --charset-string-list).
+     *
+     * @param charsetStringList the charset of the string list
+     */
     public void setCharsetStringList(String charsetStringList) {
         this.charsetStringList = charsetStringList;
     }
@@ -1135,20 +1571,40 @@ public class Parameters implements
         return ignoreEmptyLines;
     }
 
+    /**
+     * Sets whether empty lines are ignored (option --ignore-empty-lines).
+     *
+     * @param ignoreEmptyLines true if empty lines should be ignored
+     */
     public void setIgnoreEmptyLines(boolean ignoreEmptyLines) {
         this.ignoreEmptyLines = ignoreEmptyLines;
     }
 
     public boolean isIgnoreHashes() { return ignoreHashes; }
 
+    /**
+     * Sets whether hash values are ignored.
+     *
+     * @param ignoreHashes true if hash values should be ignored
+     */
     public void setIgnoreHashes(boolean ignoreHashes) { this.ignoreHashes = ignoreHashes; }
 
     public boolean isIgnoreSizes() { return ignoreSizes; }
 
+    /**
+     * Sets whether file sizes are ignored.
+     *
+     * @param ignoreSizes true if file sizes should be ignored
+     */
     public void setIgnoreSizes(boolean ignoreSizes) { this.ignoreSizes = ignoreSizes; }
 
     public boolean isIgnoreTimestamps() { return ignoreTimestamps; }
 
+    /**
+     * Sets whether timestamps are ignored.
+     *
+     * @param ignoreTimestamps true if timestamps should be ignored
+     */
     public void setIgnoreTimestamps(boolean ignoreTimestamps) { this.ignoreTimestamps = ignoreTimestamps; }
 
 
@@ -1165,6 +1621,11 @@ public class Parameters implements
         return outputFile != null;
     }
 
+    /**
+     * Returns whether an existing output file may be overwritten (option -O).
+     *
+     * @return true if an existing output file may be overwritten
+     */
     public boolean isOutputFileOverwrite() {
         return outputFileOverwrite;
     }
@@ -1173,19 +1634,36 @@ public class Parameters implements
         return errorFile != null;
     }
 
+    /**
+     * Returns whether an existing error file may be overwritten (option -U).
+     *
+     * @return true if an existing error file may be overwritten
+     */
     public boolean isErrorFileOverwrite() {
         return errorFileOverwrite;
     }
 
+    /**
+     * Returns whether the algorithm should be found for a given hash value (option -a unknown:...).
+     *
+     * @return true if the algorithm should be found
+     */
     public boolean isFindAlgorithm() {
         return findAlgorithm;
     }
 
+    /**
+     * Returns the name of the file list (option -L resp. --file-list).
+     *
+     * @return the name of the file list, or null if it has not been set
+     */
     public String getFilelistFilename() {
         return filelistFilename;
     }
 
     /**
+     * Sets the name of the file list (option -L resp. --file-list).
+     *
      * @param filelistFilename the filelistFilename to set
      */
     public void setFilelistFilename(String filelistFilename) {
@@ -1201,6 +1679,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets the filenames that have been read from the file list (option -L resp. --file-list).
+     *
      * @param filenamesFromFilelist the filelistByFile to set
      */
     public void setFilenamesFromFilelist(List<String> filenamesFromFilelist) {
@@ -1216,6 +1696,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets the ID of the style resp. compatibility (option -C resp. --style).
+     *
      * @param compatibilityID the compatibilityID to set
      */
     public void setCompatibilityID(String compatibilityID) {
@@ -1231,6 +1713,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets the charset of the check file (option --charset-check-file).
+     *
      * @param charsetCheckFile the charsetCheckFile to set
      */
     public void setCharsetCheckFile(String charsetCheckFile) {
@@ -1238,6 +1722,8 @@ public class Parameters implements
     }
 
     /**
+     * Returns the charset of the file list (option --charset-file-list).
+     *
      * @return the charsetListFile
      */
     public String getCharsetFileList() {
@@ -1245,6 +1731,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets the charset of the file list (option --charset-file-list).
+     *
      * @param charsetFileList the charsetListFile to set
      */
     public void setCharsetFileList(String charsetFileList) {
@@ -1267,6 +1755,8 @@ public class Parameters implements
     }
 
     /**
+     * Returns the charset of the error file (option --charset-error-file).
+     *
      * @return the charsetErrorFile
      */
     public String getCharsetErrorFile() {
@@ -1274,6 +1764,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets the charset of the error file (option --charset-error-file).
+     *
      * @param charsetErrorFile the charsetErrorFile to set
      */
     public void setCharsetErrorFile(String charsetErrorFile) {
@@ -1281,6 +1773,8 @@ public class Parameters implements
     }
 
     /**
+     * Returns the charset of the output file (option --charset-output-file).
+     *
      * @return the charsetOutputFile
      */
     public String getCharsetOutputFile() {
@@ -1288,6 +1782,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets the charset of the output file (option --charset-output-file).
+     *
      * @param charsetOutputFile the charsetOutputFile to set
      */
     public void setCharsetOutputFile(String charsetOutputFile) {
@@ -1295,6 +1791,8 @@ public class Parameters implements
     }
 
     /**
+     * Returns the charset of the standard output stream (option --charset-stdout).
+     *
      * @return the charsetStdout
      */
     public String getCharsetStdout() {
@@ -1302,6 +1800,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets the charset of the standard output stream (option --charset-stdout).
+     *
      * @param charsetStdout the charsetStdout to set
      */
     public void setCharsetStdout(String charsetStdout) {
@@ -1309,6 +1809,8 @@ public class Parameters implements
     }
 
     /**
+     * Returns the charset of the standard error stream (option --charset-stderr).
+     *
      * @return the charsetStderr
      */
     public String getCharsetStderr() {
@@ -1316,6 +1818,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets the charset of the standard error stream (option --charset-stderr).
+     *
      * @param charsetStderr the charsetStderr to set
      */
     public void setCharsetStderr(String charsetStderr) {
@@ -1324,6 +1828,8 @@ public class Parameters implements
 
 
     /**
+     * Returns whether the version is wanted (option -v).
+     *
      * @return the versionWanted
      */
     public boolean isVersionWanted() {
@@ -1331,21 +1837,35 @@ public class Parameters implements
     }
 
     /**
+     * Sets whether the version is wanted (option -v).
+     *
      * @param versionWanted the versionWanted to set
      */
     public void setVersionWanted(boolean versionWanted) {
         this.versionWanted = versionWanted;
     }
 
+    /**
+     * Returns whether the list of supported HMACs is wanted (option --hmacs).
+     *
+     * @return true if the list of supported HMACs is wanted
+     */
     public boolean isHMACsWanted() {
         return HMACsWanted;
     }
 
+    /**
+     * Sets whether the list of supported HMACs is wanted (option --hmacs).
+     *
+     * @param HMACsWanted true if the list of supported HMACs is wanted
+     */
     public void setHMACsWanted(boolean HMACsWanted) {
         this.HMACsWanted = HMACsWanted;
     }
 
     /**
+     * Sets whether an existing error file may be overwritten (option -U).
+     *
      * @param errorFileOverwrite the errorFileOverwrite to set
      */
     public void setErrorFileOverwrite(boolean errorFileOverwrite) {
@@ -1353,6 +1873,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets whether an existing output file may be overwritten (option -O).
+     *
      * @param outputFileOverwrite the outputFileOverwrite to set
      */
     public void setOutputFileOverwrite(boolean outputFileOverwrite) {
@@ -1360,6 +1882,8 @@ public class Parameters implements
     }
 
     /**
+     * Returns whether UTF-8 is used for both stdout and stderr (option --utf8).
+     *
      * @return the utf8
      */
     public boolean isUtf8() {
@@ -1367,6 +1891,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets whether UTF-8 is used for both stdout and stderr (option --utf8).
+     *
      * @param utf8 the utf8 to set
      */
     public void setUtf8(boolean utf8) {
@@ -1382,6 +1908,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets whether the exact match is required (option --exact).
+     *
      * @param exact the exact to set
      */
     public void setExact(boolean exact) {
@@ -1389,6 +1917,8 @@ public class Parameters implements
     }
 
     /**
+     * Returns whether the help is wanted (option -h).
+     *
      * @return the help
      */
     public boolean isHelp() {
@@ -1396,6 +1926,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets whether the help is wanted (option -h).
+     *
      * @param help the help to set
      */
     public void setHelp(boolean help) {
@@ -1410,6 +1942,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets whether the info mode is enabled (option --info).
+     *
      * @param infoMode the infoMode to set
      */
     public void setInfoMode(boolean infoMode) {
@@ -1438,6 +1972,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets whether the check is strict (option --check-strict).
+     *
      * @param checkStrict the checkStrict to set
      */
     public void setCheckStrict(boolean checkStrict) {
@@ -1454,6 +1990,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets the properties of the style resp. compatibility (option -C resp. --style).
+     *
      * @param compatibilityProperties the compatibilityProperties to set
      */
     public void setCompatibilityProperties(CompatibilityProperties compatibilityProperties) {
@@ -1470,6 +2008,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets the filter for the list output (option --list-filter).
+     *
      * @param listFilter the listFilter to set
      */
     public void setListFilter(ListFilter listFilter) {
@@ -1477,6 +2017,8 @@ public class Parameters implements
     }
 
     /**
+     * Returns the line that should be checked (option --check-line).
+     *
      * @return the checkLine
      */
     public String getCheckLine() {
@@ -1484,6 +2026,8 @@ public class Parameters implements
     }
 
     /**
+     * Sets the line that should be checked (option --check-line).
+     *
      * @param checkLine the checkLine to set
      */
     public void setCheckLine(String checkLine) {
@@ -1499,24 +2043,46 @@ public class Parameters implements
     }
 
     /**
+     * Sets the name that is used for the standard input stream in the output.
+     *
      * @param stdinName the stdinNameForOutput to set
      */
     public void setStdinName(String stdinName) {
         this.stdinName = stdinName;
     }
 
+    /**
+     * Returns whether the license is wanted (option --license).
+     *
+     * @return true if the license is wanted
+     */
     public boolean isLicenseWanted() {
         return licenseWanted;
     }
 
+    /**
+     * Sets whether the license is wanted (option --license).
+     *
+     * @param licenseWanted true if the license is wanted
+     */
     public void setLicenseWanted(boolean licenseWanted) {
         this.licenseWanted = licenseWanted;
     }
 
+    /**
+     * Returns whether the copyright is wanted (option --copyright).
+     *
+     * @return true if the copyright is wanted
+     */
     public boolean isCopyrightWanted() {
         return copyrightWanted;
     }
 
+    /**
+     * Sets whether the copyright is wanted (option --copyright).
+     *
+     * @param copyrightWanted true if the copyright is wanted
+     */
     public void setCopyrightWanted(boolean copyrightWanted) {
         this.copyrightWanted = copyrightWanted;
     }
@@ -1750,6 +2316,11 @@ public class Parameters implements
         }
     }
 
+    /**
+     * Builds the command line arguments from the current values of this object.
+     *
+     * @return the command line arguments
+     */
     public List<String> toStringArrayList() {
         List<String> list = new ArrayList<>();
         if (algorithm != null) {
@@ -2039,6 +2610,13 @@ public class Parameters implements
     }
 
     // setupStreams - if streams should be setup as well
+    /**
+     * Checks the parameters, resolves the file list, validates sequence, key, style and algorithm, and applies implicit settings.
+     *
+     * @param setupStreams true if the standard output and error streams should be set up as well
+     * @throws ParameterException if parameter combinations are invalid or if a parameter error occurs
+     * @throws ExitException if an exit should happen
+     */
     public void checkParameters(boolean setupStreams) throws ParameterException, ExitException {
         resolveFileList(); // --file-list <list> --file-list-charset <charset>
         if (setupStreams) {
@@ -2054,6 +2632,12 @@ public class Parameters implements
     }
 
     // ignore/disable unsupported/unsuitable/incompatible parameters
+    /**
+     * Checks the parameters and sets up the standard output and error streams.
+     *
+     * @throws ParameterException if parameter combinations are invalid or if a parameter error occurs
+     * @throws ExitException if an exit should happen
+     */
     public void checkParameters() throws ParameterException, ExitException {
         checkParameters(true);
     }
@@ -2268,14 +2852,23 @@ public class Parameters implements
         return format;
     }
 
+    /**
+     * Restores the standard output stream that was active when this object was created.
+     */
     public void restoreStdOut() {
         System.setOut(stdOutBackup);
     }
 
+    /**
+     * Restores the standard error stream that was active when this object was created.
+     */
     public void restoreStdErr() {
         System.setErr(stdErrBackup);
     }
 
+    /**
+     * Restores both the standard output and the standard error stream that were active when this object was created.
+     */
     public void restoreStreams() {
         restoreStdOut();
         restoreStdErr();
@@ -2851,18 +3444,38 @@ public class Parameters implements
 
 
 
+    /**
+     * Returns whether tokens in the output filename are replaced (option --output-file-replace-tokens).
+     *
+     * @return true if tokens in the output filename are replaced
+     */
     public boolean isOutputFileReplaceTokens() {
         return outputFileReplaceTokens;
     }
 
+    /**
+     * Sets whether tokens in the output filename are replaced (option --output-file-replace-tokens).
+     *
+     * @param outputFileReplaceTokens true if tokens should be replaced
+     */
     public void setOutputFileReplaceTokens(boolean outputFileReplaceTokens) {
         this.outputFileReplaceTokens = outputFileReplaceTokens;
     }
 
+    /**
+     * Returns the output filename as it has been specified, before any tokens have been replaced (option --output-file-replace-tokens).
+     *
+     * @return the raw output filename, or null if it has not been set
+     */
     public String getOutputFileRaw() {
         return outputFileRaw;
     }
 
+    /**
+     * Sets the output filename as it has been specified, before any tokens have been replaced (option --output-file-replace-tokens).
+     *
+     * @param outputFileRaw the raw output filename
+     */
     public void setOutputFileRaw(String outputFileRaw) {
         this.outputFileRaw = outputFileRaw;
     }
@@ -2871,6 +3484,11 @@ public class Parameters implements
         return leadingHeader;
     }
 
+    /**
+     * Sets the header line that is written before the regular header; only settable by a style.
+     *
+     * @param leadingHeader the leading header
+     */
     public void setLeadingHeader(String leadingHeader) {
         this.leadingHeader = leadingHeader;
     }

@@ -31,8 +31,17 @@ import org.bouncycastle.crypto.digests.Blake2bpDigest;
 import org.bouncycastle.crypto.digests.Blake2sDigest;
 import org.bouncycastle.crypto.digests.Blake2spDigest;
 
+/**
+ * A wrapper for the BLAKE2bp implementation of Bouncy Castle.
+ */
 public class Blake2bpWrapper extends MDbouncycastle {
 
+    /**
+     * Creates a new Blake2bpWrapper.
+     *
+     * @param input the name of the algorithm, must be {@code blake2bp} (case-insensitive)
+     * @throws NoSuchAlgorithmException if the digest cannot be created
+     */
     public Blake2bpWrapper(String input) throws NoSuchAlgorithmException {
         length = 0;
         filename = null;

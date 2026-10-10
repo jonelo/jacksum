@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MD;
 
 /**
+ * Selects the implementation(s) of the algorithm MDC2.
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class MDC2_Selector extends Selector {
 
     private static final String ID = "mdc2";
     
+    /**
+     * Creates a new MDC2_Selector.
+     */
+    public MDC2_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

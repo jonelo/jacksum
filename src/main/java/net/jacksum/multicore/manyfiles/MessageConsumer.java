@@ -28,32 +28,70 @@ import net.jacksum.formats.FormatPreferences;
 import net.jacksum.statistics.Statistics;
 
 
+/**
+ * The base class of a consumer that takes messages from a queue and handles them,
+ * until the exit message is received.
+ */
 public abstract class MessageConsumer implements Runnable {
     
+    /** The parameters of the consumer. */
     protected ConsumerParameters parameters;
+    /** The queue from which the messages are taken. */
     protected BlockingQueue<Message> queue;
+    /** The format preferences. */
     protected FormatPreferences formatPreferences;
 
     // the number of messages that could not be consumed, because an unexpected exception occurred
     // while they were being handled, see also run() and getUnexpectedErrors()
     private int unexpectedErrors;
 
+    /**
+     * Creates a new MessageConsumer.
+     */
+    public MessageConsumer() {
+    }
+
+    /**
+     * Sets the format preferences.
+     *
+     * @param formatPreferences the format preferences
+     */
     public void setFormatPreferences(FormatPreferences formatPreferences) {
         this.formatPreferences = formatPreferences;
     }
 
+    /**
+     * Gets the format preferences.
+     *
+     * @return the format preferences
+     */
     public FormatPreferences getFormatPreferences() {
         return formatPreferences;
     }
     
+    /**
+     * Sets the parameters of the consumer.
+     *
+     * @param parameters the parameters
+     */
     public void setParameters(ConsumerParameters parameters) {
         this.parameters = parameters;        
     }
     
+    /**
+     * Sets the queue from which the messages are taken.
+     *
+     * @param queue the queue
+     */
     public void setQueue(BlockingQueue<Message> queue) {
         this.queue = queue;
     }
     
+    /**
+     * Gets the statistics that have been collected while the messages were consumed.
+     *
+     * @return the statistics
+     */
     public abstract Statistics getStatistics();
     
     /**
@@ -62,8 +100,17 @@ public abstract class MessageConsumer implements Runnable {
      */
     public abstract void handleMessage(Message message);
 
+    /**
+     * Called once after the exit message has been received, to finish the handling of
+     * all messages.
+     */
     public abstract void handleMessagesFinal();
     
+    /**
+     * Gets the exit code that results from the messages that have been consumed.
+     *
+     * @return the exit code
+     */
     public abstract int getExitCode();
 
     /**
@@ -93,6 +140,11 @@ public abstract class MessageConsumer implements Runnable {
         System.err.printf("Jacksum: Error: %s%n", throwable);
     }
 
+    /**
+     * Takes messages from the queue and handles them until the exit message is received,
+     * then calls {@link #handleMessagesFinal()}. Unexpected exceptions are counted, see
+     * {@link #getUnexpectedErrors()}.
+     */
     @Override
     public void run() {
         // System.out.println("Message Consumer started.");

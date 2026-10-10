@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
+ * Selects the implementation(s) of the algorithm GOST R 34.11-94 (Crypto-Pro).
  *
  * @author johann
  */
 public class GostCryptoPro_Selector extends Selector {
 
     private static final String ID = "gost:crypto-pro";
+
+    /**
+     * Creates a new GostCryptoPro_Selector.
+     */
+    public GostCryptoPro_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

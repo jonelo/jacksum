@@ -27,13 +27,26 @@ import net.jacksum.parameters.base.HeaderParameters;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Builds and prints the header that can be written before the hash values (option --header).
+ * The header consists of comment lines that describe the Jacksum version, the JVM, the OS,
+ * the date, the working directory and the invocation arguments.
+ */
 public class Header {
 
+    /** The date format pattern (ISO 8601) for the invocation date in the header. */
     public static final String FORMAT_ISO8601 = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
     private final HeaderParameters headerParameters;
     private final String commentChars;
     private final StringBuilder sb;
 
+    /**
+     * Creates a new Header.
+     *
+     * @param headerParameters the parameters that provide the comment characters, the
+     *                         line separator, an optional leading header, and the
+     *                         invocation arguments
+     */
     public Header(HeaderParameters headerParameters) {
         this.headerParameters = headerParameters;
         if (headerParameters.getCommentChars() != null) {
@@ -58,6 +71,10 @@ public class Header {
     private final static int add = 3; // the blank before the name, the colon, and the blank after the name
     private boolean virgin = true;
 
+    /**
+     * Prints the header on standard output. The header is built on the first call only,
+     * subsequent calls print the same header again.
+     */
     public void print() {
         if (!virgin) {
             System.out.print(sb.toString());

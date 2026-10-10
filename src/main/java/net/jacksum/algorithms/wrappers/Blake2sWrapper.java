@@ -29,8 +29,18 @@ import java.security.NoSuchAlgorithmException;
 import net.jacksum.formats.Encoding;
 import org.bouncycastle.crypto.digests.Blake2sDigest;
 
+/**
+ * A wrapper for the BLAKE2s implementation of Bouncy Castle.
+ */
 public class Blake2sWrapper extends MDbouncycastle {
 
+    /**
+     * Creates a new BLAKE2s instance for an algorithm ID.
+     *
+     * @param input the algorithm ID, either {@code blake2s} (256 bits) or {@code blake2s-<n>}
+     *        where n is the output size in bits
+     * @throws NoSuchAlgorithmException if the ID is invalid or the output size is not supported
+     */
     public Blake2sWrapper(String input) throws NoSuchAlgorithmException {
         length = 0;
         filename = null;

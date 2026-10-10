@@ -80,6 +80,12 @@ public class ConcurrentHasher {
         this.threadCount = threadCount;
     }
 
+    /**
+     * Returns the number of bytes that have been read by the last call of
+     * {@link #updateHashes(File, List)}.
+     *
+     * @return the number of bytes read
+     */
     public long getTotalRead() {
         return totalRead;
     }
@@ -94,6 +100,16 @@ public class ConcurrentHasher {
         return answer;
     }
 
+    /**
+     * Reads a file once and updates all given hash algorithms with its content
+     * concurrently. The algorithms are distributed among the hashing threads based on
+     * their weight.
+     *
+     * @param src the file to be read
+     * @param hashes the hash algorithms to be updated
+     * @throws IOException if the file cannot be read, if an algorithm cannot be
+     * instantiated, or if hashing fails or is interrupted
+     */
     public void updateHashes(File src, List<HashAlgorithm> hashes) throws IOException {
 
         final int workingThreads = Math.max(1, Math.min(threadCount, hashes.size()));

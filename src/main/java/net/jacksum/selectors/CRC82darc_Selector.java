@@ -31,12 +31,18 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- *
+ * Selects the implementation(s) of the algorithm CRC-82 (DARC).
  * @author johann
  */
 public class CRC82darc_Selector extends Selector {
 
     private static final String ID = "crc82_darc";
+
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public CRC82darc_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

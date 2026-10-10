@@ -25,8 +25,17 @@ package net.jacksum.algorithms.checksums;
 
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * The FNV-1a hash (Fowler/Noll/Vo) with a variable bit width.
+ */
 public class Fnv1a_n extends Fnv1_n {
 
+    /**
+     * Creates a new FNV-1a instance with the given bit width.
+     *
+     * @param width the bit width as a decimal string
+     * @throws NoSuchAlgorithmException if the width is not a number or is not supported
+     */
     public Fnv1a_n(String width) throws NoSuchAlgorithmException {
         super(width);
     }

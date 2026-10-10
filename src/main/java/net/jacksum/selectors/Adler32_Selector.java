@@ -30,7 +30,7 @@ import net.jacksum.algorithms.checksums.Adler32;
 import net.jacksum.algorithms.checksums.Adler32alt;
 
 /**
- *
+ * Selects the implementation(s) of the algorithm Adler-32.
  * @author johann
  */
 public class Adler32_Selector extends Selector {
@@ -38,6 +38,12 @@ public class Adler32_Selector extends Selector {
     private final static String ID = "adler32";
     private static Map<String, String> algos;
     private static Map<String, String> aliases;
+
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public Adler32_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

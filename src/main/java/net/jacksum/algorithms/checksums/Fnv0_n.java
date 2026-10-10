@@ -43,21 +43,41 @@ import net.jacksum.formats.Encoding;
  */
 public class Fnv0_n extends AbstractChecksum {
 
+    /** The current state as little-endian 64-bit limbs. */
     protected long[] value;    // current state, little-endian 64-bit limbs
+    /** A reused work buffer to avoid allocations per byte. */
     protected long[] scratch;  // reused work buffer to avoid per-byte allocation
+    /** The starting value as little-endian 64-bit limbs (all zero for FNV-0). */
     protected long[] initLimbs; // starting value (all zero for FNV-0)
+    /** The number of 64-bit limbs, that is ceil(width/64). */
     protected int nlimbs;      // number of 64-bit limbs = ceil(width/64)
+    /** The mask applied to the most significant limb. */
     protected long topMask;    // mask applied to the most significant limb
+    /** The exponent k of the FNV prime 2^k + 2^8 + b. */
     protected int primeK;      // prime = 2^primeK + 2^8 + primeB
+    /** The small summand b (less than 256) of the FNV prime 2^k + 2^8 + b. */
     protected long primeB;
 
     int targetsize = 0; // in bytes
 
+    /**
+     * Creates a new FNV-0 instance with the given width.
+     *
+     * @param width the width in bits; one of 32, 64, 128, 256, 512, or 1024
+     * @throws NoSuchAlgorithmException if the width is not supported
+     */
     public Fnv0_n(int width) throws NoSuchAlgorithmException {
         super();
         init(width);
     }
 
+    /**
+     * Creates a new FNV-0 instance with the given width.
+     *
+     * @param width the width in bits as a decimal string; one of 32, 64, 128,
+     * 256, 512, or 1024
+     * @throws NoSuchAlgorithmException if the width is not a number or not supported
+     */
     public Fnv0_n(String width) throws NoSuchAlgorithmException {
         super();
         try {
@@ -123,6 +143,10 @@ public class Fnv0_n extends AbstractChecksum {
     /**
      * {@code acc += (src << s)} modulo {@code 2^width}; bits shifted beyond the
      * top limb are discarded (that is the modulo).
+     *
+     * @param acc the accumulator, modified in place
+     * @param src the value to shift and add
+     * @param s the number of bits to shift {@code src} to the left
      */
     protected void addShiftedInto(long[] acc, long[] src, int s) {
         int ws = s >>> 6;
@@ -145,6 +169,10 @@ public class Fnv0_n extends AbstractChecksum {
 
     /**
      * {@code acc += src * f} modulo {@code 2^width}, with {@code f < 256}.
+     *
+     * @param acc the accumulator, modified in place
+     * @param src the value to scale and add
+     * @param f the factor, less than 256
      */
     protected void addScaledInto(long[] acc, long[] src, long f) {
         long carry = 0;

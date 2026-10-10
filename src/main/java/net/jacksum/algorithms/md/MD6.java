@@ -771,32 +771,56 @@ public class MD6 extends MessageDigest implements Cloneable {
         return cv;
     }
 
-    /** @return the digest length in bits (d). */
+    /**
+     * Gets the digest length in bits (d).
+     *
+     * @return the digest length in bits (d).
+     */
     public int getD() {
         return d;
     }
 
-    /** @return the number of rounds (r). */
+    /**
+     * Gets the number of rounds (r).
+     *
+     * @return the number of rounds (r).
+     */
     public int getR() {
         return r;
     }
 
-    /** @return the mode parameter (L). */
+    /**
+     * Gets the mode parameter (L).
+     *
+     * @return the mode parameter (L).
+     */
     public int getL() {
         return modeL;
     }
 
-    /** @return the key length in bytes. */
+    /**
+     * Gets the key length in bytes.
+     *
+     * @return the key length in bytes.
+     */
     public int getKeyLength() {
         return keylen;
     }
 
-    /** @return the number of bits fed into the current computation. */
+    /**
+     * Gets the number of bits fed into the current computation.
+     *
+     * @return the number of bits fed into the current computation.
+     */
     public long getBitsProcessed() {
         return bitsProcessed;
     }
 
-    /** @return the number of compression function calls made so far. */
+    /**
+     * Gets the number of compression function calls made so far.
+     *
+     * @return the number of compression function calls made so far.
+     */
     public long getCompressionCalls() {
         return compressionCalls;
     }
@@ -839,6 +863,9 @@ public class MD6 extends MessageDigest implements Cloneable {
 
     /** Standard MD6 with a 224-bit digest. */
     public static final class MD6_224 extends MD6 {
+        /**
+         * Creates a new MD6 instance with a 224-bit digest.
+         */
         public MD6_224() {
             super(224);
         }
@@ -846,6 +873,9 @@ public class MD6 extends MessageDigest implements Cloneable {
 
     /** Standard MD6 with a 256-bit digest. */
     public static final class MD6_256 extends MD6 {
+        /**
+         * Creates a new MD6 instance with a 256-bit digest.
+         */
         public MD6_256() {
             super(256);
         }
@@ -853,6 +883,9 @@ public class MD6 extends MessageDigest implements Cloneable {
 
     /** Standard MD6 with a 384-bit digest. */
     public static final class MD6_384 extends MD6 {
+        /**
+         * Creates a new MD6 instance with a 384-bit digest.
+         */
         public MD6_384() {
             super(384);
         }
@@ -860,6 +893,9 @@ public class MD6 extends MessageDigest implements Cloneable {
 
     /** Standard MD6 with a 512-bit digest. */
     public static final class MD6_512 extends MD6 {
+        /**
+         * Creates a new MD6 instance with a 512-bit digest.
+         */
         public MD6_512() {
             super(512);
         }

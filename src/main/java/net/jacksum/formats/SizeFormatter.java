@@ -25,10 +25,19 @@ package net.jacksum.formats;
 import net.jacksum.parameters.base.LengthFormatParameters;
 import net.loefflmann.sugar.util.GeneralString;
 
+/**
+ * Formats the size of a file by the size format parameters, e.g. as a number of blocks or
+ * by a printf-style format.
+ */
 public class SizeFormatter implements LengthFormatParameters {
 
     private final LengthFormatParameters parameters;
 
+    /**
+     * Creates a new size formatter.
+     *
+     * @param parameters the parameters that define the unit and the format of the size
+     */
     public SizeFormatter(LengthFormatParameters parameters) {
         this.parameters = parameters;
     }
@@ -51,6 +60,12 @@ public class SizeFormatter implements LengthFormatParameters {
                 : (length + (filesizeAsByteBlocks - 1)) / filesizeAsByteBlocks;
     }
 
+    /**
+     * Formats a length in the unit of the format and, if set, by the printf-style format.
+     *
+     * @param length the length in bytes
+     * @return the formatted length
+     */
     public String format(long length) {
         long output = lengthInUnitOfFormat(length, parameters.getFilesizeAsByteBlocks());
 
@@ -60,6 +75,11 @@ public class SizeFormatter implements LengthFormatParameters {
         return Long.toString(output);
     }
 
+    /**
+     * Replaces the alias {@code #LENGTH} in a format by its canonical name {@code #FILESIZE}.
+     *
+     * @param format the format, modified in place
+     */
     public static void replaceAliases(StringBuilder format) {
         GeneralString.replaceAllStrings(format, "#LENGTH", "#FILESIZE");
     }

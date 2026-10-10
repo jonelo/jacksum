@@ -24,11 +24,44 @@ package net.jacksum.parameters.base;
 
 import java.util.List;
 
+/**
+ * Parameters that control which paths are processed and how they are printed.
+ */
 public interface PathParameters {
+    /**
+     * Returns the file names that have been specified on the command line.
+     *
+     * @return the file names from the command line arguments
+     */
     List<String> getFilenamesFromArgs();
+    /**
+     * Tells whether directories should be processed recursively (-r).
+     *
+     * @return true if directories should be processed recursively
+     */
     boolean isRecursive();
+    /**
+     * Tells whether symbolic links to files should not be followed (-f).
+     *
+     * @return true if symbolic links to files should not be followed
+     */
     boolean isDontFollowSymlinksToFiles();
+    /**
+     * Tells whether symbolic links to directories should not be followed.
+     *
+     * @return true if symbolic links to directories should not be followed
+     */
     boolean isDontFollowSymlinksToDirectories();
+    /**
+     * Returns the maximum depth for recursion (-r).
+     *
+     * @return the maximum depth for recursion
+     */
     int getDepth();
+    /**
+     * Tells whether absolute paths should be used (--path-absolute).
+     *
+     * @return true if absolute paths should be used
+     */
     boolean isPathAbsolute();
 }

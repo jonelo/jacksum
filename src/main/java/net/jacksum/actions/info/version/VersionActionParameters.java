@@ -29,5 +29,10 @@ import net.jacksum.cli.Verbose;
  * The parameters for the Version Action.
  */
 public interface VersionActionParameters {
+    /**
+     * Returns the verbosity settings.
+     *
+     * @return the verbosity settings
+     */
     Verbose getVerbose();
 }

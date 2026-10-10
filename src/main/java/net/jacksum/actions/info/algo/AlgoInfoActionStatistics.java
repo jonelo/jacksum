@@ -27,9 +27,21 @@ import java.util.Map;
 import net.jacksum.statistics.Statistics;
 
 
+/**
+ * Statistics of the algorithm info action, i.e. the number of algorithms that
+ * matched the filter.
+ */
 public class AlgoInfoActionStatistics extends Statistics {
 
     /**
+     * Creates a new AlgoInfoActionStatistics.
+     */
+    public AlgoInfoActionStatistics() {
+    }
+
+    /**
+     * Returns the number of algorithms that matched the filter.
+     *
      * @return the algorithmCount
      */
     public int getAlgorithmCount() {
@@ -37,6 +49,8 @@ public class AlgoInfoActionStatistics extends Statistics {
     }
 
     /**
+     * Sets the number of algorithms that matched the filter.
+     *
      * @param algorithmCount the algorithmCount to set
      */
     public void setAlgorithmCount(int algorithmCount) {

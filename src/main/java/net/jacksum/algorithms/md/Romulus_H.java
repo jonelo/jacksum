@@ -55,9 +55,13 @@ import net.jacksum.formats.Encoding;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+/**
+ * The hash function Romulus-H with a digest size of 256 bits.
+ */
 public class Romulus_H extends AbstractChecksum {
 
     private byte[] digest = new byte[32];
+    /** Whether the final digest has not been computed yet since the last reset. */
     protected boolean virgin = true;
 
     // two 16 byte arrays to store the internal state
@@ -173,6 +177,11 @@ public class Romulus_H extends AbstractChecksum {
     }
 */
 
+    /**
+     * Creates a new Romulus-H instance.
+     *
+     * @throws NoSuchAlgorithmException declared, but not thrown by the current implementation
+     */
     public Romulus_H() throws NoSuchAlgorithmException {
         bitWidth = 256;
         formatPreferences.setHashEncoding(Encoding.HEX);

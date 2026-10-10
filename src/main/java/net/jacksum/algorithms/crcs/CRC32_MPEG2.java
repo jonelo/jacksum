@@ -26,8 +26,17 @@ import net.jacksum.formats.Encoding;
 
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * The CRC-32/MPEG-2 (width 32, poly 0x04C11DB7, init 0xFFFFFFFF, not reflected, xorout 0),
+ * printed in decimal together with the file size by default.
+ */
 public class CRC32_MPEG2 extends CrcGeneric {
 
+    /**
+     * Creates a new CRC-32/MPEG-2.
+     *
+     * @throws NoSuchAlgorithmException if the CRC parameters are rejected by {@link CrcGeneric}
+     */
     public CRC32_MPEG2() throws NoSuchAlgorithmException {
         super(32, 0x04c11db7L, 0xFFFFFFFFL, false, false, 0x0L);
         formatPreferences.setHashEncoding(Encoding.DEC);

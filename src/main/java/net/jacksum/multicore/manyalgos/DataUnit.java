@@ -45,6 +45,8 @@ import java.io.InputStream;
 import net.jacksum.algorithms.AbstractChecksum;
 
 /**
+ * A chunk of data read from a stream that is passed to the hashing threads,
+ * so that several algorithms can process the same data concurrently.
  *
  * @author Federico Tello Gentile
  * @author Johann N. Löfflmann
@@ -55,6 +57,11 @@ public class DataUnit {
     private int length;
     private boolean last;
 
+    /**
+     * Creates a new data unit with a buffer of the given size.
+     *
+     * @param length the size of the buffer in bytes
+     */
     public DataUnit(int length) {
         this.bytes = new byte[length];
     }
@@ -82,10 +89,20 @@ public class DataUnit {
         return off;
     }
 
+    /**
+     * Tells whether this unit is not the last one of the stream.
+     *
+     * @return true if more units follow, false if this is the last unit
+     */
     public boolean isNotLast() {
         return !this.last;
     }
 
+    /**
+     * Updates the checksum with the data of this unit.
+     *
+     * @param md the checksum to update
+     */
     public void updateMessageDigest(AbstractChecksum md) {
         md.update(this.bytes, 0, this.length);
     }

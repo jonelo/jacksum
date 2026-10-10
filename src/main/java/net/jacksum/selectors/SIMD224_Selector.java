@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * Selects the implementation(s) of the algorithm SIMD-224.
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class SIMD224_Selector extends Selector {
 
     private static final String ID = "simd224";
     
+    /**
+     * Creates a new selector for the algorithm SIMD-224.
+     */
+    public SIMD224_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

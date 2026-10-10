@@ -24,12 +24,49 @@ package net.jacksum.parameters.base;
 
 import net.jacksum.actions.io.verify.ListFilter;
 
+/**
+ * Parameters for checking (verifying) files against a check file.
+ */
 public interface CheckParameters {
 
+    /**
+     * Returns the filter that controls which statuses are reported.
+     *
+     * @return the list filter
+     */
     ListFilter getListFilter();
+    /**
+     * Determines whether the list view is enabled (option --list), that is
+     * only file names are printed, without statuses.
+     *
+     * @return true if the list view is enabled
+     */
     boolean isList();
+    /**
+     * Determines whether a strict check is performed (option --check-strict).
+     *
+     * @return true if a strict check is performed
+     */
     boolean isCheckStrict();
+    /**
+     * Determines whether timestamps in the check file are ignored
+     * (option --ignore-timestamps).
+     *
+     * @return true if timestamps are ignored
+     */
     boolean isIgnoreTimestamps();
+    /**
+     * Determines whether hash values in the check file are ignored
+     * (option --ignore-hashes).
+     *
+     * @return true if hash values are ignored
+     */
     boolean isIgnoreHashes();
+    /**
+     * Determines whether file sizes in the check file are ignored
+     * (option --ignore-sizes).
+     *
+     * @return true if file sizes are ignored
+     */
     boolean isIgnoreSizes();
 }

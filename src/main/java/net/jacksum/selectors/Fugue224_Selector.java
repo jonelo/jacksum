@@ -31,6 +31,7 @@ import net.jacksum.algorithms.wrappers.MD;
 import net.jacksum.algorithms.wrappers.MDCryptohashSphlib3;
 
 /**
+ * Selects the implementation(s) of the algorithm Fugue-224.
  *
  * @author johann
  */
@@ -38,6 +39,12 @@ public class Fugue224_Selector extends Selector {
 
     private static final String ID = "fugue224";
     
+    /**
+     * Creates a new {@code Fugue224_Selector}.
+     */
+    public Fugue224_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

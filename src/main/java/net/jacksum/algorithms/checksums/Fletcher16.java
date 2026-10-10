@@ -31,12 +31,16 @@ import net.jacksum.formats.Encoding;
  */
 public class Fletcher16 extends AbstractChecksum {
 
+    /** The current checksum value. */
     protected long value;
     // the two running sums, they have to survive an update() call
     private long s1;
     private long s2;
     private static final long BASE = 255L;
 
+    /**
+     * Creates a new Fletcher16 checksum object.
+     */
     public Fletcher16() {
         super();
         bitWidth = 16;

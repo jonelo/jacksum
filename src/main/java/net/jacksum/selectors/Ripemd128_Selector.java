@@ -31,6 +31,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithm RIPEMD-128.
  *
  * @author johann
  */
@@ -39,6 +40,12 @@ public class Ripemd128_Selector extends Selector {
     
     private static final String ID = "ripemd128";
     
+    /**
+     * Creates a new {@code Ripemd128_Selector}.
+     */
+    public Ripemd128_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

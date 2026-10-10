@@ -26,10 +26,17 @@ package net.jacksum.algorithms.checksums;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
+/**
+ * The 8 bit sum of all bytes (modulo 2^8).
+ */
 public class Sum8 extends AbstractChecksum {
 
+    /** The sum of all bytes processed so far (not yet reduced). */
     protected long value;
 
+    /**
+     * Creates a new Sum8 instance.
+     */
     public Sum8() {
         super();
         bitWidth = 8;

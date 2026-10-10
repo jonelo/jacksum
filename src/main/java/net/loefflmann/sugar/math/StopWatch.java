@@ -23,6 +23,9 @@
  */
 package net.loefflmann.sugar.math;
 
+/**
+ * A simple stop watch that measures the elapsed time based on {@code System.nanoTime()}.
+ */
 public class StopWatch {
 
     private long begin = 0;
@@ -35,6 +38,9 @@ public class StopWatch {
     public StopWatch() {
     }
 
+    /**
+     * Starts the stop watch.
+     */
     public void start() {
         // http://blogs.sun.com/dholmes/entry/inside_the_hotspot_vm_clocks
         // If you are interested in measuring/calculating elapsed time,
@@ -44,10 +50,19 @@ public class StopWatch {
         begin = System.nanoTime();
     }
 
+    /**
+     * Stops the stop watch.
+     */
     public void stop() {
         end = System.nanoTime();
     }
 
+    /**
+     * Returns the time that has elapsed between start and stop in milliseconds.
+     * If the stop watch has not been stopped yet, it is stopped by this method.
+     *
+     * @return the elapsed time in milliseconds
+     */
     public long getDurationInMs() {
         if (end == 0) {
             stop();
@@ -55,6 +70,12 @@ public class StopWatch {
         return (end - begin) / 1000000L;
     }
 
+    /**
+     * Returns the elapsed time as a human-readable string.
+     * If the stop watch has not been stopped yet, it is stopped by this method.
+     *
+     * @return the elapsed time as a human-readable string
+     */
     public String getDurarionAsString() {
         long ms = getDurationInMs();
         return GeneralMath.duration(ms);

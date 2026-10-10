@@ -31,27 +31,47 @@ import java.util.Date;
 
 import net.jacksum.parameters.base.TimestampFormatParameters;
 
+/**
+ * Formats timestamps according to a predefined keyword or a {@link SimpleDateFormat} pattern.
+ */
 public class TimestampFormatter implements TimestampFormatParameters {
 
 
     private final TimestampFormatParameters parameters;
     private Format timestampFormatter;
+    /** Keyword for the ISO 8601 format in the local time zone. */
     public static final String KEY_ISO8601 = "iso8601";
+    /** Short keyword for the ISO 8601 format in the local time zone. */
     public static final String KEY_ISO = "iso";
 
+    /** Keyword for the ISO 8601 format in UTC. */
     public static final String KEY_ISO8601_UTC = "iso8601utc";
+    /** Short keyword for the ISO 8601 format in UTC. */
     public static final String KEY_ISO_UTC = "iso-utc";
 
+    /** Keyword for the Unix time in seconds since the epoch. */
     public static final String KEY_UNIXTIME = "unixtime";
+    /** Keyword for the Unix time in milliseconds since the epoch. */
     public static final String KEY_UNIXTIME_MS = "unixtime-ms";
 
+    /** Keyword for the default format in the local time zone. */
     public static final String KEY_DEFAULT = "default";
+    /** Keyword for the default format in UTC. */
     public static final String KEY_DEFAULT_UTC = "default-utc";
+    /** The pattern of the default format. */
     public static final String FORMAT_DEFAULT = "yyyyMMddHHmmssSSS";
 
+    /** The pattern of the ISO 8601 format with a zone offset. */
     public static final String FORMAT_ISO8601 = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+    /** The pattern of the ISO 8601 format in UTC. */
     public static final String FORMAT_ISO8601_UTC = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
+    /**
+     * Creates a new TimestampFormatter.
+     *
+     * @param parameters the parameters that provide the timestamp format, either a
+     *                   supported keyword or a {@link SimpleDateFormat} pattern
+     */
     public TimestampFormatter(TimestampFormatParameters parameters) {
         this.parameters = parameters;
 
@@ -75,6 +95,12 @@ public class TimestampFormatter implements TimestampFormatParameters {
         }
     }
 
+    /**
+     * Tells whether the specified format is one of the supported keywords.
+     *
+     * @param format the format
+     * @return true if the format is a supported keyword
+     */
     public static boolean isFormatASupportedKeyword(String format) {
         switch (format) {
             case KEY_ISO8601:
@@ -90,6 +116,12 @@ public class TimestampFormatter implements TimestampFormatParameters {
         }
     }
 
+    /**
+     * Formats a timestamp.
+     *
+     * @param timestamp the timestamp in milliseconds since the epoch
+     * @return the formatted timestamp
+     */
     public String format(long timestamp) {
 
         switch (parameters.getTimestampFormat()) {
@@ -122,6 +154,8 @@ public class TimestampFormatter implements TimestampFormatParameters {
     }
     
     /**
+     * Gets the parameters of this formatter.
+     *
      * @return the parameters
      */
     public TimestampFormatParameters getParameters() {

@@ -29,10 +29,17 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.PrngHash;
 
 /**
+ * Selects the implementation(s) of the algorithm PRNG Hash.
  *
  * @author johann
  */
 public class PrngHash_Selector extends Selector {
+
+    /**
+     * Creates a new PrngHash_Selector.
+     */
+    public PrngHash_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

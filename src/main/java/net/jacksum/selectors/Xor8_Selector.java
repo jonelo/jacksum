@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Xor8;
 
 /**
+ * Selects the implementation(s) of the algorithm XOR 8.
  *
  * @author johann
  */
@@ -47,6 +48,12 @@ public class Xor8_Selector extends Selector {
 
         availableAliases = new LinkedHashMap<>(2); // ceil(1/0.75)
         availableAliases.put(ALIAS, ID);
+    }
+
+    /**
+     * Creates a new {@code Xor8_Selector}.
+     */
+    public Xor8_Selector() {
     }
 
     @Override

@@ -54,6 +54,12 @@ public class TokenValueStore {
     private final List<String> values = new ArrayList<>();
 
     /**
+     * Creates a new, empty store.
+     */
+    public TokenValueStore() {
+    }
+
+    /**
      * Removes the placeholder delimiter from a format, so that the format itself cannot
      * forge a placeholder.
      *

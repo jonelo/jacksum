@@ -31,10 +31,17 @@ import net.jacksum.algorithms.checksums.PrngHashInfo;
 import net.jacksum.algorithms.crcs.CrcGeneric;
 
 /**
+ * Selects the implementation(s) of the PRNG based hash algorithms (IDs starting with {@code prng:}).
  *
  * @author johann
  */
 public class PrngHashGeneric_Selector extends Selector {
+
+    /**
+     * Creates a new PrngHashGeneric_Selector.
+     */
+    public PrngHashGeneric_Selector() {
+    }
 
     @Override
     public boolean doesMatch(String name) {

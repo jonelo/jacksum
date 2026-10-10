@@ -28,6 +28,9 @@ import java.util.Map;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.crcs.CRC32_PHP;
 
+/**
+ * Selects the implementation(s) of the algorithm CRC-32 (PHP's crc32).
+ */
 public class CRC32_PHP_Selector extends Selector {
 
     
@@ -46,6 +49,12 @@ public class CRC32_PHP_Selector extends Selector {
         availableAliases.put(ALIAS, ID);
     }
     
+
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public CRC32_PHP_Selector() {
+    }
 
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {

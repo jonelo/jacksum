@@ -28,8 +28,14 @@ import net.jacksum.formats.Encoding;
 
 import java.io.File;
 
+/**
+ * A pseudo algorithm that computes no hash value, but only counts the number of bytes read.
+ */
 public class None extends AbstractChecksum {
 
+    /**
+     * Creates a new None object.
+     */
     public None() {
         super();
         formatPreferences.setHashEncoding(Encoding.HEX);      

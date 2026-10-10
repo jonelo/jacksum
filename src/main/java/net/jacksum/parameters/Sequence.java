@@ -26,15 +26,50 @@ import java.util.Locale;
 
 import net.jacksum.formats.EncodingDecoding;
 
+/**
+ * A sequence of bytes as it is specified by options such as -q or -k, i.e. a payload
+ * and the type that determines how the payload is to be interpreted.
+ */
 public class Sequence implements Serializable {
 
     private static final long serialVersionUID = 1865077037563918778L;
 
+    /**
+     * The types of a sequence, i.e. how the payload of a sequence is to be interpreted.
+     */
     public enum Type {
-        TXT("txt"), TXTF("txtf"), DEC("dec"), HEX("hex"), BIN("bin"), OCT("oct"),
-        BASE32("base32"), BASE32HEX("base32hex"), BASE64("base64"), BASE64URL("base64url"),
-        Z85("z85"), ZBASE32("z-base-32"), BUBBLEBABBLE("bubblebabble"),
-        READLINE("readline"), PASSWORD("password"), FILE("file");
+        /** Text. */
+        TXT("txt"),
+        /** Formatted text, i.e. text that can contain escape sequences. */
+        TXTF("txtf"),
+        /** A decimal sequence. */
+        DEC("dec"),
+        /** A hexadecimal sequence. */
+        HEX("hex"),
+        /** A binary sequence. */
+        BIN("bin"),
+        /** An octal sequence. */
+        OCT("oct"),
+        /** A Base32 encoded string. */
+        BASE32("base32"),
+        /** A Base32hex encoded string. */
+        BASE32HEX("base32hex"),
+        /** A Base64 encoded string. */
+        BASE64("base64"),
+        /** A Base64url encoded string. */
+        BASE64URL("base64url"),
+        /** A z85 encoded string. */
+        Z85("z85"),
+        /** A z-base-32 encoded string. */
+        ZBASE32("z-base-32"),
+        /** A BubbleBabble encoded string. */
+        BUBBLEBABBLE("bubblebabble"),
+        /** Input that is read from the console visibly. */
+        READLINE("readline"),
+        /** Input that is read from the console without echoing (hidden). */
+        PASSWORD("password"),
+        /** The content of a file (max. 128 MiB). */
+        FILE("file");
 
         private final String code;
 
@@ -58,14 +93,29 @@ public class Sequence implements Serializable {
         }
     }
 
+    /** The type of the sequence. */
     private Type type = null;
 
+    /** The payload of the sequence, i.e. the sequence without the type prefix. */
     private String payload = null;
 
+    /**
+     * Constructs a Sequence from a string in the form {@code [<type>:]<payload>}, or
+     * {@code readline} resp. {@code password}. Without a type, the payload is interpreted as hex.
+     *
+     * @param string the sequence including the optional type prefix
+     * @throws IllegalArgumentException if the type is unknown or missing in front of a colon
+     */
     public Sequence(String string) {
         setSequence(string);
     }
 
+    /**
+     * Constructs a Sequence from a type and a payload.
+     *
+     * @param type the type of the sequence
+     * @param payload the payload of the sequence
+     */
     public Sequence(Type type, String payload) {
         setSequence(type, payload);
     }
@@ -87,16 +137,40 @@ public class Sequence implements Serializable {
         this.bytes = bytes;
     }
 
+    /**
+     * Constructs a Sequence whose bytes have been entered at the console.
+     *
+     * @param type the type of the sequence, must be {@link Type#PASSWORD} or {@link Type#READLINE}
+     * @param payload the bytes that have been entered
+     * @throws IllegalArgumentException if the type is neither password nor readline
+     */
     public Sequence(Type type, byte[] payload) {
         setSequence(type, payload);
     }
 
+    /**
+     * Returns the type of the sequence.
+     *
+     * @return the type of the sequence
+     */
     public Type getType() { return type; }
 
+    /**
+     * Returns the payload of the sequence, i.e. the sequence without the type prefix.
+     *
+     * @return the payload, or null if the bytes have been entered at the console
+     */
     public String getPayload() {
         return payload;
     }
 
+    /**
+     * Returns the byte representation of the sequence. The payload is decoded according to the
+     * type; the result is kept, so the payload is decoded only once.
+     *
+     * @return the bytes of the sequence
+     * @throws IllegalArgumentException if the payload cannot be decoded according to its type
+     */
     public byte[] asBytes() {
         if (bytes != null) { // given explicitly, or kept by an earlier call
             return bytes;
@@ -114,6 +188,12 @@ public class Sequence implements Serializable {
         }
     }
 
+    /**
+     * Returns the sequence as a string in the form {@code <type>:<payload>}, or only the type for
+     * readline and password, so that console input is not revealed.
+     *
+     * @return the sequence as a string
+     */
     public String asString() {
         if (type.equals(Type.PASSWORD) || type.equals(Type.READLINE)) {
             return this.type.getCode();
@@ -122,9 +202,11 @@ public class Sequence implements Serializable {
         }
     }
 
+    /** The bytes that have been entered at the console (types readline and password). */
     private byte[] enteredFromConsole;
 
     // the byte representation of the sequence, if it has been given explicitly
+    /** The byte representation of the sequence, if it has been given explicitly or kept by {@link #asBytes()}. */
     private byte[] bytes;
 
     private void setSequence(Type type, byte[] payload) throws IllegalArgumentException {
@@ -171,6 +253,13 @@ public class Sequence implements Serializable {
         return sb.toString();
     }
 
+    /**
+     * Sets the sequence from a string in the form {@code [<type>:]<payload>}, or
+     * {@code readline} resp. {@code password}. Without a type, the payload is interpreted as hex.
+     *
+     * @param sequence the sequence including the optional type prefix
+     * @throws IllegalArgumentException if the type is unknown or missing in front of a colon
+     */
     public void setSequence(String sequence) throws IllegalArgumentException {
         String indicator = sequence.toLowerCase(Locale.US);
 

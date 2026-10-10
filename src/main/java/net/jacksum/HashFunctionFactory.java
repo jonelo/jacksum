@@ -40,6 +40,12 @@ public class HashFunctionFactory {
     private static byte[] key;
 
     /**
+     * Creates a new HashFunctionFactory.
+     */
+    public HashFunctionFactory() {
+    }
+
+    /**
      * Sets the key that is used to initialize an HMAC instance.
      *
      * <p>The key is process wide, because a hash function is requested by its name
@@ -81,6 +87,12 @@ public class HashFunctionFactory {
 
     private static boolean cacheOfSelectorClassesEnabled = true;
 
+    /**
+     * Enables or disables the cache that maps algorithm names to the selector
+     * classes that have been found for them by previous lookups.
+     *
+     * @param bool true to enable the cache, false to disable it
+     */
     public static void setCacheOfSelectorClassesEnabled(boolean bool) {
         cacheOfSelectorClassesEnabled = bool;
     }
@@ -210,6 +222,14 @@ public class HashFunctionFactory {
         return mapFiltered;
     }
 
+    /**
+     * Returns all available algorithms that can be used as an HMAC, that is all
+     * algorithms with a positive block size that is not smaller than the
+     * digest size in bytes.
+     *
+     * @return a map that contains the HMAC algo id (prefixed by {@code hmac:})
+     * and a description
+     */
     public static Map<String, String> getAvailableHMACs() {
         Map<String, String> map = getAvailableAlgorithms();
         Map<String, String> mapFiltered = new LinkedHashMap<>(171); // ceil(128/0,75)

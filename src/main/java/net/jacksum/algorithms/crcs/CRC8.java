@@ -325,6 +325,9 @@ public class CRC8 extends AbstractChecksum implements CrcInfo {
             (byte) 0xF4,
             (byte) 0xF3 };
 
+    /**
+     * Creates a new CRC-8 instance.
+     */
     public CRC8() {
        super();
        bitWidth = 8;

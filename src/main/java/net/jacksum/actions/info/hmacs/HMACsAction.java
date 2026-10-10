@@ -29,11 +29,19 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * The action that lists all algorithms that can be used with HMAC.
+ */
 public class HMACsAction implements Action {
 
     private final HMACsActionParameters parameters;
     private HMACsActionStatistics statistics;
 
+    /**
+     * Creates a new HMACsAction.
+     *
+     * @param parameters the parameters for the action
+     */
     public HMACsAction(HMACsActionParameters parameters) {
         this.parameters = parameters;
         this.statistics = new HMACsActionStatistics();

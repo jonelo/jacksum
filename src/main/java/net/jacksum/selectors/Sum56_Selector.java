@@ -30,12 +30,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Sum56;
 
 /**
+ * Selects the implementation(s) of the algorithm sum 56.
  *
  * @author johann
  */
 public class Sum56_Selector extends Selector {
 
     private static final String ID = "sum56";
+
+    /**
+     * Creates a new Sum56_Selector.
+     */
+    public Sum56_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

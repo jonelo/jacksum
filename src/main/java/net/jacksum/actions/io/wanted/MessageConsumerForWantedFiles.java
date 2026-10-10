@@ -42,6 +42,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Consumes the messages of hashed files and reports whether each file's hash value is in the
+ * wanted list (MATCH) or not (NO MATCH), as filtered by the match filter.
+ */
 public class MessageConsumerForWantedFiles extends MessageConsumer {
 
     long filesRead, bytesRead, errors;
@@ -55,11 +59,20 @@ public class MessageConsumerForWantedFiles extends MessageConsumer {
     private long notfound = 0;
     MatchFilter filter = null;
 
+    /**
+     * Creates a new consumer with empty statistics and a default messenger.
+     */
     public MessageConsumerForWantedFiles() {
         statistics = new StatisticsForHashedFiles();
         messenger = new Messenger();
     }
 
+    /**
+     * Creates a new consumer that compares hashed files against the wanted hash entries.
+     *
+     * @param parameters the parameters, incl. the verbosity and the match filter
+     * @param list the hash entries parsed from the wanted list
+     */
     public MessageConsumerForWantedFiles(Parameters parameters, List<HashEntry> list) {
         this();
         this.parameters = parameters;

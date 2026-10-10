@@ -23,9 +23,22 @@
 package net.jacksum.parameters.base;
 
 
+/**
+ * Parameters for an expected hash value (option --expect).
+ */
 public interface ExpectationParameters {
 
+    /**
+     * Determines whether an expected hash value has been set.
+     *
+     * @return true if an expected hash value has been set
+     */
     public boolean isExpectation();
 
+    /**
+     * Returns the expected hash value.
+     *
+     * @return the expected hash value, or null if none has been set
+     */
     public String getExpectedString();
 }

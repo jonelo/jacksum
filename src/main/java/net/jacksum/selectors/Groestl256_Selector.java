@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDCryptohashSphlib3;
 
 /**
+ * Selects the implementation(s) of the algorithm Grøstl-256.
  *
  * @author johann
  */
 public class Groestl256_Selector extends Selector {
 
     private static final String ID = "groestl-256";
+
+    /**
+     * Creates a new Groestl256_Selector.
+     */
+    public Groestl256_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

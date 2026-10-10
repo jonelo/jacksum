@@ -29,7 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
- *
+ * Selects the implementation(s) of the algorithm Whirlpool-1.
  * @author johann
  */
 public class Whirlpool1_Selector extends Selector {
@@ -50,6 +50,12 @@ public class Whirlpool1_Selector extends Selector {
     }
     
     
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public Whirlpool1_Selector() {
+    }
+
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {
         return new MDgnu(net.jacksum.zzadopt.gnu.crypto.Registry.WHIRLPOOL2001_HASH);

@@ -22,11 +22,39 @@
  */
 package net.jacksum.parameters.base;
 
+/**
+ * The parameters that control the header of the output.
+ */
 public interface HeaderParameters {
+    /**
+     * Returns the line separator.
+     * @return the line separator
+     */
     String getLineSeparator();
+    /**
+     * Returns the characters that start a comment line.
+     * @return the comment characters
+     */
     String getCommentChars();
+    /**
+     * Returns the command line arguments.
+     * @return the command line arguments
+     */
     String[] getCLIParameters();
+    /**
+     * Returns the command line arguments, quoted where necessary so that they
+     * can be written to the header.
+     * @return the quoted command line arguments
+     */
     String[] getCLIParametersWithQuotes();
+    /**
+     * Determines whether a header should be written.
+     * @return true if a header should be written
+     */
     boolean isHeaderWanted();
+    /**
+     * Returns the header line that is written before the regular header.
+     * @return the leading header
+     */
     String getLeadingHeader();
 }

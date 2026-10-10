@@ -26,8 +26,17 @@ package net.jacksum.algorithms.crcs;
 import java.security.NoSuchAlgorithmException;
 
 
+/**
+ * The CRC-32 as computed by PHP's {@code hash("crc32", ...)}, i.e. the CRC-32 (BZIP2)
+ * with the bytes of the result in reversed order.
+ */
 public class CRC32_PHP extends CrcGeneric {
     
+    /**
+     * Creates a new CRC32_PHP instance.
+     *
+     * @throws NoSuchAlgorithmException if the CRC parameters are invalid
+     */
     public CRC32_PHP() throws NoSuchAlgorithmException{
        super (32, 0x04C11DB7, 0xFFFFFFFFL, false, false, 0xFFFFFFFFL);
     }

@@ -32,12 +32,19 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * Selects the implementation(s) of the algorithm sum 64.
  *
  * @author johann
  */
 public class Sum64_Selector extends Selector {
 
     private static final String ID = "sum64";
+
+    /**
+     * Creates a new Sum64_Selector.
+     */
+    public Sum64_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

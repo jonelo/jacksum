@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.crcs.CRC8;
 
 /**
+ * Selects the implementation(s) of the algorithm CRC-8 (FLAC).
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class CRC8_Selector extends Selector {
 
     private static final String ID = "crc8";
     
+    /**
+     * Creates a new {@code CRC8_Selector}.
+     */
+    public CRC8_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

@@ -57,7 +57,6 @@ public final class IntegerFunctions {
 	 * (A|B) = (C|B) IF A = C (mod B)<br>
 	 * (2|B) = 1 IF N = 1 OR 7 (mod 8)<br>
 	 * (2|B) = 1 IF N = 3 OR 5 (mod 8)
-	 * <p>
 	 * 
 	 * @param A
 	 *            integer value
@@ -1112,6 +1111,7 @@ public final class IntegerFunctions {
 	 * 
 	 * @deprecated use MathFunctions.log(double) instead
 	 */
+	@Deprecated
 	public static double log(double x) {
 		if (x > 0 && x < 1) {
 			double d = 1 / x;
@@ -1141,6 +1141,7 @@ public final class IntegerFunctions {
 	 * 
 	 * @deprecated use MathFunctions.log(long) instead
 	 */
+	@Deprecated
 	public static double log(long x) {
 		int tmp = floorLog(FlexiBigInt.valueOf(x));
 		long tmp2 = 1 << tmp;
@@ -1159,6 +1160,7 @@ public final class IntegerFunctions {
 	 * 
 	 * @deprecated use MathFunctions.logBKM(double) instead
 	 */
+	@Deprecated
 	private static double logBKM(double arg) {
 		double ae[] = // A_e[k] = log_2 (1 + 0.5^k)
 		{

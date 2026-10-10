@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDCryptohashSphlib3;
 
 /**
+ * Selects the implementation(s) of the algorithm BLAKE-256.
  *
  * @author johann
  */
@@ -47,6 +48,12 @@ public class Blake_256_Selector extends Selector {
         
         availableAliases = new LinkedHashMap<>(2); // ceil(1/0.75)
         availableAliases.put(ALIAS, ID);
+    }
+
+    /**
+     * Creates a new Blake_256_Selector.
+     */
+    public Blake_256_Selector() {
     }
 
     @Override

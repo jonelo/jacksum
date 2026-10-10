@@ -27,22 +27,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * A filter that controls which statuses (ok, failed, new, missing, error)
+ * are reported when hash values are verified.
  *
  * @author Johann N. Loefflmann
  */
 public class ListFilter implements Serializable  {
 
     private static final long serialVersionUID = 6991044446442208067L;
+    /** Whether the status OK passes the filter. */
     private boolean filterOk;
+    /** Whether the status FAILED passes the filter. */
     private boolean filterFailed;
+    /** Whether the status NEW passes the filter. */
     private boolean filterNew;
+    /** Whether the status MISSING passes the filter. */
     private boolean filterMissing;
+    /** Whether the status ERROR passes the filter. */
     private boolean filterError;
 
+    /**
+     * Creates a new ListFilter that lets all statuses pass.
+     */
     public ListFilter() {
         enableAll(true);
     }
 
+    /**
+     * Lets all statuses pass the filter or blocks all of them.
+     *
+     * @param bool true to let all statuses pass, false to block all of them
+     */
     public void enableAll(boolean bool) {
         filterOk = bool;
         filterFailed = bool;
@@ -51,6 +66,12 @@ public class ListFilter implements Serializable  {
         filterError = bool;
     }
     
+    /**
+     * Determines whether files need to be hashed, which is the case if any of
+     * the statuses OK, FAILED or ERROR passes the filter.
+     *
+     * @return true if hashing is required
+     */
     public boolean isHashingRequired() {
         // a file that exists but that cannot be read is only detected if it is being read,
         // so the status ERROR requires hashing as well
@@ -69,6 +90,8 @@ public class ListFilter implements Serializable  {
     }
 
     /**
+     * Determines whether the status ERROR passes the filter.
+     *
      * @return the filterError
      */
     public boolean isFilterError() {
@@ -76,6 +99,8 @@ public class ListFilter implements Serializable  {
     }
 
     /**
+     * Sets whether the status ERROR passes the filter.
+     *
      * @param filterError the filterError to set
      */
     public void setFilterError(boolean filterError) {
@@ -83,6 +108,8 @@ public class ListFilter implements Serializable  {
     }
 
     /**
+     * Determines whether the status OK passes the filter.
+     *
      * @return the filterOk
      */
     public boolean isFilterOk() {
@@ -90,6 +117,8 @@ public class ListFilter implements Serializable  {
     }
 
     /**
+     * Sets whether the status OK passes the filter.
+     *
      * @param filterOk the filterOk to set
      */
     public void setFilterOk(boolean filterOk) {
@@ -97,6 +126,8 @@ public class ListFilter implements Serializable  {
     }
 
     /**
+     * Determines whether the status FAILED passes the filter.
+     *
      * @return the filterFailed
      */
     public boolean isFilterFailed() {
@@ -104,6 +135,8 @@ public class ListFilter implements Serializable  {
     }
 
     /**
+     * Sets whether the status FAILED passes the filter.
+     *
      * @param filterFailed the filterFailed to set
      */
     public void setFilterFailed(boolean filterFailed) {
@@ -111,6 +144,8 @@ public class ListFilter implements Serializable  {
     }
 
     /**
+     * Determines whether the status NEW passes the filter.
+     *
      * @return the filterNew
      */
     public boolean isFilterNew() {
@@ -118,6 +153,8 @@ public class ListFilter implements Serializable  {
     }
 
     /**
+     * Sets whether the status NEW passes the filter.
+     *
      * @param filterNew the filterNew to set
      */
     public void setFilterNew(boolean filterNew) {
@@ -125,6 +162,8 @@ public class ListFilter implements Serializable  {
     }
 
     /**
+     * Determines whether the status MISSING passes the filter.
+     *
      * @return the FilterMissing
      */
     public boolean isFilterMissing() {
@@ -132,6 +171,8 @@ public class ListFilter implements Serializable  {
     }
 
     /**
+     * Sets whether the status MISSING passes the filter.
+     *
      * @param filterMissing the filterMissing to set
      */
     public void setFilterMissing(boolean filterMissing) {
@@ -170,12 +211,27 @@ public class ListFilter implements Serializable  {
         return Transformer.list2CsvString(list);
     }
 
+    /** Whether the filter has been set explicitly by {@link #setFilter(String)}. */
     private boolean filterHasBeenSet = false;
 
+    /**
+     * Determines whether the filter has been set explicitly by
+     * {@link #setFilter(String)}.
+     *
+     * @return true if the filter has been set explicitly
+     */
     public boolean isFilterHasBeenSet() {
         return filterHasBeenSet;
     }
 
+    /**
+     * Sets the filter from a comma separated list of the keywords
+     * {@code ok}, {@code failed}, {@code new}, {@code missing}, {@code error},
+     * {@code good}, {@code bad}, {@code all}, {@code default} and {@code none}.
+     *
+     * @param arg the comma separated list of keywords
+     * @throws IllegalArgumentException if a keyword is invalid
+     */
     public void setFilter(String arg) throws IllegalArgumentException {
         filterHasBeenSet = true;
         enableAll(false);

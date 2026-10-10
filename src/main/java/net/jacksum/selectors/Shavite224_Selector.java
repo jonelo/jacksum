@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * Selects the implementation(s) of the algorithm SHAvite3-224.
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class Shavite224_Selector extends Selector {
 
     private static final String ID = "shavite224";
     
+    /**
+     * Creates a new Shavite224_Selector.
+     */
+    public Shavite224_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

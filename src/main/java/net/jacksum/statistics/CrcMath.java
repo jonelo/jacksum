@@ -25,12 +25,27 @@ package net.jacksum.statistics;
 import java.math.BigInteger;
 import net.loefflmann.sugar.math.GeneralMath;
 
+/**
+ * Calculates how many CRC customizations are supported by Jacksum.
+ */
 public class CrcMath {
 
     private final static int WIDTH_MIN = 8;
     private final static int WIDTH_MAX = 63;
     private final static BigInteger TWO = BigInteger.valueOf(2);
 
+    /**
+     * Creates a new CrcMath.
+     */
+    public CrcMath() {
+    }
+
+    /**
+     * Calculates the number of supported CRC customizations for the widths
+     * 8 to 63 bits, with and without the inclusion of the message length.
+     *
+     * @return the number in scientific notation, e.g. {@code 1.2345*10^123}
+     */
     public static String calcSupportedCRCCustomizations() {
         BigInteger all =
                 countPermutationsForCRCwithoutLength(WIDTH_MIN, WIDTH_MAX).
@@ -39,6 +54,15 @@ public class CrcMath {
         return GeneralMath.decimal2Scientific(all.toString(), 5, "*10^");
     }
 
+    /**
+     * Counts the permutations of the CRC parameters poly, init, refIn, refOut
+     * and xorOut for the widths from {@code width_min} to {@code width_max} in
+     * steps of 8 bits.
+     *
+     * @param width_min the minimum width in bits
+     * @param width_max the maximum width in bits
+     * @return the number of permutations
+     */
     public static BigInteger countPermutationsForCRCwithoutLength(int width_min, int width_max) {
         BigInteger sum = BigInteger.ONE;
 
@@ -53,6 +77,14 @@ public class CrcMath {
         return sum;
     }
 
+    /**
+     * Counts the permutations of the CRC parameters including the parameters
+     * for the inclusion of the message length.
+     *
+     * @param width_min the minimum width in bits
+     * @param width_max the maximum width in bits
+     * @return the number of permutations
+     */
     public static BigInteger countPermutationsForCRCwithLength(int width_min, int width_max) {
         BigInteger sum = countPermutationsForCRCwithoutLength(width_min, width_max);
         sum = sum.multiply(TWO); // inclen (true and false)

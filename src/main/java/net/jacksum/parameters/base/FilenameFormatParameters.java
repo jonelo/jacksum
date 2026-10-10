@@ -25,14 +25,45 @@ package net.jacksum.parameters.base;
 import java.nio.file.Path;
 
 /**
+ * Parameters that control how file names are formatted.
  *
  * @author Johann
  */
 public interface FilenameFormatParameters {
+    /**
+     * Returns the character that separates the elements of a path (option -P).
+     *
+     * @return the path separator character
+     */
     Character getPathChar();
+    /**
+     * Tells whether the path separator character differs from the default one of the system.
+     *
+     * @return true if the path separator character has been changed
+     */
     boolean isPathCharSet();
+    /**
+     * Tells whether file names should be printed without path (option --no-path).
+     *
+     * @return true if the path should be omitted
+     */
     boolean isNoPath();
+    /**
+     * Returns the path that file names should be relative to.
+     *
+     * @return the path, or null if not set
+     */
     Path getPathRelativeTo();
+    /**
+     * Tells whether GNU filename escaping is enabled (option --gnu-filename-escaping).
+     *
+     * @return true if GNU filename escaping is enabled
+     */
     boolean isGnuEscaping();
+    /**
+     * Tells whether GNU filename escaping has been set by the user explicitly.
+     *
+     * @return true if the user has set GNU filename escaping
+     */
     boolean isGnuEscapingSetByUser();
 }

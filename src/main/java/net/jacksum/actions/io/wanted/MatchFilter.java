@@ -27,6 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Filter that controls which results are reported when files are compared
+ * against a list of wanted hashes: files whose hash matches, files whose hash
+ * does not match, both, or none.
  *
  * @author Johann N. Loefflmann
  */
@@ -34,24 +37,45 @@ public class MatchFilter implements Serializable  {
 
     private static final long serialVersionUID = -8775542673951649406L;
 
+    /** Whether files with a matching hash should be reported. */
     private boolean filterMatch;
+    /** Whether files without a matching hash should be reported. */
     private boolean filterNoMatch;
 
+    /**
+     * Creates a new {@code MatchFilter} that reports matches only.
+     */
     public MatchFilter() {
         filterMatch = true;
         filterNoMatch = false;
     }
 
+    /**
+     * Enables or disables both the match and the no-match filter.
+     *
+     * @param bool true to report all files, false to report none
+     */
     public void enableAll(boolean bool) {
         filterMatch = bool;
         filterNoMatch = bool;
     }
     
+    /**
+     * Tells whether files need to be hashed for this filter; always true.
+     *
+     * @return true
+     */
     public boolean isHashingRequired() {
         return true;
     }
 
 
+    /**
+     * Returns the filter settings as a string, e.g. {@code all}, {@code none},
+     * {@code positive}, or {@code negative}.
+     *
+     * @return the string representation of the filter settings
+     */
     public String toString() {
         if (filterMatch && filterNoMatch) {
             return "all";
@@ -75,12 +99,27 @@ public class MatchFilter implements Serializable  {
         return Transformer.list2CsvString(list);
     }
 
+    /** Whether the filter has been set explicitly by {@link #setFilter(String)}. */
     private boolean filterHasBeenSet = false;
 
+    /**
+     * Tells whether the filter has been set explicitly by {@link #setFilter(String)}.
+     *
+     * @return true if the filter has been set explicitly
+     */
     public boolean isFilterHasBeenSet() {
         return filterHasBeenSet;
     }
 
+    /**
+     * Sets the filter from a comma separated list of the tokens {@code all},
+     * {@code none}, {@code match}, {@code nomatch}, {@code positive}
+     * (or {@code default}), and {@code negative}. All filters are disabled
+     * before the tokens are applied from left to right.
+     *
+     * @param arg the comma separated list of filter tokens
+     * @throws IllegalArgumentException if a token is invalid
+     */
     public void setFilter(String arg) throws IllegalArgumentException {
         filterHasBeenSet = true;
         enableAll(false);
@@ -114,18 +153,38 @@ public class MatchFilter implements Serializable  {
         }
     }
 
+    /**
+     * Tells whether files with a matching hash should be reported.
+     *
+     * @return true if matching files should be reported
+     */
     public boolean isFilterMatch() {
         return filterMatch;
     }
 
+    /**
+     * Sets whether files with a matching hash should be reported.
+     *
+     * @param filterMatch true if matching files should be reported
+     */
     public void setFilterMatch(boolean filterMatch) {
         this.filterMatch = filterMatch;
     }
 
+    /**
+     * Tells whether files without a matching hash should be reported.
+     *
+     * @return true if non-matching files should be reported
+     */
     public boolean isFilterNoMatch() {
         return filterNoMatch;
     }
 
+    /**
+     * Sets whether files without a matching hash should be reported.
+     *
+     * @param filterNoMatch true if non-matching files should be reported
+     */
     public void setFilterNoMatch(boolean filterNoMatch) {
         this.filterNoMatch = filterNoMatch;
     }

@@ -22,7 +22,21 @@ package net.jacksum.actions.info.hmacs;
 import net.jacksum.parameters.base.AlgorithmParameters;
 import net.jacksum.parameters.base.VerboseParameters;
 
+/**
+ * The parameters for the action that prints information about the supported HMACs.
+ */
 public interface HMACsActionParameters extends AlgorithmParameters, VerboseParameters {
+    /**
+     * Tells whether the HMACs should be listed (option -l).
+     *
+     * @return true if the HMACs should be listed
+     */
     boolean isList();
+
+    /**
+     * Tells whether information about the HMACs has been requested (option --info).
+     *
+     * @return true if the info mode is enabled
+     */
     boolean isInfoMode();
 }

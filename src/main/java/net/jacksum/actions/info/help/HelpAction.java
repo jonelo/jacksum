@@ -27,10 +27,18 @@ import net.loefflmann.sugar.util.ExitException;
 import net.jacksum.actions.Action;
 import net.jacksum.cli.ExitCode;
 
+/**
+ * Prints the full help, the help filtered by a search string, or the short help.
+ */
 public class HelpAction implements Action {
 
     private final HelpActionParameters parameters;
 
+    /**
+     * Creates a new help action.
+     *
+     * @param parameters the parameters that control the language and the search string of the help
+     */
     public HelpAction(HelpActionParameters parameters) {
         this.parameters = parameters;
     }

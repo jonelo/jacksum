@@ -85,6 +85,12 @@ public final class EdonR extends MessageDigest implements Cloneable {
     private int bufferLen;
     private long bytesProcessed;
 
+    /**
+     * Creates a new Edon-R message digest with the given digest size.
+     *
+     * @param digestBits the digest size in bits, one of 224, 256, 384, or 512
+     * @throws IllegalArgumentException if the digest size is not supported
+     */
     public EdonR(int digestBits) {
         super("Edon-R-" + digestBits);
         switch (digestBits) {

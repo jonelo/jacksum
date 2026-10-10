@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Selects the implementation(s) of the algorithm Hamsi-384.
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class Hamsi384_Selector extends Selector {
 
     private static final String ID = "hamsi384";
     
+    /**
+     * Creates a new {@code Hamsi384_Selector}.
+     */
+    public Hamsi384_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new HashMap<>(2); // ceil(1/0.75)

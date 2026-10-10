@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithm Tiger (Tiger/192).
  *
  * @author johann
  */
@@ -49,6 +50,12 @@ public class Tiger_Selector extends Selector {
         availableAliases.put("tiger-192", ID);
     }
     
+
+    /**
+     * Creates a new Tiger_Selector.
+     */
+    public Tiger_Selector() {
+    }
 
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {

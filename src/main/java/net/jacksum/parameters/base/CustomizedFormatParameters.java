@@ -26,6 +26,16 @@ package net.jacksum.parameters.base;
  * The parameters for the Format.
  */
 public interface CustomizedFormatParameters {
+    /**
+     * Tells whether a customized output format has been requested.
+     *
+     * @return true if a customized format is wanted
+     */
     boolean isFormatWanted();
+    /**
+     * Returns the customized output format.
+     *
+     * @return the customized format
+     */
     String getFormat();
 }

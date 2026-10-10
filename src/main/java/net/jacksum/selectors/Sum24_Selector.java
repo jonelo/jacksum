@@ -30,12 +30,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Sum24;
 
 /**
+ * Selects the implementation(s) of the algorithm sum 24.
  *
  * @author johann
  */
 public class Sum24_Selector extends Selector {
 
     private static final String ID = "sum24";
+
+    /**
+     * Creates a new Sum24_Selector.
+     */
+    public Sum24_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

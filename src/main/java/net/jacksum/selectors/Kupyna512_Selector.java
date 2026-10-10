@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
+ * Selects the implementation(s) of the algorithm Kupyna-512.
  *
  * @author johann
  */
 public class Kupyna512_Selector extends Selector {
 
     private static Map<String, String> map = null;
+
+    /**
+     * Creates a new Kupyna512_Selector.
+     */
+    public Kupyna512_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

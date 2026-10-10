@@ -48,12 +48,20 @@ public class MDflexiprovider extends AbstractChecksum {
     }
 
     
+    /** The underlying message digest. */
     protected MessageDigest md = null;
+    /** Whether the final digest has not been computed yet since the last reset. */
     protected boolean virgin = true;
+    /** The final digest, available once it has been computed. */
     protected byte[] digest = null;
     
     private String arg = null;
     
+    /**
+     * Creates a new MDflexiprovider without an underlying message digest.
+     *
+     * @throws NoSuchAlgorithmException declared, but not thrown by this constructor
+     */
     public MDflexiprovider() throws NoSuchAlgorithmException {
         
     }

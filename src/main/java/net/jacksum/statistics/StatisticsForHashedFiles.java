@@ -26,6 +26,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 
+/**
+ * Statistics for hashing files, including the counters for files that match
+ * an expected hash or a list of wanted hashes. A counter value of -1 means that
+ * the counter is not used and is not reported.
+ */
 public class StatisticsForHashedFiles extends CommonHashStatistics {
 
     private long filesMatchesExpectation = -1;
@@ -37,6 +42,12 @@ public class StatisticsForHashedFiles extends CommonHashStatistics {
     // see also setWantedHashesNoun()
     private final static String DEFAULT_WANTED_HASHES_NOUN = "wanted hashes";
     private String wantedHashesNoun = DEFAULT_WANTED_HASHES_NOUN;
+
+    /**
+     * Creates a new {@code StatisticsForHashedFiles} with all match counters unused.
+     */
+    public StatisticsForHashedFiles() {
+    }
 
     @Override
     public Map<String, Object> build() {
@@ -80,6 +91,8 @@ public class StatisticsForHashedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Gets the noun that the labels of both match counters use.
+     *
      * @return the noun that the labels of both match counters use
      */
     public String getWantedHashesNoun() {
@@ -87,6 +100,8 @@ public class StatisticsForHashedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Gets the number of files that match the expected hash; -1 if not counted.
+     *
      * @return the filesMatchesExpectation
      */
     public long getFilesMatchesExpectation() {
@@ -94,6 +109,8 @@ public class StatisticsForHashedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Sets the number of files that match the expected hash; -1 if not counted.
+     *
      * @param filesMatchesExpectation the filesMatchesExpectation to set
      */
     public void setFilesMatchesExpectation(long filesMatchesExpectation) {
@@ -117,18 +134,38 @@ public class StatisticsForHashedFiles extends CommonHashStatistics {
         this.filesMatchesWanted = filesMatchesWanted;
     }
 
+    /**
+     * Returns the number of files that do not match wanted hashes.
+     *
+     * @return the number of files that do not match wanted hashes
+     */
     public long getFilesNoMatchesWanted() {
         return filesNoMatchesWanted;
     }
 
+    /**
+     * Sets the number of files that do not match wanted hashes.
+     *
+     * @param filesNoMatchesWanted the number of files that do not match wanted hashes
+     */
     public void setFilesNoMatchesWanted(long filesNoMatchesWanted) {
         this.filesNoMatchesWanted = filesNoMatchesWanted;
     }
 
+    /**
+     * Returns the total number of wanted hashes.
+     *
+     * @return the total number of wanted hashes
+     */
     public long getTotalNumberOfWantedHashes() {
         return totalNumberOfWantedHashes;
     }
 
+    /**
+     * Sets the total number of wanted hashes.
+     *
+     * @param totalNumberOfWantedHashes the total number of wanted hashes
+     */
     public void setTotalNumberOfWantedHashes(long totalNumberOfWantedHashes) {
         this.totalNumberOfWantedHashes = totalNumberOfWantedHashes;
     }

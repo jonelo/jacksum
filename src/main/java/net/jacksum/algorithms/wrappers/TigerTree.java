@@ -117,6 +117,11 @@ public class TigerTree extends MessageDigest {
         return HASHSIZE;
     }
 
+    /**
+     * Gets the block size of the underlying hash algorithm.
+     *
+     * @return the block size in bytes
+     */
     public int getBlockSize() {
         return algo.getBlockSize();
     }
@@ -239,6 +244,10 @@ public class TigerTree extends MessageDigest {
         throw new CloneNotSupportedException();
     }
 
+    /**
+     * Updates the internal state with the bytes that are currently held in the
+     * internal buffer.
+     */
     protected void blockUpdate() {
         blockUpdate(buffer, 0, bufferOffset);
     }
@@ -283,6 +292,13 @@ public class TigerTree extends MessageDigest {
     }
 
     // calculates the next n with 2^n > number
+    /**
+     * Calculates the smallest n with 2^n &gt;= number, i.e. the ceiling of the binary
+     * logarithm of number.
+     *
+     * @param number the number
+     * @return the ceiling of log2(number), or 0 if number is less than or equal to 1
+     */
     public static int log2Ceil(long number) {
         int n = 0;
         while (number > 1) {

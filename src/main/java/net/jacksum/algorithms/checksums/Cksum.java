@@ -34,8 +34,10 @@ import net.jacksum.formats.Encoding;
 // implemented in Java from original GNU C source
 // it computes a POSIX 1003.2 checksum.
 public class Cksum extends AbstractChecksum {
+    /** The current CRC value. */
     protected int value;
 
+    /** The lookup table for the CRC polynomial 0x04C11DB7. */
     protected final int[] crctab = {
         0x00000000,
         0x04C11DB7, 0x09823B6E, 0x0D4326D9, 0x130476DC, 0x17C56B6B,
@@ -91,6 +93,9 @@ public class Cksum extends AbstractChecksum {
         0xA2F33668, 0xBCB4666D, 0xB8757BDA, 0xB5365D03, 0xB1F740B4
     };
 
+    /**
+     * Creates a new Cksum instance.
+     */
     public Cksum() {
         super();
         bitWidth = 32;

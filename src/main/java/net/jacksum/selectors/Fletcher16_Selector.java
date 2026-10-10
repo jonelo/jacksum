@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Fletcher16;
 
 /**
+ * Selects the implementation(s) of the algorithm Fletcher's Checksum.
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class Fletcher16_Selector extends Selector {
 
     private static final String ID = "fletcher16";
     
+    /**
+     * Creates a new Fletcher16_Selector.
+     */
+    public Fletcher16_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

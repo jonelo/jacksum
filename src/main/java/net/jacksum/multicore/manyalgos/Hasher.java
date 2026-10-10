@@ -59,16 +59,28 @@ public class Hasher implements Runnable {
     private int weight = 0;
     private volatile Throwable failure;
 
+    /**
+     * Creates a new Hasher that reads the data from the given queue.
+     *
+     * @param queue the queue the data units are taken from
+     */
     public Hasher(BlockingQueue<DataUnit> queue) {
         this.queue = queue;
         this.digests = new ArrayList<>();
     }
 
+    /**
+     * Returns the sum of the weights of all algorithms added to this Hasher.
+     *
+     * @return the total weight
+     */
     public int getWeight() {
         return weight;
     }
 
     /**
+     * Returns the failure that aborted this Hasher, if any.
+     *
      * @return the throwable that aborted this Hasher, or {@code null} if it
      * completed normally. Read by {@link ConcurrentHasher} after joining, so a
      * failure can no longer be silently swallowed and reported as success.
@@ -77,6 +89,13 @@ public class Hasher implements Runnable {
         return failure;
     }
 
+    /**
+     * Adds an algorithm to be updated by this Hasher and adds its weight to
+     * the total weight.
+     *
+     * @param hash the algorithm to add
+     * @throws NoSuchAlgorithmException if the algorithm is not available
+     */
     public void addMessageDigest(HashAlgorithm hash) throws NoSuchAlgorithmException {
         // System.out.println("---> "+hash.getName()+" "+hash.getWeight());
         this.weight += hash.getWeight();

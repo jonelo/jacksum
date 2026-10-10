@@ -25,7 +25,17 @@ package net.loefflmann.sugar.util;
 
 import java.util.List;
 
+/**
+ * Routines for transforming data structures.
+ */
 public class Transformer {
+
+    /**
+     * Creates a new Transformer instance.
+     */
+    public Transformer() {
+    }
+
     /**
      * Transforms a String List to a CSV String
      * @param list the list containing the values

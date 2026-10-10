@@ -23,8 +23,14 @@
 
 package net.jacksum.algorithms.checksums;
 
+/**
+ * The 16-bit sum, i.e. the sum of all bytes modulo 2^16.
+ */
 public class Sum16 extends Sum8 {
 
+    /**
+     * Creates a new 16-bit sum, initialized with zero.
+     */
     public Sum16() {
         super();
         bitWidth = 16;

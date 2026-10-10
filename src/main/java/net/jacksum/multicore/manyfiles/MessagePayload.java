@@ -27,6 +27,8 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 
 /**
+ * The payload of a message, i.e. the file path, the digest, the size and the
+ * attributes of a processed file.
  *
  * @author Johann N. Loefflmann
  */
@@ -40,18 +42,45 @@ public class MessagePayload {
     private BasicFileAttributes basicFileAttributes;
     private boolean fileNotFound;
 
+    /**
+     * Creates a new MessagePayload.
+     */
+    public MessagePayload() {
+    }
+
+    /**
+     * Sets the path of the file.
+     *
+     * @param path the path of the file
+     */
     public void setPath(Path path) {
         this.path = path;
     }
 
+    /**
+     * Sets a file name that a {@code Path} object does not support, such as
+     * device names or ADS paths on Windows.
+     *
+     * @param specialPath the special path
+     */
     public void setSpecialPath(String specialPath) {
         this.specialPath = specialPath;
     }
 
+    /**
+     * Returns the path of the file.
+     *
+     * @return the path of the file
+     */
     public Path getPath() {
         return path;
     }
 
+    /**
+     * Returns the file name that a {@code Path} object does not support.
+     *
+     * @return the special path, or null if it has not been set
+     */
     public String getSpecialPath() {
         return specialPath;
     }
@@ -68,22 +97,36 @@ public class MessagePayload {
     }
 
     /**
+     * Sets whether the file cannot be found at all.
+     *
      * @param fileNotFound whether the file cannot be found at all
      */
     public void setFileNotFound(boolean fileNotFound) {
         this.fileNotFound = fileNotFound;
     }
 
+    /**
+     * Sets the digest of the file.
+     *
+     * @param digest the digest
+     */
     public void setDigest(byte[] digest) {
         this.digest = digest;
     }
 
+    /**
+     * Returns the digest of the file.
+     *
+     * @return the digest
+     */
     public byte[] getDigest() {
         return digest;
     }
 
 
     /**
+     * Returns the size of the file in bytes.
+     *
      * @return the size
      */
     public long getSize() {
@@ -91,6 +134,8 @@ public class MessagePayload {
     }
 
     /**
+     * Sets the size of the file in bytes.
+     *
      * @param size the size to set
      */
     public void setSize(long size) {
@@ -98,6 +143,8 @@ public class MessagePayload {
     }
     
     /**
+     * Returns the basic attributes of the file.
+     *
      * @return the basicFileAttributes
      */
     public BasicFileAttributes getBasicFileAttributes() {
@@ -105,6 +152,8 @@ public class MessagePayload {
     }
 
     /**
+     * Sets the basic attributes of the file.
+     *
      * @param basicFileAttributes the basicFileAttributes to set
      */
     public void setBasicFileAttributes(BasicFileAttributes basicFileAttributes) {

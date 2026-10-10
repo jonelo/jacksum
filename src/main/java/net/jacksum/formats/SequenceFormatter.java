@@ -28,11 +28,29 @@ import java.util.regex.Pattern;
 import net.loefflmann.sugar.util.GeneralString;
 
 /**
+ * Replaces sequence tokens in a format buffer by the encoded representation of
+ * a byte sequence.
  *
  * @author Johann N. Loefflmann
  */
 public class SequenceFormatter {
 
+    /**
+     * Creates a new {@code SequenceFormatter}.
+     */
+    public SequenceFormatter() {
+    }
+
+    /**
+     * Resolves the encoding of a sequence token without protecting the encoded values.
+     *
+     * @param buf the buffer whose tokens are replaced in place
+     * @param bytes the byte sequence to encode
+     * @param grouping the number of characters per group (hex encodings only), or 0 for no grouping
+     * @param groupChar the character that separates the groups
+     * @param regex the regular expression that matches a token; group 1 must match the whole token
+     *        and group 2 the name of the encoding
+     */
     public static void resolveEncoding(StringBuilder buf, byte[] bytes, int grouping, Character groupChar, String regex) {
         resolveEncoding(buf, bytes, grouping, groupChar, regex, null);
     }
@@ -40,6 +58,16 @@ public class SequenceFormatter {
     /**
      * Resolves the encoding of a sequence token. The encoded sequence is a value, not a
      * token, so it is protected by the store if one is given, see TokenValueStore.
+     * A token with an unknown encoding is left unresolved and an error is printed to
+     * standard error.
+     *
+     * @param buf the buffer whose tokens are replaced in place
+     * @param bytes the byte sequence to encode
+     * @param grouping the number of characters per group (hex encodings only), or 0 for no grouping
+     * @param groupChar the character that separates the groups
+     * @param regex the regular expression that matches a token; group 1 must match the whole token
+     *        and group 2 the name of the encoding
+     * @param store the store that protects the encoded values, or null
      */
     public static void resolveEncoding(StringBuilder buf, byte[] bytes, int grouping, Character groupChar, String regex, TokenValueStore store) {
         Pattern pattern = Pattern.compile(regex);

@@ -29,10 +29,17 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
+ * Selects the implementation(s) of the algorithm SHAKE256 (SHA-3 family).
  *
  * @author johann
  */
 public class SHAKE256_Selector extends Selector {
+
+    /**
+     * Creates a new {@code SHAKE256_Selector}.
+     */
+    public SHAKE256_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

@@ -32,8 +32,14 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+/**
+ * Prints the copyright information of Jacksum.
+ */
 public class CopyrightAction implements Action {
 
+    /**
+     * Creates a new action that prints the copyright information.
+     */
     public CopyrightAction() {
     }
 

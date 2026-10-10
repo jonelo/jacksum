@@ -39,11 +39,20 @@ import net.jacksum.formats.Encoding;
 public class MDbouncycastle extends AbstractChecksum {
    
     
+    /** The wrapped Bouncy Castle digest. */
     protected Digest md = null;
+    /** Whether the digest still has to be computed, i.e. it has not been finalized since the last reset. */
     protected boolean virgin = true;
+    /** The computed digest, or null if it has not been computed yet. */
     protected byte[] digest = null;
     private int newDigestWidthInBits = -1;
     
+    /**
+     * Creates a new instance without a digest; intended for subclasses that
+     * set {@link #md} themselves.
+     *
+     * @throws NoSuchAlgorithmException never thrown by this constructor
+     */
     public MDbouncycastle() throws NoSuchAlgorithmException {
         
     }

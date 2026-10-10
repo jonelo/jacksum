@@ -30,13 +30,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
- *
+ * Selects the implementation(s) of the algorithm RIPEMD-320.
  * @author johann
  */
 public class Ripemd320_Selector extends Selector {
 
     private static final String ID = "ripemd320";
     
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public Ripemd320_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

@@ -28,14 +28,29 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Locale;
 
+/**
+ * Byte Order Marks (BOMs) of several character sets and routines to handle them.
+ */
 public class BOM {
 
+    /** The BOM of UTF-8. */
     public static final byte[] UTF_8 = new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF};
+    /** The BOM of UTF-16BE. */
     public static final byte[] UTF_16BE = new byte[]{(byte) 0xFE, (byte) 0xFF};
+    /** The BOM of UTF-16LE. */
     public static final byte[] UTF_16LE = new byte[]{(byte) 0xFF, (byte) 0xFE};
+    /** The BOM of UTF-32BE. */
     public static final byte[] UTF_32BE = new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0xFE, (byte) 0xFF};
+    /** The BOM of UTF-32LE. */
     public static final byte[] UTF_32LE = new byte[]{(byte) 0xFF, (byte) 0xFE, (byte) 0x00, (byte) 0x00};
+    /** The BOM of GB18030. */
     public static final byte[] GB18030 = new byte[]{(byte) 0x84, (byte) 0x31, (byte) 0x95, (byte) 0x33};
+
+    /**
+     * Creates a new BOM instance.
+     */
+    public BOM() {
+    }
 
     private static String cutBOM(String line, Charset charset, byte[] BOM) {
         byte[] bytes = line.getBytes(charset);
@@ -71,6 +86,14 @@ public class BOM {
         return lineWithoutBOM;
     }
 
+    /**
+     * Returns the BOM of a character set.
+     *
+     * @param charset the name of the character set
+     * @return the BOM, or an empty array if the character set does not define a BOM
+     * @throws java.nio.charset.IllegalCharsetNameException if the name of the character set is illegal
+     * @throws java.nio.charset.UnsupportedCharsetException if the character set is not supported
+     */
     public static byte[] getBOM(String charset) {
         Charset cs = Charset.forName(charset);
         switch (cs.name().toUpperCase(Locale.US)) {
@@ -85,6 +108,11 @@ public class BOM {
         return new byte[]{};
     }
 
+    /**
+     * Writes a BOM to standard output.
+     *
+     * @param bom the BOM to be written
+     */
     public static void writeBOM(byte[] bom) {
         System.out.write(bom, 0, bom.length);
     }

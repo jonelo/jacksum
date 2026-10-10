@@ -25,6 +25,14 @@ package net.jacksum.parameters.base;
 import net.jacksum.cli.Verbose;
 
 
+/**
+ * Parameters that control the verbosity.
+ */
 public interface VerboseParameters {
+    /**
+     * Returns the verbosity settings.
+     *
+     * @return the verbosity settings
+     */
     Verbose getVerbose();
 }

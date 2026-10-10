@@ -24,8 +24,17 @@ import net.jacksum.statistics.Statistics;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Statistics for the action that lists the HMAC algorithms.
+ */
 public class HMACsActionStatistics extends Statistics {
     private int HMACsCount = 0;
+
+    /**
+     * Creates a new statistics object with a HMAC count of zero.
+     */
+    public HMACsActionStatistics() {
+    }
 
     @Override
     public Map<String, Object> build() {
@@ -34,10 +43,20 @@ public class HMACsActionStatistics extends Statistics {
         return map;
     }
 
+    /**
+     * Returns the number of HMACs.
+     *
+     * @return the number of HMACs
+     */
     public int getHMACsCount() {
         return HMACsCount;
     }
 
+    /**
+     * Sets the number of HMACs.
+     *
+     * @param count the number of HMACs
+     */
     public void setHMACsCount(int count) {
         this.HMACsCount = count;
     }

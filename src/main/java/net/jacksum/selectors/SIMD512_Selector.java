@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Selects the implementation(s) of the algorithm SIMD-512.
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class SIMD512_Selector extends Selector {
 
     private static final String ID = "simd512";
     
+    /**
+     * Creates a new SIMD512_Selector.
+     */
+    public SIMD512_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new HashMap<>(2); // ceil(1/0.75)

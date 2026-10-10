@@ -24,11 +24,30 @@ package net.jacksum.parameters.base;
 
 import net.jacksum.parameters.Sequence;
 
+/**
+ * The parameters for a sequence (e.g. a string or hex sequence) that should be processed
+ * instead of files.
+ */
 public interface SequenceParameters {
 
+    /**
+     * Tells whether a sequence has been set.
+     *
+     * @return true if a sequence has been set
+     */
     boolean isSequence();
 
+    /**
+     * Gets the sequence.
+     *
+     * @return the sequence, or null if none has been set
+     */
     Sequence getSequence();
 
+    /**
+     * Sets the sequence.
+     *
+     * @param sequence the sequence
+     */
     void setSequence(Sequence sequence);
 }

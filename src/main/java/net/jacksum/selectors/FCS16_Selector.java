@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.crcs.FCS16;
 
 /**
+ * Selects the implementation(s) of the algorithm FCS-16.
  *
  * @author johann
  */
 public class FCS16_Selector extends Selector {
 
     private static final String ID = "fcs16";
+
+    /**
+     * Creates a new FCS16_Selector.
+     */
+    public FCS16_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

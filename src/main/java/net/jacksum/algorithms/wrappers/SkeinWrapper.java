@@ -29,8 +29,19 @@ import java.security.NoSuchAlgorithmException;
 import net.jacksum.formats.Encoding;
 import org.bouncycastle.crypto.digests.SkeinDigest;
 
+/**
+ * A wrapper for the Skein hash functions with a configurable state size and
+ * output size.
+ */
 public class SkeinWrapper extends MDbouncycastle {
 
+    /**
+     * Creates a new SkeinWrapper for the given algorithm ID.
+     *
+     * @param input the algorithm ID in the form {@code skein-<bits>} or
+     * {@code skein-<stateSizeBits>-<outputBits>}
+     * @throws NoSuchAlgorithmException if the ID is invalid or not supported
+     */
     public SkeinWrapper(String input) throws NoSuchAlgorithmException {
         length = 0;
         filename = null;

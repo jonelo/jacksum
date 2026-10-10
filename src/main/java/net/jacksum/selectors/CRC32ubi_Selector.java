@@ -30,6 +30,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.crcs.CrcGeneric;
 
 /**
+ * Selects the implementation(s) of the algorithm CRC-32 (UBICRC32/JAMCRC).
  *
  * @author Johann N. Löfflmann
  */
@@ -38,6 +39,12 @@ public class CRC32ubi_Selector extends Selector {
     
     private static final String ID = "crc32_ubi";
     
+    /**
+     * Creates a new CRC32ubi_Selector.
+     */
+    public CRC32ubi_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

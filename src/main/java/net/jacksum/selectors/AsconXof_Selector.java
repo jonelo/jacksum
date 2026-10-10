@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
+ * Selects the implementation(s) of the algorithm Ascon-Xof.
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class AsconXof_Selector extends Selector {
 
     private final static String ID = "ascon-xof";
     private static Map<String, String> algos;
+
+    /**
+     * Creates a new AsconXof_Selector.
+     */
+    public AsconXof_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

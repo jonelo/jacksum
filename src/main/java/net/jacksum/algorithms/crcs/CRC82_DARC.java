@@ -35,6 +35,10 @@ import net.jacksum.formats.Encoding;
 // reflected = 1000100000100000001000101000000000101000100000001000100010000000001100010000110000
 // high=       100010000010000000
 // low=                          1000101000000000101000100000001000100010000000001100010000110000
+/**
+ * The CRC-82/DARC algorithm (width=82, poly=0x0308c0111011401440411, init=0,
+ * refin=true, refout=true, xorout=0).
+ */
 public class CRC82_DARC extends AbstractChecksum implements CrcInfo {
 
     private long[] crc = new long[2];
@@ -42,6 +46,9 @@ public class CRC82_DARC extends AbstractChecksum implements CrcInfo {
     private long POLYHIGH = 0x22080L;
     private long POLYLOW = 0x8a00a2022200c430L;
 
+    /**
+     * Creates a new CRC-82/DARC instance.
+     */
     public CRC82_DARC() {
         super();
         bitWidth = 82;

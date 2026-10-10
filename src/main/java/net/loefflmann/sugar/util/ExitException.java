@@ -28,22 +28,44 @@ package net.loefflmann.sugar.util;
  */
 public class ExitException extends Exception {
 
+    /** The exit code the program should exit with. */
     private final int exitcode;
 
+    /**
+     * Creates a new ExitException with a message and the exit code 0.
+     *
+     * @param s the detail message
+     */
     public ExitException(String s) {
         super(s);
         exitcode = 0;
     }
 
+    /**
+     * Creates a new ExitException with a message and an exit code.
+     *
+     * @param s the detail message
+     * @param exitcode the exit code
+     */
     public ExitException(String s, int exitcode) {
         super(s);
         this.exitcode = exitcode;
     }
     
+    /**
+     * Creates a new ExitException with an exit code and no detail message.
+     *
+     * @param exitcode the exit code
+     */
     public ExitException(int exitcode) {
         this(null, exitcode);
     }
 
+    /**
+     * Returns the exit code the program should exit with.
+     *
+     * @return the exit code
+     */
     public int getExitCode() {
         return exitcode;
     }

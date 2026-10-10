@@ -27,14 +27,40 @@ package net.jacksum.actions.info.help;
  * The parameters for the Help Action.
  */
 public interface HelpActionParameters {
+    /**
+     * Tells whether a search string for the help has been set.
+     *
+     * @return true if a help search string has been set
+     */
     boolean isHelpSearchString();
 
+    /**
+     * Gets the string to search for in the help.
+     *
+     * @return the help search string, or null if none has been set
+     */
     String getHelpSearchString();
 
+    /**
+     * Tells whether a language for the help has been set.
+     *
+     * @return true if a help language has been set
+     */
     boolean isHelpLanguage();
 
+    /**
+     * Gets the language code of the help (e.g. en).
+     *
+     * @return the help language code, or null if none has been set
+     */
     String getHelpLanguage();
 
+    /**
+     * Tells whether the search string must match an option, an algorithm ID, or
+     * a section header exactly rather than just being a prefix of it (option --exact).
+     *
+     * @return true if an exact match is required
+     */
     boolean isExact();
 
 }

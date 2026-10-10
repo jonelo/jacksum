@@ -29,6 +29,10 @@ import net.jacksum.JacksumAPI;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.parameters.combined.ChecksumParameters;
 
+/**
+ * A pool of algorithm instances, one per worker thread, so that several files can be
+ * hashed in parallel.
+ */
 public class AlgorithmPool {
     private final Map<Integer,AbstractChecksum> pool;
     private final ChecksumParameters parameters;
@@ -39,12 +43,25 @@ public class AlgorithmPool {
         return checksum;
     }
         
+    /**
+     * Creates a new pool and the instance for the id 0.
+     *
+     * @param parameters the parameters that determine the algorithm
+     * @throws NoSuchAlgorithmException if the algorithm cannot be found
+     */
     public AlgorithmPool(ChecksumParameters parameters) throws NoSuchAlgorithmException {
         this.parameters = parameters;
         pool = new HashMap<>();        
         pool.put(0, newInstance());
     }
     
+    /**
+     * Returns the algorithm instance for the given id, it is created if it does not exist yet.
+     *
+     * @param id the id, e.g. the id of the worker thread
+     * @return the algorithm instance for the id
+     * @throws NoSuchAlgorithmException if the algorithm cannot be found
+     */
     synchronized public AbstractChecksum getAlgorithm(int id) throws NoSuchAlgorithmException {
         if (!pool.containsKey(id)) {
             pool.put(id, newInstance());

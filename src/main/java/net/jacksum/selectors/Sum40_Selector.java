@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Sum40;
 
 /**
+ * Selects the implementation(s) of the algorithm sum 40.
  *
  * @author johann
  */
 public class Sum40_Selector extends Selector {
 
     private static final String ID = "sum40";
+
+    /**
+     * Creates a new selector for the algorithm sum 40.
+     */
+    public Sum40_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

@@ -22,8 +22,29 @@ package net.jacksum.actions.info.algo;
 import net.jacksum.algorithms.AbstractChecksum;
 import java.util.Arrays;
 
+/**
+ * Measures the avalanche effect of an algorithm by flipping each bit of a message
+ * and comparing the resulting hash values with the original one.
+ */
 public class Avalanche {
 
+    /**
+     * Creates a new Avalanche instance.
+     */
+    public Avalanche() {
+    }
+
+    /**
+     * Calculates the avalanche effect of an algorithm for a given message. For each bit of
+     * the message, the bit is flipped and the Hamming distance between the original and the
+     * resulting hash value is determined. Min, max, and average distances are expressed as a
+     * percentage of the hash bit width. Note that the checksum is reset and updated by this method.
+     *
+     * @param checksum the algorithm to be examined
+     * @param message the message whose bits are flipped
+     * @return the avalanche info; an info without values is returned if the message is empty
+     *         or the hash has no bits
+     */
     public static AvalancheInfo calc(AbstractChecksum checksum, byte[] message) {
 
         checksum.reset();
@@ -69,6 +90,14 @@ public class Avalanche {
         return avalancheInfo;
     }
 
+    /**
+     * Flips a single bit in a byte array in place.
+     *
+     * @param byteArray the byte array that is modified
+     * @param byteIndex the index of the byte
+     * @param bitIndex the index of the bit within the byte (0 is the most significant bit, 7 the least)
+     * @throws IllegalArgumentException if the byte or bit index is out of range
+     */
     public static void flipBit(byte[] byteArray, int byteIndex, int bitIndex) {
         if (byteIndex < 0 || byteIndex >= byteArray.length || bitIndex < 0 || bitIndex > 7) {
             throw new IllegalArgumentException("flipBit: invalid byte or bit index");
@@ -76,7 +105,15 @@ public class Avalanche {
         byteArray[byteIndex] ^= (1 << 7-bitIndex);
     }
 
-    // Calculates the sum of the bits that are set differently
+    /**
+     * Calculates the Hamming distance of two byte arrays, i.e. the number of bits that are
+     * set differently.
+     *
+     * @param b1 the first byte array
+     * @param b2 the second byte array
+     * @return the number of differing bits
+     * @throws IllegalArgumentException if the arrays have different lengths
+     */
     public static int hammingDistance(byte[] b1, byte[] b2) throws IllegalArgumentException {
         if (b1.length != b2.length) {
             throw new IllegalArgumentException("hammingDistance: b1.length != b2.length");
@@ -88,7 +125,12 @@ public class Avalanche {
         return sum;
     }
 
-    // Returns the number of bits that are set in the given byte
+    /**
+     * Returns the number of bits that are set in the given byte.
+     *
+     * @param b the byte
+     * @return the number of bits set (0 to 8)
+     */
     public static int numberOfBitsSet(byte b) {
         return Integer.bitCount(b & 0xFF);
     }

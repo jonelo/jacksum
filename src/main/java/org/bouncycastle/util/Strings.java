@@ -13,6 +13,8 @@ import org.bouncycastle.util.encoders.UTF8;
 /**
  * String utilities.
  */
+// AccessController is deprecated for removal, it is kept as in upstream Bouncy Castle
+@SuppressWarnings("removal")
 public final class Strings
 {
     private static String LINE_SEPARATOR;

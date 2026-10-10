@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * Selects the implementation(s) of the algorithm Blue Midnight Wish 512.
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class BlueMidnightWish512_Selector extends Selector {
 
     private static final String ID = "bluemidnightwish512";
     
+    /**
+     * Creates a new BlueMidnightWish512_Selector.
+     */
+    public BlueMidnightWish512_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

@@ -38,6 +38,12 @@ public class ThreadControl {
     private static int threadsReading = 1; // OSControl.isMacOS() ? THREADS_MAX : 1;
 
     /**
+     * Creates a new {@code ThreadControl}. All members are static.
+     */
+    public ThreadControl() {
+    }
+
+    /**
      * Returns the smallest number of threads that is supported.
      *
      * @return the smallest number of threads that is supported
@@ -57,10 +63,20 @@ public class ThreadControl {
         return THREADS_LIMIT;
     }
 
+    /**
+     * Returns the number of processors that are available to the JVM.
+     *
+     * @return the number of available processors
+     */
     public static int getThreadsMax() {
         return THREADS_MAX;
     }
 
+    /**
+     * Returns the default number of hashing threads.
+     *
+     * @return the default number of hashing threads
+     */
     public static int getThreadsHashing() {
         return threadsHashing;
     }
@@ -78,6 +94,11 @@ public class ThreadControl {
         ThreadControl.threadsHashing = threadsHashing;
     }
 
+    /**
+     * Returns the default number of reading threads.
+     *
+     * @return the default number of reading threads
+     */
     public static int getThreadsReading() {
         return threadsReading;
     }

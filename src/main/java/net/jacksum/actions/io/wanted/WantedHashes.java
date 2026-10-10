@@ -40,6 +40,10 @@ import java.util.List;
 
 import static net.jacksum.cli.Messenger.MsgType.INFO;
 
+/**
+ * Reads and parses the wanted list (option {@code -w}/{@code --wanted-list}), i.e. the list of
+ * hash values to search for.
+ */
 public class WantedHashes {
     private Parameters parameters;
     private CompatibilityProperties compatibilityProperties;
@@ -47,6 +51,13 @@ public class WantedHashes {
     private final Messenger messenger;
     List<HashEntry> parsedHashEntries = null;
 
+    /**
+     * Creates the parser for the wanted list if a wanted list has been specified.
+     * If no wanted list has been specified, no parser is created.
+     *
+     * @param parameters the parameters that specify the wanted list and its style
+     * @throws ParameterException if the parser cannot be created from the compatibility properties
+     */
     public WantedHashes(Parameters parameters) throws ParameterException {
         this.parameters = parameters;
         this.messenger = new Messenger(parameters.getVerbose());
@@ -70,6 +81,11 @@ public class WantedHashes {
 
     }
 
+    /**
+     * Returns the parser for the wanted list.
+     *
+     * @return the parser, or {@code null} if no wanted list has been specified
+     */
     public Parser getParser() {
         return parser;
     }
@@ -78,6 +94,12 @@ public class WantedHashes {
     // asks for a verification: getActionType() returns ActionType.CHECK if a check line has been
     // specified, and Parameters.checkParameters() rejects the combination of --check-line and
     // --wanted-list, so this class is never used for a check line at all.
+    /**
+     * Parses the wanted list and stores the parsed hash entries, see {@link #getParsedHashEntries()}.
+     *
+     * @throws ExitException if the wanted list cannot be read (exit code {@code IO_ERROR}) or if
+     * not even one valid entry could be found in it (exit code {@code CHECKFILE_PARSE_ERROR})
+     */
     public void parse() throws ExitException {
         // parse
         try {
@@ -109,6 +131,11 @@ public class WantedHashes {
         }
     }
 
+    /**
+     * Returns the hash entries that have been parsed from the wanted list by {@link #parse()}.
+     *
+     * @return the parsed hash entries, or {@code null} if {@link #parse()} has not been called yet
+     */
     public List<HashEntry> getParsedHashEntries() {
         return parsedHashEntries;
     }

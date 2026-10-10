@@ -40,9 +40,14 @@ import net.jacksum.formats.Encoding;
  *      Released under the GPL
  */
 
+/**
+ * The checksum algorithm of the cksum command of Minix.
+ */
 public class Cksum_Minix extends AbstractChecksum {
+    /** The current checksum value. */
     protected int value;
 
+    /** The lookup table used to compute the checksum. */
     protected final int[] crctab = {
 /* Table from P1003.2 (4.9/Fig 4.1). In fact, this table was taken from zmodem
  * and rewritten to look like the Draft 11 example.
@@ -101,6 +106,9 @@ public class Cksum_Minix extends AbstractChecksum {
           0x2a6f2b94, 0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
     };
 
+    /**
+     * Creates a new Cksum_Minix instance.
+     */
     public Cksum_Minix() {
         super();
         bitWidth = 32;

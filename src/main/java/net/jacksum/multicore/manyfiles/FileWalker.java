@@ -37,7 +37,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * FileWalker
+ * FileWalker walks a file tree and puts a message for each file that has been found
+ * onto a queue.
  */
 public class FileWalker {
 
@@ -53,6 +54,15 @@ public class FileWalker {
     private final boolean scanNtfsAds;
     private final static boolean onWindows = OSControl.isWindows();
 
+    /**
+     * Creates a new FileWalker.
+     *
+     * @param messageTypeForFiles the type of the messages that are created for files
+     * @param producerParameters the parameters that control the walk (e.g. depth,
+     *                           symlink handling, output and error files to be skipped)
+     * @param path the path to start the walk from
+     * @param queue the queue that receives the messages
+     */
     public FileWalker(Message.Type messageTypeForFiles, ProducerParameters producerParameters,
                       Path path,
                       BlockingQueue<Message> queue) {
@@ -77,6 +87,10 @@ public class FileWalker {
 
     }
 
+    /**
+     * Walks the file tree and puts the messages onto the queue.
+     * An {@code IOException} is printed on standard output.
+     */
     public void walk() {
         Set<FileVisitOption> opts;
         if (followSymlinksToDirs) {

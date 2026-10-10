@@ -26,6 +26,9 @@ package net.jacksum.algorithms.crcs;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
+/**
+ * A class that can be used to compute the CRC-64 (ISO 3309) of a data stream.
+ */
 public class CRC64 extends AbstractChecksum implements CrcInfo {
 
   private long value;
@@ -120,6 +123,9 @@ public class CRC64 extends AbstractChecksum implements CrcInfo {
   };
 
 
+    /**
+     * Creates a new CRC64 instance.
+     */
     public CRC64() {
         super();
         bitWidth = 64;

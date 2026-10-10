@@ -30,10 +30,19 @@ import java.security.NoSuchAlgorithmException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Selects the implementation(s) of the algorithm CRC32c (Castagnoli, iSCSI).
+ */
 public class CRC32c_Selector extends Selector {
 
     private static final String ID = "crc32c";
     
+    /**
+     * Creates a new CRC32c_Selector.
+     */
+    public CRC32c_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

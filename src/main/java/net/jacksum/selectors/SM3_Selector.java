@@ -29,10 +29,17 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
+ * Selects the implementation(s) of the algorithm SM3.
  *
  * @author johann
  */
 public class SM3_Selector extends Selector {
+
+    /**
+     * Creates a new SM3_Selector.
+     */
+    public SM3_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

@@ -30,6 +30,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Cksum_Minix;
 
 /**
+ * Selects the implementation(s) of the algorithm cksum (Minix &lt;= 3.2.0).
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class CksumMinix_Selector extends Selector {
 
     private static final String ID = "cksum_minix";
     
+    /**
+     * Creates a new selector for the algorithm cksum (Minix &lt;= 3.2.0).
+     */
+    public CksumMinix_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

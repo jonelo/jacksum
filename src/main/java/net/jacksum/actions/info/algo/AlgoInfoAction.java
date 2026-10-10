@@ -45,6 +45,10 @@ import net.jacksum.cli.ExitCode;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.multicore.manyalgos.HashAlgorithm;
 
+/**
+ * The action that prints information about one or more algorithms
+ * (name, properties, CRC parameters etc.), or just lists their names.
+ */
 public class AlgoInfoAction implements Action {
 
     private final AlgoInfoActionParameters parameters;
@@ -54,6 +58,11 @@ public class AlgoInfoAction implements Action {
 
     int maxWeight = 0;
 
+    /**
+     * Creates a new AlgoInfoAction.
+     *
+     * @param parameters the parameters that control this action
+     */
     public AlgoInfoAction(AlgoInfoActionParameters parameters) {
         this.parameters = parameters;
         this.statistics = new AlgoInfoActionStatistics();
@@ -311,6 +320,15 @@ public class AlgoInfoAction implements Action {
         return exitCode;
     }
 
+    /**
+     * Performs the action and appends the output to a buffer instead of
+     * printing it to standard output.
+     *
+     * @param buffer the buffer the output is appended to
+     * @return the exit code
+     * @throws ExitException if the program should exit
+     * @throws ParameterException if the requested algorithm is not supported
+     */
     public int perform(StringBuilder buffer) throws ExitException, ParameterException {
 
         allSupportedAlgorithmsCount = JacksumAPI.getAvailableAlgorithms().size(); // + JacksumAPI.getAvailableHMACs().size();

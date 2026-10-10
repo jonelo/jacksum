@@ -29,17 +29,52 @@ import net.jacksum.cli.Verbose;
  */
 public interface CheckActionParameters {
 
+    /**
+     * Returns the name of the check file (the file that contains the hash values to be verified).
+     *
+     * @return the name of the check file
+     */
     String getCheckFile();
 
+    /**
+     * Returns the verbosity settings.
+     *
+     * @return the verbosity settings
+     */
     Verbose getVerbose();
 
+    /**
+     * Tells whether only a list of file names should be printed instead of the verification status.
+     *
+     * @return true if a list of file names is wanted (option -l)
+     */
     boolean isList();
     
+    /**
+     * Returns the name of the character set that is used to read the check file.
+     *
+     * @return the name of the character set of the check file
+     */
     String getCharsetCheckFile();
     
+    /**
+     * Returns the ID of the compatibility (predefined style) that is used to parse the check file.
+     *
+     * @return the compatibility ID, or null if none has been set
+     */
     String getCompatibilityID();
     
+    /**
+     * Sets the file names that have been read from the check file.
+     *
+     * @param filenamesFromCheckFile the file names from the check file
+     */
     void setFilenamesFromCheckFile(List<String> filenamesFromCheckFile);
     
+    /**
+     * Returns the file names that have been read from the check file.
+     *
+     * @return the file names from the check file, or null if they have not been set yet
+     */
     List<String> getFilenamesFromCheckFile();
 }

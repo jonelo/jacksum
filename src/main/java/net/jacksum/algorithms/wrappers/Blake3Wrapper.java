@@ -30,12 +30,21 @@ import net.jacksum.zzadopt.io.github.rctcwyvrn.blake3.Blake3;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
+/**
+ * A wrapper class that can be used to compute BLAKE3 with a 256 bit output.
+ */
 public class Blake3Wrapper extends AbstractChecksum {
 
     private Blake3 hasher = null;
     private boolean virgin = true;
     private byte[] digest = null;
 
+    /**
+     * Creates a new BLAKE3 instance.
+     *
+     * @param input the algorithm ID, either {@code blake3} or {@code b3sum} (case insensitive)
+     * @throws NoSuchAlgorithmException if the ID is not a valid ID for BLAKE3
+     */
     public Blake3Wrapper(String input) throws NoSuchAlgorithmException {
 
         length = 0;

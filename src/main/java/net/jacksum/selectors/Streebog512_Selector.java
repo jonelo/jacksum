@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
+ * Selects the implementation(s) of the algorithm Streebog-512 (GOST R 34.11-2012).
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class Streebog512_Selector extends Selector {
 
     private static final String ID = "streebog512";
     
+    /**
+     * Creates a new selector for the algorithm Streebog-512 (GOST R 34.11-2012).
+     */
+    public Streebog512_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

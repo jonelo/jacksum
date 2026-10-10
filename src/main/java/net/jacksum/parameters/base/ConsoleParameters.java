@@ -19,8 +19,21 @@
 
 package net.jacksum.parameters.base;
 
+/**
+ * Parameters for the console.
+ */
 public interface ConsoleParameters {
+    /**
+     * Returns the character set of the console (option {@code --charset-console}).
+     *
+     * @return the name of the character set of the console, or {@code null} if not set
+     */
     String getCharsetConsole();
 
+    /**
+     * Sets the character set of the console.
+     *
+     * @param charset the name of the character set of the console
+     */
     void setCharsetConsole(String charset);
 }

@@ -44,6 +44,11 @@ public class FindDocumentedAlgorithms implements FindAlgoEngine {
     private int searched;
     private int found;
 
+    /**
+     * Creates a new FindDocumentedAlgorithms engine.
+     *
+     * @param parameters the parameters that control the search
+     */
     public FindDocumentedAlgorithms(Parameters parameters) {
         this.parameters = parameters;
     }

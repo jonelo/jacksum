@@ -26,8 +26,19 @@ package net.jacksum.algorithms.checksums;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Generic n-bit Fowler-Noll-Vo hash function FNV-1, which starts with the FNV offset
+ * basis of the respective width rather than with 0.
+ */
 public class Fnv1_n extends Fnv0_n {
 
+    /**
+     * Creates a new FNV-1 instance with the given width.
+     *
+     * @param width the width in bits as a decimal string; one of 32, 64, 128,
+     * 256, 512, or 1024
+     * @throws NoSuchAlgorithmException if the width is not a number or not supported
+     */
     public Fnv1_n(String width) throws NoSuchAlgorithmException {
         super(width);
         BigInteger init;

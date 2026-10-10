@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Sum8;
 
 /**
+ * Selects the implementation(s) of the algorithm sum 8.
  *
  * @author johann
  */
 public class Sum8_Selector extends Selector {
 
     private static final String ID = "sum8";
+
+    /**
+     * Creates a new Sum8_Selector.
+     */
+    public Sum8_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

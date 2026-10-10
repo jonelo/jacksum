@@ -35,6 +35,9 @@ public class Adler32 extends AbstractChecksum {
     
     private final java.util.zip.Adler32 adler32;
     
+    /**
+     * Creates a new Adler32 instance.
+     */
     public Adler32() {
         super();
         bitWidth = 32;

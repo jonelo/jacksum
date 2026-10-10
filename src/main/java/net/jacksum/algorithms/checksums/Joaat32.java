@@ -32,8 +32,12 @@ import net.jacksum.formats.Encoding;
  */
 public class Joaat32 extends AbstractChecksum {
 
+    /** The current hash value. */
     protected int value;
 
+    /**
+     * Creates a new Jenkins one-at-a-time hash (32 bits) instance.
+     */
     public Joaat32() {
         super();
         bitWidth = 32;

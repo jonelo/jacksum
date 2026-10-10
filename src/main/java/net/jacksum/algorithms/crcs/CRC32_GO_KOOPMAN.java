@@ -26,8 +26,16 @@ package net.jacksum.algorithms.crcs;
 import java.security.NoSuchAlgorithmException;
 import net.jacksum.formats.Encoding;
 
+/**
+ * The CRC-32 with the Koopman polynomial as provided by the Go API.
+ */
 public class CRC32_GO_KOOPMAN extends CrcGeneric {
 
+    /**
+     * Creates a new CRC32_GO_KOOPMAN instance.
+     *
+     * @throws NoSuchAlgorithmException if the CRC parameters are invalid
+     */
     public CRC32_GO_KOOPMAN() throws NoSuchAlgorithmException {
         super(32, 0x741B8CD7L, 0xFFFFFFFFL, true, true, 0xFFFFFFFFL);
         formatPreferences.setHashEncoding(Encoding.DEC);

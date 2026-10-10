@@ -34,10 +34,19 @@ import java.nio.charset.Charset;
 import java.util.*;
 import java.util.Map.Entry;
 
+/**
+ * Prints information about the application, such as version, supported algorithms and
+ * character sets, system properties, number of processors, and Java heap usage.
+ */
 public class AppInfoAction implements Action {
 
     private final AppInfoActionParameters parameters;
 
+    /**
+     * Creates a new action that prints information about the application.
+     *
+     * @param parameters the parameters for this action
+     */
     public AppInfoAction(AppInfoActionParameters parameters) {
         this.parameters = parameters;
     }
@@ -165,6 +174,14 @@ public class AppInfoAction implements Action {
         System.out.printf("Default charset: %s\n\n", Charset.defaultCharset());
     }
 
+    /**
+     * Returns a copy of a map, sorted by its values in ascending order.
+     *
+     * @param <K> the type of the keys
+     * @param <V> the type of the values
+     * @param map the map to be sorted
+     * @return a new map with the entries of the given map, ordered by value
+     */
     public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
         List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
         list.sort(Entry.comparingByValue());

@@ -33,6 +33,10 @@ import net.jacksum.zzadopt.kr.re.nsr.crypto.Hash.Algorithm;
 import net.jacksum.formats.Encoding;
 import net.jacksum.algorithms.AbstractChecksum;
 
+/**
+ * A wrapper for the LSH hash functions (LSH-256-224, LSH-256-256, LSH-512-224,
+ * LSH-512-256, LSH-512-384 and LSH-512-512).
+ */
 public class LSHWrapper extends AbstractChecksum {
 
     private Hash lshHash = null;
@@ -41,6 +45,13 @@ public class LSHWrapper extends AbstractChecksum {
 
     private static Map<Integer, Algorithm> map;
 
+    /**
+     * Creates a new LSHWrapper for the given algorithm ID.
+     *
+     * @param input the algorithm ID in the form {@code lsh-<bits>-<width>},
+     * e.g. {@code lsh-256-224}
+     * @throws NoSuchAlgorithmException if the ID is invalid or not supported
+     */
     public LSHWrapper(String input) throws NoSuchAlgorithmException {
         length = 0;
         filename = null;

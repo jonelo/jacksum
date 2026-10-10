@@ -47,6 +47,14 @@ public class HMAC extends AbstractChecksum  {
 
 	private int outputLengthInBits = -1;
 
+	/**
+	 * Constructs a HMac with a truncated output.
+	 *
+	 * @param algorithm the algorithm to be used with a HMac.
+	 * @param outputLengthInBits the requested output length in bits, it must not be
+	 * greater than the output length of the algorithm
+	 * @throws NoSuchAlgorithmException if the algorithm is unsupported.
+	 */
 	public HMAC(String algorithm, int outputLengthInBits) throws NoSuchAlgorithmException {
 		this(algorithm);
 		if (outputLengthInBits > digest.getSize()) {
@@ -79,6 +87,11 @@ public class HMAC extends AbstractChecksum  {
 		o_key_pad = new byte[blocksize];
 	}
 
+	/**
+	 * Returns the underlying hash algorithm.
+	 *
+	 * @return the underlying hash algorithm
+	 */
 	public AbstractChecksum getAlgorithm() {
 		return digest;
 	}
@@ -257,18 +270,42 @@ public class HMAC extends AbstractChecksum  {
 		return ret;
 	}
 
+	/**
+	 * Returns the requested output length in bits.
+	 *
+	 * @return the requested output length in bits, or -1 if the output is not truncated
+	 */
 	public int getOutputLengthInBits() {
 		return outputLengthInBits;
 	}
 
+	/**
+	 * Sets the requested output length in bits. Unlike the constructor, this method
+	 * does not validate the value.
+	 *
+	 * @param outputLengthInBits the requested output length in bits, or a value
+	 * less than or equal to 0 for the full output length
+	 */
 	public void setOutputLengthInBits(int outputLengthInBits) {
 		this.outputLengthInBits = outputLengthInBits;
 	}
 
+	/**
+	 * Tells whether the key passed to {@code init} was at least as long as the output
+	 * of the hash algorithm, which is the recommended minimum according to RFC 2104.
+	 *
+	 * @return true if the key length matched the recommended minimum
+	 */
 	public boolean isKeyLengthMatchedRecommendedMinimum() {
 		return keyLengthMatchedRecommendedMinimum;
 	}
 
+	/**
+	 * Tells whether the key passed to {@code init} was longer than the block size and
+	 * therefore has been hashed first, according to RFC 2104.
+	 *
+	 * @return true if the key has been hashed
+	 */
 	public boolean isKeyWasHashed() {
 		return keyWasHashed;
 	}

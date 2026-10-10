@@ -23,6 +23,9 @@
 package net.jacksum.actions.io.verify;
 
 
+/**
+ * Signals that not even one valid entry has been found in a hash list.
+ */
 public class NotEvenOneEntryFoundException extends Exception {
 
     /**

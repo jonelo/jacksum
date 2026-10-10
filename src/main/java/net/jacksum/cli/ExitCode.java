@@ -27,18 +27,34 @@ package net.jacksum.cli;
  */
 public class ExitCode {
 
-    public final static int
-            OK = 0,
-            EXPECTATION_MET = 0,
+    /** Everything is OK. */
+    public final static int OK = 0;
+    /** The expectation has been met. */
+    public final static int EXPECTATION_MET = 0;
 
-            NO_ALGO_FOUND = 1,
-            CHECK_MISMATCH = 1,
-            NOTHING_FOUND = 1,
-            PARAMETER_ERROR = 2,
-            CHECKFILE_PARSE_ERROR = 3,
-            IO_ERROR = 4,
-            WANTED_NOTFOUND = 5,
-            INTERNAL_ERROR = 99,
+    /** No algorithm has been found ({@code -a unknown:<width>}). */
+    public final static int NO_ALGO_FOUND = 1;
+    /** At least one file did not match during the verification process (-c). */
+    public final static int CHECK_MISMATCH = 1;
+    /** Nothing has been found, e.g. the search of an exact help was unsuccessful. */
+    public final static int NOTHING_FOUND = 1;
+    /** A parameter error. */
+    public final static int PARAMETER_ERROR = 2;
+    /** The check list resp. the wanted list could not be parsed. */
+    public final static int CHECKFILE_PARSE_ERROR = 3;
+    /** An I/O error, e.g. a file cannot be read or a character set is not supported. */
+    public final static int IO_ERROR = 4;
+    /** No file with a wanted hash value has been found (-w). */
+    public final static int WANTED_NOTFOUND = 5;
+    /** An internal error. */
+    public final static int INTERNAL_ERROR = 99;
 
-            EXPECTATION_NOT_MET = 6;
+    /** The expectation has not been met (-e together with file parameters, or --check-strict). */
+    public final static int EXPECTATION_NOT_MET = 6;
+
+    /**
+     * Creates a new ExitCode instance.
+     */
+    public ExitCode() {
+    }
 }

@@ -44,6 +44,10 @@ import net.jacksum.formats.TimestampFormatter;
 import net.jacksum.statistics.StatisticsOnCheckedFiles;
 import net.jacksum.statistics.Statistics;
 
+/**
+ * A message consumer that verifies the files that have been read against the entries
+ * of a check file and reports the status (OK, FAILED, MISSING, NEW, or ERROR) of each file.
+ */
 public class MessageConsumerOnCheckedFiles extends MessageConsumer {
 
     private final static String OK = "OK";
@@ -63,6 +67,9 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
     private final Messenger messenger;
 
     // private Set<String> notRemovedFilesSet;
+    /**
+     * Creates a consumer without any entries of a check file.
+     */
     public MessageConsumerOnCheckedFiles() {
         statistics = new StatisticsOnCheckedFiles();
         messenger = new Messenger();
@@ -129,6 +136,13 @@ public class MessageConsumerOnCheckedFiles extends MessageConsumer {
         this.filesizeAsByteBlocks = filesizeAsByteBlocks;
     }
 
+    /**
+     * Sets the parameters of the consumer. If a strict check is requested together with a
+     * list filter other than all, an error is printed and flagged, because a filter could
+     * prevent a reliable detection.
+     *
+     * @param checkConsumerParameters the parameters
+     */
     public void setParameters(CheckConsumerParameters checkConsumerParameters) {
         this.parameters = checkConsumerParameters;
         messenger.setVerbose(parameters.getVerbose());

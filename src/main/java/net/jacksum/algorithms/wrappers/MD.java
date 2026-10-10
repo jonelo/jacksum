@@ -47,12 +47,25 @@ public class MD extends AbstractChecksum {
         formatPreferences.setHashEncoding(Encoding.HEX);
     }
 
+    /**
+     * Creates a new MD wrapper for a message digest of the Java security API.
+     *
+     * @param arg the name of the algorithm as known to {@code MessageDigest.getInstance()}
+     * @param blocksize the block size of the algorithm in bytes
+     * @throws NoSuchAlgorithmException if no provider supports the algorithm
+     */
     public MD(String arg, int blocksize) throws NoSuchAlgorithmException {
         md = MessageDigest.getInstance(arg);
         bitWidth = md.getDigestLength() * 8;
         this.blocksize = blocksize;
     }
     
+    /**
+     * Creates a new MD wrapper for a given message digest.
+     *
+     * @param md the message digest to wrap
+     * @param blocksize the block size of the algorithm in bytes
+     */
     public MD(MessageDigest md, int blocksize) {
         this.md = md;
         bitWidth = md.getDigestLength() * 8;

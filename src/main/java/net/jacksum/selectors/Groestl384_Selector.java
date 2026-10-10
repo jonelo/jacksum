@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDCryptohashSphlib3;
 
 /**
+ * Selects the implementation(s) of the algorithm Grøstl-384.
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class Groestl384_Selector extends Selector {
 
     private static final String ID = "groestl-384";
     
+    /**
+     * Creates a new Groestl384_Selector.
+     */
+    public Groestl384_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

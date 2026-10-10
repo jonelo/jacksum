@@ -23,8 +23,14 @@
 
 package net.jacksum.algorithms.checksums;
 
+/**
+ * The 32 bit sum of all bytes (modulo 2^32).
+ */
 public class Sum32 extends Sum8 {
     
+    /**
+     * Creates a new Sum32 instance.
+     */
     public Sum32() {
         super();
         bitWidth = 32;

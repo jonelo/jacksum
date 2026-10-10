@@ -32,10 +32,17 @@ import net.jacksum.algorithms.wrappers.MDbouncycastle;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithms Esch256 and Esch384.
  *
  * @author johann
  */
 public class Esch_Selector extends Selector {
+
+    /**
+     * Creates a new Esch_Selector.
+     */
+    public Esch_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

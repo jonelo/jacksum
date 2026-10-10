@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDCryptohashSphlib3;
 
 /**
+ * Selects the implementation(s) of the algorithm Luffa-512.
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class Luffa512_Selector extends Selector {
 
     private static final String ID = "luffa512";
     
+    /**
+     * Creates a new Luffa512_Selector.
+     */
+    public Luffa512_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new HashMap<>(2); // ceil(1/0.75)

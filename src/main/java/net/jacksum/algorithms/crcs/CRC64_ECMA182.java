@@ -26,8 +26,16 @@ package net.jacksum.algorithms.crcs;
 import java.security.NoSuchAlgorithmException;
 import net.jacksum.formats.Encoding;
 
+/**
+ * The CRC-64 as specified by ECMA-182.
+ */
 public class CRC64_ECMA182 extends CrcGeneric {
 
+    /**
+     * Creates a new CRC64_ECMA182 instance.
+     *
+     * @throws NoSuchAlgorithmException if the CRC parameters are invalid
+     */
     public CRC64_ECMA182() throws NoSuchAlgorithmException {
         super(64, 0x42f0e1eba9ea3693L, 0x0L, false, false, 0x0L);
         formatPreferences.setHashEncoding(Encoding.HEX);

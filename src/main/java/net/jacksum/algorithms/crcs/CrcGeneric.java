@@ -46,8 +46,13 @@ import net.jacksum.zzadopt.com.github.snksoft.crc.CRC;
 
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * A generic CRC implementation that is parameterized by the Rocksoft^tm Model
+ * CRC Algorithm, optionally extended by the inclusion of the message length.
+ */
 public class CrcGeneric extends AbstractChecksum implements CrcInfo {
 
+    /** The current CRC register value. */
     protected long value;      // the value, must be accessed by subclasses
     private long[] table;      // Precomputed values
     // private long topBit;       // Stores the value (2 ^ width)
@@ -75,6 +80,20 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
         init();
     }
 
+    /**
+     * Constructor with all parameters as defined in the
+     * Rocksoft^tm Model CRC Algorithm, extended by the inclusion of the
+     * message length.
+     *
+     * @param width        width in bits
+     * @param poly         The algorithm's polynomial (without the highest bit)
+     * @param initialValue the initial register value
+     * @param refIn        Reflect input bytes?
+     * @param refOut       Reflect output CRC?
+     * @param xorOut       XOR this to output CRC
+     * @param includeLengthLTR true if the length is included with the most significant octet first
+     * @throws NoSuchAlgorithmException if the parameter cannot be used to create a correct object
+     */
     public CrcGeneric(int width, long poly, long initialValue, boolean refIn, boolean refOut, long xorOut,
                       boolean includeLengthLTR) throws NoSuchAlgorithmException {
         super();
@@ -82,6 +101,21 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
         init();
     }
 
+    /**
+     * Constructor with all parameters as defined in the
+     * Rocksoft^tm Model CRC Algorithm, extended by the inclusion of the
+     * message length which is XORed with a byte array.
+     *
+     * @param width        width in bits
+     * @param poly         The algorithm's polynomial (without the highest bit)
+     * @param initialValue the initial register value
+     * @param refIn        Reflect input bytes?
+     * @param refOut       Reflect output CRC?
+     * @param xorOut       XOR this to output CRC
+     * @param includeLengthLTR true if the length is included with the most significant octet first
+     * @param xorLengthArray the bytes that are XORed with the length
+     * @throws NoSuchAlgorithmException if the parameter cannot be used to create a correct object
+     */
     public CrcGeneric(int width, long poly, long initialValue, boolean refIn, boolean refOut, long xorOut,
                       boolean includeLengthLTR, byte[] xorLengthArray) throws NoSuchAlgorithmException {
         super();
@@ -89,6 +123,12 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
         init();
     }
 
+    /**
+     * Constructor with a CRC model.
+     *
+     * @param model the CRC model that defines all parameters
+     * @throws NoSuchAlgorithmException if the model cannot be used to create a correct object
+     */
     public CrcGeneric(CrcModelExtended model) throws NoSuchAlgorithmException {
         super();
         this.model = model;
@@ -108,6 +148,11 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
     }
 
 
+    /**
+     * Returns the CRC model that defines the parameters of this CRC.
+     *
+     * @return the CRC model
+     */
     public CrcModelExtended getModel() {
         return model;
     }
@@ -308,18 +353,38 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
         return array;
     }
 
+    /**
+     * Sets the CRC register value.
+     *
+     * @param value the CRC register value
+     */
     protected void setValue(long value) {
         this.value = value;
     }
 
+    /**
+     * Returns the CRC register value without the final reflection and XOR.
+     *
+     * @return the CRC register value
+     */
     protected long getValueInternal() {
         return value;
     }
 
+    /**
+     * Returns the precomputed lookup table.
+     *
+     * @return the lookup table
+     */
     protected long[] getTable() {
         return table;
     }
 
+    /**
+     * Returns the polynomial as a mathematical expression.
+     *
+     * @return the polynomial as a mathematical expression
+     */
     protected String polyAsMathExpression() {
         return CrcUtils.polyAsMathExpression(model.getWidth(), model.getPoly());
     }
@@ -362,6 +427,12 @@ public class CrcGeneric extends AbstractChecksum implements CrcInfo {
         return model.getXorOut();
     }
 
+    /**
+     * Determines whether a subclass overrides the behavior of this class, in
+     * which case the object cannot be fully reconstructed from its CRC model.
+     *
+     * @return true if the behavior has been modified by a subclass, false here
+     */
     public boolean isTainted() {
         return false;
     }

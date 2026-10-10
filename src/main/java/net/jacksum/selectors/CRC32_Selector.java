@@ -31,6 +31,7 @@ import net.jacksum.algorithms.crcs.CRC32;
 import net.jacksum.algorithms.crcs.FCS32;
 
 /**
+ * Selects the implementation(s) of the algorithm CRC-32 (FCS-32).
  *
  * @author johann
  */
@@ -38,6 +39,12 @@ public class CRC32_Selector extends Selector {
 
     private static final String ID = "crc32";
     
+    /**
+     * Creates a new CRC32_Selector.
+     */
+    public CRC32_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

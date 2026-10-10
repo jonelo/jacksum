@@ -28,10 +28,15 @@ package net.jacksum.algorithms.crcs;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
+/**
+ * The 16-bit frame check sequence (FCS-16) as specified in RFC 1331.
+ */
 public class FCS16 extends AbstractChecksum implements CrcInfo {
 
+    /** The current CRC value. */
     protected int value;
 
+    /** The lookup table for the byte-wise CRC calculation. */
     protected final int[] crctab = {
             0x0000, 0x1189, 0x2312, 0x329B, 0x4624, 0x57AD, 0x6536, 0x74BF,
             0x8C48, 0x9DC1, 0xAF5A, 0xBED3, 0xCA6C, 0xDBE5, 0xE97E, 0xF8F7,
@@ -68,6 +73,9 @@ public class FCS16 extends AbstractChecksum implements CrcInfo {
 
     };
 
+    /**
+     * Creates a new FCS-16 instance.
+     */
     public FCS16() {
         super();
         bitWidth = 16;      

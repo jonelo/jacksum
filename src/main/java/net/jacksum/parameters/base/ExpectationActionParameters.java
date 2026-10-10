@@ -40,6 +40,12 @@ public interface ExpectationActionParameters {
      */
     String getFormat();
 
+    /**
+     * Returns the expected hash value decoded as bytes.
+     * @return the expected hash value as bytes
+     * @throws UnsupportedOperationException if the expected value cannot be
+     * decoded to bytes with the current encoding settings
+     */
     byte[] getExpectedBytes();
 
 

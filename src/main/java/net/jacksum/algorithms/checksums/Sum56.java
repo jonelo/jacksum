@@ -23,8 +23,14 @@
 
 package net.jacksum.algorithms.checksums;
 
+/**
+ * A 56 bit checksum that adds all bytes modulo 2^56.
+ */
 public class Sum56 extends Sum8 {
 
+    /**
+     * Creates a new Sum56 instance.
+     */
     public Sum56() {
         super();
         bitWidth = 56;

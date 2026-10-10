@@ -28,10 +28,17 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
 
+/**
+ * A wrapper for the 32-bit xxHash implementation of Apache Commons Codec.
+ */
 public class xxHash32 extends AbstractChecksum {
 
+    /** The wrapped xxHash32 implementation. */
     public XXHash32 hash;
     
+    /**
+     * Creates a new xxHash32 instance.
+     */
     public xxHash32() {
         hash = new XXHash32();
         bitWidth = 32;

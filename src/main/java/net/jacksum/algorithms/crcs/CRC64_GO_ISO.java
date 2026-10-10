@@ -26,8 +26,17 @@ package net.jacksum.algorithms.crcs;
 import java.security.NoSuchAlgorithmException;
 import net.jacksum.formats.Encoding;
 
+/**
+ * The CRC-64 with the ISO polynomial as implemented by the Go package hash/crc64
+ * (width 64, poly 0x1B, init and xorout 0xFFFFFFFFFFFFFFFF, reflected in and out).
+ */
 public class CRC64_GO_ISO extends CrcGeneric {
 
+    /**
+     * Creates a new CRC-64/GO-ISO.
+     *
+     * @throws NoSuchAlgorithmException if the CRC parameters are rejected by {@link CrcGeneric}
+     */
     public CRC64_GO_ISO() throws NoSuchAlgorithmException {
         super(64, 0x1bL, 0xffffffffffffffffL, true, true, 0xffffffffffffffffL);
         formatPreferences.setHashEncoding(Encoding.HEX);

@@ -27,10 +27,16 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
 
+/**
+ * The 16-bit BSD checksum algorithm as computed by the BSD sum command.
+ */
 public class SumBSD extends AbstractChecksum {
 
     private long value;
 
+    /**
+     * Creates a new SumBSD instance.
+     */
     public SumBSD() {
         super();
         bitWidth = 16;

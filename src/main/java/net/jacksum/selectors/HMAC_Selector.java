@@ -28,7 +28,17 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+/**
+ * Selects the implementation(s) of the HMAC algorithms (names starting with {@code hmac:} or {@code hmac-}).
+ */
 public class HMAC_Selector extends Selector {
+
+    /**
+     * Creates a new HMAC_Selector.
+     */
+    public HMAC_Selector() {
+    }
+
     @Override
     public boolean doesMatch(String name) {
         return name.startsWith("hmac:") || name.startsWith("hmac-");

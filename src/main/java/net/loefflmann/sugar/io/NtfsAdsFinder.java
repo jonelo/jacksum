@@ -30,7 +30,27 @@ import java.nio.file.Path;
 import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.ArrayList;
 
+/**
+ * Finds the alternate data streams (ADS) of a file or directory on NTFS.
+ */
 public class NtfsAdsFinder {
+    /**
+     * Creates a new {@code NtfsAdsFinder}.
+     */
+    public NtfsAdsFinder() {
+    }
+
+    /**
+     * Finds the alternate data streams of a path by means of the user defined
+     * file attributes of its file store.
+     *
+     * @param path the file or directory to examine
+     * @return the names of the alternate data streams in the form
+     *         {@code path:name:$DATA}, or null if the file store does not
+     *         support user defined file attributes
+     * @throws IOException if an I/O error occurs
+     * @throws InterruptedException declared, but not thrown by this implementation
+     */
     public static ArrayList<String> find(Path path) throws IOException,  InterruptedException {
         ArrayList<String> list = null;
 

@@ -30,12 +30,19 @@ import net.jacksum.algorithms.md.Fugue2_384;
 import net.jacksum.algorithms.wrappers.MD;
 
 /**
+ * Selects the implementation(s) of the algorithm Fugue2-384.
  *
  * @author johann
  */
 public class Fugue2_384_Selector extends Selector {
 
     private static final String ID = "fugue2-384";
+
+    /**
+     * Creates a new Fugue2_384_Selector.
+     */
+    public Fugue2_384_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

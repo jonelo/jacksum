@@ -35,23 +35,71 @@ import java.util.List;
 import net.loefflmann.sugar.util.GeneralString;
 
 /**
+ * Provides general I/O helper methods, e.g. to read lines from a text file, from a
+ * resource in the jar file, or from standard input.
  *
  * @author Johann N. Löfflmann
  */
 public class GeneralIO {
 
+    /**
+     * Creates a new GeneralIO.
+     */
+    public GeneralIO() {
+    }
+
+    /**
+     * Reads all lines from a text file.
+     * The default charset is used; empty lines are not ignored; no lines are ignored
+     * because of a prefix; the lines are not tokenized.
+     *
+     * @param filename the name of the text file
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs
+     */
     public static List<String> readLinesFromTextFile(String filename) throws IOException {
         return readLinesFromTextFile(filename, Charset.defaultCharset(), false, null, false);
     }
 
+    /**
+     * Reads all lines from a text file.
+     * Empty lines are not ignored; no lines are ignored because of a prefix; the lines
+     * are not tokenized.
+     *
+     * @param filename the name of the text file
+     * @param charset the character set used to decode the bytes
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs
+     */
     public static List<String> readLinesFromTextFile(String filename, Charset charset) throws IOException {
         return readLinesFromTextFile(filename, charset, false, null, false);
     }
 
+    /**
+     * Reads all lines from a text file.
+     * No lines are ignored because of a prefix; the lines are not tokenized.
+     *
+     * @param filename the name of the text file
+     * @param charset the character set used to decode the bytes
+     * @param ignoreEmptyLines if true, lines that are empty or contain only whitespace are ignored
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs
+     */
     public static List<String> readLinesFromTextFile(String filename, Charset charset, boolean ignoreEmptyLines) throws IOException {
         return readLinesFromTextFile(filename, charset, ignoreEmptyLines, null, false);
     }
     
+    /**
+     * Reads all lines from a text file.
+     * The lines are not tokenized.
+     *
+     * @param filename the name of the text file
+     * @param charset the character set used to decode the bytes
+     * @param ignoreEmptyLines if true, lines that are empty or contain only whitespace are ignored
+     * @param ignorePrefix lines that start with this prefix are ignored, can be null
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs
+     */
     public static List<String> readLinesFromTextFile(String filename, Charset charset, boolean ignoreEmptyLines, String ignorePrefix) throws IOException {
         return readLinesFromTextFile(filename, charset, ignoreEmptyLines, ignorePrefix, false);
     }
@@ -59,41 +107,134 @@ public class GeneralIO {
     
 
     
+    /**
+     * Reads all lines from a resource in the jar file.
+     * The default charset is used; empty lines are not ignored; no lines are ignored
+     * because of a prefix; the lines are not tokenized.
+     *
+     * @param filename the absolute path of the resource in the jar file
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs or the resource has not been found
+     */
     public static List<String> readLinesFromJarFile(String filename) throws IOException {
         return readLinesFromJarFile(filename, Charset.defaultCharset(), false, null, false);
     }
     
+    /**
+     * Reads all lines from a resource in the jar file.
+     * Empty lines are not ignored; no lines are ignored because of a prefix; the lines
+     * are not tokenized.
+     *
+     * @param filename the absolute path of the resource in the jar file
+     * @param charset the character set (note: the implementation currently decodes
+     *        with the platform's default charset)
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs or the resource has not been found
+     */
     public static List<String> readLinesFromJarFile(String filename, Charset charset) throws IOException {
         return readLinesFromJarFile(filename, charset, false, null, false);
     }
     
+    /**
+     * Reads all lines from a resource in the jar file.
+     * No lines are ignored because of a prefix; the lines are not tokenized.
+     *
+     * @param filename the absolute path of the resource in the jar file
+     * @param charset the character set (note: the implementation currently decodes
+     *        with the platform's default charset)
+     * @param ignoreEmptyLines if true, lines that are empty or contain only whitespace are ignored
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs or the resource has not been found
+     */
     public static List<String> readLinesFromJarFile(String filename, Charset charset, boolean ignoreEmptyLines) throws IOException {
         return readLinesFromJarFile(filename, charset, ignoreEmptyLines, null, false);
     }
     
+    /**
+     * Reads all lines from a resource in the jar file.
+     * The lines are not tokenized.
+     *
+     * @param filename the absolute path of the resource in the jar file
+     * @param charset the character set (note: the implementation currently decodes
+     *        with the platform's default charset)
+     * @param ignoreEmptyLines if true, lines that are empty or contain only whitespace are ignored
+     * @param ignorePrefix lines that start with this prefix are ignored, can be null
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs or the resource has not been found
+     */
     public static List<String> readLinesFromJarFile(String filename, Charset charset, boolean ignoreEmptyLines, String ignorePrefix) throws IOException {
         return readLinesFromJarFile(filename, charset, ignoreEmptyLines, ignorePrefix, false);
     }
 
 
+    /**
+     * Reads all lines from standard input.
+     * The default charset is used; empty lines are not ignored; no lines are ignored
+     * because of a prefix; the lines are not tokenized.
+     *
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs
+     */
     public static List<String> readLinesFromStdin() throws IOException {
         return readLinesFromStdin(Charset.defaultCharset(), false, null, false);
     }
 
+    /**
+     * Reads all lines from standard input.
+     * Empty lines are not ignored; no lines are ignored because of a prefix; the lines
+     * are not tokenized.
+     *
+     * @param charset the character set used to decode the bytes
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs
+     */
     public static List<String> readLinesFromStdin(Charset charset) throws IOException {
         return readLinesFromStdin(charset, false, null, false);
     }
 
+    /**
+     * Reads all lines from standard input.
+     * No lines are ignored because of a prefix; the lines are not tokenized.
+     *
+     * @param charset the character set used to decode the bytes
+     * @param ignoreEmptyLines if true, lines that are empty or contain only whitespace are ignored
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs
+     */
     public static List<String> readLinesFromStdin(Charset charset, boolean ignoreEmptyLines) throws IOException {
         return readLinesFromStdin(charset, ignoreEmptyLines, null, false);
     }
     
+    /**
+     * Reads all lines from standard input.
+     * The lines are not tokenized.
+     *
+     * @param charset the character set used to decode the bytes
+     * @param ignoreEmptyLines if true, lines that are empty or contain only whitespace are ignored
+     * @param ignorePrefix lines that start with this prefix are ignored, can be null
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs
+     */
     public static List<String> readLinesFromStdin(Charset charset, boolean ignoreEmptyLines, String ignorePrefix) throws IOException {
         return readLinesFromStdin(charset, ignoreEmptyLines, ignorePrefix, false);
     }
 
     
     
+    /**
+     * Reads all lines from a resource in the jar file.
+     *
+     * @param filename the absolute path of the resource in the jar file
+     * @param charset the character set (note: the implementation currently decodes
+     *        with the platform's default charset)
+     * @param ignoreEmptyLines if true, lines that are empty or contain only whitespace are ignored
+     * @param ignorePrefix lines that start with this prefix are ignored, can be null
+     * @param linesContainNormalAndQuotedStringsSeparatedByWhiteSpaceChars if true, each line is split into normal and
+     *        quoted strings separated by whitespace characters, and those tokens are
+     *        returned instead of the lines
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs or the resource has not been found
+     */
     public static List<String> readLinesFromJarFile(String filename, Charset charset, boolean ignoreEmptyLines, String ignorePrefix,
             boolean linesContainNormalAndQuotedStringsSeparatedByWhiteSpaceChars) throws IOException {
         List<String> lines = new ArrayList<>();
@@ -127,6 +268,19 @@ public class GeneralIO {
 
     }
 
+    /**
+     * Reads all lines from a text file.
+     *
+     * @param filename the name of the text file
+     * @param charset the character set used to decode the bytes
+     * @param ignoreEmptyLines if true, lines that are empty or contain only whitespace are ignored
+     * @param ignorePrefix lines that start with this prefix are ignored, can be null
+     * @param linesContainNormalAndQuotedStringsSeparatedByWhiteSpaceChars if true, each line is split into normal and
+     *        quoted strings separated by whitespace characters, and those tokens are
+     *        returned instead of the lines
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs
+     */
     public static List<String> readLinesFromTextFile(String filename, Charset charset, boolean ignoreEmptyLines, String ignorePrefix, 
             boolean linesContainNormalAndQuotedStringsSeparatedByWhiteSpaceChars) throws IOException {
         List<String> lines = new ArrayList<>();
@@ -156,6 +310,18 @@ public class GeneralIO {
     }
     
     
+    /**
+     * Reads all lines from standard input.
+     *
+     * @param charset the character set used to decode the bytes
+     * @param ignoreEmptyLines if true, lines that are empty or contain only whitespace are ignored
+     * @param ignorePrefix lines that start with this prefix are ignored, can be null
+     * @param linesContainNormalAndQuotedStringsSeparatedByWhiteSpaceChars if true, each line is split into normal and
+     *        quoted strings separated by whitespace characters, and those tokens are
+     *        returned instead of the lines
+     * @return the lines that have been read
+     * @throws IOException if an I/O error occurs
+     */
     public static List<String> readLinesFromStdin(Charset charset, boolean ignoreEmptyLines, String ignorePrefix, 
             boolean linesContainNormalAndQuotedStringsSeparatedByWhiteSpaceChars) throws IOException {
         List<String> lines = new ArrayList<>();
@@ -185,6 +351,14 @@ public class GeneralIO {
     }
      
     
+    /**
+     * Tells whether a file is a symbolic link, by comparing its canonical path with its
+     * absolute path. On Windows, false is always returned.
+     *
+     * @param file the file
+     * @return true if the file is a symbolic link, or if its canonical path cannot be
+     *         determined
+     */
     public static boolean isSymbolicLink(File file) {
         // there are no symbolic links on Windows.
         // On Windows a link is always a file.

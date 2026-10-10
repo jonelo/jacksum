@@ -30,8 +30,17 @@ import net.jacksum.formats.Encoding;
 import org.bouncycastle.crypto.digests.Blake2sDigest;
 import org.bouncycastle.crypto.digests.Blake2spDigest;
 
+/**
+ * A wrapper for the BLAKE2sp implementation of Bouncy Castle.
+ */
 public class Blake2spWrapper extends MDbouncycastle {
 
+    /**
+     * Creates a new BLAKE2sp instance.
+     *
+     * @param input the name of the algorithm, it must be {@code blake2sp} (case insensitive)
+     * @throws NoSuchAlgorithmException if the name is not supported
+     */
     public Blake2spWrapper(String input) throws NoSuchAlgorithmException {
         length = 0;
         filename = null;

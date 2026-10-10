@@ -29,10 +29,17 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.SumBSD_Minix;
 
 /**
+ * Selects the implementation(s) of the algorithm sum (Minix).
  *
  * @author johann
  */
 public class SumMinix_Selector extends Selector {
+
+    /**
+     * Creates a new selector for the algorithm sum (Minix).
+     */
+    public SumMinix_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

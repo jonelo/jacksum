@@ -39,13 +39,22 @@ import net.loefflmann.sugar.util.ByteSequences;
 
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * The parameters of a CRC as defined by the Rocksoft^tm Model CRC Algorithm.
+ */
 public class CrcModel {
 
+    /** The width in bits. */
     protected int width;         // the width in bits
+    /** The algorithm's polynomial, specified without its top bit. */
     protected long poly;         // The algorithm's polynomial which is specified without its top bit
+    /** The initial register value. */
     protected long init;         // Initial register value
+    /** Whether input bytes are reflected. */
     protected boolean refIn;     // Reflect input bytes?
+    /** Whether the output CRC is reflected. */
     protected boolean refOut;    // Reflect output CRC?
+    /** The value that is XORed to the output CRC. */
     protected long xorOut;       // XOR this to output CRC
 
     /**
@@ -67,14 +76,33 @@ public class CrcModel {
         this.xorOut = xorOut;
     }
 
+    /**
+     * Copy constructor.
+     *
+     * @param model the model to copy the parameters from
+     */
     public CrcModel(CrcModel model) {
         this(model.getWidth(), model.getPoly(), model.getInit(), model.isRefIn(), model.isRefOut(), model.getXorOut());
     }
 
+    /**
+     * Constructor that takes the parameters from a CRC info object.
+     *
+     * @param info the object that provides the CRC parameters
+     */
     public CrcModel(CrcInfo info) {
         this(info.getWidth(), bytesToLong(info.getPolyAsBytes()), info.getInitialValue(), info.isRefIn(), info.isRefOut(), info.getXorOut());
     }
 
+    /**
+     * Constructor with a String parameter.
+     *
+     * @param props the parameters width, poly, init, refIn, refOut and xorOut
+     * separated by a comma (optionally prefixed by {@code crc:}); poly, init and
+     * xorOut are hex values. Up to two further parameters are accepted.
+     * @throws NoSuchAlgorithmException if there are fewer than 6 or more than 8
+     * parameters, or if a parameter is invalid
+     */
     public CrcModel(String props) throws NoSuchAlgorithmException {
         String[] array = props.split(",");
         if (array.length < 6) {
@@ -101,6 +129,13 @@ public class CrcModel {
     }
 
     // Transforms a byte[] to a long
+    /**
+     * Transforms a byte array to a long, interpreting the bytes in big-endian order.
+     *
+     * @param bytes the byte array, at most 8 bytes long
+     * @return the long value
+     * @throws IllegalArgumentException if the array is longer than 8 bytes
+     */
     public static long bytesToLong(final byte[] bytes) throws IllegalArgumentException {
         if (bytes.length > Long.BYTES) throw new IllegalArgumentException("byte array length is greater than what fits into a long.");
 
@@ -113,6 +148,12 @@ public class CrcModel {
     }
 
 
+    /**
+     * Returns the Jacksum CRC definition string of this model, e.g.
+     * {@code crc:32,04C11DB7,FFFFFFFF,true,true,FFFFFFFF}.
+     *
+     * @return the CRC definition string
+     */
     public String getString() {
         StringBuilder sb = new StringBuilder();
         sb.append("crc:");
@@ -228,6 +269,11 @@ public class CrcModel {
         return xorOut;
     }
 
+    /**
+     * Returns the parameters of this model as a {@code CRC.Parameters} object.
+     *
+     * @return the CRC parameters
+     */
     public CRC.Parameters getParameters() {
         return new CRC.Parameters(width, poly, init, refIn, refOut, xorOut);
     }

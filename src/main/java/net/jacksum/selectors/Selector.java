@@ -43,6 +43,8 @@ abstract public class Selector implements SelectorInterface {
     }
 
     /**
+     * Sets whether the alternate implementation has actually been used.
+     *
      * @param actualAlternateImplementationUsed the
      * actualAlternateImplementationUsed to set
      */
@@ -54,6 +56,9 @@ abstract public class Selector implements SelectorInterface {
     final static boolean ALTERNATE = true;
     private boolean actualAlternateImplementationUsed = false;
 
+    /**
+     * Creates a new Selector.
+     */
     public Selector() {
     }
 

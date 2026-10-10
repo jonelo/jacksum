@@ -25,8 +25,24 @@ package net.loefflmann.sugar.io;
 
 import net.loefflmann.sugar.util.ExitException;
 
+/**
+ * Reads passwords and lines from the system console.
+ */
 public class Console {
 
+    /**
+     * Creates a new Console.
+     */
+    public Console() {
+    }
+
+    /**
+     * Prints a prompt and reads a password from the console with echoing disabled.
+     *
+     * @param prompt the prompt to print
+     * @return the password, or {@code null} if the end of the stream has been reached
+     * @throws ExitException if no console is present
+     */
     public static char[] readPassword(String prompt) throws ExitException {
         java.io.Console console = System.console();
         if (console == null) {
@@ -35,10 +51,24 @@ public class Console {
         return console.readPassword(prompt);
     }
 
+    /**
+     * Prints the prompt {@code "Password: "} and reads a password from the console with echoing disabled.
+     *
+     * @return the password, or {@code null} if the end of the stream has been reached
+     * @throws ExitException if no console is present
+     */
     public static char[] readPassword() throws ExitException {
         return readPassword("Password: ");
     }
 
+    /**
+     * Prints a prompt and reads a line of text from the console.
+     *
+     * @param prompt the prompt to print
+     * @return the line read, excluding any line-termination characters, or {@code null} if the
+     * end of the stream has been reached
+     * @throws ExitException if no console is present
+     */
     public static String readLine(String prompt) throws ExitException {
         java.io.Console console = System.console();
         if (console == null) {
@@ -47,6 +77,13 @@ public class Console {
         return console.readLine(prompt);
     }
 
+    /**
+     * Prints the prompt {@code "Enter a string: "} and reads a line of text from the console.
+     *
+     * @return the line read, excluding any line-termination characters, or {@code null} if the
+     * end of the stream has been reached
+     * @throws ExitException if no console is present
+     */
     public static String readLine() throws ExitException {
         return readLine("Enter a string: ");
     }

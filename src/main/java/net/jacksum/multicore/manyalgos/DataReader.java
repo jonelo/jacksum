@@ -57,6 +57,12 @@ public class DataReader implements Runnable {
     private final File file;
     private long total = 0L;
 
+    /**
+     * Creates a new reader that reads a file and puts its data into the given queues.
+     *
+     * @param file the file to be read
+     * @param queues the queues to be filled, one per Hasher
+     */
     public DataReader(File file, Collection<BlockingQueue<DataUnit>> queues) {
         this.queues = queues;
         this.file = file;
@@ -92,6 +98,11 @@ public class DataReader implements Runnable {
         }
     }
 
+    /**
+     * Returns the number of bytes that have been read.
+     *
+     * @return the number of bytes read, or -1 if an error occurred while reading
+     */
     public long getTotal() {
         return total;
     }
@@ -132,6 +143,11 @@ public class DataReader implements Runnable {
     }
 
     private String exceptionMessage;
+    /**
+     * Returns the message of the exception that occurred while reading.
+     *
+     * @return the exception message, or null if no exception occurred
+     */
     public String getExceptionMessage() {
         return exceptionMessage;
     }

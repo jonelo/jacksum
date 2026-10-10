@@ -25,8 +25,18 @@ package net.jacksum.actions.io.compare;
 
 import net.jacksum.algorithms.AbstractChecksum;
 
+/**
+ * Compares a computed hash value with an expected one and prints
+ * {@code [MATCH]} or {@code [NO MATCH]} on standard output.
+ */
 public class CompareAndPrintResult extends CompareAction {
 
+    /**
+     * Creates a new CompareAndPrintResult.
+     *
+     * @param checksum the checksum that holds the computed hash value
+     * @param parameters the parameters that provide the expected hash value
+     */
     public CompareAndPrintResult(AbstractChecksum checksum,
             CompareActionInterface parameters) {
         this.checksum = checksum;

@@ -33,7 +33,8 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.CombinedChecksum;
 
 /**
- *
+ * Selects the implementation of the pseudo algorithm {@code all} (also {@code all:<width>} and
+ * {@code all:<search string>}), which combines all matching algorithms.
  * @author johann
  */
 public class AllAlgorithms_Selector extends Selector {
@@ -43,6 +44,12 @@ public class AllAlgorithms_Selector extends Selector {
     private final static String REGEXP_SEARCHSTRING = "^all:(.+)$";
     private static Map<String, String> algos;
     
+
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public AllAlgorithms_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

@@ -30,6 +30,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.CRC16_Minix;
 
 /**
+ * Selects the implementation(s) of the algorithm CRC-16 (Minix).
  *
  * @author johann
  */
@@ -48,6 +49,12 @@ public class CRC16Minix_Selector extends Selector {
         
         availableAliases = new LinkedHashMap<>(2); // ceil(1/0.75)
         availableAliases.put(ALIAS, ID);
+    }
+
+    /**
+     * Creates a new selector for the algorithm CRC-16 (Minix).
+     */
+    public CRC16Minix_Selector() {
     }
 
     @Override

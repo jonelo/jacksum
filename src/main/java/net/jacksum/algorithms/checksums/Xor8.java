@@ -26,10 +26,16 @@ package net.jacksum.algorithms.checksums;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
+/**
+ * An 8 bit checksum that combines all bytes by XOR.
+ */
 public class Xor8 extends AbstractChecksum {
 
     private long value;
 
+    /**
+     * Creates a new Xor8 instance.
+     */
     public Xor8() {
         super();
         bitWidth = 8;

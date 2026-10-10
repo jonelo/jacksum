@@ -25,6 +25,8 @@ package net.jacksum.formats;
 import net.jacksum.parameters.base.LineFormatParameters;
 
 /**
+ * Provides the line format parameters, such as the separator, by delegating
+ * to the given parameters.
  *
  * @author Johann
  */
@@ -32,11 +34,18 @@ public class LineFormatter implements LineFormatParameters {
 
     private final LineFormatParameters parameters;
 
+    /**
+     * Creates a new LineFormatter.
+     *
+     * @param parameters the line format parameters
+     */
     public LineFormatter(LineFormatParameters parameters) {
         this.parameters = parameters;
     }
     
     /**
+     * Returns the line format parameters.
+     *
      * @return the parameters
      */
     public LineFormatParameters getParameters() {

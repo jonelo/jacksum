@@ -25,16 +25,35 @@ package net.loefflmann.sugar.util;
 
 import java.util.*;
 
+/**
+ * Provides helper methods to work with system properties, properties, and maps.
+ */
 public class Support {
+
+    /**
+     * Creates a new Support.
+     */
+    public Support() {
+    }
 
 
     
+    /**
+     * Gets the system properties as a map.
+     *
+     * @return a new map with all system properties
+     */
     public static Map<String, String> getSystemPropertiesAsMap() {        
         Map<String, String> map = new HashMap<>(128);
         addSystemPropertiesToMap(map);
         return map;
     }
 
+    /**
+     * Adds all system properties to a map.
+     *
+     * @param map the map that receives the system properties
+     */
     public static void addSystemPropertiesToMap(Map<String, String> map) {
         Properties systemProperties = System.getProperties();
         // the following statement truncates long lines!
@@ -46,6 +65,12 @@ public class Support {
         }
     }
     
+    /**
+     * Transforms properties to a map.
+     *
+     * @param properties the properties
+     * @return a new map with all key/value pairs of the properties
+     */
     public static Map<String, String> propertiesToMap(Properties properties) {
         Map<String, String> map = new HashMap<>();
         // the following statement truncates long lines!
@@ -58,11 +83,23 @@ public class Support {
         return map;
     }
 
+    /**
+     * Gets the properties as a sorted list of lines.
+     *
+     * @param properties the properties
+     * @return the sorted lines in the form key=value, each terminated by a newline
+     */
     public static List<String> sortPopertiesByKeys(Properties properties) {
         return getMapAsList(propertiesToMap(properties));
     }
     
     
+    /**
+     * Gets a map as a sorted list of lines.
+     *
+     * @param map the map
+     * @return the sorted lines in the form key=value, each terminated by a newline
+     */
     public static List<String> getMapAsList(Map<String, String> map) {
         List<String> list = new ArrayList<>();
         for (String key : map.keySet()) {

@@ -26,9 +26,23 @@ import net.jacksum.parameters.base.AlgorithmParameters;
 import net.jacksum.parameters.base.SequenceParameters;
 import net.jacksum.parameters.base.VerboseParameters;
 
+/**
+ * The parameters for the action that prints information about algorithms.
+ */
 public interface AlgoInfoActionParameters extends AlgorithmParameters, VerboseParameters, SequenceParameters {
 
+    /**
+     * Tells whether the algorithms should be listed (option -l).
+     *
+     * @return true if the algorithms should be listed
+     */
     boolean isList();
+
+    /**
+     * Tells whether information about the algorithm has been requested (option --info).
+     *
+     * @return true if the info mode is enabled
+     */
     boolean isInfoMode();
     
 }

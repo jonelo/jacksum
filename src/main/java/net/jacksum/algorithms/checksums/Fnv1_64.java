@@ -23,10 +23,19 @@
 
 package net.jacksum.algorithms.checksums;
 
+/**
+ * The 64-bit Fowler-Noll-Vo hash function FNV-1 (with the FNV offset basis as init value).
+ */
 public class Fnv1_64 extends Fnv0_64 {
 
+    /**
+     * The init value, i.e. the 64-bit FNV offset basis.
+     */
     protected final long INIT = 0xcbf29ce484222325L;
 
+    /**
+     * Creates a new FNV-1 (64 bits) instance.
+     */
     public Fnv1_64() {
         super();
         bitWidth = 64;

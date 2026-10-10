@@ -33,15 +33,26 @@ import net.jacksum.multicore.OSControl;
 import net.jacksum.parameters.base.FilenameFormatParameters;
 import net.loefflmann.sugar.util.GeneralString;
 
+/**
+ * Formats file names for the output, e.g. by removing or relativizing the
+ * path, replacing the path separator, and escaping problematic characters.
+ */
 public class FilenameFormatter implements FilenameFormatParameters {
 
     private final FilenameFormatParameters parameters;
     
+    /**
+     * Creates a new FilenameFormatter.
+     *
+     * @param parameters the parameters that control the formatting
+     */
     public FilenameFormatter(FilenameFormatParameters parameters) {
         this.parameters = parameters;
     }
     
     /**
+     * Returns the parameters that control the formatting.
+     *
      * @return the parameters
      */
     public FilenameFormatParameters getParameters() {
@@ -58,9 +69,15 @@ public class FilenameFormatter implements FilenameFormatParameters {
         }
     }
 
-    // if the filename contains a backslash, newline, or carriage return, the line is started with a backslash,
-    // and each problematic character in the file name is escaped with a backslash, making the output unambiguous
-    // even in the presence of arbitrary file names.
+    /**
+     * Escapes each backslash, newline, and carriage return in the file name
+     * with a backslash, making the output unambiguous even in the presence of
+     * arbitrary file names (GNU style). Starting the line with a backslash is
+     * up to the caller.
+     *
+     * @param filename the file name, may be null
+     * @return the escaped file name, or an empty string if filename is null
+     */
     public static String gnuEscapeProblematicCharsInFilename(String filename) {
         if (filename == null) return "";
         StringBuilder buffer = new StringBuilder(filename);
@@ -70,13 +87,19 @@ public class FilenameFormatter implements FilenameFormatParameters {
         return buffer.toString();
     }
 
-    // the inverse of gnuEscapeProblematicCharsInFilename(): the escape sequences \\, \n and \r are
-    // translated back to the character they stand for. The file name is processed in one pass from
-    // left to right, so the backslash that a \\ stands for is never interpreted as the start of
-    // another escape sequence, i.e. the file name a\\nb is unescaped to a\nb and not to a<newline>b.
-    // Any other sequence that starts with a backslash stays unchanged, because a backslash is a
-    // valid character in a file name, real life example:
-    // /lib/systemd/system/system-systemd\x2dcryptsetup.slice
+    /**
+     * The inverse of gnuEscapeProblematicCharsInFilename(): the escape sequences {@code \\},
+     * {@code \n} and {@code \r} are translated back to the character they stand for. The file
+     * name is processed in one pass from left to right, so the backslash that a {@code \\}
+     * stands for is never interpreted as the start of another escape sequence, i.e. the file
+     * name {@code a\\nb} is unescaped to {@code a\nb} and not to a&lt;newline&gt;b.
+     * Any other sequence that starts with a backslash stays unchanged, because a backslash is a
+     * valid character in a file name, real life example:
+     * {@code /lib/systemd/system/system-systemd\x2dcryptsetup.slice}
+     *
+     * @param filename the escaped file name, may be null
+     * @return the unescaped file name, or an empty string if filename is null
+     */
     public static String gnuUnescapeProblematicCharsInFilename(String filename) {
         if (filename == null) return "";
         int length = filename.length();
@@ -99,12 +122,30 @@ public class FilenameFormatter implements FilenameFormatParameters {
         return buffer.toString();
     }
 
+    /**
+     * Whether the last escaping performed by this formatter changed
+     * problematic characters in the file name.
+     */
     public boolean filenameContainedProblematicChars = false;
 
+    /**
+     * Determines whether the last call of format() escaped problematic
+     * characters in the file name.
+     *
+     * @return true if problematic characters have been escaped
+     */
     public boolean didTheFormatMethodChangeProblematicChars() {
         return filenameContainedProblematicChars;
     }
 
+    /**
+     * Escapes problematic characters in the file name like
+     * gnuEscapeProblematicCharsInFilename() and remembers whether
+     * characters have been escaped, see didTheFormatMethodChangeProblematicChars().
+     *
+     * @param filename the file name, may be null
+     * @return the escaped file name, or an empty string if filename is null
+     */
     public String gnuEscapeProblematicCharsInFilenameWithResult(String filename) {
         if (filename == null) return "";
         String newFilename = gnuEscapeProblematicCharsInFilename(filename);
@@ -113,10 +154,23 @@ public class FilenameFormatter implements FilenameFormatParameters {
         return newFilename;
     }
 
+    /**
+     * Replaces token aliases in the format, i.e. #MESSAGE by #FILENAME.
+     *
+     * @param format the format, modified in place
+     */
     public static void replaceAliases(StringBuilder format) {
         GeneralString.replaceAllStrings(format, "#MESSAGE", "#FILENAME");
     }
 
+    /**
+     * Formats the file name according to the parameters: the path can be
+     * removed or made relative, the path separator can be replaced, and
+     * problematic characters can be escaped (GNU style, not on Windows).
+     *
+     * @param filename the file name, may be null
+     * @return the formatted file name, or an empty string if filename is null
+     */
     public String format(String filename) {
         if (filename == null) return "";
         filenameContainedProblematicChars = false;

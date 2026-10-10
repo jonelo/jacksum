@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.crcs.CRC32_GO_KOOPMAN;
 
 /**
+ * Selects the implementation(s) of the algorithm CRC-32 (Go API, KOOPMAN).
  *
  * @author johann
  */
 public class CRC32_GO_KOOPMAN_Selector extends Selector {
 
     private static final String ID = "crc32_go-koopman";
+
+    /**
+     * Creates a new {@code CRC32_GO_KOOPMAN_Selector}.
+     */
+    public CRC32_GO_KOOPMAN_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

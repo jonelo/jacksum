@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.crcs.CRC64_ECMA182;
 
 /**
+ * Selects the implementation(s) of the algorithm CRC-64 (ECMA-182).
  *
  * @author johann
  */
 public class CRC64_ECMA182_Selector extends Selector {
 
     private static final String ID = "crc64_ecma";
+
+    /**
+     * Creates a new CRC64_ECMA182_Selector.
+     */
+    public CRC64_ECMA182_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

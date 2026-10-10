@@ -75,6 +75,11 @@
                 <version>3.12.0</version>
                 <configuration>
                     <source>11</source>
+                    <!-- all checks for Jacksum's own code, none for the adopted third-party code -->
+                    <doclint>all</doclint>
+                    <additionalOptions>
+                        <additionalOption>-Xdoclint/package:net.jacksum.*,-net.jacksum.zzadopt.*,net.loefflmann.*</additionalOption>
+                    </additionalOptions>
                 </configuration>
                 <executions>
                     <execution>

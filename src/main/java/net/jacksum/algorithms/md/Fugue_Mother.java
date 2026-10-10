@@ -442,7 +442,11 @@ public abstract class Fugue_Mother extends MessageDigest implements Cloneable {
         engineReset();
     }
 
-    /** Returns the number of four-byte words in the digest. */
+    /**
+     * Returns the number of four-byte words in the digest.
+     *
+     * @return the number of four-byte words in the digest
+     */
     public int getWordCount() {
         return n;
     }

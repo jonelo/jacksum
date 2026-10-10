@@ -30,6 +30,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithm HAS-160.
  *
  * @author johann
  */
@@ -38,6 +39,12 @@ public class Has160_Selector extends Selector {
     
     private static final String ID = "has160";
     
+    /**
+     * Creates a new Has160_Selector.
+     */
+    public Has160_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

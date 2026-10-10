@@ -47,11 +47,24 @@ import net.jacksum.parameters.base.CustomizedFormatParameters;
 import net.jacksum.parameters.Parameters;
 import net.jacksum.parameters.combined.ChecksumParameters;
 
+/**
+ * Static helpers shared by the actions, including the central dispatcher
+ * {@link #getAction(Parameters)} that maps the parsed parameters to the
+ * {@link Action} to perform.
+ */
 public class Actions {
 
     // no instance, since we only provide static methods here
     private Actions() {}
     
+    /**
+     * Creates the checksum instance for the algorithm(s) selected in the
+     * parameters and applies the parameters to it.
+     *
+     * @param parameters the parameters that select and configure the algorithm
+     * @return the configured checksum instance
+     * @throws ParameterException if the requested algorithm is not available
+     */
     public static AbstractChecksum getChecksumInstance(ChecksumParameters parameters)
             throws ParameterException {
         AbstractChecksum checksum;
@@ -64,6 +77,13 @@ public class Actions {
         return checksum;
     }
     
+    /**
+     * Prints the checksum to standard output, either in the customized format
+     * if one is wanted, or using the checksum's default string representation.
+     *
+     * @param checksum the checksum to print
+     * @param parameters the parameters that tell whether and which customized format is wanted
+     */
     public static void printChecksum (AbstractChecksum checksum, CustomizedFormatParameters parameters) {
         if (parameters.isFormatWanted()) {
             System.out.println(checksum.format(parameters.getFormat()));
@@ -72,12 +92,26 @@ public class Actions {
         }
     }
 
+    /**
+     * Prints the statistics if a summary has been requested by the verbose
+     * settings.
+     *
+     * @param statistics the statistics to print
+     * @param parameters the parameters that tell whether a summary is wanted
+     */
     public static void printStatistics(Statistics statistics, StatisticsParameters parameters) {
         if (parameters.getVerbose().isSummary()) {
             statistics.print();
         }
     }
     
+    /**
+     * Returns the action that corresponds to the action type of the parameters.
+     * The help action is returned for unknown action types.
+     *
+     * @param parameters the parameters that determine the action type
+     * @return the action to perform
+     */
     public static Action getAction(Parameters parameters) {
         switch (parameters.getActionType()) {
             case QUICK:

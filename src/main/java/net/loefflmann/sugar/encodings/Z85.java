@@ -10,8 +10,12 @@
 
 package net.loefflmann.sugar.encodings;
 
+/**
+ * Encodes and decodes data with the Z85 encoding (ZeroMQ Base-85).
+ */
 public class Z85 {
 
+    /** The regular expression that matches a string of Z85 characters. */
     public static final String Z85_REGEX = "^[0-9A-Za-z\\.\\-:\\+\\=\\^!\\/\\*\\?&<>\\(\\)\\[\\]\\{\\}\\@%\\$\\#]+$";
 
     private static Z85 instanceStrict = null;
@@ -42,14 +46,27 @@ public class Z85 {
         this.type = type;
     }
 
-    public enum Type { STRICT, PADDING_IF_REQUIRED }
+    /** The type of a Z85 instance. */
+    public enum Type { /** The input length must be a multiple of 4 bytes, the encoded length a multiple of 5 characters. */ STRICT, /** Input of any length is accepted, padding is applied if required. */ PADDING_IF_REQUIRED }
 
     private Type type = Type.STRICT;
 
+    /**
+     * Returns the type of this instance.
+     *
+     * @return the type
+     */
     public Type getType() {
         return type;
     }
 
+    /**
+     * Returns the shared instance for the given type.
+     *
+     * @param type the type
+     * @return the instance for the type
+     * @throws IllegalArgumentException if the type is not supported
+     */
     public static Z85 getInstance(Type type) throws IllegalArgumentException {
 
         switch (type) {
@@ -67,6 +84,13 @@ public class Z85 {
         }
     }
 
+    /**
+     * Decodes a Z85 encoded string.
+     *
+     * @param s the Z85 encoded string
+     * @return the decoded bytes, an empty array if s is empty
+     * @throws IllegalArgumentException if s is not valid Z85 encoded
+     */
     public byte[] decode(String s) throws IllegalArgumentException {
         if (s.isEmpty()) {
             return new byte[0]; // nothing to decode
@@ -110,6 +134,14 @@ public class Z85 {
         return ret;
     }
 
+    /**
+     * Encodes bytes with Z85.
+     *
+     * @param bytes the bytes to encode
+     * @return the Z85 encoded string
+     * @throws IllegalArgumentException if the type is {@code STRICT} and the
+     * length of the input is not a multiple of 4 bytes
+     */
     public String encode(byte[] bytes) throws IllegalArgumentException {
 
         int remainder = bytes.length % 4;

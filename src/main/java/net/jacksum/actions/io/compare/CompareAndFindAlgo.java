@@ -25,8 +25,18 @@ package net.jacksum.actions.io.compare;
 
 import net.jacksum.algorithms.AbstractChecksum;
 
+/**
+ * A compare action that prints the name of the algorithm if the comparison
+ * was successful, and counts positive and negative results.
+ */
 public class CompareAndFindAlgo extends CompareAction {
 
+   /**
+    * Creates a new CompareAndFindAlgo.
+    *
+    * @param checksum the algorithm whose name is printed on a match
+    * @param parameters the compare parameters
+    */
    public CompareAndFindAlgo
            (AbstractChecksum checksum, CompareActionInterface parameters) {
        this.checksum = checksum;

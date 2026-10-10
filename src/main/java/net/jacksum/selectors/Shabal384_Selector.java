@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Selects the implementation(s) of the algorithm Shabal-384.
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class Shabal384_Selector extends Selector {
 
     private static final String ID = "shabal384";
     
+    /**
+     * Creates a new {@code Shabal384_Selector}.
+     */
+    public Shabal384_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new HashMap<>(2); // ceil(1/0.75)

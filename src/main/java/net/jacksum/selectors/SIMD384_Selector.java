@@ -30,13 +30,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Selects the implementation(s) of the algorithm SIMD-384.
  * @author johann
  */
 public class SIMD384_Selector extends Selector {
 
     private static final String ID = "simd384";
     
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public SIMD384_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new HashMap<>(2); // ceil(1/0.75)

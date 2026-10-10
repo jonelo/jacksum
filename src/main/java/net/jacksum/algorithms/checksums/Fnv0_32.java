@@ -26,11 +26,19 @@ package net.jacksum.algorithms.checksums;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
+/**
+ * Computes the 32 bit Fowler-Noll-Vo hash FNV-0 (offset basis 0).
+ */
 public class Fnv0_32 extends AbstractChecksum {
 
+    /** The 32 bit FNV prime. */
     protected final int PRIME = 0x01000193;
+    /** The current hash value; only the lower 32 bits are significant. */
     protected long value;
 
+    /**
+     * Creates a new FNV-0 (32 bit) instance.
+     */
     public Fnv0_32() {
         super();
         bitWidth = 32;

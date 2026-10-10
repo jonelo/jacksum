@@ -30,6 +30,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
+ * Selects the implementation(s) of the algorithm RIPEMD-256.
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class Ripemd256_Selector extends Selector {
 
     private static final String ID = "ripemd256";
     
+    /**
+     * Creates a new {@code Ripemd256_Selector}.
+     */
+    public Ripemd256_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

@@ -21,6 +21,7 @@
 package net.jacksum.compats.defs;
 
 /**
+ * Signals that the compatibility properties, i.e. the definition of a style, are invalid.
  *
  * @author Johann N. Loefflmann
  */

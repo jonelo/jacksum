@@ -24,11 +24,29 @@ package net.jacksum.parameters.base;
 
 import net.jacksum.parameters.Sequence;
 
+/**
+ * Parameters for the key of keyed algorithms such as HMAC.
+ */
 public interface KeyParameters {
 
+    /**
+     * Tells whether a key has been set.
+     *
+     * @return true if a key has been set
+     */
     boolean isKey();
 
+    /**
+     * Returns the key.
+     *
+     * @return the key, or {@code null} if no key has been set
+     */
     Sequence getKey();
 
+    /**
+     * Sets the key.
+     *
+     * @param key the key
+     */
     void setKey(Sequence key);
 }

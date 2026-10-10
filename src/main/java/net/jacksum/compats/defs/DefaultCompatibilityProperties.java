@@ -29,8 +29,29 @@ import net.jacksum.formats.Encoding;
 import net.jacksum.parameters.ParameterException;
 import net.jacksum.parameters.Parameters;
 
+/**
+ * Generates compatibility properties (i.e. a parser definition for hash lists)
+ * from the parameters if no predefined style has been selected.
+ */
 public class DefaultCompatibilityProperties {
 
+    /**
+     * Creates a new {@code DefaultCompatibilityProperties}.
+     */
+    public DefaultCompatibilityProperties() {
+    }
+
+    /**
+     * Generates compatibility properties that can parse hash lists written with
+     * the given parameters, including a regular expression derived from the
+     * algorithm, encoding, separator, and the requested optional fields.
+     * As a side effect, the encoding and the file size flag of the parameters
+     * are set to the algorithm's defaults if they have not been set explicitly.
+     *
+     * @param parameters the parameters to derive the properties from
+     * @return the generated compatibility properties
+     * @throws ParameterException if the requested algorithm is not available
+     */
     public static CompatibilityProperties getDefaultCompatibilityProperties(Parameters parameters) throws ParameterException {
         CompatibilityProperties parserProperties;
         parserProperties = new CompatibilityProperties();

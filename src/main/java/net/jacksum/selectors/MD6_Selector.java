@@ -30,6 +30,7 @@ import net.jacksum.algorithms.md.MD6;
 import net.jacksum.algorithms.wrappers.MD;
 
 /**
+ * Selects the implementation(s) of the algorithms MD6-8 to MD6-512.
  *
  * @author johann
  */
@@ -44,6 +45,12 @@ public class MD6_Selector extends Selector {
 
     private static Map<String, String> algos;
     private static Map<String, String> aliases;
+
+    /**
+     * Creates a new MD6_Selector.
+     */
+    public MD6_Selector() {
+    }
 
     private static void _fillMap(Map<String, String> map, String keyPrefix, String valuePrefix) {
         for (int i = 8; i <= MD6.MAX_D; i += 8) {

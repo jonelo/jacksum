@@ -19,9 +19,27 @@
 
 package net.jacksum.algorithms.checksums;
 
+/**
+ * Provides the parameters of a PRNG hash.
+ */
 public interface PrngHashInfo {
+    /**
+     * Returns the init value.
+     *
+     * @return the init value (32 bits)
+     */
     long getInitValue();
+    /**
+     * Returns the value that is added.
+     *
+     * @return the value that is added (32 bits)
+     */
     long getAdd();
+    /**
+     * Returns the multiplier.
+     *
+     * @return the multiplier (32 bits)
+     */
     long getMultiplier();
 
 }

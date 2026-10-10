@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Joaat32;
 
 /**
+ * Selects the implementation(s) of the algorithm Bob Jenkins' One-at-a-Time Hash (joaat).
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class Joaat32_Selector extends Selector {
 
     private static final String ID = "joaat";
     
+    /**
+     * Creates a new Joaat32_Selector.
+     */
+    public Joaat32_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

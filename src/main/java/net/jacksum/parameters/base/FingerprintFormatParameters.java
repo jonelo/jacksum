@@ -24,15 +24,49 @@ package net.jacksum.parameters.base;
 
 import net.jacksum.formats.Encoding;
 
+/**
+ * The parameters that control how a fingerprint (a hash value) is formatted:
+ * the encoding and the grouping of its characters.
+ */
 public interface FingerprintFormatParameters {
 
+    /**
+     * Tells whether an encoding has been set.
+     *
+     * @return true if an encoding has been set
+     */
     boolean isEncodingSet();
+    /**
+     * Returns the encoding of the hash value.
+     *
+     * @return the encoding
+     */
     Encoding getEncoding();
 
+    /**
+     * Tells whether a grouping has been set.
+     *
+     * @return true if a grouping has been set
+     */
     boolean isGroupingSet();
+    /**
+     * Returns the number of characters per group of the hash value.
+     *
+     * @return the number of characters per group
+     */
     int getGrouping();
 
+    /**
+     * Tells whether a group separator character has been set.
+     *
+     * @return true if a group separator character has been set
+     */
     boolean isGroupCharSet();
+    /**
+     * Returns the character that separates the groups of the hash value.
+     *
+     * @return the group separator character
+     */
     Character getGroupChar();
 
 }

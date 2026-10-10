@@ -23,6 +23,9 @@
 package net.jacksum.actions.info.help;
 
 
+/**
+ * Thrown if a search in the help text finds nothing.
+ */
 public class NothingFoundException extends Exception {
 
     /**

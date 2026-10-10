@@ -32,8 +32,14 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+/**
+ * Action that prints the license text bundled in the jar file to standard output.
+ */
 public class LicenseAction implements Action {
 
+    /**
+     * Creates a new {@code LicenseAction}.
+     */
     public LicenseAction() {
     }
 

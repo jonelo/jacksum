@@ -39,11 +39,20 @@ import net.jacksum.parameters.ParameterException;
 import java.io.*;
 import java.nio.charset.Charset;
 
+/**
+ * The action that reads a list of strings (one per line) from a file or
+ * from standard input and computes the hash value of each line.
+ */
 public class HashStringsAction implements Action {
 
     private final HashStringsActionStatistics statistics;
     private final HashStringsActionParameters parameters;
 
+    /**
+     * Creates a new HashStringsAction.
+     *
+     * @param parameters the parameters that control this action
+     */
     public HashStringsAction(HashStringsActionParameters parameters) {
         this.parameters = parameters;
         statistics = new HashStringsActionStatistics();
@@ -195,6 +204,8 @@ public class HashStringsAction implements Action {
     }
 
     /**
+     * Returns the statistics collected by this action.
+     *
      * @return the statistics
      */
     public HashStringsActionStatistics getStatistics() {

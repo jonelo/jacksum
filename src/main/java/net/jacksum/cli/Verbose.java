@@ -35,10 +35,15 @@ import java.util.List;
 public class Verbose implements Serializable  {
 
     private static final long serialVersionUID = 468201896069418113L;
+    /** Whether informational messages are wanted. */
     private boolean info;
+    /** Whether warnings are wanted. */
     private boolean warnings;
+    /** Whether error messages are wanted. */
     private boolean errors;
+    /** Whether a summary (statistics) is wanted. */
     private boolean summary;
+    /** Whether details are wanted. */
     private boolean details;
 
     /**
@@ -52,6 +57,10 @@ public class Verbose implements Serializable  {
         details = false;
     }
 
+    /**
+     * Sets all verbose states to their defaults: warnings and errors are
+     * enabled, info, summary, and details are disabled.
+     */
     public void setDefault() {
         info = false;
         warnings = true;
@@ -80,6 +89,9 @@ public class Verbose implements Serializable  {
         details = true;
     }
 
+    /**
+     * Sets all verbose states to false.
+     */
     public void disableAll() {
         info = false;
         warnings = false;
@@ -116,6 +128,8 @@ public class Verbose implements Serializable  {
     }
     
     /**
+     * Gets the warning state.
+     *
      * @return the warnings
      */
     public boolean isWarnings() {
@@ -133,6 +147,8 @@ public class Verbose implements Serializable  {
     }
 
     /**
+     * Gets the error state.
+     *
      * @return the errors
      */
     public boolean isErrors() {
@@ -140,6 +156,8 @@ public class Verbose implements Serializable  {
     }
 
     /**
+     * Sets the error state.
+     *
      * @param errors the errors to set
      */
     public void setErrors(boolean errors) {
@@ -184,10 +202,22 @@ public class Verbose implements Serializable  {
         return details;
     }
 
+    /**
+     * Checks whether all verbose states have their default values.
+     *
+     * @return whether all verbose states have their default values
+     */
     public boolean isDefault() {
         return !info && warnings && errors && !summary && !details;
     }
 
+    /**
+     * Returns the verbose states as a comma separated list of tokens as
+     * accepted by {@link #setVerbose(String)}, or {@code default}, {@code all},
+     * or {@code none} if applicable.
+     *
+     * @return the string representation of the verbose states
+     */
     public String toString() {
         List<String> list = new ArrayList<>();
         if (isDefault()) {
@@ -227,6 +257,15 @@ public class Verbose implements Serializable  {
         return Transformer.list2CsvString(list);
     }
 
+    /**
+     * Sets the verbose states from a comma separated list of tokens. Valid tokens
+     * are {@code default}, {@code all}, {@code none}, and {@code info},
+     * {@code warnings}, {@code errors}, {@code summary}, {@code details}, each
+     * optionally prefixed with {@code no}. The tokens are applied from left to right.
+     *
+     * @param arg the comma separated list of tokens
+     * @throws IllegalArgumentException if a token is invalid
+     */
     public void setVerbose(String arg) throws IllegalArgumentException {
 
         String[] tokens = arg.split(",");

@@ -56,6 +56,9 @@ public final class BeltHash extends MessageDigest {
     private final int[] s = new int[4];
     private final int[] h = new int[8];
 
+    /**
+     * Creates a new BeltHash instance.
+     */
     public BeltHash() {
         super("BELT");
         resetState();

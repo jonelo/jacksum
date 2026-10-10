@@ -30,6 +30,7 @@ import net.jacksum.algorithms.wrappers.Blake3Wrapper;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
+ * Selects the implementation(s) of the algorithm BLAKE3.
  *
  * @author johann
  */
@@ -38,6 +39,12 @@ public class Blake3_Selector extends Selector {
     private final static String ID = "blake3";
     private static Map<String, String> algos;
     private static Map<String, String> aliases;
+
+    /**
+     * Creates a new selector for the algorithm BLAKE3.
+     */
+    public Blake3_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

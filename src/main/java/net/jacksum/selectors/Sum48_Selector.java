@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Sum48;
 
 /**
+ * Selects the implementation(s) of the algorithm sum 48.
  *
  * @author johann
  */
 public class Sum48_Selector extends Selector {
 
     private static final String ID = "sum48";
+
+    /**
+     * Creates a new Sum48_Selector.
+     */
+    public Sum48_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

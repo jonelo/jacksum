@@ -30,6 +30,7 @@ import net.jacksum.algorithms.wrappers.MD;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithm MD5.
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class MD5_Selector extends Selector {
 
     private static final String ID = "md5";
     
+    /**
+     * Creates a new MD5_Selector.
+     */
+    public MD5_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

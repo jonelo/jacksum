@@ -30,8 +30,20 @@ import net.jacksum.formats.Encoding;
 //import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.Blake2bDigest;
 import org.bouncycastle.crypto.digests.Blake2bDigest;
 
+/**
+ * A wrapper for the BLAKE2b implementation of Bouncy Castle that supports a configurable
+ * digest length.
+ */
 public class Blake2bWrapper extends MDbouncycastle {
 
+    /**
+     * Creates a new BLAKE2b instance from an algorithm ID. The IDs {@code blake2b} and
+     * {@code b2sum} select a 512-bit digest; {@code blake2b-<n>} and {@code b2sum-<n>} select
+     * a digest of {@code n} bits (case-insensitive).
+     *
+     * @param input the algorithm ID
+     * @throws NoSuchAlgorithmException if the ID is invalid or if the digest length is not supported
+     */
     public Blake2bWrapper(String input) throws NoSuchAlgorithmException {
         length = 0;
         filename = null;

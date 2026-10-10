@@ -25,6 +25,9 @@ import net.jacksum.parameters.base.CheckParameters;
 import net.jacksum.parameters.base.TimestampFormatParameters;
 import net.jacksum.parameters.base.VerboseParameters;
 
+/**
+ * The parameters required by the consumer that checks files against a hash list.
+ */
 public interface CheckConsumerParameters extends ConsumerParameters, CheckParameters, VerboseParameters, TimestampFormatParameters {
     
 }

@@ -37,11 +37,20 @@ import net.jacksum.parameters.ParameterException;
 import java.io.UnsupportedEncodingException;
 
 // quick sequence and quit (no file parameter)
+/**
+ * Calculates the hash value of a sequence that has been specified on the command line
+ * (option -q) and optionally compares it with an expected hash value.
+ */
 public class QuickAction implements Action {
 
     private final QuickActionStatistics statisticsQuick;
     private final QuickActionParameters parameters;
 
+    /**
+     * Creates a new action that calculates the hash value of a sequence.
+     *
+     * @param parameters the parameters for this action
+     */
     public QuickAction(QuickActionParameters parameters) {
         this.parameters = parameters;
         statisticsQuick = new QuickActionStatistics();

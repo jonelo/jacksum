@@ -23,8 +23,14 @@
 
 package net.jacksum.algorithms.checksums;
 
+/**
+ * A 12-bit checksum: the sum of all bytes modulo 2^12.
+ */
 public class Sum12 extends Sum8 {
 
+    /**
+     * Creates a new Sum12 instance.
+     */
     public Sum12() {
         super();
         bitWidth = 12;

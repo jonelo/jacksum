@@ -23,13 +23,32 @@ package net.jacksum.multicore;
 
 import java.util.Locale;
 
+/**
+ * Determines the operating system Jacksum is running on.
+ */
 public class OSControl {
     private static final String OS = System.getProperty("os.name").toLowerCase(Locale.US);
 
+    /**
+     * Creates a new OSControl.
+     */
+    public OSControl() {
+    }
+
+    /**
+     * Determines whether the operating system is Microsoft Windows.
+     *
+     * @return true if running on Windows
+     */
     public static final boolean isWindows() {
         return OS.startsWith("windows");
     }
 
+    /**
+     * Determines whether the operating system is macOS.
+     *
+     * @return true if running on macOS
+     */
     public static final boolean isMacOS() {
         return OS.startsWith("mac os");
     }

@@ -29,10 +29,17 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
 
+/**
+ * The 16 bit checksum of the Unix System V {@code sum} command (sum -s), with the
+ * file size given in blocks of 512 bytes.
+ */
 public class SumSysV extends AbstractChecksum {
 
     private long value;
 
+    /**
+     * Creates a new SumSysV instance.
+     */
     public SumSysV() {
         super();
         bitWidth = 16;

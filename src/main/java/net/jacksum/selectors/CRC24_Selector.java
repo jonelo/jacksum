@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.crcs.CrcGeneric;
 
 /**
+ * Selects the implementation(s) of the algorithm CRC-24 (OpenPGP).
  *
  * @author johann
  */
@@ -50,6 +51,12 @@ public class CRC24_Selector extends Selector {
         availableAliases.put(ALIAS, ID);
     }
     
+
+    /**
+     * Creates a new CRC24_Selector.
+     */
+    public CRC24_Selector() {
+    }
 
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {

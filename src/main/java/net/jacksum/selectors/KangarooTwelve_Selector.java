@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
+ * Selects the implementation(s) of the algorithm KangarooTwelve (K12).
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class KangarooTwelve_Selector extends Selector {
 
     private static final String ID = "kangarootwelve";
     private static Map<String, String> map = null;
+
+    /**
+     * Creates a new KangarooTwelve_Selector.
+     */
+    public KangarooTwelve_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

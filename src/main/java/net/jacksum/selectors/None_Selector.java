@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.primitive.None;
 
 /**
+ * Selects the implementation(s) of the algorithm None.
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class None_Selector extends Selector {
 
     private static final String ID = "none";
     
+    /**
+     * Creates a new None_Selector.
+     */
+    public None_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

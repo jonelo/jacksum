@@ -29,12 +29,18 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.PrngHash;
 
 /**
- *
+ * Selects the implementation(s) of the algorithm AST strsum PRNG hash.
  * @author johann
  */
 public class AstStrsum_Selector extends Selector {
 
     private final static String ID = "aststrsum";
+
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public AstStrsum_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

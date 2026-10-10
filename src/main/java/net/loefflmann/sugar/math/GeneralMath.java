@@ -26,12 +26,41 @@ package net.loefflmann.sugar.math;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+/**
+ * Provides general math helper methods, e.g. to convert decimal numbers to the
+ * scientific notation and to format durations.
+ */
 public class GeneralMath {
 
+    /**
+     * Creates a new GeneralMath.
+     */
+    public GeneralMath() {
+    }
+
+    /**
+     * Converts a decimal number to the scientific notation, using "e" as the exponent
+     * separator (e.g. 1234.5 becomes 1.2345e3).
+     *
+     * @param str the decimal number, optionally with a sign
+     * @param significant the number of significant digits, or 0 or less to keep all
+     *                    significant digits
+     * @return the number in scientific notation
+     */
     public static String decimal2Scientific(String str, int significant) {
         return decimal2Scientific(str, significant, "e");
     }
 
+    /**
+     * Converts a decimal number to the scientific notation. The mantissa is rounded
+     * half up to the specified number of significant digits.
+     *
+     * @param str the decimal number, optionally with a sign
+     * @param significant the number of significant digits, or 0 or less to keep all
+     *                    significant digits
+     * @param suffix the string that separates the mantissa from the exponent (e.g. "e")
+     * @return the number in scientific notation
+     */
     public static String decimal2Scientific(String str, int significant, String suffix) {
         StringBuilder sb = new StringBuilder(str);
         boolean signflag = false;
@@ -105,10 +134,24 @@ public class GeneralMath {
         return sb.toString();
     }
 
+    /**
+     * Converts a decimal number to the scientific notation, keeping all significant
+     * digits and using "e" as the exponent separator.
+     *
+     * @param str the decimal number, optionally with a sign
+     * @return the number in scientific notation
+     */
     public static String decimal2Scientific(String str) {
         return decimal2Scientific(str, 0);
     }
 
+    /**
+     * Returns a human-readable String which represents a time in ms, ignoring leading
+     * zero values.
+     *
+     * @param t a time in ms
+     * @return a human-readable representation of time as String
+     */
     public static String duration(long t) {
         return duration(t, true);
     }

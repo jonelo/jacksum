@@ -30,6 +30,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDflexiprovider;
 
 /**
+ * Selects the implementation(s) of the algorithm DHA-256.
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class DHA256_Selector extends Selector {
 
     private static final String ID = "dha256";
     
+    /**
+     * Creates a new {@code DHA256_Selector}.
+     */
+    public DHA256_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

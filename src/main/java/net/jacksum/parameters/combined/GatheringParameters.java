@@ -26,6 +26,10 @@ import net.jacksum.parameters.base.TimestampFormatParameters;
 import net.jacksum.parameters.base.ExpectationParameters;
 
 
+/**
+ * The parameters that are required for gathering information about files, i.e.
+ * timestamp format and expectation parameters.
+ */
 public interface GatheringParameters extends
         TimestampFormatParameters, ExpectationParameters {
 

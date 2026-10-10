@@ -29,10 +29,18 @@ import net.jacksum.parameters.ParameterException;
 import net.loefflmann.sugar.util.ExitException;
 
 
+/**
+ * Prints the properties of a predefined compatibility style (see option {@code --style}).
+ */
 public class CompatInfoAction implements Action {
 
     private final CompatInfoActionParameters parameters;
     
+    /**
+     * Creates a new action that prints the compatibility properties.
+     *
+     * @param parameters the parameters that provide the compatibility properties to print
+     */
     public CompatInfoAction(CompatInfoActionParameters parameters) {
         this.parameters = parameters;
     }

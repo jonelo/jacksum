@@ -30,6 +30,7 @@ import net.jacksum.algorithms.md.EdonR;
 import net.jacksum.algorithms.wrappers.MD;
 
 /**
+ * Selects the implementation(s) of the algorithms Edon-R 224, Edon-R 256, Edon-R 384, and Edon-R 512.
  *
  * @author johann
  */
@@ -44,6 +45,12 @@ public class EdonR_Selector extends Selector {
 
     private static Map<String, String> algos;
     private static Map<String, String> aliases;
+
+    /**
+     * Creates a new {@code EdonR_Selector}.
+     */
+    public EdonR_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

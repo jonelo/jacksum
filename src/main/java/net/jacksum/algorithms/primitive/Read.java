@@ -25,8 +25,15 @@ package net.jacksum.algorithms.primitive;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
+/**
+ * A pseudo algorithm that only reads the data and counts the bytes without
+ * computing any hash value.
+ */
 public class Read extends AbstractChecksum {
 
+    /**
+     * Creates a new {@code Read} instance.
+     */
     public Read() {
         super();
         formatPreferences.setHashEncoding(Encoding.HEX);

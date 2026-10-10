@@ -24,7 +24,21 @@ package net.jacksum.parameters.base;
 
 import net.jacksum.compats.defs.CompatibilityProperties;
 
+/**
+ * The parameters for selecting a compatibility style (option --style).
+ */
 public interface CompatibilityParameters {
+     /**
+      * Gets the properties of the selected compatibility style.
+      *
+      * @return the compatibility properties
+      */
      CompatibilityProperties getCompatibilityProperties();
+
+     /**
+      * Gets the ID of the selected compatibility style.
+      *
+      * @return the compatibility ID
+      */
      String getCompatibilityID();
 }

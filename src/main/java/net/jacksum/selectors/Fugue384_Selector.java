@@ -31,6 +31,7 @@ import net.jacksum.algorithms.wrappers.MD;
 import net.jacksum.algorithms.wrappers.MDCryptohashSphlib3;
 
 /**
+ * Selects the implementation(s) of the algorithm Fugue-384.
  *
  * @author johann
  */
@@ -38,6 +39,12 @@ public class Fugue384_Selector extends Selector {
 
     private static final String ID = "fugue384";
     
+    /**
+     * Creates a new {@code Fugue384_Selector}.
+     */
+    public Fugue384_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new HashMap<>(2); // ceil(1/0.75)

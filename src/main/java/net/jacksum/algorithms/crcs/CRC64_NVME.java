@@ -22,7 +22,15 @@ package net.jacksum.algorithms.crcs;
 import net.jacksum.formats.Encoding;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * A class that can be used to compute the CRC-64/NVME of a data stream.
+ */
 public class CRC64_NVME extends CrcGeneric {
+    /**
+     * Creates a new CRC-64/NVME checksum object.
+     *
+     * @throws NoSuchAlgorithmException if the underlying CRC parameters are invalid
+     */
     public CRC64_NVME() throws NoSuchAlgorithmException {
         super(64, 0xad93d23594c93659L, 0xffffffffffffffffL, true, true, 0xffffffffffffffffL);
         formatPreferences.setHashEncoding(Encoding.HEX);

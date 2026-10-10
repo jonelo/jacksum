@@ -29,10 +29,17 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithms HAVAL 128, 160, 192, 224, and 256 (3, 4, and 5 rounds each).
  *
  * @author johann
  */
 public class Haval_Selector extends Selector {
+
+    /**
+     * Creates a new {@code Haval_Selector}.
+     */
+    public Haval_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

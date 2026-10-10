@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.crcs.CRC64_NVME;
 
 /**
+ * Selects the implementation(s) of the algorithm CRC-64 (NVM Express 64b CRC).
  *
  * @author johann
  */
 public class CRC64_NVME_Selector extends Selector {
 
     private static final String ID = "crc64_nvme";
+
+    /**
+     * Creates a new CRC64_NVME_Selector.
+     */
+    public CRC64_NVME_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

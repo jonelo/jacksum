@@ -30,12 +30,19 @@ import net.jacksum.algorithms.wrappers.MD;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithm SHA-256 (SHA-2 family).
  *
  * @author johann
  */
 public class SHA2_256_Selector extends Selector {
 
     private static final String ID = "sha-256";
+
+    /**
+     * Creates a new SHA2_256_Selector.
+     */
+    public SHA2_256_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

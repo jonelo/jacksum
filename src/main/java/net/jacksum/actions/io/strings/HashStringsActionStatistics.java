@@ -43,6 +43,12 @@ public class HashStringsActionStatistics extends StatisticsBytes {
     private long matchedLines;
     private long notMatchedLines;
 
+    /**
+     * Creates a new HashStringsActionStatistics.
+     */
+    public HashStringsActionStatistics() {
+    }
+
     @Override
     public Map<String, Object> build() {
         Map<String, Object> map = new LinkedHashMap<>();
@@ -71,56 +77,112 @@ public class HashStringsActionStatistics extends StatisticsBytes {
         notMatchedLines = 0;
     }
 
+    /**
+     * Returns the total number of lines read.
+     *
+     * @return the total number of lines read
+     */
     public long getTotalLines() {
         return totalLines;
     }
 
     /**
+     * Sets the total number of lines read.
+     *
      * @param totalLines the totalLines to set
      */
     public void setTotalLines(long totalLines) {
         this.totalLines = totalLines;
     }
 
+    /**
+     * Returns the number of lines ignored because they are comments.
+     *
+     * @return the number of ignored comment lines
+     */
     public long getIgnoredLines() {
         return ignoredLines;
     }
 
     /**
+     * Sets the number of lines ignored because they are comments.
+     *
      * @param ignoredLines the ignoredLines to set
      */
     public void setIgnoredLines(long ignoredLines) {
         this.ignoredLines = ignoredLines;
     }
 
+    /**
+     * Returns the number of lines hashed.
+     *
+     * @return the number of hashed lines
+     */
     public long getHashedLines() {
         return hashedLines;
     }
 
+    /**
+     * Sets the number of lines hashed.
+     *
+     * @param hashedLines the number of hashed lines
+     */
     public void setHashedLines(long hashedLines) {
         this.hashedLines = hashedLines;
     }
 
+    /**
+     * Returns the number of empty lines ignored.
+     *
+     * @return the number of ignored empty lines
+     */
     public long getEmptyLines() {
         return emptyLines;
     }
 
+    /**
+     * Sets the number of empty lines ignored.
+     *
+     * @param emptyLines the number of ignored empty lines
+     */
     public void setEmptyLines(long emptyLines) {
         this.emptyLines = emptyLines;
     }
 
+    /**
+     * Returns the number of lines whose hash value matched the expected one.
+     *
+     * @return the number of matched lines
+     */
     public long getMatchedLines() {
         return matchedLines;
     }
 
+    /**
+     * Sets the number of lines whose hash value matched the expected one.
+     *
+     * @param matchedLines the number of matched lines
+     */
     public void setMatchedLines(long matchedLines) {
         this.matchedLines = matchedLines;
     }
 
+    /**
+     * Returns the number of lines whose hash value did not match the
+     * expected one.
+     *
+     * @return the number of lines that did not match
+     */
     public long getNotMatchedLines() {
         return notMatchedLines;
     }
 
+    /**
+     * Sets the number of lines whose hash value did not match the
+     * expected one.
+     *
+     * @param notMatchedLines the number of lines that did not match
+     */
     public void setNotMatchedLines(long notMatchedLines) {
         this.notMatchedLines = notMatchedLines;
     }

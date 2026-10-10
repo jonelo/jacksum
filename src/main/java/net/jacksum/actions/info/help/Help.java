@@ -33,6 +33,12 @@ import net.jacksum.actions.info.version.VersionAction;
 public class Help {
 
     /**
+     * Creates a new Help. All methods are static, so an instance is not required.
+     */
+    public Help() {
+    }
+
+    /**
      * Print help on standard output.
      *
      * @param code   the language code (e.g. en)
@@ -66,10 +72,30 @@ public class Help {
         return false;
     }
 
+    /**
+     * Searches the help.
+     *
+     * @param code   the language code (e.g. en)
+     * @param search the search string, can be null
+     * @return the matching part of the help, or the entire help if search is null
+     * @throws NothingFoundException if the search string cannot be found in the help
+     * @throws IOException if the help file cannot be read
+     */
     public static String searchHelp(String code, String search) throws NothingFoundException, IOException {
         return searchHelp(code, search, false);
     }
 
+    /**
+     * Searches the help.
+     *
+     * @param code   the language code (e.g. en)
+     * @param search the search string, can be null
+     * @param strict if true, the search string must match an option, an algorithm ID, or a
+     *               section header exactly, rather than just being a prefix of it
+     * @return the matching part of the help, or the entire help if search is null
+     * @throws NothingFoundException if the search string cannot be found in the help
+     * @throws IOException if the help file is not bundled or cannot be read
+     */
     public static String searchHelp(String code, String search, boolean strict) throws NothingFoundException, IOException {
         String filename = "/net/jacksum/help/help_" + code + ".txt";
         try {
@@ -94,6 +120,9 @@ public class Help {
         printHelp(code, null);
     }
 
+    /**
+     * Print a short usage message on standard output.
+     */
     public static void printShortUsage() {
         System.out.printf(
                 "Usage:%n"

@@ -41,6 +41,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+/**
+ * Parses lines of a check file or wanted list according to the regular expression
+ * and the settings of a compatibility (predefined style).
+ */
 public class Parser {
 
     CompatibilityProperties props;
@@ -56,6 +60,13 @@ public class Parser {
     // or 0 if the hash value should not be verified by its length, see determineHashLength()
     private int expectedHashLength = 0;
 
+    /**
+     * Creates a new parser for the given compatibility properties.
+     *
+     * @param props the compatibility properties that define how lines are parsed
+     * @throws InvalidParserParameterException if the properties are invalid, e.g. the regular
+     *         expression is missing or invalid, or the hash algorithm is unknown
+     */
     public Parser(CompatibilityProperties props) throws InvalidParserParameterException {
         this.props = props;
         this.statistics = new ParserStatistics();
@@ -188,6 +199,14 @@ public class Parser {
     private boolean replaceDuplicateFilenames = true;
 
 
+    /**
+     * Parses a single line and adds the result to the statistics of this parser.
+     * Ignored and improperly formatted lines do not throw an exception; for an improperly
+     * formatted line a warning is printed to standard error.
+     *
+     * @param line the line to be parsed
+     * @return the parsed hash entry, or null if the line has been ignored or is improperly formatted
+     */
     public HashEntry parseOneLine(String line) {
         HashEntry hashEntry = null;
         int properlyFormattedLines = 0;
@@ -534,16 +553,30 @@ public class Parser {
     }
 
     /**
+     * Returns the statistics of this parser.
+     *
      * @return the statistics
      */
     public ParserStatistics getStatistics() {
         return statistics;
     }
 
+    /**
+     * Tells whether entries with duplicate file names replace each other.
+     *
+     * @return true if duplicate file names are replaced (useful for --check-list), false if they are
+     *         kept, because file names are comments (useful for --wanted-list)
+     */
     public boolean isReplaceDuplicateFilenames() {
         return replaceDuplicateFilenames;
     }
 
+    /**
+     * Sets whether entries with duplicate file names replace each other.
+     *
+     * @param replaceDuplicateFilenames true to replace duplicate file names (useful for --check-list),
+     *        false to keep them (useful for --wanted-list)
+     */
     public void setReplaceDuplicateFilenames(boolean replaceDuplicateFilenames) {
         this.replaceDuplicateFilenames = replaceDuplicateFilenames;
     }

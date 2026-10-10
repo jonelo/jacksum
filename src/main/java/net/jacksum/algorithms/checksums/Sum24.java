@@ -23,8 +23,14 @@
 
 package net.jacksum.algorithms.checksums;
 
+/**
+ * A class that can be used to compute the 24 bit sum of a data stream.
+ */
 public class Sum24 extends Sum8 {
 
+    /**
+     * Creates a new Sum24 checksum object.
+     */
     public Sum24() {
         super();
         bitWidth = 24;

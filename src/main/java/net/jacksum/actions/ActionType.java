@@ -28,7 +28,33 @@ package net.jacksum.actions;
  */
 public enum ActionType {
     // info actions
-    HMACS, HELP, INFO_APP, INFO_ALGO, INFO_COMPAT, COPYRIGHT,  LICENSE, VERSION, QUICK,
+    /** Prints the list of algorithms that can be used for HMAC. */
+    HMACS,
+    /** Prints the help (the manpage). */
+    HELP,
+    /** Prints information about the application. */
+    INFO_APP,
+    /** Prints information about an algorithm. */
+    INFO_ALGO,
+    /** Prints information about a compatibility (predefined style). */
+    INFO_COMPAT,
+    /** Prints the copyright. */
+    COPYRIGHT,
+    /** Prints the license. */
+    LICENSE,
+    /** Prints the version. */
+    VERSION,
+    /** Calculates the hash of a sequence (quick mode). */
+    QUICK,
     // io actions
-    HASH_FILES, WANTED_LIST,  CHECK,  FIND_ALGO,  STRING_LIST,
+    /** Calculates the hashes of files. */
+    HASH_FILES,
+    /** Calculates the hashes of files and finds files that match wanted hashes. */
+    WANTED_LIST,
+    /** Checks the integrity of files against a check file or check line. */
+    CHECK,
+    /** Finds the algorithm(s) that produced a given hash value. */
+    FIND_ALGO,
+    /** Calculates the hashes of the strings in a string list. */
+    STRING_LIST,
 }

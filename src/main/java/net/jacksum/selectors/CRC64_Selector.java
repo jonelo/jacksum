@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.crcs.CRC64;
 
 /**
+ * Selects the implementation(s) of the algorithm CRC-64 (ISO 3309).
  *
  * @author johann
  */
 public class CRC64_Selector extends Selector {
 
     private static final String ID = "crc64";
+
+    /**
+     * Creates a new CRC64_Selector.
+     */
+    public CRC64_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

@@ -30,6 +30,7 @@ import net.jacksum.algorithms.wrappers.MD;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
+ * Selects the implementation(s) of the algorithm SHA3-224 (SHA-3 family).
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class SHA3_224_Selector extends Selector {
     
     private static final String ID = "sha3-224";
     
+    /**
+     * Creates a new selector for the algorithm SHA3-224 (SHA-3 family).
+     */
+    public SHA3_224_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

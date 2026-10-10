@@ -29,6 +29,9 @@ import net.jacksum.parameters.base.TimestampFormatParameters;
 import net.jacksum.parameters.base.FingerprintFormatParameters;
 import net.jacksum.parameters.base.LengthFormatParameters;
 
+/**
+ * Combines all parameters that control the formatting of the output.
+ */
 public interface FormatParameters extends
         LineFormatParameters,
         FingerprintFormatParameters,

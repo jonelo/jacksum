@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Selects the implementation(s) of the algorithm CubeHash-384.
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class CubeHash384_Selector extends Selector {
 
     private static final String ID = "cubehash384";
     
+    /**
+     * Creates a new CubeHash384_Selector.
+     */
+    public CubeHash384_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new HashMap<>(2); // ceil(1/0.75)

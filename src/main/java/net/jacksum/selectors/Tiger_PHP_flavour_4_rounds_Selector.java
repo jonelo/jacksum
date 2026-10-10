@@ -31,6 +31,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * Selects the implementation(s) of the algorithms PHP's tiger192,4, tiger160,4, and tiger128,4.
  *
  * @author Johann N. Löfflmann
  */
@@ -39,6 +40,12 @@ public class Tiger_PHP_flavour_4_rounds_Selector extends Selector {
     private static final String ID_160_4 = "tiger-160-4-php";
     private static final String ID_128_4 = "tiger-128-4-php";
     
+    /**
+     * Creates a new selector for the algorithms PHP's tiger192,4, tiger160,4, and tiger128,4.
+     */
+    public Tiger_PHP_flavour_4_rounds_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(4); // ceil(3/0.75)

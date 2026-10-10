@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDCryptohashSphlib3;
 
 /**
+ * Selects the implementation(s) of the algorithm Luffa-256.
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class Luffa256_Selector extends Selector {
 
     private static final String ID = "luffa256";
     
+    /**
+     * Creates a new {@code Luffa256_Selector}.
+     */
+    public Luffa256_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

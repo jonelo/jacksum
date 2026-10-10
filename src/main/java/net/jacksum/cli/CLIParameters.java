@@ -42,139 +42,270 @@ public class CLIParameters {
 
     String[] args;
 
+    /** Long form of the option that selects the algorithm(s). */
     public static final String __ALGORITHM = "--algorithm";
+    /** Short form of the option that selects the algorithm(s). */
     public static final String _ALGORITHM = "-a";
+    /** Short form of the option that selects the alternate implementation of an algorithm. */
     public static final String _ALTERNATIVE = "-A";
+    /** Long form of the option that selects the alternate implementation of an algorithm. */
     public static final String __ALTERNATIVE = "--alternative";
+    /** Option that prints absolute paths. */
     public static final String __PATH_ABSOLUTE = "--path-absolute";
+    /** Alternative long form of the option that prints absolute paths. */
     public static final String __ABSOLUTE = "--absolute";
+    /** Option that prints paths relative to a given path. */
     public static final String __PATH_RELATIVE_TO = "--path-relative-to";
+    /** Alternative long form of the option that prints paths relative to a given path. */
     public static final String __RELATIVE_TO = "--relative-to";
+    /** Option that prints paths relative to an entry of the file list. */
     public static final String __PATH_RELATIVE_TO_ENTRY = "--path-relative-to-entry";
+    /** Alternative long form of the option that prints paths relative to an entry of the file list. */
     public static final String __RELATIVE_TO_ENTRY = "--relative-to-entry";
+    /** Short form of the option that sets UTF-8 as the character set of both stdout and stderr. */
     public static final String _UTF8 = "-8";
+    /** Long form of the option that sets UTF-8 as the character set of both stdout and stderr. */
     public static final String __UTF8 = "--utf8";
+    /** Option that prints the copyright information. */
     public static final String __COPYRIGHT = "--copyright";
+    /** Option that prints the license. */
     public static final String __LICENSE = "--license";
+    /** Option that prints a header as a comment. */
     public static final String __HEADER = "--header";
+    /** Option that suppresses the header. */
     public static final String __NO_HEADER = "--no-header";
+    /** Short form of the option that verifies files against a check file. */
     public static final String _CHECK_FILE = "-c";
+    /** Long form of the option that verifies files against a check file. */
     public static final String __CHECK_FILE = "--check-file";
+    /** Option that verifies files against a check line given on the command line. */
     public static final String __CHECK_LINE = "--check-line";
+    /** Option that exits with a non-zero status if the check file contains invalid lines. */
     public static final String __CHECK_STRICT = "--check-strict";
+    /** Short form of the option that sets the compatibility style. */
     public static final String _COMPAT = "-C";
+    /** Long form of the option that sets the compatibility style. */
     public static final String __COMPAT = "--compat";
+    /** Alternative long form of the option that sets the compatibility style. */
     public static final String __STYLE = "--style";
+    /** Option that adds a Byte-Order Mark (BOM) to the output. */
     public static final String __BOM = "--bom";
+    /** Short form of the option that does not follow symbolic links to directories. */
     public static final String _DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES = "-d";
+    /** Long form of the option that does not follow symbolic links to directories. */
     public static final String __DONT_FOLLOW_SYMLINKS_TO_DIRECTORIES = "--dont-follow-symlinks-to-directories";
+    /** Option that searches the help for an exact match rather than for a prefix. */
     public static final String __EXACT = "--exact";
+    /** Short form of the option that sets the expected hash value. */
     public static final String _EXPECT_HASH = "-e";
+    /** Long form of the option that sets the expected hash value. */
     public static final String __EXPECT_HASH = "--expect-hash";
+    /** Alternative long form of the option that sets the expected hash value. */
     public static final String __EXPECT = "--expect";
+    /** Short form of the option that sets the encoding of the hash value and of the sequence. */
     public static final String _ENCODING = "-E";
+    /** Long form of the option that sets the encoding of the hash value and of the sequence. */
     public static final String __ENCODING = "--encoding";
+    /** Short form of the option that does not follow symbolic links to files. */
     public static final String _DONT_FOLLOW_SYMLINKS_TO_FILES = "-f";
+    /** Long form of the option that does not follow symbolic links to files. */
     public static final String __DONT_FOLLOW_SYMLINKS_TO_FILES = "--dont-follow-symlinks-to-files";
+    /** Option that controls whether the file size is printed. */
     public static final String __FILESIZE = "--filesize";
+    /** Option that controls the GNU filename escaping. */
     public static final String __GNU_FILENAME_ESCAPING = "--gnu-filename-escaping";
+    /** Short form of the option that sets a customized output format. */
     public static final String _FORMAT = "-F";
+    /** Long form of the option that sets a customized output format. */
     public static final String __FORMAT = "--format";
+    /** Short form of the option that groups the bytes of the hex output. */
     public static final String _GROUP_BYTES = "-g";
+    /** Long form of the option that groups the bytes of the hex output. */
     public static final String __GROUP_BYTES = "--group-bytes";
+    /** Short form of the option that sets the separator for byte groups. */
     public static final String _GROUP_BYTES_SEPARATOR = "-G";
+    /** Long form of the option that sets the separator for byte groups. */
     public static final String __GROUP_BYTES_SEPARATOR = "--group-bytes-separator";
+    /** Short form of the option that prints the help. */
     public static final String _HELP = "-h";
+    /** Long form of the option that prints the help. */
     public static final String __HELP = "--help";
+    /** Option that prints all algorithms that support HMAC. */
     public static final String __HMACS = "--hmacs";
+    /** Option that forces the information mode. */
     public static final String __INFO = "--info";
+    /** Short form of the option that ignores lines of a list that start with a given string. */
     public static final String _IGNORE_LINES_STARTING_WITH_STRING = "-I";
+    /** Long form of the option that ignores lines of a list that start with a given string. */
     public static final String __IGNORE_LINES_STARTING_WITH_STRING = "--ignore-lines-starting-with-string";
+    /** Option that ignores empty lines of the string list. */
     public static final String __IGNORE_EMPTY_LINES = "--ignore-empty-lines";
+    /** Option that ignores hash values during a check. */
     public static final String __IGNORE_HASHES = "--ignore-hashes";
+    /** Option that ignores file sizes during a check. */
     public static final String __IGNORE_SIZES = "--ignore-sizes";
+    /** Option that ignores timestamps during a check. */
     public static final String __IGNORE_TIMESTAMPS = "--ignore-timestamps";
+    /** Short form of the option that sets the secret key for HMAC. */
     public static final String _KEY = "-k";
+    /** Long form of the option that sets the secret key for HMAC. */
     public static final String __KEY = "--key";
+    /** Short form of the option that enables the list view. */
     public static final String _LIST = "-l";
+    /** Long form of the option that enables the list view. */
     public static final String __LIST = "--list";
+    /** Option that filters the output of the check mode. */
     public static final String __LIST_FILTER = "--list-filter";
+    /** Alternative long form of the option that filters the output of the options -w and -e. */
     public static final String __WANTED_LIST_FILTER = "--wanted-list-filter";
+    /** Option that filters the output of the options -w and -e. */
     public static final String __MATCH_FILTER = "--match-filter";
+    /** Option that names the standard input stream "-" rather than "&lt;stdin&gt;". */
     public static final String __LEGACY_STDIN_NAME = "--legacy-stdin-name";
+    /** Short form of the option that processes the files that are listed in a file list. */
     public static final String _FILE_LIST = "-L";
+    /** Long form of the option that processes the files that are listed in a file list. */
     public static final String __FILE_LIST = "--file-list";
+    /** Option that sets the format of the file list. */
     public static final String __FILE_LIST_FORMAT = "--file-list-format";
+    /** Option that prints file names without path information. */
     public static final String __NO_PATH = "--no-path";
+    /** Short form of the option that writes the output to a file. */
     public static final String _OUTPUT_FILE = "-o";
+    /** Long form of the option that writes the output to a file. */
     public static final String __OUTPUT_FILE = "--output-file";
+    /** Short form of the option that writes the output to a file and overwrites an existing file. */
     public static final String _OUTPUT_FILE_OVERWRITE = "-O";
+    /** Long form of the option that writes the output to a file and overwrites an existing file. */
     public static final String __OUTPUT_FILE_OVERWRITE = "--output-file-overwrite";
+    /** Option that replaces tokens in the name of the output file. */
     public static final String __OUTPUT_FILE_REPLACE_TOKENS = "--output-file-replace-tokens";
+    /** Short form of the option that sets the path separator character. */
     public static final String _PATH_SEPARATOR = "-P";
+    /** Long form of the option that sets the path separator character. */
     public static final String __PATH_SEPARATOR = "--path-separator";
+    /** Short form of the option that processes a sequence quickly and quits. */
     public static final String _QUICK = "-q";
+    /** Long form of the option that processes a sequence quickly and quits. */
     public static final String __QUICK = "--quick";
+    /** Short form of the option that processes subdirectories recursively. */
     public static final String _RECURSIVE = "-r";
+    /** Long form of the option that processes subdirectories recursively. */
     public static final String __RECURSIVE = "--recursive";
+    /** Option that scans all Unix file types, not only regular files. */
     public static final String __SCAN_ALL_UNIX_FILE_TYPES = "--scan-all-unix-file-types";
+    /** Option that scans NTFS Alternate Data Streams. */
     public static final String __SCAN_NTFS_ADS = "--scan-ntfs-ads";
+    /** Short form of the option that sets a custom separator string. */
     public static final String _SEPARATOR = "-s";
+    /** Long form of the option that sets a custom separator string. */
     public static final String __SEPARATOR = "--separator";
+    /** Option that activates the string list mode. */
     public static final String __STRING_LIST = "--string-list";
     // the special value that -r, --threads-hashing and --threads-reading accept
     // instead of a number; it is compared without regard to case, because no
     // number can be confused with it
+    /** The special value that {@code -r}, {@code --threads-hashing} and {@code --threads-reading} accept instead of a number. */
     public static final String MAX = "max";
+    /** Option that sets the number of threads for hashing. */
     public static final String __THREADS_HASHING = "--threads-hashing";
+    /** Option that sets the number of threads for reading. */
     public static final String __THREADS_READING =  "--threads-reading";
+    /** Short form of the option that sets the timestamp format. */
     public static final String _TIMESTAMP = "-t";
+    /** Long form of the option that sets the timestamp format. */
     public static final String __TIMESTAMP = "--timestamp";
+    /** Short form of the option that writes the error messages to a file. */
     public static final String _ERROR_FILE = "-u";
+    /** Long form of the option that writes the error messages to a file. */
     public static final String __ERROR_FILE = "--error-file";
+    /** Short form of the option that writes the error messages to a file and overwrites an existing file. */
     public static final String _ERROR_FILE_OVERWRITE = "-U";
+    /** Long form of the option that writes the error messages to a file and overwrites an existing file. */
     public static final String __ERROR_FILE_OVERWRITE = "--error-file-overwrite";
+    /** Short form of the option that prints the product name and version. */
     public static final String _VERSION = "-v";
+    /** Long form of the option that prints the product name and version. */
     public static final String __VERSION = "--version";
+    /** Short form of the option that sets the verbose controls. */
     public static final String _VERBOSE = "-V";
+    /** Long form of the option that sets the verbose controls. */
     public static final String __VERBOSE = "--verbose";
+    /** Short form of the option that sets the list of wanted hash values. */
     public static final String _WANTED_LIST = "-w";
+    /** Long form of the option that sets the list of wanted hash values. */
     public static final String __WANTED_LIST = "--wanted-list";
+    /** Short form of the option that selects lowercase hex encoding. */
     public static final String _HEX_LOWERCASE = "-x";
+    /** Long form of the option that selects lowercase hex encoding. */
     public static final String __HEX_LOWERCASE = "--hex-lowercase";
+    /** Short form of the option that selects uppercase hex encoding. */
     public static final String _HEX_UPPERCASE = "-X";
+    /** Long form of the option that selects uppercase hex encoding. */
     public static final String __HEX_UPPERCASE = "--hex-uppercase";
+    /** Option that sets the character set of the file list. */
     public static final String __CHARSET_FILE_LIST = "--charset-file-list";
+    /** Alternative long form of the option that sets the character set of the file list. */
     public static final String __FILE_LIST_CHARSET = "--file-list-charset";
+    /** Option that sets the character set of the check file. */
     public static final String __CHARSET_CHECK_FILE = "--charset-check-file";
+    /** Alternative long form of the option that sets the character set of the check file. */
     public static final String __CHECK_FILE_CHARSET = "--check-file-charset";
+    /** Option that sets the character set of the error file. */
     public static final String __CHARSET_ERROR_FILE =  "--charset-error-file";
+    /** Alternative long form of the option that sets the character set of the error file. */
     public static final String __ERROR_FILE_CHARSET = "--error-file-charset";
+    /** Option that sets the character set of the output file. */
     public static final String __CHARSET_OUTPUT_FILE = "--charset-output-file";
+    /** Alternative long form of the option that sets the character set of the output file. */
     public static final String __OUTPUT_FILE_CHARSET = "--output-file-charset";
+    /** Option that sets the character set of the wanted list. */
     public static final String __CHARSET_WANTED_LIST = "--charset-wanted-list";
+    /** Alternative long form of the option that sets the character set of the wanted list. */
     public static final String __WANTED_LIST_CHARSET = "--wanted-list-charset";
 
+    /** Option that sets the character set of the string list. */
     public static final String __CHARSET_STRING_LIST = "--charset-string-list";
+    /** Alternative long form of the option that sets the character set of the string list. */
     public static final String __STRING_LIST_CHARSET = "--string-list-charset";
+    /** Option that sets the character set of the console. */
     public static final String __CHARSET_CONSOLE = "--charset-console";
+    /** Alternative long form of the option that sets the character set of the console. */
     public static final String __CONSOLE_CHARSET = "--console-charset";
 
+    /** Option that sets the character set of the standard output stream. */
     public static final String __CHARSET_STDOUT = "--charset-stdout";
+    /** Alternative long form of the option that sets the character set of the standard output stream. */
     public static final String __STDOUT_CHARSET = "--stdout-charset";
+    /** Option that sets the character set of the standard error stream. */
     public static final String __CHARSET_STDERR = "--charset-stderr";
+    /** Alternative long form of the option that sets the character set of the standard error stream. */
     public static final String __STDERR_CHARSET = "--stderr-charset";
 
+    /** The single dash, which stands for the standard input stream if it is given as a file name. */
     public static final String DASH = "-";
+    /** The double dash, which marks the end of the options. */
     public static final String DASHDASH = "--";
+    /** The default language of the help. */
     public static final String HELP_DEFAULT_LANGUAGE = "en";
+    /** The languages that the help is available in. */
     public static final Set<String> HELP_LANGUAGES = Set.of("en", "de");
 
 
+    /**
+     * Creates a new CLIParameters object for the given command line arguments.
+     *
+     * @param args the command line arguments
+     */
     public CLIParameters(String[] args) {
         this.args = args;
     }
 
+    /**
+     * Returns the command line arguments.
+     *
+     * @return the command line arguments
+     */
     public String[] getArgs() {
         return args;
     }

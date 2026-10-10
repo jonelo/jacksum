@@ -26,14 +26,23 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * Statistics that count the total number of bytes read.
  *
  * @author Johann
  */
 public class StatisticsBytes extends Statistics {
 
     private long bytes = 0;
+
+    /**
+     * Creates a new {@code StatisticsBytes} with the byte counter set to zero.
+     */
+    public StatisticsBytes() {
+    }
     
     /**
+     * Gets the number of bytes that have been read.
+     *
      * @return the bytes
      */
     public long getBytes() {
@@ -41,12 +50,19 @@ public class StatisticsBytes extends Statistics {
     }
 
     /**
+     * Sets the number of bytes that have been read.
+     *
      * @param bytes the bytes to set
      */
     public void setBytes(long bytes) {
         this.bytes = bytes;
     }
 
+    /**
+     * Adds a number of bytes to the counter.
+     *
+     * @param bytes the number of bytes to add
+     */
     public void addBytes(long bytes) {
         this.bytes += bytes;
     }

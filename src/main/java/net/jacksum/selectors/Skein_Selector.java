@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.SkeinWrapper;
 
 /**
+ * Selects the implementation(s) of the algorithms Skein-256-n, Skein-512-n, and Skein-1024-n (n from 8 to 256, 512, or 1024 in steps of 8).
  *
  * @author johann
  */
@@ -38,6 +39,12 @@ public class Skein_Selector extends Selector {
     final static String SKEIN_512 = "skein-512";
     final static String SKEIN_1024 = "skein-1024";
     
+    /**
+     * Creates a new {@code Skein_Selector}.
+     */
+    public Skein_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(300); // (32+64+128)/0.75=298.66

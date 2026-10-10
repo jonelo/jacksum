@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
+ * Selects the implementation(s) of the algorithm Keccak-224.
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class Keccak224_Selector extends Selector {
 
     private static final String ID = "keccak224";
     
+    /**
+     * Creates a new Keccak224_Selector.
+     */
+    public Keccak224_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

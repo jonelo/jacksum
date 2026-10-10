@@ -31,10 +31,16 @@ import net.jacksum.algorithms.checksums.Fnv0_64;
 import net.jacksum.algorithms.checksums.Fnv0_n;
 
 /**
- *
+ * Selects the implementation(s) of the algorithms FNV-0 (32, 64, 128, 256, 512, and 1024 bits).
  * @author johann
  */
 public class FNV0_Selector extends Selector {
+
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public FNV0_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

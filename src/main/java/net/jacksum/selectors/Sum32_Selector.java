@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Sum32;
 
 /**
+ * Selects the implementation(s) of the algorithm sum 32.
  *
  * @author johann
  */
 public class Sum32_Selector extends Selector {
 
     private static final String ID = "sum32";
+
+    /**
+     * Creates a new {@code Sum32_Selector}.
+     */
+    public Sum32_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

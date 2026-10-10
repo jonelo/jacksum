@@ -47,6 +47,12 @@ public class FindKnownCRC implements FindAlgoEngine {
     int searched;
     int found;
 
+    /**
+     * Creates a new FindKnownCRC.
+     *
+     * @param parameters the parameters that provide the input sequence, the expected
+     *                   hash value, and the verbosity
+     */
     public FindKnownCRC(Parameters parameters) {
         this.parameters = parameters;
     }

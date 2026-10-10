@@ -30,7 +30,7 @@ import net.jacksum.algorithms.wrappers.Blake3Wrapper;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
- *
+ * Selects the implementation(s) of the algorithm Xoodyak.
  * @author johann
  */
 public class Xoodyak_Selector extends Selector {
@@ -38,6 +38,12 @@ public class Xoodyak_Selector extends Selector {
     private final static String ID = "xoodyak";
     private static Map<String, String> algos;
     private static Map<String, String> aliases;
+
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public Xoodyak_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

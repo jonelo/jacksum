@@ -32,24 +32,42 @@ import java.util.Map;
  */
 public enum Encoding {
 
+    /** Binary. */
     BIN("bin", "Binary"),
+    /** Decimal. */
     DEC("dec", "Decimal"),
+    /** Octal. */
     OCT("oct", "Octal"),
+    /** Hexadecimal, lowercase. */
     HEX("hex", "Hexadecimal (lowercase)"),
+    /** Hexadecimal, uppercase. */
     HEX_UPPERCASE("hex-uppercase", "Hexadecimal (uppercase)"),
+    /** Base16 (RFC 4648). */
     BASE16("base16", "Base16"),
+    /** Base32 (RFC 4648). */
     BASE32("base32", "Base32"),
+    /** Base32 (RFC 4648) without padding. */
     BASE32_NOPADDING("base32-nopadding", "Base32 (no padding)"),
+    /** Base32hex, Base32 with the extended hex alphabet (RFC 4648). */
     BASE32HEX("base32hex", "Base32hex"),
+    /** Base32hex (RFC 4648) without padding. */
     BASE32HEX_NOPADDING("base32hex-nopadding", "Base32hex (no padding)"),
+    /** Base64 (RFC 4648). */
     BASE64("base64", "Base64"),
+    /** Base64 (RFC 4648) without padding. */
     BASE64_NOPADDING("base64-nopadding", "Base64 (no padding)"),
+    /** Base64 with the URL and filename safe alphabet (RFC 4648). */
     BASE64URL("base64url", "Base64 for URL"),
+    /** Base64 with the URL and filename safe alphabet (RFC 4648) without padding. */
     BASE64URL_NOPADDING("base64url-nopadding", "Base64 for URL (no padding)"),
+    /** BubbleBabble. */
     BUBBLEBABBLE("bubblebabble", "BubbleBabble"),
+    /** z-base-32. */
     ZBASE32("z-base-32", "z-base-32"),
+    /** Z85 (ZeroMQ Base-85). */
     Z85("z85", "Z85"),
 
+    /** Decimal, fixed size with leading zeros. */
     DEC_FIXED_SIZE_WITH_LEADING_ZEROS("dec-fixed-size-with-leading-zeros", "Decimal, fixed size with leading zeros");
 
     private final String code;

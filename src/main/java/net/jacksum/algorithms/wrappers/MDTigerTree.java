@@ -37,6 +37,12 @@ public class MDTigerTree extends AbstractChecksum {
     private boolean virgin = true;
     private byte[] digest = null;
 
+    /**
+     * Creates a new TigerTree instance.
+     *
+     * @param arg the algorithm name passed to the underlying TigerTree implementation
+     * @throws NoSuchAlgorithmException if the algorithm is not supported
+     */
     public MDTigerTree(String arg) throws NoSuchAlgorithmException {
         // value=0; we don't use value, we use md
         length = 0;

@@ -29,13 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
- *
+ * Selects the implementation(s) of the algorithm PHOTON-Beetle Hash.
  * @author johann
  */
 public class PhotonBeetle_Selector extends Selector {
 
     private final static String ID = "photon-beetle";
     private static Map<String, String> algos;
+
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public PhotonBeetle_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

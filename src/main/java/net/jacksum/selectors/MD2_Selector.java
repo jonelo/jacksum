@@ -30,6 +30,7 @@ import net.jacksum.algorithms.wrappers.MD;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithm MD2.
  *
  * @author johann
  */
@@ -38,6 +39,12 @@ public class MD2_Selector extends Selector {
     
     private static final String ID = "md2";
     
+    /**
+     * Creates a new MD2_Selector.
+     */
+    public MD2_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

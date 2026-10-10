@@ -19,31 +19,73 @@
 
 package net.jacksum.actions.info.algo;
 
+/**
+ * Holds the result of an avalanche test of an algorithm: the minimum, maximum, and average
+ * Hamming distances between the hash of a message and the hashes of the message with a
+ * single flipped bit, each as a percentage of the hash bits.
+ */
 public class AvalancheInfo {
+
+    /**
+     * Creates a new AvalancheInfo with all values set to 0.0.
+     */
+    public AvalancheInfo() {
+    }
+
+    /**
+     * Gets the minimum Hamming distance in percent of the hash bits.
+     *
+     * @return the minimum Hamming distance in percent
+     */
     public double getHammingDistanceMin() {
         return hammingDistanceMin;
     }
 
+    /**
+     * Sets the minimum Hamming distance in percent of the hash bits.
+     *
+     * @param hammingDistanceMin the minimum Hamming distance in percent
+     */
     public void setHammingDistanceMin(double hammingDistanceMin) {
         this.hammingDistanceMin = hammingDistanceMin;
     }
 
     private double hammingDistanceMin = 0.0;
 
+    /**
+     * Gets the maximum Hamming distance in percent of the hash bits.
+     *
+     * @return the maximum Hamming distance in percent
+     */
     public double getHammingDistanceMax() {
         return hammingDistanceMax;
     }
 
+    /**
+     * Sets the maximum Hamming distance in percent of the hash bits.
+     *
+     * @param hammingDistanceMax the maximum Hamming distance in percent
+     */
     public void setHammingDistanceMax(double hammingDistanceMax) {
         this.hammingDistanceMax = hammingDistanceMax;
     }
 
     private double hammingDistanceMax = 0.0;
 
+    /**
+     * Gets the average Hamming distance in percent of the hash bits.
+     *
+     * @return the average Hamming distance in percent
+     */
     public double getHammingDistanceAvg() {
         return hammingDistanceAvg;
     }
 
+    /**
+     * Sets the average Hamming distance in percent of the hash bits.
+     *
+     * @param hammingDistanceAvg the average Hamming distance in percent
+     */
     public void setHammingDistanceAvg(double hammingDistanceAvg) {
         this.hammingDistanceAvg = hammingDistanceAvg;
     }

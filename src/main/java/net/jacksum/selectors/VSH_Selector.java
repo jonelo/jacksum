@@ -30,6 +30,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDflexiprovider;
 
 /**
+ * Selects the implementation(s) of the algorithm VSH-1024 (Very Smooth Hash).
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class VSH_Selector extends Selector {
 
     private static final String ID = "vsh";
     
+    /**
+     * Creates a new VSH_Selector.
+     */
+    public VSH_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

@@ -30,6 +30,7 @@ import net.jacksum.algorithms.crcs.CRC16;
 import net.jacksum.algorithms.crcs.CrcGeneric;
 
 /**
+ * Selects the implementation(s) of the algorithm CRC-16 (LHA/ARC).
  *
  * @author Johann N. Löfflmann
  */
@@ -50,6 +51,12 @@ public class CRC16_Selector extends Selector {
         availableAliases.put(ALIAS, ID);
     }
     
+
+    /**
+     * Creates a new CRC16_Selector.
+     */
+    public CRC16_Selector() {
+    }
 
     @Override
     public AbstractChecksum getPrimaryImplementation() throws NoSuchAlgorithmException {

@@ -23,6 +23,9 @@
 
 package net.jacksum.parameters;
 
+/**
+ * Signals that a parameter specified by the user is invalid or cannot be used.
+ */
 public class ParameterException extends Exception {
 
     /**

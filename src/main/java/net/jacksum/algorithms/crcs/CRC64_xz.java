@@ -26,8 +26,16 @@ package net.jacksum.algorithms.crcs;
 import java.security.NoSuchAlgorithmException;
 import net.jacksum.formats.Encoding;
 
+/**
+ * The CRC-64 as used by xz (CRC-64/XZ, also known as CRC-64/GO-ECMA).
+ */
 public class CRC64_xz extends CrcGeneric {
 
+    /**
+     * Creates a new CRC64_xz instance.
+     *
+     * @throws NoSuchAlgorithmException if the CRC parameters are invalid
+     */
     public CRC64_xz() throws NoSuchAlgorithmException {
         super(64, 0x42f0e1eba9ea3693L, 0xffffffffffffffffL, true, true, 0xffffffffffffffffL);
         formatPreferences.setHashEncoding(Encoding.HEX);

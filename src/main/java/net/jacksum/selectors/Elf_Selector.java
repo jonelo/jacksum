@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.checksums.Elf;
 
 /**
+ * Selects the implementation(s) of the algorithm ELF (Unix).
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class Elf_Selector extends Selector {
 
     private static final String ID = "elf";
     
+    /**
+     * Creates a new Elf_Selector.
+     */
+    public Elf_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

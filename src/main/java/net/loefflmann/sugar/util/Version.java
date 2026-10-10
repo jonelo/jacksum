@@ -27,22 +27,46 @@ package net.loefflmann.sugar.util;
 import java.util.StringTokenizer;
 
 
+/**
+ * A version number consisting of a major, a sub, and a minor number, e.g.
+ * {@code 3.8.0}. Versions are compared numerically.
+ */
 public class Version implements Comparable<Version> {
     private int
             major,
             sub,
             minor;
 
+    /**
+     * Creates a new version with a minor number of 0.
+     *
+     * @param major the major number
+     * @param sub the sub number
+     */
     public Version(int major, int sub) {
         this(major, sub, 0);
     }
 
+    /**
+     * Creates a new version.
+     *
+     * @param major the major number
+     * @param sub the sub number
+     * @param minor the minor number
+     */
     public Version(int major, int sub, int minor) {
         this.major = major;
         this.sub = sub;
         this.minor = minor;
     }
 
+    /**
+     * Creates a new version by parsing a string of the form
+     * {@code major[.sub[.minor]]}. Missing numbers are set to 0.
+     *
+     * @param version the version string
+     * @throws NumberFormatException if a part of the string is not an integer
+     */
     public Version(String version) {
         major = 0;
         sub = 0;
@@ -64,14 +88,29 @@ public class Version implements Comparable<Version> {
         return sb.toString();
     }
 
+    /**
+     * Returns the major number.
+     *
+     * @return the major number
+     */
     public int getMajor() {
         return major;
     }
 
+    /**
+     * Returns the sub number.
+     *
+     * @return the sub number
+     */
     public int getSub() {
         return sub;
     }
 
+    /**
+     * Returns the minor number.
+     *
+     * @return the minor number
+     */
     public int getMinor() {
         return minor;
     }

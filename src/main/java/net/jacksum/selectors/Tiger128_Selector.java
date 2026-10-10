@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithm Tiger/128.
  *
  * @author johann
  */
 public class Tiger128_Selector extends Selector {
 
     private static final String ID = "tiger128";
+
+    /**
+     * Creates a new Tiger128_Selector.
+     */
+    public Tiger128_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

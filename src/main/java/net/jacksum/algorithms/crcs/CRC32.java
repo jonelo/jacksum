@@ -30,10 +30,17 @@ package net.jacksum.algorithms.crcs;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
+/**
+ * A class that can be used to compute the CRC32 of a data stream.
+ * This implementation uses the class java.util.zip.CRC32 from the Java Standard API.
+ */
 public class CRC32 extends AbstractChecksum implements CrcInfo {
 
     private final java.util.zip.CRC32 crc32;
 
+    /**
+     * Creates a new CRC32 instance.
+     */
     public CRC32() {
         super();
         formatPreferences.setHashEncoding(Encoding.DEC);

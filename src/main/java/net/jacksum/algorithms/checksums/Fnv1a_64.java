@@ -23,8 +23,15 @@
 
 package net.jacksum.algorithms.checksums;
 
+/**
+ * Computes the 64 bit Fowler-Noll-Vo hash FNV-1a, which XORs each byte
+ * into the hash before multiplying by the FNV prime.
+ */
 public class Fnv1a_64 extends Fnv1_64 {
 
+    /**
+     * Creates a new FNV-1a (64 bit) instance.
+     */
     public Fnv1a_64() {
         super();
         bitWidth = 64;

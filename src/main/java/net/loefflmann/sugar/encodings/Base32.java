@@ -44,32 +44,47 @@ import java.io.*;
  */
 public class Base32 {
 
+    /**
+     * The alphabets that are supported (RFC 4648), each followed by the padding character.
+     */
     public static class Alphabet {
 
         private Alphabet() {
         }
 
+        /** The base32 alphabet (RFC 4648, section 6). */
         public static final String BASE32
                 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=";
+        /** The base32hex alphabet, the "Extended Hex" alphabet (RFC 4648, section 7). */
         public static final String BASE32HEX
                 = "0123456789ABCDEFGHIJKLMNOPQRSTUV=";
     }
 
+    /**
+     * Constants that specify whether padding should be used.
+     */
     public static class Padding {
 
         private Padding() {
         }
 
+        /** Padding with '=' is used. */
         public static final boolean PADDING = true;
+        /** No padding is used. */
         public static final boolean NO_PADDING = false;
     }
 
+    /**
+     * Constants that specify whether lowercase or uppercase characters should be used.
+     */
     public static class UpperLower {
 
         private UpperLower() {
         }
 
+        /** Lowercase characters are used. */
         public static final boolean LOWERCASE = true;
+        /** Uppercase characters are used. */
         public static final boolean UPPERCASE = false;
     }
 
@@ -96,14 +111,30 @@ public class Base32 {
         this.lowercase = lowercase;
     }
 
+    /**
+     * Creates an object that can be used to do base32 conversions with uppercase characters.
+     *
+     * @param alphabet Which alphabet should be used
+     * @param padding Whether padding should be used
+     */
     public Base32(String alphabet, boolean padding) {
         this(alphabet, padding, UpperLower.UPPERCASE);
     }
 
+    /**
+     * Creates an object that can be used to do base32 conversions with padding and
+     * uppercase characters.
+     *
+     * @param alphabet Which alphabet should be used
+     */
     public Base32(String alphabet) {
         this(alphabet, Padding.PADDING, UpperLower.UPPERCASE);
     }
 
+    /**
+     * Creates an object that can be used to do base32 conversions with the standard base32
+     * alphabet, padding, and uppercase characters.
+     */
     public Base32() {
         this(Alphabet.BASE32, Padding.PADDING, UpperLower.UPPERCASE);
     }
@@ -296,6 +327,12 @@ public class Base32 {
         return String.format("alphabet=%s padding=%s lowercase=%s", alphabet, padding, lowercase);
     }
 
+    /**
+     * Encodes and decodes the first argument with all combinations of alphabet and padding
+     * and prints the results to standard output.
+     *
+     * @param args the command line arguments, the first one is the string to be encoded
+     */
     public static void main(String[] args) {
 
         if (args.length == 0) {

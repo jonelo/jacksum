@@ -25,8 +25,15 @@ package net.jacksum.algorithms.checksums;
 
 import net.jacksum.formats.Encoding;
 
+/**
+ * The BSD sum algorithm with the output format of the sum command on Minix: the checksum in
+ * decimal without leading zeros, and the size in 512-byte blocks.
+ */
 public class SumBSD_Minix extends SumBSD {
     
+    /**
+     * Creates a new BSD sum with the output format of Minix.
+     */
     public SumBSD_Minix() {
         super();
         formatPreferences.setHashEncoding(Encoding.DEC); // no leading zeros for the sum on Minix

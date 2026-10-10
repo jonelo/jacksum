@@ -28,6 +28,10 @@ import java.util.Map;
 import net.jacksum.actions.io.verify.ListFilter;
 
 
+/**
+ * Statistics on files that have been checked against a check file: the
+ * number of matches, mismatches, new files, missing files, and files with errors.
+ */
 public class StatisticsOnCheckedFiles extends CommonHashStatistics {
 
     private long matches;
@@ -37,6 +41,12 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     private long filesWithErrors;
 
     private ListFilter listFilter;
+
+    /**
+     * Creates a new StatisticsOnCheckedFiles.
+     */
+    public StatisticsOnCheckedFiles() {
+    }
 
     @Override
     public Map<String, Object> build() {
@@ -75,6 +85,8 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Returns the number of files that could not be verified.
+     *
      * @return the number of files that are listed in the check file and that exist, but that
      * could not be verified
      */
@@ -83,6 +95,8 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Sets the number of files that could not be verified.
+     *
      * @param filesWithErrors the number of files that could not be verified
      */
     public void setFilesWithErrors(long filesWithErrors) {
@@ -90,6 +104,8 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Returns the number of files that are listed in the check file, but that do not exist.
+     *
      * @return the removedFiles
      */
     public long getMissingFiles() {
@@ -97,6 +113,8 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Sets the number of files that are listed in the check file, but that do not exist.
+     *
      * @param missingFiles the removedFiles to set
      */
     public void setMissingFiles(long missingFiles) {
@@ -104,6 +122,8 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Returns the number of files that are not listed in the check file.
+     *
      * @return the newFiles
      */
     public long getNewFiles() {
@@ -111,6 +131,8 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Sets the number of files that are not listed in the check file.
+     *
      * @param newFiles the newFiles to set
      */
     public void setNewFiles(long newFiles) {
@@ -118,6 +140,8 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Returns the number of files whose verification succeeded.
+     *
      * @return the okCount
      */
     public long getMatches() {
@@ -125,6 +149,8 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Sets the number of files whose verification succeeded.
+     *
      * @param matches the okCount to set
      */
     public void setMatches(long matches) {
@@ -132,6 +158,8 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Returns the number of files whose verification failed.
+     *
      * @return the mismatchCount
      */
     public long getMismatches() {
@@ -139,6 +167,8 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Sets the number of files whose verification failed.
+     *
      * @param mismatches the mismatchCount to set
      */
     public void setMismatches(long mismatches) {
@@ -147,6 +177,8 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     
 
     /**
+     * Returns the filter that controls which statuses are reported.
+     *
      * @return the listFilter
      */
     public ListFilter getListFilter() {
@@ -154,6 +186,8 @@ public class StatisticsOnCheckedFiles extends CommonHashStatistics {
     }
 
     /**
+     * Sets the filter that controls which statuses are reported.
+     *
      * @param listFilter the listFilter to set
      */
     public void setListFilter(ListFilter listFilter) {

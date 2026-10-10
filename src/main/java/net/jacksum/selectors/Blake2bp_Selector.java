@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.Blake2bpWrapper;
 
 /**
+ * Selects the implementation(s) of the algorithm BLAKE2bp.
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class Blake2bp_Selector extends Selector {
 
     private static Map<String, String> algos;
     private static Map<String, String> aliases;
+
+    /**
+     * Creates a new {@code Blake2bp_Selector}.
+     */
+    public Blake2bp_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

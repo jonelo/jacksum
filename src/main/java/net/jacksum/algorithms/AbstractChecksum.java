@@ -42,12 +42,18 @@ import net.jacksum.parameters.combined.ChecksumParameters;
  */
 abstract public class AbstractChecksum implements Checksum {
 
+    /** The size of the buffer in bytes that is used for reading files and standard input. */
     public final static int BUFFERSIZE = 64 * 1024; //65536; // 64 KiB
 
+    /** The number of bytes processed so far. */
     protected long length;
+    /** The name of the file whose data is processed, or null if there is none. */
     protected String filename;
+    /** The last modification time of the file in milliseconds since the epoch. */
     protected long timestamp;
+    /** Whether a timestamp is available, see {@link #isTimestampAvailable()}. */
     protected boolean timestampAvailable;
+    /** The name of the algorithm. */
     protected String name;
 
     // A second name that this instance also answers to while a format addresses a hash
@@ -57,17 +63,23 @@ abstract public class AbstractChecksum implements Checksum {
     // typed. It is null if both names are the same. See also B26 resp. the format of a
     // combination of algorithms in CombinedChecksum.
     private String nameAlias;
+    /** The width of the hash value in bits. */
     protected int bitWidth;
+    /** The block size of the algorithm in bytes. */
     protected int blocksize;
     private byte[] sequence;
 
     private boolean actualAlternateImplementationUsed;
+    /** The format preferences that are used for formatting the output. */
     protected FormatPreferences formatPreferences;
+    /** The formatter that formats the output according to the format preferences. */
     protected Formatter formatter;
 
-    // The process wide default for the name that represents the standard input stream.
-    // It is the starting point for a new instance only, a Parameters object overwrites it
-    // for its own instances, see setParameters(). Jacksum itself does not write here.
+    /**
+     * The process wide default for the name that represents the standard input stream.
+     * It is the starting point for a new instance only, a Parameters object overwrites it
+     * for its own instances, see setParameters(). Jacksum itself does not write here.
+     */
     protected static String stdinName = "<stdin>";
 
     // the name that this instance prints for the standard input stream
@@ -90,8 +102,12 @@ abstract public class AbstractChecksum implements Checksum {
         formatter = new Formatter(formatPreferences);
     }
 
-    // set the Parameters for the Checksum according to the ChecksumParameters
-    // interface. It sets the values only if they are non-default
+    /**
+     * Sets the Parameters for the Checksum according to the ChecksumParameters
+     * interface. It sets the values only if they are non-default.
+     *
+     * @param parameters the parameters
+     */
     public void setParameters(ChecksumParameters parameters) {
 //        this.checksumParameters = parameters;
         this.stdinNameForOutput = parameters.getStdinName();
@@ -106,6 +122,11 @@ abstract public class AbstractChecksum implements Checksum {
 
     }
 
+    /**
+     * Returns the format preferences that are used for formatting the output.
+     *
+     * @return the format preferences
+     */
     public FormatPreferences getFormatPreferences() {
         return formatPreferences;
     }
@@ -363,6 +384,12 @@ abstract public class AbstractChecksum implements Checksum {
         return getSize();
     }
 
+    /**
+     * Returns the checksum, formatted with the given encoding.
+     *
+     * @param encoding the encoding
+     * @return the checksum, formatted
+     */
     public String getValueFormatted(Encoding encoding) {
         return formatter.getFingerprintFormatter().format(getByteArray(), encoding);
     }
@@ -377,8 +404,13 @@ abstract public class AbstractChecksum implements Checksum {
         return formatter.getFingerprintFormatter().format(getByteArray());
     }
 
-    // with this method, the format() method can be customized
-    // useful for token-aliases such as #FINGERPRINT
+    /**
+     * Customizes the format before its tokens are replaced; with this method,
+     * the format() method can be customized. Useful for token-aliases such as
+     * #FINGERPRINT.
+     *
+     * @param format the format, which is modified in place
+     */
     public void preFormat(StringBuilder format) {
         Formatter.replaceAliases(format);
     }
@@ -398,7 +430,13 @@ abstract public class AbstractChecksum implements Checksum {
         preFormat(format);
     }
 
-    // will be triggered by the CLI option --format
+    /**
+     * Formats the result according to a format string; will be triggered by
+     * the CLI option --format.
+     *
+     * @param format the format string containing tokens such as #CHECKSUM
+     * @return the formatted result
+     */
     public String format(String format) {
         TokenValueStore store = new TokenValueStore();
         // a format must not be able to forge a placeholder of the store
@@ -446,6 +484,11 @@ abstract public class AbstractChecksum implements Checksum {
         this.timestampAvailable = true;
     }
 
+    /**
+     * Gets the timestamp.
+     *
+     * @return the last modification time of the file in milliseconds since the epoch
+     */
     public long getTimestamp() {
         return timestamp;
     }
@@ -540,6 +583,13 @@ abstract public class AbstractChecksum implements Checksum {
         return length - lengthBackup;
     }
 
+    /**
+     * Resets the algorithm and reads all data from standard input until the
+     * end of the stream is reached and updates the algorithm with it.
+     *
+     * @return the number of bytes read
+     * @throws IOException if an I/O error occurs
+     */
     public long readStdin() throws IOException {
         return readStdin(true);
     }
@@ -583,6 +633,14 @@ abstract public class AbstractChecksum implements Checksum {
         return stdinNameForOutput;
     }
 
+    /**
+     * Reads all data from standard input until the end of the stream is
+     * reached and updates the algorithm with it. Standard input is not closed.
+     *
+     * @param reset if true, the algorithm is reset before reading
+     * @return the number of bytes read
+     * @throws IOException if an I/O error occurs
+     */
     public long readStdin(boolean reset) throws IOException {
         this.filename = stdinNameForOutput;
         long lengthBackup;
@@ -607,6 +665,8 @@ abstract public class AbstractChecksum implements Checksum {
     }
 
     /**
+     * Determines whether the alternate implementation of the algorithm is used.
+     *
      * @return the actualAlternateImplementationUsed
      */
     public boolean isActualAlternateImplementationUsed() {
@@ -614,6 +674,8 @@ abstract public class AbstractChecksum implements Checksum {
     }
 
     /**
+     * Sets whether the alternate implementation of the algorithm is used.
+     *
      * @param actualAlternateImplementationUsed the
      * actualAlternateImplementationUsed to set
      */

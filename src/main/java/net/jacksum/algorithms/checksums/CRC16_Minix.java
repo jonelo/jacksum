@@ -27,10 +27,19 @@ import java.security.NoSuchAlgorithmException;
 import net.jacksum.algorithms.crcs.CrcGeneric;
 import net.jacksum.formats.Encoding;
 
+/**
+ * The CRC-16 as used by the Minix {@code crc} command, including the bug of
+ * the original Minix implementation.
+ */
 public class CRC16_Minix extends CrcGeneric {
 
     private final long[] table;
 
+    /**
+     * Creates a new CRC16_Minix instance.
+     *
+     * @throws NoSuchAlgorithmException if the underlying CRC parameters are invalid
+     */
     public CRC16_Minix() throws NoSuchAlgorithmException {
         super(16, 0x1021, 0, false, false, 0);
         table = getTable();

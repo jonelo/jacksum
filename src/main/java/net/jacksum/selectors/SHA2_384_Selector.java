@@ -30,6 +30,7 @@ import net.jacksum.algorithms.wrappers.MD;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithm SHA-384 (SHA-2 family).
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class SHA2_384_Selector extends Selector {
 
     private static final String ID = "sha-384";
     
+    /**
+     * Creates a new SHA2_384_Selector.
+     */
+    public SHA2_384_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

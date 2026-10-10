@@ -23,8 +23,14 @@
 
 package net.jacksum.algorithms.checksums;
 
+/**
+ * Computes a 48 bit checksum by summing up all bytes of the data, modulo 2^48.
+ */
 public class Sum48 extends Sum8 {
 
+    /**
+     * Creates a new sum 48 instance.
+     */
     public Sum48() {
         super();
         bitWidth = 48;

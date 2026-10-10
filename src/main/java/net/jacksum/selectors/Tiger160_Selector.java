@@ -29,12 +29,19 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
+ * Selects the implementation(s) of the algorithm Tiger/160.
  *
  * @author johann
  */
 public class Tiger160_Selector extends Selector {
 
     private static final String ID = "tiger160";
+
+    /**
+     * Creates a new Tiger160_Selector.
+     */
+    public Tiger160_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

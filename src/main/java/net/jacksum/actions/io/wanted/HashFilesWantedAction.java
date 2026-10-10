@@ -36,11 +36,20 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The action that hashes files and reports the files that match wanted hash values
+ * (a list of wanted hashes and/or an expected hash value given by option -e).
+ */
 public class HashFilesWantedAction implements Action {
 
     private final Parameters parameters;
     private MessageConsumer consumer;
 
+    /**
+     * Creates a new HashFilesWantedAction.
+     *
+     * @param parameters the parameters
+     */
     public HashFilesWantedAction(Parameters parameters) {
         this.parameters = parameters;
     }

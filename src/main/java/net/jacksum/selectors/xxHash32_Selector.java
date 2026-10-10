@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.xxHash32;
 
 /**
+ * Selects the implementation(s) of the algorithm xxHash32 (XXH32).
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class xxHash32_Selector extends Selector {
     
     private static final String ID = "xxhash32";
     
+    /**
+     * Creates a new xxHash32_Selector.
+     */
+    public xxHash32_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

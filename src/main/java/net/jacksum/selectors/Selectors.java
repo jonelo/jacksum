@@ -22,8 +22,15 @@
  */
 package net.jacksum.selectors;
 
+/**
+ * Holds the registry of all selector classes known to Jacksum.
+ */
 public class Selectors {
 
+    /**
+     * The selector classes of all supported algorithms, used to list the available
+     * algorithms (e.g. by {@code getAvailableAlgorithms()} in the HashFunctionFactory).
+     */
     public final static Class<?>[] allSupportedSelectorClasses = {
         Adler32_Selector.class,
         AsconHash_Selector.class,
@@ -199,6 +206,12 @@ public class Selectors {
         xxHash32_Selector.class
     };
 
+    /**
+     * The selector classes that are tried, in this order, to resolve an algorithm name
+     * to an implementation. The order matters: the combined checksum selector comes first,
+     * followed by HMAC and then the most popular algorithms for performance reasons; the
+     * order is also used by the brute forcer that finds algorithms.
+     */
     public final static Class<?>[] allSelectorClasses = {
         // the combined hash algorithm has to be the first in this list!
         CombinedChecksum_Selector.class,
@@ -497,4 +510,10 @@ public class Selectors {
         AllAlgorithms_Selector.class
 
     };
+
+    /**
+     * Creates a new Selectors instance.
+     */
+    public Selectors() {
+    }
 }

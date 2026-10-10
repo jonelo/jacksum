@@ -28,13 +28,22 @@ import java.util.Map;
 import net.jacksum.statistics.Statistics;
 
 
+/**
+ * Statistics of the find algorithm action: the number of algorithms tested
+ * and the number of algorithms found.
+ */
 public class FindAlgoActionStatistics extends Statistics {
 
     
     private int found = 0;
     private BigInteger searched = BigInteger.ZERO;
     
-    
+    /**
+     * Creates a new FindAlgoActionStatistics.
+     */
+    public FindAlgoActionStatistics() {
+    }
+
     @Override
     public Map<String, Object> build() {
         Map<String, Object> map = new LinkedHashMap<>();        
@@ -49,6 +58,8 @@ public class FindAlgoActionStatistics extends Statistics {
     }
 
     /**
+     * Returns the number of algorithms found.
+     *
      * @return the found
      */
     public int getFound() {
@@ -56,6 +67,8 @@ public class FindAlgoActionStatistics extends Statistics {
     }
 
     /**
+     * Sets the number of algorithms found.
+     *
      * @param found the found to set
      */
     public void setFound(int found) {
@@ -63,6 +76,8 @@ public class FindAlgoActionStatistics extends Statistics {
     }
 
     /**
+     * Returns the number of algorithms tested.
+     *
      * @return the searched
      */
     public BigInteger getSearched() {
@@ -70,6 +85,8 @@ public class FindAlgoActionStatistics extends Statistics {
     }
 
     /**
+     * Sets the number of algorithms tested.
+     *
      * @param searched the searched to set
      */
     public void setSearched(BigInteger searched) {

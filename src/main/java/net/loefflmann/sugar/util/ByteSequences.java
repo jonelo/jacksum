@@ -28,11 +28,30 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Locale;
 
+/**
+ * Provides helper methods to convert texts to byte sequences and byte sequences to
+ * texts, and to convert between numbers and byte arrays.
+ */
 public class ByteSequences {
+
+    /**
+     * Creates a new ByteSequences.
+     */
+    public ByteSequences() {
+    }
 
     private final static char[] HEX = "0123456789abcdef".toCharArray();
     private static final char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
+    /**
+     * Transforms a text that contains hex numbers, separated by commas and/or whitespace,
+     * to a byte array. Each pair of hex digits becomes one byte, a number with an odd
+     * number of digits is prefixed with a 0, and an empty value becomes a 0 byte.
+     *
+     * @param text the text with the hex numbers
+     * @return the byte array
+     * @throws IllegalArgumentException if a value is not a hex number
+     */
     public static byte[] hexText2Bytes(String text) throws IllegalArgumentException {
         if (text.length() == 0) {
             return new byte[0]; // empty byte array with 0 members
@@ -59,6 +78,15 @@ public class ByteSequences {
         return toByteArray(byteArrayList);
     }
 
+    /**
+     * Transforms a text that contains octal numbers, separated by commas and/or whitespace,
+     * to a byte array. Each number becomes one byte, an empty value becomes a 0 byte.
+     *
+     * @param text the text with the octal numbers
+     * @return the byte array
+     * @throws IllegalArgumentException if a value is not an octal number, or if it is out
+     *                                  of the range of one byte
+     */
     public static byte[] octText2Bytes(String text) throws IllegalArgumentException {
         return numberText2Bytes(text, 8, " is not an octal number.");
     }
@@ -107,6 +135,16 @@ public class ByteSequences {
     }
 
 
+    /**
+     * Transforms a text that contains binary numbers, separated by commas and/or
+     * whitespace, to a byte array. Each group of 8 bits becomes one byte, a number whose
+     * length is not a multiple of 8 is prefixed with zeros, and an empty value becomes a
+     * 0 byte.
+     *
+     * @param text the text with the binary numbers
+     * @return the byte array
+     * @throws IllegalArgumentException if a value is not a binary number
+     */
     public static byte[] binText2Bytes(String text) throws IllegalArgumentException {
         if (text.length() == 0) {
             return new byte[0]; // empty byte array with 0 members        
@@ -143,6 +181,12 @@ public class ByteSequences {
         return byteArray;
     }
 
+    /**
+     * Encodes a text to bytes using the platform's default charset.
+     *
+     * @param text the text
+     * @return the encoded bytes
+     */
     public static byte[] text2Bytes(String text) {
         return text.getBytes();
     }
@@ -169,10 +213,28 @@ public class ByteSequences {
         return GeneralString.translateEscapeSequences(text, true).getBytes(StandardCharsets.UTF_8);
     }
 
+    /**
+     * Transforms a text that contains decimal numbers, separated by commas and/or
+     * whitespace, to a byte array. Each number becomes one byte, an empty value becomes
+     * a 0 byte.
+     *
+     * @param text the text with the decimal numbers
+     * @return the byte array
+     * @throws IllegalArgumentException if a value is not a decimal number, or if it is
+     *                                  out of the range of one byte
+     */
     public static byte[] decText2Bytes(String text) throws IllegalArgumentException {
         return numberText2Bytes(text, 10, " is not a decimal number.");
     }
 
+    /**
+     * Formats a value as a lowercase hex string, left-padded with zeros to the specified
+     * number of nibbles.
+     *
+     * @param value the value
+     * @param nibbles the minimum number of hex digits
+     * @return the hex string
+     */
     public static String hexformat(long value, int nibbles) {
         StringBuilder sb = new StringBuilder(Long.toHexString(value));
         while (sb.length() < nibbles) {
@@ -181,6 +243,16 @@ public class ByteSequences {
         return sb.toString();
     }
 
+    /**
+     * Formats a value as a lowercase hex string, left-padded with zeros to the specified
+     * number of nibbles, and optionally grouped.
+     *
+     * @param value the value
+     * @param nibbles the minimum number of hex digits
+     * @param group the number of hex digits per group, or 0 for no grouping
+     * @param groupChar the character that separates the groups
+     * @return the hex string
+     */
     public static String hexformat(long value, int nibbles, int group, char groupChar) {
         StringBuffer sb = new StringBuffer(Long.toHexString(value));
         while (sb.length() < nibbles) {
@@ -222,6 +294,12 @@ public class ByteSequences {
         }
     }
 
+    /**
+     * Transforms a long to 8 bytes in big-endian order.
+     *
+     * @param l the long value
+     * @return the 8 bytes
+     */
     public static byte[] unsignedLongToBytes(long l) {
         byte[] result = new byte[Long.BYTES];
         for (int i = Long.BYTES - 1; i >= 0; i--) {
@@ -231,6 +309,12 @@ public class ByteSequences {
         return result;
     }
 
+    /**
+     * Transforms a long to 8 bytes in big-endian order.
+     *
+     * @param l the long value
+     * @return the 8 bytes
+     */
     public static byte[] signedLongToBytes(long l) {
         byte[] result = new byte[Long.BYTES];
         for (int i = Long.BYTES - 1; i >= 0; i--) {
@@ -240,14 +324,34 @@ public class ByteSequences {
         return result;
     }
 
+    /**
+     * Transforms an int to 4 bytes in big-endian order and writes them to the beginning
+     * of the array given in argument.
+     *
+     * @param i an int value
+     * @param b the byte array
+     * @throws IndexOutOfBoundsException if the array is shorter than 4 bytes
+     */
     public static void setIntInByteArray(int i, byte[] b) throws IndexOutOfBoundsException {
         setIntInByteArray(i, b, 0);
     }
 
+    /**
+     * Formats bytes as a lowercase hex string.
+     *
+     * @param bytes the bytes
+     * @return the hex string, or an empty string if bytes is null
+     */
     public static String format(byte[] bytes) {
         return format(bytes, false);
     }
 
+    /**
+     * Formats bytes as a string of bits, 8 bits per byte.
+     *
+     * @param bytes the bytes
+     * @return the bit string, or an empty string if bytes is null or empty
+     */
     public static String formatAsBits(byte[] bytes) {
         if (bytes == null || bytes.length == 0) {
             return "";
@@ -262,6 +366,14 @@ public class ByteSequences {
     }
 
 
+    /**
+     * Formats bytes as a string of exactly the specified number of bits. Surplus leading
+     * bits are cut off, missing leading bits are filled with zeros.
+     *
+     * @param bytes the bytes
+     * @param bits the number of bits
+     * @return the bit string
+     */
     public static String formatAsBits(byte[] bytes, int bits) {
         String bytesAsBits = formatAsBits(bytes);
         if (bytesAsBits.length() > bits) {
@@ -278,6 +390,15 @@ public class ByteSequences {
         return bytesAsBits; // bytesAsBits.length() == bits)
     }
 
+    /**
+     * Formats bytes as a hex string, optionally grouped.
+     *
+     * @param bytes the bytes
+     * @param uppercase if true, uppercase hex digits are used
+     * @param group the number of hex digits per group, or 0 for no grouping
+     * @param groupChar the character that separates the groups
+     * @return the hex string, or an empty string if bytes is null
+     */
     public static String format(byte[] bytes, boolean uppercase, int group, char groupChar) {
         if (bytes == null) {
             return "";
@@ -295,6 +416,13 @@ public class ByteSequences {
         return uppercase ? sb.toString().toUpperCase(Locale.US) : sb.toString();
     }
 
+    /**
+     * Formats bytes as a hex string.
+     *
+     * @param bytes the bytes
+     * @param uppercase if true, uppercase hex digits are used
+     * @return the hex string, or an empty string if bytes is null
+     */
     public static String format(byte[] bytes, boolean uppercase) {
         return format(bytes, uppercase, 0, ' ');
     }
@@ -319,11 +447,24 @@ public class ByteSequences {
         }
     }
 
+    /**
+     * Transforms the lowest 4 bits of a value to an uppercase hex digit.
+     *
+     * @param nibble the value, only the lowest 4 bits are used
+     * @return the hex digit
+     */
     public static char nibbleToHexChar(int nibble) {
         return hexDigits[(nibble & 15)];
     }
 
     
+    /**
+     * Transforms 4 bytes in big-endian order to an int.
+     *
+     * @param bytes the 4 bytes
+     * @return the int value
+     * @throws IllegalArgumentException if the array does not have exactly 4 bytes
+     */
     public static int fourByteArrayToInt(byte[] bytes) {
         if (bytes.length != 4) throw new IllegalArgumentException();
      return ((bytes[0] & 0xFF) << 24) | 
@@ -332,6 +473,13 @@ public class ByteSequences {
             ((bytes[3] & 0xFF));
     }
      
+    /**
+     * Transforms 2 bytes in big-endian order to an int.
+     *
+     * @param bytes the 2 bytes
+     * @return the int value
+     * @throws IllegalArgumentException if the array does not have exactly 2 bytes
+     */
     public static int twoByteArrayToInt(byte[] bytes) {
         if (bytes.length != 2) throw new IllegalArgumentException();
     

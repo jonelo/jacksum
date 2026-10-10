@@ -58,6 +58,8 @@ import net.jacksum.formats.TokenValueStore;
 public class CombinedChecksum extends AbstractChecksum {
 
     /**
+     * Gets the algorithms that are combined by this instance.
+     *
      * @return the algorithms
      */
     public List<AbstractChecksum> getAlgorithms() {
@@ -65,6 +67,8 @@ public class CombinedChecksum extends AbstractChecksum {
     }
 
     /**
+     * Sets the algorithms that are combined by this instance.
+     *
      * @param algorithms the algorithms to set
      */
     public void setAlgorithms(List<AbstractChecksum> algorithms) {
@@ -100,11 +104,26 @@ public class CombinedChecksum extends AbstractChecksum {
         formatPreferences.setFilesizeWanted(true);
     }
 
+    /**
+     * Creates a new instance of CombinedChecksum that combines the specified algorithms.
+     *
+     * @param algos the names of the algorithms
+     * @param alternate if true, the alternate implementations are used
+     * @throws NoSuchAlgorithmException if an algorithm is not supported
+     */
     public CombinedChecksum(String[] algos, boolean alternate) throws NoSuchAlgorithmException {
         this();
         setAlgorithms(algos, alternate);
     }
 
+    /**
+     * Adds an algorithm specified by its name. The name as specified is kept as the
+     * algorithm's name, the canonical name becomes its alias.
+     *
+     * @param algorithm the name of the algorithm
+     * @param alternate if true, the alternate implementation is used
+     * @throws NoSuchAlgorithmException if the algorithm is not supported
+     */
     public void addAlgorithm(String algorithm, boolean alternate) throws NoSuchAlgorithmException {
         AbstractChecksum checksum = JacksumAPI.getChecksumInstance(algorithm, alternate);
         // The name as the user has typed it, because #ALGONAME and #ALGONAMES print the
@@ -116,11 +135,23 @@ public class CombinedChecksum extends AbstractChecksum {
         addAlgorithm(checksum);
     }
 
+    /**
+     * Adds an algorithm instance and increases the bit width accordingly.
+     *
+     * @param checksum the algorithm instance to add
+     */
     public void addAlgorithm(AbstractChecksum checksum) {
         bitWidth += checksum.getSize();
         algorithms.add(checksum);
     }
 
+    /**
+     * Adds the algorithms specified by their names.
+     *
+     * @param algos the names of the algorithms
+     * @param alternate if true, the alternate implementations are used
+     * @throws NoSuchAlgorithmException if an algorithm is not supported
+     */
     public final void setAlgorithms(String[] algos, boolean alternate) throws NoSuchAlgorithmException {
         for (String algo : algos) {
             addAlgorithm(algo, alternate);
@@ -371,6 +402,14 @@ public class CombinedChecksum extends AbstractChecksum {
         this.getFormatPreferences().setHashEncoding(algorithms.get(0).getFormatPreferences().getEncoding());
     }
 
+    /**
+     * Resolves the encoding of the plural hash token without protecting the values.
+     *
+     * @param buf the buffer in which the tokens are replaced
+     * @param separator the separator between the hash values
+     * @param regex the regular expression that matches the token; group 1 is the whole
+     *              token, group 2 the name of the encoding
+     */
     public void resolveEncoding(StringBuilder buf, String separator, String regex) {
         resolveEncoding(buf, separator, regex, null);
     }
@@ -378,6 +417,12 @@ public class CombinedChecksum extends AbstractChecksum {
     /**
      * Resolves the encoding of the plural hash token. The joined hash values are a value,
      * not a token, so they are protected by the store if one is given.
+     *
+     * @param buf the buffer in which the tokens are replaced
+     * @param separator the separator between the hash values
+     * @param regex the regular expression that matches the token; group 1 is the whole
+     *              token, group 2 the name of the encoding
+     * @param store the store that protects the joined hash values, can be null
      */
     public void resolveEncoding(StringBuilder buf, String separator, String regex, TokenValueStore store) {
         if (algorithms.isEmpty()) {
@@ -407,6 +452,12 @@ public class CombinedChecksum extends AbstractChecksum {
     }
 
 
+    /**
+     * Gets the formatted hash values of all algorithms, joined by a separator.
+     *
+     * @param separator the separator between the hash values
+     * @return the joined hash values, or null if there are no algorithms
+     */
     public String getHashes(String separator) {
         if (algorithms.isEmpty()) {
             return null;
@@ -423,6 +474,12 @@ public class CombinedChecksum extends AbstractChecksum {
     }
 
 
+    /**
+     * Gets the names of all algorithms, joined by a separator.
+     *
+     * @param separator the separator between the names
+     * @return the joined names, or null if there are no algorithms
+     */
     public String getNames(String separator) {
         if (algorithms.isEmpty()) {
             return null;

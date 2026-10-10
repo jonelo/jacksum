@@ -29,6 +29,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDbouncycastle;
 
 /**
+ * Selects the implementation(s) of the algorithm Ascon-Hash.
  *
  * @author johann
  */
@@ -36,6 +37,12 @@ public class AsconHash_Selector extends Selector {
 
     private final static String ID = "ascon-hash";
     private static Map<String, String> algos;
+
+    /**
+     * Creates a new AsconHash_Selector.
+     */
+    public AsconHash_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

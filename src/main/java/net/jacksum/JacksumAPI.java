@@ -58,6 +58,11 @@ import net.jacksum.parameters.base.AlgorithmParameters;
 public class JacksumAPI {
 
     // don't rely on this attribute, it may be removed in future releases!
+    /**
+     * Whether several algorithms may be computed concurrently over the same data. It is
+     * true unless the system property {@code jacksum.concurrency.manyalgos} is set to a
+     * value other than {@code true}. Don't rely on it, it may be removed in future releases.
+     */
     public final static boolean concurrencyManyAlgosEnabled;
 
     static {
@@ -81,6 +86,12 @@ public class JacksumAPI {
      * The Copyright of the program
      */
     public final static String COPYRIGHT = "Copyright (C) 2001-2006, 2021-2026, Dipl.-Inf. (FH) Johann N. Loefflmann";
+
+    /**
+     * Creates a new JacksumAPI. All methods are static, so an instance is not required.
+     */
+    public JacksumAPI() {
+    }
 
     /**
      * Returns a Version object of this API.
@@ -109,6 +120,11 @@ public class JacksumAPI {
         return NAME;
     }
 
+    /**
+     * Returns the URI of this API.
+     *
+     * @return the URI of this API
+     */
     public static String getURI() {
         return URI;
     }
@@ -144,6 +160,13 @@ public class JacksumAPI {
         return HashFunctionFactory.getAvailableAlgorithms();
     }
 
+    /**
+     * Returns all available HMAC algorithms, i.e. all algorithms that can be used with HMAC.
+     *
+     * @return a Map with key and value pairs, both are Strings (the key is the
+     * HMAC identifier in the form {@code hmac:<algorithm>}, the value is a
+     * description of the HMAC algorithm)
+     */
     public static Map<String, String> getAvailableHMACs() {
         return HashFunctionFactory.getAvailableHMACs();
     }
@@ -216,6 +239,15 @@ public class JacksumAPI {
         return HashFunctionFactory.getHashFunction(algorithm, alternate);
     }
 
+    /**
+     * Returns all aliases of an algorithm.
+     *
+     * @param algorithm the identifier of the algorithm
+     * @return a list of the aliases of the algorithm, empty if there are none
+     * or if the algorithm is unknown
+     * @throws NoSuchAlgorithmException declared for compatibility, it is not
+     * thrown by the current implementation
+     */
     public static List<String> getAvailableAliases(String algorithm) throws NoSuchAlgorithmException {
         return HashFunctionFactory.getAvailableAliases(algorithm);
     }

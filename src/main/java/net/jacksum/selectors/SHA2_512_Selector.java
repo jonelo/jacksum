@@ -31,13 +31,19 @@ import net.jacksum.algorithms.wrappers.MD;
 import net.jacksum.algorithms.wrappers.MDgnu;
 
 /**
- *
+ * Selects the implementation(s) of the algorithm SHA-512 (SHA-2 family).
  * @author johann
  */
 public class SHA2_512_Selector extends Selector {
 
     private static final String ID = "sha-512";
     
+    /**
+     * Creates a new selector for the algorithm(s).
+     */
+    public SHA2_512_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

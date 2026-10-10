@@ -27,10 +27,16 @@ import java.util.Map;
 import net.jacksum.statistics.Statistics;
 import net.loefflmann.sugar.math.StopWatch;
 
+/**
+ * Statistics that report the elapsed time since the object was created.
+ */
 public class StatisticsElapsedTime extends Statistics {
 
     private final StopWatch stopWatch;
 
+    /**
+     * Creates a new StatisticsElapsedTime and starts measuring the time.
+     */
     public StatisticsElapsedTime() {
         stopWatch = new StopWatch();
         stopWatch.start();

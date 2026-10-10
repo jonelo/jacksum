@@ -29,10 +29,17 @@ import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.algorithms.wrappers.MDTigerTree;
 
 /**
+ * Selects the implementation(s) of the algorithms Tiger Tree Hash (TTH) and Tiger 2 Tree Hash.
  *
  * @author johann
  */
 public class TTH_Selector extends Selector {
+
+    /**
+     * Creates a new TTH_Selector.
+     */
+    public TTH_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

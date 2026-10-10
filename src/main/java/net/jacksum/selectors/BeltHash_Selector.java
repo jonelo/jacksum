@@ -30,12 +30,19 @@ import net.jacksum.algorithms.md.BeltHash;
 import net.jacksum.algorithms.wrappers.MD;
 
 /**
+ * Selects the implementation(s) of the algorithm belt-hash (STB 34.101.31).
  *
  * @author johann
  */
 public class BeltHash_Selector extends Selector {
 
     private static final String ID = "belt-hash";
+
+    /**
+     * Creates a new BeltHash_Selector.
+     */
+    public BeltHash_Selector() {
+    }
 
     @Override
     public Map<String, String> getAvailableAlgorithms() {

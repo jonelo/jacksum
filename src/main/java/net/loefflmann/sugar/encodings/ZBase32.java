@@ -81,6 +81,12 @@ public class ZBase32 {
     }
 
     /**
+     * Creates a new {@code ZBase32}. All methods are static.
+     */
+    public ZBase32() {
+    }
+
+    /**
      * Method to encode a byte[] array into z-base32 encoding.
      *
      * @param data the data to encode.

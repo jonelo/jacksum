@@ -30,10 +30,17 @@ package net.jacksum.algorithms.crcs;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
+/**
+ * Computes the CRC-32C (Castagnoli) of a data stream using
+ * {@link java.util.zip.CRC32C} from the Java Standard API.
+ */
 public class CRC32C extends AbstractChecksum implements CrcInfo {
 
     private final java.util.zip.CRC32C crc32c;
 
+    /**
+     * Creates a new CRC-32C instance.
+     */
     public CRC32C() {
         super();
         formatPreferences.setHashEncoding(Encoding.DEC);

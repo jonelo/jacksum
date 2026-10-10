@@ -44,10 +44,20 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Helper methods for strings.
+ */
 public class GeneralString {
     
     private static final String specialChars = "=: \t\r\n\f#!";
 
+    /**
+     * Converts a number to a string that is right-justified by leading blanks.
+     *
+     * @param number the number
+     * @param blanks the minimum length of the result
+     * @return the number padded with leading blanks
+     */
     public static String right(long number, int blanks) {
         StringBuilder sb = new StringBuilder(Long.toString(number));
         while (sb.length() < blanks) {
@@ -56,11 +66,28 @@ public class GeneralString {
         return sb.toString();
     }
 
+    /**
+     * Formats a number by a {@code DecimalFormat} pattern.
+     *
+     * @param number the number
+     * @param mask the {@code DecimalFormat} pattern
+     * @return the formatted number
+     */
     public static String decformat(long number, String mask) {
         DecimalFormat df = new DecimalFormat(mask);
         return df.format(number);
     }
 
+    /**
+     * Groups a hex string by inserting a group character after every
+     * {@code group} bytes (i.e. 2 * {@code group} hex digits).
+     *
+     * @param sb the hex string
+     * @param group the number of bytes per group
+     * @param groupChar the character that separates the groups
+     * @return a new buffer with the grouped hex string, or sb itself if the
+     * string does not contain more than {@code group} bytes
+     */
     public static StringBuffer insertBlanks(StringBuffer sb, int group, char groupChar) {
         int bytecount = sb.length() / 2; // we expect a hex string
         if (bytecount <= group) {
@@ -175,10 +202,23 @@ public class GeneralString {
         }
     }
     
+    /**
+     * Removes all occurrences of a string.
+     *
+     * @param source the source string
+     * @param oldString the string to remove
+     * @return the source string without any occurrence of oldString
+     */
     public static String removeAllStrings(String source, String oldString) {
         return replaceAllStrings(source, oldString, "");
     }
     
+    /**
+     * Removes all occurrences of a string in place.
+     *
+     * @param source the source, it will be modified
+     * @param oldString the string to remove
+     */
     public static void removeAllStrings(StringBuilder source, String oldString) {
         replaceAllStrings(source, oldString, "");
     }
@@ -285,8 +325,12 @@ public class GeneralString {
     }
     
     
-    /*
-     * Removes all chars c in String s
+    /**
+     * Removes all chars c in String s.
+     *
+     * @param s a String.
+     * @param c the char to remove.
+     * @return s without any occurrence of c.
      */
     public static String removeChar(String s, char c) {
         StringBuilder sb = new StringBuilder();
@@ -324,8 +368,13 @@ public class GeneralString {
         return sb.toString();
     }
     
-   /*
-    * replace one char c in String s at a given position pos
+   /**
+    * Replaces one char in String s at a given position pos by c.
+    *
+    * @param s a String.
+    * @param pos the position.
+    * @param c the new char.
+    * @return a String where the char at pos has been replaced by c.
     */
     public static String replaceChar(String s, int pos, char c) {
         StringBuilder sb = new StringBuilder(s);
@@ -333,6 +382,13 @@ public class GeneralString {
         return sb.toString();
     }
     
+    /**
+     * Counts the occurrences of a char in a string.
+     *
+     * @param s a String.
+     * @param c the char to count.
+     * @return the number of occurrences of c in s.
+     */
     public static int countChar(String s, char c) {
         int count=0;
         for (int i = 0; i < s.length(); i++) {
@@ -341,6 +397,13 @@ public class GeneralString {
         return count;
     }
     
+    /**
+     * Formats the pattern s by {@code MessageFormat} with a char as argument.
+     *
+     * @param s the pattern, e.g. {@code "value: {0}"}
+     * @param c the char that replaces {@code {0}}
+     * @return the formatted message
+     */
     public static String message(String s, char c) {
         Character character = c;
         Object aobj[] = {
@@ -349,6 +412,13 @@ public class GeneralString {
         return MessageFormat.format(s, aobj);
     }
     
+    /**
+     * Formats the pattern s by {@code MessageFormat} with an int as argument.
+     *
+     * @param s the pattern, e.g. {@code "value: {0}"}
+     * @param i the int that replaces {@code {0}}
+     * @return the formatted message
+     */
     public static String message(String s, int i) {
         Integer integer = i;
         Object aobj[] = {
@@ -357,6 +427,14 @@ public class GeneralString {
         return MessageFormat.format(s, aobj);
     }
     
+    /**
+     * Formats the pattern s by {@code MessageFormat} with two int arguments.
+     *
+     * @param s the pattern, e.g. {@code "value: {0}"}
+     * @param i1 the int that replaces {@code {0}}
+     * @param i2 the int that replaces {@code {1}}
+     * @return the formatted message
+     */
     public static String message(String s, int i1, int i2) {
         Integer integer = i1;
         Integer integer2 = i2;
@@ -368,6 +446,13 @@ public class GeneralString {
     }
     
     
+    /**
+     * Formats the pattern s by {@code MessageFormat} with a String as argument.
+     *
+     * @param s the pattern, e.g. {@code "value: {0}"}
+     * @param s1 the String that replaces {@code {0}}
+     * @return the formatted message
+     */
     public static String message(String s, String s1) {
         Object aobj[] = {
             s1
@@ -424,8 +509,12 @@ public class GeneralString {
     
     
     
-    /*
-     * Converts unicodes to encoded &#92;uxxxx
+    /**
+     * Converts unicodes to encoded &#92;uxxxx. Control characters such as
+     * newline and tab and the chars {@code =: #!} are escaped by a backslash.
+     *
+     * @param string a String.
+     * @return an encoded String.
      */
     public static String encodeUnicode(String string) {
         int length = string.length();
@@ -469,6 +558,14 @@ public class GeneralString {
         return buffer.toString();
     }
     
+    /**
+     * Splits a string at each occurrence of a delimiter. An empty trailing
+     * token is not included.
+     *
+     * @param str the string to split
+     * @param delimiter the delimiter, not interpreted as a regular expression
+     * @return the tokens
+     */
     public static String[] split(String str, String delimiter) {
         ArrayList<String> al = new ArrayList<>();
         int startpos=0;
@@ -491,15 +588,35 @@ public class GeneralString {
     }
 
     /* remove leading whitespace */
+    /**
+     * Removes leading whitespace (despite the name of the method).
+     *
+     * @param string a String.
+     * @return the String without leading whitespace.
+     */
     public static String trimRight(String string) {
         return string.replaceAll("^\\s+", "");
     }
 
     /* remove trailing whitespace */
+    /**
+     * Removes trailing whitespace (despite the name of the method).
+     *
+     * @param string a String.
+     * @return the String without trailing whitespace.
+     */
     public static String trimLeft(String string) {
         return string.replaceAll("\\s+$", "");
     }
 
+    /**
+     * Parses a boolean value. Supported are yes, on, true, 1 and enabled for
+     * true, and no, off, false, 0 and disabled for false.
+     *
+     * @param arg the value to parse (case-sensitive)
+     * @return the boolean value
+     * @throws IllegalArgumentException if arg does not represent a boolean
+     */
     public static boolean parseBoolean(String arg) throws IllegalArgumentException {
         switch (arg) {
             case "yes":

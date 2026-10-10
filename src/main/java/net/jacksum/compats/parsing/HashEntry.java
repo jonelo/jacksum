@@ -21,6 +21,11 @@
 package net.jacksum.compats.parsing;
 
 
+/**
+ * An entry of a hash list as it has been parsed from one line, consisting of
+ * the hash value, the file name, and optional attributes such as the file size,
+ * the timestamp, and the permissions.
+ */
 public class HashEntry {
 
     private String hash;
@@ -30,9 +35,26 @@ public class HashEntry {
     private String filename;
     private Status status;
     
-    public enum Status { OK, FAILED, REMOVED }
+    /**
+     * The verification status of an entry.
+     */
+    public enum Status {
+        /** The file has been verified successfully. */
+        OK,
+        /** The verification of the file has failed. */
+        FAILED,
+        /** The file has been removed. */
+        REMOVED }
 
     /**
+     * Creates a new, empty {@code HashEntry}.
+     */
+    public HashEntry() {
+    }
+
+    /**
+     * Gets the verification status.
+     *
      * @return the status
      */
     public Status getStatus() {
@@ -40,6 +62,8 @@ public class HashEntry {
     }
 
     /**
+     * Sets the verification status.
+     *
      * @param status the status to set
      */
     public void setStatus(Status status) {
@@ -47,6 +71,8 @@ public class HashEntry {
     }
 
     /**
+     * Gets the hash value.
+     *
      * @return the hash
      */
     public String getHash() {
@@ -54,6 +80,8 @@ public class HashEntry {
     }
 
     /**
+     * Sets the hash value.
+     *
      * @param hash the hash to set
      */
     public void setHash(String hash) {
@@ -61,6 +89,8 @@ public class HashEntry {
     }
 
     /**
+     * Gets the file size; -1 if it is unknown.
+     *
      * @return the filesize
      */
     public long getFilesize() {
@@ -68,6 +98,8 @@ public class HashEntry {
     }
 
     /**
+     * Sets the file size.
+     *
      * @param filesize the filesize to set
      */
     public void setFilesize(long filesize) {
@@ -75,6 +107,8 @@ public class HashEntry {
     }
 
     /**
+     * Gets the timestamp.
+     *
      * @return the timestamp
      */
     public String getTimestamp() {
@@ -82,6 +116,8 @@ public class HashEntry {
     }
 
     /**
+     * Sets the timestamp.
+     *
      * @param timestamp the timestamp to set
      */
     public void setTimestamp(String timestamp) {
@@ -89,6 +125,8 @@ public class HashEntry {
     }
 
     /**
+     * Gets the permissions.
+     *
      * @return the permissions
      */
     public String getPermissions() {
@@ -96,6 +134,8 @@ public class HashEntry {
     }
 
     /**
+     * Sets the permissions.
+     *
      * @param permissions the permissions to set
      */
     public void setPermissions(String permissions) {
@@ -103,6 +143,8 @@ public class HashEntry {
     }
 
     /**
+     * Gets the file name.
+     *
      * @return the filename
      */
     public String getFilename() {
@@ -110,6 +152,8 @@ public class HashEntry {
     }
 
     /**
+     * Sets the file name.
+     *
      * @param filename the filename to set
      */
     public void setFilename(String filename) {

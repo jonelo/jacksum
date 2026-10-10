@@ -23,11 +23,24 @@ import net.loefflmann.sugar.math.GeneralMath;
 
 import java.util.Map;
 
+/**
+ * Statistics that are common to all actions that hash files: the number of
+ * files and bytes read, and the number of file read errors.
+ */
 public class CommonHashStatistics extends Statistics {
 
+    /** The number of files that have been read successfully. */
     protected long filesRead;
+    /** The number of file read errors. */
     protected long errors;
+    /** The number of bytes that have been read. */
     protected long bytesRead;
+
+    /**
+     * Creates a new {@code CommonHashStatistics} with all counters set to zero.
+     */
+    public CommonHashStatistics() {
+    }
 
     @Override
     public Map<String, Object> build() {
@@ -41,6 +54,12 @@ public class CommonHashStatistics extends Statistics {
         errors = 0;
     }
 
+    /**
+     * Adds the common statistics to a map, preceded by an empty entry that
+     * acts as a separator.
+     *
+     * @param map the map to add the statistics to
+     */
     public void put(Map<String, Object> map) {
         map.put("", "");
         map.put("total files read successfully", filesRead);
@@ -51,6 +70,8 @@ public class CommonHashStatistics extends Statistics {
 
 
     /**
+     * Gets the number of files that have been read successfully.
+     *
      * @return the filesRead
      */
     public long getFilesRead() {
@@ -58,6 +79,8 @@ public class CommonHashStatistics extends Statistics {
     }
 
     /**
+     * Sets the number of files that have been read successfully.
+     *
      * @param filesRead the filesRead to set
      */
     public void setFilesRead(long filesRead) {
@@ -65,6 +88,8 @@ public class CommonHashStatistics extends Statistics {
     }
 
     /**
+     * Gets the number of bytes that have been read.
+     *
      * @return the bytesRead
      */
     public long getBytesRead() {
@@ -72,6 +97,8 @@ public class CommonHashStatistics extends Statistics {
     }
 
     /**
+     * Sets the number of bytes that have been read.
+     *
      * @param bytesRead the bytesRead to set
      */
     public void setBytesRead(long bytesRead) {
@@ -79,6 +106,8 @@ public class CommonHashStatistics extends Statistics {
     }
 
     /**
+     * Gets the number of file read errors.
+     *
      * @return the errors
      */
     public long getErrors() {
@@ -86,6 +115,8 @@ public class CommonHashStatistics extends Statistics {
     }
 
     /**
+     * Sets the number of file read errors.
+     *
      * @param errors the errors to set
      */
     public void setErrors(long errors) {

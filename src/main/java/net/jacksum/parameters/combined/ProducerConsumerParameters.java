@@ -28,6 +28,9 @@ import net.jacksum.parameters.base.PathParameters;
 import net.jacksum.multicore.manyfiles.ConsumerParameters;
 import net.jacksum.multicore.manyfiles.ProducerParameters;
 
+/**
+ * The parameters required by the producer and the consumers that walk and hash many files in parallel.
+ */
 public interface ProducerConsumerParameters extends AlgorithmParameters,
         PathParameters, ConsumerParameters, CustomizedFormatParameters, GatheringParameters, ChecksumParameters, ProducerParameters {
     

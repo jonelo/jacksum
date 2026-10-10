@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * Selects the implementation(s) of the algorithm Shabal-256.
  *
  * @author johann
  */
@@ -37,6 +38,12 @@ public class Shabal256_Selector extends Selector {
 
     private static final String ID = "shabal256";
     
+    /**
+     * Creates a new Shabal256_Selector.
+     */
+    public Shabal256_Selector() {
+    }
+
     @Override
     public Map<String, String> getAvailableAlgorithms() {
         Map<String, String> map = new LinkedHashMap<>(2); // ceil(1/0.75)

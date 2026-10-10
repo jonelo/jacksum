@@ -26,10 +26,16 @@ package net.jacksum.algorithms.checksums;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 
+/**
+ * The 32 bit ELF hash, as used in the Unix ELF object file format.
+ */
 public class Elf extends AbstractChecksum {
 
     private long value;
 
+    /**
+     * Creates a new Elf instance.
+     */
     public Elf() {
         super();
         bitWidth = 32;
