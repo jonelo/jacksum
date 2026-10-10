@@ -155,7 +155,7 @@ echo
 info "Done: $(wc -l < "$WORK/files.txt" | tr -d ' ') files from Bouncy Castle $VERSION" \
      "($(grep -c '^overlay' "$WORK/files.txt" || true) overlay, $(grep -c '^patched' "$WORK/files.txt" || true) patched)."
 echo "Next steps:"
-echo "  1. mvn package"
+echo "  1. mvn clean package   (clean is required, an incremental build after the update can be broken)"
 echo "  2. bouncycastle/verify/compare-jars.sh <old-jacksum.jar> target/jacksum-<version>.jar"
 echo "  3. git diff --stat -- src/main/java/org/bouncycastle bouncycastle/files.txt"
 echo "  4. document the update in RELEASE-NOTES.txt"

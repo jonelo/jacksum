@@ -23,13 +23,17 @@ The current version, the SHA-256 of the sources jar and the commit of the test d
 
 ```
 bouncycastle/update-bc.sh 1.87                    # or without argument: regenerate bc.version
-mvn package
+mvn clean package                                  # clean is required, see below
 bouncycastle/verify/compare-jars.sh <old-jacksum.jar> target/jacksum-<version>.jar
 git diff --stat -- src/main/java/org/bouncycastle bouncycastle/files.txt
 ```
 
 Build the old jar **before** you run the update (or keep a released jar around), because
 `compare-jars.sh` needs it.
+
+Always build with `mvn clean package` after an update. An incremental build over the replaced tree can
+produce a jar in which no algorithm works at all (`NullPointerException` in
+`HashFunctionFactory.getHashFunction()`, seen in October 2026).
 
 What `update-bc.sh` does:
 
@@ -77,7 +81,7 @@ Modifications that are **outside** of the generated tree, in Jacksum's own code:
 
 | Where | What | Why |
 |---|---|---|
-| `src/main/java/net/jacksum/zzadopt/org/bouncycastle/crypto/digests/TigerDigest_192_4_PHP_version.java` | copy of BC 1.71's `TigerDigest` with extra rounds and a register swap in `processBlock()` (marked `<BEGIN>`/`<END>`) | PHP's `tiger192,4`, `tiger160,4`, `tiger128,4`. It is Jacksum's own variant, so it does not belong in the generated tree |
+| `src/main/java/net/jacksum/algorithms/md/TigerDigest_192_4_PHP_version.java` | copy of BC 1.71's `TigerDigest` with extra rounds and a register swap in `processBlock()` (marked `<BEGIN>`/`<END>`) | PHP's `tiger192,4`, `tiger160,4`, `tiger128,4`. It is Jacksum's own variant, so it does not belong in the generated tree |
 | `src/main/java/net/jacksum/algorithms/wrappers/MDbouncycastle.java` | KangarooTwelve and MarsupilamiFourteen are finalized with `Xof.doFinal(out, 0, 32 / 64)` | since BC 1.71 the `Kangaroo` constructors ignore the requested output length (the default is 16 / 32 bytes). Up to Jacksum 4.0.1 `Kangaroo.java` was pinned to BC 1.69 for that reason |
 
 ## History: modifications that are no longer needed

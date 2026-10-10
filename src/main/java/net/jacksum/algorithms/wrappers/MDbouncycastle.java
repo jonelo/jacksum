@@ -28,7 +28,7 @@ import org.bouncycastle.crypto.ExtendedDigest;
 import org.bouncycastle.crypto.Xof;
 import org.bouncycastle.crypto.digests.*;
 import org.bouncycastle.crypto.engines.GOST28147Engine;
-import net.jacksum.zzadopt.org.bouncycastle.crypto.digests.TigerDigest_192_4_PHP_version;
+import net.jacksum.algorithms.md.TigerDigest_192_4_PHP_version;
 import net.jacksum.algorithms.AbstractChecksum;
 import net.jacksum.formats.Encoding;
 //import org.bouncycastle.crypto.digests.Haraka256Digest;
