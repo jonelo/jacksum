@@ -68,6 +68,10 @@ Jacksum 4.0.2, Oct 10, 2026
   - the origin, the license and all modifications of the adopted FlexiProvider classes are
     documented in net/jacksum/zzadopt/de/flexiprovider/README.md; the names of their authors
     Martin Döring and Johannes Müller are spelled correctly again
+  - --copyright lists all algorithms that come from sphlib (fr.cryptohash), and its copyright
+    years match sphlib 3.0 (2007-2011); the origin and the modifications of the adopted sphlib
+    classes, among them the round 2 IV of Hamsi-224, are documented in
+    net/jacksum/zzadopt/fr/cryptohash/README.md
 
 
 Jacksum 4.0.1, Oct 4, 2026

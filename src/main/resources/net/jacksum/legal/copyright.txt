@@ -167,10 +167,11 @@ are licensed under the MIT license
   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
   
 
-Portions of this software (fr.cryptohash: BLAKE, ECHO, Fugue, Groestl, JH,
-PANAMA, Radiogatun) are licensed under the MIT license
+Portions of this software (fr.cryptohash: BLAKE, Blue Midnight Wish, CubeHash, ECHO,
+Fugue, Groestl, Hamsi, JH, Luffa, PANAMA, RadioGatun, Shabal, SHAvite-3, SIMD) are
+licensed under the MIT license
 
-  Copyright (c) 2007-2010  Projet RNRT SAPHIR
+  Copyright (c) 2007-2011  Projet RNRT SAPHIR
 
   Permission is hereby granted, free of charge, to any person obtaining
   a copy of this software and associated documentation files (the
