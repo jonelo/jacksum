@@ -45,7 +45,7 @@ public class Whirlpool1_Selector extends Selector {
         availableAlgorithms.put(ID, DESCRIPTION);
         
         availableAliases = new LinkedHashMap<>(3); // ceil(2/0.75)
-        availableAliases.put("whirlpool-l", ID);
+        availableAliases.put("whirlpool-1", ID);
         availableAliases.put("whirlpool-t", ID);
     }
     

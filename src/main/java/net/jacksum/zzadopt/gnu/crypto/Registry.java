@@ -1,9 +1,11 @@
 package net.jacksum.zzadopt.gnu.crypto;
 
 // ----------------------------------------------------------------------------
-// $Id: Registry.java,v 1.17 2003/06/14 14:44:38 raif Exp $
+// $Id: Registry.java.in,v 1.4 2005/10/06 04:24:13 rsdio Exp $
+// Jacksum: reduced to the names of the hash functions, extended by Jacksum's algorithms,
+// see net/jacksum/zzadopt/gnu/README.md
 //
-// Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
+// Copyright (C) 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 //
 // This file is part of GNU Crypto.
 //
@@ -21,8 +23,8 @@ package net.jacksum.zzadopt.gnu.crypto;
 // along with this program; see the file COPYING.  If not, write to the
 //
 //    Free Software Foundation Inc.,
-//    59 Temple Place - Suite 330,
-//    Boston, MA 02111-1307
+//    51 Franklin Street, Fifth Floor,
+//    Boston, MA 02110-1301
 //    USA
 //
 // Linking this library statically or dynamically with other modules is
@@ -47,7 +49,7 @@ package net.jacksum.zzadopt.gnu.crypto;
  * A placeholder for <i>names</i> and <i>literals</i> used throughout this
  * library.
  *
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.4 $
  */
 public interface Registry {
 

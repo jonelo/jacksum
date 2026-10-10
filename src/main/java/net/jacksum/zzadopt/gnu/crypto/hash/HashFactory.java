@@ -1,7 +1,8 @@
 package net.jacksum.zzadopt.gnu.crypto.hash;
 
 // ----------------------------------------------------------------------------
-// $Id: HashFactory.java,v 1.11 2003/06/14 14:44:18 raif Exp $
+// $Id: HashFactory.java,v 1.14 2005/10/06 04:24:14 rsdio Exp $
+// Jacksum: based on revision 1.11, extended by Jacksum's algorithms, see net/jacksum/zzadopt/gnu/README.md
 //
 // Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
 //
@@ -21,8 +22,8 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 // along with this program; see the file COPYING.  If not, write to the
 //
 //    Free Software Foundation Inc.,
-//    59 Temple Place - Suite 330,
-//    Boston, MA 02111-1307
+//    51 Franklin Street, Fifth Floor,
+//    Boston, MA 02110-1301
 //    USA
 //
 // Linking this library statically or dynamically with other modules is
@@ -51,7 +52,7 @@ import net.jacksum.zzadopt.gnu.crypto.Registry;
 /**
  * <p>A <i>Factory</i> to instantiate message digest algorithm instances.</p>
  *
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.14 $
  */
 public class HashFactory implements Registry {
 

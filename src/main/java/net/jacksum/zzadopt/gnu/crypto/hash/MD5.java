@@ -1,7 +1,7 @@
 package net.jacksum.zzadopt.gnu.crypto.hash;
 
 // ----------------------------------------------------------------------------
-// $Id: MD5.java,v 1.6 2002/12/07 10:05:38 raif Exp $
+// $Id: MD5.java,v 1.7 2005/10/06 04:24:14 rsdio Exp $
 //
 // Copyright (C) 2001, 2002, Free Software Foundation, Inc.
 //
@@ -21,8 +21,8 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 // along with this program; see the file COPYING.  If not, write to the
 //
 //    Free Software Foundation Inc.,
-//    59 Temple Place - Suite 330,
-//    Boston, MA 02111-1307
+//    51 Franklin Street, Fifth Floor,
+//    Boston, MA 02110-1301
 //    USA
 //
 // Linking this library statically or dynamically with other modules is
@@ -61,7 +61,7 @@ import net.jacksum.zzadopt.gnu.crypto.util.Util;
  *    R. Rivest.</li>
  * </ol>
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class MD5 extends BaseHash {
 

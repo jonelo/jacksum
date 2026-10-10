@@ -25,6 +25,9 @@ Jacksum 4.0.2, Oct 10, 2026
     byte order of the length belongs, and it always switched on the inclusion of the
     length and its XOR, even if the model it copies has neither
   - the algorithm list of --info names SHA-384 as "SHA-2 familiy" instead of "SHA-2 family"
+  - the documented alias whirlpool-1 of whirlpool1 was unknown, because it had been registered
+    as "whirlpool-l" (lower case L instead of the digit 1); whirlpool-1 works now, and the
+    undocumented whirlpool-l has been removed
 
 - Updates
   - updated the bundled Bouncy Castle from 1.71/1.73 to 1.86 (digests only); the stripped copy
@@ -44,6 +47,11 @@ Jacksum 4.0.2, Oct 10, 2026
     the XOF now, rather than relying on Bouncy Castle 1.69's Kangaroo class, whose constructor
     parameter for the output length is ignored since Bouncy Castle 1.71
   - --info prints the block size (16 bytes) of esch256 and esch384 now
+  - updated the adopted GNU Crypto classes from 2.0.1 to 2.1.0, the final release of GNU Crypto;
+    Jacksum's own algorithms and modifications are kept and documented in
+    net/jacksum/zzadopt/gnu/README.md; all hash values are unchanged
+  - removed the unused copy of GNU Classpath's gnu.java.security hash functions
+    (net.jacksum.zzadopt.gnu.java.security)
 
 - Documentation
   - the help of option -c and the use case "Is the medium still readable?" explain that a

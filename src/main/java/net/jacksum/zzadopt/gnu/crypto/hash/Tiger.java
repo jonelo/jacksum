@@ -1,7 +1,7 @@
 package net.jacksum.zzadopt.gnu.crypto.hash;
 
 // --------------------------------------------------------------------------
-// $Id: Tiger.java,v 1.1 2003/03/22 03:09:57 rsdio Exp $
+// $Id: Tiger.java,v 1.2 2005/10/06 04:24:14 rsdio Exp $
 //
 // Copyright (C) 2003, Free Software Foundation, Inc.
 //
@@ -21,8 +21,8 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 // along with this program; see the file COPYING.  If not, write to the
 //
 //    Free Software Foundation Inc.,
-//    59 Temple Place - Suite 330,
-//    Boston, MA 02111-1307
+//    51 Franklin Street, Fifth Floor,
+//    Boston, MA 02110-1301
 //    USA
 //
 // Linking this library statically or dynamically with other modules is
@@ -64,7 +64,7 @@ import net.jacksum.zzadopt.gnu.crypto.util.Util;
  * </li>
  * </ol>
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Tiger extends BaseHash {
 

@@ -1,7 +1,7 @@
 package net.jacksum.zzadopt.gnu.crypto.util;
 
 // ----------------------------------------------------------------------------
-// $Id: Util.java,v 1.10 2003/09/27 00:03:01 raif Exp $
+// $Id: Util.java,v 1.11 2005/10/06 04:24:19 rsdio Exp $
 //
 // Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
 //
@@ -21,8 +21,8 @@ package net.jacksum.zzadopt.gnu.crypto.util;
 // along with this program; see the file COPYING.  If not, write to the
 //
 //    Free Software Foundation Inc.,
-//    59 Temple Place - Suite 330,
-//    Boston, MA 02111-1307
+//    51 Franklin Street, Fifth Floor,
+//    Boston, MA 02110-1301
 //    USA
 //
 // Linking this library statically or dynamically with other modules is
@@ -48,7 +48,7 @@ import java.math.BigInteger;
 /**
  * <p>A collection of utility methods used throughout this project.</p>
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class Util {
 

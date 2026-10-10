@@ -1,7 +1,7 @@
 package net.jacksum.zzadopt.gnu.crypto.hash;
 
 // ----------------------------------------------------------------------------
-// $Id: BaseHash.java,v 1.8 2002/11/07 17:17:45 raif Exp $
+// $Id: BaseHash.java,v 1.10 2005/10/06 04:24:14 rsdio Exp $
 //
 // Copyright (C) 2001, 2002, Free Software Foundation, Inc.
 //
@@ -21,8 +21,8 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 // along with this program; see the file COPYING.  If not, write to the
 //
 //    Free Software Foundation Inc.,
-//    59 Temple Place - Suite 330,
-//    Boston, MA 02111-1307
+//    51 Franklin Street, Fifth Floor,
+//    Boston, MA 02110-1301
 //    USA
 //
 // Linking this library statically or dynamically with other modules is
@@ -46,7 +46,7 @@ package net.jacksum.zzadopt.gnu.crypto.hash;
 /**
  * <p>A base abstract class to facilitate hash implementations.</p>
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.10 $
  */
 public abstract class BaseHash implements IMessageDigest {
 
@@ -117,6 +117,10 @@ public abstract class BaseHash implements IMessageDigest {
       if (i == (blockSize - 1)) {
          transform(buffer, 0);
       }
+   }
+
+   public void update(byte[] b) {
+      update(b, 0, b.length);
    }
 
    public void update(byte[] b, int offset, int len) {

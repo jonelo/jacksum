@@ -722,7 +722,7 @@ public class HashAlgorithm implements Comparable<HashAlgorithm> {
         WEIGHTS_ALIASES.put("elf32", WEIGHTS.get("elf"));
         WEIGHTS_ALIASES.put("elf-32", WEIGHTS.get("elf"));
         WEIGHTS_ALIASES.put("whirlpool-0", WEIGHTS.get("whirlpool0"));
-        WEIGHTS_ALIASES.put("whirlpool-l", WEIGHTS.get("whirlpool1"));
+        WEIGHTS_ALIASES.put("whirlpool-1", WEIGHTS.get("whirlpool1"));
         WEIGHTS_ALIASES.put("whirlpool-t", WEIGHTS.get("whirlpool1"));
         WEIGHTS_ALIASES.put("simd-224", WEIGHTS.get("simd224"));
         WEIGHTS_ALIASES.put("skein-1024", WEIGHTS.get("skein-1024-1024"));
