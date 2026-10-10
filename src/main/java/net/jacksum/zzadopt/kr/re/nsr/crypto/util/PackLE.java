@@ -45,8 +45,8 @@ public class PackLE {
     /**
      * Convert byte array to unsigned long
      *
-     * @param in 변환할 바이트 배열
-     * @param offset 시작 오프셋
+     * @param in byte array to convert
+     * @param offset starting offset
      * @return a long.
      */
     public static long toU64(byte[] in, int offset) {
@@ -66,11 +66,11 @@ public class PackLE {
     /**
      * Convert byte array to unsigned long array
      *
-     * @param in 변환할 바이트 배열
-     * @param inOff 바이트 배열의 시작 오프셋
-     * @param out unsigned long 배열
-     * @param outOff unsigned long 배열의 시작 오프셋
-     * @param length 변환할 unsigned long 의 길이
+     * @param in byte array to convert
+     * @param inOff starting offset of the byte array
+     * @param out array of unsigned longs
+     * @param outOff starting offset of the unsigned long array
+     * @param length number of unsigned longs to convert
      */
     public static void toU64(byte[] in, int inOff, long[] out, int outOff, int length) {
 

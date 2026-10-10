@@ -3,41 +3,41 @@ package net.jacksum.zzadopt.kr.re.nsr.crypto;
 import net.jacksum.zzadopt.kr.re.nsr.crypto.mac.HMac;
 
 /**
- * MAC 구현을 위한 인터페이스
+ * Interface for implementing a MAC
  */
 public abstract class Mac {
 
     /**
-     * 초기화 함수
+     * Initialization
      *
-     * @param key 비밀키
+     * @param key the secret key
      */
     public abstract void init(byte[] key);
 
     /**
-     * 새로운 메시지에 대한 MAC 계산을 위한 객체 초기화
+     * Resets the object for the MAC computation of a new message
      */
     public abstract void reset();
 
     /**
-     * 메시지 추가
+     * Adds a message
      *
-     * @param msg 추가할 메시지
+     * @param msg the message to add
      */
     public abstract void update(byte[] msg);
 
     /**
-     * 현재까지 추가된 메시지에 대한 MAC 계산
+     * Computes the MAC of the message that has been added so far
      *
-     * @return MAC 값
+     * @return the MAC value
      */
     public abstract byte[] doFinal();
 
     /**
-     * 마지막 메시지를 포함하여 MAC 계산
+     * Computes the MAC including the last message
      *
-     * @param msg 마지막 메시지
-     * @return MAC 값
+     * @param msg the last message
+     * @return the MAC value
      */
     public byte[] doFinal(byte[] msg) {
         update(msg);
@@ -45,10 +45,10 @@ public abstract class Mac {
     }
 
     /**
-     * MAC 계산을 위한 객체 생성
+     * Creates an object for the MAC computation
      *
-     * @param algorithm MessageDigest 알고리즘
-     * @return Mac 객체
+     * @param algorithm the message digest algorithm
+     * @return a Mac object
      */
     public static Mac getInstance(Hash.Algorithm algorithm) {
         Hash md = Hash.getInstance(algorithm);

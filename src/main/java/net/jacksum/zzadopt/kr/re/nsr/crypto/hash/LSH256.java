@@ -6,10 +6,11 @@ import net.jacksum.zzadopt.kr.re.nsr.crypto.Hash;
 import net.jacksum.zzadopt.kr.re.nsr.crypto.util.PackLE;
 
 /**
- * LSH256 알고리즘 구현
+ * LSH256 algorithm implementation
  *
- * 워드 길이: 32-bit (4-byte) 연쇄 변수 길이: 512-bit (64-byte) 메시지 블록 길이: 1024-bit
- * (128-byte)
+ * Word length: 32-bit (4-byte)
+ * Chaining variable length: 512-bit (64-byte)
+ * Message block length: 1024-bit (128-byte)
  */
 public class LSH256 extends Hash {
 
@@ -18,18 +19,18 @@ public class LSH256 extends Hash {
 
     private static final int NUMSTEP = 26;
 
-    /// 사전 계산된 224비트 출력용 IV
+    /// precomputed IV for 224-bit output
     private static final int IV224[] = {
         0x068608D3, 0x62D8F7A7, 0xD76652AB, 0x4C600A43, 0xBDC40AA8, 0x1ECA0B68, 0xDA1A89BE, 0x3147D354,
         0x707EB4F9, 0xF65B3862, 0x6B0B2ABE, 0x56B8EC0A, 0xCF237286, 0xEE0D1727, 0x33636595, 0x8BB8D05F,};
 
-    /// 사전 계산된 256비트 출력용 IV
+    /// precomputed IV for 256-bit output
     private static final int IV256[] = {
         0x46a10f1f, 0xfddce486, 0xb41443a8, 0x198e6b9d, 0x3304388d, 0xb0f5a3c7, 0xb36061c4, 0x7adbd553,
         0x105d5378, 0x2f74de54, 0x5c2f2d95, 0xf2553fbe, 0x8051357a, 0x138668c8, 0x47aa4484, 0xe01afb41
     };
 
-    /// STEP 상수
+    /// step constants
     private static final int STEP[] = {
         0x917caf90, 0x6c1b10a2, 0x6f352943, 0xcf778243, 0x2ceb7472, 0x29e96ff2, 0x8a9ba428, 0x2eeb2642,
         0x0e2c4021, 0x872bb30e, 0xa45e6cb2, 0x46f9c612, 0x185fe69e, 0x1359621b, 0x263fccb2, 0x1a116870,
@@ -77,16 +78,16 @@ public class LSH256 extends Hash {
     private int outlenbits;
 
     /**
-     * LSH256 기본 생성자, 256비트 출력 설정
+     * LSH256 default constructor, sets the output to 256 bits
      */
     public LSH256() {
         this(256);
     }
 
     /**
-     * LSH256 생성자
+     * LSH256 constructor
      *
-     * @param outlenbits 출력 길이, 비트 단위
+     * @param outlenbits output length, in bits
      */
     public LSH256(int outlenbits) {
         if (outlenbits < 0 || outlenbits > 256) {
@@ -103,9 +104,9 @@ public class LSH256 extends Hash {
     }
 
     /**
-     * 같은 출력길이를 가지는 객체를 만들어 리턴한다.
+     * Creates and returns an object with the same output length.
      *
-     * @return LSH256객체
+     * @return an LSH256 object
      */
     @Override
     public Hash newInstance() {
@@ -131,9 +132,9 @@ public class LSH256 extends Hash {
     }
 
     /**
-     * 내부 블록 크기를 반환한다.
+     * Returns the internal block size.
      *
-     * @return 내부 블록 크기
+     * @return the internal block size
      */
     @Override
     public int getBlockSize() {
@@ -141,9 +142,9 @@ public class LSH256 extends Hash {
     }
 
     /**
-     * 출력 길이를 반환한다.
+     * Returns the output length.
      *
-     * @return 출력 길이, 비트 단위
+     * @return the output length, in bits
      */
     @Override
     public int getOutlenbits() {
@@ -151,7 +152,7 @@ public class LSH256 extends Hash {
     }
 
     /**
-     * 상태 변수 초기화
+     * Initializes the state variables
      */
     @Override
     public void reset() {
@@ -163,11 +164,11 @@ public class LSH256 extends Hash {
     }
 
     /**
-     * 온라인 동작을 위한 메시지 처리 함수
+     * Processes a message (online operation)
      *
-     * @param data 데이터
-     * @param offset 데이터 시작 오프셋
-     * @param lenbits 데이터 길이 (바이트)
+     * @param data the data
+     * @param offset starting offset of the data
+     * @param lenbits length of the data (in bits)
      */
     @Override
     public void update(byte[] data, int offset, int lenbits) {
@@ -218,9 +219,9 @@ public class LSH256 extends Hash {
     }
 
     /**
-     * 최종 내부 상태를 업데이트 하고, 해시값을 리턴한다.
+     * Updates the final internal state and returns the hash value.
      *
-     * @return 해시값
+     * @return the hash value
      */
     @Override
     public byte[] doFinal() {
@@ -259,7 +260,7 @@ public class LSH256 extends Hash {
     }
 
     /**
-     * IV 생성
+     * Generates the IV
      */
     private void generateIV() {
         Arrays.fill(cv, (byte) 0);
@@ -272,10 +273,10 @@ public class LSH256 extends Hash {
     }
 
     /**
-     * LSH 알고리즘의 compress 연산
+     * Compress operation of the LSH algorithm
      *
-     * @param data 데이터
-     * @param offset 데이터 시작 오프셋
+     * @param data the data
+     * @param offset starting offset of the data
      */
     private void compress(byte[] data, int offset) {
         msgExpansion(data, offset);
@@ -292,10 +293,10 @@ public class LSH256 extends Hash {
     }
 
     /**
-     * Compress 함수에서 사용되는 메시지 확장 연산, BLOCKSIZE 만큼씩 처리함
+     * Message expansion that is used by the compress function, processes BLOCKSIZE bytes at a time
      *
-     * @param in 데이터
-     * @param offset 데이터 시작 오프셋 (바이트)
+     * @param in the data
+     * @param offset starting offset of the data (in bytes)
      */
     private void msgExpansion(byte[] in, int offset) {
         PackLE.toU32(in, offset, msg, 0, 32);
@@ -322,11 +323,11 @@ public class LSH256 extends Hash {
     }
 
     /**
-     * Compress 함수에서 사용되는 message add & mix 연산
+     * Message add & mix operation that is used by the compress function
      *
-     * @param stepidx 스텝 인덱스
-     * @param alpha 상위 8워드에 적용할 왼쪽 회전값
-     * @param beta 하위 8워드에 적용할 왼쪽 회전값
+     * @param stepidx step index
+     * @param alpha left rotation amount for the upper 8 words
+     * @param beta left rotation amount for the lower 8 words
      */
     private void step(int stepidx, int alpha, int beta) {
         int vl, vr;
@@ -343,7 +344,7 @@ public class LSH256 extends Hash {
     }
 
     /**
-     * LSH의 word permutation 연산
+     * Word permutation of LSH
      */
     private void wordPermutation() {
         cv[0] = tcv[6];
@@ -365,11 +366,11 @@ public class LSH256 extends Hash {
     }
 
     /**
-     * 32비트 단위 왼쪽 회전 연산
+     * 32-bit left rotation
      *
-     * @param value 피연산자
-     * @param rot 회전값
-     * @return value를 rot만큼 왼쪽 회전한 값
+     * @param value the operand
+     * @param rot the rotation amount
+     * @return value rotated left by rot bits
      */
     private static int rol32(int value, int rot) {
         return (value << rot) | (value >>> (32 - rot));

@@ -48,49 +48,49 @@ public abstract class Hash {
     /**
      * Creates and returns an object with the same output length.
      *
-     * @return LSHDigest 객체
+     * @return an LSHDigest object
      */
     public abstract Hash newInstance();
 
     /**
      * Returns the message block bit length used for internal calculations.
      *
-     * @return 메시지 블록 비트 길이
+     * @return the length of the message block in bits
      */
     public abstract int getBlockSize();
 
     /**
-     * 해시 출력 길이를 리턴한다.
+     * Returns the output length of the hash.
      *
-     * @return 해시 출력 길이 (비트 단위)
+     * @return the output length of the hash (in bits)
      */
     public abstract int getOutlenbits();
 
     /**
-     * 내부 상태를 초기화하여 새로은 message digest를 계산할 준비를 한다.
+     * Resets the internal state in order to prepare the computation of a new message digest.
      */
     public abstract void reset();
 
     /**
-     * message digest를 계산할 데이터를 처리한다.
+     * Processes data for the computation of the message digest.
      *
-     * @param data message digest를 계산할 데이터
-     * @param offset 데이터 배열의 시작 오프셋
-     * @param lenbits 데이터의 길이 (비트 단위)
+     * @param data the data for the message digest
+     * @param offset starting offset of the data array
+     * @param lenbits length of the data (in bits)
      */
     public abstract void update(byte[] data, int offset, int lenbits);
 
     /**
-     * message digest를 계산한다
+     * Computes the message digest
      *
-     * @return 계산된 message digest 값
+     * @return the computed message digest value
      */
     public abstract byte[] doFinal();
 
     /**
-     * message digest를 계산할 데이터를 처리한다.
+     * Processes data for the computation of the message digest.
      *
-     * @param data message digest를 계산할 데이터
+     * @param data the data for the message digest
      */
     public void update(byte[] data) {
         if (data != null) {
@@ -99,11 +99,11 @@ public abstract class Hash {
     }
 
     /**
-     * data를 추가하여 최종 message digest를 계산한다.
+     * Adds the data and computes the final message digest.
      *
-     * @param data message digest를 계산할 데이터
-     * @param offset 데이터 배열의 시작 오프셋
-     * @param lenbits 데이터의 길이 (비트 단위)
+     * @param data the data for the message digest
+     * @param offset starting offset of the data array
+     * @param lenbits length of the data (in bits)
      * @return returns the digest
      */
     public byte[] doFinal(byte[] data, int offset, int lenbits) {
@@ -115,10 +115,10 @@ public abstract class Hash {
     }
 
     /**
-     * data를 추가하여 최종 message digest를 계산한다.
+     * Adds the data and computes the final message digest.
      *
-     * @param data 최종 data
-     * @return 계산된 message digest
+     * @param data the final data
+     * @return the computed message digest
      */
     public byte[] doFinal(byte[] data) {
         if (data != null) {
@@ -129,10 +129,10 @@ public abstract class Hash {
     }
 
     /**
-     * algorithm에 해당하는 해시함수 객체 리턴
+     * Returns the hash function object for the algorithm
      *
-     * @param algorithm 알고리즘
-     * @return 해시함수 객체
+     * @param algorithm the algorithm
+     * @return the hash function object
      */
     public static Hash getInstance(Algorithm algorithm) {
 
@@ -172,10 +172,10 @@ public abstract class Hash {
     }
 
     /**
-     * algorithm을 이용하여 해시 계산
+     * Computes the hash with the algorithm
      *
-     * @param algorithm 알고리즘
-     * @param data 해시값을 계산할 데이터
+     * @param algorithm the algorithm
+     * @param data the data to hash
      * @return a byte array.
      */
     public static byte[] digest(Algorithm algorithm, byte[] data) {
@@ -183,12 +183,12 @@ public abstract class Hash {
     }
 
     /**
-     * algorithm을 이용하여 해시 계산
+     * Computes the hash with the algorithm
      *
-     * @param algorithm 알고리즘
-     * @param data 해시값을 계산할 데이터
-     * @param offset 데이터 시작 오프셋
-     * @param lenbits 데이터 길이, 비트 단위
+     * @param algorithm the algorithm
+     * @param data the data to hash
+     * @param offset starting offset of the data
+     * @param lenbits length of the data, in bits
      * @return a byte array.
      */
     public static byte[] digest(Algorithm algorithm, byte[] data, int offset,
@@ -199,12 +199,12 @@ public abstract class Hash {
     }
 
     /**
-     * LSH-wordlenbits-hashlenbits 알고리즘을 이용하여 해시 계산
+     * Computes the hash with the algorithm LSH-wordlenbits-hashlenbits
      *
-     * @param wordlenbits 워드 길이, 비트 단위, 256 or 512
-     * @param hashlenbits 출력 길이, 비트 단위, 1 ~ wordlenbits
-     * @param data 해시를 계산할 데이터
-     * @return 해시값
+     * @param wordlenbits word length, in bits, 256 or 512
+     * @param hashlenbits output length, in bits, 1 to wordlenbits
+     * @param data the data to hash
+     * @return the hash value
      */
     public static byte[] digest(int wordlenbits, int hashlenbits, byte[] data) {
         return digest(wordlenbits, hashlenbits, data, 0, data == null ? 0
@@ -214,11 +214,11 @@ public abstract class Hash {
     /**
      *
      * @param wordlenbits Word length, in bits, 256 or 512
-     * @param hashlenbits 출력 길이, 비트 단위, 1 ~ wordlenbits
-     * @param data 해시를 계산할 데이터
-     * @param offset 데이터 시작 오프셋
-     * @param lenbits 데이터 길이, 비트 단위
-     * @return 해시값
+     * @param hashlenbits output length, in bits, 1 to wordlenbits
+     * @param data the data to hash
+     * @param offset starting offset of the data
+     * @param lenbits length of the data, in bits
+     * @return the hash value
      */
     public static byte[] digest(int wordlenbits, int hashlenbits, byte[] data,
             int offset, int lenbits) {

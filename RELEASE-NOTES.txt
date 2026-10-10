@@ -72,6 +72,8 @@ Jacksum 4.0.2, Oct 10, 2026
     years match sphlib 3.0 (2007-2011); the origin and the modifications of the adopted sphlib
     classes, among them the round 2 IV of Hamsi-224, are documented in
     net/jacksum/zzadopt/fr/cryptohash/README.md
+  - the comments of the adopted LSH classes (kr.re.nsr.crypto) are completely in English now; their
+    origin, license and modifications are documented in net/jacksum/zzadopt/kr/README.md
 
 
 Jacksum 4.0.1, Oct 4, 2026

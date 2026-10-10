@@ -19,35 +19,35 @@ public class LSH512 extends Hash {
 
     private static final int NUMSTEP = 28;
 
-    /// 사전 계산된 224비트 출력용 IV
+    /// precomputed IV for 224-bit output
     private static final long IV224[] = {
         0x0c401e9fe8813a55l, 0x4a5f446268fd3d35l, 0xff13e452334f612al, 0xf8227661037e354al,
         0xa5f223723c9ca29dl, 0x95d965a11aed3979l, 0x01e23835b9ab02ccl, 0x52d49cbad5b30616l,
         0x9e5c2027773f4ed3l, 0x66a5c8801925b701l, 0x22bbc85b4c6779d9l, 0xc13171a42c559c23l,
         0x31e2b67d25be3813l, 0xd522c4deed8e4d83l, 0xa79f5509b43fbafel, 0xe00d2cd88b4b6c6al,};
 
-    /// 사전 계산된 256비트 출력용 IV
+    /// precomputed IV for 256-bit output
     private static final long IV256[] = {
         0x6dc57c33df989423l, 0xd8ea7f6e8342c199l, 0x76df8356f8603ac4l, 0x40f1b44de838223al,
         0x39ffe7cfc31484cdl, 0x39c4326cc5281548l, 0x8a2ff85a346045d8l, 0xff202aa46dbdd61el,
         0xcf785b3cd5fcdb8bl, 0x1f0323b64a8150bfl, 0xff75d972f29ea355l, 0x2e567f30bf1ca9e1l,
         0xb596875bf8ff6dbal, 0xfcca39b089ef4615l, 0xecff4017d020b4b6l, 0x7e77384c772ed802l,};
 
-    /// 사전 계산된 384비트 출력용 IV
+    /// precomputed IV for 384-bit output
     private static final long IV384[] = {
         0x53156a66292808f6l, 0xb2c4f362b204c2bcl, 0xb84b7213bfa05c4el, 0x976ceb7c1b299f73l,
         0xdf0cc63c0570ae97l, 0xda4441baa486ce3fl, 0x6559f5d9b5f2acc2l, 0x22dacf19b4b52a16l,
         0xbbcdacefde80953al, 0xc9891a2879725b3el, 0x7c9fe6330237e440l, 0xa30ba550553f7431l,
         0xbb08043fb34e3e30l, 0xa0dec48d54618eadl, 0x150317267464bc57l, 0x32d1501fde63dc93l,};
 
-    /// 사전 계산된 512비트 출력용 IV
+    /// precomputed IV for 512-bit output
     private static final long IV512[] = {
         0xadd50f3c7f07094eL, 0xe3f3cee8f9418a4fL, 0xb527ecde5b3d0ae9L, 0x2ef6dec68076f501L,
         0x8cb994cae5aca216L, 0xfbb9eae4bba48cc7L, 0x650a526174725feaL, 0x1f9a61a73f8d8085L,
         0xb6607378173b539bL, 0x1bc99853b0c0b9edL, 0xdf727fc19b182d47L, 0xdbef360cf893a457L,
         0x4981f5e570147e80L, 0xd00c4490ca7d3e30L, 0x5d73940c0e4ae1ecL, 0x894085e2edb2d819L,};
 
-    /// STEP 상수
+    /// step constants
     private static final long STEP[] = {
         0x97884283c938982aL, 0xba1fca93533e2355L, 0xc519a2e87aeb1c03L, 0x9a0fc95462af17b1L,
         0xfc3dda8ab019a82bL, 0x02825d079a895407L, 0x79f2d0a7ee06a6f7L, 0xd76d15eed9fdf5feL,
@@ -125,16 +125,16 @@ public class LSH512 extends Hash {
     private int outlenbits;
 
     /**
-     * LSH512 기본 생성자, 512비트 출력으로 설정
+     * LSH512 default constructor, sets the output to 512 bits
      */
     public LSH512() {
         this(512);
     }
 
     /**
-     * LSH512 생성자
+     * LSH512 constructor
      *
-     * @param outlenbits 출력 길이, 비트 단위
+     * @param outlenbits output length, in bits
      */
     public LSH512(int outlenbits) {
         if (outlenbits < 0 || outlenbits > 512) {
@@ -151,9 +151,9 @@ public class LSH512 extends Hash {
     }
 
     /**
-     * 같은 출력길이를 가지는 객체를 만들어 리턴한다.
+     * Creates and returns an object with the same output length.
      *
-     * @return LSH512객체
+     * @return an LSH512 object
      */
     @Override
     public Hash newInstance() {
@@ -187,9 +187,9 @@ public class LSH512 extends Hash {
     }
 
     /**
-     * 내부 블록 크기 리턴
+     * Returns the internal block size.
      *
-     * @return 내부 블록 크기
+     * @return the internal block size
      */
     @Override
     public int getBlockSize() {
@@ -197,9 +197,9 @@ public class LSH512 extends Hash {
     }
 
     /**
-     * 출력 길이를 반환한다.
+     * Returns the output length.
      *
-     * @return 출력 길이, 비트 단위
+     * @return the output length, in bits
      */
     @Override
     public int getOutlenbits() {
@@ -207,7 +207,7 @@ public class LSH512 extends Hash {
     }
 
     /**
-     * 상태 변수 초기화
+     * Initializes the state variables
      */
     @Override
     public void reset() {
@@ -219,11 +219,11 @@ public class LSH512 extends Hash {
     }
 
     /**
-     * 온라인 동작을 위한 메시지 처리 함수
+     * Processes a message (online operation)
      *
-     * @param data 데이터
-     * @param offset 데이터 시작 오프셋
-     * @param lenbits 데이터 길이 (비트)
+     * @param data the data
+     * @param offset starting offset of the data
+     * @param lenbits length of the data (in bits)
      */
     @Override
     public void update(byte[] data, int offset, int lenbits) {
@@ -274,9 +274,9 @@ public class LSH512 extends Hash {
     }
 
     /**
-     * 최종 내부 상태를 업데이트 하고, 해시값을 리턴한다.
+     * Updates the final internal state and returns the hash value.
      *
-     * @return 해시값
+     * @return the hash value
      */
     @Override
     public byte[] doFinal() {
@@ -314,7 +314,7 @@ public class LSH512 extends Hash {
     }
 
     /**
-     * IV 생성
+     * Generates the IV
      */
     private void generateIV() {
         Arrays.fill(cv, (byte) 0);
@@ -327,10 +327,10 @@ public class LSH512 extends Hash {
     }
 
     /**
-     * LSH 알고리즘의 compress 연산
+     * Compress operation of the LSH algorithm
      *
-     * @param data 데이터
-     * @param offset 데이터 시작 오프셋
+     * @param data the data
+     * @param offset starting offset of the data
      */
     private void compress(byte[] data, int offset) {
         msgExpansion(data, offset);
@@ -347,10 +347,10 @@ public class LSH512 extends Hash {
     }
 
     /**
-     * Compress 함수에서 사용되는 메시지 확장 연산, BLOCKSIZE 만큼씩 처리함
+     * Message expansion that is used by the compress function, processes BLOCKSIZE bytes at a time
      *
-     * @param in 데이터
-     * @param offset 데이터 시작 오프셋 (바이트)
+     * @param in the data
+     * @param offset starting offset of the data (in bytes)
      */
     private void msgExpansion(byte[] in, int offset) {
         PackLE.toU64(in, offset, msg, 0, 32);
@@ -377,11 +377,11 @@ public class LSH512 extends Hash {
     }
 
     /**
-     * Compress 함수에서 사용되는 message add & mix 연산
+     * Message add & mix operation that is used by the compress function
      *
-     * @param stepidx 스텝 인덱스
-     * @param alpha 상위 8워드에 적용할 왼쪽 회전값
-     * @param beta 하위 8워드에 적용할 왼쪽 회전값
+     * @param stepidx step index
+     * @param alpha left rotation amount for the upper 8 words
+     * @param beta left rotation amount for the lower 8 words
      */
     private void step(int stepidx, int alpha, int beta) {
 
@@ -398,7 +398,7 @@ public class LSH512 extends Hash {
     }
 
     /**
-     * LSH의 word permutation 연산
+     * Word permutation of LSH
      */
     private void wordPermutation() {
         cv[0] = tcv[6];
