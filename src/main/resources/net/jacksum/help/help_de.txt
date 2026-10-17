@@ -4,7 +4,7 @@ NAME
 
 
 VERSION
-    4.0.2
+    4.0.3
 
 
 SYNOPSIS
@@ -73,9 +73,9 @@ DESCRIPTION
           - Unterstützung von Platzhaltern (Wildcards)
           - Erstellung von Prüflisten mit Prüfwerten wie Prüfsummen,
             Dateigröße, Zeitstempel und Dateiname
-          - 18 vordefinierte Standardstile zum Lesen und Schreiben von
+          - 19 vordefinierte Standardstile zum Lesen und Schreiben von
             Prüfdateien
-          - 15 vordefinierte Standardstile zum Lesen und Schreiben von
+          - 16 vordefinierte Standardstile zum Lesen und Schreiben von
             Fahndungslisten
           - 17 verschiedene Kodierungen zur Darstellung von Hashwerten
           - 6 vordefinierte Stile zur Darstellung von Datei-Zeitstempeln
@@ -6136,7 +6136,6 @@ ALGORITHMS
                 - DragonFly BSD:   /usr/bin/cksum -o 3
                 - FreeBSD:         /usr/bin/cksum -o 3
                 - FreeDOS:         \FDOS\BIN\MD5SUM /M=crc32
-                - HashGarten:      Algorithm -> crc32
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
                 - Go API:          hash/crc32.MakeTable(crc32.IEEE))
@@ -9648,7 +9647,6 @@ ALGORITHMS
                 - Go API:          crypto/sha256.New224()
                 - gpg:             gpg --print-md sha224
                 - HashGarten:      Algorithm -> sha-224
-                - Homebrew:        sha3-224sum
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha224
@@ -9754,7 +9752,6 @@ ALGORITHMS
                 - Go API:          crypto/sha256.New()
                 - gpg:             gpg --print-md sha256
                 - HashGarten:      Algorithm -> sha-256
-                - Homebrew:        sha3-256sum
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha256
@@ -9863,7 +9860,6 @@ ALGORITHMS
                 - Go API:          crypto/sha512.New384()
                 - gpg:             gpg --print-md sha384
                 - HashGarten:      Algorithm -> sha-384
-                - Homebrew:        sha3-384sum
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha384
@@ -9974,7 +9970,6 @@ ALGORITHMS
                 - Go API:          crypto/sha512.New()
                 - gpg:             gpg --print-md sha512
                 - HashGarten:      Algorithm -> sha-512
-                - Homebrew:        sha3-512sum
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha512
@@ -10227,6 +10222,7 @@ ALGORITHMS
                 - Go API:          golang.org/x/crypto/sha3.New224()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-224
+                - Homebrew:        sha3-224sum
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha3-224
@@ -10315,6 +10311,7 @@ ALGORITHMS
                 - Go API:          golang.org/x/crypto/sha3.New256()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-256
+                - Homebrew:        sha3-256sum
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha3-256
@@ -10403,6 +10400,7 @@ ALGORITHMS
                 - Go API:          golang.org/x/crypto/sha3.New384()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-384
+                - Homebrew:        sha3-384sum
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha3-384
@@ -10491,6 +10489,7 @@ ALGORITHMS
                 - Go API:          golang.org/x/crypto/sha3.New512()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-512
+                - Homebrew:        sha3-512sum
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha3-512
@@ -11529,10 +11528,10 @@ ALGORITHMS
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
                 - Go API:          -
-                - HashGarten:      Algorithm -> crc_fddi
+                - HashGarten:      Algorithm -> crc32_fddi
                 - HP-UX:           -
                 - IBM AIX:         -
-                - Jacksum:         jacksum -a crc_fddi
+                - Jacksum:         jacksum -a crc32_fddi
                 - Kali Linux:      -
                 - macOS:           -
                 - Minix:           -
