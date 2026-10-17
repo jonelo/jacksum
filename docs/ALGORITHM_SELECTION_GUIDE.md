@@ -917,8 +917,24 @@ sum_plan9 96744955
 ```
 
 On macOS, `printf abc | cksum`, `cksum -o 3`, `sum` and `cksum -o 2` print the first four of these
-values; the fifth is what Plan 9's `sum` computes (in hex: `05c435fb`). Only a tool that implements
-the variants itself, side by side, can tell them apart — see also
+values; the fifth is what Plan 9's `sum` computes (in hex: `05c435fb`).
+
+Cryptographic hash functions are no exception. In the Ethereum world, "SHA3" means the original
+Keccak-256, not the SHA3-256 that FIPS 202 standardised later with a different padding: Solidity's
+`sha3()` (an alias of `keccak256()` until Solidity 0.5.0 removed it), `web3.sha3()` of web3.js 0.x
+and `web3.utils.sha3()` of web3.js 1.x all compute Keccak-256. Even then the details matter:
+`web3.utils.sha3()` returns `null` rather than the hash value for an empty string, only
+`web3.utils.sha3Raw()` returns it for every input. ethers.js calls the same function `keccak256()`
+for bytes and `id()` for UTF-8 text. `jacksum -h keccak256` lists all of them in its
+`compatibility` section (since Jacksum 4.0.3). SHA3-256 and Keccak-256 differ already for "abc":
+
+```
+$ jacksum -a sha3-256+keccak256 -F "#ALGONAME{i} #HASH{i}" -q txt:abc
+sha3-256 3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532
+keccak256 4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45
+```
+
+Only a tool that implements the variants itself, side by side, can tell them apart — see also
 [Same Name, Different Variant](#variants).
 
 **Explaining and demonstrating.** Much of the evidence in this guide — the `sum32` permutation

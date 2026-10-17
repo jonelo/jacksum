@@ -6,7 +6,12 @@ Jacksum 4.0.3, TBD
   - the compatibility lists of the help: Homebrew's sha3-224sum, sha3-256sum, sha3-384sum and
     sha3-512sum compute SHA-3, so they are listed for sha3-<n> now rather than for sha-<n>; the
     list of sum_plan9 names the algorithm ID crc32_fddi rather than the unknown crc_fddi; the list
-    of crc32 names HashGarten once rather than twice
+    of crc32 names HashGarten once rather than twice; duplicate rows have been removed from the
+    lists of md2 (NetBSD), md5 (PowerShell), prng, sum_minix, sum_plan9 and sum_sysv (OpenSSL), and
+    sha3-224 (BusyBox)
+  - the compatibility list of keccak<length> names Solidity, ethers.js and web3.js, whose "sha3"
+    resp. keccak256 functions compute Keccak-256 rather than SHA3-256; the compatibility lists of
+    sha3-224, sha3-256, sha3-384 and sha3-512 say that none of them supports SHA-3 (FIPS 202)
   - the algorithm selection guide (docs/ALGORITHM_SELECTION_GUIDE.md) explains why Jacksum offers
     so many algorithms although a handful is enough to create new check lists
   - all examples in docs/EXAMPLES.md have been verified against Jacksum 4.0.2; outdated outputs,

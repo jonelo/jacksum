@@ -7505,6 +7505,10 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         -
                 - CentOS:          -
+                - ethers.js 5:     ethers.utils.id(<text>)
+                                   ethers.utils.keccak256(<bytes>)
+                - ethers.js 6:     ethers.id(<text>)
+                                   ethers.keccak256(<bytes>)
                 - FreeBSD 10.4+:   -
                 - FreeDOS:         -
                 - GNU/Hurd:        -
@@ -7533,7 +7537,13 @@ ALGORITHMS
                 - PowerShell:      -
                 - Python:          -
                 - Solaris:         -
+                - Solidity:        keccak256(<bytes>)
+                                   sha3(<bytes>) (before 0.5.0)
                 - Ubuntu:          -
+                - web3.js 0.x:     web3.sha3(<text>)
+                - web3.js 1.x:     web3.utils.sha3Raw(<text>)
+                                   web3.utils.sha3(<text>) returns null for ""
+                                   (web3.js has been archived in March 2025)
                 - Windows:         -
                 - Wolfram:         Hash[expr, "Keccak<length>", "HexString"]
                                    Hash[expr, {"Keccak", <length>}, "HexString"]
@@ -7714,7 +7724,6 @@ ALGORITHMS
                                    /usr/bin/cksum -a md2
                 - PHP 5.3.0+:      hash("md2", $input);
                 - MS-DOS:          -
-                - NetBSD:          /usr/bin/md2
                 - NextStep:        -
                 - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -md2
@@ -7889,7 +7898,6 @@ ALGORITHMS
                 - OpenSSL:         openssl dgst -md5
                 - PHP:             hash("md5", $input);
                 - Plan 9:          /bin/md5sum
-                - PowerShell:      -
                 - Python 2.5+:     hashlib.md5()
                 - PowerShell:      Get-FileHash -Algorithm MD5
                 - Solaris 9:       /usr/sbin/md5 (package SUNWkeymg)
@@ -8226,7 +8234,6 @@ ALGORITHMS
                 - OmniOS:          /usr/bin/sum -x prng
                                    /usr/bin/cksum -x prng
                 - OpenIndiana:     -
-                - OpenSSL:         -
                 - OpenSSL:         -
                 - PHP:             -
                 - Plan 9:          -
@@ -9418,9 +9425,9 @@ ALGORITHMS
                 - Angstrom:        -
                 - BeOS:            -
                 - BusyBox:         /bin/sha3sum [-a 224]
-                - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
+                - ethers.js:       - (keccak256() is Keccak-256, see keccak)
                 - FreeBSD:         -
                 - FreeDOS:         -
                 - GNU/Hurd:        -
@@ -9449,6 +9456,10 @@ ALGORITHMS
                 - PowerShell:      -
                 - Python 3.6+:     hashlib.sha3_224()
                 - Solaris 11.4+:   /usr/bin/digest -a sha3_224
+                - Solidity:        - (keccak256() and the former sha3() are
+                                   Keccak-256, see keccak)
+                - web3.js:         - (web3.sha3() and web3.utils.sha3() are
+                                   Keccak-256, see keccak)
                 - Windows:         -
                 - Wolfram:         Hash[expr, "SHA3-224", "HexString"]
                                    Hash[expr, {"SHA3", 224}, "HexString"]
@@ -9505,6 +9516,7 @@ ALGORITHMS
                 - BusyBox:         /bin/sha3sum -a 256
                 - CentOS:          -
                 - DragonFly BSD:   -
+                - ethers.js:       - (keccak256() is Keccak-256, see keccak)
                 - FreeBSD:         -
                 - FreeDOS:         -
                 - GNU/Hurd:        -
@@ -9533,6 +9545,10 @@ ALGORITHMS
                 - PowerShell:      -
                 - Python 3.6+:     hashlib.sha3_256()
                 - Solaris 11.4+:   /usr/bin/digest -a sha3_256
+                - Solidity:        - (keccak256() and the former sha3() are
+                                   Keccak-256, see keccak)
+                - web3.js:         - (web3.sha3() and web3.utils.sha3() are
+                                   Keccak-256, see keccak)
                 - Windows:         -
                 - Wolfram:         Hash[expr, "SHA3-256", "HexString"]
                                    Hash[expr, {"SHA3", 256}, "HexString"]
@@ -9590,6 +9606,7 @@ ALGORITHMS
                 - BusyBox:         /bin/sha3sum -a 384
                 - CentOS:          -
                 - DragonFly BSD:   -
+                - ethers.js:       - (keccak256() is Keccak-256, see keccak)
                 - FreeBSD:         -
                 - FreeDOS:         -
                 - GNU/Hurd:        -
@@ -9618,6 +9635,10 @@ ALGORITHMS
                 - PowerShell:      -
                 - Python 3.6+:     hashlib.sha3_384()
                 - Solaris 11.4+:   /usr/bin/digest -a sha3_384
+                - Solidity:        - (keccak256() and the former sha3() are
+                                   Keccak-256, see keccak)
+                - web3.js:         - (web3.sha3() and web3.utils.sha3() are
+                                   Keccak-256, see keccak)
                 - Windows:         -
                 - Wolfram:         Hash[expr, "SHA3-384", "HexString"]
                                    Hash[expr, {"SHA3", 384}, "HexString"]
@@ -9674,6 +9695,7 @@ ALGORITHMS
                 - BusyBox:         /bin/sha3sum -a 512
                 - CentOS:          -
                 - DragonFly BSD:   -
+                - ethers.js:       - (keccak256() is Keccak-256, see keccak)
                 - FreeBSD:         -
                 - FreeDOS:         -
                 - GNU/Hurd:        -
@@ -9702,6 +9724,10 @@ ALGORITHMS
                 - PowerShell:      -
                 - Python 3.6+:     hashlib.sha3_512()
                 - Solaris 11.4+:   /usr/bin/digest -a sha3_512
+                - Solidity:        - (keccak256() and the former sha3() are
+                                   Keccak-256, see keccak)
+                - web3.js:         - (web3.sha3() and web3.utils.sha3() are
+                                   Keccak-256, see keccak)
                 - Windows:         -
                 - Wolfram:         Hash[expr, "SHA3-512", "HexString"]
                                    Hash[expr, {"SHA3", 512}, "HexString"]
@@ -10617,7 +10643,6 @@ ALGORITHMS
                 - Plan 9:          -
                 - Solaris:         -
                 - Windows:         -
-                - OpenSSL:         -
                 - Wolfram:         -
 \
             since:
@@ -10676,7 +10701,6 @@ ALGORITHMS
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=fddi
                 - Windows:         -
-                - OpenSSL:         -
                 - Wolfram:         -
 \
             since:
@@ -10750,7 +10774,6 @@ ALGORITHMS
                 - Tcl:             crc::sum -sysv
                 - Tru64 Unix:      /usr/bin/sum -o
                 - Windows:         -
-                - OpenSSL:         -
                 - Wolfram:         -
 \
             since:

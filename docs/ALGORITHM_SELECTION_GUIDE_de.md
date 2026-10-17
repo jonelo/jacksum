@@ -966,9 +966,26 @@ sum_plan9 96744955
 ```
 
 Unter macOS geben `printf abc | cksum`, `cksum -o 3`, `sum` und `cksum -o 2` die ersten vier dieser
-Werte aus; der fünfte ist das, was `sum` unter Plan 9 berechnet (hexadezimal: `05c435fb`). Nur ein
-Werkzeug, das die Varianten selbst nebeneinander implementiert, kann sie auseinanderhalten — siehe
-auch [Gleicher Name, andere Variante](#variants).
+Werte aus; der fünfte ist das, was `sum` unter Plan 9 berechnet (hexadezimal: `05c435fb`).
+
+Kryptografische Hashfunktionen sind keine Ausnahme. In der Ethereum-Welt bedeutet "SHA3" das
+ursprüngliche Keccak-256, nicht das SHA3-256, das FIPS 202 später mit einem anderen Padding
+standardisiert hat: `sha3()` von Solidity (ein Alias für `keccak256()`, bis Solidity 0.5.0 ihn
+entfernt hat), `web3.sha3()` von web3.js 0.x und `web3.utils.sha3()` von web3.js 1.x berechnen alle
+Keccak-256. Selbst dann kommt es auf die Details an: `web3.utils.sha3()` liefert für einen leeren
+String `null` statt des Hashwerts, nur `web3.utils.sha3Raw()` liefert ihn für jede Eingabe.
+ethers.js nennt dieselbe Funktion `keccak256()` für Bytes und `id()` für UTF-8-Text.
+`jacksum -h keccak256` führt sie alle im Abschnitt `compatibility` auf (seit Jacksum 4.0.3).
+SHA3-256 und Keccak-256 unterscheiden sich schon für "abc":
+
+```
+$ jacksum -a sha3-256+keccak256 -F "#ALGONAME{i} #HASH{i}" -q txt:abc
+sha3-256 3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532
+keccak256 4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45
+```
+
+Nur ein Werkzeug, das die Varianten selbst nebeneinander implementiert, kann sie auseinanderhalten
+— siehe auch [Gleicher Name, andere Variante](#variants).
 
 **Erklären und Vorführen.** Ein Großteil der Belege in dieser Anleitung — die
 Permutations-Vorführung mit `sum32`, die Kollisionsrechnung für 8 Bit, die Messungen des

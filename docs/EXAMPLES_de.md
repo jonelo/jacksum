@@ -1154,6 +1154,35 @@ jacksum -a crc:16,1021,FFFF,false,false,FFFF -E hex -q txt:"Hello World"
 `<bits>` in `unknown:<bits>` darf alles von 1 bis 1024 sein. Siehe auch
 [Investigating Algorithms](https://github.com/jonelo/jacksum/wiki/Investigating-Algorithms).
 
+Dasselbe funktioniert für kryptografische Hashfunktionen, und so finden Sie heraus, was ein anderes
+Werkzeug wirklich berechnet, wenn sein Name mehrdeutig ist. In der Ethereum-Welt liefert "SHA3" —
+`sha3()` von Solidity (ein Alias für `keccak256()`, bis Solidity 0.5.0 ihn entfernt hat),
+`web3.sha3()` von web3.js 0.x und `web3.utils.sha3()` von web3.js 1.x — für `abc` den Wert
+`4e03657a...`:
+
+```
+jacksum -a unknown:256 -E hex -q txt:abc -e 4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45
+Trying 55 algorithms with a width of 256 bits that are supported by Jacksum 4.0.2 ...
+keccak256
+    --> Keccak-256
+```
+
+Das ist das ursprüngliche Keccak-256, nicht das SHA3-256, das FIPS 202 später mit einem anderen
+Padding standardisiert hat. Achten Sie auch auf die Details: `web3.utils.sha3()` liefert für einen
+leeren String `null` statt des Hashwerts, nur `web3.utils.sha3Raw()` liefert ihn für jede Eingabe;
+ethers.js nennt die Funktion `keccak256()` für Bytes und `id()` für UTF-8-Text.
+`jacksum -h keccak256` führt sie alle im Abschnitt `compatibility` auf (seit Jacksum 4.0.3).
+Sobald Sie die Kandidaten kennen, stellen Sie sie nebeneinander:
+
+```
+jacksum -a sha3-256+keccak256 -F "#ALGONAME{i} #HASH{i}" -q txt:abc
+sha3-256 3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532
+keccak256 4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45
+```
+
+Siehe auch
+[Warum 586 Algorithmen, wenn eine Handvoll genügt?](ALGORITHM_SELECTION_GUIDE_de.md#why_so_many)
+
 <a name="hmac"></a>
 
 # 6. HMAC
