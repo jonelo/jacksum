@@ -48,7 +48,7 @@ For details, see the [Use Cases](docs/USE_CASES.md) - a task orientierted cookbo
   advantage of multi-core processors and fast SSD storage
 - Recursive traversal with depth control, policies to follow symbolic links on files and/or
   folders, and file system cycle detection
-- 18 predefined standard styles for reading and writing check files, 15 of them for wanted lists
+- 19 predefined standard styles for reading and writing check files, 16 of them for wanted lists
 - 17 different encodings for representing hash values
 - 6 predefined styles for representing file timestamps
 - 170+ different character sets to be able to read and write hash files correctly

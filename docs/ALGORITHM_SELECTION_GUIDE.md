@@ -12,6 +12,7 @@
  - [Speed, and Why It Is Usually the Wrong Tie-Breaker](#speed)
  - [Two Implementations Behind One Algorithm ID](#implementations)
  - [The Operating System Constraint](#os_constraint)
+ - [Why 586 Algorithms, If a Handful Will Do?](#why_so_many)
  - [Algorithms Not to Use Any More](#blacklist)
    - [Tier A: Too Narrow](#tier_a)
    - [Tier B: Defective by Construction](#tier_b)
@@ -50,7 +51,8 @@ means), it names the algorithms you should stop using, and it shows how to get J
 | Only accidental corruption matters, or a protocol dictates the value | `crc32c`, `crc64_nvme` |
 
 Everything after this table is the reasoning, so that you can defend the choice, adapt it when
-your constraints differ, and recognise when someone else's advice is out of date.
+your constraints differ, and recognise when someone else's advice is out of date. And if six rows
+make you wonder why Jacksum carries 586 algorithms at all, see [why so many](#why_so_many).
 
 Two things this guide deliberately does **not** do. It does not rank algorithms by a single
 "strength" score, because the right choice depends on your threat model and on who has to
@@ -868,18 +870,91 @@ Read the rows carefully, because the results are not what reputation suggests:
    with `-h <algo>` rather than assuming.
 3. Also pick a **format** the target tool can parse. The right algorithm in the wrong layout is
    still unusable, so choose a `--style`: `gnu-linux`, `bsd`, `bsd-r`, `solaris-digest`, `fciv`,
-   `openssl-dgst`, `sfv`, and more. `jacksum -h` documents all 18.
+   `openssl-dgst`, `sfv`, and more. `jacksum -h` documents all 19.
 4. If you must serve several environments, generate several lists from a single read pass, or
    record more than one algorithm — see [concatenation](#concatenation).
+
+
+<a name="why_so_many"></a>
+
+# Why 586 Algorithms, If a Handful Will Do?
+
+The short answer at the top of this guide names six choices, and most of the rest explains why
+the other 580 are not among them. That is not a contradiction. "A handful will do" is the answer
+for *creating* new fingerprints. Jacksum's breadth serves a different job: dealing with values
+that *already exist*, computed by someone else, by some device, at some point in the past.
+
+**Reading what others wrote.** A check list somebody generated in 1998, a download page that still
+publishes MD5 values, a tool that only ever wrote SFV — to verify any of them you need exactly the
+algorithm that produced it, however outdated it is.
+
+**Reproducing what devices and protocols compute.** Firmware images, network frames, storage
+formats and serial protocols dictate their CRC or checksum. There the algorithm is a
+specification, not a choice, and Jacksum has to match it bit for bit.
+
+**Checking what another tool really computes.** Many checksum tools are less precise about their
+algorithm than they appear to be. Sometimes an implementation is wrong, but more often nothing is
+wrong at all: the tool simply does not compute what its name suggests, or an option switches it to
+a different algorithm altogether. `sum` on GNU/Linux and macOS prints the 16-bit BSD checksum
+(`sum_bsd`), with `-s` the System V one (`sum_sysv`) — while `/bin/sum` on Plan 9 is a 32-bit FDDI
+CRC (`sum_plan9`). `cksum` on macOS and FreeBSD is the POSIX CRC by default, but `cksum -o 3` is
+the CRC-32 of ISO 3309 and `cksum -o 2` the System V sum. FreeDOS' `\FDOS\BIN\MD5SUM /M=crc32`
+computes a CRC-32 despite its name. PHP's `hash("crc32", ...)` is not the CRC-32 of zip and gzip
+but bzip2's CRC with mirrored output bytes (`crc32_php`); the familiar one is `hash("crc32b", ...)`.
+And Minix' `/usr/bin/crc` uses a non-standard update method that is kept for compatibility
+reasons, which Jacksum reproduces as `crc16_minix`. Jacksum makes such cases easy to check: the
+`compatibility` section of `jacksum -h <algo>` names, per operating system and tool, the command
+that produces the same value, and the candidates can be computed side by side over the same input
+and compared with the other tool's output:
+
+```
+$ jacksum -a cksum+crc32+sum_bsd+sum_sysv+sum_plan9 -F "#ALGONAME{i} #HASH{i,dec}" -q txt:abc
+cksum 1219131554
+crc32 891568578
+sum_bsd 16556
+sum_sysv 294
+sum_plan9 96744955
+```
+
+On macOS, `printf abc | cksum`, `cksum -o 3`, `sum` and `cksum -o 2` print the first four of these
+values; the fifth is what Plan 9's `sum` computes (in hex: `05c435fb`). Only a tool that implements
+the variants itself, side by side, can tell them apart — see also
+[Same Name, Different Variant](#variants).
+
+**Explaining and demonstrating.** Much of the evidence in this guide — the `sum32` permutation
+demo, the 8-bit collision arithmetic, the avalanche measurements of weak CRCs — can only be shown
+because the weak algorithms are there to be measured.
+
+**Identifying the algorithm behind a hash value.** This is the reason that depends most directly
+on breadth. If you know an input and the value computed from it, but not the algorithm, Jacksum
+can work backwards: it tries every supported algorithm of that width, then the well-known CRCs,
+and finally searches the whole CRC parameter space by brute force:
+
+```
+$ jacksum -a unknown:16 -q hex:050000 -E hex -e d893
+```
+
+For this 16-bit value it tests more than a million algorithms in a few seconds and names
+CRC-16/GENIBUS as the most likely candidate (the full output is in
+[Examples](EXAMPLES.md#find_algorithm)). The question "which algorithm produced this?" can only be
+answered by a tool that knows the algorithm in question. A tool that supports a handful of
+algorithms can only ever reply "none of mine". Every algorithm that nobody should choose for a new
+check list is still one more candidate when identifying an old value — reverse-engineering a
+device's checksum, an undocumented file format, a hash column in a legacy database, or a check
+list without a header. Step 12 of the [worked example](#workflow) does the same for a 256-bit
+hash.
+
+So both statements hold at once: for creating fingerprints, a handful is enough; for reading,
+reproducing, cross-checking, explaining and identifying existing ones, breadth is the whole point.
+Which algorithms to avoid for new check lists is the subject of the next section.
 
 
 <a name="blacklist"></a>
 
 # Algorithms Not to Use Any More
 
-Jacksum ships 586 algorithms because it is a *comprehensive* framework: it must be able to read
-a check list somebody generated in 1998, reproduce a device's CRC, and demonstrate historical
-functions for teaching. Availability in Jacksum is emphatically not a recommendation.
+Jacksum ships 586 algorithms for [the reasons above](#why_so_many), and availability in Jacksum is
+emphatically not a recommendation.
 
 For fingerprinting a large collection of files, the following should be off your list. They are
 grouped by *why*, because the reasons are entirely different and the remedy differs too.
@@ -1076,8 +1151,9 @@ $ jacksum -a crc64_xz --info -V details
 **The closing rule for this whole section.** To fingerprint thousands of files for later
 verification, choose a **cryptographic hash function of at least 256 bits, flagged `broken: no`,
 from [vetting tier 1 or 2](#scrutiny)**. Everything in Tier A and Tier B exists for format
-compatibility, legacy interoperability, protocol conformance and teaching — which is the only
-reason Jacksum offers it.
+compatibility, legacy interoperability, protocol conformance, teaching,
+[checking what another tool really computes, and identifying an unknown algorithm](#why_so_many)
+— those are the only reasons Jacksum offers it.
 
 
 <a name="hmac"></a>
@@ -1253,7 +1329,7 @@ buys you a check list that survives one of its algorithms being deprecated.
 # Worked Example: Thousands of Files
 
 The complete sequence for the scenario this guide opened with. Every command below was run
-against Jacksum 4.0.0.
+against Jacksum 4.0.2.
 
 **1. Justify the candidate.** Before trusting an algorithm with an archive, look at it:
 
@@ -1396,11 +1472,12 @@ $ jacksum -a sha-256 --style gnu-linux --check-line "<one line from a list>"
 ```
 
 **12. Identify an unknown hash.** If you have the data and the value but not the algorithm,
-Jacksum can search for it (`-E` is required):
+Jacksum can search for it (`-E` is required) — something only a tool with
+[this many algorithms](#why_so_many) can do:
 
 ```
 $ jacksum -a unknown:256 -E hex -q txt:"abc" -e ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
-Trying 55 algorithms with a width of 256 bits that are supported by Jacksum 4.0.0 ...
+Trying 55 algorithms with a width of 256 bits that are supported by Jacksum 4.0.2 ...
 sha-256
     --> SHA-256 (SHA-2 family)
 ```

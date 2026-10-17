@@ -1,3 +1,18 @@
+Jacksum 4.0.3, TBD
+
+- Documentation
+  - the feature list of the help (-h) names 19 predefined styles for check files and 16 for wanted
+    lists rather than 18 and 15, because the style openssl111-dgst (since 4.0.0) was not counted
+  - the compatibility lists of the help: Homebrew's sha3-224sum, sha3-256sum, sha3-384sum and
+    sha3-512sum compute SHA-3, so they are listed for sha3-<n> now rather than for sha-<n>; the
+    list of sum_plan9 names the algorithm ID crc32_fddi rather than the unknown crc_fddi; the list
+    of crc32 names HashGarten once rather than twice
+  - the algorithm selection guide (docs/ALGORITHM_SELECTION_GUIDE.md) explains why Jacksum offers
+    so many algorithms although a handful is enough to create new check lists
+  - all examples in docs/EXAMPLES.md have been verified against Jacksum 4.0.2; outdated outputs,
+    the exit codes, and the example for --ignore-timestamps and --ignore-sizes have been corrected
+
+
 Jacksum 4.0.2, Oct 10, 2026
 
 - Bug fixes

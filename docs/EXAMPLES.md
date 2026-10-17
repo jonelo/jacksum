@@ -59,7 +59,7 @@
 
 # Before you start
 
-All examples below have been verified against **Jacksum 4.0.0**. They are ordered from easy to
+All examples below have been verified against **Jacksum 4.0.2**. They are ordered from easy to
 hard: section 1 needs nothing but a file, section 10 is reference material you look up when you
 need it.
 
@@ -177,7 +177,7 @@ jacksum -a all:sha -F "#ALGONAME{i}(#FILENAME) = #HASH{i}" .
 ```
 
 Algorithm filtering: `all:<string>` selects every algorithm whose ID contains `<string>`, and `{i}`
-iterates over all of them. Note that `all:sha` in Jacksum 4.0.0 also matches `ascon-hasha`,
+iterates over all of them. Note that `all:sha` in Jacksum 4.0.2 also matches `ascon-hasha`,
 `sha0`, `shabal*` and `shake*` — use `jacksum -a all:sha --list` first to see what you get.
 
 ```
@@ -377,7 +377,7 @@ See also [Find strings that match a hash](#find_strings) and
 
 # 3. Output and formats
 
-Jacksum supports 18 predefined styles for reading and writing check files, 17 encodings, 6
+Jacksum supports 19 predefined styles for reading and writing check files, 17 encodings, 6
 timestamp formats, and a fully customizable output format.
 
 <a name="output_styles"></a>
@@ -436,7 +436,7 @@ jacksum -a sha3-256 --style hdb --no-path ./malware/
 ClamAV `sigtool` hash database format (`hash:filesize:filename`).
 
 The full set is `bsd`, `bsd-r`, `fciv`, `files-only`, `full`, `gnu-linux` (alias `linux`), `hdb`,
-`hexhashes-only`, `openssl-dgst` (alias `openssl`), `openssl-dgst-r`, `sfv`, `sizes-and-names`,
+`hexhashes-only`, `openssl-dgst` (alias `openssl`), `openssl-dgst-r`, `openssl111-dgst`, `sfv`, `sizes-and-names`,
 `solaris-digest`, `solaris-digest-v`, `timestamps-and-names`, `without-hashes`, `without-sizes`,
 `without-timestamps`. You can also write your own — see
 [File Format of Styles](https://github.com/jonelo/jacksum/wiki/File-Format-of-Styles).
@@ -585,7 +585,7 @@ jacksum --header -a sha3-256 --style linux -O log4j.hashes --no-path .
 
 ```
 #
-# created by: Jacksum (https://jacksum.net, version: 4.0.0)
+# created by: Jacksum (https://jacksum.net, version: 4.0.2)
 # invoked on JVM: OpenJDK 64-Bit Server VM (vendor: Eclipse Adoptium, version: 25.0.4+7-LTS)
 # invoked on OS: Linux (arch: amd64, version: 6.8.0-51-generic)
 # invoked on date: 2026-08-16T20:10:25.122+02:00
@@ -775,6 +775,7 @@ Jacksum: Error: drei: does not exist.
 Jacksum: total lines in check file: 4
 Jacksum: improperly formatted lines in check file: 0
 Jacksum: properly formatted lines in check file: 4
+Jacksum: duplicate entries in check file: 0
 Jacksum: ignored lines (empty lines and comments): 0
 Jacksum: correctness of check file: 100.00 %
 
@@ -782,6 +783,7 @@ Jacksum: matches (OK): 2
 Jacksum: mismatches (FAILED): 1
 Jacksum: new files (NEW): 2
 Jacksum: missing files (MISSING): 1
+Jacksum: files with errors (ERROR): 0
 Jacksum: strict check: FAILED
 
 Jacksum: total files read successfully: 3
@@ -868,10 +870,12 @@ again. To verify a package including all of its dependencies, install the `debsu
 `rdebsums`.
 
 ```
-jacksum -a sha3-256 --check-file list --ignore-timestamps --ignore-sizes .
+jacksum -a sha3-256 --style full --check-file list --ignore-timestamps --ignore-sizes .
 ```
 
-Compare hashes only, even though the list also carries sizes and timestamps.
+Compare hashes only, even though the list also carries sizes and timestamps. The style (here
+`full`, the one the list was created with) is still required, because it tells the parser where
+the sizes and timestamps are.
 
 ```
 jacksum -a sha3-256 --check-file list --ignore-lines-starting-with-string ";" .
@@ -887,8 +891,12 @@ Skips comment lines in a foreign format (`-I` for short). `--ignore-empty-lines`
 | Code | Meaning |
 |---|---|
 | `0` | everything is OK |
-| `1` | at least one mismatch during verification, or `--exact -h <word>` found nothing |
-| `>1` | parameter, `.jacksum` or I/O error (a failed `--check-strict` run exits with `6`) |
+| `1` | at least one mismatch during verification, `-q` together with `-e` did not match, `--exact -h <word>` found nothing, or `-a unknown:<width>` found no algorithm |
+| `2` | parameter error |
+| `3` | the check list resp. the wanted list could not be parsed |
+| `4` | I/O error, e.g. a file cannot be read or is missing, or an output file exists already |
+| `5` | no file with a wanted hash value has been found (`-w`) |
+| `6` | the expectation has not been met (`-e` with files), or `--check-strict` found a file that is FAILED, MISSING or NEW |
 
 ```
 jacksum -a sha3-256 --check-file ../.SHA3 --check-strict -V nosummary data || echo "audit failed"
@@ -910,8 +918,8 @@ engine over content: find duplicates, find a known file wherever it is hiding, f
 
 ```
 jacksum -a sha3-256 -e c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43 .
-    MATCH  ./ubuntu-22.04-desktop-amd64.iso (c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43)
-    MATCH  ./ubuntu-22.04-desktop-amd64 (1).iso (c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43)
+    MATCH  ubuntu-22.04-desktop-amd64.iso (c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43)
+    MATCH  ubuntu-22.04-desktop-amd64 (1).iso (c5e46426a3ca0ae848d297747ed3846452cc7b33d5b418af961dbd55de8dff43)
 
 Jacksum: Expectation met.
 Jacksum: 2 of the successfully read files match the expected hash value.
@@ -931,7 +939,7 @@ If you know the hash of a file, you can find the file even if you do not know it
 for Satoshi Nakamoto's Bitcoin whitepaper on macOS:
 
 ```
-jacksum -a sha256 -x -e b1674191a88ec5cdd733e4240a81803105dc412d6c6708d53ab94fc248f4f553 --threads-reading max .
+jacksum -a sha256 -x -e b1674191a88ec5cdd733e4240a81803105dc412d6c6708d53ab94fc248f4f553 --threads-reading max /
 ```
 
 <details>
@@ -973,11 +981,11 @@ jacksum --wanted-list log4j.hashes --style linux --threads-reading max -V summar
 ```
     MATCH  /opt/serverapp/log4j.jar (log4j-core-2.12.0.jar)
 
-Jacksum: total lines in check file: 42
-Jacksum: improperly formatted lines in check file: 0
-Jacksum: properly formatted lines in check file: 33
+Jacksum: total lines in wanted list: 42
+Jacksum: improperly formatted lines in wanted list: 0
+Jacksum: properly formatted lines in wanted list: 33
 Jacksum: ignored lines (empty lines and comments): 9
-Jacksum: correctness of check file: 100.00 %
+Jacksum: correctness of wanted list: 100.00 %
 
 Jacksum: total number of wanted hashes: 33
 Jacksum: files matching wanted hashes (MATCH): 1
@@ -1061,7 +1069,7 @@ jacksum -a unknown:16 -q hex:050000 -E hex -e d893
 <summary>Result ...</summary>
 
 ```
-Trying 14 algorithms with a width of 16 bits that are supported by Jacksum 4.0.0 ...
+Trying 14 algorithms with a width of 16 bits that are supported by Jacksum 4.0.2 ...
 
 Trying 31 CRC algorithms with a width of 16 bits by testing against well known CRCs ...
 crc:16,1021,FFFF,false,false,FFFF
@@ -1090,14 +1098,14 @@ crc:16,E03E,FFFF,false,false,FFFF
 crc:16,F701,FFFF,true,false,FFFF
 
 
-Jacksum: algorithms tested: 1048622
+Jacksum: algorithms tested: 1048621
 Jacksum: algorithms found: 21
 
-Jacksum: elapsed time: 5 s, 217 ms
+Jacksum: elapsed time: 1 s, 285 ms
 ```
 </details>
 
-Jacksum tested more than one million algorithms in about 5 seconds and found 21 that produce the
+Jacksum tested more than one million algorithms in about a second and found 21 that produce the
 same value. Test with more and/or longer input/output pairs to narrow it down. The most likely
 candidate is printed with a name if it is a well known CRC — here CRC-16/GENIBUS.
 
@@ -1236,9 +1244,9 @@ The full reasoning is at <https://bit.ly/secure-passwords-with-jacksum>.
 ```
 jacksum -h | sort | uniq > strings.txt
 jacksum -a hmac:sha256:64 -k txt:run42 --string-list strings.txt -F "#HASH" -E dec
-482543917333917802
-2258785350139739212
-2746638413740063416
+15092064287037966869
+13836103520032747149
+1629331810490462429
 ```
 
 A generator for many large random pseudo-numbers: take a set of unique strings, apply an HMAC,
@@ -1529,7 +1537,7 @@ The same for CRC-64/xz.
 jacksum -a all --list
 ```
 
-Prints every supported algorithm ID that can be passed to `-a`. Jacksum 4.0.0 supports **586**;
+Prints every supported algorithm ID that can be passed to `-a`. Jacksum 4.0.2 supports **586**;
 the annotated list lives on the
 [Algorithms](ALGORITHMS.md) page.
 
@@ -1566,7 +1574,7 @@ Generates test vectors as CSV (`name,input as hex,hash as hex`) for a whole algo
 once.
 
 <details>
-<summary>Result (Jacksum 4.0.0) ...</summary>
+<summary>Result (Jacksum 4.0.2) ...</summary>
 
 ```
 crc8,30313233343536373839,45
@@ -1618,7 +1626,7 @@ The full documentation for styles, encodings, the format language, and program p
 ```
 jacksum -v
 jacksum --version
-Jacksum 4.0.0
+Jacksum 4.0.2
 ```
 
 Only the program name and version in accordance with [Semantic Versioning](https://semver.org/).
@@ -1690,8 +1698,8 @@ starts with a minus sign).
 jacksum --exact -h --path
 ```
 
-`--exact` turns the prefix search into an exact match — this one prints nothing, because there is no
-option called exactly `--path`.
+`--exact` turns the prefix search into an exact match — this one prints nothing on stdout and exits with
+code `1`, because there is no option called exactly `--path`.
 
 ---
 
