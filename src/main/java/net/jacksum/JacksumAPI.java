@@ -1,6 +1,6 @@
 /*
 
-  Jacksum 4.0.2 - a checksum/hash tool written in Java
+  Jacksum 4.0.3 - a checksum/hash tool written in Java
   Copyright (c) 2001-2026 Dipl.-Inf. (FH) Johann N. Löfflmann,
   All Rights Reserved, <https://jacksum.net>.
 
@@ -76,7 +76,7 @@ public class JacksumAPI {
     /**
      * The version of the API
      */
-    public final static String VERSION = "4.0.2";
+    public final static String VERSION = "4.0.3";
     /**
      * The URI of the program
      */
