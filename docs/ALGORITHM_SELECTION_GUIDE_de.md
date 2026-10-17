@@ -35,7 +35,7 @@ Sie haben eine Festplatte mit tausenden von Dateien. Sie möchten heute für jed
 Fingerprint festhalten, damit Sie in Monaten oder Jahren nachweisen können, dass sich nichts
 verändert hat. Welchen der 586 Algorithmen von Jacksum wählen Sie?
 
-Diese Anleitung geht darum, diese Entscheidung bewusst zu treffen und nicht aus Gewohnheit. Sie
+In dieser Anleitung geht es darum, diese Entscheidung bewusst und nicht aus Gewohnheit zu treffen. Sie
 erklärt die notwendigen Begriffe (Hashfunktion, CRC, Lawineneffekt, Kollisionsresistenz, was
 "gebrochen" bedeutet), sie benennt die Algorithmen, die Sie nicht mehr einsetzen sollten, und sie
 zeigt, wie Sie Jacksum dazu bringen, Ihnen das Nötige *selbst zu sagen*, anstatt einer Tabelle in
