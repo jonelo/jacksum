@@ -4925,7 +4925,7 @@ ALGORITHMS
                 - FreeDOS:         -
                 - GNU/Hurd:        -
                 - GNU/Linux:       -
-                - Go API:          -
+                - Go API:          hash/adler32.New()
                 - Haiku:           -
                 - HashGarten:      Algorithm -> adler32
                 - HP-UX:           -
@@ -5318,16 +5318,21 @@ ALGORITHMS
                 - Jacksum:         jacksum -a blake2b[-<length>]
                 - Java API:        -
                 - Kali Linux:      -
+                - libsodium:       crypto_generichash()
+                                   (<bytes>: 16 bis 64)
                 - macOS:           -
                 - Minix:           -
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - Node.js:         crypto.createHash("blake2b512")
+                                   (nur 512 Bit)
                 - OpenIndiana:     /usr/bin/b2sum [-l <length>]
                                    /usr/gnu/bin/cksum -a blake2b [-l <length>]
                 - openSUSE:        /usr/bin/b2sum [-l <length>]
                 - OpenSSL 1.1.0+:  openssl dgst -blake2b512
-                - PHP:             -
+                - PHP 7.2+:        sodium_crypto_generichash($input, "",
+                                   <bytes>)
                 - Plan 9:          -
                 - Python 3.6+:     hashlib.blake2b
                 - Solaris:         -
@@ -5473,6 +5478,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - Node.js:         crypto.createHash("blake2s256")
                 - OpenIndiana:     -
                 - OpenSSL 1.1.0+:  openssl dgst -blake2s256
                 - PHP:             -
@@ -5602,6 +5608,7 @@ ALGORITHMS
                 - 7z:              -
                 - 7zFM:            -
                 - Angstrom:        -
+                - b3sum:           b3sum [-l <bytes>]
                 - BeOS:            -
                 - BusyBox:         -
                 - CentOS:          -
@@ -6136,8 +6143,10 @@ ALGORITHMS
                 - DragonFly BSD:   /usr/bin/cksum -o 3
                 - FreeBSD:         /usr/bin/cksum -o 3
                 - FreeDOS:         \FDOS\BIN\MD5SUM /M=crc32
-                - GNU/Hurd:        -
-                - GNU/Linux:       -
+                - GNU/Hurd (GNU Coreutils 9.6+ 01/2025):
+                                   /usr/bin/cksum -a crc32b
+                - GNU/Linux (GNU Coreutils 9.6+ 01/2025):
+                                   /usr/bin/cksum -a crc32b
                 - Go API:          hash/crc32.MakeTable(crc32.IEEE))
                 - gpg:             -
                 - HashGarten:      Algorithm -> crc32
@@ -6149,8 +6158,11 @@ ALGORITHMS
                 - macOS:           /usr/bin/cksum -o 3
                 - Minix:           -
                 - MS-DOS:          -
+                - .NET (System.IO.Hashing 8+):
+                                   Crc32.HashToUInt32(<bytes>)
                 - NetBSD:          -
                 - NextStep:        -
+                - Node.js 22.2+:   zlib.crc32(<data>)
                 - OpenIndiana:     -
                 - OpenSSL:         -
                 - PHP:             hash("crc32b", $input);
@@ -6507,6 +6519,43 @@ ALGORITHMS
                 Verwendet in DLT-1-Bandkassetten, siehe auch
                 https://www.ecma-international.org/publications/
                 files/ECMA-ST/Ecma-182.pdf
+\
+            Kompatibilität:
+                - 7z:              - (7z h -scrccrc64 ist crc64_xz)
+                - 7zFM:            -
+                - Angstrom:        -
+                - BeOS:            -
+                - BusyBox:         -
+                - CentOS:          -
+                - DragonFly BSD:   -
+                - FreeBSD:         -
+                - FreeDOS:         -
+                - GNU/Hurd:        -
+                - GNU/Linux:       -
+                - Go API:          - (crc64.ECMA ist crc64_xz)
+                - gpg:             -
+                - HashGarten:      Algorithm -> crc64_ecma
+                - HP-UX:           -
+                - IBM AIX:         -
+                - Jacksum:         jacksum -a crc64_ecma
+                - Java API:        -
+                - Kali Linux:      -
+                - macOS:           -
+                - Minix:           -
+                - MS-DOS:          -
+                - .NET (System.IO.Hashing 8+):
+                                   Crc64.HashToUInt64(<bytes>)
+                - NetBSD:          -
+                - NextStep:        -
+                - OpenIndiana:     -
+                - OpenSSL:         -
+                - PHP:             -
+                - Plan 9:          -
+                - PowerShell:      -
+                - Python:          -
+                - Solaris:         -
+                - Windows:         -
+                - Wolfram:         -
 \
             seit:
                 Jacksum 3.0.0
@@ -8209,6 +8258,9 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - Node.js:         crypto.createHash("keccak-<length>")
+                                   (kein keccak-288; abhängig vom
+                                   mitgelieferten OpenSSL)
                 - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  -
                 - PHP 7.1+:        -
@@ -8556,7 +8608,7 @@ ALGORITHMS
                 siehe auch https://eprint.iacr.org/2004/199.pdf
 \
             Kompatibilität:
-                - 7z:              -
+                - 7z 24.09+:       7z h -scrcmd5
                 - 7zFM 24.09+:     File -> CRC -> MD5
                 - Azure Cloud Shell (Common Base Linux 10):
                                    /usr/bin/md5sum
@@ -8575,8 +8627,8 @@ ALGORITHMS
                 - GNU/Linux:       /usr/bin/md5sum
                 - GNU/Linux (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a md5
-                - Go API:          -
-                - gpg:             -
+                - Go API:          crypto/md5.New()
+                - gpg:             gpg --print-md md5
                 - Haiku:           /bin/md5sum
                 - HashGarten:      Algorithm -> md5
                 - HP-UX:           -
@@ -8591,11 +8643,13 @@ ALGORITHMS
                                    /usr/bin/sum -a md5
                                    /usr/bin/cksum -a md5
                 - MS-DOS:          -
+                - .NET 5+:         MD5.HashData(<bytes>)
                 - NetBSD:          /usr/bin/md5
                 - NetBSD 9.2+:     /usr/bin/md5
                                    /usr/bin/sum -a md5
                                    /usr/bin/cksum -a md5
                 - NextStep:        -
+                - Node.js:         crypto.createHash("md5")
                 - OpenIndiana:     /usr/gnu/bin/cksum -a md5
                                    /usr/bin/md5sum
                                    /usr/bin/digest -a md5
@@ -9167,6 +9221,8 @@ ALGORITHMS
                 - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   /sbin/rmd160
+                - ethers.js 5:     ethers.utils.ripemd160(<bytes>)
+                - ethers.js 6:     ethers.ripemd160(<bytes>)
                 - FreeBSD 5.3+:    /sbin/rmd160
                 - FreeDOS:         -
                 - GNU/Hurd:        -
@@ -9190,6 +9246,7 @@ ALGORITHMS
                                    /usr/bin/sum -a rmd160
                                    /usr/bin/cksum -a rmd160
                 - NextStep:        -
+                - Node.js:         crypto.createHash("ripemd160")
                 - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -rmd160
                                    openssl dgst -ripemd
@@ -9199,6 +9256,7 @@ ALGORITHMS
                 - PowerShell:      Get-FileHash -Algorithm RIPEMD160
                 - Python:          -
                 - Solaris:         -
+                - Solidity:        ripemd160(<bytes>)
                 - Windows:         -
                 - Wolfram:         Hash[expr, "RIPEMD160", "HexString"]
 \
@@ -9554,11 +9612,13 @@ ALGORITHMS
                                    /usr/bin/sum -a sha1
                                    /usr/bin/cksum -a sha1
                 - MS-DOS:          -
+                - .NET 5+:         SHA1.HashData(<bytes>)
                 - NetBSD:          /usr/bin/sha1
                 - NetBSD 9.2+:     /usr/bin/sha1
                                    /usr/bin/sum -a sha1
                                    /usr/bin/cksum -a sha1
                 - NextStep:        -
+                - Node.js:         crypto.createHash("sha1")
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha1
                                    /usr/bin/sha1sum
                                    /usr/bin/shasum [-a 1]
@@ -9572,6 +9632,7 @@ ALGORITHMS
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=sha1
                                    /usr/bin/sha1sum
+                - Web Crypto API:  crypto.subtle.digest("SHA-1", <data>)
                 - Windows 7+:      certutil -hashfile <file> SHA1
                 - Wolfram:         Hash[expr, "SHA1", "HexString"]
 \
@@ -9657,7 +9718,8 @@ ALGORITHMS
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a sha224
-                - Java API:        -
+                - Java 8+:         java.security.MessageDigest.
+                                   MessageDigest.getInstance("SHA-224");
                 - Kali Linux:      /usr/bin/sha224sum
                                    /usr/bin/shasum -a 224
                 - LibreSSL:        openssl dgst -sha224
@@ -9667,6 +9729,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - Node.js:         crypto.createHash("sha224")
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha224
                                    /usr/bin/sha224sum
                                    /usr/bin/shasum -a 224
@@ -9744,6 +9807,8 @@ ALGORITHMS
                 - CentOS:          /bin/sha256sum
                 - ClamAV:          sigtool --sha256
                 - DragonFly BSD:   /sbin/sha256
+                - ethers.js 5:     ethers.utils.sha256(<bytes>)
+                - ethers.js 6:     ethers.sha256(<bytes>)
                 - FreeBSD 6+:      /sbin/sha256
                 - FreeDOS:         -
                 - GNU/Hurd:        /usr/bin/sha256sum
@@ -9772,9 +9837,11 @@ ALGORITHMS
                 - Minix 3.2.1+:    /usr/bin/sum -a sha256
                                    /usr/bin/cksum -a sha256
                 - MS-DOS:          -
+                - .NET 5+:         SHA256.HashData(<bytes>)
                 - NetBSD 9.2+:     /usr/bin/sum -a sha256
                                    /usr/bin/cksum -a sha256
                 - NextStep:        -
+                - Node.js:         crypto.createHash("sha256")
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha256
                                    /usr/bin/sha256sum
                                    /usr/bin/shasum -a 256
@@ -9788,6 +9855,8 @@ ALGORITHMS
                 - Solaris 11.2+:   /usr/bin/sha256sum
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=sha256
+                - Solidity:        sha256(<bytes>)
+                - Web Crypto API:  crypto.subtle.digest("SHA-256", <data>)
                 - Windows 7+:      certutil -hashfile <file> SHA256
                 - Wolfram:         Hash[expr, "SHA256", "HexString"]
                                    Hash[expr, {"SHA", 256}, "HexString"]
@@ -9842,7 +9911,7 @@ ALGORITHMS
                 Längenerweiterungsangriffe
 \
             Kompatibilität:
-                - 7z:              -
+                - 7z 24.09+:       7z h -scrcsha384
                 - 7zFM 24.09+:     File -> CRC -> SHA-384
                 - Azure Cloud Shell (Common Base Linux 10):
                                    /usr/bin/sha384sum
@@ -9880,9 +9949,11 @@ ALGORITHMS
                 - Minix 3.2.1+:    /usr/bin/sum -a sha384
                                    /usr/bin/cksum -a sha384
                 - MS-DOS:          -
+                - .NET 5+:         SHA384.HashData(<bytes>)
                 - NetBSD 9.2+:     /usr/bin/sum -a sha384
                                    /usr/bin/cksum -a sha384
                 - NextStep:        -
+                - Node.js:         crypto.createHash("sha384")
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha384
                                    /usr/bin/sha384sum
                                    /usr/bin/shasum -a 384
@@ -9896,6 +9967,7 @@ ALGORITHMS
                 - Solaris 11.2+:   /usr/bin/sha384sum
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=sha384
+                - Web Crypto API:  crypto.subtle.digest("SHA-384", <data>)
                 - Windows 7+:      certutil -hashfile <file> SHA384
                 - Wolfram:         Hash[expr, "SHA384", "HexString"]
                                    Hash[expr, {"SHA", 384}, "HexString"]
@@ -9952,7 +10024,7 @@ ALGORITHMS
                 das zählt, HMAC oder sha-512/256
 \
             Kompatibilität:
-                - 7z:              -
+                - 7z 24.09+:       7z h -scrcsha512
                 - 7zFM 24.09+:     File -> CRC -> SHA-512
                 - Azure Cloud Shell (Common Base Linux 10):
                                    /usr/bin/sha512sum
@@ -9962,6 +10034,8 @@ ALGORITHMS
                 - BusyBox:         /bin/sha512sum
                 - CentOS:          /bin/sha512sum
                 - DragonFly BSD:   -
+                - ethers.js 5:     ethers.utils.sha512(<bytes>)
+                - ethers.js 6:     ethers.sha512(<bytes>)
                 - FreeBSD 11+:     /sbin/sha512  (probably also earlier)
                 - FreeDOS:         -
                 - GNU/Hurd:        /usr/bin/sha512sum
@@ -9990,9 +10064,11 @@ ALGORITHMS
                 - Minix 3.2.1+:    /usr/bin/sum -a sha512
                                    /usr/bin/cksum -a sha512
                 - MS-DOS:          -
+                - .NET 5+:         SHA512.HashData(<bytes>)
                 - NetBSD 9.2+:     /usr/bin/sum -a sha512
                                    /usr/bin/cksum -a sha512
                 - NextStep:        -
+                - Node.js:         crypto.createHash("sha512")
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha512
                                    /usr/bin/sha512sum
                                    /usr/bin/shasum -a 512
@@ -10006,6 +10082,7 @@ ALGORITHMS
                 - Solaris 11.2+:   /usr/bin/sha512sum
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=sha512
+                - Web Crypto API:  crypto.subtle.digest("SHA-512", <data>)
                 - Windows 7+:      certutil -hashfile <file> SHA512
                 - Wolfram:         Hash[expr, "SHA512", "HexString"]
                                    Hash[expr, {"SHA", 512}, "HexString"]
@@ -10081,6 +10158,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - Node.js:         crypto.createHash("sha512-224")
                 - OpenIndiana:     /usr/bin/shasum -a 512224
                 - OpenSSL 1.1.1+:  openssl dgst -sha512-224
                 - PHP 7.1+:        hash("sha512/224", $input);
@@ -10158,6 +10236,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - Node.js:         crypto.createHash("sha512-256")
                 - OpenIndiana:     /usr/bin/shasum -a 512256
                 - OpenSSL 1.1.1+:  openssl dgst -sha512-256
                 - PHP 7.1+:        hash("sha512/256", $input);
@@ -10224,8 +10303,10 @@ ALGORITHMS
                 - ethers.js:       - (keccak256() ist Keccak-256, siehe keccak)
                 - FreeBSD:         -
                 - FreeDOS:         -
-                - GNU/Hurd:        -
-                - GNU/Linux:       -
+                - GNU/Hurd (GNU Coreutils 9.8+ 09/2025):
+                                   /usr/bin/cksum -a sha3 -l 224
+                - GNU/Linux (GNU Coreutils 9.8+ 09/2025):
+                                   /usr/bin/cksum -a sha3 -l 224
                 - Go API:          golang.org/x/crypto/sha3.New224()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-224
@@ -10243,6 +10324,7 @@ ALGORITHMS
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - Node.js:         crypto.createHash("sha3-224")
                 - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  openssl dgst -sha3-224
                 - PHP 7.1+:        hash("sha3-224", $input);
@@ -10308,7 +10390,7 @@ ALGORITHMS
                 siehe auch https://eprint.iacr.org/2019/147
 \
             Kompatibilität:
-                - 7z:              -
+                - 7z 24.09+:       7z h -scrcsha3-256
                 - 7zFM 24.09+:     File -> CRC -> SHA3-256
                 - Angstrom:        -
                 - BeOS:            -
@@ -10318,8 +10400,10 @@ ALGORITHMS
                 - ethers.js:       - (keccak256() ist Keccak-256, siehe keccak)
                 - FreeBSD:         -
                 - FreeDOS:         -
-                - GNU/Hurd:        -
-                - GNU/Linux:       -
+                - GNU/Hurd (GNU Coreutils 9.8+ 09/2025):
+                                   /usr/bin/cksum -a sha3 -l 256
+                - GNU/Linux (GNU Coreutils 9.8+ 09/2025):
+                                   /usr/bin/cksum -a sha3 -l 256
                 - Go API:          golang.org/x/crypto/sha3.New256()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-256
@@ -10335,8 +10419,11 @@ ALGORITHMS
                 - macOS:           -
                 - Minix:           -
                 - MS-DOS:          -
+                - .NET 8+:         SHA3_256.HashData(<bytes>)
+                                   (falls SHA3_256.IsSupported)
                 - NetBSD:          -
                 - NextStep:        -
+                - Node.js:         crypto.createHash("sha3-256")
                 - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  openssl dgst -sha3-256
                 - PHP 7.1+:        hash("sha3-256", $input);
@@ -10412,8 +10499,10 @@ ALGORITHMS
                 - ethers.js:       - (keccak256() ist Keccak-256, siehe keccak)
                 - FreeBSD:         -
                 - FreeDOS:         -
-                - GNU/Hurd:        -
-                - GNU/Linux:       -
+                - GNU/Hurd (GNU Coreutils 9.8+ 09/2025):
+                                   /usr/bin/cksum -a sha3 -l 384
+                - GNU/Linux (GNU Coreutils 9.8+ 09/2025):
+                                   /usr/bin/cksum -a sha3 -l 384
                 - Go API:          golang.org/x/crypto/sha3.New384()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-384
@@ -10429,8 +10518,11 @@ ALGORITHMS
                 - macOS:           -
                 - Minix:           -
                 - MS-DOS:          -
+                - .NET 8+:         SHA3_384.HashData(<bytes>)
+                                   (falls SHA3_384.IsSupported)
                 - NextStep:        -
                 - NetBSD:          -
+                - Node.js:         crypto.createHash("sha3-384")
                 - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  openssl dgst -sha3-384
                 - PHP 7.1+:        hash("sha3-384", $input);
@@ -10506,8 +10598,10 @@ ALGORITHMS
                 - ethers.js:       - (keccak256() ist Keccak-256, siehe keccak)
                 - FreeBSD:         -
                 - FreeDOS:         -
-                - GNU/Hurd:        -
-                - GNU/Linux:       -
+                - GNU/Hurd (GNU Coreutils 9.8+ 09/2025):
+                                   /usr/bin/cksum -a sha3 -l 512
+                - GNU/Linux (GNU Coreutils 9.8+ 09/2025):
+                                   /usr/bin/cksum -a sha3 -l 512
                 - Go API:          golang.org/x/crypto/sha3.New512()
                 - gpg:             -
                 - HashGarten:      Algorithm -> sha3-512
@@ -10523,8 +10617,11 @@ ALGORITHMS
                 - macOS:           -
                 - Minix:           -
                 - MS-DOS:          -
+                - .NET 8+:         SHA3_512.HashData(<bytes>)
+                                   (falls SHA3_512.IsSupported)
                 - NetBSD:          -
                 - NextStep:        -
+                - Node.js:         crypto.createHash("sha3-512")
                 - OpenIndiana:     -
                 - OpenSSL 1.1.1+:  openssl dgst -sha3-512
                 - PHP 7.1+:        hash("sha3-512", $input);
@@ -10671,21 +10768,26 @@ ALGORITHMS
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a shake128
-                - Java 9+:         -
+                - Java 25+:        java.security.MessageDigest.
+                                   MessageDigest.getInstance("SHAKE128-256");
                 - KeccakSum:       KeccakSum [--shake128] --hex --outputbits 256
                 - Kali Linux:      -
                 - LibreSSL:        -
                 - macOS:           -
                 - Minix:           -
                 - MS-DOS:          -
+                - .NET 8+:         Shake128.HashData(<bytes>, 32)
+                                   (falls Shake128.IsSupported)
                 - NetBSD:          -
                 - NextStep:        -
+                - Node.js:         crypto.createHash("shake128",
+                                   {outputLength: 32})
                 - OpenIndiana:     -
                 - OpenSSL 1.1.1+ (128 bits only): openssl dgst -shake128
                 - PHP 7.1+:        -
                 - Plan 9:          -
                 - PowerShell:      -
-                - Python:          -
+                - Python 3.6+:     hashlib.shake_128(<data>).hexdigest(32)
                 - Solaris:         -
                 - Ubuntu:          -
                 - Windows:         -
@@ -10773,6 +10875,8 @@ ALGORITHMS
                 - HP-UX:           -
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a shake256
+                - Java 25+:        java.security.MessageDigest.
+                                   MessageDigest.getInstance("SHAKE256-512");
                 - Java API:        -
                 - Kali Linux:      -
                 - KeccakSum:       KeccakSum --shake256 --hex --outputbits 512
@@ -10780,14 +10884,18 @@ ALGORITHMS
                 - macOS:           -
                 - Minix:           -
                 - MS-DOS:          -
+                - .NET 8+:         Shake256.HashData(<bytes>, 64)
+                                   (falls Shake256.IsSupported)
                 - NetBSD:          -
                 - NextStep:        -
+                - Node.js:         crypto.createHash("shake256",
+                                   {outputLength: 64})
                 - OpenIndiana:     -
                 - OpenSSL 1.1.1+ (256 bits):  openssl dgst -shake256
                 - PHP 7.1+:        -
                 - Plan 9:          -
                 - PowerShell:      -
-                - Python:          -
+                - Python 3.6+:     hashlib.shake_256(<data>).hexdigest(64)
                 - Solaris:         -
                 - Ubuntu:          -
                 - Windows:         -
@@ -11340,12 +11448,13 @@ ALGORITHMS
                 - Jacksum:         jacksum -a sm3
                 - Java API:        -
                 - Kali Linux:      -
-                - LibreSSL:        -
+                - LibreSSL:        openssl dgst -sm3
                 - macOS:           -
                 - Minix:           -
                 - MS-DOS:          -
                 - NetBSD:          -
                 - NextStep:        -
+                - Node.js:         crypto.createHash("sm3")
                 - OpenIndiana (with GNU Core Utilities 9.0):
                                    /usr/bin/cksum -a sm3
                 - OpenSSL:         openssl dgst -sm3
@@ -12503,6 +12612,9 @@ ALGORITHMS
                 Nachrichtenlänge.
 \
             Kompatibilität:
+                - .NET (System.IO.Hashing 8+):
+                                   XxHash32.HashToUInt32(<bytes>)
+                - PHP 8.1+:        hash("xxh32", $input);
                 - xxhsum:          xxhsum -H0
                                    xxhsum -H32
 \

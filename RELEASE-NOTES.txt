@@ -12,6 +12,14 @@ Jacksum 4.0.3, TBD
   - the compatibility list of keccak<length> names Solidity, ethers.js and web3.js, whose "sha3"
     resp. keccak256 functions compute Keccak-256 rather than SHA3-256; the compatibility lists of
     sha3-224, sha3-256, sha3-384 and sha3-512 say that none of them supports SHA-3 (FIPS 202)
+  - the compatibility lists of the help name more tools and APIs: Node.js (crypto.createHash(),
+    zlib.crc32()), the Web Crypto API, .NET (incl. System.IO.Hashing), b3sum, libsodium, 7z 24.09+
+    (MD5, SHA-384, SHA-512, SHA3-256), GNU Coreutils 9.6+ (cksum -a crc32b) and 9.8+
+    (cksum -a sha3), Java 8+ (SHA-224) and 25+ (SHAKE128-256, SHAKE256-512), Python's SHAKE,
+    PHP 7.2+ (sodium_crypto_generichash) and 8.1+ (xxh32), LibreSSL (SM3), gpg (MD5), Go (MD5,
+    Adler-32), and Solidity and ethers.js (SHA-256, SHA-512, RIPEMD-160)
+  - crc64_ecma has a compatibility list now; it names .NET's Crc64 (System.IO.Hashing), and it
+    says that Go's crc64.ECMA and the CRC64 of 7z compute crc64_xz rather than crc64_ecma
   - the algorithm selection guide (docs/ALGORITHM_SELECTION_GUIDE.md) explains why Jacksum offers
     so many algorithms although a handful is enough to create new check lists
   - all examples in docs/EXAMPLES.md have been verified against Jacksum 4.0.2; outdated outputs,
