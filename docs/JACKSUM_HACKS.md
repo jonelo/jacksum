@@ -52,6 +52,8 @@ build on some of the hacks below.
   - [Count the bytes of a pipe (`wc -c`)](#count-bytes)
   - [A searchable reference book](#reference-book)
   - [What am I running on?](#what-am-i-running-on)
+- [Part 3 — Hash values in your editor](#part3)
+  - [vim](#vim)
 
 <a name="part1"></a>
 
@@ -1203,3 +1205,55 @@ invoked with. Useful for reproducible reports and for bug reports.
     a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a
 
 
+<a name="part3"></a>
+
+# Part 3 — Hash values in your editor
+
+<a name="vim"></a>
+
+## vim
+
+vim has exactly one hash function built in, `sha256()`. It takes a string and returns the SHA-256
+value in hex. `:echo exists("*sha256")` prints `1` if your vim has it.
+
+### SHA-256 of a string
+
+    :echo sha256("abc")
+    ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
+
+### Insert a hash value into the text
+
+In insert mode press `Ctrl-R` `=`, type `sha256("abc")` and press Enter.
+
+### SHA-256 of the current line (without the line ending)
+
+    :echo sha256(getline('.'))
+
+### SHA-256 of the file on disk
+
+    :echo sha256(join(readfile(expand('%'), 'b'), "\n"))
+
+This prints the same value as `sha256sum`, `shasum -a 256` and `jacksum -a sha256`, whether or not
+the file ends with a newline.
+
+### SHA-256 of the buffer, including unsaved changes
+
+    :echo sha256(join(getline(1, '$'), "\n") .. (&eol ? "\n" : ''))
+
+This one works on what vim has in memory, so it matches the file only for Unix line endings and as
+long as vim did not convert the character set: with `fileformat=dos` the `\r` are missing. vim
+strings cannot hold NUL bytes either, so for binary files let Jacksum do the work.
+
+### Any other algorithm: call Jacksum from vim
+
+vim knows nothing but SHA-256. For everything else, call Jacksum. In `:!` commands vim replaces `%`
+with the file name and `#` with the alternate file name, so a `#` that belongs to Jacksum must be
+written as `\#`.
+
+    :!jacksum -a sha3-256 %
+    :w !jacksum -a sha3-256 -
+    :r !jacksum -a sha3-256 -F "\#HASH" %
+
+The first line hashes the file on disk, the second one hashes the buffer including unsaved changes
+(vim writes it to Jacksum's standard input), and the third one inserts the bare hash value below
+the cursor.

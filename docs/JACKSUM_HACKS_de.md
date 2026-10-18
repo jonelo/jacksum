@@ -54,6 +54,8 @@ bauen, Einbrüche erkennen — die auf einigen der nachfolgenden Hacks aufbauen.
   - [Die Bytes einer Pipe zählen (`wc -c`)](#count-bytes)
   - [Ein durchsuchbares Nachschlagewerk](#reference-book)
   - [Worauf läuft das hier eigentlich?](#what-am-i-running-on)
+- [Teil 3 — Hashwerte im Editor](#part3)
+  - [vim](#vim)
 
 <a name="part1"></a>
 
@@ -1214,3 +1216,58 @@ mit denen Jacksum aufgerufen wurde. Nützlich für reproduzierbare Berichte und 
     # invocation args: --header -q txt:
     #___________________________________________________________________________________________
     a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a
+
+
+<a name="part3"></a>
+
+# Teil 3 — Hashwerte im Editor
+
+<a name="vim"></a>
+
+## vim
+
+vim hat genau eine Hashfunktion eingebaut, `sha256()`. Sie nimmt einen String und gibt den
+SHA-256-Wert hexadezimal zurück. `:echo exists("*sha256")` gibt `1` aus, wenn Ihr vim sie kennt.
+
+### SHA-256 eines Strings
+
+    :echo sha256("abc")
+    ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
+
+### Einen Hashwert in den Text einfügen
+
+Im Insert-Modus `Ctrl-R` `=` drücken, `sha256("abc")` tippen und mit Enter bestätigen.
+
+### SHA-256 der aktuellen Zeile (ohne Zeilenende)
+
+    :echo sha256(getline('.'))
+
+### SHA-256 der Datei auf der Platte
+
+    :echo sha256(join(readfile(expand('%'), 'b'), "\n"))
+
+Das ergibt denselben Wert wie `sha256sum`, `shasum -a 256` und `jacksum -a sha256`, egal ob die
+Datei mit einem Zeilenumbruch endet oder nicht.
+
+### SHA-256 des Puffers, einschließlich ungespeicherter Änderungen
+
+    :echo sha256(join(getline(1, '$'), "\n") .. (&eol ? "\n" : ''))
+
+Das arbeitet mit dem, was vim im Speicher hat. Mit der Datei stimmt es deshalb nur bei
+Unix-Zeilenenden überein und solange vim den Zeichensatz nicht umgewandelt hat: Bei
+`fileformat=dos` fehlen die `\r`. NUL-Bytes können vim-Strings auch nicht aufnehmen, für
+Binärdateien überlassen Sie die Arbeit also besser Jacksum.
+
+### Jeder andere Algorithmus: Jacksum aus vim aufrufen
+
+vim kennt nur SHA-256. Für alles andere rufen Sie Jacksum auf. In `:!`-Befehlen ersetzt vim `%`
+durch den Dateinamen und `#` durch den Namen der alternativen Datei; ein `#`, das für Jacksum
+bestimmt ist, muss deshalb als `\#` geschrieben werden.
+
+    :!jacksum -a sha3-256 %
+    :w !jacksum -a sha3-256 -
+    :r !jacksum -a sha3-256 -F "\#HASH" %
+
+Die erste Zeile hasht die Datei auf der Platte, die zweite den Puffer einschließlich
+ungespeicherter Änderungen (vim schreibt ihn in die Standardeingabe von Jacksum), und die dritte
+fügt den reinen Hashwert unterhalb des Cursors ein.
