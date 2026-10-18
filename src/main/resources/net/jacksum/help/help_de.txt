@@ -4944,6 +4944,7 @@ ALGORITHMS
                 - PHP:             hash("adler32", $input);
                 - Plan 9:          -
                 - Python:          zlib.adler32
+                - Ruby:            Zlib.adler32(<str>)
                 - SCO UnixWare:    -
                 - Solaris:         -
                 - Tru64:           -
@@ -5301,6 +5302,8 @@ ALGORITHMS
                 - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
+                - Erlang:          crypto:hash(blake2b, <data>)
+                                   (nur 512 Bit)
                 - FreeBSD:         -
                 - FreeDOS:         -
                 - GNU/Hurd (GNU Coreutils 8.26+ 11/2016):
@@ -5461,6 +5464,7 @@ ALGORITHMS
                 - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
+                - Erlang:          crypto:hash(blake2s, <data>)
                 - FreeBSD:         -
                 - FreeDOS:         -
                 - GNU/Hurd:        -
@@ -5612,6 +5616,7 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         -
                 - CentOS:          -
+                - ClickHouse:      hex(BLAKE3(<str>))
                 - DragonFly BSD:   -
                 - FreeBSD:         -
                 - FreeDOS:         -
@@ -6140,6 +6145,7 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         -
                 - CentOS:          -
+                - ClickHouse:      CRC32(<str>)
                 - DragonFly BSD:   /usr/bin/cksum -o 3
                 - FreeBSD:         /usr/bin/cksum -o 3
                 - FreeDOS:         \FDOS\BIN\MD5SUM /M=crc32
@@ -6158,6 +6164,7 @@ ALGORITHMS
                 - macOS:           /usr/bin/cksum -o 3
                 - Minix:           -
                 - MS-DOS:          -
+                - MySQL/MariaDB:   CRC32(<str>)
                 - .NET (System.IO.Hashing 8+):
                                    Crc32.HashToUInt32(<bytes>)
                 - NetBSD:          -
@@ -6167,9 +6174,12 @@ ALGORITHMS
                 - OpenSSL:         -
                 - PHP:             hash("crc32b", $input);
                 - Plan 9:          -
+                - PostgreSQL 18+:  crc32(<bytea>)
                 - PowerShell:      -
                 - Python:          zlib.crc32
+                - Ruby:            Zlib.crc32(<str>)
                 - Solaris:         -
+                - Spark SQL:       crc32(<expr>)
                 - Tcl:             crc::crc32
                 - Windows:         -
                 - Wolfram:         Hash[expr, "CRC32", "HexString"]
@@ -6225,8 +6235,10 @@ ALGORITHMS
                 - IBM AIX:         -
                 - Jacksum:         jacksum -a crc32c
                 - Java 9+:         java.util.zip.CRC32C
+                - Julia:           CRC32c.crc32c(<data>)
                 - Kali Linux:      -
                 - macOS:           -
+                - MariaDB 10.8+:   CRC32C(<str>)
                 - Minix:           -
                 - MS-DOS:          -
                 - NetBSD:          -
@@ -6235,6 +6247,7 @@ ALGORITHMS
                 - OpenSSL:         -
                 - PHP 7.4.0+:      hash("crc32c", $input);
                 - Plan 9:          -
+                - PostgreSQL 18+:  crc32c(<bytea>)
                 - PowerShell:      -
                 - Python:          -
                 - Solaris:         -
@@ -8469,6 +8482,7 @@ ALGORITHMS
                 - NetBSD 9.2+:     /usr/bin/md2
                                    /usr/bin/sum -a md2
                                    /usr/bin/cksum -a md2
+                - Octave:          hash("md2", <str>)
                 - PHP 5.3.0+:      hash("md2", $input);
                 - MS-DOS:          -
                 - NextStep:        -
@@ -8478,6 +8492,8 @@ ALGORITHMS
                 - PowerShell:      -
                 - Python:          -
                 - Solaris:         -
+                - SQL Server:      HASHBYTES('MD2', <input>)
+                                   (veraltet seit 2016)
                 - Windows 7+:      certutil -hashfile <file> MD2
                 - Wolfram:         Hash[expr, "MD2", "HexString"]
 \
@@ -8529,7 +8545,9 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         -
                 - CentOS:          -
+                - ClickHouse:      hex(MD4(<str>))
                 - DragonFly BSD:   -
+                - Erlang:          crypto:hash(md4, <data>)
                 - FreeBSD:         -
                 - FreeDOS:         -
                 - GNU/Hurd:        -
@@ -8553,6 +8571,7 @@ ALGORITHMS
                                    /usr/bin/sum -a md4
                                    /usr/bin/cksum -a md4
                 - NextStep:        -
+                - Octave:          hash("md4", <str>)
                 - OpenIndiana:     -
                 - OpenSSL:         openssl dgst -md4
                 - PHP:             hash("md4", $input);
@@ -8561,6 +8580,8 @@ ALGORITHMS
                 - Python:          -
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=md4
+                - SQL Server:      HASHBYTES('MD4', <input>)
+                                   (veraltet seit 2016)
                 - Windows 7+:      certutil -hashfile <file> MD4
                 - Wolfram:         Hash[expr, "MD4", "HexString"]
 \
@@ -8614,11 +8635,17 @@ ALGORITHMS
                                    /usr/bin/md5sum
                 - Angstrom:        /usr/bin/md5sum
                 - BeOS:            /bin/md5sum
+                - BigQuery:        TO_HEX(MD5(<input>))
                 - BusyBox:         /bin/md5sum
                 - CentOS:          /bin/md5sum
                 - ClamAV:          sigtool --md5
+                - ClickHouse:      hex(MD5(<str>))
+                - CMake:           string(MD5 <var> <input>)
                 - DragonFly BSD:   /sbin/md5
+                - DuckDB:          md5(<str>)
                 - eComStation:     C:\ecs\KLIBC\bin\md5sum
+                - Emacs:           (secure-hash 'md5 <object>)
+                - Erlang:          crypto:hash(md5, <data>)
                 - FreeBSD:         /sbin/md5
                 - FreeDOS:         \FDOS\BIN\MD5SUM [/M=md5]
                 - GNU/Hurd:        /usr/bin/md5sum
@@ -8643,6 +8670,7 @@ ALGORITHMS
                                    /usr/bin/sum -a md5
                                    /usr/bin/cksum -a md5
                 - MS-DOS:          -
+                - MySQL/MariaDB:   MD5(<str>)
                 - .NET 5+:         MD5.HashData(<bytes>)
                 - NetBSD:          /usr/bin/md5
                 - NetBSD 9.2+:     /usr/bin/md5
@@ -8650,19 +8678,31 @@ ALGORITHMS
                                    /usr/bin/cksum -a md5
                 - NextStep:        -
                 - Node.js:         crypto.createHash("md5")
+                - Octave:          hash("md5", <str>)
                 - OpenIndiana:     /usr/gnu/bin/cksum -a md5
                                    /usr/bin/md5sum
                                    /usr/bin/digest -a md5
                 - OpenSSL:         openssl dgst -md5
+                - Oracle 12c+:     STANDARD_HASH(<expr>, 'MD5')
+                - Perl:            Digest::MD5::md5_hex(<data>)
                 - PHP:             hash("md5", $input);
                 - Plan 9:          /bin/md5sum
+                - PostgreSQL:      md5(<bytea>)
                 - Python 2.5+:     hashlib.md5()
                 - PowerShell:      Get-FileHash -Algorithm MD5
+                - R:               tools::md5sum(<files>)
+                - Ruby:            Digest::MD5.hexdigest(<str>)
+                - Snowflake:       MD5(<msg>)
                 - Solaris 9:       /usr/sbin/md5 (package SUNWkeymg)
                 - Solaris 10+:     /usr/bin/digest -a md5
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=md5
                                    /usr/bin/md5sum
+                - Spark SQL:       md5(<expr>)
+                - SQL Server:      HASHBYTES('MD5', <input>)
+                                   (veraltet seit 2016)
+                - Swift (CryptoKit):
+                                   Insecure.MD5.hash(data: <data>)
                 - Windows 7+:      certutil -hashfile <file> MD5
                 - Wolfram:         Hash[expr, "MD5", "HexString"]
                 - Visopsys:        /programs/md5
@@ -9220,7 +9260,9 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         -
                 - CentOS:          -
+                - ClickHouse:      hex(RIPEMD160(<str>))
                 - DragonFly BSD:   /sbin/rmd160
+                - Erlang:          crypto:hash(ripemd160, <data>)
                 - ethers.js 5:     ethers.utils.ripemd160(<bytes>)
                 - ethers.js 6:     ethers.ripemd160(<bytes>)
                 - FreeBSD 5.3+:    /sbin/rmd160
@@ -9255,6 +9297,7 @@ ALGORITHMS
                 - Plan 9:          -
                 - PowerShell:      Get-FileHash -Algorithm RIPEMD160
                 - Python:          -
+                - Ruby:            Digest::RMD160.hexdigest(<str>)
                 - Solaris:         -
                 - Solidity:        ripemd160(<bytes>)
                 - Windows:         -
@@ -9578,11 +9621,17 @@ ALGORITHMS
                                    /usr/bin/shasum [-a 1]
                 - Angstrom:        -
                 - BeOS:            -
+                - BigQuery:        TO_HEX(SHA1(<input>))
                 - BusyBox:         /bin/sha1sum
                 - CentOS:          /bin/sha1sum
                 - ClamAV:          sigtool --sha1
+                - ClickHouse:      hex(SHA1(<str>))
+                - CMake:           string(SHA1 <var> <input>)
                 - DragonFly BSD:   /sbin/sha1
+                - DuckDB:          sha1(<str>)
                 - eComStation:     C:\ecs\KLIBC\bin\sha1sum
+                - Emacs:           (secure-hash 'sha1 <object>)
+                - Erlang:          crypto:hash(sha, <data>)
                 - FreeBSD:         /sbin/sha1
                 - FreeDOS:         \FDOS\BIN\MD5SUM /M=sha
                 - GNU/Hurd:        /usr/bin/sha1sum
@@ -9603,6 +9652,7 @@ ALGORITHMS
                 - Jacksum:         jacksum -a sha1
                 - Java API:        java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA-1");
+                - Julia:           bytes2hex(SHA.sha1(<data>))
                 - Kali Linux:      /usr/bin/sha1sum
                                    /usr/bin/shasum [-a 1]
                 - LibreSSL:        openssl dgst -sha1
@@ -9612,6 +9662,7 @@ ALGORITHMS
                                    /usr/bin/sum -a sha1
                                    /usr/bin/cksum -a sha1
                 - MS-DOS:          -
+                - MySQL/MariaDB:   SHA1(<str>)
                 - .NET 5+:         SHA1.HashData(<bytes>)
                 - NetBSD:          /usr/bin/sha1
                 - NetBSD 9.2+:     /usr/bin/sha1
@@ -9619,19 +9670,31 @@ ALGORITHMS
                                    /usr/bin/cksum -a sha1
                 - NextStep:        -
                 - Node.js:         crypto.createHash("sha1")
+                - Octave:          hash("sha1", <str>)
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha1
                                    /usr/bin/sha1sum
                                    /usr/bin/shasum [-a 1]
                                    /usr/bin/digest -a sha1
                 - OpenSSL:         openssl dgst -sha1
+                - Oracle 12c+:     STANDARD_HASH(<expr>, 'SHA1')
+                - Perl:            Digest::SHA::sha1_hex(<data>)
                 - PHP:             hash("sha1", $input);
                 - Plan 9:          /bin/sha1sum
+                - PostgreSQL (pgcrypto):
+                                   encode(digest(<data>, 'sha1'), 'hex')
                 - PowerShell:      Get-FileHash -Algorithm SHA1
                 - Python 2.5+:     hashlib.sha1()
+                - Ruby:            Digest::SHA1.hexdigest(<str>)
+                - Snowflake:       SHA1(<msg>)
                 - Solaris 10+:     /usr/bin/digest -a sha1
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=sha1
                                    /usr/bin/sha1sum
+                - Spark SQL:       sha1(<expr>)
+                - SQL Server:      HASHBYTES('SHA1', <input>)
+                                   (veraltet seit 2016)
+                - Swift (CryptoKit):
+                                   Insecure.SHA1.hash(data: <data>)
                 - Web Crypto API:  crypto.subtle.digest("SHA-1", <data>)
                 - Windows 7+:      certutil -hashfile <file> SHA1
                 - Wolfram:         Hash[expr, "SHA1", "HexString"]
@@ -9699,7 +9762,11 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         -
                 - CentOS:          /bin/sha224sum
+                - ClickHouse:      hex(SHA224(<str>))
+                - CMake:           string(SHA224 <var> <input>)
                 - DragonFly BSD:   -
+                - Emacs:           (secure-hash 'sha224 <object>)
+                - Erlang:          crypto:hash(sha224, <data>)
                 - FreeBSD 12+:     /sbin/sha224
                 - FreeDOS:         -
                 - GNU/Hurd:        /usr/bin/sha224sum
@@ -9720,6 +9787,7 @@ ALGORITHMS
                 - Jacksum:         jacksum -a sha224
                 - Java 8+:         java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA-224");
+                - Julia:           bytes2hex(SHA.sha224(<data>))
                 - Kali Linux:      /usr/bin/sha224sum
                                    /usr/bin/shasum -a 224
                 - LibreSSL:        openssl dgst -sha224
@@ -9727,20 +9795,26 @@ ALGORITHMS
                 - macOS 10.12+:    /usr/bin/shasum -a 224
                 - Minix:           -
                 - MS-DOS:          -
+                - MySQL/MariaDB:   SHA2(<str>, 224)
                 - NetBSD:          -
                 - NextStep:        -
                 - Node.js:         crypto.createHash("sha224")
+                - Octave:          hash("sha224", <str>)
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha224
                                    /usr/bin/sha224sum
                                    /usr/bin/shasum -a 224
                 - OpenSSL:         openssl dgst -sha224
+                - Perl:            Digest::SHA::sha224_hex(<data>)
                 - PHP:             hash("sha224", $input);
                 - Plan 9:          -
+                - PostgreSQL 11+:  encode(sha224(<bytea>), 'hex')
                 - PowerShell:      -
                 - Python 2.5+:     hashlib.sha224()
+                - Snowflake:       SHA2(<msg>, 224)
                 - Solaris 10+:     -
                 - Solaris 11.2+:   /usr/bin/sha224sum
                 - Solaris 11 Express: -
+                - Spark SQL:       sha2(<expr>, 224)
                 - Windows:         -
                 - Wolfram:         Hash[expr, "SHA224", "HexString"]
                                    Hash[expr, {"SHA", 224}, "HexString"]
@@ -9803,10 +9877,16 @@ ALGORITHMS
                                    /usr/bin/shasum -a 256
                 - Angstrom:        -
                 - BeOS:            -
+                - BigQuery:        TO_HEX(SHA256(<input>))
                 - BusyBox:         /bin/sha256sum
                 - CentOS:          /bin/sha256sum
                 - ClamAV:          sigtool --sha256
+                - ClickHouse:      hex(SHA256(<str>))
+                - CMake:           string(SHA256 <var> <input>)
                 - DragonFly BSD:   /sbin/sha256
+                - DuckDB:          sha256(<str>)
+                - Emacs:           (secure-hash 'sha256 <object>)
+                - Erlang:          crypto:hash(sha256, <data>)
                 - ethers.js 5:     ethers.utils.sha256(<bytes>)
                 - ethers.js 6:     ethers.sha256(<bytes>)
                 - FreeBSD 6+:      /sbin/sha256
@@ -9829,6 +9909,7 @@ ALGORITHMS
                 - Jacksum:         jacksum -a sha256
                 - Java API:        java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA-256");
+                - Julia:           bytes2hex(SHA.sha256(<data>))
                 - Kali Linux:      /usr/bin/sha256sum
                                    /usr/bin/shasum -a 256
                 - LibreSSL:        openssl dgst -sha256
@@ -9837,25 +9918,39 @@ ALGORITHMS
                 - Minix 3.2.1+:    /usr/bin/sum -a sha256
                                    /usr/bin/cksum -a sha256
                 - MS-DOS:          -
+                - MySQL/MariaDB:   SHA2(<str>, 256)
                 - .NET 5+:         SHA256.HashData(<bytes>)
                 - NetBSD 9.2+:     /usr/bin/sum -a sha256
                                    /usr/bin/cksum -a sha256
                 - NextStep:        -
                 - Node.js:         crypto.createHash("sha256")
+                - Octave:          hash("sha256", <str>)
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha256
                                    /usr/bin/sha256sum
                                    /usr/bin/shasum -a 256
                                    /usr/bin/digest -a sha256
                 - OpenSSL:         openssl dgst -sha256
+                - Oracle 12c+:     STANDARD_HASH(<expr>, 'SHA256')
+                - Perl:            Digest::SHA::sha256_hex(<data>)
                 - PHP:             hash("sha256", $input);
                 - Plan 9:          -
+                - PostgreSQL 11+:  encode(sha256(<bytea>), 'hex')
                 - PowerShell:      Get-FileHash -Algorithm SHA256
                 - Python 2.5+:     hashlib.sha256()
+                - R 4.5+:          tools::sha256sum(<files>)
+                - Ruby:            Digest::SHA256.hexdigest(<str>)
+                - Snowflake:       SHA2(<msg>, 256)
                 - Solaris 10+:     /usr/bin/digest -a sha256
                 - Solaris 11.2+:   /usr/bin/sha256sum
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=sha256
                 - Solidity:        sha256(<bytes>)
+                - Spark SQL:       sha2(<expr>, 256)
+                - SQL Server 2012+:
+                                   HASHBYTES('SHA2_256', <input>)
+                - Swift (CryptoKit):
+                                   SHA256.hash(data: <data>)
+                - vim:             sha256(<str>)
                 - Web Crypto API:  crypto.subtle.digest("SHA-256", <data>)
                 - Windows 7+:      certutil -hashfile <file> SHA256
                 - Wolfram:         Hash[expr, "SHA256", "HexString"]
@@ -9920,7 +10015,11 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         -
                 - CentOS:          /bin/sha384sum
+                - ClickHouse:      hex(SHA384(<str>))
+                - CMake:           string(SHA384 <var> <input>)
                 - DragonFly BSD:   -
+                - Emacs:           (secure-hash 'sha384 <object>)
+                - Erlang:          crypto:hash(sha384, <data>)
                 - FreeBSD 11+:     /sbin/sha384 (prob. earlier)
                 - FreeDOS:         -
                 - GNU/Hurd:        /usr/bin/sha384sum
@@ -9941,6 +10040,7 @@ ALGORITHMS
                 - Jacksum:         jacksum -a sha384
                 - Java API:        java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA-384");
+                - Julia:           bytes2hex(SHA.sha384(<data>))
                 - Kali Linux:      /usr/bin/sha384sum
                                    /usr/bin/shasum -a 384
                 - LibreSSL:        openssl dgst -sha384
@@ -9949,24 +10049,34 @@ ALGORITHMS
                 - Minix 3.2.1+:    /usr/bin/sum -a sha384
                                    /usr/bin/cksum -a sha384
                 - MS-DOS:          -
+                - MySQL/MariaDB:   SHA2(<str>, 384)
                 - .NET 5+:         SHA384.HashData(<bytes>)
                 - NetBSD 9.2+:     /usr/bin/sum -a sha384
                                    /usr/bin/cksum -a sha384
                 - NextStep:        -
                 - Node.js:         crypto.createHash("sha384")
+                - Octave:          hash("sha384", <str>)
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha384
                                    /usr/bin/sha384sum
                                    /usr/bin/shasum -a 384
                                    /usr/bin/digest -a sha384
                 - OpenSSL:         openssl dgst -sha384
+                - Oracle 12c+:     STANDARD_HASH(<expr>, 'SHA384')
+                - Perl:            Digest::SHA::sha384_hex(<data>)
                 - PHP:             hash("sha384", $input);
                 - Plan 9:          -
+                - PostgreSQL 11+:  encode(sha384(<bytea>), 'hex')
                 - PowerShell:      Get-FileHash -Algorithm SHA384
                 - Python 2.5+:     hashlib.sha384()
+                - Ruby:            Digest::SHA384.hexdigest(<str>)
+                - Snowflake:       SHA2(<msg>, 384)
                 - Solaris 10+:     /usr/bin/digest -a sha384
                 - Solaris 11.2+:   /usr/bin/sha384sum
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=sha384
+                - Spark SQL:       sha2(<expr>, 384)
+                - Swift (CryptoKit):
+                                   SHA384.hash(data: <data>)
                 - Web Crypto API:  crypto.subtle.digest("SHA-384", <data>)
                 - Windows 7+:      certutil -hashfile <file> SHA384
                 - Wolfram:         Hash[expr, "SHA384", "HexString"]
@@ -10031,9 +10141,14 @@ ALGORITHMS
                                    /usr/bin/shasum -a 512
                 - Angstrom:        -
                 - BeOS:            -
+                - BigQuery:        TO_HEX(SHA512(<input>))
                 - BusyBox:         /bin/sha512sum
                 - CentOS:          /bin/sha512sum
+                - ClickHouse:      hex(SHA512(<str>))
+                - CMake:           string(SHA512 <var> <input>)
                 - DragonFly BSD:   -
+                - Emacs:           (secure-hash 'sha512 <object>)
+                - Erlang:          crypto:hash(sha512, <data>)
                 - ethers.js 5:     ethers.utils.sha512(<bytes>)
                 - ethers.js 6:     ethers.sha512(<bytes>)
                 - FreeBSD 11+:     /sbin/sha512  (probably also earlier)
@@ -10056,6 +10171,7 @@ ALGORITHMS
                 - Jacksum:         jacksum -a sha512
                 - Java API:        java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA-512");
+                - Julia:           bytes2hex(SHA.sha512(<data>))
                 - Kali Linux:      /usr/bin/sha512sum
                                    /usr/bin/shasum -a 512
                 - LibreSSL:        openssl dgst -sha512
@@ -10064,24 +10180,36 @@ ALGORITHMS
                 - Minix 3.2.1+:    /usr/bin/sum -a sha512
                                    /usr/bin/cksum -a sha512
                 - MS-DOS:          -
+                - MySQL/MariaDB:   SHA2(<str>, 512)
                 - .NET 5+:         SHA512.HashData(<bytes>)
                 - NetBSD 9.2+:     /usr/bin/sum -a sha512
                                    /usr/bin/cksum -a sha512
                 - NextStep:        -
                 - Node.js:         crypto.createHash("sha512")
+                - Octave:          hash("sha512", <str>)
                 - OpenIndiana:     /usr/gnu/bin/cksum -a sha512
                                    /usr/bin/sha512sum
                                    /usr/bin/shasum -a 512
                                    /usr/bin/digest -a sha512
                 - OpenSSL:         openssl dgst -sha512
+                - Oracle 12c+:     STANDARD_HASH(<expr>, 'SHA512')
+                - Perl:            Digest::SHA::sha512_hex(<data>)
                 - PHP:             hash("sha512", $input);
                 - Plan 9:          -
+                - PostgreSQL 11+:  encode(sha512(<bytea>), 'hex')
                 - PowerShell:      Get-FileHash -Algorithm SHA512
                 - Python 2.5+:     hashlib.sha512()
+                - Ruby:            Digest::SHA512.hexdigest(<str>)
+                - Snowflake:       SHA2(<msg>, 512)
                 - Solaris 10+:     /usr/bin/digest -a sha512
                 - Solaris 11.2+:   /usr/bin/sha512sum
                 - Solaris 11 Express:
                                    /usr/bin/sum --method=sha512
+                - Spark SQL:       sha2(<expr>, 512)
+                - SQL Server 2012+:
+                                   HASHBYTES('SHA2_512', <input>)
+                - Swift (CryptoKit):
+                                   SHA512.hash(data: <data>)
                 - Web Crypto API:  crypto.subtle.digest("SHA-512", <data>)
                 - Windows 7+:      certutil -hashfile <file> SHA512
                 - Wolfram:         Hash[expr, "SHA512", "HexString"]
@@ -10137,6 +10265,7 @@ ALGORITHMS
                 - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
+                - Erlang:          crypto:hash(sha512_224, <data>)
                 - FreeBSD:         -
                 - FreeDOS:         -
                 - GNU/Hurd:        /usr/bin/shasum -a 512224
@@ -10150,6 +10279,7 @@ ALGORITHMS
                 - Jacksum:         jacksum -a sha512/224
                 - Java 9+:         java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA512/224");
+                - Julia:           bytes2hex(SHA.sha2_512_224(<data>))
                 - Kali Linux:      -
                 - LibreSSL:        -
                 - Mac OS X:        -
@@ -10161,6 +10291,7 @@ ALGORITHMS
                 - Node.js:         crypto.createHash("sha512-224")
                 - OpenIndiana:     /usr/bin/shasum -a 512224
                 - OpenSSL 1.1.1+:  openssl dgst -sha512-224
+                - Perl:            Digest::SHA::sha512224_hex(<data>)
                 - PHP 7.1+:        hash("sha512/224", $input);
                 - Plan 9:          -
                 - PowerShell:      -
@@ -10215,6 +10346,8 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         -
                 - CentOS:          -
+                - ClickHouse:      hex(SHA512_256(<str>))
+                - Erlang:          crypto:hash(sha512_256, <data>)
                 - FreeBSD 10.4+:   /sbin/sha512t256
                 - FreeDOS:         -
                 - GNU/Hurd:        /usr/bin/shasum -a 512256
@@ -10228,6 +10361,7 @@ ALGORITHMS
                 - Jacksum:         jacksum -a sha512/256
                 - Java 9+:         java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA512/256");
+                - Julia:           bytes2hex(SHA.sha2_512_256(<data>))
                 - Kali Linux:      -
                 - LibreSSL:        -
                 - Mac OS X:        -
@@ -10239,6 +10373,7 @@ ALGORITHMS
                 - Node.js:         crypto.createHash("sha512-256")
                 - OpenIndiana:     /usr/bin/shasum -a 512256
                 - OpenSSL 1.1.1+:  openssl dgst -sha512-256
+                - Perl:            Digest::SHA::sha512256_hex(<data>)
                 - PHP 7.1+:        hash("sha512/256", $input);
                 - Plan 9:          -
                 - PowerShell:      -
@@ -10299,7 +10434,10 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         /bin/sha3sum [-a 224]
                 - CentOS:          -
+                - CMake 3.8+:      string(SHA3_224 <var> <input>)
                 - DragonFly BSD:   -
+                - Emacs 31+:       (secure-hash 'sha3-224 <object>)
+                - Erlang:          crypto:hash(sha3_224, <data>)
                 - ethers.js:       - (keccak256() ist Keccak-256, siehe keccak)
                 - FreeBSD:         -
                 - FreeDOS:         -
@@ -10316,6 +10454,7 @@ ALGORITHMS
                 - Jacksum:         jacksum -a sha3-224
                 - Java 9+:         java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA3-224");
+                - Julia:           bytes2hex(SHA.sha3_224(<data>))
                 - Kali Linux:      -
                 - KeccakSum:       KeccakSum --sha3-224
                 - LibreSSL:        -
@@ -10334,6 +10473,7 @@ ALGORITHMS
                 - Solaris 11.4+:   /usr/bin/digest -a sha3_224
                 - Solidity:        - (keccak256() und das frühere sha3() sind
                                    Keccak-256, siehe keccak)
+                - SQLite (CLI):    hex(sha3(<X>, 224))
                 - web3.js:         - (web3.sha3() und web3.utils.sha3() sind
                                    Keccak-256, siehe keccak)
                 - Windows:         -
@@ -10396,7 +10536,10 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         /bin/sha3sum -a 256
                 - CentOS:          -
+                - CMake 3.8+:      string(SHA3_256 <var> <input>)
                 - DragonFly BSD:   -
+                - Emacs 31+:       (secure-hash 'sha3-256 <object>)
+                - Erlang:          crypto:hash(sha3_256, <data>)
                 - ethers.js:       - (keccak256() ist Keccak-256, siehe keccak)
                 - FreeBSD:         -
                 - FreeDOS:         -
@@ -10413,6 +10556,7 @@ ALGORITHMS
                 - Jacksum:         jacksum -a sha3-256
                 - Java 9+:         java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA3-256");
+                - Julia:           bytes2hex(SHA.sha3_256(<data>))
                 - Kali Linux:      -
                 - KeccakSum:       KeccakSum --sha3-256
                 - LibreSSL:        -
@@ -10433,6 +10577,10 @@ ALGORITHMS
                 - Solaris 11.4+:   /usr/bin/digest -a sha3_256
                 - Solidity:        - (keccak256() und das frühere sha3() sind
                                    Keccak-256, siehe keccak)
+                - SQLite (CLI):    hex(sha3(<X>, 256))
+                - Swift (CryptoKit):
+                                   SHA3_256.hash(data: <data>)
+                                   (iOS/macOS 26+)
                 - web3.js:         - (web3.sha3() und web3.utils.sha3() sind
                                    Keccak-256, siehe keccak)
                 - Windows:         -
@@ -10495,7 +10643,10 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         /bin/sha3sum -a 384
                 - CentOS:          -
+                - CMake 3.8+:      string(SHA3_384 <var> <input>)
                 - DragonFly BSD:   -
+                - Emacs 31+:       (secure-hash 'sha3-384 <object>)
+                - Erlang:          crypto:hash(sha3_384, <data>)
                 - ethers.js:       - (keccak256() ist Keccak-256, siehe keccak)
                 - FreeBSD:         -
                 - FreeDOS:         -
@@ -10512,6 +10663,7 @@ ALGORITHMS
                 - Jacksum:         jacksum -a sha3-384
                 - Java 9+:         java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA3-384");
+                - Julia:           bytes2hex(SHA.sha3_384(<data>))
                 - Kali Linux:      -
                 - KeccakSum:       KeccakSum --sha3-384
                 - LibreSSL:        -
@@ -10532,6 +10684,10 @@ ALGORITHMS
                 - Solaris 11.4+:   /usr/bin/digest -a sha3_384
                 - Solidity:        - (keccak256() und das frühere sha3() sind
                                    Keccak-256, siehe keccak)
+                - SQLite (CLI):    hex(sha3(<X>, 384))
+                - Swift (CryptoKit):
+                                   SHA3_384.hash(data: <data>)
+                                   (iOS/macOS 26+)
                 - web3.js:         - (web3.sha3() und web3.utils.sha3() sind
                                    Keccak-256, siehe keccak)
                 - Windows:         -
@@ -10594,7 +10750,10 @@ ALGORITHMS
                 - BeOS:            -
                 - BusyBox:         /bin/sha3sum -a 512
                 - CentOS:          -
+                - CMake 3.8+:      string(SHA3_512 <var> <input>)
                 - DragonFly BSD:   -
+                - Emacs 31+:       (secure-hash 'sha3-512 <object>)
+                - Erlang:          crypto:hash(sha3_512, <data>)
                 - ethers.js:       - (keccak256() ist Keccak-256, siehe keccak)
                 - FreeBSD:         -
                 - FreeDOS:         -
@@ -10611,6 +10770,7 @@ ALGORITHMS
                 - Jacksum:         jacksum -a sha3-512
                 - Java 9+:         java.security.MessageDigest.
                                    MessageDigest.getInstance("SHA3-512");
+                - Julia:           bytes2hex(SHA.sha3_512(<data>))
                 - Kali Linux:      -
                 - KeccakSum:       KeccakSum --sha3-512
                 - LibreSSL:        -
@@ -10631,6 +10791,10 @@ ALGORITHMS
                 - Solaris 11.4+:   /usr/bin/digest -a sha3_512
                 - Solidity:        - (keccak256() und das frühere sha3() sind
                                    Keccak-256, siehe keccak)
+                - SQLite (CLI):    hex(sha3(<X>, 512))
+                - Swift (CryptoKit):
+                                   SHA3_512.hash(data: <data>)
+                                   (iOS/macOS 26+)
                 - web3.js:         - (web3.sha3() und web3.utils.sha3() sind
                                    Keccak-256, siehe keccak)
                 - Windows:         -
@@ -11434,6 +11598,7 @@ ALGORITHMS
                 - BusyBox:         -
                 - CentOS:          -
                 - DragonFly BSD:   -
+                - Erlang:          crypto:hash(sm3, <data>)
                 - FreeBSD 11.1+:   -
                 - FreeDOS:         -
                 - GNU/Hurd (with GNU Core Utilities 9.0):
@@ -12612,6 +12777,7 @@ ALGORITHMS
                 Nachrichtenlänge.
 \
             Kompatibilität:
+                - ClickHouse:      xxHash32(<str>)
                 - .NET (System.IO.Hashing 8+):
                                    XxHash32.HashToUInt32(<bytes>)
                 - PHP 8.1+:        hash("xxh32", $input);

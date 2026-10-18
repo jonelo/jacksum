@@ -18,8 +18,14 @@ Jacksum 4.0.3, TBD
     (cksum -a sha3), Java 8+ (SHA-224) and 25+ (SHAKE128-256, SHAKE256-512), Python's SHAKE,
     PHP 7.2+ (sodium_crypto_generichash) and 8.1+ (xxh32), LibreSSL (SM3), gpg (MD5), Go (MD5,
     Adler-32), and Solidity and ethers.js (SHA-256, SHA-512, RIPEMD-160)
+  - the compatibility lists of the help name computing environments, databases and languages:
+    GNU Octave, Julia, R, PostgreSQL, MySQL/MariaDB, SQL Server, Oracle, SQLite, ClickHouse,
+    Snowflake, Spark SQL, DuckDB, BigQuery, Ruby, Perl, Swift (CryptoKit), vim, CMake, Emacs and
+    Erlang
   - crc64_ecma has a compatibility list now; it names .NET's Crc64 (System.IO.Hashing), and it
     says that Go's crc64.ECMA and the CRC64 of 7z compute crc64_xz rather than crc64_ecma
+  - the Jacksum Hacks (docs/JACKSUM_HACKS.md) have a new part about hash values in vim, with its
+    built-in sha256() and with calling Jacksum from vim for all other algorithms
   - the algorithm selection guide (docs/ALGORITHM_SELECTION_GUIDE.md) explains why Jacksum offers
     so many algorithms although a handful is enough to create new check lists
   - all examples in docs/EXAMPLES.md have been verified against Jacksum 4.0.2; outdated outputs,
