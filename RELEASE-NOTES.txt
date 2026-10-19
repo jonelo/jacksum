@@ -24,6 +24,10 @@ Jacksum 4.0.3, TBD
     Erlang
   - crc64_ecma has a compatibility list now; it names .NET's Crc64 (System.IO.Hashing), and it
     says that Go's crc64.ECMA and the CRC64 of 7z compute crc64_xz rather than crc64_ecma
+  - the help of crc16_minix describes the bug of Minix' /usr/bin/crc precisely (the input byte is
+    XORed into the result after the table lookup instead of into the table index), names
+    CRC-16/XMODEM as the intended algorithm, and gives an example; so does the algorithm selection
+    guide
   - the Jacksum Hacks (docs/JACKSUM_HACKS.md) have a new part about hash values in vim, with its
     built-in sha256() and with calling Jacksum from vim for all other algorithms
   - the algorithm selection guide (docs/ALGORITHM_SELECTION_GUIDE.md) explains why Jacksum offers

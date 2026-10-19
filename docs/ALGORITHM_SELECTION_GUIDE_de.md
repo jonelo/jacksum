@@ -950,8 +950,13 @@ standardmäßig der POSIX-CRC, `cksum -o 3` aber der CRC-32 nach ISO 3309 und `c
 System-V-Prüfsumme. `\FDOS\BIN\MD5SUM /M=crc32` unter FreeDOS berechnet trotz seines Namens einen
 CRC-32. PHPs `hash("crc32", ...)` ist nicht der CRC-32 von zip und gzip, sondern der CRC von bzip2
 mit gespiegelten Ausgabebytes (`crc32_php`); der vertraute heißt `hash("crc32b", ...)`. Und
-Minix' `/usr/bin/crc` verwendet eine nicht standardkonforme Update-Methode, die aus
-Kompatibilitätsgründen beibehalten wird und die Jacksum als `crc16_minix` nachbildet. Jacksum macht
+manchmal ist die Implementierung tatsächlich fehlerhaft: Minix' `/usr/bin/crc` (seit Minix 1.3,
+1988) verknüpft das Eingabebyte erst nach dem Tabellenzugriff per XOR mit dem Ergebnis, statt es in
+den Tabellenindex einfließen zu lassen – ein Fehler, der aus dem rzsz-ZMODEM-Code übernommen wurde.
+[2009 wurde er als Bug anerkannt](https://jacksum.net/downloads/minix-bug-151.txt), aber der
+Konsistenz zuliebe beibehalten. Jacksum bildet ihn als `crc16_minix` nach; gemeint war
+CRC-16/XMODEM (`crc:16,1021,0000,false,false,0000`). Für "Hello World" mit Zeilenumbruch gibt Minix
+27710 statt 39386 aus. Jacksum macht
 solche Fälle leicht überprüfbar: Der Abschnitt `compatibility` von `jacksum -h <algo>` nennt je
 Betriebssystem und Werkzeug den Befehl, der denselben Wert liefert, und die Kandidaten lassen sich
 nebeneinander über dieselbe Eingabe berechnen und mit der Ausgabe des anderen Werkzeugs vergleichen:

@@ -901,8 +901,13 @@ CRC (`sum_plan9`). `cksum` on macOS and FreeBSD is the POSIX CRC by default, but
 the CRC-32 of ISO 3309 and `cksum -o 2` the System V sum. FreeDOS' `\FDOS\BIN\MD5SUM /M=crc32`
 computes a CRC-32 despite its name. PHP's `hash("crc32", ...)` is not the CRC-32 of zip and gzip
 but bzip2's CRC with mirrored output bytes (`crc32_php`); the familiar one is `hash("crc32b", ...)`.
-And Minix' `/usr/bin/crc` uses a non-standard update method that is kept for compatibility
-reasons, which Jacksum reproduces as `crc16_minix`. Jacksum makes such cases easy to check: the
+And sometimes the implementation really is wrong: Minix' `/usr/bin/crc` (since Minix 1.3, 1988)
+XORs the input byte into the result after the table lookup instead of into the table index, a bug
+inherited from the rzsz ZMODEM code. It was
+[accepted as a bug in 2009](https://jacksum.net/downloads/minix-bug-151.txt), but kept for
+consistency. Jacksum reproduces it as `crc16_minix`; the intended algorithm is CRC-16/XMODEM
+(`crc:16,1021,0000,false,false,0000`). For "Hello World" plus a newline Minix prints 27710 instead
+of 39386. Jacksum makes such cases easy to check: the
 `compatibility` section of `jacksum -h <algo>` names, per operating system and tool, the command
 that produces the same value, and the candidates can be computed side by side over the same input
 and compared with the other tool's output:

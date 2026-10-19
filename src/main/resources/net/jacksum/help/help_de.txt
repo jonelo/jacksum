@@ -6043,11 +6043,18 @@ ALGORITHMS
                 Prüfsumme
 \
             Kommentar:
-                Dies ist der crc-Algorithmus von Minix. Er kann nicht
-                vollständig durch das Rocksoft-Modell beschrieben
-                werden, da er eine nicht standardkonforme
-                Update-Methode verwendet, die aus
-                Kompatibilitätsgründen nicht behoben wird.
+                Dies ist der CRC von /usr/bin/crc unter Minix (seit
+                Minix 1.3, 1988). Er kann nicht durch das Rocksoft-Modell
+                beschrieben werden, weil seine Implementierung fehlerhaft
+                ist: Das Makro updcrc verknüpft das Eingabebyte erst nach
+                dem Tabellenzugriff per XOR mit dem Ergebnis, statt es in
+                den Tabellenindex einfließen zu lassen. Der Fehler wurde
+                aus dem rzsz-ZMODEM-Code übernommen. 2009 wurde er als Bug
+                anerkannt, wird aber aus Konsistenzgründen nicht behoben.
+                Gemeint war CRC-16/XMODEM
+                (crc:16,1021,0000,false,false,0000). Beispiel: Für
+                "Hello World" mit Zeilenumbruch gibt Minix 27710 statt
+                39386 aus.
                 Siehe auch https://jacksum.net/downloads/minix-bug-151.txt
                 oder https://bit.ly/minix-bug-id-151
 \
